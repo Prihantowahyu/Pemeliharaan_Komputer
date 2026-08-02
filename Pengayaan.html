@@ -85,6 +85,57 @@
   .agent-id input:focus{ border-color:var(--green); box-shadow:0 0 0 2px rgba(57,255,136,.12); }
   .agent-id input::placeholder{ color:var(--text-dim); }
 
+  /* ============ START GATE (FULLSCREEN GUARD) ============ */
+  .start-gate{
+    position:fixed; inset:0; z-index:100; background:rgba(2,4,3,.97);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .start-gate.hidden{ display:none; }
+  .gate-card{
+    background:var(--panel); border:1px solid var(--green-dim); border-radius:10px;
+    max-width:460px; width:100%; padding:30px 26px; text-align:center;
+  }
+  .gate-card .gate-icon{ font-size:32px; margin-bottom:10px; }
+  .gate-card h2{ font-family:var(--font-display); font-size:19px; color:var(--green); margin-bottom:12px; }
+  .gate-card p{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin-bottom:8px; text-align:left; }
+  .gate-card ul{ font-size:12px; color:var(--text-dim); line-height:1.9; text-align:left; margin:14px 0 20px; padding-left:18px; }
+  .gate-card ul li b{ color:var(--amber); }
+  .gate-warn{ font-size:11px; color:var(--red); border:1px dashed var(--red); border-radius:6px; padding:8px 10px; margin-bottom:18px; text-align:left; }
+  .btn-start{
+    font-family:var(--font-mono); font-weight:700; font-size:13px; letter-spacing:.04em;
+    background:var(--green); color:#021009; border:none; border-radius:8px;
+    padding:13px 22px; cursor:pointer; width:100%;
+  }
+  .btn-start:hover{ filter:brightness(1.1); }
+  .gate-err{ display:none; margin-top:10px; font-size:11px; color:var(--red); }
+  .gate-err.show{ display:block; }
+
+  /* ============ SECURITY BAR (TIMER + VIOLATIONS) ============ */
+  .secbar{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding-top:8px; margin-top:8px; border-top:1px solid var(--line); width:100%;
+  }
+  .sec-item{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-dim); }
+  .sec-item b{ font-family:var(--font-mono); font-size:12.5px; color:var(--green); }
+  #timerVal.warn{ color:var(--amber); }
+  #timerVal.crit{ color:var(--red); animation:blink .6s step-end infinite; }
+  #violCount.flag{ color:var(--red); }
+  .sec-code{ font-size:10px; color:var(--text-dim); letter-spacing:.05em; }
+
+  .violation-toast{
+    position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:200;
+    background:#1a0505; border:1px solid var(--red); color:var(--red); font-size:12px;
+    padding:10px 16px; border-radius:6px; display:none; max-width:90%; text-align:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);
+  }
+  .violation-toast.show{ display:block; }
+
+  .root-verify{
+    margin-top:4px; margin-bottom:16px; font-size:10.5px; color:var(--text-dim);
+    border:1px dashed var(--line-hi); border-radius:6px; padding:8px 12px; display:inline-block;
+  }
+  .root-verify b{ color:var(--green); letter-spacing:.06em; }
+
   /* ============ BREACH METER ============ */
   .meterbar{
     position:sticky; top:0; z-index:20; background:rgba(5,8,6,.94); backdrop-filter:blur(6px);
@@ -236,6 +287,26 @@
 
 <canvas id="matrix"></canvas>
 
+<div class="start-gate" id="startGate">
+  <div class="gate-card">
+    <div class="gate-icon">🛡️</div>
+    <h2>PROTOKOL KEAMANAN OPERASI</h2>
+    <p>Sebelum memulai <b style="color:var(--green)">OPERASI: FIRMWARE BREACH</b>, sistem mewajibkan mode berikut agar hasil valid:</p>
+    <ul>
+      <li><b>Mode layar penuh wajib aktif</b> selama operasi berlangsung.</li>
+      <li><b>Berpindah tab / keluar layar penuh</b> akan tercatat sebagai pelanggaran.</li>
+      <li>Waktu pengerjaan dibatasi <b>30 menit</b>, timer berjalan otomatis.</li>
+      <li>Urutan soal &amp; pilihan jawaban <b>diacak</b> untuk setiap agen.</li>
+      <li>Laporan akhir disertai <b>kode verifikasi unik</b> sebagai bukti keaslian pengerjaan.</li>
+    </ul>
+    <div class="gate-warn">⚠ Setelah menekan tombol di bawah, jangan menutup mode layar penuh atau berpindah tab. Pelanggaran akan tercatat pada laporan akhir.</div>
+    <button class="btn-start" id="btnStart">&gt; MASUK MODE LAYAR PENUH &amp; MULAI OPERASI</button>
+    <div class="gate-err" id="gateErr">Gagal mengaktifkan layar penuh. Coba lagi atau gunakan browser lain.</div>
+  </div>
+</div>
+
+<div class="violation-toast" id="violToast"></div>
+
 <div class="wrap">
   <header>
     <div class="boot-log" id="bootLog"></div>
@@ -262,6 +333,8 @@
       <span class="lbl">BREACH PROGRESS</span>
       <b id="liveScore">0 / 15</b>
       <div class="meter-track"><div class="meter-fill" id="liveFill"></div></div>
+      <div class="sec-item">⏱ <b id="timerVal">30:00</b></div>
+      <div class="sec-item">🚨 PELANGGARAN: <b id="violCount">0</b></div>
     </div>
   </div>
 
@@ -350,6 +423,8 @@
     <div class="root-kkm" id="reportKkm">KKM: 80</div>
     <div class="root-rank" id="reportRank">—</div>
     <p class="root-note" id="reportNote"></p>
+    <div class="root-verify" id="reportVerify">KODE VERIFIKASI: <b id="verifyCode">—</b></div>
+    <div class="root-verify" id="reportSecLog">LOG KEAMANAN: <b id="secLogText">0 pelanggaran</b></div>
     <div class="root-actions">
       <button class="btn-ghost" onclick="window.print()">🖨 Simpan Laporan (PDF)</button>
       <button class="btn-ghost" onclick="location.reload()">↺ Ulangi Operasi</button>
@@ -477,6 +552,27 @@ const testCData = [
     correct:0, fb:"Windows 11 mensyaratkan TPM 2.0 dan Secure Boot aktif — keduanya bisa diperiksa/diaktifkan langsung dari BIOS/UEFI." }
 ];
 
+/* ===================== ACAK SOAL & PILIHAN JAWABAN ===================== */
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function shuffleQuestionSet(data){
+  return shuffleArr(data).map(item => {
+    const order = shuffleArr(item.opts.map((_, i) => i));
+    const newOpts = order.map(i => item.opts[i]);
+    const newCorrect = order.indexOf(item.correct);
+    return Object.assign({}, item, { opts:newOpts, correct:newCorrect });
+  });
+}
+const shuffledA = shuffleQuestionSet(testAData);
+const shuffledB = shuffleQuestionSet(testBData);
+const shuffledC = shuffleQuestionSet(testCData);
+
 /* ===================== RENDER SOAL ===================== */
 function renderChoice(container, data, prefix){
   container.innerHTML = data.map((item, qi) => {
@@ -505,13 +601,13 @@ function renderChoice(container, data, prefix){
   });
 }
 
-renderChoice(document.getElementById("testA"), testAData, "A");
-renderChoice(document.getElementById("testB"), testBData, "B");
-renderChoice(document.getElementById("testC"), testCData, "C");
+renderChoice(document.getElementById("testA"), shuffledA, "A");
+renderChoice(document.getElementById("testB"), shuffledB, "B");
+renderChoice(document.getElementById("testC"), shuffledC, "C");
 
 /* ===================== SCORING & UNLOCK LOGIC ===================== */
 const scores = { A:null, B:null, C:null };
-const totals = { A:testAData.length, B:testBData.length, C:testCData.length };
+const totals = { A:shuffledA.length, B:shuffledB.length, C:shuffledC.length };
 const grandTotal = totals.A + totals.B + totals.C;
 
 function updateLiveScore(){
@@ -555,7 +651,7 @@ function checkLayer(testKey, data){
 document.querySelectorAll(".btn-exec").forEach(btn => {
   btn.addEventListener("click", () => {
     const testKey = btn.dataset.test;
-    const data = testKey === "A" ? testAData : testKey === "B" ? testBData : testCData;
+    const data = testKey === "A" ? shuffledA : testKey === "B" ? shuffledB : shuffledC;
     const result = checkLayer(testKey, data);
     if(result === null) return;
 
@@ -576,6 +672,108 @@ document.querySelectorAll(".btn-exec").forEach(btn => {
   });
 });
 
+/* ===================== KEAMANAN: GATE FULLSCREEN, TIMER, DETEKSI PELANGGARAN ===================== */
+const EXAM_SECONDS = 30 * 60; // 30 menit
+let timeLeft = EXAM_SECONDS;
+let timerHandle = null;
+let violations = 0;
+let examStarted = false;
+let examEnded = false;
+let examStartTs = null;
+
+function fmtTime(s){
+  const m = Math.floor(s/60).toString().padStart(2,"0");
+  const sec = (s%60).toString().padStart(2,"0");
+  return `${m}:${sec}`;
+}
+
+function showToast(msg){
+  const t = document.getElementById("violToast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._h);
+  showToast._h = setTimeout(()=> t.classList.remove("show"), 4000);
+}
+
+function updateViolUI(){
+  const el = document.getElementById("violCount");
+  el.textContent = violations;
+  el.classList.toggle("flag", violations > 0);
+}
+
+function registerViolation(reason){
+  if(!examStarted || examEnded) return;
+  violations++;
+  updateViolUI();
+  showToast(`🚨 PELANGGARAN TERDETEKSI: ${reason} (total: ${violations})`);
+}
+
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden){
+    registerViolation("berpindah tab / meminimalkan jendela");
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  if(examStarted && !examEnded && !document.fullscreenElement){
+    registerViolation("keluar dari mode layar penuh");
+  }
+});
+
+function tickTimer(){
+  timeLeft--;
+  const val = document.getElementById("timerVal");
+  val.textContent = fmtTime(Math.max(timeLeft,0));
+  val.classList.toggle("warn", timeLeft <= 300 && timeLeft > 60);
+  val.classList.toggle("crit", timeLeft <= 60);
+  if(timeLeft <= 0){
+    clearInterval(timerHandle);
+    timeUp();
+  }
+}
+
+function timeUp(){
+  if(examEnded) return;
+  examEnded = true;
+  document.querySelectorAll(".btn-exec").forEach(b => b.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.disabled = true);
+  ["A","B","C"].forEach(k => { if(scores[k] === null) scores[k] = 0; });
+  updateLiveScore();
+  const btnFinal = document.getElementById("btnFinal");
+  btnFinal.disabled = false;
+  showToast("⏱ WAKTU HABIS! Operasi otomatis dihentikan.");
+  alert("Waktu pengerjaan (30 menit) telah habis. Laporan akan dibuat otomatis berdasarkan progres yang sudah tercatat.");
+  btnFinal.click();
+}
+
+function genVerificationCode(name, nilai, violCount, ts){
+  const raw = `${name}|${nilai}|${violCount}|${ts}`;
+  let hash = 0;
+  for(let i = 0; i < raw.length; i++){
+    hash = ((hash << 5) - hash + raw.charCodeAt(i)) | 0;
+  }
+  const hex = Math.abs(hash).toString(16).toUpperCase().padStart(8,"0").slice(0,8);
+  return `FB-${hex.slice(0,4)}-${hex.slice(4,8)}`;
+}
+
+document.getElementById("btnStart").addEventListener("click", async () => {
+  const gateErr = document.getElementById("gateErr");
+  gateErr.classList.remove("show");
+  try{
+    const el = document.documentElement;
+    if(el.requestFullscreen) await el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+    else throw new Error("Fullscreen tidak didukung");
+
+    document.getElementById("startGate").classList.add("hidden");
+    examStarted = true;
+    examStartTs = Date.now();
+    timerHandle = setInterval(tickTimer, 1000);
+  }catch(err){
+    gateErr.classList.add("show");
+  }
+});
+
 const KKM = 80;
 
 document.getElementById("btnFinal").addEventListener("click", () => {
@@ -586,6 +784,12 @@ document.getElementById("btnFinal").addEventListener("click", () => {
     nameInput.focus();
     nameInput.scrollIntoView({behavior:"smooth", block:"center"});
     return;
+  }
+
+  if(!examEnded){
+    examEnded = true;
+    clearInterval(timerHandle);
+    document.querySelectorAll(".btn-exec").forEach(b => b.disabled = true);
   }
 
   const sum = scores.A + scores.B + scores.C;
@@ -600,6 +804,11 @@ document.getElementById("btnFinal").addEventListener("click", () => {
   const lulus = nilai >= KKM;
   kkmEl.textContent = `KKM: ${KKM}  —  ${lulus ? "TUNTAS" : "BELUM TUNTAS"}`;
   kkmEl.className = "root-kkm " + (lulus ? "pass" : "fail");
+
+  const code = genVerificationCode(agentName, nilai, violations, examStartTs || Date.now());
+  document.getElementById("verifyCode").textContent = code;
+  document.getElementById("secLogText").textContent =
+    violations === 0 ? "0 pelanggaran — bersih" : `${violations} pelanggaran tercatat (pindah tab / keluar layar penuh)`;
 
   const rankEl = document.getElementById("reportRank");
   const noteEl = document.getElementById("reportNote");
