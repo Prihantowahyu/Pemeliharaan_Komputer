@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SETUP UTILITY — Instalasi & Konfigurasi BIOS/UEFI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0a1830;
+    --navy-panel:#0f2145;
+    --navy-panel-alt:#183462;
+    --cyan:#5ee6f2;
+    --cyan-dim:#2f7d8a;
+    --amber:#f5b942;
+    --text:#e7edf5;
+    --text-dim:#93a8c9;
+    --green-ok:#55c780;
+    --red-warn:#ff7a7a;
+    --border:#2b4270;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* subtle scanline texture over whole page */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 3px);
+    pointer-events:none;
+    z-index:999;
+  }
+  .frame{
+    max-width:1080px;
+    margin:24px auto;
+    border:2px solid var(--border);
+    border-radius:6px;
+    box-shadow:0 0 0 1px #000, 0 30px 80px rgba(0,0,0,0.55);
+    overflow:hidden;
+    background:var(--navy-panel);
+  }
+  /* ===== Title bar ===== */
+  .titlebar{
+    background:linear-gradient(180deg,#193768,#0f2145);
+    border-bottom:2px solid var(--border);
+    padding:14px 22px;
+  }
+  .titlebar .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .titlebar h1{
+    font-family:'VT323',monospace;
+    font-size:clamp(28px,5vw,42px);
+    letter-spacing:.03em;
+    margin:2px 0 0;
+    color:var(--cyan);
+    text-shadow:0 0 10px rgba(94,230,242,.35);
+  }
+  .titlebar h1 .cursor{
+    display:inline-block;width:.5ch;background:var(--cyan);
+    animation:blink 1s steps(1) infinite; margin-left:4px;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .titlebar .meta{
+    margin-top:10px;
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,0.03);
+    padding:4px 10px;
+    border-radius:3px;
+    color:var(--text-dim);
+  }
+  .chip b{color:var(--amber); font-weight:600;}
+
+  /* ===== Tabs ===== */
+  .tabs{
+    display:flex;
+    background:var(--navy-deep);
+    border-bottom:2px solid var(--border);
+    overflow-x:auto;
+  }
+  .tab{
+    flex:1 1 auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:.06em;
+    text-align:center;
+    padding:12px 8px;
+    cursor:pointer;
+    color:var(--text-dim);
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+    user-select:none;
+    transition:background .15s;
+  }
+  .tab:last-child{border-right:none;}
+  .tab:hover{background:rgba(94,230,242,.06);}
+  .tab.active{
+    background:var(--navy-panel-alt);
+    color:var(--cyan);
+    box-shadow:inset 0 -3px 0 var(--cyan);
+  }
+  .tab .num{color:var(--amber); margin-right:6px;}
+
+  /* ===== Body: item list + detail pane ===== */
+  .board{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    min-height:460px;
+  }
+  .itemlist{
+    background:var(--navy-panel);
+    border-right:2px solid var(--border);
+    padding:14px 0;
+  }
+  .item{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    padding:11px 18px;
+    color:var(--text-dim);
+    cursor:pointer;
+    border-left:3px solid transparent;
+    display:flex; gap:8px; align-items:baseline;
+  }
+  .item .dot{color:var(--cyan-dim); font-size:10px;}
+  .item:hover{background:rgba(255,255,255,.03); color:var(--text);}
+  .item.active{
+    background:var(--navy-panel-alt);
+    border-left:3px solid var(--amber);
+    color:var(--amber);
+  }
+  .item.active .dot{color:var(--amber);}
+
+  .detail{
+    padding:26px 30px 30px;
+    background:radial-gradient(ellipse at top left,rgba(94,230,242,.04),transparent 60%);
+  }
+  .detail h2{
+    font-family:'VT323',monospace;
+    font-size:26px;
+    letter-spacing:.02em;
+    color:var(--cyan);
+    margin:0 0 4px;
+  }
+  .detail .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--text-dim);
+    letter-spacing:.05em;
+    margin-bottom:16px;
+    text-transform:uppercase;
+  }
+  .detail p{margin:0 0 12px; color:var(--text);}
+  .detail ul, .detail ol{margin:0 0 14px; padding-left:20px;}
+  .detail li{margin-bottom:6px;}
+
+  .card{
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+  .card.warn{border-color:#5c3a2a; background:rgba(255,122,122,.06);}
+  .card.warn .card-label{color:var(--red-warn);}
+  .card.ok{border-color:#25543a; background:rgba(85,199,128,.07);}
+  .card.ok .card-label{color:var(--green-ok);}
+  .card-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--cyan); display:block; margin-bottom:6px;
+  }
+
+  table{width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:14px;}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--navy-panel-alt); color:var(--cyan); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.03em;}
+  tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+
+  .badge{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px;
+    padding:2px 8px; border-radius:10px; border:1px solid var(--cyan-dim); color:var(--cyan);
+    margin-right:6px;
+  }
+
+  .checklist label{
+    display:flex; gap:10px; align-items:flex-start;
+    padding:8px 10px; border:1px dashed var(--border); border-radius:4px; margin-bottom:8px;
+    cursor:pointer; font-size:14px;
+  }
+  .checklist input{margin-top:3px; accent-color:var(--amber);}
+  .checklist label:has(input:checked){background:rgba(85,199,128,.08); border-color:var(--green-ok); color:var(--green-ok);}
+
+  .timeline{list-style:none; margin:14px 0; padding:0;}
+  .timeline li{
+    display:grid; grid-template-columns:78px 1fr; gap:12px;
+    padding:10px 0; border-bottom:1px solid var(--border);
+  }
+  .timeline .t{font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:13px;}
+
+  /* ===== Function key bar ===== */
+  .fkeys{
+    display:flex; gap:0; background:var(--navy-deep); border-top:2px solid var(--border);
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+  }
+  .fkeys button{
+    flex:1; background:none; border:none; border-right:1px solid var(--border);
+    color:var(--text-dim); padding:11px 6px; cursor:pointer;
+  }
+  .fkeys button:last-child{border-right:none;}
+  .fkeys button:hover{background:rgba(94,230,242,.07); color:var(--cyan);}
+  .fkeys button b{color:var(--amber); margin-right:5px;}
+
+  .helpbox{
+    display:none; margin:0 22px 16px; padding:10px 14px; background:rgba(245,185,66,.08);
+    border:1px solid var(--amber); border-radius:4px; font-size:13px; color:var(--amber);
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .helpbox.show{display:block;}
+
+  footer.note{
+    text-align:center; color:var(--text-dim); font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px; padding:14px; letter-spacing:.03em;
+  }
+
+  @media (max-width:720px){
+    .board{grid-template-columns:1fr;}
+    .itemlist{
+      display:flex; overflow-x:auto; border-right:none; border-bottom:2px solid var(--border);
+      padding:8px 6px;
+    }
+    .item{border-left:none; border-bottom:3px solid transparent; white-space:nowrap;}
+    .item.active{border-left:none; border-bottom:3px solid var(--amber);}
+    .fkeys{font-size:11px;}
+    .fkeys button b{display:block;}
+  }
+  @media print{
+    body::before{display:none;}
+    .tabs, .itemlist, .fkeys, .helpbox{display:none !important;}
+    .board{grid-template-columns:1fr;}
+    .frame{box-shadow:none; border:none;}
+    .tabpanel{display:block !important;}
+    .detail{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <div class="titlebar">
+    <div class="eyebrow">SMK Diponegoro Tumpang — Semester Ganjil · Blok 1 · Hari ke-4</div>
+    <h1>SETUP — Instalasi &amp; Konfigurasi BIOS/UEFI<span class="cursor">&nbsp;</span></h1>
+    <div class="meta">
+      <span class="chip">Alokasi: <b>9 JP</b></span>
+      <span class="chip">Materi: <b>BIOS/UEFI Motherboard</b></span>
+      <span class="chip">Fokus Blok: <b>Perakitan &amp; Instalasi Sistem</b></span>
+      <span class="chip">Profil: <b>Bernalar Kritis · Mandiri</b></span>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-tab="main"><span class="num">①</span>MAIN</div>
+    <div class="tab" data-tab="advanced"><span class="num">②</span>ADVANCED</div>
+    <div class="tab" data-tab="setup"><span class="num">③</span>SETUP</div>
+    <div class="tab" data-tab="boot"><span class="num">④</span>BOOT</div>
+    <div class="tab" data-tab="security"><span class="num">⑤</span>SECURITY</div>
+    <div class="tab" data-tab="exit"><span class="num">⑥</span>EXIT</div>
+  </div>
+
+  <div class="helpbox" id="helpbox">F1 — Tip: gunakan tombol ↑ ↓ untuk pindah item, ← → untuk pindah tab, Enter untuk memilih.</div>
+
+  <div class="board">
+    <div class="itemlist" id="itemlist"></div>
+    <div class="detail" id="detail"></div>
+  </div>
+
+  <div class="fkeys">
+    <button id="btnF1"><b>F1</b>Bantuan</button>
+    <button id="btnF10"><b>F10</b>Cetak Rangkuman</button>
+    <button id="btnEsc"><b>ESC</b>Kembali ke Atas</button>
+  </div>
+</div>
+
+<footer class="note">↑ ↓ ← → Navigasi &nbsp;·&nbsp; Enter Pilih &nbsp;·&nbsp; Dokumen Rencana Pembelajaran — TJKT SMK Diponegoro Tumpang</footer>
+
+<script>
+const DATA = {
+main: {
+  label:"Informasi Umum",
+  items:[
+    {t:"Identitas Pembelajaran", d:`
+      <div class="sub">Blok 1 · Hari ke-4 · 9 Jam Pelajaran</div>
+      <p>Materi hari ini masuk dalam Blok 1 (Juli–September, 45 JP) dengan fokus <b>Dasar Perakitan, Instalasi &amp; Perawatan Sistem</b>. Setelah tiga hari sebelumnya membahas perakitan komponen fisik komputer, hari ini peserta didik masuk ke tahap <b>konfigurasi awal sistem melalui firmware BIOS/UEFI</b> — gerbang pertama antara perangkat keras dan sistem operasi.</p>
+      <table>
+        <tr><th>Kompetensi Dasar</th><td>Instalasi &amp; Konfigurasi BIOS/UEFI</td></tr>
+        <tr><th>Alokasi Waktu</th><td>9 JP (± 1 hari penuh)</td></tr>
+        <tr><th>Asesmen</th><td>Unjuk kerja praktik konfigurasi BIOS/UEFI</td></tr>
+        <tr><th>Alat &amp; Bahan</th><td>Unit komputer, media instalasi (USB bootable), proyektor</td></tr>
+      </table>`},
+    {t:"Kompetensi Awal", d:`
+      <div class="sub">Prasyarat pengetahuan sebelum materi ini</div>
+      <p>Peserta didik telah memahami komponen dasar perangkat keras komputer (motherboard, prosesor, RAM, storage) dan telah menyelesaikan praktik perakitan unit PC pada tiga hari sebelumnya di Blok 1. Kompetensi awal ini menjadi dasar untuk memahami peran BIOS/UEFI sebagai penghubung pertama antara perangkat keras yang telah dirakit dengan sistem operasi yang akan diinstal.</p>`},
+    {t:"Sarana & Prasarana", d:`
+      <div class="sub">Kebutuhan ruang, alat, dan sumber belajar</div>
+      <table>
+        <tr><th>Ruang</th><td>Laboratorium Komputer/Perakitan TJKT</td></tr>
+        <tr><th>Perangkat Keras</th><td>Unit komputer per kelompok/individu (idealnya beberapa merk motherboard berbeda), media USB bootable, proyektor &amp; layar</td></tr>
+        <tr><th>Perangkat Lunak</th><td>Tidak memerlukan instalasi OS sungguhan — cukup simulasi lewat menu BIOS/UEFI</td></tr>
+        <tr><th>Sumber Belajar</th><td>Manual/dokumentasi resmi motherboard, materi ajar ini, lembar kerja praktik (lihat tab BOOT)</td></tr>
+      </table>`},
+    {t:"Capaian Pembelajaran (CP)", d:`
+      <div class="sub">Apa yang harus dikuasai peserta didik</div>
+      <div class="card"><span class="card-label">CP</span>
+      <p>Peserta didik mampu menginstal dan mengonfigurasi pengaturan dasar BIOS/UEFI pada komputer.</p></div>
+      <p>CP ini menjadi dasar untuk kompetensi lanjutan seperti instalasi sistem operasi, pengaturan RAID, dan troubleshooting boot — semua bermula dari kemampuan "berbicara" dengan firmware motherboard.</p>`},
+    {t:"Tujuan Pembelajaran (TP)", d:`
+      <div class="sub">3 Tujuan yang harus tercapai hari ini</div>
+      <ol>
+        <li>Mengakses menu BIOS/UEFI pada berbagai jenis motherboard.</li>
+        <li>Mengatur boot order dan pengaturan dasar (waktu, mode SATA, virtualization).</li>
+        <li>Menyimpan dan memverifikasi hasil konfigurasi BIOS/UEFI.</li>
+      </ol>
+      <div class="card ok"><span class="card-label">KKTP — Kriteria Ketuntasan</span>
+      <p>Siswa mampu mengubah dan menyimpan minimal <b>3 pengaturan BIOS/UEFI</b> (boot order, waktu, mode SATA) dengan hasil <b>terverifikasi saat booting ulang</b>.</p></div>`},
+    {t:"Profil Pelajar Pancasila", d:`
+      <div class="sub">Dimensi yang dikembangkan hari ini</div>
+      <table>
+        <tr><th>Bernalar Kritis</th><td>Siswa menganalisis dampak sebelum mengubah pengaturan firmware — misalnya memprediksi apa yang terjadi jika boot order salah, atau mode SATA diubah setelah OS terpasang.</td></tr>
+        <tr><th>Mandiri</th><td>Siswa mengakses, menavigasi, dan memverifikasi hasil konfigurasi BIOS/UEFI secara individu tanpa dituntun langkah demi langkah oleh guru pada sesi praktik akhir.</td></tr>
+      </table>`},
+    {t:"Peta Alur 9 JP", d:`
+      <div class="sub">Gambaran umum — rincian lengkap ada di tab BOOT</div>
+      <ul>
+        <li><b>JP 1–2</b> — Konsep dasar: BIOS vs UEFI</li>
+        <li><b>JP 3–4</b> — Cara mengakses menu pada berbagai merk motherboard</li>
+        <li><b>JP 5–6</b> — Boot order &amp; mode SATA</li>
+        <li><b>JP 7</b> — Update firmware (pengenalan &amp; keamanan)</li>
+        <li><b>JP 8–9</b> — Praktik mandiri &amp; verifikasi (unjuk kerja)</li>
+      </ul>`}
+  ]
+},
+advanced: {
+  label:"Materi & Sub Materi",
+  items:[
+    {t:"BIOS vs UEFI — Apa Bedanya?", d:`
+      <div class="sub">Sub Materi 1 dari 4</div>
+      <p>BIOS (<i>Basic Input Output System</i>) dan UEFI (<i>Unified Extensible Firmware Interface</i>) sama-sama firmware yang pertama kali aktif saat komputer dinyalakan, sebelum sistem operasi dimuat. UEFI adalah penerus BIOS dengan kemampuan lebih luas.</p>
+      <table>
+        <tr><th>Aspek</th><th>BIOS</th><th>UEFI</th></tr>
+        <tr><td>Tampilan</td><td>Teks, biru/abu-abu, navigasi keyboard</td><td>Grafis, mendukung mouse &amp; resolusi tinggi</td></tr>
+        <tr><td>Batas ukuran disk boot</td><td>Maksimal ± 2 TB (partisi MBR)</td><td>Lebih dari 2 TB (partisi GPT)</td></tr>
+        <tr><td>Kecepatan boot</td><td>Relatif lebih lambat</td><td>Lebih cepat</td></tr>
+        <tr><td>Keamanan</td><td>Tidak ada Secure Boot</td><td>Mendukung Secure Boot (cegah malware saat boot)</td></tr>
+        <tr><td>Dukungan jaringan</td><td>Sangat terbatas</td><td>Bisa mengakses jaringan dari firmware</td></tr>
+      </table>
+      <p>Motherboard modern (2012 ke atas) hampir semua memakai UEFI, namun sebagian tetap disebut "BIOS" oleh pengguna karena kebiasaan istilah.</p>`},
+    {t:"Cara Mengakses Menu", d:`
+      <div class="sub">Sub Materi 2 dari 4 — Tombol berbeda tiap merk</div>
+      <p>Tombol akses ditekan berulang-ulang <b>tepat setelah komputer menyala</b>, sebelum logo sistem operasi muncul.</p>
+      <table>
+        <tr><th>Merk</th><th>Masuk Setup (BIOS/UEFI)</th><th>Boot Menu (sekali pakai)</th></tr>
+        <tr><td>ASUS</td><td>Del atau F2</td><td>F8</td></tr>
+        <tr><td>Gigabyte / Aorus</td><td>Del</td><td>F12</td></tr>
+        <tr><td>MSI</td><td>Del</td><td>F11</td></tr>
+        <tr><td>ASRock</td><td>F2 atau Del</td><td>F11</td></tr>
+        <tr><td>Acer</td><td>F2</td><td>F12</td></tr>
+        <tr><td>Dell</td><td>F2</td><td>F12</td></tr>
+        <tr><td>HP</td><td>Esc lalu F10</td><td>F9</td></tr>
+        <tr><td>Lenovo</td><td>F1 atau F2 (Enter lalu F1)</td><td>F12</td></tr>
+      </table>
+      <div class="card"><span class="card-label">Catatan Praktik</span><p>Boot Menu berguna saat hanya ingin boot dari USB <i>sekali saja</i> (misal instal ulang OS), tanpa mengubah pengaturan boot order secara permanen.</p></div>`},
+    {t:"Update Firmware — Pengenalan", d:`
+      <div class="sub">Sub Materi 4 dari 4 &nbsp;·&nbsp; Sub Materi 3 (Boot Order &amp; Mode SATA) ada di tab BOOT</div>
+      <p>Update firmware dilakukan bila ada perbaikan bug, dukungan komponen baru (misal CPU generasi terbaru), atau celah keamanan.</p>
+      <div class="card warn"><span class="card-label">Risiko Utama</span>
+      <p>Jika listrik mati atau komputer restart paksa saat proses update berlangsung, motherboard bisa rusak total ("<i>brick</i>") dan tidak bisa menyala sama sekali.</p></div>
+      <ol>
+        <li>Cek versi BIOS/UEFI yang terpasang saat ini.</li>
+        <li>Unduh file firmware yang <b>persis</b> sesuai model motherboard dari situs resmi pabrikan.</li>
+        <li>Pastikan sumber daya stabil — gunakan UPS, atau laptop dalam keadaan dicolok charger &amp; baterai terisi penuh.</li>
+        <li>Gunakan fitur resmi bawaan (misalnya EZ Flash, M-Flash, atau Q-Flash) sesuai merk.</li>
+        <li>Jangan pernah menekan tombol power atau mencabut kabel selama proses berlangsung.</li>
+      </ol>
+      <p><i>Catatan: pada praktik hari ini siswa tidak melakukan update firmware sungguhan — bagian ini bersifat pengenalan konsep dan kewaspadaan.</i></p>`}
+  ]
+},
+setup: {
+  label:"Rencana Pembelajaran",
+  items:[
+    {t:"Pemahaman Bermakna", d:`
+      <div class="sub">Mengapa materi ini penting bagi siswa</div>
+      <div class="card"><span class="card-label">Pemahaman Bermakna</span>
+      <p>BIOS/UEFI adalah "penjaga gerbang" pertama antara perangkat keras dan sistem operasi. Setiap teknisi komputer — baik saat merakit PC baru, instal ulang OS, upgrade SSD, maupun troubleshooting "komputer tidak mau booting" — pasti akan berhadapan dengan menu ini. Menguasainya berarti siswa tidak lagi bergantung sepenuhnya pada teknisi lain untuk masalah dasar perangkat keras.</p></div>`},
+    {t:"Pertanyaan Pemantik", d:`
+      <div class="sub">Dibuka di awal sesi, sebelum masuk ke materi</div>
+      <ul>
+        <li>Pernahkah kalian menyalakan komputer dan melihat layar biru/hitam bertuliskan teks sebelum logo Windows muncul? Apa itu?</li>
+        <li>Bagaimana caranya komputer "tahu" harus boot dari hard disk, bukan dari USB yang tercolok?</li>
+        <li>Apa yang akan terjadi kalau pengaturan dasar seperti tanggal/waktu di komputer selalu salah setiap kali dinyalakan ulang?</li>
+      </ul>
+      <p><i>Gunakan pertanyaan ini untuk memancing diskusi singkat sebelum masuk ke tab ADVANCED.</i></p>`},
+    {t:"Asesmen Diagnostik", d:`
+      <div class="sub">Mengecek kesiapan awal siswa — dilakukan lisan di JP 1, bukan tes tertulis</div>
+      <ul>
+        <li>Apakah kalian tahu apa yang terjadi antara menekan tombol power dan munculnya logo Windows?</li>
+        <li>Pernahkah kalian mendengar istilah BIOS atau UEFI sebelumnya? Dari mana?</li>
+        <li>Adakah yang pernah mengalami komputer/laptop tidak mau booting? Menurut kalian apa penyebabnya?</li>
+      </ul>
+      <p><i>Hasil diagnostik dipakai guru untuk menyesuaikan kedalaman penjelasan konsep di JP 1–2 (misalnya memperlambat atau mempercepat penjelasan dasar), bukan untuk penilaian formal.</i></p>`},
+    {t:"Target Peserta Didik", d:`
+      <div class="sub">Kesiapan &amp; kebutuhan belajar siswa</div>
+      <table>
+        <tr><th>Kategori</th><th>Pendekatan</th></tr>
+        <tr><td>Reguler</td><td>Mengikuti alur 9 JP standar — eksplorasi terbimbing lalu praktik mandiri.</td></tr>
+        <tr><td>Perlu pendampingan lebih</td><td>Diberi lembar langkah bergambar (screenshot menu BIOS/UEFI) sebagai panduan tambahan saat praktik.</td></tr>
+        <tr><td>Pencapaian tinggi</td><td>Diarahkan mengeksplorasi pengaturan lanjutan (mis. virtualization, secure boot) di luar 3 pengaturan minimal KKTP — lihat Pengayaan di tab SECURITY.</td></tr>
+      </table>`},
+    {t:"Model & Metode Pembelajaran", d:`
+      <div class="sub">Pendekatan yang digunakan hari ini</div>
+      <table>
+        <tr><th>Model</th><td><i>Discovery Learning</i> — siswa mengeksplorasi menu BIOS/UEFI secara langsung sebelum diberi penjelasan lengkap, dipandu oleh pertanyaan pemantik dan studi kasus.</td></tr>
+        <tr><th>Metode</th><td>Demonstrasi guru, eksplorasi kelompok, diskusi studi kasus, dan unjuk kerja individu di sesi akhir.</td></tr>
+        <tr><th>Pendekatan</th><td><i>Teaching Factory</i>/kontekstual — kasus yang dipakai (instal ulang OS, SSD gagal terdeteksi) adalah kasus nyata yang sering ditemui teknisi.</td></tr>
+      </table>`},
+    {t:"Struktur Kegiatan", d:`
+      <div class="sub">Pendahuluan – Inti – Penutup (memetakan ulang rincian 9 JP)</div>
+      <ul class="timeline">
+        <li><span class="t">Pendahuluan</span><span>JP 1 — Apersepsi, pertanyaan pemantik, penyampaian tujuan &amp; KKTP hari ini.</span></li>
+        <li><span class="t">Inti</span><span>JP 2–7 — Penjelasan konsep BIOS vs UEFI, eksplorasi akses menu antar-merk, simulasi boot order &amp; mode SATA, pengenalan update firmware.</span></li>
+        <li><span class="t">Inti (Praktik)</span><span>JP 8–9 — Unjuk kerja mandiri: mengubah, menyimpan, dan memverifikasi pengaturan BIOS/UEFI.</span></li>
+        <li><span class="t">Penutup</span><span>Refleksi siswa (lihat tab EXIT) dan penyampaian materi lanjutan besok.</span></li>
+      </ul>
+      <p><i>Rincian per-JP yang lebih teknis tetap ada di tab BOOT.</i></p>`}
+  ]
+},
+boot: {
+  label:"Boot & Urutan Praktik",
+  items:[
+    {t:"Boot Order — Konsep", d:`
+      <div class="sub">Sub Materi 3 dari 4 (Bagian 1 — Boot Order)</div>
+      <p>Boot order adalah <b>urutan perangkat</b> yang dicek firmware saat mencari sistem operasi untuk dijalankan — misalnya SSD/HDD, USB flash drive, atau DVD.</p>
+      <p>Jika urutan salah, komputer bisa gagal booting meski hard disk berisi sistem operasi yang valid — misalnya karena USB kosong ditempatkan lebih tinggi dari HDD.</p>
+      <div class="card"><span class="card-label">Contoh Kasus</span><p>Saat ingin instal ulang Windows dari USB bootable, USB harus ditempatkan di urutan <b>pertama</b> agar komputer boot dari installer, bukan langsung masuk ke sistem lama di HDD.</p></div>`},
+    {t:"Mode SATA: AHCI vs IDE vs RAID", d:`
+      <div class="sub">Sub Materi 3 dari 4 (Bagian 2 — Mode SATA)</div>
+      <table>
+        <tr><th>Mode</th><th>Penjelasan</th></tr>
+        <tr><td>IDE (Legacy)</td><td>Mode kompatibilitas lama; tidak mendukung fitur SATA modern seperti NCQ dan hot-swap.</td></tr>
+        <tr><td>AHCI</td><td>Standar modern; mendukung <i>Native Command Queuing</i> (NCQ) untuk performa lebih baik, terutama pada SSD, serta hot-swap.</td></tr>
+        <tr><td>RAID</td><td>Menggabungkan beberapa disk jadi satu unit logis — RAID 0 untuk kecepatan, RAID 1 untuk redundansi/cadangan data. Butuh driver RAID khusus.</td></tr>
+      </table>
+      <div class="card warn"><span class="card-label">Peringatan</span><p>Mengubah mode SATA <b>setelah</b> sistem operasi terpasang bisa menyebabkan komputer gagal booting (blue screen), karena driver penyimpanan yang dipakai berbeda. Perubahan mode sebaiknya dilakukan <i>sebelum</i> instalasi OS, atau dengan penyesuaian driver terlebih dahulu.</p></div>`},
+    {t:"Rincian Waktu 9 JP", d:`
+      <div class="sub">Urutan sesi hari ini</div>
+      <ul class="timeline">
+        <li><span class="t">JP 1–2</span><span>Pembukaan, apersepsi, penjelasan konsep BIOS vs UEFI dengan demo visual di proyektor.</span></li>
+        <li><span class="t">JP 3–4</span><span>Eksplorasi cara akses menu pada beberapa merk motherboard (demo &amp; latihan terbimbing per kelompok).</span></li>
+        <li><span class="t">JP 5–6</span><span>Penjelasan &amp; simulasi boot order dan mode SATA, diskusi studi kasus.</span></li>
+        <li><span class="t">JP 7</span><span>Pengenalan update firmware — konsep, risiko, dan prosedur aman (tanpa praktik langsung).</span></li>
+        <li><span class="t">JP 8–9</span><span>Praktik mandiri: unjuk kerja mengubah &amp; menyimpan pengaturan, verifikasi hasil saat reboot, refleksi penutup.</span></li>
+      </ul>`},
+    {t:"Lembar Kerja Praktik", d:`
+      <div class="sub">Checklist unjuk kerja — centang saat selesai</div>
+      <div class="checklist">
+        <label><input type="checkbox"> Berhasil masuk ke menu BIOS/UEFI sesuai merk motherboard yang digunakan.</label>
+        <label><input type="checkbox"> Mengubah <b>boot order</b> dan menempatkan salah satu media di urutan pertama.</label>
+        <label><input type="checkbox"> Mengubah <b>tanggal/waktu (RTC)</b> sistem.</label>
+        <label><input type="checkbox"> Mengubah <b>mode SATA</b> dan menjelaskan alasannya secara lisan ke guru.</label>
+        <label><input type="checkbox"> Menyimpan pengaturan dengan <b>Save &amp; Exit (F10)</b>.</label>
+        <label><input type="checkbox"> Memverifikasi seluruh perubahan berhasil tersimpan saat komputer boot ulang.</label>
+      </div>
+      <p><i>Centang bersifat latihan mandiri di kelas — penilaian resmi tetap menggunakan rubrik pada tab SECURITY.</i></p>`}
+  ]
+},
+security: {
+  label:"Asesmen & Verifikasi",
+  items:[
+    {t:"KKTP — Kriteria Ketuntasan", d:`
+      <div class="sub">Kriteria Ketuntasan Tujuan Pembelajaran</div>
+      <div class="card ok"><span class="card-label">Ketuntasan</span>
+      <p>Siswa mampu mengubah dan menyimpan minimal <b>3 pengaturan BIOS/UEFI</b> (boot order, waktu, mode SATA) dengan hasil <b>terverifikasi saat booting ulang</b>.</p></div>
+      <p>KKTP ini bersifat mengikat — siswa yang belum memenuhi salah satu unsur (mengubah, menyimpan, atau memverifikasi) dianggap belum tuntas dan perlu remedial terarah pada unsur yang belum tercapai.</p>`},
+    {t:"Bentuk Asesmen", d:`
+      <div class="sub">Unjuk Kerja Praktik Konfigurasi BIOS/UEFI</div>
+      <p>Asesmen dilakukan secara individu pada JP 8–9. Guru mengamati langsung proses siswa masuk ke BIOS/UEFI, mengubah pengaturan, menyimpan, lalu memverifikasi hasil setelah reboot.</p>
+      <p>Bentuk ini dipilih karena kompetensi BIOS/UEFI bersifat prosedural dan langsung terlihat hasilnya — sehingga observasi unjuk kerja lebih valid dibanding tes tertulis semata.</p>`},
+    {t:"Rubrik Penilaian", d:`
+      <div class="sub">Skor 1–4 per aspek</div>
+      <table>
+        <tr><th>Aspek</th><th>4 (Mahir)</th><th>3 (Cakap)</th><th>2 (Berkembang)</th><th>1 (Awal)</th></tr>
+        <tr><td>Akses menu BIOS/UEFI</td><td>Mandiri, tepat merk</td><td>Mandiri, sedikit ragu</td><td>Perlu 1 arahan</td><td>Perlu dituntun penuh</td></tr>
+        <tr><td>Ubah pengaturan (min. 3)</td><td>4 pengaturan tepat</td><td>3 pengaturan tepat</td><td>2 pengaturan tepat</td><td>0–1 pengaturan</td></tr>
+        <tr><td>Simpan (Save &amp; Exit)</td><td>Benar, langsung</td><td>Benar, sedikit lambat</td><td>Perlu diingatkan</td><td>Gagal menyimpan</td></tr>
+        <tr><td>Verifikasi hasil</td><td>Menjelaskan hasil dgn tepat</td><td>Memverifikasi, penjelasan kurang</td><td>Verifikasi dibantu</td><td>Tidak memverifikasi</td></tr>
+      </table>`},
+    {t:"Lembar Observasi Individu", d:`
+      <div class="sub">Dicetak &amp; diisi guru saat pengamatan unjuk kerja (JP 8–9)</div>
+      <table>
+        <tr><th>No</th><th>Nama Siswa</th><th>Akses Menu</th><th>Ubah Pengaturan</th><th>Simpan</th><th>Verifikasi</th><th>Total</th><th>Ket.</th></tr>
+        <tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>5</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </table>
+      <p><i>Skor tiap aspek 1–4 mengikuti Rubrik Penilaian di atas. Kolom Ket. diisi Tuntas/Remedial berdasarkan KKTP. Guru dapat menambah baris sesuai jumlah siswa saat mencetak.</i></p>`},
+    {t:"Pengayaan", d:`
+      <div class="sub">Untuk siswa yang sudah tuntas lebih cepat</div>
+      <div class="card ok"><span class="card-label">Tantangan Tambahan</span>
+      <p>Siswa yang sudah menuntaskan 3 pengaturan minimal (boot order, waktu, mode SATA) sebelum waktu praktik habis, diarahkan mengeksplorasi salah satu pengaturan lanjutan berikut dan menjelaskan fungsinya secara lisan ke guru:</p></div>
+      <ul>
+        <li><b>Virtualization (VT-x/AMD-V)</b> — fungsinya untuk menjalankan mesin virtual (VirtualBox/VMware).</li>
+        <li><b>Secure Boot</b> — fungsinya mencegah OS/bootloader tidak sah dijalankan saat startup.</li>
+        <li><b>Fast Boot</b> — fungsinya mempercepat proses booting dengan melewati sebagian pengecekan hardware.</li>
+      </ul>
+      <p><i>Pengayaan bersifat eksploratif, tidak memengaruhi nilai KKTP yang sudah tuntas — cukup dicatat sebagai catatan tambahan guru.</i></p>`},
+    {t:"Remedial", d:`
+      <div class="sub">Untuk siswa yang belum tuntas KKTP</div>
+      <p>Siswa yang belum memenuhi salah satu unsur KKTP (mengubah, menyimpan, atau memverifikasi pengaturan) diberi remedial terarah, difokuskan hanya pada unsur yang belum tercapai:</p>
+      <table>
+        <tr><th>Unsur Belum Tuntas</th><th>Bentuk Remedial</th></tr>
+        <tr><td>Belum bisa mengakses menu BIOS/UEFI</td><td>Pendampingan individu mengulang langkah akses dengan tabel tombol per merk (tab ADVANCED)</td></tr>
+        <tr><td>Belum tepat mengubah 3 pengaturan</td><td>Latihan ulang terbimbing pada pengaturan yang keliru, didampingi tutor sebaya yang sudah tuntas</td></tr>
+        <tr><td>Belum berhasil menyimpan</td><td>Demonstrasi ulang langkah Save &amp; Exit (F10) oleh guru, siswa mengulang langsung</td></tr>
+        <tr><td>Belum bisa memverifikasi hasil</td><td>Pendampingan membaca ulang pengaturan setelah reboot, dibandingkan dengan catatan awal siswa</td></tr>
+      </table>
+      <p>Remedial dilaksanakan di luar 9 JP inti (misalnya jam istirahat/sepulang sekolah) atau disisipkan singkat sebelum materi hari berikutnya dimulai.</p>`},
+    {t:"Tips Aman Konfigurasi", d:`
+      <div class="sub">Sikap kerja yang ditekankan</div>
+      <ul>
+        <li>Jangan mengubah pengaturan yang belum dipahami fungsinya — tanyakan dahulu ke guru.</li>
+        <li>Hindari overclocking atau pengaturan voltase tanpa panduan tertulis.</li>
+        <li>Jika pengaturan membuat sistem error/tidak bisa boot, gunakan opsi <b>Load Default/Optimized Settings</b> untuk kembali ke kondisi aman.</li>
+        <li>Selalu catat pengaturan awal sebelum mengubah, agar bisa dikembalikan jika diperlukan.</li>
+      </ul>`}
+  ]
+},
+exit: {
+  label:"Penutup",
+  items:[
+    {t:"Alat & Bahan Praktik", d:`
+      <div class="sub">Disiapkan sebelum sesi praktik</div>
+      <ul>
+        <li>Unit komputer (idealnya beberapa merk motherboard berbeda agar siswa terbiasa dengan variasi tampilan)</li>
+        <li>Media instalasi — USB bootable (untuk simulasi boot order, tidak harus diinstal sungguhan)</li>
+        <li>Proyektor untuk demonstrasi awal</li>
+      </ul>`},
+    {t:"Rangkuman Materi", d:`
+      <div class="sub">Yang perlu diingat siswa</div>
+      <ol>
+        <li>BIOS dan UEFI adalah firmware yang aktif sebelum sistem operasi, dengan UEFI sebagai versi modern yang lebih cepat &amp; aman.</li>
+        <li>Setiap merk motherboard punya tombol akses berbeda — kunci utamanya adalah menekan tombol berulang tepat setelah komputer menyala.</li>
+        <li>Boot order menentukan perangkat mana yang dicoba lebih dulu saat mencari sistem operasi.</li>
+        <li>Mode SATA (IDE/AHCI/RAID) memengaruhi performa dan kompatibilitas — perubahan setelah OS terpasang berisiko tinggi.</li>
+        <li>Update firmware penting tapi berisiko; harus mengikuti prosedur resmi dan sumber daya listrik yang stabil.</li>
+      </ol>`},
+    {t:"Refleksi Siswa", d:`
+      <div class="sub">Pertanyaan penutup sesi</div>
+      <ul>
+        <li>Pengaturan BIOS/UEFI mana yang paling sulit dipahami hari ini, dan mengapa?</li>
+        <li>Apa yang akan terjadi jika boot order salah saat ingin instal ulang sistem operasi dari USB?</li>
+        <li>Menurutmu, mengapa update firmware perlu kehati-hatian ekstra dibanding update aplikasi biasa?</li>
+      </ul>`},
+    {t:"Refleksi Guru", d:`
+      <div class="sub">Evaluasi diri guru setelah sesi mengajar</div>
+      <ul>
+        <li>Apakah alokasi 9 JP cukup, atau ada bagian yang perlu dipersingkat/diperpanjang di kelas berikutnya?</li>
+        <li>Bagian mana yang paling banyak siswa kesulitan — akses menu, boot order, mode SATA, atau verifikasi hasil?</li>
+        <li>Apakah jumlah &amp; variasi motherboard yang tersedia cukup untuk pengalaman belajar yang merata?</li>
+        <li>Catatan penyesuaian apa yang perlu dibawa ke materi instalasi sistem operasi besok?</li>
+      </ul>`},
+    {t:"Glosarium", d:`
+      <div class="sub">Istilah kunci hari ini</div>
+      <table>
+        <tr><th>Istilah</th><th>Arti</th></tr>
+        <tr><td>Firmware</td><td>Perangkat lunak dasar yang tertanam di chip motherboard, aktif sebelum sistem operasi dimuat.</td></tr>
+        <tr><td>Boot Order</td><td>Urutan perangkat yang dicek firmware untuk mencari sistem operasi yang akan dijalankan.</td></tr>
+        <tr><td>AHCI</td><td>Mode SATA modern yang mendukung NCQ (antrean perintah) dan hot-swap, umum dipakai untuk SSD.</td></tr>
+        <tr><td>Secure Boot</td><td>Fitur UEFI yang mencegah bootloader/OS tidak sah dijalankan saat startup.</td></tr>
+        <tr><td>RTC</td><td><i>Real-Time Clock</i> — komponen yang menyimpan tanggal &amp; waktu sistem, salah satu pengaturan dasar BIOS/UEFI.</td></tr>
+      </table>`},
+    {t:"Daftar Pustaka", d:`
+      <div class="sub">Referensi materi</div>
+      <ul>
+        <li>Dokumentasi resmi manual motherboard (ASUS, Gigabyte, MSI, ASRock) — bagian BIOS/UEFI Setup.</li>
+        <li>Materi ajar internal Teknik Jaringan Komputer dan Telekomunikasi (TJKT) SMK Diponegoro Tumpang.</li>
+        <li>Modul Capaian Pembelajaran Teknik Komputer dan Jaringan, Kurikulum Merdeka.</li>
+      </ul>
+      <p><i>Guru dapat menyesuaikan referensi dengan sumber/manual motherboard yang tersedia di lab masing-masing.</i></p>`},
+    {t:"Persiapan Hari Berikutnya", d:`
+      <div class="sub">Tindak lanjut</div>
+      <p>Materi berikutnya dalam Blok 1 akan melanjutkan ke tahap <b>instalasi sistem operasi</b>, yang akan langsung menggunakan kompetensi boot order dan mode SATA yang dipelajari hari ini. Siswa diminta membawa catatan hasil praktik (pengaturan awal &amp; hasil verifikasi) sebagai bahan referensi.</p>`}
+  ]
+}
+};
+
+let currentTab = "main";
+let currentItem = 0;
+
+const tabsEl = document.getElementById('tabs');
+const itemlistEl = document.getElementById('itemlist');
+const detailEl = document.getElementById('detail');
+const helpbox = document.getElementById('helpbox');
+
+function renderTab(tabKey, itemIndex=0){
+  currentTab = tabKey; currentItem = itemIndex;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tabKey));
+  const tabData = DATA[tabKey];
+  itemlistEl.innerHTML = tabData.items.map((it,i)=>
+    `<div class="item ${i===itemIndex?'active':''}" data-i="${i}"><span class="dot">▸</span>${it.t}</div>`
+  ).join('');
+  renderDetail();
+  itemlistEl.querySelectorAll('.item').forEach(el=>{
+    el.addEventListener('click', ()=>{ currentItem = parseInt(el.dataset.i); renderTab(currentTab, currentItem); });
+  });
+}
+function renderDetail(){
+  const it = DATA[currentTab].items[currentItem];
+  detailEl.innerHTML = `<h2>${it.t}</h2>${it.d}`;
+}
+
+tabsEl.querySelectorAll('.tab').forEach(el=>{
+  el.addEventListener('click', ()=> renderTab(el.dataset.tab, 0));
+});
+
+document.getElementById('btnF1').addEventListener('click', ()=> helpbox.classList.toggle('show'));
+document.getElementById('btnF10').addEventListener('click', ()=> window.print());
+document.getElementById('btnEsc').addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+const tabKeys = Object.keys(DATA);
+document.addEventListener('keydown', (e)=>{
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+  const items = DATA[currentTab].items;
+  if(e.key==='ArrowDown'){ currentItem = Math.min(currentItem+1, items.length-1); renderTab(currentTab,currentItem); }
+  if(e.key==='ArrowUp'){ currentItem = Math.max(currentItem-1, 0); renderTab(currentTab,currentItem); }
+  if(e.key==='ArrowRight'){ let idx=(tabKeys.indexOf(currentTab)+1)%tabKeys.length; renderTab(tabKeys[idx],0); }
+  if(e.key==='ArrowLeft'){ let idx=(tabKeys.indexOf(currentTab)-1+tabKeys.length)%tabKeys.length; renderTab(tabKeys[idx],0); }
+  if(e.key==='Escape'){ window.scrollTo({top:0,behavior:'smooth'}); }
+  if(e.key==='F1'){ e.preventDefault(); helpbox.classList.toggle('show'); }
+});
+
+renderTab('main', 0);
+</script>
+</body>
+</html>

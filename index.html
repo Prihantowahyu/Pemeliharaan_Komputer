@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bengkel Hardware — Portal Materi Blok 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ==========================================================
+     DESIGN TOKENS
+     Mengikuti identitas visual yang sudah dipakai di beberapa
+     modul (papan PCB hijau tua + aksen tembaga/copper), supaya
+     halaman index ini terasa satu keluarga dengan materi lain.
+     ========================================================== */
+  :root{
+    --bg:          #0a100d;
+    --pcb:         #0d1512;
+    --pcb-alt:     #121f1a;
+    --panel:       #16241d;
+    --panel-hi:    #1b2e24;
+    --line:        #28392f;
+    --copper:      #c97c3d;
+    --copper-bright:#e8a468;
+    --green:       #2e7d5b;
+    --green-bright:#4fcb92;
+    --text:        #eaf2e9;
+    --text-dim:    #9db3a6;
+    --amber:       #f2b134;
+
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:   'Inter', sans-serif;
+    --font-mono:   'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    padding-bottom:40px;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:0 20px; }
+
+  /* ==========================================================
+     PIN STRIP — motif konektor, dipakai di header & footer
+     ========================================================== */
+  .pins{ display:flex; justify-content:space-evenly; padding:10px 30px 0; max-width:880px; margin:0 auto; }
+  .pins span{ width:5px; height:14px; background:var(--copper); border-radius:1px; box-shadow:0 0 5px rgba(201,124,61,.55); }
+
+  /* ==========================================================
+     HEADER
+     ========================================================== */
+  header{
+    background:
+      radial-gradient(circle, rgba(234,242,233,.04) 1px, transparent 1.2px) 0 0/22px 22px,
+      linear-gradient(180deg, var(--pcb-alt) 0%, var(--pcb) 100%);
+    border-bottom:1px solid var(--line);
+    padding:26px 0 24px;
+    margin-bottom:34px;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .brand-chip{
+    width:38px; height:38px; border-radius:8px;
+    background:radial-gradient(circle at 35% 30%, var(--copper-bright), var(--copper) 75%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-weight:700; font-size:13px; color:#221206;
+    box-shadow:0 0 0 4px rgba(201,124,61,.14);
+  }
+  .brand-name{ font-family:var(--font-display); font-weight:700; font-size:19px; }
+  .brand-name span{ color:var(--green-bright); }
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.15em;
+    color:var(--green-bright); text-transform:uppercase; margin-bottom:10px;
+  }
+  h1{
+    font-family:var(--font-display); font-size:30px; font-weight:700;
+    letter-spacing:-.01em; margin-bottom:10px; max-width:560px;
+    text-shadow:0 0 20px rgba(79,203,146,.18);
+  }
+  header .sub{ color:var(--text-dim); font-size:14px; line-height:1.6; max-width:540px; margin-bottom:20px; }
+
+  .status-bar{
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .status-chip{
+    font-family:var(--font-mono); font-size:11px; color:var(--text-dim);
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:6px 11px; display:flex; align-items:center; gap:6px;
+  }
+  .status-chip b{ color:var(--copper-bright); font-weight:700; }
+  .status-chip .led{ width:6px; height:6px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 6px var(--green-bright); }
+
+  /* ==========================================================
+     TIMELINE — jalur PCB menghubungkan tiap sesi materi
+     ========================================================== */
+  .timeline{ position:relative; padding-left:46px; }
+  .timeline::before{
+    content:"";
+    position:absolute; left:19px; top:6px; bottom:6px; width:2px;
+    background:repeating-linear-gradient(to bottom, var(--copper) 0 6px, transparent 6px 11px);
+  }
+
+  .node{ position:relative; margin-bottom:22px; }
+  .node-pin{
+    position:absolute; left:-46px; top:2px;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--panel); border:2px solid var(--copper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-weight:700; font-size:13px; color:var(--copper-bright);
+    z-index:1;
+  }
+  .node-pin.alt{ border-color:var(--green-bright); color:var(--green-bright); }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px 16px 24px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .card:hover{ border-color:var(--copper); transform:translateX(2px); }
+
+  .card-top{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:8px; }
+  .tag{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.06em;
+    text-transform:uppercase; padding:3px 8px; border-radius:5px;
+    border:1px solid var(--line); color:var(--text-dim);
+  }
+  .tag.blok{ color:var(--green-bright); border-color:var(--green-bright); }
+  .tag.jp{ color:var(--copper-bright); border-color:var(--copper); }
+
+  .card-title{ font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:6px; }
+  .card-desc{ font-size:12.8px; color:var(--text-dim); line-height:1.6; margin-bottom:12px; max-width:640px; }
+
+  .card-actions{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .btn-open{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--copper); color:#221206; font-weight:700; font-size:12.5px;
+    padding:8px 14px; border-radius:7px;
+  }
+  .btn-open svg{ width:13px; height:13px; }
+  .companion{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; color:var(--text-dim);
+    border:1px dashed var(--line); border-radius:7px; padding:7px 12px;
+  }
+  .companion:hover{ border-color:var(--green-bright); color:var(--green-bright); }
+  .companion svg{ width:12px; height:12px; }
+
+  /* ==========================================================
+     FOOTER
+     ========================================================== */
+  footer{
+    margin-top:36px; padding-top:18px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  .footer-text{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); letter-spacing:.03em; }
+  .footer-tag{ font-family:var(--font-display); font-size:12px; font-weight:700; color:var(--green-bright); }
+
+  @media(max-width:520px){
+    h1{ font-size:24px; }
+    .timeline{ padding-left:40px; }
+    .node-pin{ left:-40px; width:34px; height:34px; font-size:11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pins"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-chip">BH</div>
+      <div class="brand-name">Bengkel <span>Hardware</span></div>
+    </div>
+    <div class="eyebrow">Portal Materi · TKJ</div>
+    <h1>Dasar Perakitan, Instalasi &amp; Perawatan Sistem</h1>
+    <p class="sub">Kumpulan materi ajar Blok 1 — dari K3 dan prosedur kerja, mengenal komponen hardware, praktik bongkar pasang, konfigurasi BIOS/UEFI, sampai instalasi sistem operasi.</p>
+    <div class="status-bar">
+      <div class="status-chip"><span class="led"></span> Blok 1 · Juli–September</div>
+      <div class="status-chip"><b>45 JP</b> total alokasi</div>
+      <div class="status-chip">6 sesi + 3 materi pendamping</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="timeline">
+
+    <!-- HARI 1 -->
+    <div class="node">
+      <div class="node-pin">01</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Hari 1</span>
+          <span class="tag jp">Fondasi</span>
+        </div>
+        <div class="card-title">K3 &amp; Prosedur Kerja Perawatan Komputer</div>
+        <p class="card-desc">Dasar keselamatan kerja dan SOP sebelum menyentuh komponen — fondasi sebelum praktik perakitan dimulai.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./pert_1_Materi_K3_Prosedur_Kerja_Interaktif.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI 2 -->
+    <div class="node">
+      <div class="node-pin">02</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Hari 2</span>
+          <span class="tag jp">9 JP · 405 menit</span>
+        </div>
+        <div class="card-title">Mengenal Komponen Hardware Komputer</div>
+        <p class="card-desc">Modul interaktif untuk mengenal motherboard, CPU, RAM, storage, PSU, VGA, dan cooling — lengkap kartu label balik, LKPD isian, dan kuis kompatibilitas.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_2_materi-hardware-komputer.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+          <a class="companion" href="./Pert_2_simulasi-casing-pc.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            + Simulasi Identifikasi Casing PC
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI 3 -->
+    <div class="node">
+      <div class="node-pin">03</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Hari 3</span>
+          <span class="tag jp">Praktik</span>
+        </div>
+        <div class="card-title">Prosedur Bongkar Pasang Komputer</div>
+        <p class="card-desc">Praktik melepas dan memasang komponen sesuai SOP dan K3, hingga sistem berhasil menyala (POST).</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_3_bongkar-pasang-komputer.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI 4 -->
+    <div class="node">
+      <div class="node-pin">04</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Hari 4</span>
+          <span class="tag jp">Konfigurasi</span>
+        </div>
+        <div class="card-title">Instalasi &amp; Konfigurasi BIOS/UEFI</div>
+        <p class="card-desc">Setelah tiga hari membahas perakitan fisik, masuk ke tahap konfigurasi awal sistem lewat firmware BIOS/UEFI — gerbang pertama sebelum sistem operasi terpasang.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_4_materi-bios-uefi.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODUL: BOOTABLE USB -->
+    <div class="node">
+      <div class="node-pin alt">05</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Modul</span>
+          <span class="tag jp">Persiapan Media</span>
+        </div>
+        <div class="card-title">Bootable USB — Ubuntu &amp; Windows</div>
+        <p class="card-desc">Sebelum sistem operasi bisa diinstal, komputer butuh "media" untuk membacanya. Merangkum dua SOP — bootable Ubuntu dan Windows pakai Rufus — jadi satu alur.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+          <a class="companion" href="./panduan-rufus.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            + Panduan Rufus (langkah rinci)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODUL: INSTALASI OS -->
+    <div class="node">
+      <div class="node-pin alt">06</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Modul</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Instalasi Sistem Operasi — Windows &amp; Linux Desktop</div>
+        <p class="card-desc">Dari menyiapkan media bootable, mempartisi disk, hingga sistem berhasil menyala di layar desktop.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_5_Materi_Ajar_Instalasi_Sistem_Operasi.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+          <a class="companion" href="./panduan-instalasi-windows11.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            + Panduan Instalasi Windows 11
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-text">SMK DIPONEGORO TUMPANG<br>MAPEL PEMELIHARAAN KOMPUTER — TKJ</div>
+    <div class="footer-tag">Bengkel Hardware · Blok 1</div>
+  </footer>
+</div>
+
+<div class="pins"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+</body>
+</html>

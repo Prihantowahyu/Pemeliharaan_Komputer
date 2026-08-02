@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Panduan Membuat Flashdisk Bootable Windows dengan Rufus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pcb:#0e2a20;
+    --pcb-deep:#0a1f18;
+    --pad:#153c2c;
+    --panel:#0f231b;
+    --copper:#c9884f;
+    --copper-bright:#e3a869;
+    --silk:#eaf2e9;
+    --silk-dim:#a9c2b6;
+    --led:#4fd8c4;
+    --warn:#f2b134;
+    --danger:#e0684f;
+    --w:820px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#050c09;
+    font-family:'Inter',sans-serif;
+    display:flex;justify-content:center;
+    padding:24px 0 60px;
+  }
+  .doc{
+    width:var(--w);
+    background:
+      radial-gradient(circle, rgba(234,242,233,.045) 1px, transparent 1.2px) 0 0/22px 22px,
+      linear-gradient(180deg, var(--pcb) 0%, var(--pcb-deep) 100%);
+    color:var(--silk);
+    border-radius:8px;
+    border:1px solid #1c4a37;
+    overflow:hidden;
+  }
+  .pins{display:flex;justify-content:space-evenly;padding:10px 30px 0;}
+  .pins span{width:5px;height:14px;background:var(--copper);border-radius:1px;box-shadow:0 0 5px rgba(201,136,79,.6);}
+
+  header{padding:22px 36px 20px;border-bottom:1px solid #1c4a37;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:var(--led);text-transform:uppercase;margin:0 0 8px;}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em;text-shadow:0 0 18px rgba(79,216,196,.25);}
+  .sub{font-size:13.5px;color:var(--silk-dim);margin:0;line-height:1.55;max-width:620px;}
+
+  .warnbar{
+    margin:20px 36px 0;background:rgba(224,104,79,.1);border:1.5px dashed var(--danger);
+    border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--silk);line-height:1.5;
+  }
+  .warnbar b{color:var(--danger);}
+
+  .steps{padding:26px 36px 10px;}
+  .step{
+    display:grid;grid-template-columns:40px 1fr;column-gap:14px;
+    padding-bottom:30px;position:relative;
+  }
+  .step:not(:last-child)::before{
+    content:"";position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--copper);opacity:.5;
+  }
+  .num{
+    width:38px;height:38px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--copper-bright), var(--copper) 70%);
+    color:#221206;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 4px rgba(201,136,79,.14);
+    position:relative;z-index:1;
+  }
+  .step-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16.5px;margin:4px 0 6px;}
+  .step-desc{font-size:12.8px;color:var(--silk-dim);line-height:1.6;margin:0 0 12px;}
+  .step-desc b{color:var(--silk);}
+
+  /* --- ilustrasi mock-up --- */
+  .mock{
+    background:var(--panel);border:1px solid #234a3a;border-radius:8px;
+    padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;
+  }
+  .mock-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .mock-row:last-child{margin-bottom:0;}
+  .mock-label{color:var(--silk-dim);min-width:78px;}
+  .mock-field{
+    flex:1;background:#0a1f18;border:1px solid #2a5c46;border-radius:5px;
+    padding:6px 10px;color:var(--silk);display:flex;align-items:center;gap:6px;
+  }
+  .mock-field.active{border-color:var(--led);box-shadow:0 0 0 2px rgba(79,216,196,.15);}
+  .mock-btn{
+    background:var(--copper);color:#221206;font-weight:700;border-radius:5px;
+    padding:6px 14px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .mock-btn.start{background:var(--led);}
+  .mock-chip{
+    background:#0a1f18;border:1px solid #2a5c46;border-radius:4px;padding:3px 8px;color:var(--silk-dim);font-size:10px;
+  }
+  .icon-box{
+    width:34px;height:34px;border-radius:6px;background:#0a1f18;border:1px solid #2a5c46;
+    display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+  }
+  .flow-arrow{color:var(--copper);font-size:16px;}
+  .radio-pair{display:flex;gap:10px;}
+  .radio-card{
+    flex:1;border:1.5px solid #2a5c46;border-radius:6px;padding:10px 12px;
+  }
+  .radio-card.rec{border-color:var(--led);background:rgba(79,216,196,.06);}
+  .radio-card .rt{font-weight:700;color:var(--silk);margin-bottom:3px;}
+  .radio-card .rd{color:var(--silk-dim);font-size:10.3px;}
+  .radio-card .tag{display:inline-block;margin-top:6px;font-size:9.5px;color:var(--led);border:1px solid var(--led);border-radius:3px;padding:1px 6px;}
+  .progress-track{flex:1;height:14px;background:#0a1f18;border:1px solid #2a5c46;border-radius:7px;overflow:hidden;}
+  .progress-fill{height:100%;width:72%;background:linear-gradient(90deg, var(--copper), var(--led));}
+  .keycap{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:30px;height:24px;padding:0 6px;margin-right:6px;
+    background:#0a1f18;border:1px solid var(--copper);border-bottom:2.5px solid var(--copper);
+    border-radius:4px;color:var(--copper-bright);font-size:10.5px;font-weight:700;
+  }
+  .menu-list{background:#0a1f18;border:1px solid #2a5c46;border-radius:6px;overflow:hidden;}
+  .menu-item{padding:7px 12px;border-bottom:1px solid #17332776;color:var(--silk-dim);}
+  .menu-item:last-child{border-bottom:none;}
+  .menu-item.hi{background:rgba(79,216,196,.12);color:var(--led);font-weight:700;}
+
+  .footer{
+    margin-top:6px;padding:18px 36px 22px;border-top:1px solid #1c4a37;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .footer-text{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--silk-dim);letter-spacing:.03em;}
+  .footer-tag{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--led);}
+  .pins.bottom{padding:0 30px 12px;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .doc{border:none;}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="pins"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <header>
+    <div class="eyebrow">Pemeliharaan Komputer · Panduan Praktik</div>
+    <h1>Bikin Flashdisk Bootable Windows pakai Rufus</h1>
+    <p class="sub">8 langkah dari download ISO sampai flashdisk siap dipakai instal Windows di komputer lain.</p>
+  </header>
+
+  <div class="warnbar">⚠ <b>Semua isi flashdisk akan terhapus habis</b> saat proses ini. Pastikan tidak ada data penting di flashdisk sebelum mulai.</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <div class="step-title">Siapkan Bahan</div>
+        <p class="step-desc">Download ISO Windows resmi dari situs Microsoft, dan Rufus dari <b>rufus.ie</b> (situs resminya). Secara teknis cukup <b>8GB</b>, tapi lebih aman pakai flashdisk <b>64GB dari merek terpercaya</b> (SanDisk, Kingston, dll) — flashdisk 32GB murah/tanpa merek sering gagal saat proses flashing ISO.</p>
+        <div class="mock">
+          <div class="mock-row">
+            <div class="icon-box">💿</div>
+            <span class="flow-arrow">＋</span>
+            <div class="icon-box">🧰</div>
+            <span class="flow-arrow">＋</span>
+            <div class="icon-box">🔌</div>
+            <span class="mock-chip" style="margin-left:auto;">Windows.iso · Rufus.exe · Flashdisk 64GB (merek terpercaya)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <div class="step-title">Colok Flashdisk & Buka Rufus</div>
+        <p class="step-desc">Rufus tidak perlu diinstal, langsung jalan. Di bagian <b>Device</b>, pastikan flashdisk kamu yang terpilih — cek ulang jangan sampai salah pilih harddisk internal.</p>
+        <div class="mock">
+          <div class="mock-row">
+            <div class="mock-label">Device</div>
+            <div class="mock-field active">🔌 SanDisk Cruzer 16GB (E:) ▾</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <div class="step-title">Pilih File ISO Windows</div>
+        <p class="step-desc">Di bagian <b>Boot selection</b>, klik <b>SELECT</b> lalu cari file ISO Windows yang sudah didownload.</p>
+        <div class="mock">
+          <div class="mock-row">
+            <div class="mock-label">Boot selection</div>
+            <div class="mock-field">Windows11_ID-ID.iso</div>
+            <div class="mock-btn">SELECT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div>
+        <div class="step-title">Atur Skema Partisi</div>
+        <p class="step-desc">Pilih sesuai jenis komputer <b>tujuan</b> instalasi (bukan komputer yang lagi kamu pakai sekarang).</p>
+        <div class="mock">
+          <div class="radio-pair">
+            <div class="radio-card rec">
+              <div class="rt">◉ GPT</div>
+              <div class="rd">Untuk komputer ber-UEFI (kebanyakan laptop/PC 2015 ke atas)</div>
+              <div class="tag">UMUM DIPAKAI</div>
+            </div>
+            <div class="radio-card">
+              <div class="rt">○ MBR</div>
+              <div class="rd">Untuk komputer BIOS Legacy lama</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div>
+        <div class="step-title">Biarkan Pengaturan Lain Default</div>
+        <p class="step-desc">File system otomatis <b>NTFS</b>, volume label bebas diisi, sisanya biarkan bawaan Rufus.</p>
+        <div class="mock">
+          <div class="mock-row"><div class="mock-label">File system</div><div class="mock-field">NTFS ✓</div></div>
+          <div class="mock-row"><div class="mock-label">Volume label</div><div class="mock-field">WIN11 ✓</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">6</div>
+      <div>
+        <div class="step-title">Klik START</div>
+        <p class="step-desc">Kalau muncul dialog tambahan (mis. skip TPM/Secure Boot untuk Windows 11), sesuaikan kebutuhan. Pilih <b>Standard Windows Installation</b> jika ditanya mode image (bukan Windows To Go).</p>
+        <div class="mock">
+          <div class="mock-row">
+            <div class="mock-btn start">▶ START</div>
+            <div class="mock-chip">Standard Windows Installation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">7</div>
+      <div>
+        <div class="step-title">Tunggu Proses Selesai</div>
+        <p class="step-desc">Rufus memformat lalu menyalin file instalasi. <b>Jangan cabut flashdisk</b> sampai statusnya READY / 100%.</p>
+        <div class="mock">
+          <div class="mock-row">
+            <div class="mock-label">Menulis...</div>
+            <div class="progress-track"><div class="progress-fill"></div></div>
+            <span class="mock-chip">72%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">8</div>
+      <div>
+        <div class="step-title">Boot dari Flashdisk di Komputer Tujuan</div>
+        <p class="step-desc">Colok flashdisk ke komputer sasaran, nyalakan, lalu tekan tombol boot menu saat pertama nyala (beda-beda tiap merek). Pilih flashdisk dari daftar, instalasi Windows pun mulai.</p>
+        <div class="mock">
+          <div class="mock-row">
+            <span class="keycap">F2</span><span class="keycap">F10</span><span class="keycap">F11</span><span class="keycap">F12</span><span class="keycap">DEL</span><span class="keycap">ESC</span>
+          </div>
+          <div class="menu-list">
+            <div class="menu-item hi">▸ SanDisk Cruzer 16GB (UEFI)</div>
+            <div class="menu-item">Hard Disk Drive</div>
+            <div class="menu-item">Network Boot</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">SMK DIPONEGORO TUMPANG<br>MAPEL PEMELIHARAAN KOMPUTER</div>
+    <div class="footer-tag">Ilustrasi mock-up, bukan screenshot asli Rufus.</div>
+  </div>
+  <div class="pins bottom"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+</body>
+</html>

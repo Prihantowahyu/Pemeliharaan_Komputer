@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bengkel Hardware — Modul 9 JP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1512;
+  --bg-alt:#121f1a;
+  --panel:#16241d;
+  --line:#28392f;
+  --copper:#c97c3d;
+  --copper-bright:#e8a468;
+  --mint:#4cc9a0;
+  --cream:#f2ecdd;
+  --ink:#1c1a12;
+  --warn:#e6604c;
+  --text:#e9ecdf;
+  --text-dim:#9fb0a5;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.55;
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(76,201,160,0.07), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(201,124,61,0.08), transparent 45%);
+}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; margin:0; color:var(--cream);}
+p{margin:0;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+a{color:inherit;}
+
+/* ---------- circuit trace divider ---------- */
+.trace{
+  height:22px; margin:0 auto; max-width:1080px;
+  background-image:
+    linear-gradient(90deg, transparent 0 6%, var(--line) 6% 6.5%, transparent 6.5% 20%,
+    var(--line) 20% 20.5%, transparent 20.5% 48%, var(--line) 48% 48.5%, transparent 48.5% 74%,
+    var(--line) 74% 74.5%, transparent 74.5% 92%, var(--line) 92% 92.5%, transparent 92.5%);
+  background-size: 100% 2px;
+  background-position:center;
+  background-repeat:no-repeat;
+  position:relative;
+}
+.trace::before,.trace::after{
+  content:''; position:absolute; top:8px; width:6px; height:6px; border-radius:50%;
+  background:var(--mint); box-shadow:0 0 8px var(--mint);
+}
+.trace::before{left:20%;}
+.trace::after{left:74%;}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(13,21,18,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.navrow{
+  display:flex; align-items:center; gap:18px; padding:12px 24px; max-width:1080px; margin:0 auto;
+  overflow-x:auto; scrollbar-width:none;
+}
+.navrow::-webkit-scrollbar{display:none;}
+.brand{display:flex; align-items:center; gap:8px; font-family:'Space Grotesk'; font-weight:700; color:var(--copper-bright); white-space:nowrap; font-size:15px;}
+.brand span.dot{width:9px;height:9px;border-radius:50%;background:var(--mint); box-shadow:0 0 6px var(--mint); flex:none;}
+.navlinks{display:flex; gap:4px; white-space:nowrap;}
+.navlinks a{
+  font-size:13px; padding:7px 12px; border-radius:20px; color:var(--text-dim); text-decoration:none;
+  border:1px solid transparent; transition:.2s;
+}
+.navlinks a:hover{color:var(--cream); border-color:var(--line); background:var(--panel);}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 24px 40px; position:relative; overflow:hidden;}
+.hero-inner{max-width:1080px; margin:0 auto; position:relative; z-index:2;}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'JetBrains Mono'; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--mint); border:1px solid var(--line); padding:5px 12px; border-radius:20px; margin-bottom:22px;
+}
+.hero h1{font-size:clamp(34px,5vw,54px); line-height:1.05; max-width:760px;}
+.hero h1 em{color:var(--copper-bright); font-style:normal;}
+.hero p.lead{margin-top:16px; max-width:600px; color:var(--text-dim); font-size:16px;}
+.metachips{display:flex; flex-wrap:wrap; gap:10px; margin-top:28px;}
+.chip{
+  background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 14px;
+  font-size:13px; color:var(--text-dim);
+}
+.chip b{color:var(--cream); display:block; font-family:'Space Grotesk'; font-size:14px; margin-bottom:2px;}
+
+/* pcb ambient graphic */
+.pcb-bg{position:absolute; inset:0; opacity:.5; z-index:1; pointer-events:none;}
+.pcb-bg svg{width:100%; height:100%;}
+
+/* ---------- section shell ---------- */
+section.block{padding:56px 0 8px;}
+.sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:24px; flex-wrap:wrap;}
+.sec-head .idx{font-family:'JetBrains Mono'; color:var(--copper-bright); font-size:14px; border:1px solid var(--line); padding:3px 9px; border-radius:8px;}
+.sec-head h2{font-size:26px;}
+.sec-sub{color:var(--text-dim); font-size:14.5px; max-width:680px; margin:6px 0 26px;}
+
+/* ---------- timeline (JP sessions) ---------- */
+.timeline{display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:12px; margin:10px 0 12px;}
+.tl-item{
+  background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 12px;
+  cursor:pointer; transition:.2s; position:relative;
+}
+.tl-item:hover{border-color:var(--copper); transform:translateY(-3px);}
+.tl-item .jp{font-family:'JetBrains Mono'; font-size:11px; color:var(--mint);}
+.tl-item .t{font-family:'Space Grotesk'; font-weight:600; font-size:13.5px; margin-top:4px; color:var(--cream);}
+.tl-item .m{font-size:11.5px; color:var(--text-dim); margin-top:6px;}
+@media(max-width:800px){.timeline{grid-template-columns:repeat(2,1fr);}}
+
+/* ---------- label cards (signature) ---------- */
+.label-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px;}
+.label-card{
+  perspective:1200px; height:230px;
+}
+.label-inner{
+  position:relative; width:100%; height:100%; transition:transform .55s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d; cursor:pointer;
+}
+.label-card.flipped .label-inner{transform:rotateY(180deg);}
+.label-face{
+  position:absolute; inset:0; border-radius:10px; backface-visibility:hidden;
+  padding:18px; display:flex; flex-direction:column; justify-content:space-between;
+}
+.label-front{
+  background:var(--cream); color:var(--ink);
+  border:2px dashed #cbbf9f;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+}
+.label-front .tag{font-family:'JetBrains Mono'; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#7a6a45;}
+.label-front h3{color:var(--ink); font-size:19px; margin-top:4px;}
+.label-front .barcode{
+  height:26px; margin-top:10px;
+  background-image:repeating-linear-gradient(90deg, #1c1a12 0 2px, transparent 2px 5px, #1c1a12 5px 6px, transparent 6px 10px);
+  opacity:.75;
+}
+.label-front .hint{font-family:'JetBrains Mono'; font-size:10.5px; color:#7a6a45; margin-top:8px;}
+.label-back{
+  background:var(--bg-alt); border:1px solid var(--mint); transform:rotateY(180deg);
+  color:var(--text);
+}
+.label-back .tag{font-family:'JetBrains Mono'; font-size:10.5px; color:var(--mint); text-transform:uppercase;}
+.label-back p{font-size:13px; color:var(--text-dim); margin-top:6px;}
+.label-back ul{margin:8px 0 0; padding-left:16px; font-size:12.5px; color:var(--text-dim);}
+.label-back li{margin-bottom:3px;}
+
+/* ---------- datasheet table ---------- */
+.datasheet{width:100%; border-collapse:collapse; margin-top:6px; font-size:13.5px;}
+.datasheet th,.datasheet td{border:1px solid var(--line); padding:11px 12px; text-align:left;}
+.datasheet th{background:var(--panel); color:var(--copper-bright); font-family:'Space Grotesk'; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em;}
+.datasheet td{color:var(--text-dim);}
+.datasheet td.hl{color:var(--mint); font-family:'JetBrains Mono';}
+.datasheet tr:nth-child(odd) td{background:rgba(255,255,255,0.015);}
+.tablewrap{overflow-x:auto; border-radius:10px;}
+
+/* ---------- connectors strip ---------- */
+.connectors{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+.conn{
+  background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 16px;
+  font-family:'JetBrains Mono'; font-size:12px; color:var(--text-dim); min-width:140px;
+}
+.conn b{display:block; color:var(--cream); font-family:'Space Grotesk'; font-size:13.5px; margin-bottom:3px;}
+
+/* ---------- LKPD worksheet ---------- */
+.lkpd{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px 22px 24px;}
+.lkpd-head{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;}
+.lkpd-head .stamp{font-family:'JetBrains Mono'; font-size:11px; color:var(--copper-bright); border:1px solid var(--copper); padding:4px 10px; border-radius:6px;}
+.wtable{width:100%; border-collapse:collapse; font-size:13.5px;}
+.wtable th{background:var(--bg-alt); color:var(--mint); text-align:left; padding:10px; font-family:'Space Grotesk'; font-size:12.5px; border:1px solid var(--line);}
+.wtable td{border:1px solid var(--line); padding:8px; vertical-align:top;}
+.wtable input{
+  width:100%; background:var(--bg); border:1px solid var(--line); border-radius:6px; color:var(--text);
+  padding:7px 8px; font-family:'JetBrains Mono'; font-size:12.5px;
+}
+.wtable input:focus{outline:2px solid var(--mint); border-color:var(--mint);}
+.lkpd-foot{display:flex; justify-content:flex-end; gap:10px; margin-top:14px;}
+.btn{
+  font-family:'Space Grotesk'; font-weight:600; font-size:13px; padding:9px 16px; border-radius:8px;
+  border:1px solid var(--line); background:var(--bg-alt); color:var(--text); cursor:pointer; transition:.2s;
+}
+.btn:hover{border-color:var(--mint); color:var(--mint);}
+.btn.primary{background:var(--copper); border-color:var(--copper); color:#1c0f04;}
+.btn.primary:hover{background:var(--copper-bright); color:#1c0f04;}
+.progress-note{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--text-dim);}
+
+/* ---------- quiz ---------- */
+.quiz-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:18px;}
+.quiz-card .qn{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--mint); margin-bottom:6px;}
+.quiz-card h4{font-size:15.5px; font-weight:600; color:var(--cream); margin-bottom:14px;}
+.opts{display:grid; gap:8px;}
+.opt{
+  border:1px solid var(--line); border-radius:8px; padding:10px 12px; cursor:pointer; font-size:13.5px;
+  color:var(--text-dim); transition:.15s; display:flex; gap:10px;
+}
+.opt:hover{border-color:var(--copper); color:var(--text);}
+.opt.correct{border-color:var(--mint); background:rgba(76,201,160,.09); color:var(--cream);}
+.opt.wrong{border-color:var(--warn); background:rgba(230,96,76,.09); color:var(--cream);}
+.opt .k{font-family:'JetBrains Mono'; color:var(--copper-bright); flex:none;}
+.feedback{margin-top:10px; font-size:12.5px; color:var(--text-dim); display:none;}
+.feedback.show{display:block;}
+
+.essay{background:var(--bg-alt); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
+.essay-q{font-size:14.5px; color:var(--cream); margin-bottom:12px;}
+.reveal-box{
+  margin-top:12px; border-top:1px dashed var(--line); padding-top:12px; display:none; font-size:13.5px; color:var(--text-dim);
+}
+.reveal-box.show{display:block;}
+.reveal-box ul{padding-left:18px; margin:8px 0 0;}
+.reveal-box li{margin-bottom:5px;}
+
+/* ---------- SOP flow steps ---------- */
+.sop-flow{position:relative; margin:16px 0 8px;}
+.sop-step{display:flex; gap:16px; position:relative; padding-bottom:26px;}
+.sop-step:last-child{padding-bottom:0;}
+.sop-step::before{content:''; position:absolute; left:17px; top:38px; bottom:2px; width:2px; background:var(--line);}
+.sop-step:last-child::before{display:none;}
+.sop-num{
+  flex:none; width:36px; height:36px; border-radius:50%; background:var(--panel);
+  border:1.5px solid var(--copper); color:var(--copper-bright); font-family:'JetBrains Mono';
+  font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; z-index:2;
+}
+.sop-body{padding-top:4px;}
+.sop-body h4{font-size:15px; color:var(--cream); font-family:'Space Grotesk'; margin-bottom:4px;}
+.sop-body p{font-size:13px; color:var(--text-dim);}
+.sop-body .warn-note{display:inline-block; margin-top:6px; font-family:'JetBrains Mono'; font-size:11px; color:var(--warn); border:1px solid var(--warn); border-radius:6px; padding:2px 8px;}
+
+/* ---------- K3 alert box ---------- */
+.k3-alert{
+  background:rgba(230,96,76,.08); border:1px solid var(--warn); border-radius:10px;
+  padding:16px 18px; margin-top:22px; display:flex; gap:14px; align-items:flex-start;
+}
+.k3-alert .ico{font-size:22px; flex:none; line-height:1;}
+.k3-alert p{font-size:13px; color:var(--text-dim);}
+.k3-alert b{color:var(--cream);}
+
+/* ---------- device category grid (perangkat komputer) ---------- */
+.device-cat{margin-top:26px;}
+.device-cat:first-child{margin-top:6px;}
+.device-cat-head{display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
+.device-cat-head .catdot{width:10px; height:10px; border-radius:50%; flex:none;}
+.device-cat-head h4{font-size:15.5px; color:var(--cream); font-family:'Space Grotesk';}
+.device-cat-head .cnt{font-family:'JetBrains Mono'; font-size:11px; color:var(--text-dim); border:1px solid var(--line); padding:2px 8px; border-radius:10px;}
+.device-cat-head .catdesc{width:100%; font-size:12.5px; color:var(--text-dim);}
+.device-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:10px;}
+.device-card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px; transition:.15s;}
+.device-card:hover{border-color:var(--copper);}
+.device-card b{display:block; font-family:'Space Grotesk'; color:var(--cream); font-size:13.5px; margin-bottom:4px;}
+.device-card span{font-size:12px; color:var(--text-dim); line-height:1.5;}
+
+/* ---------- device icons ---------- */
+.dev-icon{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+.dev-icon-wrap{width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; flex:none;}
+.ic-mint{background:rgba(76,201,160,.12); color:var(--mint);}
+.ic-copperbright{background:rgba(232,164,104,.12); color:var(--copper-bright);}
+.ic-copper{background:rgba(201,124,61,.14); color:var(--copper);}
+.label-icon{width:32px; height:32px; border-radius:8px; background:rgba(28,26,18,.07); display:flex; align-items:center; justify-content:center; margin-bottom:8px;}
+.label-icon .dev-icon{width:19px; height:19px; color:#7a6a45; stroke-width:1.7;}
+
+/* ---------- rubric ---------- */
+.rubric td b{color:var(--copper-bright);}
+
+/* ---------- footer ---------- */
+footer{margin-top:60px; padding:30px 0 50px; border-top:1px solid var(--line); text-align:center;}
+footer p{font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono';}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  .label-inner, .tl-item{transition:none;}
+}
+
+/* ---------- scroll progress ---------- */
+#scrollbar{position:fixed; top:0; left:0; height:3px; width:0%; z-index:100;
+  background:linear-gradient(90deg,var(--mint),var(--copper-bright)); box-shadow:0 0 8px var(--mint); transition:width .1s linear;}
+
+/* ---------- reveal on scroll ---------- */
+.block{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease;}
+.block.in-view{opacity:1; transform:translateY(0);}
+
+/* ---------- traveling pulse on trace ---------- */
+.trace{overflow:hidden;}
+.trace .runner{
+  position:absolute; top:7px; width:8px; height:8px; border-radius:50%;
+  background:var(--copper-bright); box-shadow:0 0 10px var(--copper-bright);
+  animation:run 3.4s linear infinite;
+}
+@keyframes run{ 0%{left:2%;} 100%{left:96%;} }
+
+/* ---------- game section ---------- */
+.game-panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px;}
+.game-top{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;}
+.mobo-fixed{
+  background:var(--bg-alt); border:1px solid var(--mint); border-radius:10px; padding:12px 16px;
+  font-family:'JetBrains Mono'; font-size:12.5px; color:var(--mint); max-width:520px;
+}
+.mobo-fixed b{display:block; font-family:'Space Grotesk'; color:var(--cream); font-size:14.5px; margin-bottom:3px;}
+.score-tracker{font-family:'JetBrains Mono'; font-size:12.5px; color:var(--text-dim); text-align:right;}
+.score-tracker b{color:var(--copper-bright); font-size:15px;}
+.step-label{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--copper-bright); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;}
+.step-prompt{font-size:15px; color:var(--cream); font-weight:600; margin-bottom:14px; font-family:'Space Grotesk';}
+.step-opts{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media(max-width:700px){.step-opts{grid-template-columns:1fr;}}
+.step-opt{
+  background:var(--bg-alt); border:1.5px solid var(--line); border-radius:10px; padding:16px; cursor:pointer;
+  transition:.18s;
+}
+.step-opt:hover{border-color:var(--copper); transform:translateY(-2px);}
+.step-opt .name{font-family:'Space Grotesk'; font-weight:600; color:var(--cream); font-size:14px;}
+.step-opt .note{font-size:12px; color:var(--text-dim); margin-top:8px; display:none;}
+.step-opt.picked-correct{border-color:var(--mint); background:rgba(76,201,160,.1);}
+.step-opt.picked-correct .note{display:block; color:var(--mint);}
+.step-opt.picked-wrong{border-color:var(--warn); background:rgba(230,96,76,.1);}
+.step-opt.picked-wrong .note{display:block; color:#f0a396;}
+.step-opt.disabled{cursor:default;}
+.game-nextline{margin-top:16px; display:flex; justify-content:flex-end;}
+.game-result{text-align:center; padding:20px 10px 6px;}
+.badge{
+  display:inline-block; font-family:'Space Grotesk'; font-weight:700; font-size:22px; color:var(--ink);
+  background:var(--mint); padding:10px 22px; border-radius:30px; margin-bottom:12px;
+}
+.badge.mid{background:var(--copper-bright);}
+.badge.low{background:var(--warn); color:#2a0d08;}
+.result-detail{max-width:520px; margin:0 auto; text-align:left; font-size:13px; color:var(--text-dim);}
+.result-detail li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="icon-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M5 10h.01M8 10h.01M11 10h.01M14 10h.01M17 10h.01M5 14h10"/></symbol>
+    <symbol id="icon-mouse" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="16" rx="5"/><line x1="12" y1="2" x2="12" y2="8"/></symbol>
+    <symbol id="icon-touchpad" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/></symbol>
+    <symbol id="icon-scanner" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="1"/><line x1="3" y1="12" x2="21" y2="12"/></symbol>
+    <symbol id="icon-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></symbol>
+    <symbol id="icon-webcam" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><circle cx="12" cy="9" r="1.4"/><path d="M6 20c1-3 4-4 6-4s5 1 6 4"/></symbol>
+    <symbol id="icon-gamepad" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="9" rx="4"/><line x1="7" y1="10.5" x2="7" y2="14.5"/><line x1="5" y1="12.5" x2="9" y2="12.5"/><circle cx="16" cy="11" r="1"/><circle cx="18.5" cy="13.5" r="1"/></symbol>
+    <symbol id="icon-barcode" viewBox="0 0 24 24"><line x1="3" y1="4" x2="3" y2="20"/><line x1="6" y1="4" x2="6" y2="20"/><line x1="9" y1="4" x2="9" y2="20" stroke-width="2.6"/><line x1="12" y1="4" x2="12" y2="20"/><line x1="15" y1="4" x2="15" y2="20" stroke-width="2.6"/><line x1="18" y1="4" x2="18" y2="20"/><line x1="21" y1="4" x2="21" y2="20"/></symbol>
+    <symbol id="icon-cpu" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/><rect x="10" y="10" width="4" height="4"/><line x1="9" y1="2" x2="9" y2="7"/><line x1="12" y1="2" x2="12" y2="7"/><line x1="15" y1="2" x2="15" y2="7"/><line x1="9" y1="17" x2="9" y2="22"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="15" y1="17" x2="15" y2="22"/><line x1="2" y1="9" x2="7" y2="9"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="2" y1="15" x2="7" y2="15"/><line x1="17" y1="9" x2="22" y2="9"/><line x1="17" y1="12" x2="22" y2="12"/><line x1="17" y1="15" x2="22" y2="15"/></symbol>
+    <symbol id="icon-motherboard" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><rect x="5" y="5" width="6" height="6"/><line x1="14" y1="5" x2="19" y2="5"/><line x1="14" y1="8" x2="19" y2="8"/><line x1="5" y1="14" x2="10" y2="14"/><line x1="5" y1="17" x2="10" y2="17"/><circle cx="16" cy="16" r="2"/></symbol>
+    <symbol id="icon-ram" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="8" rx="1"/><line x1="4" y1="12" x2="4" y2="16"/><line x1="7" y1="12" x2="7" y2="16"/><line x1="10" y1="12" x2="10" y2="16"/><line x1="14" y1="12" x2="14" y2="16"/><line x1="17" y1="12" x2="17" y2="16"/><line x1="20" y1="12" x2="20" y2="16"/></symbol>
+    <symbol id="icon-chipset" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><circle cx="12" cy="12" r="2"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/><line x1="2" y1="9" x2="6" y2="9"/><line x1="2" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="22" y2="9"/><line x1="18" y1="15" x2="22" y2="15"/></symbol>
+    <symbol id="icon-gpu" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="1"/><circle cx="8" cy="12" r="2.5"/><circle cx="15" cy="12" r="2.5"/><line x1="2" y1="17" x2="2" y2="19"/></symbol>
+    <symbol id="icon-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></symbol>
+    <symbol id="icon-printer" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="7" rx="1"/><path d="M7 8V4h10v4"/><rect x="7" y="15" width="10" height="6"/></symbol>
+    <symbol id="icon-speaker" viewBox="0 0 24 24"><path d="M4 9h4l6-4v14l-6-4H4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 7a7 7 0 0 1 0 10"/></symbol>
+    <symbol id="icon-headphone" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2" y="14" width="4" height="6" rx="1"/><rect x="18" y="14" width="4" height="6" rx="1"/></symbol>
+    <symbol id="icon-projector" viewBox="0 0 24 24"><rect x="2" y="8" width="14" height="8" rx="2"/><circle cx="9" cy="12" r="3"/><line x1="16" y1="11" x2="22" y2="8"/><line x1="16" y1="13" x2="22" y2="16"/></symbol>
+    <symbol id="icon-plotter" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="4"/><line x1="6" y1="8" x2="6" y2="20"/><line x1="18" y1="8" x2="18" y2="20"/><circle cx="12" cy="14" r="2"/><line x1="12" y1="8" x2="12" y2="12"/></symbol>
+    <symbol id="icon-hdd" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="3"/><line x1="14" y1="9" x2="19" y2="9"/><line x1="14" y1="12" x2="19" y2="12"/><line x1="14" y1="15" x2="19" y2="15"/></symbol>
+    <symbol id="icon-ssd" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><line x1="7" y1="11" x2="7" y2="13"/><line x1="10" y1="11" x2="10" y2="13"/><line x1="13" y1="11" x2="13" y2="13"/><line x1="16" y1="11" x2="16" y2="13"/></symbol>
+    <symbol id="icon-flashdisk" viewBox="0 0 24 24"><rect x="7" y="3" width="6" height="8" rx="1"/><rect x="5" y="11" width="10" height="10" rx="2"/><line x1="9" y1="6" x2="9" y2="8"/><line x1="11" y1="6" x2="11" y2="8"/></symbol>
+    <symbol id="icon-memcard" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><line x1="9" y1="7" x2="9" y2="11"/><line x1="12" y1="7" x2="12" y2="11"/><line x1="15" y1="7" x2="15" y2="11"/></symbol>
+    <symbol id="icon-opticaldisc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.3"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="2 2"/></symbol>
+    <symbol id="icon-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-1-7.9A5.5 5.5 0 0 1 16.5 8a4.5 4.5 0 0 1 .5 9H7z"/></symbol>
+    <symbol id="icon-soundcard" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M6 14v-3M9 14v-6M12 14v-2M15 14v-5M18 14v-3"/></symbol>
+    <symbol id="icon-lancard" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="12" y2="16"/><line x1="6" y1="6" x2="18" y2="6"/></symbol>
+    <symbol id="icon-wificard" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5.5 12a10 10 0 0 1 13 0"/><path d="M9 15.5a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="icon-capturecard" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="10" rx="1"/><circle cx="9" cy="11" r="3"/><path d="M18 9l4-2v10l-4-2z"/></symbol>
+    <symbol id="icon-tvtuner" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="7" y1="3" x2="10" y2="6"/><line x1="17" y1="3" x2="14" y2="6"/></symbol>
+    <symbol id="icon-raidcard" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="4" rx="1"/><rect x="4" y="10" width="16" height="4" rx="1"/><rect x="4" y="17" width="16" height="4" rx="1"/><circle cx="17" cy="5" r=".7" fill="currentColor" stroke="none"/><circle cx="17" cy="12" r=".7" fill="currentColor" stroke="none"/><circle cx="17" cy="19" r=".7" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="icon-usbcard" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="6" rx="1"/><line x1="12" y1="8" x2="12" y2="12"/><path d="M12 12a4 4 0 0 0 4 4h1"/><path d="M12 12a4 4 0 0 1-4 4H7"/><circle cx="17" cy="16" r="1.4"/><circle cx="7" cy="16" r="1.4"/></symbol>
+  </defs>
+</svg>
+
+<nav>
+  <div class="navrow">
+    <div class="brand"><span class="dot"></span>BENGKEL HARDWARE · 9 JP</div>
+    <div class="navlinks">
+      <a href="#peta">Peta Belajar</a>
+      <a href="#sopk3">SOP & K3</a>
+      <a href="#perangkat">Perangkat</a>
+      <a href="#mobo">Motherboard</a>
+      <a href="#cpuram">CPU & RAM</a>
+      <a href="#storagepsu">Storage & PSU</a>
+      <a href="#vgacooling">VGA & Cooling</a>
+      <a href="#ekspansi">Kartu Ekspansi</a>
+      <a href="#konektor">Konektor</a>
+      <a href="#bios">BIOS/UEFI</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#game">🎮 Game</a>
+      <a href="#lkpd">LKPD</a>
+      <a href="#uji">Uji Nalar</a>
+      <a href="#glosarium">Glosarium</a>
+      <a href="#rubrik">Rubrik</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="pcb-bg">
+    <svg viewBox="0 0 1080 320" preserveAspectRatio="none">
+      <g stroke="#28392f" stroke-width="1.5" fill="none">
+        <path d="M0 40 H260 L300 80 H520"/>
+        <path d="M1080 60 H820 L780 100 H600"/>
+        <path d="M0 260 H180 L220 220 H420 L460 260 H700"/>
+        <path d="M1080 280 H860 L820 240 H660"/>
+      </g>
+      <g fill="#4cc9a0" opacity=".55">
+        <circle cx="300" cy="80" r="4"/><circle cx="600" cy="100" r="4"/>
+        <circle cx="220" cy="220" r="4"/><circle cx="660" cy="240" r="4"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Perakitan · Instalasi · Perawatan Sistem Komputer — Blok 1 Hari ke-2</div>
+    <h1>Bongkar isi CPU, baca <em>label spesifikasinya</em>, lalu buktikan kamu paham komponennya.</h1>
+    <p class="lead">Modul interaktif 9 JP (405 menit) untuk mengenal motherboard, CPU, RAM, storage, PSU, VGA, dan cooling — lengkap dengan kartu label yang bisa dibalik, LKPD isian, dan kuis penalaran kompatibilitas.</p>
+    <div class="metachips">
+      <div class="chip"><b>Capaian Pembelajaran</b>Mengidentifikasi fungsi, spesifikasi & cara kerja komponen utama komputer</div>
+      <div class="chip"><b>Ketuntasan (KKTP)</b>Jelaskan ≥6 komponen · baca ≥2 spesifikasi label produk</div>
+      <div class="chip"><b>Profil Pelajar</b>Bernalar Kritis</div>
+    </div>
+  </div>
+</header>
+
+<div class="trace"><span class="runner"></span></div>
+
+<div class="wrap">
+
+<section class="block" id="peta">
+  <div class="sec-head"><span class="idx">PETA BELAJAR</span><h2>9 JP, lima etape kerja bengkel</h2></div>
+  <p class="sec-sub">Klik tiap sesi untuk lompat ke materinya. Urutan ini penting — tiap etape membangun kosakata untuk etape berikutnya.</p>
+  <div class="timeline">
+    <div class="tl-item" onclick="document.getElementById('sopk3').scrollIntoView()">
+      <div class="jp">SEBELUM MULAI</div><div class="t">SOP & K3 Bengkel</div>
+      <div class="m">Urutan kerja aman & alat pelindung diri</div>
+    </div>
+    <div class="tl-item" onclick="document.getElementById('mobo').scrollIntoView()">
+      <div class="jp">JP 1–2 · 90'</div><div class="t">Motherboard & Chipset</div>
+      <div class="m">Socket, chipset, slot PCIe, form factor</div>
+    </div>
+    <div class="tl-item" onclick="document.getElementById('cpuram').scrollIntoView()">
+      <div class="jp">JP 3–4 · 90'</div><div class="t">CPU & RAM</div>
+      <div class="m">Core/thread, clock, cache, generasi DDR</div>
+    </div>
+    <div class="tl-item" onclick="document.getElementById('storagepsu').scrollIntoView()">
+      <div class="jp">JP 5–6 · 90'</div><div class="t">Storage & PSU</div>
+      <div class="m">HDD vs SSD, wattage, sertifikasi 80 Plus</div>
+    </div>
+    <div class="tl-item" onclick="document.getElementById('vgacooling').scrollIntoView()">
+      <div class="jp">JP 7–8 · 90'</div><div class="t">VGA & Cooling</div>
+      <div class="m">VRAM, integrated vs dedicated, thermal</div>
+    </div>
+    <div class="tl-item" onclick="document.getElementById('uji').scrollIntoView()">
+      <div class="jp">JP 9 · 45'</div><div class="t">Asesmen & Refleksi</div>
+      <div class="m">Tes tertulis, unjuk kerja, nalar kompatibilitas</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="sopk3">
+  <div class="sec-head"><span class="idx">00</span><h2>SOP & K3 Bengkel Hardware</h2></div>
+  <p class="sec-sub">Sebelum menyentuh satu pun komponen, ikuti urutan kerja (SOP) dan Keselamatan &amp; Kesehatan Kerja (K3) ini. Komponen komputer sensitif terhadap listrik statis (ESD) dan bekerja dengan tegangan listrik — kelalaian kecil bisa merusak komponen atau membahayakan dirimu.</p>
+
+  <h4 style="font-size:16px; color:var(--cream); margin-bottom:4px;">Urutan Kerja (SOP) Perakitan &amp; Pemeriksaan</h4>
+  <p class="sec-sub" style="margin-top:4px;">Kerjakan berurutan dari atas ke bawah — jangan melompati langkah keselamatan.</p>
+  <div class="sop-flow">
+    <div class="sop-step">
+      <div class="sop-num">1</div>
+      <div class="sop-body">
+        <h4>Persiapan Alat & Area Kerja</h4>
+        <p>Siapkan obeng plus/minus, gelang antistatik (wrist strap), alas kerja non-konduktif, dan wadah kecil untuk baut. Pastikan meja kerja bersih, kering, cukup cahaya, dan bebas dari minuman/cairan.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">2</div>
+      <div class="sop-body">
+        <h4>Pemeriksaan K3 & Pemutusan Arus Listrik</h4>
+        <p>Matikan PC dan cabut kabel power dari stopkontak (bukan hanya dari saklar PSU) sebelum membuka casing. Tekan tombol power sebentar untuk membuang sisa listrik statis di motherboard.</p>
+        <span class="warn-note">Wajib sebelum bongkar-pasang</span>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">3</div>
+      <div class="sop-body">
+        <h4>Penerapan Grounding / Anti-ESD</h4>
+        <p>Kenakan gelang antistatik dan jepitkan ke bagian logam casing yang belum dicat, atau sentuh permukaan logam yang di-ground sebelum memegang komponen — mencegah listrik statis dari tubuh merusak chip.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">4</div>
+      <div class="sop-body">
+        <h4>Identifikasi & Pengecekan Kelengkapan Komponen</h4>
+        <p>Cocokkan motherboard, CPU, RAM, storage, PSU, VGA, dan cooler sesuai daftar/spesifikasi kerja (lihat LKPD). Periksa segel/kemasan antistatik masih utuh sebelum dibuka.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">5</div>
+      <div class="sop-body">
+        <h4>Pemasangan Komponen Inti: CPU → Cooler → RAM → Motherboard ke Casing</h4>
+        <p>Pasang CPU ke socket sesuai arah segitiga penanda, oleskan thermal paste tipis merata, pasang cooler, lalu RAM ke slot DIMM sebelum motherboard dibaut ke casing.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">6</div>
+      <div class="sop-body">
+        <h4>Pemasangan PSU, Storage & Kabel Daya</h4>
+        <p>Pasang PSU, sambungkan konektor 24-pin ATX dan 8-pin EPS, lalu pasang storage (HDD/SSD) dan kabel SATA/power. Rapikan kabel (cable management) agar tidak menghalangi sirkulasi udara.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">7</div>
+      <div class="sop-body">
+        <h4>Pemasangan VGA & Pengecekan Akhir Fisik</h4>
+        <p>Pasang kartu VGA ke slot PCIe x16 dan kunci dengan sekrup bracket. Periksa ulang semua konektor terpasang sempurna, tidak ada kabel terjepit atau kipas yang tertahan.</p>
+      </div>
+    </div>
+    <div class="sop-step">
+      <div class="sop-num">8</div>
+      <div class="sop-body">
+        <h4>Uji Nyala (Power-On Self Test) & Dokumentasi</h4>
+        <p>Sambungkan kembali kabel power, nyalakan, dan amati POST (bunyi beep, tampilan BIOS/logo). Catat hasil pemasangan pada LKPD sebagai bukti unjuk kerja.</p>
+      </div>
+    </div>
+  </div>
+
+  <h4 style="font-size:16px; color:var(--cream); margin:30px 0 4px;">Prinsip K3 yang Wajib Diingat</h4>
+  <p class="sec-sub" style="margin-top:4px;">Ketuk kartu untuk membaca alasan teknis di baliknya.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Anti Listrik Statis</span><h3>Gelang Antistatik</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ESD protection · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>Tubuh manusia bisa menyimpan muatan statis ribuan volt tanpa terasa.</p>
+          <ul><li>Chip CPU/RAM rusak permanen oleh ESD walau tak terlihat</li><li>Selalu grounding sebelum memegang komponen elektronik</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Bebas Tegangan</span><h3>Cabut Kabel Power</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Matikan total · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>PSU modern tetap mengalirkan sedikit arus meski PC dalam keadaan mati (standby).</p>
+          <ul><li>Cabut dari stopkontak, bukan sekadar tombol power</li><li>Mencegah sengatan listrik & korsleting saat bongkar-pasang</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Cara Memegang</span><h3>Pegang di Tepi Komponen</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Hindari pin & chip · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>Menyentuh langsung pin CPU atau chip PCB memindahkan minyak/kotoran tangan dan muatan statis.</p>
+          <ul><li>Pegang RAM/VGA di sisi tepi (edge)</li><li>Pegang CPU dari sisi atas (IHS), jangan sentuh pin bawah</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Penyimpanan Aman</span><h3>Kantong Antistatik</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Anti-static bag · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>Komponen yang belum/sudah dilepas harus disimpan aman, tidak sembarangan diletakkan.</p>
+          <ul><li>Simpan di kantong antistatik bawaan</li><li>Jangan ditumpuk atau ditekan benda berat</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Alat & Postur Kerja</span><h3>Gunakan Obeng yang Tepat</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Ergonomi & alat sesuai · ketuk</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>Obeng yang salah ukuran merusak kepala baut (strip) dan berisiko melukai tangan saat terpeleset.</p>
+          <ul><li>Gunakan obeng magnetik ukuran pas</li><li>Duduk/berdiri dengan posisi kerja yang stabil</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Kondisi Darurat</span><h3>Kenali Prosedur Darurat</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">APAR & P3K · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Alasan</span>
+          <p>Korsleting listrik atau komponen terbakar butuh respons cepat dan tepat.</p>
+          <ul><li>Kenali lokasi APAR jenis CO2/dry chemical (bukan air) untuk kebakaran listrik</li><li>Laporkan ke guru/instruktur segera jika terjadi insiden</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="k3-alert">
+    <span class="ico">⚠️</span>
+    <p><b>Larangan keras di area praktik:</b> jangan membongkar-pasang komponen dalam keadaan PC menyala/tersambung listrik, jangan makan-minum di dekat meja komponen, jangan memaksa memasang konektor yang tidak sejajar, dan jangan menyentuh bagian dalam PSU — PSU menyimpan tegangan tinggi meski sudah dicabut dari listrik.</p>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="perangkat">
+  <div class="sec-head"><span class="idx">PERANGKAT</span><h2>Perangkat Komputer & Fungsinya</h2></div>
+  <p class="sec-sub">Sebelum masuk ke komponen di dalam casing, kenali dulu peta besarnya: setiap perangkat komputer punya peran di salah satu dari empat kategori — memasukkan data, mengolah data, menampilkan hasil, atau menyimpan data.</p>
+
+  <div class="device-cat">
+    <div class="device-cat-head">
+      <span class="catdot" style="background:var(--mint); box-shadow:0 0 6px var(--mint);"></span>
+      <h4>Perangkat Masukan (Input Device)</h4>
+      <span class="cnt">memasukkan data/perintah</span>
+    </div>
+    <div class="device-grid">
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-keyboard"/></svg></div><b>Keyboard</b><span>Memasukkan data berupa teks, angka, dan perintah lewat tombol.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-mouse"/></svg></div><b>Mouse</b><span>Mengarahkan kursor dan memilih objek di layar.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-touchpad"/></svg></div><b>Touchpad</b><span>Pengganti mouse di laptop, mengarahkan kursor lewat sentuhan jari.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-scanner"/></svg></div><b>Scanner</b><span>Mengubah dokumen atau gambar fisik menjadi data digital.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-mic"/></svg></div><b>Microphone</b><span>Menangkap dan memasukkan input berupa suara.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-webcam"/></svg></div><b>Webcam</b><span>Menangkap gambar/video sebagai input visual real-time.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-gamepad"/></svg></div><b>Joystick / Gamepad</b><span>Perangkat input khusus untuk mengontrol permainan.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-barcode"/></svg></div><b>Barcode Scanner</b><span>Membaca kode batang untuk memasukkan data produk secara cepat.</span></div>
+    </div>
+  </div>
+
+  <div class="device-cat">
+    <div class="device-cat-head">
+      <span class="catdot" style="background:var(--copper-bright); box-shadow:0 0 6px var(--copper-bright);"></span>
+      <h4>Perangkat Proses (Process Device)</h4>
+      <span class="cnt">mengolah data yang masuk</span>
+    </div>
+    <div class="device-grid">
+      <div class="device-card"><div class="dev-icon-wrap ic-copperbright"><svg class="dev-icon"><use href="#icon-cpu"/></svg></div><b>CPU (Processor)</b><span>Otak komputer — mengeksekusi instruksi dan melakukan perhitungan.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copperbright"><svg class="dev-icon"><use href="#icon-motherboard"/></svg></div><b>Motherboard</b><span>Papan sirkuit utama yang menghubungkan dan mengatur komunikasi semua komponen.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copperbright"><svg class="dev-icon"><use href="#icon-ram"/></svg></div><b>RAM</b><span>Menyimpan data & instruksi sementara selama proses berjalan.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copperbright"><svg class="dev-icon"><use href="#icon-chipset"/></svg></div><b>Chipset</b><span>Mengatur lalu lintas data antar komponen di motherboard.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copperbright"><svg class="dev-icon"><use href="#icon-gpu"/></svg></div><b>VGA / GPU</b><span>Memproses data grafis sebelum ditampilkan ke layar.</span></div>
+    </div>
+  </div>
+
+  <div class="device-cat">
+    <div class="device-cat-head">
+      <span class="catdot" style="background:var(--copper); box-shadow:0 0 6px var(--copper);"></span>
+      <h4>Perangkat Keluaran (Output Device)</h4>
+      <span class="cnt">menampilkan hasil proses</span>
+    </div>
+    <div class="device-grid">
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-monitor"/></svg></div><b>Monitor</b><span>Menampilkan hasil visual/tampilan dari proses komputer.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-printer"/></svg></div><b>Printer</b><span>Mencetak dokumen digital ke media fisik seperti kertas.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-speaker"/></svg></div><b>Speaker</b><span>Mengeluarkan output berupa suara.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-headphone"/></svg></div><b>Headphone</b><span>Mengeluarkan output suara secara personal/privat.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-projector"/></svg></div><b>Proyektor</b><span>Menampilkan hasil visual ke layar berukuran besar.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-copper"><svg class="dev-icon"><use href="#icon-plotter"/></svg></div><b>Plotter</b><span>Mencetak gambar teknik atau desain berukuran besar dengan presisi tinggi.</span></div>
+    </div>
+  </div>
+
+  <div class="device-cat">
+    <div class="device-cat-head">
+      <span class="catdot" style="background:var(--mint); box-shadow:0 0 6px var(--mint);"></span>
+      <h4>Perangkat Penyimpanan (Storage Device)</h4>
+      <span class="cnt">menyimpan data secara permanen</span>
+    </div>
+    <div class="device-grid">
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-hdd"/></svg></div><b>Hard Disk Drive (HDD)</b><span>Penyimpanan kapasitas besar berbasis piringan magnetik.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-ssd"/></svg></div><b>Solid State Drive (SSD)</b><span>Penyimpanan berbasis flash memory, jauh lebih cepat dari HDD.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-flashdisk"/></svg></div><b>Flashdisk (USB Drive)</b><span>Penyimpanan portabel yang terhubung lewat port USB.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-memcard"/></svg></div><b>Memory Card (SD/microSD)</b><span>Penyimpanan portabel untuk kamera, HP, dan perangkat mobile.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-opticaldisc"/></svg></div><b>Optical Disc (CD/DVD/Blu-ray)</b><span>Penyimpanan berbasis cakram optik, kini jarang digunakan.</span></div>
+      <div class="device-card"><div class="dev-icon-wrap ic-mint"><svg class="dev-icon"><use href="#icon-cloud"/></svg></div><b>Cloud Storage</b><span>Penyimpanan data secara daring lewat layanan internet.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="mobo">
+  <div class="sec-head"><span class="idx">01</span><h2>Motherboard, Chipset & Slot Ekspansi</h2></div>
+  <p class="sec-sub">Motherboard adalah PCB utama yang menyatukan semua komponen. Klik kartu label untuk membalik dan membaca penjelasannya — persis seperti membaca stiker di dus produk.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Dudukan Prosesor</span><h3>Socket CPU</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">cth: LGA 1700 · AM5 — ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Dudukan fisik tempat prosesor dipasang. Bentuk pin/socket berbeda antar merek dan generasi.</p>
+          <ul><li>LGA 1700 → Intel Gen 12/13/14</li><li>Socket AM5 → AMD Ryzen terbaru</li><li>Socket menentukan CPU apa yang bisa dipasang</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Pengontrol Lalu Lintas</span><h3>Chipset</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">PCH modern · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Mengatur komunikasi data antar komponen di motherboard.</p>
+          <ul><li>Menentukan jumlah port SATA</li><li>Menentukan jumlah jalur PCIe</li><li>Menentukan kemampuan overclocking</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Jalur Data Tambahan</span><h3>Slot PCIe</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">x16 / x1 · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Slot ekspansi untuk kartu tambahan.</p>
+          <ul><li>PCIe x16 → kartu VGA (butuh bandwidth besar)</li><li>PCIe x1 → soundcard, WiFi card</li><li>Ada juga slot M.2 khusus SSD NVMe</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Ukuran Fisik</span><h3>Form Factor</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ATX · mATX · Mini-ITX</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menentukan ukuran motherboard dan casing yang cocok.</p>
+          <ul><li>ATX — 30,5 × 24,4 cm</li><li>Micro-ATX — 24,4 × 24,4 cm</li><li>Mini-ITX — 17 × 17 cm</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="cpuram">
+  <div class="sec-head"><span class="idx">02</span><h2>Central Processing Unit (CPU) & RAM</h2></div>
+  <p class="sec-sub">CPU adalah otak komputer, RAM adalah meja kerja sementaranya. Balik label untuk membaca spesifikasi yang biasanya tertera di kotak atau stiker chip.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Unit Pemrosesan</span><h3>Core & Thread</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Core = unit pemrosesan fisik. Thread = jalur eksekusi virtual per core.</p>
+          <ul><li>Lebih banyak core → lebih banyak tugas paralel</li><li>Hyper-Threading membuat 1 core jalankan 2 thread</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Kecepatan Eksekusi</span><h3>Clock Speed</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">GHz · Base & Boost</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Jumlah instruksi yang dieksekusi per detik, diukur dalam GHz.</p>
+          <ul><li>Base Clock → kecepatan normal</li><li>Boost Clock → kecepatan puncak sementara</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Memori Kilat</span><h3>Cache (L1/L2/L3)</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Memori super cepat di dalam CPU untuk data yang sering diakses.</p>
+          <ul><li>L1 tercepat, kapasitas terkecil</li><li>L3 terbesar, sedikit lebih lambat</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Memori Utama</span><h3>RAM — DDR4/DDR5</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">GB · MHz · DIMM/SO-DIMM</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Menyimpan data aplikasi yang sedang aktif berjalan.</p>
+          <ul><li>DDR5 (cth. 6000MHz) lebih hemat daya & lebih cepat dari DDR4 (cth. 3200MHz)</li><li>DIMM untuk desktop, SO-DIMM untuk laptop</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="storagepsu">
+  <div class="sec-head"><span class="idx">03</span><h2>Storage & Power Supply Unit</h2></div>
+  <p class="sec-sub">Datasheet perbandingan HDD, SSD SATA, dan SSD NVMe — plus konektor utama yang wajib dikenali dari PSU.</p>
+  <div class="tablewrap">
+    <table class="datasheet">
+      <tr><th>Parameter</th><th>HDD</th><th>SSD SATA 2.5"</th><th>SSD NVMe M.2</th></tr>
+      <tr><td>Teknologi</td><td>Piringan magnetik mekanis (5400/7200 RPM)</td><td>Flash memory (NAND)</td><td>Flash memory (NAND)</td></tr>
+      <tr><td>Interface</td><td>SATA</td><td>SATA</td><td>PCIe bus (langsung)</td></tr>
+      <tr><td>Read/Write</td><td class="hl">~100–150 MB/s</td><td class="hl">~500–550 MB/s</td><td class="hl">~3500–7500 MB/s</td></tr>
+      <tr><td>Ketahanan shock</td><td>Rentan bila terguncang</td><td>Tahan guncangan</td><td>Tahan guncangan, sangat ringkas</td></tr>
+    </table>
+  </div>
+  <h4 style="margin-top:30px; font-size:16px; color:var(--cream);">Konektor Utama PSU</h4>
+  <div class="connectors">
+    <div class="conn"><b>24-pin ATX</b>Suplai utama ke motherboard</div>
+    <div class="conn"><b>8-pin EPS</b>Suplai daya ke CPU</div>
+    <div class="conn"><b>6+2 pin PCIe</b>Suplai daya ke VGA card</div>
+    <div class="conn"><b>SATA Power</b>Suplai ke storage & drive</div>
+  </div>
+  <p class="sec-sub" style="margin-top:18px;">Perhatikan juga <b style="color:var(--cream)">sertifikasi 80 Plus</b> (White → Bronze → Silver → Gold → Platinum): makin tinggi tingkatnya, makin efisien PSU mengubah daya listrik dan makin sedikit panas terbuang.</p>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="vgacooling">
+  <div class="sec-head"><span class="idx">04</span><h2>VGA Card (GPU) & Sistem Pendingin</h2></div>
+  <p class="sec-sub">GPU menangani beban grafis, cooling mencegah thermal throttling. Balik kartunya untuk penjelasan lengkap.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Grafis Terpisah</span><h3>Dedicated GPU</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">VRAM GDDR6 · RTX / Radeon</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Kartu grafis terpisah dengan VRAM khusus, untuk beban rendering/gaming berat.</p>
+          <ul><li>Contoh: NVIDIA RTX, AMD Radeon</li><li>Punya memori sendiri (VRAM)</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Grafis Menyatu</span><h3>Integrated Graphics</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Intel UHD · AMD Radeon Graphics</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Pemroses grafis yang menyatu di dalam chip CPU, memakai memori sistem (RAM).</p>
+          <ul><li>Cukup untuk kerja ringan & multimedia</li><li>Tidak butuh kartu grafis tambahan</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Pendingin Udara</span><h3>Air Cooling</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Stock Cooler · Tower Cooler</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Menggunakan heatsink & fan untuk membuang panas CPU/GPU.</p>
+          <ul><li>Stock cooler → bawaan prosesor</li><li>Tower cooler → performa lebih tinggi</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Pendingin Cair</span><h3>Liquid / AIO Cooling</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">All-In-One Water Cooling</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Menggunakan cairan untuk menyerap dan membuang panas lebih efisien dari udara.</p>
+          <ul><li>Cocok untuk CPU/GPU performa tinggi</li><li>Butuh thermal paste yang tepat saat pemasangan</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="ekspansi">
+  <div class="sec-head"><span class="idx">EKSPANSI</span><h2>Kartu Ekspansi & Fungsinya</h2></div>
+  <p class="sec-sub">Kartu ekspansi dipasang di slot PCIe (atau PCI pada motherboard lama) untuk menambah kemampuan komputer di luar fitur bawaan motherboard. Balik kartunya untuk membaca fungsinya.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-gpu"/></svg></div>
+          <div><span class="tag">Pengolah Grafis</span><h3>VGA Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Slot PCIe x16 · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Mengolah dan menampilkan data grafis ke monitor secara terpisah dari CPU.</p>
+          <ul><li>Punya VRAM & prosesor grafis sendiri</li><li>Wajib untuk gaming/rendering berat</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-soundcard"/></svg></div>
+          <div><span class="tag">Pengolah Audio</span><h3>Sound Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Slot PCIe x1 · ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Mengolah data audio digital menjadi sinyal suara berkualitas lebih tinggi dari sound onboard.</p>
+          <ul><li>Dipakai untuk produksi musik/audio profesional</li><li>Punya lebih banyak port input/output audio</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-lancard"/></svg></div>
+          <div><span class="tag">Jaringan Kabel</span><h3>LAN Card (NIC)</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Network Interface Card</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menghubungkan komputer ke jaringan lewat kabel Ethernet (RJ-45).</p>
+          <ul><li>Dipasang bila motherboard tidak punya LAN onboard</li><li>Ada varian kecepatan 1 Gbps hingga 10 Gbps</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-wificard"/></svg></div>
+          <div><span class="tag">Jaringan Nirkabel</span><h3>Wi-Fi / Bluetooth Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menghubungkan komputer ke jaringan nirkabel dan perangkat Bluetooth tanpa kabel.</p>
+          <ul><li>Umum dipasang di PC desktop tanpa Wi-Fi bawaan</li><li>Sering datang sepaket dengan antena eksternal</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-capturecard"/></svg></div>
+          <div><span class="tag">Perekam Video</span><h3>Capture Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menangkap dan merekam sinyal video dari perangkat eksternal seperti konsol game atau kamera.</p>
+          <ul><li>Banyak dipakai untuk streaming & konten kreator</li><li>Menerima input via HDMI dari sumber luar</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-tvtuner"/></svg></div>
+          <div><span class="tag">Penerima Siaran</span><h3>TV Tuner Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menerima sinyal siaran TV agar bisa ditonton atau direkam langsung di komputer.</p>
+          <ul><li>Mengubah komputer jadi penerima TV digital/analog</li><li>Kini sebagian tergantikan oleh layanan streaming</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-raidcard"/></svg></div>
+          <div><span class="tag">Penggabung Disk</span><h3>RAID Controller Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Mengatur beberapa hard disk agar bekerja sebagai satu unit penyimpanan.</p>
+          <ul><li>Meningkatkan performa baca/tulis (RAID 0) atau keamanan data (RAID 1)</li><li>Umum dipakai di server</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div class="label-icon"><svg class="dev-icon"><use href="#icon-usbcard"/></svg></div>
+          <div><span class="tag">Tambahan Port</span><h3>USB Expansion Card</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">ketuk untuk membalik</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Fungsi</span>
+          <p>Menambah jumlah port USB pada motherboard yang port bawaannya terbatas.</p>
+          <ul><li>Berguna saat banyak perangkat USB terpasang sekaligus</li><li>Tersedia varian USB-A maupun USB-C</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="konektor">
+  <div class="sec-head"><span class="idx">KONEKTOR</span><h2>Kabel & Konektor Internal</h2></div>
+  <p class="sec-sub">Setelah semua komponen terpasang, langkah yang sering bikin bingung pemula adalah menyambungkan kabel-kabel internal. Kenali dulu konektor daya & data utama, lalu pin panel depan casing.</p>
+  <div class="tablewrap">
+    <table class="datasheet">
+      <tr><th>Konektor</th><th>Lokasi Pemasangan</th><th>Fungsi</th></tr>
+      <tr><td class="hl">24-pin ATX</td><td>PSU → Motherboard</td><td>Suplai daya utama ke motherboard</td></tr>
+      <tr><td class="hl">8-pin EPS (4+4)</td><td>PSU → Motherboard (dekat CPU)</td><td>Suplai daya khusus ke CPU</td></tr>
+      <tr><td class="hl">6+2 pin PCIe</td><td>PSU → VGA Card</td><td>Suplai daya tambahan ke kartu grafis</td></tr>
+      <tr><td class="hl">SATA Power</td><td>PSU → Storage (HDD/SSD 2.5")</td><td>Suplai daya ke drive penyimpanan</td></tr>
+      <tr><td class="hl">SATA Data</td><td>Motherboard ↔ Storage</td><td>Transfer data antara storage dan motherboard</td></tr>
+      <tr><td class="hl">Fan Header (CPU_FAN/SYS_FAN)</td><td>Motherboard → Kipas</td><td>Suplai daya & kontrol kecepatan kipas</td></tr>
+      <tr><td class="hl">USB Header (internal)</td><td>Motherboard ↔ Casing</td><td>Menghubungkan port USB di panel depan casing</td></tr>
+      <tr><td class="hl">HD Audio Header</td><td>Motherboard ↔ Casing</td><td>Menghubungkan jack audio di panel depan casing</td></tr>
+    </table>
+  </div>
+
+  <h4 style="margin-top:30px; font-size:16px; color:var(--cream);">Pin Panel Depan (Front Panel Header)</h4>
+  <p class="sec-sub" style="margin-top:4px;">Pin terkecil dan paling sering salah pasang — biasanya berlabel <span class="mono" style="color:var(--copper-bright);">F_PANEL</span> di motherboard.</p>
+  <div class="connectors">
+    <div class="conn"><b>POWER SW</b>Menyalakan/mematikan PC lewat tombol power casing</div>
+    <div class="conn"><b>RESET SW</b>Me-restart PC lewat tombol reset casing</div>
+    <div class="conn"><b>POWER LED (+/-)</b>Lampu indikator PC menyala — perhatikan polaritas</div>
+    <div class="conn"><b>HDD LED (+/-)</b>Lampu indikator aktivitas baca/tulis storage</div>
+    <div class="conn"><b>SPEAKER</b>Speaker internal kecil untuk bunyi beep POST</div>
+  </div>
+
+  <div class="k3-alert">
+    <span class="ico">⚠️</span>
+    <p><b>Perhatian:</b> tidak ada standar posisi pin yang seragam antar merek motherboard. Selalu cocokkan dengan buku manual motherboard, terutama polaritas kabel LED (+/-) — salah polaritas tidak merusak komponen, tapi lampu indikator tidak akan menyala.</p>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="bios">
+  <div class="sec-head"><span class="idx">BIOS/UEFI</span><h2>BIOS/UEFI & Proses Boot</h2></div>
+  <p class="sec-sub">Begitu tombol power ditekan, hal pertama yang berjalan bukan Windows — melainkan firmware kecil bernama BIOS/UEFI. Balik kartu untuk memahami perannya.</p>
+  <div class="label-grid">
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Firmware Klasik</span><h3>BIOS</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Basic Input Output System</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Firmware dasar yang tersimpan di chip motherboard, dijalankan pertama kali saat PC dinyalakan.</p>
+          <ul><li>Tampilan teks sederhana, navigasi pakai keyboard</li><li>Hanya mendukung partisi disk MBR (maks. 2TB)</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Firmware Modern</span><h3>UEFI</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Unified Extensible Firmware Interface</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Versi modern pengganti BIOS, dengan tampilan grafis dan dukungan mouse.</p>
+          <ul><li>Mendukung partisi disk GPT (>2TB), boot lebih cepat</li><li>Standar pada motherboard baru saat ini</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Pengecekan Awal</span><h3>POST</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Power-On Self Test</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Rangkaian tes otomatis terhadap hardware (CPU, RAM, VGA, dst) sesaat setelah PC dinyalakan.</p>
+          <ul><li>Jika gagal, PC memberi kode bunyi beep tertentu</li><li>Jika berhasil, proses lanjut ke boot sistem operasi</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Urutan Booting</span><h3>Boot Order</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">Boot Priority / Boot Sequence</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Urutan perangkat yang dicoba PC untuk memuat sistem operasi (HDD/SSD, USB, DVD, jaringan).</p>
+          <ul><li>Diatur lewat menu BIOS/UEFI Setup</li><li>Perlu diubah saat instalasi ulang OS dari USB bootable</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin-top:30px; font-size:16px; color:var(--cream);">Tombol Umum Masuk BIOS/UEFI Setup</h4>
+  <div class="connectors">
+    <div class="conn"><b>Del / F2</b>Paling umum di motherboard desktop rakitan</div>
+    <div class="conn"><b>F10</b>Umum pada laptop merek HP</div>
+    <div class="conn"><b>F2</b>Umum pada laptop Dell, Lenovo, ASUS</div>
+    <div class="conn"><b>F12 / Esc</b>Biasanya untuk Boot Menu (pilih boot sekali pakai)</div>
+  </div>
+
+  <h4 style="margin-top:30px; font-size:16px; color:var(--cream);">Kode Beep POST (Umum, Bisa Berbeda Tiap Merek BIOS)</h4>
+  <div class="tablewrap">
+    <table class="datasheet">
+      <tr><th>Bunyi</th><th>Kemungkinan Arti</th></tr>
+      <tr><td>1 beep pendek</td><td class="hl">Normal — semua hardware lolos POST</td></tr>
+      <tr><td>Tidak ada beep, tidak ada tampilan</td><td class="hl">PSU/motherboard tidak dapat daya, atau speaker internal tidak terpasang</td></tr>
+      <tr><td>Beep panjang berulang</td><td class="hl">RAM tidak terpasang sempurna atau bermasalah</td></tr>
+      <tr><td>Beep pendek berulang terus-menerus</td><td class="hl">Masalah pada motherboard atau suplai daya</td></tr>
+    </table>
+  </div>
+  <p class="sec-sub" style="margin-top:12px;">Kode beep berbeda-beda antar produsen BIOS (AMI, Award, Phoenix) — tabel di atas hanya pola umum. Cek manual motherboard untuk kode yang pasti.</p>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="troubleshooting">
+  <div class="sec-head"><span class="idx">TROUBLESHOOT</span><h2>Troubleshooting Dasar Perakitan</h2></div>
+  <p class="sec-sub">Gejala umum yang muncul setelah PC dirakit, kemungkinan penyebabnya, dan langkah pengecekan awal yang aman dilakukan.</p>
+  <div class="tablewrap">
+    <table class="datasheet">
+      <tr><th>Gejala</th><th>Kemungkinan Penyebab</th><th>Langkah Pengecekan</th></tr>
+      <tr><td>PC tidak menyala sama sekali (tidak ada lampu/kipas)</td><td>Kabel power/stopkontak, saklar belakang PSU off, tombol power casing longgar</td><td>Cek kabel power, cek saklar on/off PSU, cek koneksi pin POWER SW ke motherboard</td></tr>
+      <tr><td>Kipas berputar tapi tidak ada tampilan di monitor</td><td>Kabel monitor salah port, RAM kurang sempurna terpasang, VGA card kendor</td><td>Cek kabel di port VGA/HDMI yang benar (onboard vs dedicated), lepas-pasang ulang RAM & VGA</td></tr>
+      <tr><td>PC menyala lalu langsung mati atau restart terus</td><td>Overheating, daya PSU tidak cukup, komponen bermasalah</td><td>Cek suhu CPU, cek kecukupan watt PSU sesuai kebutuhan GPU</td></tr>
+      <tr><td>Muncul beep berulang saat booting</td><td>Komponen (RAM/VGA) tidak terpasang sempurna di slotnya</td><td>Lepas, bersihkan pin/slot dengan penghapus pensil kering, pasang ulang dengan benar</td></tr>
+      <tr><td>Storage tidak terdeteksi di BIOS</td><td>Kabel SATA data/power kendor, port SATA bermasalah, storage rusak</td><td>Cek kabel SATA, coba pindah ke port SATA lain di motherboard</td></tr>
+      <tr><td>Kipas berisik atau suhu CPU tinggi</td><td>Debu menumpuk, thermal paste kering, cooler kurang kencang</td><td>Bersihkan debu dengan blower/kuas kering, cek kekencangan baut cooler</td></tr>
+    </table>
+  </div>
+  <div class="k3-alert">
+    <span class="ico">⚠️</span>
+    <p><b>Ingat urutan K3:</b> sebelum membuka casing untuk troubleshooting fisik, selalu matikan PC dan cabut kabel power dari stopkontak terlebih dahulu — sama seperti SOP di awal modul.</p>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="game">
+  <div class="sec-head"><span class="idx">🎮 GAME</span><h2>Rakit & Cocokkan — Uji Kompatibilitas PC</h2></div>
+  <p class="sec-sub">Motherboard sudah ditentukan mesin acak. Tugasmu: pilih CPU, RAM, storage, dan PSU yang tepat untuk membangun PC yang benar-benar menyala. Setiap pilihan langsung dinilai — persis seperti soal uraian bernalar kritis, tapi dimainkan.</p>
+  <div class="game-panel">
+    <div class="game-top">
+      <div class="mobo-fixed" id="gameMobo"><b>Memuat motherboard…</b></div>
+      <div class="score-tracker">SKOR <b id="gameScore">0</b>/4 &nbsp;·&nbsp; Ronde ke-<span id="gameAttempt">1</span></div>
+    </div>
+    <div id="gameStepArea"></div>
+    <div id="gameResult" class="game-result" style="display:none;"></div>
+    <div class="lkpd-foot">
+      <button class="btn" id="gameNewBtn" onclick="newGame()">🔀 Skenario Baru</button>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="lkpd">
+  <div class="sec-head"><span class="idx">LKPD 02</span><h2>Identifikasi Fisik & Pembacaan Label</h2></div>
+  <p class="sec-sub">Amati komponen fisik di meja praktik, baca stiker/label spesifikasinya, lalu isi tabel ini. Data tersimpan sementara di browser selama sesi berjalan.</p>
+  <div class="lkpd">
+    <div class="lkpd-head">
+      <div class="progress-note">Kelompok: <input id="grp" placeholder="nama kelompok" style="background:var(--bg); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:5px 8px; font-family:'JetBrains Mono'; font-size:12px; width:150px;"> &nbsp;Kelas: <input id="cls" placeholder="X TJKT/RPL" style="background:var(--bg); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:5px 8px; font-family:'JetBrains Mono'; font-size:12px; width:110px;"></div>
+      <div class="stamp">6 KOMPONEN · ISI DARI LABEL ASLI</div>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="wtable">
+      <tr><th style="width:26px;">No</th><th>Komponen</th><th>Merk & Tipe/Model</th><th>Spesifikasi Utama</th></tr>
+      <tr><td>1</td><td>Processor (CPU)</td><td><input placeholder="merk/tipe"></td><td><input placeholder="Clock: ___ GHz | Socket: ___ | Core: ___"></td></tr>
+      <tr><td>2</td><td>RAM</td><td><input placeholder="merk/tipe"></td><td><input placeholder="Kapasitas: ___GB | Tipe: DDR__ | Speed: ___MHz"></td></tr>
+      <tr><td>3</td><td>Storage (HDD/SSD)</td><td><input placeholder="merk/tipe"></td><td><input placeholder="Interface: ___ | Kapasitas: ___GB/TB"></td></tr>
+      <tr><td>4</td><td>Power Supply (PSU)</td><td><input placeholder="merk/tipe"></td><td><input placeholder="Output: ___Watt | Sertifikasi: ___"></td></tr>
+      <tr><td>5</td><td>Motherboard</td><td><input placeholder="merk/tipe"></td><td><input placeholder="Chipset: ___ | Socket: ___ | Form Factor: ___"></td></tr>
+      <tr><td>6</td><td>VGA / Cooling</td><td><input placeholder="merk/tipe"></td><td><input placeholder="VRAM / Jenis Fan: ___"></td></tr>
+    </table>
+    </div>
+    <div class="lkpd-foot">
+      <span class="progress-note" id="lkpdStatus" style="align-self:center;">0 dari 6 baris terisi</span>
+      <button class="btn" onclick="clearLkpd()">Bersihkan</button>
+      <button class="btn primary" onclick="checkLkpd()">Cek Progres</button>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="uji">
+  <div class="sec-head"><span class="idx">05</span><h2>Uji Nalar Kritis</h2></div>
+  <p class="sec-sub">Coba jawab dulu sebelum melihat kunci — supaya latihan bernalarnya kepakai.</p>
+
+  <div class="quiz-card">
+    <div class="qn">Soal 1</div>
+    <h4>Seorang pengguna ingin PC lamanya booting Windows dan membuka aplikasi jauh lebih cepat. Komponen mana yang paling efektif diganti?</h4>
+    <div class="opts" data-answer="b">
+      <div class="opt" data-key="a"><span class="k">A</span>Mengganti PSU dengan watt lebih besar</div>
+      <div class="opt" data-key="b"><span class="k">B</span>Mengganti HDD mekanis dengan SSD NVMe M.2</div>
+      <div class="opt" data-key="c"><span class="k">C</span>Mengganti sistem pendingin dengan liquid cooling</div>
+      <div class="opt" data-key="d"><span class="k">D</span>Menambahkan case fan tambahan</div>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="qn">Soal 2</div>
+    <h4>Pada label RAM tertulis "DDR4 8GB PC4-25600 3200MHz". Informasi yang tepat adalah...</h4>
+    <div class="opts" data-answer="a">
+      <div class="opt" data-key="a"><span class="k">A</span>RAM generasi DDR4, kapasitas 8GB, kecepatan bus 3200 MHz</div>
+      <div class="opt" data-key="b"><span class="k">B</span>RAM untuk laptop berkapasitas 25600 MB</div>
+      <div class="opt" data-key="c"><span class="k">C</span>RAM generasi ke-4 khusus server daya tinggi</div>
+      <div class="opt" data-key="d"><span class="k">D</span>RAM berkapasitas 32GB dengan kecepatan 8GB</div>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="essay">
+    <div class="qn mono" style="color:var(--copper-bright); font-size:11.5px; margin-bottom:8px;">SOAL URAIAN · BERNALAR KRITIS</div>
+    <p class="essay-q">Sebuah motherboard memiliki Socket CPU LGA 1700 dan slot RAM DDR4. Apakah kita bisa memasangkan Processor AMD Ryzen AM5 dan RAM DDR5 pada motherboard tersebut? Jelaskan alasan teknisnya dari sisi kompatibilitas!</p>
+    <button class="btn" onclick="document.getElementById('reveal1').classList.toggle('show')">Tampilkan kunci jawaban</button>
+    <div class="reveal-box" id="reveal1">
+      <p><b style="color:var(--warn);">Tidak bisa — inkompatibel.</b></p>
+      <ul>
+        <li><b style="color:var(--cream);">CPU:</b> Socket LGA 1700 khusus untuk prosesor Intel (Gen 12/13/14). AMD AM5 punya bentuk fisik pin/socket yang berbeda secara fisik dan elektrikal.</li>
+        <li><b style="color:var(--cream);">RAM:</b> Slot DDR4 punya posisi notch (lekukan kunci) yang berbeda dari modul DDR5, jadi DDR5 tidak akan muat secara fisik, dan voltage controller-nya juga berbeda.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="glosarium">
+  <div class="sec-head"><span class="idx">GLOSARIUM</span><h2>Glosarium Istilah Teknis</h2></div>
+  <p class="sec-sub">Kamus mini istilah yang muncul sepanjang modul ini — praktis untuk dibuka ulang saat mengerjakan LKPD atau kuis.</p>
+  <div class="device-grid">
+    <div class="device-card"><b>BIOS</b><span>Firmware dasar yang dijalankan motherboard sesaat setelah PC dinyalakan.</span></div>
+    <div class="device-card"><b>Boot</b><span>Proses menyalakan & memuat sistem operasi hingga siap digunakan.</span></div>
+    <div class="device-card"><b>Cache</b><span>Memori super cepat di dalam CPU untuk data yang sering diakses.</span></div>
+    <div class="device-card"><b>Chipset</b><span>Pengontrol lalu lintas data antar komponen di motherboard.</span></div>
+    <div class="device-card"><b>Clock Speed</b><span>Kecepatan CPU mengeksekusi instruksi, diukur dalam GHz.</span></div>
+    <div class="device-card"><b>Core</b><span>Unit pemrosesan fisik di dalam sebuah CPU.</span></div>
+    <div class="device-card"><b>DIMM</b><span>Bentuk modul RAM standar untuk PC desktop.</span></div>
+    <div class="device-card"><b>DDR</b><span>Generasi standar kecepatan RAM (DDR4, DDR5, dst).</span></div>
+    <div class="device-card"><b>ESD</b><span>Electrostatic Discharge — lonjakan listrik statis yang bisa merusak komponen elektronik.</span></div>
+    <div class="device-card"><b>Firmware</b><span>Perangkat lunak dasar yang tertanam permanen di sebuah chip hardware.</span></div>
+    <div class="device-card"><b>GPU</b><span>Chip pemroses grafis, bisa terpasang di motherboard (integrated) atau kartu terpisah (dedicated).</span></div>
+    <div class="device-card"><b>LGA</b><span>Jenis socket CPU di mana pin berada di motherboard, bukan di prosesor.</span></div>
+    <div class="device-card"><b>M.2</b><span>Slot kecil di motherboard untuk SSD NVMe berkecepatan tinggi.</span></div>
+    <div class="device-card"><b>NVMe</b><span>Protokol penyimpanan yang memakai jalur PCIe agar SSD jauh lebih cepat dari SATA.</span></div>
+    <div class="device-card"><b>PCIe</b><span>Jalur data berkecepatan tinggi untuk slot ekspansi seperti VGA card.</span></div>
+    <div class="device-card"><b>POST</b><span>Rangkaian tes otomatis hardware saat PC pertama dinyalakan.</span></div>
+    <div class="device-card"><b>PSU</b><span>Power Supply Unit — komponen pengubah listrik AC menjadi DC untuk PC.</span></div>
+    <div class="device-card"><b>SATA</b><span>Jenis kabel/interface data untuk HDD dan SSD 2.5".</span></div>
+    <div class="device-card"><b>Socket</b><span>Dudukan fisik di motherboard tempat CPU dipasang.</span></div>
+    <div class="device-card"><b>Thermal Paste</b><span>Pasta penghantar panas antara CPU dan cooler agar pendinginan optimal.</span></div>
+    <div class="device-card"><b>Thread</b><span>Jalur eksekusi virtual yang dijalankan oleh sebuah core CPU.</span></div>
+    <div class="device-card"><b>UEFI</b><span>Firmware modern pengganti BIOS dengan tampilan grafis dan fitur lebih lengkap.</span></div>
+    <div class="device-card"><b>VRAM</b><span>Memori khusus di kartu grafis untuk menyimpan data tampilan visual.</span></div>
+    <div class="device-card"><b>80 Plus</b><span>Sertifikasi efisiensi daya PSU (White hingga Titanium — makin tinggi makin efisien).</span></div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="rubrik">
+  <div class="sec-head"><span class="idx">RUBRIK</span><h2>Penilaian Unjuk Kerja</h2></div>
+  <p class="sec-sub">Dipakai guru untuk menilai identifikasi fisik, pembacaan label, dan analisis kompatibilitas komponen.</p>
+  <div class="tablewrap">
+    <table class="datasheet rubric">
+      <tr><th>Indikator</th><th>Skor 1 · Belum Tuntas</th><th>Skor 2 · Cukup Tuntas</th><th>Skor 3 · Sangat Mahir</th></tr>
+      <tr><td><b>Identifikasi Fisik</b></td><td>&lt;4 komponen disebut benar</td><td>4–5 komponen disebut benar</td><td>≥6 komponen + fungsinya tepat</td></tr>
+      <tr><td><b>Pembacaan Label</b></td><td>Tidak bisa membaca label</td><td>1 komponen terbaca tepat</td><td>2–4 komponen terbaca akurat</td></tr>
+      <tr><td><b>Analisis Kompatibilitas</b></td><td>Belum memahami keterkaitan socket/slot</td><td>Paham dasar, ragu di socket/interface</td><td>Mampu menganalisis kesesuaian socket, RAM, storage secara kritis</td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>MODUL AJAR HARDWARE KOMPUTER · 9 JP · KURIKULUM MERDEKA / DEEP LEARNING · PROFIL PELAJAR: BERNALAR KRITIS</p>
+</footer>
+
+<script>
+// quiz interactivity
+document.querySelectorAll('.opts').forEach(group=>{
+  const answer = group.dataset.answer;
+  const feedback = group.nextElementSibling;
+  group.querySelectorAll('.opt').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      if(group.dataset.locked) return;
+      group.dataset.locked = "1";
+      group.querySelectorAll('.opt').forEach(o=>{
+        if(o.dataset.key === answer) o.classList.add('correct');
+        else if(o === opt) o.classList.add('wrong');
+      });
+      feedback.textContent = opt.dataset.key === answer
+        ? "Tepat! Jawaban itu benar."
+        : "Belum tepat — jawaban yang benar ditandai hijau di atas.";
+      feedback.classList.add('show');
+    });
+  });
+});
+
+// LKPD progress
+function checkLkpd(){
+  const inputs = document.querySelectorAll('.wtable input');
+  let filled = 0;
+  const rows = 6;
+  const perRow = {};
+  document.querySelectorAll('.wtable tr').forEach((tr,i)=>{
+    if(i===0) return;
+    const ins = tr.querySelectorAll('input');
+    let rowFilled = false;
+    ins.forEach(inp=>{ if(inp.value.trim()!=="") rowFilled = true; });
+    if(rowFilled) filled++;
+  });
+  document.getElementById('lkpdStatus').textContent = filled + " dari " + rows + " baris terisi";
+}
+function clearLkpd(){
+  document.querySelectorAll('.wtable input').forEach(i=>i.value="");
+  document.getElementById('lkpdStatus').textContent = "0 dari 6 baris terisi";
+}
+
+/* ---------- scroll progress bar ---------- */
+const scrollbar = document.createElement('div');
+scrollbar.id = 'scrollbar';
+document.body.prepend(scrollbar);
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  scrollbar.style.width = pct + '%';
+});
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+},{threshold:0.12});
+document.querySelectorAll('.block').forEach(b=>io.observe(b));
+
+/* ---------- GAME: Rakit & Cocokkan ---------- */
+const SCENARIOS = [
+  {
+    mobo: "Motherboard A — Socket LGA1700 · Slot RAM DDR4 · Chipset B760 · ATX",
+    gpu: "GPU pada build ini: NVIDIA RTX 4060 (butuh PSU minimal 550W)",
+    steps: {
+      cpu: {
+        prompt: "Pilih CPU yang cocok dengan socket motherboard ini.",
+        correct: {name:"Intel Core i5-13400 — Socket LGA1700", note:"Cocok! Socket-nya sama, LGA1700."},
+        wrong:   {name:"AMD Ryzen 5 7600 — Socket AM5", note:"Tidak cocok. Socket AM5 berbeda bentuk fisik dari LGA1700."}
+      },
+      ram: {
+        prompt: "Pilih modul RAM yang cocok dengan slot motherboard ini.",
+        correct: {name:"8GB DDR4 3200MHz", note:"Cocok! Slotnya DDR4."},
+        wrong:   {name:"16GB DDR5 6000MHz", note:"Tidak cocok. Notch (lekukan) DDR5 beda posisi, tidak muat di slot DDR4."}
+      },
+      storage: {
+        prompt: "Pilih storage dengan performa baca/tulis paling tinggi.",
+        correct: {name:"SSD NVMe M.2 1TB", note:"Tepat! Kecepatannya bisa ribuan MB/s lewat jalur PCIe langsung."},
+        wrong:   {name:"HDD 1TB 7200RPM", note:"Tetap jalan, tapi jauh lebih lambat (~100-150MB/s) — bukan pilihan performa terbaik."}
+      },
+      psu: {
+        prompt: "Pilih PSU dengan daya yang cukup untuk GPU pada build ini.",
+        correct: {name:"650W · 80 Plus Bronze", note:"Cukup! Di atas kebutuhan minimal 550W untuk RTX 4060."},
+        wrong:   {name:"400W · 80 Plus White", note:"Kurang. Di bawah kebutuhan minimal 550W, PC bisa mati mendadak saat beban tinggi."}
+      }
+    }
+  },
+  {
+    mobo: "Motherboard B — Socket AM5 · Slot RAM DDR5 · Chipset B650 · Micro-ATX",
+    gpu: "GPU pada build ini: NVIDIA RTX 4070 (butuh PSU minimal 650W)",
+    steps: {
+      cpu: {
+        prompt: "Pilih CPU yang cocok dengan socket motherboard ini.",
+        correct: {name:"AMD Ryzen 7 7700 — Socket AM5", note:"Cocok! Socket-nya sama, AM5."},
+        wrong:   {name:"Intel Core i7-13700K — Socket LGA1700", note:"Tidak cocok. LGA1700 tidak bisa dipasang di dudukan AM5."}
+      },
+      ram: {
+        prompt: "Pilih modul RAM yang cocok dengan slot motherboard ini.",
+        correct: {name:"32GB DDR5 5600MHz", note:"Cocok! Slotnya DDR5."},
+        wrong:   {name:"16GB DDR4 3200MHz", note:"Tidak cocok. DDR4 punya notch dan voltase controller berbeda dari DDR5."}
+      },
+      storage: {
+        prompt: "Pilih storage dengan performa baca/tulis paling tinggi.",
+        correct: {name:"SSD NVMe M.2 2TB", note:"Tepat! Jalur PCIe langsung membuatnya jauh lebih cepat dari SATA."},
+        wrong:   {name:"SSD SATA 2.5\" 1TB", note:"Lebih cepat dari HDD, tapi masih kalah jauh dari NVMe (~500MB/s vs ribuan MB/s)."}
+      },
+      psu: {
+        prompt: "Pilih PSU dengan daya yang cukup untuk GPU pada build ini.",
+        correct: {name:"750W · 80 Plus Gold", note:"Cukup dan efisien! Di atas kebutuhan minimal 650W untuk RTX 4070."},
+        wrong:   {name:"500W · 80 Plus Bronze", note:"Kurang. Di bawah kebutuhan minimal 650W untuk GPU ini."}
+      }
+    }
+  }
+];
+
+const STEP_ORDER = ['cpu','ram','storage','psu'];
+let gameState = { scenario:null, stepIndex:0, score:0, attempt:1 };
+
+function newGame(){
+  gameState.scenario = SCENARIOS[Math.floor(Math.random()*SCENARIOS.length)];
+  gameState.stepIndex = 0;
+  gameState.score = 0;
+  document.getElementById('gameScore').textContent = '0';
+  document.getElementById('gameAttempt').textContent = gameState.attempt;
+  document.getElementById('gameResult').style.display = 'none';
+  document.getElementById('gameResult').innerHTML = '';
+  const mobo = document.getElementById('gameMobo');
+  mobo.innerHTML = '<b>' + gameState.scenario.mobo.split(' — ')[0] + '</b>' + gameState.scenario.mobo.split(' — ')[1] + '<br><span style="color:var(--copper-bright)">' + gameState.scenario.gpu + '</span>';
+  renderStep();
+}
+
+function renderStep(){
+  const area = document.getElementById('gameStepArea');
+  if(gameState.stepIndex >= STEP_ORDER.length){
+    showResult();
+    area.innerHTML = '';
+    return;
+  }
+  const key = STEP_ORDER[gameState.stepIndex];
+  const step = gameState.scenario.steps[key];
+  const opts = Math.random() < 0.5 ? [step.correct, step.wrong] : [step.wrong, step.correct];
+  area.innerHTML =
+    '<div class="step-label">Langkah ' + (gameState.stepIndex+1) + ' dari 4 — ' + key.toUpperCase() + '</div>' +
+    '<div class="step-prompt">' + step.prompt + '</div>' +
+    '<div class="step-opts" id="stepOpts"></div>' +
+    '<div class="game-nextline"><button class="btn primary" id="nextStepBtn" style="display:none" onclick="advanceStep()">Lanjut →</button></div>';
+  const optsDiv = document.getElementById('stepOpts');
+  opts.forEach(o=>{
+    const div = document.createElement('div');
+    div.className = 'step-opt';
+    div.innerHTML = '<div class="name">' + o.name + '</div><div class="note">' + o.note + '</div>';
+    div.onclick = ()=>{
+      if(div.classList.contains('disabled')) return;
+      document.querySelectorAll('#stepOpts .step-opt').forEach(d=>d.classList.add('disabled'));
+      const isCorrect = o === step.correct;
+      div.classList.add(isCorrect ? 'picked-correct' : 'picked-wrong');
+      if(isCorrect) gameState.score++;
+      else {
+        document.querySelectorAll('#stepOpts .step-opt').forEach(d=>{
+          if(d !== div) d.classList.add('picked-correct');
+        });
+      }
+      document.getElementById('gameScore').textContent = gameState.score;
+      document.getElementById('nextStepBtn').style.display = 'inline-block';
+    };
+    optsDiv.appendChild(div);
+  });
+}
+
+function advanceStep(){
+  gameState.stepIndex++;
+  renderStep();
+}
+
+function showResult(){
+  const box = document.getElementById('gameResult');
+  const score = gameState.score;
+  let badgeClass = 'low', badgeText = 'Perlu Latihan Lagi 📖';
+  if(score === 4){ badgeClass=''; badgeText='Teknisi Andal! ⚙️'; }
+  else if(score === 3){ badgeClass='mid'; badgeText='Teknisi Terlatih 🔧'; }
+  box.style.display = 'block';
+  box.innerHTML =
+    '<div class="badge ' + badgeClass + '">' + badgeText + '</div>' +
+    '<p style="color:var(--text-dim); font-size:14px;">Skor akhir: <b style="color:var(--cream)">' + score + ' / 4</b> — PC ini ' +
+    (score===4 ? 'menyala sempurna dan berjalan optimal.' : score>=2 ? 'bisa menyala, tapi ada bagian yang kurang tepat.' : 'kemungkinan besar tidak akan menyala dengan benar.') + '</p>' +
+    '<p style="margin-top:14px; font-size:13px; color:var(--text-dim);">Coba skenario motherboard yang lain untuk melatih pasangan socket & RAM yang berbeda.</p>';
+  gameState.attempt++;
+  document.getElementById('gameAttempt').textContent = gameState.attempt;
+}
+
+newGame();
+</script>
+</body>
+</html>

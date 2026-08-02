@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bootable USB — Ubuntu &amp; Windows | Bengkel Hardware</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1524; --panel:#101f34; --panel-2:#152840;
+    --line: rgba(79,217,196,.10); --line-strong: rgba(79,217,196,.22);
+    --amber:#ffb100; --amber-dim: rgba(255,177,0,.14);
+    --cyan:#4fd9c4; --cyan-dim: rgba(79,217,196,.12);
+    --violet:#9d8cff; --violet-dim: rgba(157,140,255,.13);
+    --text:#eef1f6; --muted:#8291ac; --muted-2:#5c6a83;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;}
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, black 30%, transparent 80%);
+    pointer-events:none; z-index:0;
+  }
+  a{color:inherit;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+  ::selection{background:var(--amber); color:#0b1524;}
+
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(11,21,36,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:980px; margin:0 auto; padding:15px 24px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:9px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--amber); box-shadow:0 0 8px var(--amber);}
+  .back{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); text-decoration:none; display:flex; align-items:center; gap:6px; border:1px solid var(--line-strong); padding:7px 12px; border-radius:var(--radius); transition:.2s;}
+  .back:hover{color:var(--amber); border-color:var(--amber);}
+
+  .hero{padding:56px 0 20px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.14em; color:var(--amber); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:""; width:20px; height:1px; background:var(--amber);}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,4.6vw,44px); line-height:1.08; font-weight:700; letter-spacing:-.01em; margin:0 0 16px;}
+  h1 em{font-style:normal; color:var(--amber);}
+  .lede{font-size:16px; line-height:1.7; color:var(--muted); max-width:660px; margin:0 0 26px;}
+  .hero-meta{display:flex; gap:26px; flex-wrap:wrap; margin-bottom:8px;}
+  .hero-meta div{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted-2);}
+  .hero-meta strong{display:block; font-family:'Space Grotesk',sans-serif; font-size:19px; color:var(--text); font-weight:600;}
+
+  section{padding:40px 0;}
+  .sec-head{margin-bottom:22px;}
+  .sec-num{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); letter-spacing:.1em; margin-bottom:8px;}
+  h2{font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:600; margin:0 0 8px;}
+  .sec-sub{color:var(--muted); font-size:14.5px; line-height:1.65; max-width:640px; margin:0;}
+
+  /* alat & bahan */
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .item{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
+  .item .ic{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--amber); letter-spacing:.08em; margin-bottom:10px; text-transform:uppercase;}
+  .item h3{font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 8px; font-weight:600;}
+  .item p{color:var(--muted); font-size:13.5px; line-height:1.6; margin:0;}
+
+  /* compare table */
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px;}
+  .compare .col{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
+  .compare .col.mbr{border-left:3px solid var(--muted-2);}
+  .compare .col.gpt{border-left:3px solid var(--cyan);}
+  .compare h4{font-family:'Space Grotesk',sans-serif; font-size:16px; margin:0 0 6px;}
+  .compare p{color:var(--muted); font-size:13.5px; line-height:1.6; margin:0;}
+  .tag{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.06em; padding:3px 8px; border:1px solid var(--line-strong); border-radius:var(--radius); color:var(--muted-2); margin-bottom:10px;}
+
+  .steps-mini{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; counter-reset:mini;}
+  .steps-mini div{flex:1; min-width:140px; background:var(--panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:14px; font-size:12.5px; color:var(--muted); line-height:1.5; position:relative; counter-increment:mini;}
+  .steps-mini div::before{content:counter(mini); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--cyan); display:block; margin-bottom:6px;}
+
+  /* tabs */
+  .tabs{display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--line);}
+  .tab-btn{
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; letter-spacing:.02em;
+    background:none; border:none; color:var(--muted); padding:12px 6px; cursor:pointer;
+    border-bottom:2px solid transparent; margin-bottom:-1px; display:flex; align-items:center; gap:8px;
+    transition:.2s;
+  }
+  .tab-btn .dot{width:7px;height:7px;border-radius:50%; background:var(--muted-2);}
+  .tab-btn.active{color:var(--text); border-bottom-color:var(--amber);}
+  .tab-btn.active .dot{background:var(--amber); box-shadow:0 0 8px var(--amber);}
+  .tab-btn:hover{color:var(--text);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .flow{display:flex; flex-direction:column; gap:0; margin-top:6px;}
+  .flow-step{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:16px 0; border-bottom:1px solid var(--line); position:relative;}
+  .flow-step:last-child{border-bottom:none;}
+  .flow-num{
+    width:32px; height:32px; border-radius:50%; background:var(--panel-2); border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan);
+    align-self:flex-start;
+  }
+  .flow-step.ubu .flow-num{color:var(--amber); border-color:var(--amber);}
+  .flow-step.win .flow-num{color:var(--violet); border-color:var(--violet);}
+  .flow-body h4{font-family:'Space Grotesk',sans-serif; font-size:15.5px; margin:2px 0 6px; font-weight:600;}
+  .flow-body p{margin:0; color:var(--muted); font-size:13.5px; line-height:1.65;}
+  .flow-body code{font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--panel-2); padding:2px 6px; border-radius:2px; color:var(--cyan);}
+
+  .callout{
+    display:flex; gap:12px; align-items:flex-start; background:var(--amber-dim); border:1px solid var(--amber); border-radius:var(--radius);
+    padding:14px 16px; margin-top:16px; font-size:13.5px; color:var(--text); line-height:1.6;
+  }
+  .callout .tag-warn{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--amber); font-weight:700; white-space:nowrap;}
+
+  /* boot key table */
+  table.keys{width:100%; border-collapse:collapse; margin-top:18px; font-size:13px;}
+  table.keys th, table.keys td{border:1px solid var(--line-strong); padding:10px 12px; text-align:left;}
+  table.keys th{font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted-2); background:var(--panel-2);}
+  table.keys td{color:var(--muted);}
+  table.keys td strong{color:var(--text); font-family:'JetBrains Mono',monospace;}
+
+  /* dos donts */
+  .dd{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px;}
+  .dd .box{border-radius:var(--radius); padding:18px; border:1px solid var(--line);}
+  .dd .do{border-left:3px solid var(--cyan); background:var(--cyan-dim);}
+  .dd .dont{border-left:3px solid #ff6a5c; background:rgba(255,106,92,.08);}
+  .dd h4{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.06em; margin:0 0 10px; text-transform:uppercase;}
+  .dd ul{margin:0; padding-left:18px; color:var(--muted); font-size:13.5px; line-height:1.8;}
+
+  /* summary */
+  .milestones{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px;}
+  .milestone{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px;}
+  .milestone .m-tag{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--amber); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;}
+  .milestone p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.55;}
+
+  footer{border-top:1px solid var(--line); padding:30px 0 44px; margin-top:10px;}
+  footer p{color:var(--muted-2); font-size:12px; font-family:'JetBrains Mono',monospace; margin:3px 0;}
+
+  @media (max-width:720px){
+    .grid3{grid-template-columns:1fr;}
+    .compare{grid-template-columns:1fr;}
+    .dd{grid-template-columns:1fr;}
+    .milestones{grid-template-columns:1fr 1fr;}
+    table.keys{font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>BENGKEL-TKJ</div>
+    <a class="back" href="index.html">← Kembali ke Beranda</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Materi Tambahan · Lanjutan Instalasi Sistem Operasi</div>
+    <h1>Bikin Sendiri Media Instalasi:<br><em>Bootable USB</em> Ubuntu &amp; Windows</h1>
+    <p class="lede">Sebelum sistem operasi bisa diinstal, komputer butuh "media" untuk membacanya. Modul ini merangkum dua SOP — membuat bootable Ubuntu dan Windows pakai Rufus — jadi satu alur yang sama-sama bisa kamu ikuti.</p>
+    <div class="hero-meta">
+      <div><strong>1</strong>tools: Rufus</div>
+      <div><strong>2</strong>sistem operasi</div>
+      <div><strong>4</strong>tahap besar</div>
+      <div><strong>30–60</strong>menit proses burning</div>
+    </div>
+  </section>
+
+  <section id="alat">
+    <div class="sec-head">
+      <div class="sec-num">01 — Persiapan</div>
+      <h2>Alat &amp; Bahan</h2>
+      <p class="sec-sub">Tiga hal ini wajib siap sebelum membuka Rufus, baik untuk Ubuntu maupun Windows.</p>
+    </div>
+    <div class="grid3">
+      <div class="item">
+        <div class="ic">Bahan 1</div>
+        <h3>Flashdisk kosong</h3>
+        <p>Minimal 8 GB. Seluruh isinya akan terhapus total saat proses burning — pindahkan dulu data penting.</p>
+      </div>
+      <div class="item">
+        <div class="ic">Bahan 2</div>
+        <h3>Aplikasi Rufus</h3>
+        <p>Gratis dan ringan. Gunakan versi <em>Portable</em> supaya langsung jalan tanpa instalasi.</p>
+      </div>
+      <div class="item">
+        <div class="ic">Bahan 3</div>
+        <h3>File ISO</h3>
+        <p>File instalasi resmi. Untuk Ubuntu pilih versi <strong>LTS</strong> (paling stabil); untuk Windows gunakan ISO resmi dari Microsoft.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="tag-warn">PENTING</span>
+      <span>Gunakan flashdisk original. Flashdisk palsu/berkualitas rendah sering menghasilkan file korup dan bikin instalasi gagal di tengah jalan.</span>
+    </div>
+  </section>
+
+  <section id="partisi">
+    <div class="sec-head">
+      <div class="sec-num">02 — Diagnosa</div>
+      <h2>Kenali Dulu: MBR atau GPT?</h2>
+      <p class="sec-sub">Ini langkah yang paling sering diabaikan padahal paling menentukan. Skema partisi di Rufus harus sama dengan skema di komputer target — kalau beda, flashdisk tidak akan terbaca.</p>
+    </div>
+    <div class="compare">
+      <div class="col mbr">
+        <span class="tag">LEGACY BIOS</span>
+        <h4>MBR — Master Boot Record</h4>
+        <p>Dipakai PC/laptop generasi lama. Kalau motherboard kamu masih pakai Legacy BIOS, pilih skema ini.</p>
+      </div>
+      <div class="col gpt">
+        <span class="tag">UEFI</span>
+        <h4>GPT — GUID Partition Table</h4>
+        <p>Standar untuk PC/laptop modern. Sebagian besar laptop keluaran 5 tahun terakhir memakai skema ini.</p>
+      </div>
+    </div>
+    <p class="sec-sub" style="margin-top:20px;"><strong style="color:var(--text)">Cara mengecek di Windows</strong> — jangan menebak, cek lewat Disk Management:</p>
+    <div class="steps-mini">
+      <div>Ketik <code style="color:var(--cyan)">Disk Management</code> di kolom pencarian Windows.</div>
+      <div>Klik kanan <strong style="color:var(--text)">Disk 0</strong> (drive utama tempat Windows terinstal) → <strong style="color:var(--text)">Properties</strong>.</div>
+      <div>Masuk ke tab <strong style="color:var(--text)">Volumes</strong>.</div>
+      <div>Lihat baris <strong style="color:var(--text)">Partition style</strong> — catat hasilnya: GPT atau MBR.</div>
+    </div>
+  </section>
+
+  <section id="rufus">
+    <div class="sec-head">
+      <div class="sec-num">03 — Eksekusi</div>
+      <h2>Konfigurasi Rufus</h2>
+      <p class="sec-sub">Prosesnya mirip untuk kedua OS. Pilih tab sesuai sistem operasi yang mau kamu instal.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="ubuntu" onclick="switchTab('ubuntu')"><span class="dot"></span>Bootable Ubuntu</button>
+      <button class="tab-btn" data-tab="windows" onclick="switchTab('windows')"><span class="dot"></span>Bootable Windows</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-ubuntu">
+      <div class="flow">
+        <div class="flow-step ubu">
+          <div class="flow-num">1</div>
+          <div class="flow-body">
+            <h4>Pilih Device</h4>
+            <p>Buka Rufus, pilih flashdisk kamu di menu <code>Device</code>. Pastikan namanya benar — salah pilih drive berarti data di drive lain ikut terhapus.</p>
+          </div>
+        </div>
+        <div class="flow-step ubu">
+          <div class="flow-num">2</div>
+          <div class="flow-body">
+            <h4>Boot selection</h4>
+            <p>Klik <code>SELECT</code>, arahkan ke file <code>.iso</code> Ubuntu LTS yang sudah diunduh.</p>
+          </div>
+        </div>
+        <div class="flow-step ubu">
+          <div class="flow-num">3</div>
+          <div class="flow-body">
+            <h4>Partition scheme &amp; Target system</h4>
+            <p>Ubah dropdown ini sampai sama dengan hasil diagnosa kamu di langkah 02 (GPT atau MBR). Bagian lain biarkan default — Rufus sudah mengaturnya otomatis.</p>
+          </div>
+        </div>
+        <div class="flow-step ubu">
+          <div class="flow-num">4</div>
+          <div class="flow-body">
+            <h4>Klik START</h4>
+            <p>Muncul pop-up peringatan data akan terhapus → konfirmasi. Proses injeksi ISO &amp; boot sector berjalan <strong style="color:var(--text)">30–60 menit</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="tag-warn">JANGAN</span>
+        <span>Cabut flashdisk atau tutup Rufus selama proses berlangsung. Tunggu sampai status bar berubah hijau dan bertuliskan <strong>READY</strong>.</span>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-windows">
+      <div class="flow">
+        <div class="flow-step win">
+          <div class="flow-num">1</div>
+          <div class="flow-body">
+            <h4>Pemilihan Device</h4>
+            <p>Buka Rufus, fokus ke menu <code>Device</code>, pastikan flashdisk yang dipilih benar. Salah pilih drive = data di drive lain terhapus permanen.</p>
+          </div>
+        </div>
+        <div class="flow-step win">
+          <div class="flow-num">2</div>
+          <div class="flow-body">
+            <h4>Memuat file ISO</h4>
+            <p>Biarkan pengaturan boot standar, klik <code>SELECT</code>, cari file ISO Windows yang sudah disiapkan.</p>
+          </div>
+        </div>
+        <div class="flow-step win">
+          <div class="flow-num">3</div>
+          <div class="flow-body">
+            <h4>Skema partisi</h4>
+            <p>Pilih <code>GPT</code> untuk sistem modern (UEFI) atau <code>MBR</code> untuk sistem lama (Legacy) — cocokkan dengan hasil diagnosa. Bagian <em>Image option</em> biarkan default.</p>
+          </div>
+        </div>
+        <div class="flow-step win">
+          <div class="flow-num">4</div>
+          <div class="flow-body">
+            <h4>Burning &amp; validasi</h4>
+            <p>Klik <code>START</code>, konfirmasi peringatan format (OK). Tunggu indikator bar penuh dan berwarna hijau — flashdisk resmi jadi bootable installer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="tag-warn">INGAT</span>
+        <span>Semua data di flashdisk akan terhapus. Backup dulu file penting sebelum mulai.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="boot">
+    <div class="sec-head">
+      <div class="sec-num">04 — Penerapan</div>
+      <h2>Colok &amp; Boot ke Flashdisk</h2>
+      <p class="sec-sub">Flashdisk sudah jadi bootable. Sekarang arahkan komputer target supaya membaca flashdisk, bukan hard drive seperti biasa.</p>
+    </div>
+    <div class="steps-mini">
+      <div>Matikan komputer target secara total. Flashdisk tetap tertancap di port USB.</div>
+      <div>Tekan tombol Power, lalu langsung tekan berkali-kali tombol Boot Menu / BIOS sebelum logo sistem operasi muncul.</div>
+      <div>Layar hitam berisi daftar drive akan muncul. Pilih nama flashdisk kamu, tekan Enter.</div>
+      <div>Menu instalasi (GRUB untuk Ubuntu, Windows Setup untuk Windows) akan tampil. Ikuti proses instalasi dari sana.</div>
+    </div>
+
+    <p class="sec-sub" style="margin-top:22px;"><strong style="color:var(--text)">Tombol Boot Menu tiap merek laptop berbeda-beda:</strong></p>
+    <table class="keys">
+      <thead><tr><th>Merek</th><th>Tombol</th></tr></thead>
+      <tbody>
+        <tr><td>Dell / Alienware</td><td><strong>F12</strong> atau <strong>F2</strong></td></tr>
+        <tr><td>Lenovo / ThinkPad</td><td><strong>F12</strong>, <strong>F8</strong>, atau <strong>F1</strong></td></tr>
+        <tr><td>HP</td><td><strong>F9</strong> atau <strong>Esc</strong></td></tr>
+        <tr><td>ASUS</td><td><strong>Esc</strong> atau <strong>F8</strong></td></tr>
+        <tr><td>Acer</td><td><strong>F12</strong> atau <strong>F2</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="sec-sub" style="margin-top:10px;">Merek lain? Cari cepat di Google dengan kata kunci <code style="font-family:'JetBrains Mono',monospace; color:var(--cyan); background:var(--panel-2); padding:2px 6px; border-radius:2px;">boot menu key [merek laptop kamu]</code>.</p>
+
+    <p class="sec-sub" style="margin-top:22px;"><strong style="color:var(--text)">Alternatif lewat menu BIOS penuh</strong> (kalau tidak ada Boot Menu terpisah):</p>
+    <div class="steps-mini">
+      <div>Masuk BIOS (biasanya tombol F2), buka menu Boot Priority.</div>
+      <div>Pindahkan flashdisk ke urutan paling atas (nomor 1).</div>
+      <div>Pastikan Boot Mode di BIOS cocok dengan skema partisi di Rufus — GPT sinkron dengan UEFI, MBR sinkron dengan Legacy.</div>
+      <div>Pilih <strong style="color:var(--text)">Exit Saving Changes</strong>. Komputer restart dan langsung masuk ke instalasi.</div>
+    </div>
+  </section>
+
+  <section id="poin">
+    <div class="sec-head">
+      <div class="sec-num">Ringkasan</div>
+      <h2>Poin Penting</h2>
+    </div>
+    <div class="dd">
+      <div class="box do">
+        <h4>Lakukan</h4>
+        <ul>
+          <li>Cek skema partisi (MBR/GPT) lewat Disk Management sebelum membuka Rufus.</li>
+          <li>Gunakan file ISO resmi dan flashdisk original.</li>
+          <li>Tunggu proses burning sampai status <strong>READY</strong> berwarna hijau.</li>
+          <li>Cocokkan Boot Mode di BIOS dengan skema partisi di Rufus.</li>
+        </ul>
+      </div>
+      <div class="box dont">
+        <h4>Hindari</h4>
+        <ul>
+          <li>Jangan menebak skema partisi — salah pilih membuat flashdisk tidak terbaca.</li>
+          <li>Jangan cabut flashdisk atau tutup Rufus selagi proses berjalan.</li>
+          <li>Jangan lupa backup data flashdisk — semua isinya akan terhapus.</li>
+          <li>Jangan asal pilih Device di Rufus — drive yang salah bisa ikut terformat.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="milestones">
+      <div class="milestone"><div class="m-tag">Tahap 1</div><p>Siapkan flashdisk, Rufus, dan file ISO.</p></div>
+      <div class="milestone"><div class="m-tag">Tahap 2</div><p>Diagnosa skema partisi lewat Disk Management.</p></div>
+      <div class="milestone"><div class="m-tag">Tahap 3</div><p>Atur Rufus, sinkronkan skema partisi, lalu burning.</p></div>
+      <div class="milestone"><div class="m-tag">Tahap 4</div><p>Boot dari flashdisk, mulai instalasi sistem operasi.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Bengkel Hardware — Dasar-Dasar Teknik Komputer dan Jaringan / Informatika</p>
+    <p>Dirangkum dari SOP Bootable Ubuntu &amp; Panduan Bootable USB Windows — Kurikulum Merdeka</p>
+  </footer>
+
+</main>
+
+<script>
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.tab === name); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.toggle('active', p.id === 'panel-' + name); });
+}
+</script>
+
+</body>
+</html>
