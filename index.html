@@ -93,7 +93,48 @@
     padding:6px 11px; display:flex; align-items:center; gap:6px;
   }
   .status-chip b{ color:var(--copper-bright); font-weight:700; }
-  .status-chip .led{ width:6px; height:6px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 6px var(--green-bright); }
+  .status-chip .led{ width:6px; height:6px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 6px var(--green-bright); animation:pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse{
+    0%,100%{ opacity:1; box-shadow:0 0 6px var(--green-bright); }
+    50%{ opacity:.45; box-shadow:0 0 2px var(--green-bright); }
+  }
+
+  /* ==========================================================
+     KARTU IDENTITAS GURU PENGAMPU — gaya label komponen DIP,
+     lengkap dengan "kaki" pin di kiri-kanan seperti chip asli.
+     ========================================================== */
+  .pengampu{
+    position:relative;
+    display:inline-flex; align-items:center; gap:14px;
+    margin-top:22px; padding:13px 22px;
+    background:linear-gradient(135deg, var(--panel-hi), var(--panel));
+    border:1px solid var(--copper);
+    border-radius:8px;
+    box-shadow:0 0 0 1px rgba(201,124,61,.12), 0 10px 26px -10px rgba(0,0,0,.65);
+  }
+  .pengampu::before, .pengampu::after{
+    content:""; position:absolute; top:10px; bottom:10px; width:6px;
+    background:repeating-linear-gradient(to bottom, var(--copper) 0 5px, transparent 5px 9px);
+  }
+  .pengampu::before{ left:-6px; }
+  .pengampu::after{ right:-6px; }
+  .pengampu-avatar{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    background:radial-gradient(circle at 35% 30%, var(--copper-bright), var(--copper) 75%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-weight:700; font-size:14px; color:#221206;
+  }
+  .pengampu-label{
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.14em;
+    color:var(--green-bright); text-transform:uppercase; margin-bottom:2px;
+  }
+  .pengampu-name{ font-family:var(--font-display); font-weight:700; font-size:15.5px; margin-bottom:3px; }
+  .pengampu-phone{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
+  }
+  .pengampu-phone:hover{ color:var(--green-bright); }
+  .pengampu-phone svg{ width:12px; height:12px; }
 
   /* ==========================================================
      TIMELINE — jalur PCB menghubungkan tiap sesi materi
@@ -103,6 +144,11 @@
     content:"";
     position:absolute; left:19px; top:6px; bottom:6px; width:2px;
     background:repeating-linear-gradient(to bottom, var(--copper) 0 6px, transparent 6px 11px);
+    background-size:2px 22px;
+    animation:flow 1.6s linear infinite;
+  }
+  @keyframes flow{
+    to{ background-position:0 -22px; }
   }
 
   .node{ position:relative; margin-bottom:22px; }
@@ -123,7 +169,7 @@
     padding:16px 18px 16px 24px;
     transition:border-color .2s ease, transform .2s ease;
   }
-  .card:hover{ border-color:var(--copper); transform:translateX(2px); }
+  .card:hover{ border-color:var(--copper); transform:translateX(2px); box-shadow:0 10px 28px -14px rgba(201,124,61,.45); }
 
   .card-top{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:8px; }
   .tag{
@@ -142,7 +188,9 @@
     display:inline-flex; align-items:center; gap:7px;
     background:var(--copper); color:#221206; font-weight:700; font-size:12.5px;
     padding:8px 14px; border-radius:7px;
+    transition:box-shadow .2s ease, background .2s ease;
   }
+  .btn-open:hover{ background:var(--copper-bright); box-shadow:0 0 0 3px rgba(232,164,104,.22); }
   .btn-open svg{ width:13px; height:13px; }
   .companion{
     display:inline-flex; align-items:center; gap:6px;
@@ -186,6 +234,18 @@
       <div class="status-chip"><span class="led"></span> Blok 1 · Juli–September</div>
       <div class="status-chip"><b>45 JP</b> total alokasi</div>
       <div class="status-chip">6 sesi + 3 materi pendamping</div>
+    </div>
+
+    <div class="pengampu">
+      <div class="pengampu-avatar">WP</div>
+      <div>
+        <div class="pengampu-label">Guru Pengampu</div>
+        <div class="pengampu-name">Wahyu Prihanto</div>
+        <a class="pengampu-phone" href="https://wa.me/6287775600462" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          0877-7560-0462
+        </a>
+      </div>
     </div>
   </div>
 </header>
@@ -322,7 +382,7 @@
   </div>
 
   <footer>
-    <div class="footer-text">SMK DIPONEGORO TUMPANG<br>MAPEL PEMELIHARAAN KOMPUTER — TKJ</div>
+    <div class="footer-text">SMK DIPONEGORO TUMPANG · TKJ<br>Disusun oleh Wahyu Prihanto — 0877-7560-0462</div>
     <div class="footer-tag">Bengkel Hardware · Blok 1</div>
   </footer>
 </div>
