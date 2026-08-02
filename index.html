@@ -161,6 +161,10 @@
     z-index:1;
   }
   .node-pin.alt{ border-color:var(--green-bright); color:var(--green-bright); }
+  .node-pin.final{ border-color:var(--amber); color:var(--amber); box-shadow:0 0 0 4px rgba(242,177,52,.12); }
+
+  .card.final{ border-color:var(--amber); background:linear-gradient(160deg, var(--panel-hi), var(--panel)); }
+  .card.final:hover{ border-color:var(--amber); box-shadow:0 10px 28px -14px rgba(242,177,52,.5); }
 
   .card{
     background:var(--panel);
@@ -179,6 +183,7 @@
   }
   .tag.blok{ color:var(--green-bright); border-color:var(--green-bright); }
   .tag.jp{ color:var(--copper-bright); border-color:var(--copper); }
+  .tag.final{ color:var(--amber); border-color:var(--amber); }
 
   .card-title{ font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:6px; }
   .card-desc{ font-size:12.8px; color:var(--text-dim); line-height:1.6; margin-bottom:12px; max-width:640px; }
@@ -192,6 +197,8 @@
   }
   .btn-open:hover{ background:var(--copper-bright); box-shadow:0 0 0 3px rgba(232,164,104,.22); }
   .btn-open svg{ width:13px; height:13px; }
+  .btn-open.final{ background:var(--amber); }
+  .btn-open.final:hover{ background:#ffc65c; box-shadow:0 0 0 3px rgba(242,177,52,.25); }
   .companion{
     display:inline-flex; align-items:center; gap:6px;
     font-size:11.5px; color:var(--text-dim);
@@ -234,6 +241,7 @@
       <div class="status-chip"><span class="led"></span> Blok 1 · Juli–September</div>
       <div class="status-chip"><b>45 JP</b> total alokasi</div>
       <div class="status-chip">6 sesi + 3 materi pendamping</div>
+      <div class="status-chip">🎯 1 tes akhir interaktif</div>
     </div>
 
     <div class="pengampu">
@@ -333,9 +341,28 @@
       </div>
     </div>
 
+    <!-- TES AKHIR MATERI -->
+    <div class="node">
+      <div class="node-pin final">🎯</div>
+      <div class="card final">
+        <div class="card-top">
+          <span class="tag final">Tes Akhir</span>
+          <span class="tag jp">Wajib · Individu</span>
+        </div>
+        <div class="card-title">Test Akhir Materi — Operasi Firmware Breach</div>
+        <p class="card-desc">Simulasi interaktif bertema misi peretasan untuk menguji pemahaman BIOS/UEFI secara menyeluruh: dari konsep dasar, fungsi menu, sampai studi kasus lapangan. Nilai akhir langsung keluar dan dibandingkan dengan KKM.</p>
+        <div class="card-actions">
+          <a class="btn-open final" href="./Pengayaan.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Mulai Test Akhir
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- MODUL: BOOTABLE USB -->
     <div class="node">
-      <div class="node-pin alt">05</div>
+      <div class="node-pin alt">06</div>
       <div class="card">
         <div class="card-top">
           <span class="tag blok">Modul</span>
@@ -358,7 +385,7 @@
 
     <!-- MODUL: INSTALASI OS -->
     <div class="node">
-      <div class="node-pin alt">06</div>
+      <div class="node-pin alt">07</div>
       <div class="card">
         <div class="card-top">
           <span class="tag blok">Modul</span>
