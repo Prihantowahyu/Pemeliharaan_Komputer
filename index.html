@@ -3,30 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bengkel Hardware — Portal Materi Blok 1</title>
+<title>Bengkel Hardware — Portal Materi Blok 1 &amp; 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ==========================================================
-     DESIGN TOKENS
-     Mengikuti identitas visual yang sudah dipakai di beberapa
-     modul (papan PCB hijau tua + aksen tembaga/copper), supaya
-     halaman index ini terasa satu keluarga dengan materi lain.
+     DESIGN TOKENS — "Holo-HUD" edisi futuristik
+     Dari nuansa PCB tembaga-hijau klasik menjadi panel diagnostik
+     holografik: kaca gelap, grid biru elektrik, aksen cyan/violet
+     yang menyala seperti antarmuka sistem masa depan.
      ========================================================== */
   :root{
-    --bg:          #0a100d;
-    --pcb:         #0d1512;
-    --pcb-alt:     #121f1a;
-    --panel:       #16241d;
-    --panel-hi:    #1b2e24;
-    --line:        #28392f;
-    --copper:      #c97c3d;
-    --copper-bright:#e8a468;
-    --green:       #2e7d5b;
-    --green-bright:#4fcb92;
-    --text:        #eaf2e9;
-    --text-dim:    #9db3a6;
-    --amber:       #f2b134;
+    --bg:          #03050b;
+    --void:        #010306;
+    --panel:       rgba(15,24,42,.62);
+    --panel-hi:    rgba(21,33,56,.78);
+    --line:        rgba(112,226,255,.16);
+    --line-bright: rgba(112,226,255,.45);
+    --cyan:        #22d3ff;
+    --cyan-bright: #9df4ff;
+    --violet:      #a672ff;
+    --violet-bright:#cdaaff;
+    --magenta:     #ff4fc3;
+    --amber:       #ffb445;
+    --ok:          #3cf2a8;
+    --text:        #eaf3ff;
+    --text-dim:    #7d93b3;
 
     --font-display:'Space Grotesk', sans-serif;
     --font-body:   'Inter', sans-serif;
@@ -35,116 +37,159 @@
 
   *{ margin:0; padding:0; box-sizing:border-box; }
 
+  html{ background:var(--void); }
+
   body{
-    background:var(--bg);
+    background:
+      radial-gradient(ellipse 1000px 520px at 18% -8%, rgba(34,211,255,.14), transparent 60%),
+      radial-gradient(ellipse 800px 460px at 100% 15%, rgba(166,114,255,.12), transparent 58%),
+      radial-gradient(ellipse 700px 420px at 8% 100%, rgba(255,79,195,.07), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(112,226,255,.035) 0 1px, transparent 1px 44px),
+      repeating-linear-gradient(90deg, rgba(112,226,255,.035) 0 1px, transparent 1px 44px),
+      var(--bg);
     color:var(--text);
     font-family:var(--font-body);
     padding-bottom:40px;
+    min-height:100vh;
+    position:relative;
   }
+  /* garis shimmer di puncak halaman, seperti boot-strip sistem */
+  body::before{
+    content:""; position:fixed; top:0; left:0; right:0; height:3px; z-index:50;
+    background:linear-gradient(90deg, transparent, var(--cyan), var(--violet), var(--magenta), var(--cyan), transparent);
+    background-size:300% 100%;
+    animation:shimmer 7s linear infinite;
+    opacity:.75;
+  }
+  @keyframes shimmer{ to{ background-position:-300% 0; } }
+
   a{ color:inherit; text-decoration:none; }
 
   .wrap{ max-width:880px; margin:0 auto; padding:0 20px; }
 
   /* ==========================================================
-     PIN STRIP — motif konektor, dipakai di header & footer
+     PIN STRIP — motif port data, dipakai di header & footer
      ========================================================== */
   .pins{ display:flex; justify-content:space-evenly; padding:10px 30px 0; max-width:880px; margin:0 auto; }
-  .pins span{ width:5px; height:14px; background:var(--copper); border-radius:1px; box-shadow:0 0 5px rgba(201,124,61,.55); }
+  .pins span{ width:5px; height:14px; border-radius:1px; background:var(--cyan); box-shadow:0 0 6px rgba(34,211,255,.75); }
+  .pins span:nth-child(3n+2){ background:var(--violet); box-shadow:0 0 6px rgba(166,114,255,.75); }
+  .pins span:nth-child(3n){ background:var(--magenta); box-shadow:0 0 6px rgba(255,79,195,.7); }
 
   /* ==========================================================
      HEADER
      ========================================================== */
   header{
+    position:relative; overflow:hidden;
     background:
-      radial-gradient(circle, rgba(234,242,233,.04) 1px, transparent 1.2px) 0 0/22px 22px,
-      linear-gradient(180deg, var(--pcb-alt) 0%, var(--pcb) 100%);
+      linear-gradient(180deg, rgba(21,33,56,.55) 0%, rgba(6,10,20,.4) 100%);
     border-bottom:1px solid var(--line);
     padding:26px 0 24px;
     margin-bottom:34px;
+    backdrop-filter:blur(6px);
   }
-  .brand{ display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  header::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, transparent 0%, rgba(34,211,255,.06) 50%, transparent 100%);
+    background-size:100% 240%;
+    animation:scan 6s ease-in-out infinite;
+  }
+  @keyframes scan{ 0%{ background-position:0 -140%; } 100%{ background-position:0 100%; } }
+
+  .brand{ display:flex; align-items:center; gap:12px; margin-bottom:20px; position:relative; }
   .brand-chip{
-    width:38px; height:38px; border-radius:8px;
-    background:radial-gradient(circle at 35% 30%, var(--copper-bright), var(--copper) 75%);
+    width:38px; height:38px; border-radius:9px;
+    background:linear-gradient(135deg, var(--cyan-bright), var(--cyan) 45%, var(--violet) 130%);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-weight:700; font-size:13px; color:#221206;
-    box-shadow:0 0 0 4px rgba(201,124,61,.14);
+    font-family:var(--font-mono); font-weight:700; font-size:13px; color:#04101a;
+    box-shadow:0 0 0 4px rgba(34,211,255,.12), 0 0 18px rgba(34,211,255,.55);
   }
-  .brand-name{ font-family:var(--font-display); font-weight:700; font-size:19px; }
-  .brand-name span{ color:var(--green-bright); }
+  .brand-name{ font-family:var(--font-display); font-weight:700; font-size:19px; letter-spacing:-.01em; }
+  .brand-name span{
+    background:linear-gradient(90deg, var(--cyan-bright), var(--violet-bright));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
 
   .eyebrow{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.15em;
-    color:var(--green-bright); text-transform:uppercase; margin-bottom:10px;
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.2em;
+    color:var(--cyan-bright); text-transform:uppercase; margin-bottom:10px;
+    text-shadow:0 0 12px rgba(34,211,255,.5);
   }
   h1{
-    font-family:var(--font-display); font-size:30px; font-weight:700;
-    letter-spacing:-.01em; margin-bottom:10px; max-width:560px;
-    text-shadow:0 0 20px rgba(79,203,146,.18);
+    font-family:var(--font-display); font-size:31px; font-weight:700;
+    letter-spacing:-.01em; margin-bottom:10px; max-width:580px;
+    background:linear-gradient(100deg, #ffffff 15%, var(--cyan-bright) 55%, var(--violet-bright) 95%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 34px rgba(34,211,255,.25);
+    position:relative;
   }
-  header .sub{ color:var(--text-dim); font-size:14px; line-height:1.6; max-width:540px; margin-bottom:20px; }
+  header .sub{ color:var(--text-dim); font-size:14px; line-height:1.6; max-width:540px; margin-bottom:20px; position:relative; }
 
   .status-bar{
-    display:flex; flex-wrap:wrap; gap:10px;
+    display:flex; flex-wrap:wrap; gap:10px; position:relative;
   }
   .status-chip{
     font-family:var(--font-mono); font-size:11px; color:var(--text-dim);
     background:var(--panel); border:1px solid var(--line); border-radius:6px;
     padding:6px 11px; display:flex; align-items:center; gap:6px;
+    backdrop-filter:blur(4px);
   }
-  .status-chip b{ color:var(--copper-bright); font-weight:700; }
-  .status-chip .led{ width:6px; height:6px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 6px var(--green-bright); animation:pulse 2.2s ease-in-out infinite; }
+  .status-chip b{ color:var(--cyan-bright); font-weight:700; }
+  .status-chip .led{ width:6px; height:6px; border-radius:50%; background:var(--ok); box-shadow:0 0 6px var(--ok); animation:pulse 2.2s ease-in-out infinite; }
   @keyframes pulse{
-    0%,100%{ opacity:1; box-shadow:0 0 6px var(--green-bright); }
-    50%{ opacity:.45; box-shadow:0 0 2px var(--green-bright); }
+    0%,100%{ opacity:1; box-shadow:0 0 8px var(--ok); }
+    50%{ opacity:.4; box-shadow:0 0 2px var(--ok); }
   }
 
   /* ==========================================================
-     KARTU IDENTITAS GURU PENGAMPU — gaya label komponen DIP,
-     lengkap dengan "kaki" pin di kiri-kanan seperti chip asli.
+     KARTU IDENTITAS GURU PENGAMPU — panel modul HUD dengan
+     "konektor" pin kiri-kanan menyala, gaya kartu sirkuit pintar.
      ========================================================== */
   .pengampu{
     position:relative;
     display:inline-flex; align-items:center; gap:14px;
     margin-top:22px; padding:13px 22px;
     background:linear-gradient(135deg, var(--panel-hi), var(--panel));
-    border:1px solid var(--copper);
+    border:1px solid var(--violet);
     border-radius:8px;
-    box-shadow:0 0 0 1px rgba(201,124,61,.12), 0 10px 26px -10px rgba(0,0,0,.65);
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 0 1px rgba(166,114,255,.14), 0 0 24px -6px rgba(166,114,255,.45), 0 10px 26px -10px rgba(0,0,0,.65);
   }
   .pengampu::before, .pengampu::after{
     content:""; position:absolute; top:10px; bottom:10px; width:6px;
-    background:repeating-linear-gradient(to bottom, var(--copper) 0 5px, transparent 5px 9px);
+    background:repeating-linear-gradient(to bottom, var(--violet) 0 5px, transparent 5px 9px);
+    box-shadow:0 0 8px rgba(166,114,255,.6);
   }
   .pengampu::before{ left:-6px; }
   .pengampu::after{ right:-6px; }
   .pengampu-avatar{
     width:42px; height:42px; border-radius:50%; flex-shrink:0;
-    background:radial-gradient(circle at 35% 30%, var(--copper-bright), var(--copper) 75%);
+    background:linear-gradient(135deg, var(--violet-bright), var(--violet) 55%, var(--magenta) 130%);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-weight:700; font-size:14px; color:#221206;
+    font-family:var(--font-mono); font-weight:700; font-size:14px; color:#0c0416;
+    box-shadow:0 0 16px rgba(166,114,255,.6);
   }
   .pengampu-label{
-    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.14em;
-    color:var(--green-bright); text-transform:uppercase; margin-bottom:2px;
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em;
+    color:var(--cyan-bright); text-transform:uppercase; margin-bottom:2px;
   }
-  .pengampu-name{ font-family:var(--font-display); font-weight:700; font-size:15.5px; margin-bottom:3px; }
+  .pengampu-name{ font-family:var(--font-display); font-weight:700; font-size:15.5px; margin-bottom:3px; color:var(--text); }
   .pengampu-phone{
     display:inline-flex; align-items:center; gap:5px;
     font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
   }
-  .pengampu-phone:hover{ color:var(--green-bright); }
+  .pengampu-phone:hover{ color:var(--violet-bright); }
   .pengampu-phone svg{ width:12px; height:12px; }
 
   /* ==========================================================
-     TIMELINE — jalur PCB menghubungkan tiap sesi materi
+     TIMELINE — bus data yang mengalirkan sinyal ke tiap modul
      ========================================================== */
   .timeline{ position:relative; padding-left:46px; }
   .timeline::before{
     content:"";
     position:absolute; left:19px; top:6px; bottom:6px; width:2px;
-    background:repeating-linear-gradient(to bottom, var(--copper) 0 6px, transparent 6px 11px);
+    background:repeating-linear-gradient(to bottom, var(--cyan) 0 6px, transparent 6px 11px);
     background-size:2px 22px;
+    box-shadow:0 0 10px rgba(34,211,255,.55);
     animation:flow 1.6s linear infinite;
   }
   @keyframes flow{
@@ -155,25 +200,70 @@
   .node-pin{
     position:absolute; left:-46px; top:2px;
     width:40px; height:40px; border-radius:50%;
-    background:var(--panel); border:2px solid var(--copper);
+    background:var(--panel); border:2px solid var(--cyan);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-weight:700; font-size:13px; color:var(--copper-bright);
+    font-family:var(--font-mono); font-weight:700; font-size:13px; color:var(--cyan-bright);
+    box-shadow:0 0 14px rgba(34,211,255,.4), inset 0 0 10px rgba(34,211,255,.12);
+    backdrop-filter:blur(4px);
     z-index:1;
   }
-  .node-pin.alt{ border-color:var(--green-bright); color:var(--green-bright); }
-  .node-pin.final{ border-color:var(--amber); color:var(--amber); box-shadow:0 0 0 4px rgba(242,177,52,.12); }
+  .node-pin.alt{ border-color:var(--violet); color:var(--violet-bright); box-shadow:0 0 14px rgba(166,114,255,.45), inset 0 0 10px rgba(166,114,255,.14); }
+  .node-pin.soon{ border-color:var(--line); color:var(--text-dim); border-style:dashed; box-shadow:none; }
 
-  .card.final{ border-color:var(--amber); background:linear-gradient(160deg, var(--panel-hi), var(--panel)); }
-  .card.final:hover{ border-color:var(--amber); box-shadow:0 10px 28px -14px rgba(242,177,52,.5); }
+  /* ==========================================================
+     BLOCK DIVIDER — penanda pergantian Blok 1 ⟶ Blok 2
+     ========================================================== */
+  .block-divider{
+    position:relative; margin:8px 0 26px -46px; padding-left:46px;
+  }
+  .block-divider-inner{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 16px; margin-left:0;
+    background:var(--panel-hi); border:1px solid var(--cyan);
+    border-radius:9px;
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 20px -8px rgba(34,211,255,.5);
+  }
+  .block-divider-num{
+    font-family:var(--font-mono); font-weight:700; font-size:12px; color:#04101a;
+    background:linear-gradient(120deg, var(--cyan-bright), var(--violet-bright));
+    border-radius:6px; padding:3px 8px; flex-shrink:0;
+  }
+  .block-divider-title{ font-family:var(--font-display); font-weight:700; font-size:15px; color:var(--text); }
+  .block-divider-sub{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); }
+
+  .card.soon{ opacity:.55; }
+  .card.soon:hover{ border-color:var(--line); transform:none; box-shadow:none; }
+  .badge-soon{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--text-dim); border:1px dashed var(--line); border-radius:5px; padding:3px 8px;
+  }
 
   .card{
+    position:relative;
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:12px;
     padding:16px 18px 16px 24px;
-    transition:border-color .2s ease, transform .2s ease;
+    backdrop-filter:blur(6px);
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
   }
-  .card:hover{ border-color:var(--copper); transform:translateX(2px); box-shadow:0 10px 28px -14px rgba(201,124,61,.45); }
+  /* bracket sudut ala jendela HUD, menyala saat hover */
+  .card::before, .card::after{
+    content:""; position:absolute; width:16px; height:16px; opacity:0;
+    transition:opacity .2s ease;
+    pointer-events:none;
+  }
+  .card::before{
+    top:-1px; left:-1px; border-top:2px solid var(--cyan-bright); border-left:2px solid var(--cyan-bright);
+    border-radius:12px 0 0 0;
+  }
+  .card::after{
+    bottom:-1px; right:-1px; border-bottom:2px solid var(--cyan-bright); border-right:2px solid var(--cyan-bright);
+    border-radius:0 0 12px 0;
+  }
+  .card:hover{ border-color:var(--line-bright); transform:translateX(2px); box-shadow:0 12px 30px -14px rgba(34,211,255,.4), 0 0 0 1px rgba(34,211,255,.08); }
+  .card:hover::before, .card:hover::after{ opacity:1; }
 
   .card-top{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:8px; }
   .tag{
@@ -181,30 +271,28 @@
     text-transform:uppercase; padding:3px 8px; border-radius:5px;
     border:1px solid var(--line); color:var(--text-dim);
   }
-  .tag.blok{ color:var(--green-bright); border-color:var(--green-bright); }
-  .tag.jp{ color:var(--copper-bright); border-color:var(--copper); }
-  .tag.final{ color:var(--amber); border-color:var(--amber); }
+  .tag.blok{ color:var(--cyan-bright); border-color:rgba(34,211,255,.5); }
+  .tag.jp{ color:var(--amber); border-color:rgba(255,180,69,.5); }
 
-  .card-title{ font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:6px; }
+  .card-title{ font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:6px; color:var(--text); }
   .card-desc{ font-size:12.8px; color:var(--text-dim); line-height:1.6; margin-bottom:12px; max-width:640px; }
 
   .card-actions{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
   .btn-open{
     display:inline-flex; align-items:center; gap:7px;
-    background:var(--copper); color:#221206; font-weight:700; font-size:12.5px;
+    background:linear-gradient(120deg, var(--cyan), var(--violet));
+    color:#04101a; font-weight:700; font-size:12.5px;
     padding:8px 14px; border-radius:7px;
-    transition:box-shadow .2s ease, background .2s ease;
+    transition:box-shadow .2s ease, filter .2s ease;
   }
-  .btn-open:hover{ background:var(--copper-bright); box-shadow:0 0 0 3px rgba(232,164,104,.22); }
+  .btn-open:hover{ filter:brightness(1.08); box-shadow:0 0 0 3px rgba(34,211,255,.18), 0 0 18px rgba(166,114,255,.5); }
   .btn-open svg{ width:13px; height:13px; }
-  .btn-open.final{ background:var(--amber); }
-  .btn-open.final:hover{ background:#ffc65c; box-shadow:0 0 0 3px rgba(242,177,52,.25); }
   .companion{
     display:inline-flex; align-items:center; gap:6px;
     font-size:11.5px; color:var(--text-dim);
     border:1px dashed var(--line); border-radius:7px; padding:7px 12px;
   }
-  .companion:hover{ border-color:var(--green-bright); color:var(--green-bright); }
+  .companion:hover{ border-color:var(--violet-bright); color:var(--violet-bright); }
   .companion svg{ width:12px; height:12px; }
 
   /* ==========================================================
@@ -215,12 +303,20 @@
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
   }
   .footer-text{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); letter-spacing:.03em; }
-  .footer-tag{ font-family:var(--font-display); font-size:12px; font-weight:700; color:var(--green-bright); }
+  .footer-tag{
+    font-family:var(--font-display); font-size:12px; font-weight:700;
+    background:linear-gradient(90deg, var(--cyan-bright), var(--violet-bright));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
 
   @media(max-width:520px){
     h1{ font-size:24px; }
     .timeline{ padding-left:40px; }
     .node-pin{ left:-40px; width:34px; height:34px; font-size:11px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
   }
 </style>
 </head>
@@ -234,14 +330,13 @@
       <div class="brand-chip">BH</div>
       <div class="brand-name">Bengkel <span>Hardware</span></div>
     </div>
-    <div class="eyebrow">Portal Materi · TKJ</div>
+    <div class="eyebrow">Portal Materi · TKJ · Semester Ganjil</div>
     <h1>Dasar Perakitan, Instalasi &amp; Perawatan Sistem</h1>
-    <p class="sub">Kumpulan materi ajar Blok 1 — dari K3 dan prosedur kerja, mengenal komponen hardware, praktik bongkar pasang, konfigurasi BIOS/UEFI, sampai instalasi sistem operasi.</p>
+    <p class="sub">Kumpulan materi ajar Semester Ganjil, sistem blok — <b style="color:var(--text)">Blok 1 (Pertemuan 1–6)</b> membahas K3, komponen hardware, bongkar pasang, BIOS/UEFI, sampai instalasi sistem operasi; <b style="color:var(--text)">Blok 2 (Pertemuan 7–11)</b> melanjutkan ke instalasi driver, troubleshooting, dan perawatan sistem.</p>
     <div class="status-bar">
-      <div class="status-chip"><span class="led"></span> Blok 1 · Juli–September</div>
-      <div class="status-chip"><b>45 JP</b> total alokasi</div>
-      <div class="status-chip">6 sesi + 3 materi pendamping</div>
-      <div class="status-chip">🎯 1 tes akhir interaktif</div>
+      <div class="status-chip"><span class="led"></span> Semester Ganjil</div>
+      <div class="status-chip"><b>Blok 1</b> Pertemuan 1–6</div>
+      <div class="status-chip"><b>Blok 2</b> Pertemuan 7–11</div>
     </div>
 
     <div class="pengampu">
@@ -261,12 +356,23 @@
 <div class="wrap">
   <div class="timeline">
 
-    <!-- HARI 1 -->
+    <!-- ===================== BLOK 1 ===================== -->
+    <div class="block-divider">
+      <div class="block-divider-inner">
+        <span class="block-divider-num">BLOK 1</span>
+        <div>
+          <div class="block-divider-title">Perakitan &amp; Instalasi Sistem</div>
+          <div class="block-divider-sub">Pertemuan 1–6 · Semester Ganjil</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 1 -->
     <div class="node">
       <div class="node-pin">01</div>
       <div class="card">
         <div class="card-top">
-          <span class="tag blok">Hari 1</span>
+          <span class="tag blok">Blok 1 · Pertemuan 1</span>
           <span class="tag jp">Fondasi</span>
         </div>
         <div class="card-title">K3 &amp; Prosedur Kerja Perawatan Komputer</div>
@@ -280,12 +386,12 @@
       </div>
     </div>
 
-    <!-- HARI 2 -->
+    <!-- PERTEMUAN 2 -->
     <div class="node">
       <div class="node-pin">02</div>
       <div class="card">
         <div class="card-top">
-          <span class="tag blok">Hari 2</span>
+          <span class="tag blok">Blok 1 · Pertemuan 2</span>
           <span class="tag jp">9 JP · 405 menit</span>
         </div>
         <div class="card-title">Mengenal Komponen Hardware Komputer</div>
@@ -303,12 +409,12 @@
       </div>
     </div>
 
-    <!-- HARI 3 -->
+    <!-- PERTEMUAN 3 -->
     <div class="node">
       <div class="node-pin">03</div>
       <div class="card">
         <div class="card-top">
-          <span class="tag blok">Hari 3</span>
+          <span class="tag blok">Blok 1 · Pertemuan 3</span>
           <span class="tag jp">Praktik</span>
         </div>
         <div class="card-title">Prosedur Bongkar Pasang Komputer</div>
@@ -322,54 +428,39 @@
       </div>
     </div>
 
-    <!-- HARI 4 -->
+    <!-- PERTEMUAN 4 -->
     <div class="node">
       <div class="node-pin">04</div>
       <div class="card">
         <div class="card-top">
-          <span class="tag blok">Hari 4</span>
-          <span class="tag jp">Konfigurasi</span>
+          <span class="tag blok">Blok 1 · Pertemuan 4</span>
+          <span class="tag jp">9 JP</span>
         </div>
         <div class="card-title">Instalasi &amp; Konfigurasi BIOS/UEFI</div>
-        <p class="card-desc">Setelah tiga hari membahas perakitan fisik, masuk ke tahap konfigurasi awal sistem lewat firmware BIOS/UEFI — gerbang pertama sebelum sistem operasi terpasang.</p>
+        <p class="card-desc">Setelah tiga pertemuan membahas perakitan fisik, masuk ke tahap konfigurasi awal sistem lewat firmware BIOS/UEFI — gerbang pertama sebelum sistem operasi terpasang.</p>
         <div class="card-actions">
           <a class="btn-open" href="./Pert_4_materi-bios-uefi.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Materi
           </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODUL: BOOTABLE USB -->
-    <div class="node">
-      <div class="node-pin alt">05</div>
-      <div class="card">
-        <div class="card-top">
-          <span class="tag blok">Modul</span>
-          <span class="tag jp">Persiapan Media</span>
-        </div>
-        <div class="card-title">Bootable USB — Ubuntu &amp; Windows</div>
-        <p class="card-desc">Sebelum sistem operasi bisa diinstal, komputer butuh "media" untuk membacanya. Merangkum dua SOP — bootable Ubuntu dan Windows pakai Rufus — jadi satu alur.</p>
-        <div class="card-actions">
-          <a class="btn-open" href="./Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Buka Materi
-          </a>
-          <a class="companion" href="./panduan-rufus.html">
+          <a class="companion" href="./LKPD_BIOS_UEFI.pdf">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-            + Panduan Rufus (langkah rinci)
+            + LKPD Eksplorasi BIOS/UEFI
+          </a>
+          <a class="companion" href="./Pert_6a_Pengayaan.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            + Pengayaan: Operasi Firmware Breach
           </a>
         </div>
       </div>
     </div>
 
-    <!-- MODUL: INSTALASI OS -->
+    <!-- PERTEMUAN 5 -->
     <div class="node">
-      <div class="node-pin alt">06</div>
+      <div class="node-pin">05</div>
       <div class="card">
         <div class="card-top">
-          <span class="tag blok">Modul</span>
+          <span class="tag blok">Blok 1 · Pertemuan 5</span>
           <span class="tag jp">9 JP</span>
         </div>
         <div class="card-title">Instalasi Sistem Operasi — Windows &amp; Linux Desktop</div>
@@ -379,7 +470,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Materi
           </a>
-          <a class="companion" href="./panduan-instalasi-windows11.html">
+          <a class="companion" href="./pert_5a_panduan-instalasi-windows11.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             + Panduan Instalasi Windows 11
           </a>
@@ -387,20 +478,130 @@
       </div>
     </div>
 
-    <!-- TES AKHIR MATERI -->
+    <!-- PERTEMUAN 6 -->
     <div class="node">
-      <div class="node-pin final">🎯</div>
-      <div class="card final">
+      <div class="node-pin">06</div>
+      <div class="card">
         <div class="card-top">
-          <span class="tag final">Tes Akhir</span>
-          <span class="tag jp">Wajib · Individu</span>
+          <span class="tag blok">Blok 1 · Pertemuan 6</span>
+          <span class="tag jp">Persiapan Media</span>
         </div>
-        <div class="card-title">Test Akhir Materi — Operasi Firmware Breach</div>
-        <p class="card-desc">Simulasi interaktif bertema misi peretasan untuk menguji pemahaman BIOS/UEFI secara menyeluruh: dari konsep dasar, fungsi menu, sampai studi kasus lapangan. Nilai akhir langsung keluar dan dibandingkan dengan KKM.</p>
+        <div class="card-title">Bootable USB — Ubuntu &amp; Windows</div>
+        <p class="card-desc">Sebelum sistem operasi bisa diinstal, komputer butuh "media" untuk membacanya. Merangkum dua SOP — bootable Ubuntu dan Windows pakai Rufus — jadi satu alur.</p>
         <div class="card-actions">
-          <a class="btn-open final" href="./Pengayaan.html">
+          <a class="btn-open" href="./Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Mulai Test Akhir
+            Buka Materi
+          </a>
+          <a class="companion" href="./pert_5b_panduan-rufus.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            + Panduan Rufus (langkah rinci)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== BLOK 2 ===================== -->
+    <div class="block-divider">
+      <div class="block-divider-inner">
+        <span class="block-divider-num">BLOK 2</span>
+        <div>
+          <div class="block-divider-title">Driver, Troubleshooting &amp; Perawatan Sistem</div>
+          <div class="block-divider-sub">Pertemuan 7–11 · Semester Ganjil</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 7 -->
+    <div class="node">
+      <div class="node-pin alt">07</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Blok 2 · Pertemuan 7</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Instalasi Driver &amp; Software Pendukung</div>
+        <p class="card-desc">Dari perangkat yang belum dikenali sistem operasi, menjadi komputer yang siap pakai sepenuhnya — instalasi dan verifikasi driver lewat Device Manager.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_7_modul-ajar-instalasi-driver.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 8 -->
+    <div class="node">
+      <div class="node-pin alt">08</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Blok 2 · Pertemuan 8</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Troubleshooting Hardware Dasar</div>
+        <p class="card-desc">Belajar membaca gejala kerusakan komputer, mengisolasi penyebabnya, dan menuliskan solusinya secara sistematis lewat simulasi diagnostic console.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_8_modul-ajar-troubleshooting-hardware.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 9 -->
+    <div class="node">
+      <div class="node-pin alt">09</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Blok 2 · Pertemuan 9</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Troubleshooting Software &amp; Sistem Operasi</div>
+        <p class="card-desc">Melanjutkan diagnosa dari sisi hardware ke sisi software — mengenali gejala error sistem operasi, aplikasi bermasalah, hingga langkah perbaikannya secara sistematis.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_9_materi-troubleshooting-software.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 10 -->
+    <div class="node">
+      <div class="node-pin alt">10</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Blok 2 · Pertemuan 10</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Perawatan Berkala &amp; Pembersihan Komponen</div>
+        <p class="card-desc">Merawat lebih baik daripada memperbaiki — jadwal pembersihan rutin, penanganan debu dan panas berlebih, sampai pengecekan kondisi komponen secara berkala.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_10_materi-perawatan-berkala.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERTEMUAN 11 -->
+    <div class="node">
+      <div class="node-pin alt">11</div>
+      <div class="card">
+        <div class="card-top">
+          <span class="tag blok">Blok 2 · Pertemuan 11</span>
+          <span class="tag jp">9 JP</span>
+        </div>
+        <div class="card-title">Backup, Restore &amp; Dokumentasi Perawatan</div>
+        <p class="card-desc">Menutup rangkaian materi perawatan sistem — strategi backup data, langkah restore ketika terjadi kegagalan, dan cara mendokumentasikan riwayat perawatan komputer.</p>
+        <div class="card-actions">
+          <a class="btn-open" href="./Pert_11_materi-backup-restore.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Materi
           </a>
         </div>
       </div>
@@ -410,7 +611,7 @@
 
   <footer>
     <div class="footer-text">SMK DIPONEGORO TUMPANG · TKJ<br>Disusun oleh Wahyu Prihanto — 0877-7560-0462</div>
-    <div class="footer-tag">Bengkel Hardware · Blok 1</div>
+    <div class="footer-tag">Bengkel Hardware · Blok 1 &amp; 2</div>
   </footer>
 </div>
 
