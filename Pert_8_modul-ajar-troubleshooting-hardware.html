@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul Ajar — Troubleshooting Hardware Dasar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b1220;
+    --panel: #121b2e;
+    --panel-alt: #16213a;
+    --border: #223049;
+    --border-soft: #1b273f;
+    --text: #e7ecf5;
+    --muted: #93a1b8;
+    --blue: #4cc2ff;
+    --amber: #ffc24c;
+    --green: #37d399;
+    --red: #ff6b6b;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(255,107,107,0.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(55,211,153,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  a{color:var(--blue);}
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+
+  .topbar{position:sticky; top:0; z-index:50; background:rgba(11,18,32,0.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft);}
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 24px; max-width:980px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:0.5px;}
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--red); box-shadow:0 0 8px var(--red);}
+  .jp-bar{display:flex; gap:3px;}
+  .jp-seg{width:14px; height:6px; border-radius:2px; background:var(--border);}
+  .jp-seg.on{background:var(--blue);}
+
+  header.hero{padding:56px 0 32px;}
+  .eyebrow{font-family:var(--font-mono); font-size:12px; color:var(--red); text-transform:uppercase; letter-spacing:1.5px; display:flex; gap:10px; align-items:center; margin-bottom:18px;}
+  .eyebrow::before{content:"✕"; color:var(--red); font-size:12px;}
+  h1{font-family:var(--font-display); font-weight:700; font-size:clamp(30px,4.4vw,46px); line-height:1.12; letter-spacing:-0.5px; max-width:780px;}
+  h1 span{color:var(--blue);}
+  .subtitle{color:var(--muted); font-size:16px; max-width:640px; margin-top:14px;}
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;}
+  .chip{font-family:var(--font-mono); font-size:12.5px; color:var(--text); background:var(--panel); border:1px solid var(--border); border-radius:20px; padding:7px 14px; display:flex; align-items:center; gap:7px;}
+  .chip b{color:var(--blue); font-weight:600;}
+
+  /* ===== SIGNATURE: DIAGNOSTIC CONSOLE ===== */
+  .console{margin-top:40px; background:#080d17; border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 20px 60px -30px rgba(0,0,0,0.7);}
+  .console-head{display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:var(--panel-alt); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:12.5px; color:var(--muted);}
+  .console-head .win-dots{display:flex; gap:6px;}
+  .win-dots span{width:9px; height:9px; border-radius:50%; background:var(--border);}
+  .console-body{padding:10px 6px;}
+  .diag-row{display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:8px; font-family:var(--font-mono); font-size:13px;}
+  .diag-row:hover{background:rgba(255,255,255,0.02);}
+  .diag-icon{position:relative; width:22px; height:22px; flex:0 0 22px;}
+  .diag-icon svg{position:absolute; inset:0; width:22px; height:22px;}
+  .ic-bad{animation: badFade 6s ease-in-out infinite;}
+  .ic-fix{animation: fixFade 6s ease-in-out infinite; opacity:0;}
+  .diag-row:nth-child(2) .ic-bad, .diag-row:nth-child(2) .ic-fix{animation-delay:0.6s;}
+  .diag-row:nth-child(3) .ic-bad, .diag-row:nth-child(3) .ic-fix{animation-delay:1.2s;}
+  .diag-row:nth-child(4) .ic-bad, .diag-row:nth-child(4) .ic-fix{animation-delay:1.8s;}
+  @keyframes badFade{0%,38%{opacity:1;}48%,100%{opacity:0;}}
+  @keyframes fixFade{0%,38%{opacity:0;}48%,100%{opacity:1;}}
+  .diag-name{color:var(--text); flex:1; min-width:0;}
+  .diag-name small{display:block; color:var(--muted); font-size:11px; margin-top:2px;}
+  .diag-code{font-size:11px; padding:4px 9px; border-radius:6px; white-space:nowrap; background:rgba(255,107,107,0.1); color:var(--red); border:1px solid rgba(255,107,107,0.3);}
+  .console-foot{padding:12px 18px; border-top:1px solid var(--border); background:var(--panel-alt); font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+  .console-foot b{color:var(--green);}
+
+  section{padding:52px 0; border-top:1px solid var(--border-soft);}
+  .sec-label{font-family:var(--font-mono); font-size:12px; color:var(--blue); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .sec-label::before{content:""; width:20px; height:1px; background:var(--blue);}
+  h2{font-family:var(--font-display); font-size:clamp(22px,3vw,30px); font-weight:600; margin-bottom:8px; letter-spacing:-0.3px;}
+  .sec-desc{color:var(--muted); max-width:680px; margin-bottom:28px; font-size:15px;}
+
+  .info-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+  .info-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px;}
+  .info-card h3{font-family:var(--font-display); font-size:15px; color:var(--amber); margin-bottom:10px; letter-spacing:0.3px;}
+  .info-card p{font-size:14.5px; color:#c8d1e0;}
+  .info-card ol{margin-top:10px; padding-left:18px; font-size:14.5px; color:#c8d1e0;}
+  .info-card ol li{margin-bottom:8px;}
+
+  .timeline{position:relative; margin-top:8px;}
+  .tl-item{display:grid; grid-template-columns:70px 1fr; gap:18px; padding:16px 0; position:relative;}
+  .tl-item:not(:last-child)::after{content:""; position:absolute; left:34px; top:48px; bottom:-4px; width:1px; background:var(--border);}
+  .tl-jp{font-family:var(--font-mono); font-size:12px; color:var(--bg); background:var(--blue); border-radius:8px; height:34px; width:70px; display:flex; align-items:center; justify-content:center; font-weight:600; z-index:1;}
+  .tl-content{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 18px;}
+  .tl-content h4{font-family:var(--font-display); font-size:15.5px; margin-bottom:4px;}
+  .tl-content p{font-size:13.5px; color:var(--muted);}
+
+  .card-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:20px;}
+  @media(max-width:720px){.card-grid{grid-template-columns:1fr;}}
+  .dcard{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px; transition:border-color .2s;}
+  .dcard:hover{border-color:var(--blue);}
+  .dcard-top{display:flex; align-items:center; gap:12px; margin-bottom:12px;}
+  .dcard-icon{width:38px; height:38px; border-radius:9px; background:var(--panel-alt); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex:0 0 38px;}
+  .dcard h4{font-family:var(--font-display); font-size:16px;}
+  .dcard .tag{font-family:var(--font-mono); font-size:11px; color:var(--muted);}
+  .dcard p{font-size:14px; color:#c8d1e0; margin-bottom:10px;}
+  .dcard ul{padding-left:18px; font-size:13.5px; color:var(--muted);}
+  .dcard ul li{margin-bottom:5px;}
+  .dcard ul b{color:var(--text);}
+
+  .steps{counter-reset: step; margin-top:18px;}
+  .step{display:grid; grid-template-columns:44px 1fr; gap:16px; padding:16px 0; border-bottom:1px dashed var(--border);}
+  .step:last-child{border-bottom:none;}
+  .step-num{counter-increment:step; font-family:var(--font-mono); font-weight:600; font-size:14px; width:40px; height:40px; border-radius:10px; background:var(--panel-alt); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--blue);}
+  .step-num::before{content: counter(step, decimal-leading-zero);}
+  .step-body h4{font-family:var(--font-display); font-size:15.5px; margin-bottom:5px;}
+  .step-body p{font-size:14px; color:var(--muted);}
+
+  .table-wrap{overflow-x:auto; margin-top:20px; border:1px solid var(--border); border-radius:12px;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px;}
+  th{text-align:left; font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); background:var(--panel-alt); padding:12px 14px; border-bottom:1px solid var(--border);}
+  td{padding:13px 14px; border-bottom:1px solid var(--border-soft); color:#d3dbe8; background:var(--panel);}
+  tr:last-child td{border-bottom:none;}
+  .status-pill{font-family:var(--font-mono); font-size:11px; padding:3px 10px; border-radius:20px; display:inline-block;}
+  .pill-red{background:rgba(255,107,107,0.1); color:var(--red); border:1px solid rgba(255,107,107,0.3);}
+  .pill-green{background:rgba(55,211,153,0.12); color:var(--green); border:1px solid rgba(55,211,153,0.3);}
+
+  details{background:var(--panel); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden;}
+  summary{cursor:pointer; list-style:none; padding:16px 18px; display:flex; align-items:center; gap:12px; font-family:var(--font-display); font-size:14.5px; font-weight:500;}
+  summary::-webkit-details-marker{display:none;}
+  summary .qmark{width:22px; height:22px; border-radius:50%; background:var(--panel-alt); border:1px solid var(--red); color:var(--red); font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; justify-content:center; flex:0 0 22px;}
+  summary::after{content:"+"; margin-left:auto; color:var(--muted); font-size:18px;}
+  details[open] summary::after{content:"–";}
+  .d-body{padding:0 18px 18px 52px; font-size:14px; color:var(--muted);}
+  .d-body b{color:var(--green);}
+
+  .rubrik-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:20px;}
+  @media(max-width:800px){.rubrik-grid{grid-template-columns:repeat(2,1fr);}}
+  .rubrik-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .rubrik-score{font-family:var(--font-display); font-size:26px; font-weight:700;}
+  .rubrik-card.s4 .rubrik-score{color:var(--green);}
+  .rubrik-card.s3 .rubrik-score{color:var(--blue);}
+  .rubrik-card.s2 .rubrik-score{color:var(--amber);}
+  .rubrik-card.s1 .rubrik-score{color:var(--red);}
+  .rubrik-card p{font-size:13px; color:var(--muted); margin-top:8px;}
+
+  .kktp-box{margin-top:24px; padding:20px 22px; border-radius:12px; border:1px solid rgba(76,194,255,0.35); background:linear-gradient(135deg, rgba(76,194,255,0.08), rgba(55,211,153,0.05)); font-size:14.5px;}
+  .kktp-box .lbl{font-family:var(--font-mono); font-size:11px; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;}
+
+  .final-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; margin-top:22px;}
+  @media(max-width:720px){.final-grid{grid-template-columns:1fr;}}
+  .pancasila-tag{display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px; background:var(--panel-alt); border:1px solid var(--border); border-radius:20px; padding:7px 14px; margin:4px 6px 0 0;}
+  .pancasila-tag .dotp{width:7px; height:7px; border-radius:50%; background:var(--amber);}
+
+  footer{padding:36px 0 10px; text-align:center; color:var(--muted); font-family:var(--font-mono); font-size:12px;}
+
+  /* ===== ILLUSTRATIONS ===== */
+  .fig{margin:22px 0; background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .fig-cap{padding:10px 16px; font-family:var(--font-mono); font-size:11.5px; color:var(--muted); border-top:1px solid var(--border); background:var(--panel-alt);}
+  .fig-cap b{color:var(--blue);}
+
+  /* beep code table visual */
+  .beep-grid{display:grid; gap:10px; margin-top:16px;}
+  .beep-row{display:grid; grid-template-columns:120px 1fr 160px; gap:14px; align-items:center; background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:12px 16px;}
+  @media(max-width:640px){.beep-row{grid-template-columns:1fr; text-align:left;}}
+  .beep-pattern{display:flex; gap:5px; align-items:center;}
+  .beep-dot{width:9px; height:9px; border-radius:50%; background:var(--blue);}
+  .beep-dot.long{width:22px; border-radius:5px;}
+  .beep-code{font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+  .beep-mean{font-size:13.5px; color:#c8d1e0;}
+  .beep-tag{font-family:var(--font-mono); font-size:11px; padding:4px 10px; border-radius:20px; text-align:center; white-space:nowrap;}
+
+  /* swap test compare */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border);}
+  @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+  .compare-panel{background:var(--panel); padding:20px;}
+  .compare-panel h5{font-family:var(--font-display); font-size:13.5px; margin-bottom:10px;}
+  .swap-list{display:grid; gap:7px;}
+  .swap-item{display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12.5px; color:var(--muted);}
+  .swap-item .mark{width:16px; height:16px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; flex:0 0 16px;}
+  .mark.bad{background:rgba(255,107,107,0.15); color:var(--red); border:1px solid rgba(255,107,107,0.4);}
+  .mark.good{background:rgba(55,211,153,0.15); color:var(--green); border:1px solid rgba(55,211,153,0.4);}
+
+  /* flowchart */
+  .flow{display:flex; flex-direction:column; align-items:center; gap:0; margin-top:18px;}
+  .flow-step{background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:12px 20px; font-family:var(--font-mono); font-size:12.5px; text-align:center; max-width:420px; width:100%;}
+  .flow-step.decision{border-color:var(--amber); color:var(--amber);}
+  .flow-arrow{color:var(--border); font-size:16px; padding:4px 0;}
+  .flow-branch{display:flex; gap:14px; margin:6px 0;}
+  .flow-branch .flow-step{max-width:190px; font-size:11.5px;}
+
+  /* laporan mockup */
+  .report-mock{padding:22px;}
+  .report-row{display:grid; grid-template-columns:150px 1fr; gap:12px; padding:9px 0; border-bottom:1px dashed var(--border); font-size:13px;}
+  .report-row:last-child{border-bottom:none;}
+  .report-row .rlabel{font-family:var(--font-mono); font-size:11.5px; color:var(--muted);}
+  .report-row .rval{color:var(--text);}
+
+  .legend-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px;}
+  @media(max-width:720px){.legend-grid{grid-template-columns:repeat(2,1fr);}}
+  .legend-item{background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:14px; text-align:center;}
+  .legend-item svg{margin-bottom:8px;}
+  .legend-item .lname{font-family:var(--font-display); font-size:12.5px; margin-bottom:3px;}
+  .legend-item .ldesc{font-size:11.5px; color:var(--muted); line-height:1.4;}
+
+  .glossary{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px;}
+  @media(max-width:720px){.glossary{grid-template-columns:1fr;}}
+  .gterm{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px;}
+  .gterm dt{font-family:var(--font-mono); font-size:12.5px; color:var(--amber); margin-bottom:4px;}
+  .gterm dd{font-size:13px; color:var(--muted);}
+
+  .diff-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;}
+  @media(max-width:720px){.diff-grid{grid-template-columns:1fr;}}
+  .diff-card{border-radius:12px; padding:20px; border:1px solid var(--border);}
+  .diff-card.remedial{background:linear-gradient(135deg, rgba(255,194,76,0.06), transparent);}
+  .diff-card.pengayaan{background:linear-gradient(135deg, rgba(55,211,153,0.06), transparent);}
+  .diff-card h4{font-family:var(--font-display); font-size:15px; margin-bottom:10px;}
+  .diff-card.remedial h4{color:var(--amber);}
+  .diff-card.pengayaan h4{color:var(--green);}
+  .diff-card ul{padding-left:18px; font-size:13.5px; color:var(--muted);}
+  .diff-card ul li{margin-bottom:6px;}
+
+  .checklist{margin-top:12px; display:grid; gap:8px;}
+  .check-row{display:flex; align-items:center; gap:10px; font-size:14px; color:#c8d1e0;}
+  .check-row .cb{width:18px; height:18px; border-radius:5px; border:1.5px solid var(--blue); flex:0 0 18px; display:flex; align-items:center; justify-content:center;}
+  .check-row .cb::after{content:"✓"; color:var(--blue); font-size:12px; font-weight:700;}
+
+  /* ===== PEMBELAJARAN MENDALAM: stage tags & PM boxes ===== */
+  .pm-tag{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.8px; padding:4px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; margin-left:10px; vertical-align:middle;}
+  .pm-tag::before{content:""; width:6px; height:6px; border-radius:50%;}
+  .pm-tag.memahami{background:rgba(76,194,255,0.1); color:var(--blue); border:1px solid rgba(76,194,255,0.35);}
+  .pm-tag.memahami::before{background:var(--blue);}
+  .pm-tag.mengaplikasi{background:rgba(255,194,76,0.1); color:var(--amber); border:1px solid rgba(255,194,76,0.35);}
+  .pm-tag.mengaplikasi::before{background:var(--amber);}
+  .pm-tag.merefleksi{background:rgba(55,211,153,0.1); color:var(--green); border:1px solid rgba(55,211,153,0.35);}
+  .pm-tag.merefleksi::before{background:var(--green);}
+
+  .pm-principles{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
+  .pm-chip{font-family:var(--font-mono); font-size:11.5px; padding:6px 13px; border-radius:20px; display:flex; align-items:center; gap:7px; border:1px solid var(--border); background:var(--panel);}
+  .pm-chip .pdot{width:7px; height:7px; border-radius:50%;}
+  .pm-chip.mindful .pdot{background:var(--blue);}
+  .pm-chip.meaningful .pdot{background:var(--amber);}
+  .pm-chip.joyful .pdot{background:var(--green);}
+
+  .mindful-box{margin-top:20px; padding:18px 20px; border-radius:12px; border:1px dashed rgba(76,194,255,0.4); background:rgba(76,194,255,0.04); font-size:14px; color:#c8d1e0;}
+  .mindful-box .lbl{font-family:var(--font-mono); font-size:11px; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:flex; align-items:center; gap:7px;}
+  .mindful-box .lbl::before{content:"◎";}
+
+  .meaningful-box{margin-top:20px; padding:20px 22px; border-radius:12px; border:1px solid rgba(255,194,76,0.3); background:linear-gradient(135deg, rgba(255,194,76,0.07), transparent); font-size:14.5px; color:#c8d1e0;}
+  .meaningful-box .lbl{font-family:var(--font-mono); font-size:11px; color:var(--amber); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;}
+
+  .joyful-box{margin-top:16px; padding:14px 18px; border-radius:10px; border:1px solid rgba(55,211,153,0.3); background:rgba(55,211,153,0.05); font-size:13.5px; color:#c8d1e0; display:flex; align-items:center; gap:12px;}
+  .joyful-box .jicon{font-size:20px; flex:0 0 auto;}
+  .joyful-box .lbl{font-family:var(--font-mono); font-size:11px; color:var(--green); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:3px;}
+
+  .lulusan-tag{display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px; background:var(--panel-alt); border:1px solid var(--border); border-radius:20px; padding:7px 14px; margin:4px 6px 0 0;}
+  .lulusan-tag .dotl{width:7px; height:7px; border-radius:50%; background:var(--blue);}
+
+  /* quiz / asesmen kognitif */
+  .quiz-item{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:10px;}
+  .quiz-item .qtext{font-size:14.5px; color:var(--text); margin-bottom:8px; font-weight:500;}
+  .quiz-item .qopts{list-style:none; display:grid; gap:6px;}
+  .quiz-item .qopts li{font-size:13.5px; color:#c8d1e0; display:flex; gap:8px;}
+  .quiz-item .qopts li .qletter{font-family:var(--font-mono); color:var(--muted); flex:0 0 18px;}
+  .quiz-essay{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:10px; font-size:14.5px; color:var(--text);}
+  .quiz-key{margin-top:16px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> TKJ · SISTEM BLOK · BLOK 2 / HARI 2</div>
+    <div class="jp-bar" title="9 JP hari ini">
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Dari gejala tak jelas, ke diagnosa yang pasti</div>
+    <h1>Troubleshooting <span>Hardware</span> Dasar</h1>
+    <p class="subtitle">Modul ajar Blok 2 · Hari 2 — belajar membaca gejala kerusakan komputer, mengisolasi penyebabnya, dan menuliskan solusinya secara sistematis.</p>
+
+    <div class="meta-row">
+      <div class="chip">📘 Blok <b>2</b></div>
+      <div class="chip">📅 Hari <b>2</b> dari 5</div>
+      <div class="chip">⏱ <b>9 JP</b> (45 menit/JP)</div>
+      <div class="chip">🎯 KD <b>Troubleshooting Hardware Dasar</b></div>
+      <div class="chip">🧭 Profil <b>Bernalar Kritis · Mandiri</b></div>
+    </div>
+
+    <div class="pm-principles">
+      <div class="pm-chip mindful"><span class="pdot"></span> Berkesadaran — jeda & sadari proses berpikir sendiri</div>
+      <div class="pm-chip meaningful"><span class="pdot"></span> Bermakna — terhubung dengan peran nyata teknisi</div>
+      <div class="pm-chip joyful"><span class="pdot"></span> Menggembirakan — progres terasa sebagai pencapaian</div>
+    </div>
+
+    <!-- SIGNATURE ELEMENT: Diagnostic console -->
+    <div class="console">
+      <div class="console-head">
+        <span>⌘ Diagnostic Console — UNIT-PRAKTIK-02</span>
+        <div class="win-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="console-body">
+        <div class="diag-row">
+          <div class="diag-icon">
+            <svg class="ic-bad" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#ff6b6b" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ff6b6b" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="ic-fix" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="diag-name">Power Supply — unit tidak menyala<small>Gejala: tidak ada lampu indikator, kipas diam total</small></div>
+          <div class="diag-code">belum terdiagnosis</div>
+        </div>
+        <div class="diag-row">
+          <div class="diag-icon">
+            <svg class="ic-bad" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#ff6b6b" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ff6b6b" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="ic-fix" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="diag-name">RAM — 1 beep panjang berulang<small>Gejala: menyala, no display, bunyi beep berulang</small></div>
+          <div class="diag-code">belum terdiagnosis</div>
+        </div>
+        <div class="diag-row">
+          <div class="diag-icon">
+            <svg class="ic-bad" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#ff6b6b" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ff6b6b" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="ic-fix" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="diag-name">VGA Card — no display, kipas menyala normal<small>Gejala: POST normal, monitor tetap gelap</small></div>
+          <div class="diag-code">belum terdiagnosis</div>
+        </div>
+        <div class="diag-row">
+          <div class="diag-icon">
+            <svg class="ic-bad" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#ff6b6b" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ff6b6b" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="ic-fix" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="diag-name">Sistem — mati sendiri setelah beberapa detik<small>Gejala: menyala normal, lalu shutdown mendadak</small></div>
+          <div class="diag-code">belum terdiagnosis</div>
+        </div>
+      </div>
+      <div class="console-foot">Target akhir hari ini: <b>2 studi kasus</b> terdiagnosis tuntas melalui teknik isolasi komponen, dengan laporan solusi tertulis.</div>
+    </div>
+  </header>
+
+  <!-- ===================== CP & TP ===================== -->
+  <section id="cp-tp">
+    <div class="sec-label">01 · Landasan Pembelajaran</div>
+    <h2>Capaian & Tujuan Pembelajaran</h2>
+    <p class="sec-desc">Fondasi kompetensi hari ini: mengubah gejala yang membingungkan menjadi diagnosa yang terukur.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ CAPAIAN PEMBELAJARAN (CP)</h3>
+        <p>Peserta didik mampu mendiagnosis dan mengatasi kerusakan hardware dasar pada komputer secara sistematis, menggunakan teknik isolasi komponen dan penalaran kritis berbasis bukti gejala.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ TUJUAN PEMBELAJARAN (TP)</h3>
+        <ol>
+          <li>Mengidentifikasi gejala kerusakan hardware umum (tidak menyala, no display, bunyi beep).</li>
+          <li>Melakukan troubleshooting bertahap dengan teknik isolasi komponen (swap test).</li>
+          <li>Menyusun laporan hasil diagnosa dan solusi perbaikan secara tertulis.</li>
+        </ol>
+      </div>
+      <div class="info-card">
+        <h3>▲ MODEL, PENDEKATAN & METODE</h3>
+        <p><b style="color:var(--text)">Model:</b> Problem Based Learning (PBL) — siswa belajar lewat unit bermasalah nyata, bukan teori lepas konteks.<br><br>
+        <b style="color:var(--text)">Pendekatan:</b> Saintifik (mengamati gejala → menanya kemungkinan penyebab → mencoba swap test → menalar bukti → mengomunikasikan lewat laporan).<br><br>
+        <b style="color:var(--text)">Metode:</b> Demonstrasi guru, diskusi kelompok, dan praktik langsung (hands-on).</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ KOMPETENSI PRASYARAT</h3>
+        <p>Sebelum mengikuti modul ini, peserta didik disarankan sudah menguasai (dari materi Blok 2 Hari 1 atau sebelumnya):</p>
+        <ol>
+          <li>Mengenal nama dan fungsi komponen dasar PC (motherboard, RAM, PSU, VGA card, CPU).</li>
+          <li>Mampu membuka dan menutup casing komputer dengan aman.</li>
+          <li>Memahami dasar K3 saat bekerja dengan perangkat elektronik.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="kktp-box">
+      <span class="lbl">Kriteria Ketuntasan Tujuan Pembelajaran (KKTP)</span>
+      Peserta didik dinyatakan <b>tuntas</b> apabila mampu mendiagnosis <b>2 studi kasus</b> kerusakan hardware menggunakan teknik isolasi komponen, dan menyusun <b>laporan solusi</b> dengan tepat.
+      <div class="checklist">
+        <div class="check-row"><span class="cb"></span> Mampu mengelompokkan gejala ke kategori: tidak menyala / no display / bunyi beep</div>
+        <div class="check-row"><span class="cb"></span> Melakukan swap test minimal pada 1 komponen per studi kasus</div>
+        <div class="check-row"><span class="cb"></span> Menemukan komponen penyebab pada 2 studi kasus yang diberikan</div>
+        <div class="check-row"><span class="cb"></span> Menyusun laporan diagnosa dengan format lengkap (gejala → langkah → solusi)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ASESMEN AWAL ===================== -->
+  <section id="asesmen-awal">
+    <div class="sec-label">01b · Sebelum Memulai <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Asesmen Diagnostik (Apersepsi)</h2>
+    <p class="sec-desc">Lisan/tulis singkat 5 menit untuk memancing pengalaman siswa sebelum masuk materi.</p>
+    <div class="info-card">
+      <h3>▲ PERTANYAAN PEMANTIK</h3>
+      <ol>
+        <li>Pernahkah kamu mengalami laptop/komputer tiba-tiba tidak mau menyala? Apa yang kamu lakukan?</li>
+        <li>Menurutmu, apa bedanya "komputer tidak menyala" dengan "komputer menyala tapi layar gelap"?</li>
+        <li>Pernahkah kamu mendengar bunyi "beep" saat komputer dinyalakan? Menurutmu itu tanda apa?</li>
+      </ol>
+    </div>
+
+    <div class="mindful-box">
+      <span class="lbl">Jeda Berkesadaran (1 menit)</span>
+      Sebelum masuk materi, ajak siswa menarik napas dalam-dalam 3 kali dan bertanya pada diri sendiri: <i>"Saat menghadapi masalah, aku biasanya langsung menebak-nebak atau mencari bukti dulu?"</i> Tidak perlu dijawab keras-keras — cukup disadari. Guru bisa mengulang jeda serupa (10–15 detik) setiap kali berpindah dari teori ke praktik sepanjang hari ini, sebagai penanda transisi fokus.
+    </div>
+
+    <div class="meaningful-box">
+      <span class="lbl">Mengapa Ini Penting (Bermakna)</span>
+      Di bengkel/lapangan, teknisi yang menebak-nebak penyebab kerusakan sering mengganti komponen yang sebenarnya masih baik — membuang waktu dan uang pelanggan. Kemampuan mendiagnosis secara sistematis inilah yang membedakan teknisi yang dipercaya dari yang sekadar coba-coba. Skill hari ini langsung terpakai saat kamu PKL atau bekerja di jasa servis komputer.
+    </div>
+  </section>
+
+  <!-- ===================== ALUR 9 JP ===================== -->
+  <section id="alur">
+    <div class="sec-label">02 · Peta Kegiatan</div>
+    <h2>Alur Belajar — 9 JP Hari Ini</h2>
+    <p class="sec-desc">Dari mengenali gejala, memahami teori, hingga praktik langsung mendiagnosis dua unit bermasalah.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content"><h4>Pembukaan & Apersepsi <span class="pm-tag memahami">Memahami</span></h4><p>Diskusi pengalaman siswa menghadapi komputer/laptop bermasalah, jeda kesadaran singkat, dilanjutkan pengenalan target hari ini.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content"><h4>Gejala Kerusakan & Kode Beep <span class="pm-tag memahami">Memahami</span></h4><p>Penjelasan kategori gejala umum dan cara membaca kode beep BIOS sebagai petunjuk awal diagnosa.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content"><h4>Teknik Isolasi Komponen (Swap Test) <span class="pm-tag memahami">Memahami</span></h4><p>Prosedur troubleshooting bertahap: dari observasi, cek fisik, hingga penggantian komponen cadangan. Diakhiri jeda: "Bagian mana yang masih membingungkan bagiku?"</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content"><h4>Praktik: Studi Kasus 1 <span class="pm-tag mengaplikasi">Mengaplikasi</span></h4><p>Diagnosa unit "tidak menyala / no display" menggunakan teknik isolasi komponen, berpasangan/kelompok kecil.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content"><h4>Praktik: Studi Kasus 2 <span class="pm-tag mengaplikasi">Mengaplikasi</span></h4><p>Diagnosa unit dengan gejala bunyi beep tertentu, dilanjutkan pencatatan hasil.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content"><h4>Laporan, Verifikasi & Refleksi <span class="pm-tag merefleksi">Merefleksi</span></h4><p>Penyusunan laporan akhir, verifikasi hasil oleh guru, dan refleksi tertulis mandiri.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI A: GEJALA & BEEP CODE ===================== -->
+  <section id="gejala">
+    <div class="sec-label">03 · Materi Inti — Bagian 1 <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Gejala Kerusakan Hardware & Kode Beep</h2>
+    <p class="sec-desc">Diagnosa yang baik dimulai dari mengenali gejala secara presisi — bukan menebak-nebak.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ TIGA KATEGORI GEJALA UTAMA</h3>
+        <p><b style="color:var(--text)">Tidak menyala</b> — tidak ada lampu indikator, kipas diam total, biasanya terkait power supply, kabel, atau tombol power.<br><br>
+        <b style="color:var(--text)">Menyala tapi no display</b> — kipas & lampu hidup, namun layar tetap gelap, sering terkait RAM atau VGA.<br><br>
+        <b style="color:var(--text)">Bunyi beep tertentu</b> — BIOS memberi kode suara sebagai sinyal komponen mana yang bermasalah.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ MENGAPA KODE BEEP PENTING</h3>
+        <p>Sebelum tampilan visual (VGA) berfungsi, BIOS "berbicara" lewat speaker internal motherboard. Pola bunyi (pendek/panjang, jumlah pengulangan) mengkodekan komponen mana yang gagal diperiksa saat proses POST (Power-On Self-Test).</p>
+      </div>
+    </div>
+
+    <div class="fig">
+      <div style="padding:18px 18px 4px;">
+        <div class="beep-grid">
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot"></div></div>
+            <div class="beep-mean">1 beep pendek</div>
+            <div class="beep-tag" style="background:rgba(55,211,153,.12); color:var(--green); border:1px solid rgba(55,211,153,.3);">POST normal</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot long"></div></div>
+            <div class="beep-mean">1 beep panjang berulang</div>
+            <div class="beep-tag" style="background:rgba(255,107,107,.1); color:var(--red); border:1px solid rgba(255,107,107,.3);">RAM bermasalah</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">2 beep pendek</div>
+            <div class="beep-tag" style="background:rgba(255,194,76,.12); color:var(--amber); border:1px solid rgba(255,194,76,.3);">Parity circuit error</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot"></div><div class="beep-dot"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">3 beep pendek</div>
+            <div class="beep-tag" style="background:rgba(255,194,76,.12); color:var(--amber); border:1px solid rgba(255,194,76,.3);">Base memory failure</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot long"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">1 panjang + 2 pendek</div>
+            <div class="beep-tag" style="background:rgba(255,107,107,.1); color:var(--red); border:1px solid rgba(255,107,107,.3);">VGA bermasalah</div>
+          </div>
+        </div>
+      </div>
+      <div class="fig-cap">Gambar 1 — <b>Contoh</b> kode beep umum pada BIOS AMI. Pola bunyi dapat berbeda tergantung vendor BIOS (AMI, Award/Phoenix), selalu cek manual motherboard yang digunakan.</div>
+    </div>
+
+    <div class="fig">
+      <div style="padding:18px 18px 4px;">
+        <div class="beep-grid">
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot"></div></div>
+            <div class="beep-mean">1 beep pendek</div>
+            <div class="beep-tag" style="background:rgba(55,211,153,.12); color:var(--green); border:1px solid rgba(55,211,153,.3);">POST normal</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">2 beep pendek</div>
+            <div class="beep-tag" style="background:rgba(255,194,76,.12); color:var(--amber); border:1px solid rgba(255,194,76,.3);">Error POST, lihat kode di layar</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot long"></div><div class="beep-dot"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">1 panjang + 2 pendek</div>
+            <div class="beep-tag" style="background:rgba(255,107,107,.1); color:var(--red); border:1px solid rgba(255,107,107,.3);">VGA / tampilan bermasalah</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot long"></div><div class="beep-dot"></div><div class="beep-dot"></div><div class="beep-dot"></div></div>
+            <div class="beep-mean">1 panjang + 3 pendek</div>
+            <div class="beep-tag" style="background:rgba(255,107,107,.1); color:var(--red); border:1px solid rgba(255,107,107,.3);">RAM bermasalah</div>
+          </div>
+          <div class="beep-row">
+            <div class="beep-pattern"><div class="beep-dot long"></div></div>
+            <div class="beep-mean">Beep panjang terus-menerus</div>
+            <div class="beep-tag" style="background:rgba(255,107,107,.1); color:var(--red); border:1px solid rgba(255,107,107,.3);">RAM tidak terpasang/rusak</div>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:14px;">Pada BIOS <b style="color:var(--text)">Phoenix</b>, kode beep berupa kelompok bunyi dipisah jeda (misal "1-3-3" dibaca: 1 beep – jeda – 3 beep – jeda – 3 beep), bukan hitungan biasa. Contoh yang umum ditemui: <b style="color:var(--text)">1-1-3</b> = kesalahan baca/tulis CMOS, <b style="color:var(--text)">1-3-1</b> = kegagalan refresh RAM, <b style="color:var(--text)">3-3-4</b> = video memory test gagal.</p>
+      </div>
+      <div class="fig-cap">Gambar 1b — <b>Referensi tambahan</b>: kode beep umum pada BIOS Award & Phoenix. Karena variasi antar produsen motherboard cukup besar, tabel ini adalah panduan umum — kode pasti tetap harus dicek di manual motherboard yang digunakan.</div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI B: SWAP TEST ===================== -->
+  <section id="swap-test">
+    <div class="sec-label">04 · Materi Inti — Bagian 2 <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Teknik Isolasi Komponen (Swap Test)</h2>
+    <p class="sec-desc">Prinsip inti troubleshooting: uji satu variabel dalam satu waktu, agar penyebab masalah dapat dipastikan bukan diasumsikan.</p>
+
+    <div class="dcard">
+      <div class="dcard-top">
+        <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="17" r="2" stroke="#4cc2ff" stroke-width="1.6"/></svg></div>
+        <div><h4>Apa itu Swap Test?</h4><span class="tag">Mengganti komponen dengan yang diketahui baik (known-good)</span></div>
+      </div>
+      <p>Swap test dilakukan dengan mengganti komponen yang dicurigai bermasalah menggunakan komponen cadangan yang dipastikan berfungsi baik, lalu menguji apakah gejala hilang.</p>
+      <ul>
+        <li><b>Minimal konfigurasi</b> — lepas semua komponen non-esensial (drive, kartu tambahan), sisakan motherboard, CPU, 1 keping RAM, dan PSU.</li>
+        <li><b>Uji satu per satu</b> — tambahkan atau ganti satu komponen setiap kali percobaan, catat hasilnya.</li>
+        <li><b>Gunakan komponen cadangan</b> — RAM, VGA, atau PSU lain yang sudah diketahui berfungsi normal sebagai pembanding.</li>
+      </ul>
+    </div>
+
+    <div class="fig">
+      <div class="compare-grid">
+        <div class="compare-panel">
+          <h5 style="color:var(--red);">Sebelum Swap Test</h5>
+          <div class="swap-list">
+            <div class="swap-item"><span class="mark bad">✕</span> RAM asli terpasang — no display</div>
+            <div class="swap-item"><span class="mark bad">✕</span> Belum diketahui komponen penyebab</div>
+            <div class="swap-item"><span class="mark bad">✕</span> Asumsi: "mungkin VGA rusak"</div>
+          </div>
+        </div>
+        <div class="compare-panel">
+          <h5 style="color:var(--green);">Sesudah Swap Test</h5>
+          <div class="swap-list">
+            <div class="swap-item"><span class="mark good">✓</span> RAM cadangan terpasang — tampilan normal</div>
+            <div class="swap-item"><span class="mark good">✓</span> Penyebab dipastikan: RAM asli rusak</div>
+            <div class="swap-item"><span class="mark good">✓</span> Solusi: ganti RAM, unit kembali normal</div>
+          </div>
+        </div>
+      </div>
+      <div class="fig-cap">Gambar 2 — <b>Ilustrasi</b> hasil swap test yang mengubah asumsi menjadi kepastian berbasis bukti.</div>
+    </div>
+
+    <div class="fig">
+      <div style="padding:20px 22px 6px;">
+        <div class="flow">
+          <div class="flow-step">Amati gejala (visual & bunyi)</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">Cek koneksi fisik (kabel, RAM, VGA, power)</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step decision">Gejala masih muncul?</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">Lakukan swap test dengan komponen cadangan</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step decision">Gejala hilang setelah swap?</div>
+          <div class="flow-branch">
+            <div class="flow-step" style="border-color:var(--green); color:var(--green);">Ya → komponen ditemukan</div>
+            <div class="flow-step" style="border-color:var(--amber); color:var(--amber);">Tidak → uji komponen lain</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">Susun laporan diagnosa & solusi</div>
+        </div>
+      </div>
+      <div class="fig-cap">Gambar 3 — <b>Diagram alur</b> troubleshooting bertahap dari observasi hingga laporan.</div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI C: LAPORAN ===================== -->
+  <section id="laporan">
+    <div class="sec-label">05 · Materi Inti — Bagian 3 <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Menyusun Laporan Troubleshooting</h2>
+    <p class="sec-desc">Diagnosa yang baik tidak berhenti di kepala teknisi — ia harus bisa dibaca dan dipahami orang lain.</p>
+
+    <div class="steps">
+      <div class="step"><div class="step-num"></div><div class="step-body"><h4>Identitas unit</h4><p>Catat nomor unit, spesifikasi singkat, dan tanggal pemeriksaan.</p></div></div>
+      <div class="step"><div class="step-num"></div><div class="step-body"><h4>Gejala awal</h4><p>Deskripsikan gejala seobjektif mungkin: apa yang terlihat, terdengar, dan tidak terjadi.</p></div></div>
+      <div class="step"><div class="step-num"></div><div class="step-body"><h4>Langkah diagnosa</h4><p>Tuliskan urutan pengecekan dan swap test yang dilakukan, termasuk hasil di setiap langkah.</p></div></div>
+      <div class="step"><div class="step-num"></div><div class="step-body"><h4>Komponen penyebab & solusi</h4><p>Nyatakan komponen yang terbukti menjadi penyebab, serta tindakan perbaikan yang diambil.</p></div></div>
+      <div class="step"><div class="step-num"></div><div class="step-body"><h4>Hasil akhir</h4><p>Konfirmasi bahwa unit telah kembali berfungsi normal setelah perbaikan.</p></div></div>
+    </div>
+
+    <div class="fig report-mock">
+      <div class="report-row"><div class="rlabel">UNIT</div><div class="rval">PC-Lab-07</div></div>
+      <div class="report-row"><div class="rlabel">GEJALA AWAL</div><div class="rval">Menyala normal, tidak ada tampilan di monitor</div></div>
+      <div class="report-row"><div class="rlabel">LANGKAH DIAGNOSA</div><div class="rval">Cek kabel VGA (normal) → reseat RAM (tidak berubah) → swap VGA card dengan cadangan (tampilan muncul)</div></div>
+      <div class="report-row"><div class="rlabel">KOMPONEN PENYEBAB</div><div class="rval" style="color:var(--red);">VGA Card — rusak</div></div>
+      <div class="report-row"><div class="rlabel">SOLUSI</div><div class="rval">Mengganti VGA card dengan unit baru</div></div>
+      <div class="report-row"><div class="rlabel">HASIL AKHIR</div><div class="rval" style="color:var(--green);">Unit berfungsi normal ✓</div></div>
+    </div>
+    <div class="fig-cap" style="border:none; background:transparent; padding-left:0; margin-top:-14px;">Gambar 4 — <b>Contoh</b> laporan troubleshooting terisi lengkap.</div>
+  </section>
+
+  <!-- ===================== K3 ===================== -->
+  <section id="k3">
+    <div class="sec-label">06 · Sebelum Praktik <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Keselamatan & Kesehatan Kerja (K3)</h2>
+    <p class="sec-desc">Membuka casing dan menyentuh komponen internal punya risiko tersendiri — wajib diingatkan sebelum praktik.</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ CEGAH ELECTROSTATIC DISCHARGE (ESD)</h3>
+        <p>Gunakan gelang antistatik atau sentuh bagian logam casing sebelum memegang komponen, agar muatan listrik statis tubuh tidak merusak komponen sensitif seperti RAM dan VGA.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ MATIKAN & CABUT DAYA</h3>
+        <p>Selalu matikan unit dan cabut kabel power sebelum membuka casing atau melepas komponen, untuk menghindari korsleting maupun sengatan listrik.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GLOSARIUM ===================== -->
+  <section id="glosarium">
+    <div class="sec-label">06b · Istilah Teknis</div>
+    <h2>Glosarium</h2>
+    <dl class="glossary">
+      <div class="gterm"><dt>POST</dt><dd>Power-On Self-Test — pemeriksaan otomatis oleh BIOS saat komputer dinyalakan.</dd></div>
+      <div class="gterm"><dt>Beep Code</dt><dd>Pola bunyi dari BIOS yang mengindikasikan jenis kegagalan hardware tertentu.</dd></div>
+      <div class="gterm"><dt>Swap Test</dt><dd>Teknik mengganti komponen yang dicurigai dengan komponen cadangan yang diketahui baik.</dd></div>
+      <div class="gterm"><dt>ESD</dt><dd>Electrostatic Discharge — pelepasan muatan listrik statis yang dapat merusak komponen elektronik.</dd></div>
+    </dl>
+  </section>
+
+  <!-- ===================== JOBSHEET ===================== -->
+  <section id="jobsheet">
+    <div class="sec-label">07 · Lembar Kerja Praktik <span class="pm-tag mengaplikasi">Mengaplikasi</span></div>
+    <h2>Jobsheet Diagnosa</h2>
+    <p class="sec-desc">Diisi siswa selama praktik dua studi kasus sebagai bukti unjuk kerja.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>No</th><th>Unit / Kasus</th><th>Gejala Awal</th><th>Langkah Isolasi</th><th>Status Awal</th><th>Status Akhir</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Studi Kasus 1</td><td>Tidak menyala / no display</td><td>Cek fisik → swap test</td><td><span class="status-pill pill-red">belum terdiagnosis</span></td><td><span class="status-pill pill-green">terdiagnosis</span></td></tr>
+          <tr><td>2</td><td>Studi Kasus 2</td><td>Bunyi beep tertentu</td><td>Baca kode beep → swap test</td><td><span class="status-pill pill-red">belum terdiagnosis</span></td><td><span class="status-pill pill-green">terdiagnosis</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== STUDI KASUS ===================== -->
+  <section id="troubleshoot">
+    <div class="sec-label">08 · Studi Kasus <span class="pm-tag mengaplikasi">Mengaplikasi</span></div>
+    <h2>Skenario Troubleshooting</h2>
+    <p class="sec-desc">Dorong siswa berdiskusi dan bernalar kritis sebelum membuka jawaban.</p>
+
+    <details>
+      <summary><span class="qmark">1</span> Komputer tidak menyala sama sekali, tidak ada lampu indikator</summary>
+      <div class="d-body">Periksa kabel power dan stop kontak terlebih dahulu. Jika normal, curigai <b>power supply (PSU)</b> — lakukan paperclip test atau ganti dengan PSU cadangan yang diketahui baik untuk memastikan.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">2</span> Kipas & lampu menyala normal, tapi monitor tetap gelap</summary>
+      <div class="d-body">Cek kabel VGA/HDMI ke monitor terlebih dahulu. Jika normal, lakukan <b>reseat RAM</b> (lepas-pasang ulang), lalu jika belum berhasil, lakukan swap test pada <b>VGA card</b> dengan unit cadangan.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">3</span> Komputer menyala normal lalu mati sendiri dalam beberapa detik</summary>
+      <div class="d-body">Indikasi <b>overheating</b> atau kapasitas PSU tidak mencukupi. Periksa kondisi heatsink dan thermal paste pada prosesor, serta pastikan watt PSU sesuai kebutuhan komponen.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">4</span> Terdengar bunyi beep panjang berulang saat booting</summary>
+      <div class="d-body">Sesuai tabel kode beep, pola ini umumnya menandakan masalah pada <b>RAM</b>. Lakukan reseat RAM pada slot yang sama, lalu coba pindahkan ke slot lain sebelum melakukan swap test dengan RAM cadangan.</div>
+    </details>
+
+    <div class="mindful-box">
+      <span class="lbl">Jeda Sebelum Lanjut ke Studi Kasus 2</span>
+      Tarik napas sejenak, lalu tulis satu kalimat: <i>"Tadi di Studi Kasus 1, langkah yang paling membantuku menemukan penyebab adalah ___."</i> Ini melatih siswa menyadari strategi berpikirnya sendiri, bukan sekadar mengejar jawaban benar.
+    </div>
+
+    <div class="joyful-box">
+      <span class="jicon">🏅</span>
+      <div><span class="lbl">Progres Diagnostic Console</span>Setiap kali satu unit berhasil terdiagnosis dengan swap test yang runtut, tandai statusnya di console "terdiagnosis" di depan kelas — rayakan singkat (tepuk tangan/beri poin kelompok). Target: 2 unit hijau sebelum jam praktik berakhir.</div>
+    </div>
+  </section>
+
+  <!-- ===================== ASESMEN KOGNITIF ===================== -->
+  <section id="asesmen-kognitif">
+    <div class="sec-label">08b · Cek Pemahaman Konsep <span class="pm-tag memahami">Memahami</span></div>
+    <h2>Soal Formatif Tertulis</h2>
+    <p class="sec-desc">Dikerjakan singkat (10–15 menit) sebelum atau sesudah praktik, untuk memastikan pemahaman konsep sudah kuat — bukan cuma bisa meniru langkah tanpa paham alasannya.</p>
+
+    <div class="quiz-item">
+      <div class="qtext">1. Komputer dinyalakan: kipas dan lampu indikator hidup normal, tetapi monitor tetap gelap tanpa tampilan apa pun. Gejala ini paling tepat dikategorikan sebagai...</div>
+      <ol class="qopts">
+        <li><span class="qletter">a.</span> Tidak menyala</li>
+        <li><span class="qletter">b.</span> Menyala tapi no display</li>
+        <li><span class="qletter">c.</span> Bunyi beep tertentu</li>
+        <li><span class="qletter">d.</span> Overheating</li>
+      </ol>
+    </div>
+    <div class="quiz-item">
+      <div class="qtext">2. Fungsi utama swap test dalam troubleshooting adalah...</div>
+      <ol class="qopts">
+        <li><span class="qletter">a.</span> Mempercepat proses booting komputer</li>
+        <li><span class="qletter">b.</span> Membersihkan debu pada komponen</li>
+        <li><span class="qletter">c.</span> Memastikan penyebab kerusakan berdasarkan bukti, bukan asumsi</li>
+        <li><span class="qletter">d.</span> Mengganti seluruh komponen sekaligus agar lebih cepat</li>
+      </ol>
+    </div>
+    <div class="quiz-item">
+      <div class="qtext">3. Sebelum melakukan swap test, langkah paling awal yang seharusnya dilakukan adalah...</div>
+      <ol class="qopts">
+        <li><span class="qletter">a.</span> Langsung mengganti RAM dengan yang baru</li>
+        <li><span class="qletter">b.</span> Mengamati gejala dan mengecek koneksi fisik (kabel, RAM, VGA, power)</li>
+        <li><span class="qletter">c.</span> Membeli motherboard baru</li>
+        <li><span class="qletter">d.</span> Mengabaikan gejala dan langsung membongkar casing</li>
+      </ol>
+    </div>
+    <div class="quiz-item">
+      <div class="qtext">4. Mengapa BIOS menggunakan kode beep sebagai sinyal kegagalan, bukan langsung menampilkan pesan di layar?</div>
+      <ol class="qopts">
+        <li><span class="qletter">a.</span> Karena beep lebih murah daripada monitor</li>
+        <li><span class="qletter">b.</span> Karena komponen video (VGA) sendiri mungkin belum berhasil diinisialisasi/diperiksa saat POST</li>
+        <li><span class="qletter">c.</span> Karena semua komputer wajib memakai speaker internal</li>
+        <li><span class="qletter">d.</span> Karena beep lebih cepat didengar daripada dibaca</li>
+      </ol>
+    </div>
+    <div class="quiz-item">
+      <div class="qtext">5. "Minimal konfigurasi" pada swap test artinya...</div>
+      <ol class="qopts">
+        <li><span class="qletter">a.</span> Menggunakan komponen termurah yang tersedia</li>
+        <li><span class="qletter">b.</span> Melepas semua komponen non-esensial, menyisakan motherboard, CPU, 1 keping RAM, dan PSU</li>
+        <li><span class="qletter">c.</span> Mengurangi jumlah RAM menjadi setengahnya</li>
+        <li><span class="qletter">d.</span> Mematikan seluruh port USB</li>
+      </ol>
+    </div>
+
+    <div class="quiz-essay"><b>Esai singkat 1.</b> Jelaskan dengan kata-katamu sendiri, apa perbedaan mendasar antara "menebak" penyebab kerusakan dan "mendiagnosis" penyebab kerusakan.</div>
+    <div class="quiz-essay"><b>Esai singkat 2.</b> Sebuah komputer menyala normal lalu tiba-tiba mati sendiri setelah beberapa detik. Sebutkan dua kemungkinan penyebab dan jelaskan langkah pemeriksaan awal untuk masing-masing.</div>
+
+    <details class="quiz-key">
+      <summary><span class="qmark">✓</span> Kunci Jawaban Pilihan Ganda</summary>
+      <div class="d-body">1. b &nbsp;·&nbsp; 2. c &nbsp;·&nbsp; 3. b &nbsp;·&nbsp; 4. b &nbsp;·&nbsp; 5. b<br><br>Untuk esai, nilai berdasarkan kejelasan alasan siswa (bukan hanya jawaban "benar/salah") — fokus pada apakah siswa memahami prinsip pengujian berbasis bukti.</div>
+    </details>
+  </section>
+
+  <!-- ===================== ASESMEN ===================== -->
+  <section id="asesmen">
+    <div class="sec-label">09 · Asesmen</div>
+    <h2>Bentuk Penilaian & Rubrik</h2>
+    <p class="sec-desc">Penilaian utama berupa <b>studi kasus + unjuk kerja troubleshooting</b>, dilengkapi rubrik empat tingkat berikut.</p>
+
+    <div class="rubrik-grid">
+      <div class="rubrik-card s4"><div class="rubrik-score">4</div><p><b>Mahir</b> — 2 studi kasus terdiagnosis tepat dengan swap test runtut dan laporan lengkap terstruktur.</p></div>
+      <div class="rubrik-card s3"><div class="rubrik-score">3</div><p><b>Cakap</b> — memenuhi KKTP dengan sedikit arahan guru pada salah satu studi kasus.</p></div>
+      <div class="rubrik-card s2"><div class="rubrik-score">2</div><p><b>Berkembang</b> — 1 studi kasus terdiagnosis, laporan belum lengkap, masih perlu bimbingan.</p></div>
+      <div class="rubrik-card s1"><div class="rubrik-score">1</div><p><b>Mula</b> — belum mampu menentukan penyebab kerusakan tanpa pendampingan penuh.</p></div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:16px; margin-top:32px; margin-bottom:6px; color:var(--amber);">▲ Rubrik Sikap — Dimensi Profil Lulusan</h3>
+    <p class="sec-desc" style="margin-bottom:14px;">Diisi guru melalui observasi selama praktik berlangsung, terpisah dari penilaian kognitif/unjuk kerja di atas.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dimensi</th><th>Indikator yang Diamati</th><th>Sudah Terlihat</th><th>Belum Terlihat</th></tr></thead>
+        <tbody>
+          <tr><td>Penalaran kritis</td><td>Menyebutkan bukti/gejala sebelum menyimpulkan penyebab kerusakan</td><td><span class="status-pill pill-green">☐</span></td><td><span class="status-pill pill-red">☐</span></td></tr>
+          <tr><td>Kemandirian</td><td>Melakukan swap test dan menyusun laporan tanpa terus-menerus diarahkan guru</td><td><span class="status-pill pill-green">☐</span></td><td><span class="status-pill pill-red">☐</span></td></tr>
+          <tr><td>Kolaborasi</td><td>Membagi tugas dengan anggota kelompok dan mendengarkan pendapat teman</td><td><span class="status-pill pill-green">☐</span></td><td><span class="status-pill pill-red">☐</span></td></tr>
+          <tr><td>Kesehatan</td><td>Menerapkan ESD (gelang antistatik/sentuh casing) dan mematikan daya sebelum membongkar</td><td><span class="status-pill pill-green">☐</span></td><td><span class="status-pill pill-red">☐</span></td></tr>
+          <tr><td>Komunikasi</td><td>Laporan/penjelasan lisan dapat dipahami tanpa perlu klarifikasi berulang</td><td><span class="status-pill pill-green">☐</span></td><td><span class="status-pill pill-red">☐</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diff-grid" style="grid-template-columns:1fr 1fr 1fr; margin-top:32px;">
+      <div class="diff-card remedial">
+        <h4>↺ Remedial</h4>
+        <ul>
+          <li>Latihan ulang membaca gejala pada 1 studi kasus sederhana dengan bimbingan langkah demi langkah.</li>
+          <li>Latihan tambahan mencocokkan pola beep dengan artinya menggunakan tabel referensi.</li>
+        </ul>
+      </div>
+      <div class="diff-card pengayaan">
+        <h4>↑ Pengayaan</h4>
+        <ul>
+          <li>Mencoba mendiagnosis studi kasus tambahan dengan gejala gabungan (lebih dari satu kemungkinan penyebab).</li>
+          <li>Eksplorasi mandiri: mencari kode beep untuk BIOS vendor lain (Award/Phoenix) dan membandingkannya dengan AMI.</li>
+        </ul>
+      </div>
+      <div class="diff-card" style="background:linear-gradient(135deg, rgba(76,194,255,0.06), transparent);">
+        <h4 style="color:var(--blue);">◐ Diferensiasi Gaya Belajar</h4>
+        <ul>
+          <li><b style="color:var(--text)">Visual</b> — gunakan tabel kode beep & diagram alur sebagai acuan utama saat mendiagnosis.</li>
+          <li><b style="color:var(--text)">Auditori</b> — rekam/dengarkan ulang pola beep unit, diskusikan artinya dengan pasangan sebelum menulis.</li>
+          <li><b style="color:var(--text)">Kinestetik</b> — didorong lebih banyak melakukan swap test langsung dengan tangan sebelum membaca teori lengkap.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PENUTUP ===================== -->
+  <section id="penutup">
+    <div class="sec-label">10 · Penutup <span class="pm-tag merefleksi">Merefleksi</span></div>
+    <h2>Alat, Bahan & Refleksi</h2>
+
+    <div class="final-grid">
+      <div class="info-card">
+        <h3>▲ ALAT & BAHAN PRAKTIK</h3>
+        <ul style="padding-left:18px; font-size:14.5px; color:#c8d1e0; margin-top:6px;">
+          <li style="margin-bottom:6px;">Unit komputer bermasalah (simulasi 2 studi kasus) — <b>1 unit per kelompok</b>, kelompok berisi 4–5 siswa; minimal 4 unit untuk 8 kelompok bergantian dalam 2 sesi praktik.</li>
+          <li style="margin-bottom:6px;">Toolkit (obeng, gelang antistatik, dst.) — <b>1 set per kelompok</b>.</li>
+          <li style="margin-bottom:6px;">Komponen cadangan (RAM, VGA, PSU known-good) untuk swap test — <b>1 set per 2 kelompok</b> (bergantian, karena tidak selalu dipakai bersamaan).</li>
+          <li>Lembar jobsheet & format laporan — <b>1 lembar per siswa</b>, meski kerja dalam kelompok.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>▲ DIMENSI PROFIL LULUSAN</h3>
+        <p style="margin-bottom:10px;">Terbentuk secara alami melalui proses hari ini (Kerangka Pembelajaran Mendalam):</p>
+        <div class="lulusan-tag"><span class="dotl"></span> Penalaran kritis — menganalisis gejala berdasarkan bukti, bukan asumsi</div>
+        <div class="lulusan-tag"><span class="dotl"></span> Kemandirian — melakukan isolasi komponen dan menyusun laporan sendiri</div>
+        <div class="lulusan-tag"><span class="dotl"></span> Kolaborasi — berdiskusi dan membagi tugas saat praktik berkelompok</div>
+        <div class="lulusan-tag"><span class="dotl"></span> Kesehatan — menerapkan K3 dan ESD selama bekerja dengan komponen elektronik</div>
+        <div class="lulusan-tag"><span class="dotl"></span> Komunikasi — menuliskan laporan diagnosa yang jelas dan bisa dipahami orang lain</div>
+      </div>
+    </div>
+
+    <div class="kktp-box" style="margin-top:24px;">
+      <span class="lbl">Refleksi Penutup (ditulis siswa, 5 menit)</span>
+      1) Studi kasus mana yang paling sulit didiagnosis, dan mengapa? &nbsp;·&nbsp;
+      2) Apa perbedaan antara "menebak" dan "mendiagnosis" yang kamu rasakan hari ini? &nbsp;·&nbsp;
+      3) Jika besok kamu menemukan komputer dengan bunyi beep asing, langkah pertama apa yang akan kamu lakukan? &nbsp;·&nbsp;
+      4) <i>(Berkesadaran)</i> Cara belajar apa yang paling membantumu hari ini — mencoba langsung, membaca tabel, atau berdiskusi dengan teman? &nbsp;·&nbsp;
+      5) <i>(Bermakna)</i> Ceritakan satu momen hari ini yang terasa seperti pekerjaan teknisi sungguhan, bukan sekadar tugas sekolah.
+    </div>
+
+    <div class="info-card" style="margin-top:24px;">
+      <h3>▲ REFERENSI / SUMBER BELAJAR</h3>
+      <ul style="padding-left:18px; font-size:13.5px; color:var(--muted); margin-top:6px;">
+        <li style="margin-bottom:5px;">Manual motherboard — bagian tabel kode beep BIOS.</li>
+        <li style="margin-bottom:5px;">Dokumentasi resmi vendor BIOS: AMI, Award/Phoenix.</li>
+        <li>Modul internal sekolah — Dasar-dasar Teknik Komputer dan Jaringan.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 2 · 9 JP</footer>
+
+</div>
+</body>
+</html>

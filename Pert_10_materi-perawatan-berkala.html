@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perawatan Berkala & Pembersihan Komponen — Modul Ajar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1e8;
+    --panel:#fffdf8;
+    --panel-alt:#efe9db;
+    --raised:#e7e0cd;
+    --border:#ddd3ba;
+    --border-soft:#e6ddc9;
+    --text:#20261f;
+    --text-muted:#5c6354;
+    --text-dim:#8d9280;
+    --green:#2f7d5c;
+    --green-soft:#e4efe6;
+    --orange:#c8720f;
+    --orange-soft:#f7ecd9;
+    --red:#b23b2e;
+    --red-soft:#f6e3df;
+    --mono:'JetBrains Mono',monospace;
+    --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 800px 460px at 90% -8%, rgba(47,125,92,.09), transparent 55%),
+      radial-gradient(ellipse 700px 420px at 0% 8%, rgba(200,114,15,.07), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+  a{color:var(--green);}
+  ::selection{background:var(--orange); color:#fff;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px 120px;}
+
+  /* ---------- HERO ---------- */
+  .hero{border-bottom:1px solid var(--border); padding:54px 0 40px; position:relative; overflow:hidden;}
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(32,38,31,.045) 1px, transparent 1px);
+    background-size:16px 16px; pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--orange); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .eyebrow::before{content:"§"; color:var(--text-dim);}
+  h1.title{
+    font-family:var(--mono); font-weight:800; font-size:clamp(26px,4.2vw,44px);
+    line-height:1.14; margin:0 0 14px; letter-spacing:-.01em;
+  }
+  h1.title .sub{
+    display:block; font-size:.45em; font-weight:500; color:var(--text-muted); letter-spacing:0; margin-top:10px;
+  }
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;}
+  .chip{
+    display:flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--border);
+    padding:9px 14px; border-radius:8px; font-family:var(--mono); font-size:12.5px; color:var(--text-muted);
+  }
+  .chip b{color:var(--text); font-weight:600;}
+
+  /* ---------- SERVICE STAMP (signature) ---------- */
+  .stamp{
+    position:absolute; right:24px; top:44px; border:2.5px solid var(--green); color:var(--green);
+    font-family:var(--mono); font-weight:800; font-size:13px; letter-spacing:.08em;
+    padding:10px 16px; border-radius:8px; transform:rotate(6deg); opacity:.85; text-align:center;
+    background:rgba(47,125,92,.05);
+  }
+  .stamp small{display:block; font-size:9px; font-weight:600; letter-spacing:.14em; margin-top:2px;}
+  @media(max-width:640px){.stamp{display:none;}}
+
+  section{padding:50px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+  .sec-num{font-family:var(--mono); color:var(--text-dim); font-size:13px; font-weight:600;}
+  h2{font-family:var(--mono); font-size:clamp(19px,2.5vw,25px); margin:0; letter-spacing:-.01em;}
+  .sec-desc{color:var(--text-muted); max-width:680px; margin:14px 0 28px; font-size:15px;}
+
+  /* ---------- CP/TP ---------- */
+  .cp-box{
+    background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--green);
+    border-radius:10px; padding:20px 22px; margin-bottom:28px;
+  }
+  .cp-box .label{font-family:var(--mono); font-size:11px; color:var(--green); letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px;}
+  .cp-box p{margin:0; color:var(--text); font-size:15px;}
+
+  .tp-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .tp-list li{display:grid; grid-template-columns:44px 1fr; gap:16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px;}
+  .tp-num{font-family:var(--mono); font-weight:800; font-size:18px; color:var(--orange); display:flex; align-items:center; justify-content:center; background:var(--raised); border-radius:8px; height:44px;}
+  .tp-list p{margin:0; font-size:14.5px; color:var(--text);}
+  .tp-list .tp-tag{font-family:var(--mono); font-size:11px; color:var(--text-dim); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:.08em;}
+
+  /* ---------- PIPELINE ---------- */
+  .pipeline{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .pipeline .stage{padding:20px 16px; background:var(--panel); position:relative; border-right:1px solid var(--border);}
+  .pipeline .stage:last-child{border-right:none;}
+  .pipeline .stage .n{font-family:var(--mono); font-size:11px; color:var(--text-dim);}
+  .pipeline .stage h4{font-size:14.5px; margin:6px 0 6px; font-family:var(--mono); color:var(--text);}
+  .pipeline .stage p{font-size:12.5px; color:var(--text-muted); margin:0;}
+  .pipeline .stage::after{content:"→"; position:absolute; right:-13px; top:50%; transform:translateY(-50%); color:var(--orange); font-size:16px; z-index:2; font-family:var(--mono);}
+  .pipeline .stage:last-child::after{content:"";}
+  @media(max-width:760px){
+    .pipeline{grid-template-columns:1fr;}
+    .pipeline .stage{border-right:none; border-bottom:1px solid var(--border);}
+    .pipeline .stage::after{content:"↓"; right:auto; left:16px; top:auto; bottom:-13px; transform:none;}
+    .pipeline .stage:last-child{border-bottom:none;}
+  }
+
+  /* ---------- TIMELINE JP ---------- */
+  .timeline{position:relative; padding-left:2px;}
+  .tl-row{display:grid; grid-template-columns:96px 1fr; gap:18px; padding:14px 0; border-bottom:1px solid var(--border-soft);}
+  .tl-row:last-child{border-bottom:none;}
+  .tl-time{font-family:var(--mono); font-size:12px; color:var(--orange); padding-top:2px;}
+  .tl-time small{display:block; color:var(--text-dim); font-size:10.5px; margin-top:2px;}
+  .tl-body b{display:block; font-size:14px; margin-bottom:3px;}
+  .tl-body span{font-size:13px; color:var(--text-muted);}
+  .tl-jp{font-family:var(--mono); font-size:10.5px; background:var(--raised); border:1px solid var(--border); color:var(--green); padding:2px 8px; border-radius:20px; margin-left:8px;}
+
+  .callout{display:flex; gap:12px; background:var(--green-soft); border:1px solid rgba(47,125,92,.28); border-radius:10px; padding:14px 16px; margin-top:22px;}
+  .callout.warn{background:var(--orange-soft); border-color:rgba(200,114,15,.3);}
+  .callout .ic{font-family:var(--mono); flex:none;}
+  .callout.warn .ic{color:var(--orange);}
+  .callout:not(.warn) .ic{color:var(--green);}
+  .callout p{margin:0; font-size:13.5px; color:var(--text-muted);}
+
+  /* ---------- CHECKLIST TABLE ---------- */
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:12px; background:var(--panel);}
+  .check-table{width:100%; border-collapse:collapse; font-size:13.6px;}
+  .check-table th{font-family:var(--mono); text-align:left; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim); padding:10px 14px; border-bottom:1px solid var(--border);}
+  .check-table td{padding:12px 14px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  .check-table tr:hover td{background:var(--panel-alt);}
+  .check-table td.item{color:var(--text); font-weight:600;}
+  .freq{font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:3px 8px; border-radius:5px; font-weight:700; display:inline-block;}
+  .freq.harian{background:var(--green-soft); color:var(--green);}
+  .freq.mingguan{background:#e5eefb; color:#2b5fa8;}
+  .freq.bulanan{background:var(--orange-soft); color:var(--orange);}
+  .freq.tahunan{background:var(--red-soft); color:var(--red);}
+  .cb{width:16px; height:16px; border:1.5px solid var(--border); border-radius:4px; display:inline-block; vertical-align:-3px;}
+
+  /* ---------- KOMPONEN GRID ---------- */
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+  .comp-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .comp-head{display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .comp-head h4{margin:0; font-family:var(--mono); font-size:14.5px; flex:1;}
+  .comp-body{padding:16px 18px;}
+  .comp-body p{margin:0 0 10px; font-size:13.8px; color:var(--text-muted);}
+  .comp-body .row{display:flex; gap:8px; font-size:13.2px; margin-bottom:6px;}
+  .comp-body .row b{color:var(--text-muted); font-weight:600; min-width:88px; flex:none; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; padding-top:2px;}
+  .comp-body .row span{color:var(--text);}
+
+  /* ---------- THERMAL GAUGE ---------- */
+  .gauge-wrap{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:24px 26px; margin:26px 0;}
+  .gauge-wrap h4{margin:0 0 4px; font-family:var(--mono); font-size:14.5px;}
+  .gauge-wrap .cap{font-size:13px; color:var(--text-muted); margin:0 0 20px;}
+  .gauge{position:relative; height:34px; border-radius:20px; overflow:hidden; background:var(--raised); display:flex;}
+  .gauge .seg{height:100%; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:10.5px; color:#fff; font-weight:700;}
+  .gauge .seg.ok{background:var(--green); flex:4;}
+  .gauge .seg.warn{background:var(--orange); flex:2;}
+  .gauge .seg.danger{background:var(--red); flex:1.5;}
+  .gauge-labels{display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-top:8px;}
+  .gauge-legend{display:flex; gap:18px; margin-top:14px; flex-wrap:wrap;}
+  .gauge-legend .lg{display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-muted);}
+  .gauge-legend .dot{width:9px; height:9px; border-radius:50%; flex:none;}
+  .gauge-legend .dot.ok{background:var(--green);}
+  .gauge-legend .dot.warn{background:var(--orange);}
+  .gauge-legend .dot.danger{background:var(--red);}
+
+  /* ---------- STEPS ---------- */
+  .steps{list-style:none; margin:0; padding:0; counter-reset:step;}
+  .steps li{counter-increment:step; position:relative; padding:0 0 26px 46px; border-left:1px dashed var(--border); margin-left:17px;}
+  .steps li:last-child{border-left:1px dashed transparent; padding-bottom:0;}
+  .steps li::before{
+    content:counter(step,decimal-leading-zero); position:absolute; left:-17px; top:0; width:34px; height:34px; border-radius:50%;
+    background:var(--raised); border:1px solid var(--border); color:var(--orange); font-family:var(--mono); font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .steps h4{margin:2px 0 6px; font-size:15px; font-family:var(--mono);}
+  .steps p{margin:0; font-size:13.8px; color:var(--text-muted);}
+  .steps .cmd{display:inline-block; margin-top:8px; font-family:var(--mono); font-size:12px; background:var(--raised); border:1px solid var(--border); color:var(--green); padding:5px 10px; border-radius:6px;}
+
+  /* ---------- TOOL TABLE (software maintenance) ---------- */
+  .tool-table{width:100%; border-collapse:collapse; margin-top:6px; font-size:13.6px;}
+  .tool-table th{font-family:var(--mono); text-align:left; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim); padding:10px 14px; border-bottom:1px solid var(--border);}
+  .tool-table td{padding:13px 14px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  .tool-table tr:hover td{background:var(--panel-alt);}
+  .tool-table td.name{color:var(--text); font-family:var(--mono); font-weight:600; font-size:13px; white-space:nowrap;}
+  .tool-table .path{display:block; font-family:var(--mono); font-size:11px; color:var(--green); margin-top:3px;}
+
+  /* ---------- DOKUMENTASI CARD ---------- */
+  .doc-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px 24px;}
+  .doc-field{display:grid; grid-template-columns:150px 1fr; gap:10px; padding:9px 0; border-bottom:1px dashed var(--border-soft); font-size:13.5px;}
+  .doc-field:last-child{border-bottom:none;}
+  .doc-field b{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim); padding-top:2px;}
+  .doc-field span{color:var(--text);}
+  .doc-field .fill{border-bottom:1px solid var(--border); display:inline-block; min-width:60%; color:var(--text-dim);}
+
+  /* ---------- GLOSARIUM ---------- */
+  .gloss{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:720px){.gloss{grid-template-columns:1fr;}}
+  .gloss .item{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px;}
+  .gloss .item b{font-family:var(--mono); font-size:13px; color:var(--orange); font-weight:700; display:block;}
+  .gloss .item span{margin:4px 0 0; font-size:13.3px; color:var(--text-muted); display:block;}
+
+  /* ---------- QUIZ ---------- */
+  .quiz{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:16px;}
+  .quiz .q{font-size:14.5px; font-weight:600; margin:0 0 14px;}
+  .quiz .opts{display:grid; gap:8px;}
+  .quiz .opt{display:flex; align-items:center; gap:10px; padding:10px 14px; border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:13.5px; color:var(--text-muted); background:var(--panel-alt); transition:.15s;}
+  .quiz .opt:hover{border-color:var(--green);}
+  .quiz .opt.correct{border-color:var(--green); background:var(--green-soft); color:var(--green);}
+  .quiz .opt.wrong{border-color:var(--red); background:var(--red-soft); color:var(--red);}
+  .quiz .opt .letter{font-family:var(--mono); font-weight:700; font-size:12px; width:22px; height:22px; border-radius:50%; background:var(--raised); display:flex; align-items:center; justify-content:center; flex:none;}
+  .quiz .fb{margin-top:12px; font-size:13px; color:var(--text-dim); display:none;}
+  .quiz .fb.show{display:block;}
+
+  /* ---------- CASE / PRAKTIK ---------- */
+  .case{background:var(--panel); border:1px solid var(--border); border-radius:12px; margin-bottom:16px; overflow:hidden;}
+  .case-head{display:flex; align-items:center; gap:14px; padding:18px 20px; cursor:pointer; user-select:none;}
+  .case-head .tag{font-family:var(--mono); font-size:11px; background:var(--green-soft); color:var(--green); padding:4px 9px; border-radius:5px; flex:none; font-weight:700; letter-spacing:.04em;}
+  .case-head h4{margin:0; font-size:15px; flex:1; font-weight:600;}
+  .case-head .chev{font-family:var(--mono); color:var(--text-dim); transition:transform .25s ease; flex:none;}
+  .case.open .case-head .chev{transform:rotate(90deg); color:var(--orange);}
+  .case-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .case.open .case-body{max-height:900px;}
+  .case-body-inner{padding:0 20px 22px; border-top:1px solid var(--border-soft); margin-top:2px;}
+  .case-body-inner p{font-size:13.8px; color:var(--text-muted); margin:14px 0 12px;}
+  .case-body-inner .lbl{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--orange); margin-top:14px; display:block;}
+  .case-body-inner ol{margin:8px 0 0; padding-left:18px; font-size:13.6px; color:var(--text);}
+  .case-body-inner li{margin-bottom:6px;}
+  .hint-btn{font-family:var(--mono); font-size:11.5px; background:none; border:1px solid var(--border); color:var(--text-muted); padding:6px 12px; border-radius:6px; cursor:pointer; margin-top:6px;}
+  .hint-btn:hover{border-color:var(--orange); color:var(--orange);}
+
+  /* ---------- STATUS / ASESMEN ---------- */
+  .status-panel{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px 24px;}
+  .status-panel .row{display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border-soft);}
+  .status-panel .row:last-child{border-bottom:none;}
+  .status-panel .row .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-dim); min-width:120px; padding-top:2px;}
+  .status-panel .row .v{font-size:14px; color:var(--text); flex:1;}
+
+  /* ---------- RUBRIK ---------- */
+  .rubrik{width:100%; border-collapse:collapse; font-size:13px;}
+  .rubrik th{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim); text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);}
+  .rubrik td{padding:12px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  .rubrik td.skor{font-family:var(--mono); color:var(--orange); font-weight:700; text-align:center; width:56px;}
+  .rubrik td.krit{color:var(--text); font-weight:600; width:150px;}
+
+  /* ---------- REMEDIAL/PENGAYAAN ---------- */
+  .rp-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.rp-grid{grid-template-columns:1fr;}}
+  .rp-card{border-radius:12px; padding:20px 22px; border:1px solid var(--border);}
+  .rp-card.remedial{background:var(--red-soft); border-color:rgba(178,59,46,.25);}
+  .rp-card.pengayaan{background:var(--green-soft); border-color:rgba(47,125,92,.25);}
+  .rp-card .label{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px;}
+  .rp-card.remedial .label{color:var(--red);}
+  .rp-card.pengayaan .label{color:var(--green);}
+  .rp-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-muted);}
+  .rp-card li{margin-bottom:6px;}
+
+  /* ---------- INFO / ALAT ---------- */
+  .info-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+  .info-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px 22px;}
+  .info-card .label{font-family:var(--mono); font-size:11px; color:var(--orange); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px;}
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag-list span{font-size:12.5px; background:var(--raised); border:1px solid var(--border); color:var(--text-muted); padding:6px 11px; border-radius:20px;}
+
+  /* ---------- RECAP ---------- */
+  .recap{background:linear-gradient(135deg, rgba(47,125,92,.07), rgba(200,114,15,.06)); border:1px solid var(--border); border-radius:14px; padding:26px;}
+  .recap-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px;}
+  @media(max-width:760px){.recap-grid{grid-template-columns:1fr 1fr;}}
+  .recap-grid .pill{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; text-align:center;}
+  .recap-grid .pill .ico{font-size:18px; margin-bottom:4px;}
+  .recap-grid .pill span{display:block; font-size:12px; color:var(--text-muted); font-family:var(--mono);}
+
+  /* ---------- REFERENSI ---------- */
+  .ref-list{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+  .ref-list li{display:flex; gap:12px; align-items:baseline; font-size:13.5px; color:var(--text-muted); background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px 16px;}
+  .ref-list b{color:var(--text); font-family:var(--mono); font-size:11px; flex:none; min-width:18px;}
+
+  footer{padding:40px 0 10px; text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11.5px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="stamp">✓ VERIFIED<small>SERVICE UNIT</small></div>
+  <div class="wrap">
+    <div class="eyebrow"><span>KARTU SERVIS · TEKNIK KOMPUTER & JARINGAN</span></div>
+    <h1 class="title">Perawatan Berkala<br>& Pembersihan Komponen
+      <span class="sub">Menjaga performa dan usia pakai perangkat lewat jadwal, pembersihan fisik, dan pemeliharaan software yang konsisten.</span>
+    </h1>
+    <div class="meta-row">
+      <div class="chip">📦 <b>Blok 2</b></div>
+      <div class="chip">🗓️ <b>Hari ke-4</b></div>
+      <div class="chip">⏱️ <b>9 JP</b> (1 hari penuh)</div>
+      <div class="chip">🎯 <b>Semester Ganjil</b> — Dasar Perakitan, Instalasi & Perawatan</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- CP & TP -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Capaian & Tujuan Pembelajaran</h2></div>
+    <p class="sec-desc">Perawatan berkala bukan cuma "bersih-bersih" — ini investasi agar perangkat bertahan lebih lama dan performanya tetap stabil. Berikut arah belajar hari ini.</p>
+
+    <div class="cp-box">
+      <div class="label">Capaian Pembelajaran (CP)</div>
+      <p>Peserta didik mampu melaksanakan perawatan rutin untuk menjaga performa dan usia pakai perangkat, mencakup aspek fisik maupun software, secara terjadwal dan terdokumentasi.</p>
+    </div>
+
+    <div class="callout">
+      <span class="ic">🔗</span>
+      <p><b>Kaitan dengan Hari 3:</b> banyak gejala yang dibahas kemarin — system freeze, BSOD dengan stop code terkait hardware, hingga kinerja yang melambat — bisa dicegah lewat perawatan berkala hari ini. Suhu komponen yang tidak terpantau dan dibiarkan terlalu tinggi adalah salah satu pemicu utama <em>thermal throttling</em> yang berujung pada gejala-gejala tersebut.</p>
+    </div>
+
+    <ul class="tp-list">
+      <li>
+        <div class="tp-num">1</div>
+        <div><span class="tp-tag">Perencanaan</span><p>Menyusun jadwal perawatan berkala komputer — harian, mingguan, bulanan, hingga tahunan — sesuai kebutuhan unit.</p></div>
+      </li>
+      <li>
+        <div class="tp-num">2</div>
+        <div><span class="tp-tag">Pembersihan Fisik</span><p>Melakukan pembersihan fisik komponen (kipas, heatsink, casing) serta memahami kapan dan bagaimana mengganti thermal paste.</p></div>
+      </li>
+      <li>
+        <div class="tp-num">3</div>
+        <div><span class="tp-tag">Pemeliharaan Software</span><p>Melakukan pemeliharaan software: disk cleanup, update sistem, dan defrag/optimize storage untuk menjaga performa OS.</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PETA MATERI -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Alur Belajar Hari Ini</h2></div>
+    <p class="sec-desc">Perawatan yang baik selalu terjadwal, menyeluruh (fisik & software), dan terdokumentasi — bukan dilakukan asal saat perangkat sudah bermasalah.</p>
+    <div class="pipeline">
+      <div class="stage"><span class="n">01 · Rencana</span><h4>Jadwal & Checklist</h4><p>Menyusun rencana perawatan berkala.</p></div>
+      <div class="stage"><span class="n">02 · Fisik</span><h4>Pembersihan Komponen</h4><p>Kipas, heatsink, casing, thermal paste.</p></div>
+      <div class="stage"><span class="n">03 · Software</span><h4>Optimasi Sistem</h4><p>Disk cleanup, update, defrag/optimize.</p></div>
+      <div class="stage"><span class="n">04 · Catat</span><h4>Dokumentasi</h4><p>Laporan hasil perawatan sebagai bukti kerja.</p></div>
+    </div>
+  </section>
+
+  <!-- ALOKASI WAKTU -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02B</span><h2>Alokasi Waktu (9 JP × 45 menit)</h2></div>
+    <p class="sec-desc">Praktik fisik butuh porsi waktu terbesar karena melibatkan bongkar-pasang komponen secara hati-hati.</p>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-time">07.00–07.45<small>JP 1</small></div>
+        <div class="tl-body"><b>Pembukaan & K3 Praktik <span class="tl-jp">1 JP</span></b><span>Penyampaian tujuan pembelajaran + pengenalan prosedur keselamatan kerja (K3) sebelum membuka casing.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">07.45–09.15<small>JP 2–3</small></div>
+        <div class="tl-body"><b>Jadwal & Checklist Perawatan <span class="tl-jp">2 JP</span></b><span>Penjelasan kategori perawatan (harian–tahunan) + latihan menyusun checklist perawatan sendiri.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">09.30–11.30<small>JP 4–6</small></div>
+        <div class="tl-body"><b>Pembersihan Fisik & Thermal Paste <span class="tl-jp">3 JP</span></b><span>Praktik langsung: bongkar unit, bersihkan kipas/heatsink/casing, ganti thermal paste dengan pengawasan guru.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">12.15–13.30<small>JP 7–8</small></div>
+        <div class="tl-body"><b>Pemeliharaan Software <span class="tl-jp">2 JP</span></b><span>Praktik disk cleanup, update sistem, dan defrag/optimize storage pada unit yang sama.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">13.30–14.15<small>JP 9</small></div>
+        <div class="tl-body"><b>Dokumentasi & Asesmen <span class="tl-jp">1 JP</span></b><span>Mengisi laporan hasil perawatan, verifikasi checklist, refleksi & penutup.</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="ic">ⓘ</span>
+      <p>Istirahat: 09.15–09.30 (15 menit) dan 11.30–12.15 (45 menit, ISHOMA). Total waktu efektif 9 JP × 45 menit = 405 menit.</p>
+    </div>
+    <div class="callout warn">
+      <span class="ic">👥</span>
+      <p><b>Logistik praktik:</b> bentuk kelompok 3–4 siswa per unit komputer agar setiap anggota mendapat giliran membongkar, membersihkan, dan mendokumentasikan — bukan hanya menonton. Guru berkeliling memantau prosedur K3 di setiap kelompok.</p>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 1: JADWAL & CHECKLIST -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Jadwal & Checklist Perawatan Berkala</h2></div>
+    <p class="sec-desc">Perawatan yang efektif punya frekuensi yang jelas. Tidak semua hal perlu dicek setiap hari — tapi semua hal perlu dicek pada waktunya.</p>
+
+    <div class="tbl-wrap">
+      <table class="check-table">
+        <thead><tr><th>Item Perawatan</th><th>Frekuensi</th><th>Deskripsi Singkat</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="item">Cek suhu & suara kipas</td><td><span class="freq harian">Harian</span></td><td>Pastikan tidak ada suara berisik/berdecit dan suhu dalam rentang normal.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Disk cleanup ringan</td><td><span class="freq mingguan">Mingguan</span></td><td>Menghapus file sementara & cache yang menumpuk.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Update sistem operasi</td><td><span class="freq mingguan">Mingguan</span></td><td>Memastikan patch keamanan & driver selalu versi terbaru.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Pembersihan debu casing & kipas</td><td><span class="freq bulanan">Bulanan</span></td><td>Menggunakan blower/kuas untuk area yang mudah dijangkau.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Defrag / optimize storage</td><td><span class="freq bulanan">Bulanan</span></td><td>Menjaga efisiensi baca-tulis, terutama pada HDD.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Pembersihan menyeluruh heatsink</td><td><span class="freq tahunan">Tahunan</span></td><td>Bongkar heatsink untuk membersihkan debu yang menumpuk di sirip pendingin.</td><td><span class="cb"></span></td></tr>
+          <tr><td class="item">Penggantian thermal paste</td><td><span class="freq tahunan">Tahunan</span></td><td>Thermal paste mengering seiring waktu dan menurunkan efisiensi pendinginan.</td><td><span class="cb"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="ic">⚠</span>
+      <p>Checklist ini menjadi dasar unjuk kerja hari ini — setiap item yang dipraktikkan harus dicentang dan suhu komponen dicatat sebagai bukti perawatan berhasil.</p>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 2: PEMBERSIHAN FISIK -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Pembersihan Fisik Komponen & Penggantian Thermal Paste</h2></div>
+    <p class="sec-desc">Debu adalah musuh utama pendinginan. Kenali komponen mana yang paling rawan menumpuk debu dan bagaimana membersihkannya dengan aman.</p>
+
+    <div class="callout warn" style="margin-bottom:22px;">
+      <span class="ic">⚠</span>
+      <p><b>K3 wajib sebelum membuka casing:</b> matikan unit & cabut kabel power, tekan tombol power 5 detik untuk membuang sisa listrik statis, dan gunakan gelang anti-statis (wrist strap) bila tersedia.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="comp-card">
+        <div class="comp-head"><h4>🌀 Kipas (Fan)</h4></div>
+        <div class="comp-body">
+          <p>Debu menumpuk di bilah kipas dan menyebabkan putaran tidak stabil serta suara berisik.</p>
+          <div class="row"><b>Alat</b><span>Kuas halus, blower/kompresor angin kecil</span></div>
+          <div class="row"><b>Cara</b><span>Tahan bilah kipas dengan jari agar tidak berputar liar, semprot searah dari dalam keluar.</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-head"><h4>🧊 Heatsink</h4></div>
+        <div class="comp-body">
+          <p>Sirip-sirip logam mudah menjebak debu halus yang menghambat aliran udara pendingin.</p>
+          <div class="row"><b>Alat</b><span>Kuas kecil, blower, obeng (bila perlu dilepas)</span></div>
+          <div class="row"><b>Cara</b><span>Sikat perlahan di sela sirip, semprot dari arah berlawanan agar debu keluar sepenuhnya.</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-head"><h4>🖥️ Casing & Ventilasi</h4></div>
+        <div class="comp-body">
+          <p>Filter debu dan lubang ventilasi yang tersumbat mengurangi sirkulasi udara ke seluruh sistem.</p>
+          <div class="row"><b>Alat</b><span>Kain microfiber, kuas, blower</span></div>
+          <div class="row"><b>Cara</b><span>Lepas filter debu bila ada, bersihkan terpisah, lap bagian luar dengan kain sedikit lembap.</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-head"><h4>🔩 Slot RAM & Konektor</h4></div>
+        <div class="comp-body">
+          <p>Debu di slot dapat menyebabkan koneksi tidak stabil atau komputer gagal booting.</p>
+          <div class="row"><b>Alat</b><span>Penghapus pensil (untuk pin RAM), blower</span></div>
+          <div class="row"><b>Cara</b><span>Lepas modul RAM, bersihkan pin dengan lembut, pasang kembali hingga terkunci sempurna.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:13.5px; color:var(--text-muted); margin:30px 0 6px;"><b style="color:var(--text);">Langkah Penggantian Thermal Paste</b></p>
+    <div class="steps" style="margin-top:16px;">
+      <li>
+        <h4>Lepas heatsink dari CPU</h4>
+        <p>Buka pengunci heatsink, angkat perlahan secara lurus ke atas — jangan digeser agar tidak merusak pin/socket.</p>
+      </li>
+      <li>
+        <h4>Bersihkan sisa thermal paste lama</h4>
+        <p>Gunakan tisu/kain lembut dengan sedikit isopropyl alcohol pada permukaan CPU dan dasar heatsink hingga bersih dan kering.</p>
+        <span class="cmd">Isopropyl alcohol 90%+</span>
+      </li>
+      <li>
+        <h4>Aplikasikan thermal paste baru</h4>
+        <p>Oleskan seukuran butir beras/jagung di tengah permukaan CPU — jangan berlebihan agar tidak meluber ke socket.</p>
+      </li>
+      <li>
+        <h4>Pasang kembali heatsink</h4>
+        <p>Tekan merata dan kencangkan baut secara menyilang (diagonal) agar tekanan pada CPU merata di semua sisi.</p>
+      </li>
+      <li>
+        <h4>Uji suhu setelah pemasangan</h4>
+        <p>Nyalakan komputer dan pantau suhu idle maupun saat beban tinggi menggunakan software monitoring.</p>
+      </li>
+    </div>
+
+    <div class="gauge-wrap">
+      <h4>🌡️ Rentang Suhu CPU yang Wajar</h4>
+      <p class="cap">Gunakan sebagai acuan saat verifikasi checklist "suhu komponen terpantau normal".</p>
+      <div class="gauge">
+        <div class="seg ok">NORMAL</div>
+        <div class="seg warn">WASPADA</div>
+        <div class="seg danger">BAHAYA</div>
+      </div>
+      <div class="gauge-labels"><span>30°C</span><span>60°C</span><span>80°C</span><span>90°C+</span></div>
+      <div class="gauge-legend">
+        <div class="lg"><span class="dot ok"></span> 30–60°C: idle/penggunaan ringan — aman</div>
+        <div class="lg"><span class="dot warn"></span> 60–80°C: beban tinggi — masih wajar, tetap pantau</div>
+        <div class="lg"><span class="dot danger"></span> &gt;80°C: berisiko thermal throttling, segera periksa pendinginan</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 3: SOFTWARE MAINTENANCE -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Pemeliharaan Software: Disk Cleanup, Update, Optimize</h2></div>
+    <p class="sec-desc">Perawatan fisik saja tidak cukup — sisi software juga perlu dijaga agar sistem operasi tetap ringan dan aman.</p>
+
+    <div class="tbl-wrap">
+      <table class="tool-table">
+        <thead><tr><th>Tools</th><th>Fungsi</th><th>Kapan Digunakan</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">Disk Cleanup<span class="path">cleanmgr.exe</span></td>
+            <td>Menghapus file sementara, cache update, dan Recycle Bin.</td>
+            <td>Mingguan, atau saat ruang penyimpanan mulai menipis.</td>
+          </tr>
+          <tr>
+            <td class="name">Storage Sense<span class="path">Settings → System → Storage</span></td>
+            <td>Otomatisasi pembersihan file sementara secara berkala.</td>
+            <td>Diaktifkan sekali, berjalan otomatis selanjutnya.</td>
+          </tr>
+          <tr>
+            <td class="name">Windows Update<span class="path">Settings → Windows Update</span></td>
+            <td>Memasang patch keamanan, perbaikan bug, dan update driver.</td>
+            <td>Mingguan, agar celah keamanan segera tertutup.</td>
+          </tr>
+          <tr>
+            <td class="name">Optimize Drives<span class="path">dfrgui.exe</span></td>
+            <td>Defragmentasi HDD atau TRIM untuk SSD agar performa baca-tulis terjaga.</td>
+            <td>Bulanan untuk HDD; SSD cukup TRIM otomatis dari sistem.</td>
+          </tr>
+          <tr>
+            <td class="name">Task Manager (Startup)<span class="path">Ctrl+Shift+Esc → Startup</span></td>
+            <td>Menonaktifkan aplikasi yang otomatis berjalan saat booting.</td>
+            <td>Saat waktu booting terasa lambat.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="ic">ⓘ</span>
+      <p><b>Catatan penting:</b> Defragmentasi hanya untuk HDD. Menjalankan defrag pada SSD tidak meningkatkan performa dan justru memperpendek usia pakainya — gunakan TRIM/Optimize sebagai gantinya.</p>
+    </div>
+  </section>
+
+  <!-- GLOSARIUM -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05B</span><h2>Glosarium Istilah</h2></div>
+    <p class="sec-desc">Istilah kunci yang akan sering muncul selama praktik hari ini.</p>
+    <div class="gloss">
+      <div class="item"><b>Thermal Paste</b><span>Pasta konduktor panas yang mengisi celah mikroskopis antara CPU dan heatsink agar transfer panas maksimal.</span></div>
+      <div class="item"><b>Thermal Throttling</b><span>Penurunan kecepatan prosesor otomatis oleh sistem saat suhu terlalu tinggi, untuk mencegah kerusakan.</span></div>
+      <div class="item"><b>Defragmentasi</b><span>Proses menyusun ulang file yang terpecah-pecah di HDD agar dapat dibaca lebih cepat dan berurutan.</span></div>
+      <div class="item"><b>TRIM</b><span>Perintah khusus SSD yang memberi tahu drive blok data mana yang sudah tidak terpakai.</span></div>
+      <div class="item"><b>Electrostatic Discharge (ESD)</b><span>Pelepasan muatan listrik statis dari tubuh yang dapat merusak komponen elektronik sensitif.</span></div>
+      <div class="item"><b>Wrist Strap</b><span>Gelang anti-statis yang menghubungkan tubuh teknisi ke ground untuk mencegah ESD.</span></div>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 4: DOKUMENTASI -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Dokumentasi Hasil Perawatan</h2></div>
+    <p class="sec-desc">Perawatan yang tidak didokumentasikan sulit dijadikan bukti kerja. Gunakan format sederhana berikut sebagai laporan unjuk kerja.</p>
+    <div class="doc-card">
+      <div class="doc-field"><b>Nama Teknisi</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>ID / Unit Komputer</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Tanggal Perawatan</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Item Dikerjakan</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Suhu Sebelum</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Suhu Sesudah</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Foto Before/After</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Catatan Tambahan</b><span class="fill">&nbsp;</span></div>
+      <div class="doc-field"><b>Paraf Guru</b><span class="fill">&nbsp;</span></div>
+    </div>
+    <div class="callout">
+      <span class="ic">ⓘ</span>
+      <p>Dokumentasi foto before/after sangat membantu — selain sebagai bukti, ini juga melatih ketelitian dalam mengamati perubahan kondisi fisik komponen.</p>
+    </div>
+    <div class="callout warn">
+      <span class="ic">📷</span>
+      <p><b>Panduan foto before/after:</b> ambil dari sudut & jarak yang sama untuk kedua foto (misalnya tegak lurus dari atas heatsink), pastikan pencahayaan cukup agar debu/sisa thermal paste terlihat jelas, dan sertakan label tanggal atau nomor unit di kertas kecil dalam bingkai foto.</p>
+    </div>
+  </section>
+
+  <!-- SOAL FORMATIF -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Cek Pemahaman (Formatif)</h2></div>
+    <p class="sec-desc">Sebelum praktik penuh, pastikan konsep dasarnya sudah lekat. Klik salah satu opsi untuk melihat apakah jawabanmu benar.</p>
+
+    <div class="quiz" id="q1">
+      <p class="q">1. Apa yang wajib dilakukan sebelum membuka casing komputer untuk pembersihan?</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q1')"><span class="letter">A</span> Langsung membuka casing tanpa persiapan</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q1')"><span class="letter">B</span> Matikan unit, cabut kabel power, dan buang muatan statis</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q1')"><span class="letter">C</span> Menyalakan komputer agar debu lebih terlihat</div>
+      </div>
+      <p class="fb" id="fb-q1"></p>
+    </div>
+
+    <div class="quiz" id="q2">
+      <p class="q">2. Mengapa defragmentasi tidak dianjurkan untuk SSD?</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q2')"><span class="letter">A</span> Karena SSD tidak bisa dibuka software Windows</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q2')"><span class="letter">B</span> Karena tidak meningkatkan performa dan memperpendek usia SSD</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q2')"><span class="letter">C</span> Karena SSD otomatis rusak jika didefrag</div>
+      </div>
+      <p class="fb" id="fb-q2"></p>
+    </div>
+
+    <div class="quiz" id="q3">
+      <p class="q">3. Berapa perkiraan suhu CPU yang mulai berisiko menyebabkan thermal throttling?</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q3')"><span class="letter">A</span> 35°C</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q3')"><span class="letter">B</span> 55°C</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q3')"><span class="letter">C</span> Lebih dari 80°C</div>
+      </div>
+      <p class="fb" id="fb-q3"></p>
+    </div>
+  </section>
+
+  <!-- PRAKTIK / STUDI KASUS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Praktik Unjuk Kerja: Simulasi Perawatan Unit</h2></div>
+    <p class="sec-desc">Terapkan seluruh alur — checklist → pembersihan fisik → software → dokumentasi — pada dua skenario berikut secara berkelompok.</p>
+
+    <div class="case" id="case1">
+      <div class="case-head" onclick="toggleCase('case1')">
+        <span class="tag">SKENARIO 01</span>
+        <h4>Unit lab jarang dibersihkan selama 1 tahun, kipas terdengar berisik.</h4>
+        <span class="chev">›</span>
+      </div>
+      <div class="case-body">
+        <div class="case-body-inner">
+          <p><b>Kondisi:</b> Sebuah PC di lab komputer belum pernah dibersihkan sejak dipasang setahun lalu. Kipas CPU terdengar berisik dan suhu saat idle sudah di atas 55°C.</p>
+          <span class="lbl">Tugas Kelompok</span>
+          <ol>
+            <li>Susun checklist item apa saja yang perlu dikerjakan berdasarkan kondisi ini.</li>
+            <li>Tentukan urutan pengerjaan yang aman dan efisien.</li>
+            <li>Perkirakan apakah thermal paste perlu diganti, dan jelaskan alasannya.</li>
+          </ol>
+          <button class="hint-btn" onclick="toggleHint('hint1')">Tampilkan kunci pembahasan</button>
+          <div id="hint1" style="display:none; margin-top:12px;">
+            <ol>
+              <li>Checklist: matikan & buka casing dengan K3 → bersihkan kipas & heatsink → cek kondisi thermal paste → bersihkan filter debu casing → cek ulang suhu setelah dipasang kembali.</li>
+              <li>Urutan aman: kipas dahulu (paling mudah dijangkau) → heatsink → thermal paste (jika perlu) → casing/ventilasi, agar debu dari area lebih kotor tidak mengotori area yang sudah dibersihkan.</li>
+              <li>Suhu idle di atas 55°C setelah 1 tahun pemakaian adalah indikasi kuat thermal paste sudah mengering — sebaiknya diganti sesuai jadwal tahunan.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case" id="case2">
+      <div class="case-head" onclick="toggleCase('case2')">
+        <span class="tag">SKENARIO 02</span>
+        <h4>Laptop terasa lambat saat booting dan ruang penyimpanan hampir penuh.</h4>
+        <span class="chev">›</span>
+      </div>
+      <div class="case-body">
+        <div class="case-body-inner">
+          <p><b>Kondisi:</b> Seorang siswa mengeluh laptopnya butuh waktu lama untuk booting, dan notifikasi "penyimpanan hampir penuh" sering muncul. Laptop menggunakan SSD.</p>
+          <span class="lbl">Tugas Kelompok</span>
+          <ol>
+            <li>Identifikasi kategori masalah ini — fisik atau software?</li>
+            <li>Susun langkah pemeliharaan software yang relevan untuk kasus ini.</li>
+            <li>Apakah defrag perlu dilakukan? Jelaskan alasannya berdasarkan jenis storage.</li>
+          </ol>
+          <button class="hint-btn" onclick="toggleHint('hint2')">Tampilkan kunci pembahasan</button>
+          <div id="hint2" style="display:none; margin-top:12px;">
+            <ol>
+              <li>Ini murni masalah software/pemeliharaan sistem, bukan kerusakan fisik.</li>
+              <li>Langkah: jalankan Disk Cleanup untuk file sementara → aktifkan Storage Sense → cek & nonaktifkan aplikasi startup yang tidak perlu → pastikan Windows Update tidak menumpuk file instalasi lama.</li>
+              <li>Defrag <b>tidak perlu</b> dilakukan karena storage-nya SSD — cukup pastikan fitur TRIM/Optimize berjalan otomatis, bukan defrag manual seperti pada HDD.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASESMEN / KKTP -->
+  <section>
+    <div class="sec-head"><span class="sec-num">09</span><h2>Kriteria Ketuntasan & Asesmen</h2></div>
+    <div class="status-panel">
+      <div class="row"><div class="k">KKTP</div><div class="v">Siswa mampu melakukan perawatan berkala pada <b>1 unit komputer</b> sesuai checklist dengan seluruh item tercentang dan suhu komponen terpantau normal.</div></div>
+      <div class="row"><div class="k">Bentuk Asesmen</div><div class="v">Unjuk kerja praktik perawatan langsung pada unit komputer + pengisian checklist & dokumentasi.</div></div>
+      <div class="row"><div class="k">Indikator Sukses</div><div class="v">Seluruh item checklist tercentang, prosedur K3 diikuti dengan benar, dan suhu komponen setelah perawatan berada pada rentang normal.</div></div>
+    </div>
+
+    <p style="font-size:13.5px; color:var(--text-muted); margin:26px 0 12px;"><b style="color:var(--text);">Rubrik Penilaian Unjuk Kerja</b> (skala 1–4)</p>
+    <div class="tbl-wrap">
+      <table class="rubrik">
+        <thead><tr><th>Skor</th><th>Kriteria</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td class="skor">4</td><td class="krit">Mahir</td><td>Menyelesaikan seluruh checklist secara mandiri, K3 diikuti penuh, suhu akhir normal, dan dokumentasi lengkap.</td></tr>
+          <tr><td class="skor">3</td><td class="krit">Cakap</td><td>Menyelesaikan sebagian besar checklist dengan sedikit arahan, hasil akhir sesuai standar.</td></tr>
+          <tr><td class="skor">2</td><td class="krit">Berkembang</td><td>Mampu melakukan pembersihan dasar namun masih perlu bimbingan pada tahap thermal paste/dokumentasi.</td></tr>
+          <tr><td class="skor">1</td><td class="krit">Awal</td><td>Membutuhkan bimbingan penuh dalam prosedur K3 maupun pelaksanaan checklist.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REMEDIAL & PENGAYAAN -->
+  <section>
+    <div class="sec-head"><span class="sec-num">10</span><h2>Remedial & Pengayaan</h2></div>
+    <p class="sec-desc">Tidak semua siswa tuntas di waktu yang sama — berikut tindak lanjut untuk keduanya.</p>
+    <div class="rp-grid">
+      <div class="rp-card remedial">
+        <div class="label">Remedial</div>
+        <ul>
+          <li>Pendampingan ulang praktik pembersihan fisik secara berpasangan dengan tutor sebaya.</li>
+          <li>Mengulang penggantian thermal paste pada unit simulasi dengan panduan langkah tertulis.</li>
+          <li>Latihan tambahan mengisi format dokumentasi hasil perawatan.</li>
+        </ul>
+      </div>
+      <div class="rp-card pengayaan">
+        <div class="label">Pengayaan</div>
+        <ul>
+          <li>Menyusun SOP perawatan berkala untuk laboratorium komputer sekolah.</li>
+          <li>Eksplorasi software monitoring suhu lanjutan (HWMonitor, Core Temp) untuk logging jangka panjang.</li>
+          <li>Riset perbandingan jenis thermal paste (silikon vs logam cair) dan efektivitasnya.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALAT & PROFIL -->
+  <section>
+    <div class="sec-head"><span class="sec-num">11</span><h2>Alat, Bahan & Profil Pelajar Pancasila</h2></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="label">Alat & Bahan Praktik</div>
+        <div class="tag-list">
+          <span>🖥️ Unit komputer</span>
+          <span>🖌️ Kuas / blower</span>
+          <span>🧴 Thermal paste</span>
+          <span>🔩 Obeng</span>
+          <span>🧪 Isopropyl alcohol 90%+</span>
+          <span>🧻 Kain microfiber / tisu bebas serat</span>
+          <span>⚡ Wrist strap (gelang anti-statis)</span>
+          <span>📱 Kamera/HP untuk dokumentasi foto</span>
+          <span>📋 Lembar checklist perawatan</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="label">Profil Pelajar Pancasila</div>
+        <div class="tag-list">
+          <span>🎯 Mandiri</span>
+          <span>🤝 Gotong Royong</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RANGKUMAN -->
+  <section>
+    <div class="sec-head"><span class="sec-num">12</span><h2>Rangkuman</h2></div>
+    <div class="recap">
+      <p style="margin:0; font-size:14.5px; color:var(--text);">Perawatan berkala menjaga performa dan usia pakai perangkat lewat empat langkah konsisten: susun <b>jadwal & checklist</b>, lakukan <b>pembersihan fisik</b> dengan prosedur K3 yang benar, jaga sisi <b>software</b> tetap optimal, dan selalu <b>dokumentasikan</b> hasilnya sebagai bukti kerja.</p>
+      <div class="recap-grid">
+        <div class="pill"><div class="ico">🗓️</div><span>Jadwal</span></div>
+        <div class="pill"><div class="ico">🧹</div><span>Bersihkan</span></div>
+        <div class="pill"><div class="ico">💾</div><span>Optimasi</span></div>
+        <div class="pill"><div class="ico">📝</div><span>Dokumentasikan</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENSI -->
+  <section>
+    <div class="sec-head"><span class="sec-num">13</span><h2>Referensi & Sumber Belajar</h2></div>
+    <ul class="ref-list">
+      <li><b>01</b> Microsoft Learn — Panduan Optimize Drives & Storage Sense (learn.microsoft.com)</li>
+      <li><b>02</b> Buku Ajar Teknik Komputer & Jaringan — Perawatan & Perbaikan Komputer, Kemdikbudristek</li>
+      <li><b>03</b> Panduan K3 Praktik Perakitan & Perawatan Komputer, SMK TKJ</li>
+      <li><b>04</b> Lembar kerja & checklist perawatan internal sekolah</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>SMK · MODUL AJAR TKJ · BLOK 2 / HARI 4 / 9 JP · PERAWATAN BERKALA & PEMBERSIHAN KOMPONEN</footer>
+
+<script>
+  function answerQuiz(el, qid){
+    const opts = document.querySelectorAll('#'+qid+' .opt');
+    const fb = document.getElementById('fb-'+qid);
+    opts.forEach(o => o.style.pointerEvents = 'none');
+    opts.forEach(o => { if(o.dataset.correct === 'true'){ o.classList.add('correct'); } });
+    if(el.dataset.correct !== 'true'){
+      el.classList.add('wrong');
+      fb.textContent = '✕ Belum tepat — perhatikan opsi yang ditandai hijau sebagai jawaban benar.';
+    } else {
+      fb.textContent = '✓ Benar! Pemahamanmu sudah sesuai.';
+    }
+    fb.classList.add('show');
+  }
+  function toggleCase(id){
+    document.getElementById(id).classList.toggle('open');
+  }
+  function toggleHint(id){
+    const h = document.getElementById(id);
+    h.style.display = h.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+</body>
+</html>
