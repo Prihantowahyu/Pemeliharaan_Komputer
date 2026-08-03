@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPERASI: FIRMWARE BREACH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #050806;
+    --panel:     #0a120d;
+    --panel-hi:  #0e1a12;
+    --line:      #17301f;
+    --line-hi:   #1f4a2c;
+    --green:     #39ff88;
+    --green-dim: #1e8a52;
+    --amber:     #f2b134;
+    --amber-dim: #8a6a1f;
+    --red:       #ff4d4d;
+    --text:      #d6f5e0;
+    --text-dim:  #5f8a6c;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-mono);
+    padding-bottom:70px; position:relative; overflow-x:hidden;
+  }
+  #matrix{ position:fixed; inset:0; z-index:0; opacity:.35; pointer-events:none; }
+  .wrap{ max-width:840px; margin:0 auto; padding:0 20px; position:relative; z-index:1; }
+
+  ::selection{ background:var(--green); color:#000; }
+
+  /* ============ SCANLINE OVERLAY ============ */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:2; pointer-events:none;
+    background:repeating-linear-gradient(180deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,.12) 3px);
+    mix-blend-mode:overlay;
+  }
+
+  /* ============ HEADER ============ */
+  header{ padding:34px 0 20px; position:relative; z-index:1; }
+  .boot-log{
+    font-size:11px; color:var(--green-dim); line-height:1.9; margin-bottom:22px; min-height:100px;
+  }
+  .boot-log .done{ color:var(--green); }
+  .boot-log .cur::after{ content:"▋"; animation:blink 1s step-end infinite; margin-left:2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .title-row{ margin-bottom:8px; }
+  .tag-line{ font-size:11px; letter-spacing:.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; }
+  h1{
+    font-family:var(--font-display); font-size:clamp(26px,5vw,40px); font-weight:700;
+    color:var(--green); letter-spacing:-.01em; line-height:1.15; margin-bottom:14px;
+    text-shadow:0 0 12px rgba(57,255,136,.45), 0 0 40px rgba(57,255,136,.15);
+    animation:flicker 6s infinite;
+  }
+  @keyframes flicker{
+    0%,96%,100%{ opacity:1; }
+    97%{ opacity:.75; }
+    98%{ opacity:1; }
+    99%{ opacity:.85; }
+  }
+  .briefing{
+    background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--amber);
+    border-radius:4px; padding:14px 16px; font-size:12.5px; line-height:1.75; color:var(--text-dim);
+    max-width:640px; margin-bottom:22px;
+  }
+  .briefing b{ color:var(--amber); }
+  .briefing .from{ color:var(--green); font-weight:600; }
+
+  .agent-id{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:10px 14px; max-width:640px; margin-bottom:26px;
+  }
+  .agent-id label{ font-size:11.5px; color:var(--amber); letter-spacing:.03em; flex-shrink:0; }
+  .agent-id input{
+    flex:1; min-width:180px; background:#02100a; border:1px solid var(--line-hi); border-radius:5px;
+    padding:8px 10px; font-family:var(--font-mono); font-size:12.5px; color:var(--green); outline:none;
+  }
+  .agent-id input:focus{ border-color:var(--green); box-shadow:0 0 0 2px rgba(57,255,136,.12); }
+  .agent-id input::placeholder{ color:var(--text-dim); }
+
+  /* ============ BREACH METER ============ */
+  .meterbar{
+    position:sticky; top:0; z-index:20; background:rgba(5,8,6,.94); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:11px 0;
+  }
+  .meterbar-inner{ max-width:840px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .meterbar .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); flex-shrink:0; }
+  .meterbar .lbl{ font-size:10.5px; letter-spacing:.1em; color:var(--text-dim); }
+  .meterbar b{ font-size:12.5px; color:var(--green); }
+  .meter-track{ flex:1; min-width:120px; height:9px; background:#02100a; border:1px solid var(--line); border-radius:5px; overflow:hidden; position:relative; }
+  .meter-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--green-dim), var(--green)); transition:width .4s ease; }
+
+  /* ============ MISSION / LAYER BLOCK ============ */
+  .layer{ margin:34px 0; position:relative; }
+  .layer-head{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .layer-num{
+    width:42px; height:42px; border-radius:6px; background:var(--panel); border:1.5px solid var(--green-dim);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:var(--green); flex-shrink:0;
+  }
+  .layer-title{ font-family:var(--font-display); font-weight:700; font-size:18px; color:var(--text); }
+  .layer-sub{ font-size:11px; color:var(--text-dim); margin-top:2px; }
+
+  .locked-overlay{
+    position:absolute; inset:0; z-index:5; background:rgba(5,8,6,.88);
+    border:1px dashed var(--line-hi); border-radius:8px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-align:center; padding:30px 20px;
+  }
+  .locked-overlay .lock-icon{ font-size:26px; }
+  .locked-overlay .lock-text{ font-size:12px; color:var(--text-dim); max-width:320px; line-height:1.6; }
+  .locked-overlay .lock-text b{ color:var(--amber); }
+
+  /* terminal window chrome */
+  .term{
+    background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 12px 30px rgba(0,0,0,.35);
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px; padding:9px 12px; background:var(--panel-hi); border-bottom:1px solid var(--line);
+  }
+  .term-dot{ width:9px; height:9px; border-radius:50%; }
+  .term-dot.r{ background:#ff5f56; } .term-dot.y{ background:#ffbd2e; } .term-dot.g{ background:#27c93f; }
+  .term-path{ margin-left:8px; font-size:10.5px; color:var(--text-dim); letter-spacing:.03em; }
+  .term-body{ padding:16px 18px 6px; }
+
+  .q-block{ margin-bottom:20px; }
+  .q-prompt{ font-size:12px; color:var(--text-dim); margin-bottom:4px; }
+  .q-prompt .sym{ color:var(--green); }
+  .q-text{ font-size:13.4px; color:var(--text); line-height:1.6; margin-bottom:10px; }
+  .menu-tag{
+    display:inline-block; font-size:11px; color:var(--amber); background:rgba(242,177,52,.08);
+    border:1px solid var(--amber-dim); border-radius:4px; padding:3px 9px; margin-bottom:8px;
+  }
+
+  .opt{
+    display:flex; align-items:baseline; gap:9px; padding:8px 10px; margin-bottom:6px;
+    border:1px solid var(--line); border-radius:5px; cursor:pointer; font-size:12.6px; color:var(--text);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .opt:hover{ border-color:var(--green-dim); background:rgba(57,255,136,.04); }
+  .opt .idx{ color:var(--green-dim); flex-shrink:0; }
+  .opt input{ position:absolute; opacity:0; width:0; height:0; }
+  .opt.picked{ border-color:var(--green); background:rgba(57,255,136,.07); }
+  .opt.correct{ border-color:var(--green); background:rgba(57,255,136,.12); }
+  .opt.correct .idx{ color:var(--green); }
+  .opt.wrong{ border-color:var(--red); background:rgba(255,77,77,.08); animation:shake .3s; }
+  .opt.wrong .idx{ color:var(--red); }
+  @keyframes shake{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-4px); } 75%{ transform:translateX(4px); } }
+
+  .out-line{
+    display:none; margin-top:8px; font-size:11.5px; padding:8px 10px; border-radius:5px;
+    border-left:3px solid var(--line); background:#02100a; color:var(--text-dim); line-height:1.6;
+  }
+  .out-line.show{ display:block; }
+  .out-line.ok{ border-left-color:var(--green); }
+  .out-line.ok .status{ color:var(--green); font-weight:700; }
+  .out-line.bad{ border-left-color:var(--red); }
+  .out-line.bad .status{ color:var(--red); font-weight:700; }
+  .out-line b{ color:var(--amber); }
+
+  .btn-exec{
+    font-family:var(--font-mono); font-weight:700; font-size:12px; letter-spacing:.03em;
+    background:transparent; color:var(--green); border:1.5px solid var(--green); border-radius:6px;
+    padding:10px 18px; cursor:pointer; margin:6px 0 18px;
+  }
+  .btn-exec:hover{ background:rgba(57,255,136,.1); }
+  .btn-exec:disabled{ border-color:var(--line); color:var(--text-dim); cursor:default; background:none; }
+
+  .layer-result{
+    display:none; font-size:11.5px; color:var(--text-dim); padding:0 18px 16px;
+  }
+  .layer-result.show{ display:block; }
+  .layer-result b{ color:var(--green); }
+
+  /* ============ FINAL / ROOT ACCESS ============ */
+  .btn-final{
+    display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+    font-family:var(--font-mono); font-weight:700; font-size:13.5px; letter-spacing:.05em;
+    background:var(--green); color:#021009; border:none; border-radius:8px;
+    padding:15px 20px; cursor:pointer; margin-top:8px;
+  }
+  .btn-final:hover{ filter:brightness(1.1); }
+  .btn-final:disabled{ background:var(--line); color:var(--text-dim); cursor:default; }
+
+  .root-report{
+    display:none; margin-top:26px; background:var(--panel); border:1px solid var(--green-dim); border-radius:10px;
+    padding:30px 24px; text-align:center; position:relative; overflow:hidden;
+  }
+  .root-report.show{ display:block; animation:reportIn .4s ease; }
+  @keyframes reportIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+  .root-report .icon{ font-size:38px; margin-bottom:6px; }
+  .root-eyebrow{ font-size:11px; letter-spacing:.25em; color:var(--text-dim); text-transform:uppercase; margin-bottom:10px; }
+  .root-agent{ font-size:13.5px; color:var(--amber); font-weight:700; letter-spacing:.02em; margin-bottom:14px; }
+  .root-score{ font-family:var(--font-display); font-size:50px; font-weight:700; color:var(--green); text-shadow:0 0 24px rgba(57,255,136,.4); line-height:1; }
+  .root-total{ font-size:12px; color:var(--text-dim); margin:4px 0 8px; }
+  .root-kkm{ display:inline-block; font-size:11px; color:var(--text-dim); border:1px solid var(--line-hi); border-radius:14px; padding:4px 14px; margin-bottom:16px; }
+  .root-kkm.pass{ color:var(--green); border-color:var(--green-dim); }
+  .root-kkm.fail{ color:var(--red); border-color:var(--red); }
+  .root-rank{ display:inline-block; font-weight:700; font-size:14px; padding:8px 20px; border-radius:20px; margin-bottom:16px; letter-spacing:.04em; }
+  .rank-1{ background:rgba(57,255,136,.12); color:var(--green); border:1px solid var(--green); }
+  .rank-2{ background:rgba(242,177,52,.12); color:var(--amber); border:1px solid var(--amber); }
+  .rank-3{ background:rgba(242,177,52,.08); color:var(--amber-dim); border:1px solid var(--amber-dim); }
+  .rank-4{ background:rgba(255,77,77,.1); color:var(--red); border:1px solid var(--red); }
+  .root-note{ font-size:12.5px; color:var(--text-dim); max-width:480px; margin:0 auto 20px; line-height:1.65; }
+  .root-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn-ghost{
+    font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.03em;
+    background:transparent; color:var(--text-dim); border:1px dashed var(--line-hi); border-radius:6px;
+    padding:9px 16px; cursor:pointer;
+  }
+  .btn-ghost:hover{ color:var(--green); border-color:var(--green-dim); }
+
+  footer{ margin-top:40px; padding-top:16px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:10.5px; color:var(--text-dim); position:relative; z-index:1; }
+  footer .tag{ color:var(--green); font-weight:600; }
+
+  a:focus-visible, .opt:focus-within, button:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+
+  @media (prefers-reduced-motion: reduce){
+    h1{ animation:none; }
+    .opt.wrong{ animation:none; }
+    #matrix{ display:none; }
+  }
+  @media(max-width:520px){
+    .term-body{ padding:14px 14px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="wrap">
+  <header>
+    <div class="boot-log" id="bootLog"></div>
+
+    <div class="title-row">
+      <div class="tag-line">// Pengayaan &mdash; Simulasi Lapangan</div>
+      <h1>OPERASI: FIRMWARE BREACH</h1>
+    </div>
+
+    <div class="briefing">
+      <span class="from">DARI: Tim Keamanan Siber Sekolah</span><br>
+      Beberapa unit komputer di lab dicurigai punya <b>celah konfigurasi firmware</b>. Kamu direkrut sebagai teknisi untuk menembus <b>3 lapisan keamanan</b> yang disusun berdasarkan pemahaman BIOS/UEFI. Jawab benar untuk membuka setiap lapisan — jawab salah, dan sistem akan menahanmu. Semua lapisan harus ditembus untuk mendapatkan <b>ROOT ACCESS</b>.
+    </div>
+
+    <div class="agent-id">
+      <label for="agentName">&gt; REGISTER_AGENT_ID:</label>
+      <input type="text" id="agentName" placeholder="Ketik nama lengkapmu di sini..." autocomplete="off">
+    </div>
+  </header>
+
+  <div class="meterbar">
+    <div class="meterbar-inner">
+      <span class="dot"></span>
+      <span class="lbl">BREACH PROGRESS</span>
+      <b id="liveScore">0 / 15</b>
+      <div class="meter-track"><div class="meter-fill" id="liveFill"></div></div>
+    </div>
+  </div>
+
+  <!-- ===================== LAYER 01 ===================== -->
+  <div class="layer" id="layerWrap-A">
+    <div class="layer-head">
+      <div class="layer-num">01</div>
+      <div>
+        <div class="layer-title">LAYER 01 — Firewall Dasar</div>
+        <div class="layer-sub">6 query verifikasi konsep inti BIOS/UEFI</div>
+      </div>
+    </div>
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-path">root@lab-security:~/layer01_firewall.sh</span>
+      </div>
+      <div class="term-body" id="testA"></div>
+      <div style="padding:0 18px;">
+        <button class="btn-exec" data-test="A">&gt; EXECUTE breach_layer_01.sh</button>
+      </div>
+      <div class="layer-result" id="resultA"></div>
+    </div>
+  </div>
+
+  <!-- ===================== LAYER 02 ===================== -->
+  <div class="layer" id="layerWrap-B">
+    <div class="layer-head">
+      <div class="layer-num">02</div>
+      <div>
+        <div class="layer-title">LAYER 02 — Akses Menu Terenkripsi</div>
+        <div class="layer-sub">5 query pencocokan menu &amp; fungsi</div>
+      </div>
+    </div>
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-path">root@lab-security:~/layer02_menumap.sh</span>
+      </div>
+      <div class="term-body" id="testB"></div>
+      <div style="padding:0 18px;">
+        <button class="btn-exec" data-test="B">&gt; EXECUTE breach_layer_02.sh</button>
+      </div>
+      <div class="layer-result" id="resultB"></div>
+    </div>
+    <div class="locked-overlay" id="lock-B">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-text"><b>ENCRYPTED.</b> Tembus LAYER 01 terlebih dahulu untuk membuka lapisan ini.</div>
+    </div>
+  </div>
+
+  <!-- ===================== LAYER 03 ===================== -->
+  <div class="layer" id="layerWrap-C">
+    <div class="layer-head">
+      <div class="layer-num">03</div>
+      <div>
+        <div class="layer-title">LAYER 03 — Simulasi Lapangan</div>
+        <div class="layer-sub">4 studi kasus teknisi sungguhan</div>
+      </div>
+    </div>
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="term-path">root@lab-security:~/layer03_fieldcase.sh</span>
+      </div>
+      <div class="term-body" id="testC"></div>
+      <div style="padding:0 18px;">
+        <button class="btn-exec" data-test="C">&gt; EXECUTE breach_layer_03.sh</button>
+      </div>
+      <div class="layer-result" id="resultC"></div>
+    </div>
+    <div class="locked-overlay" id="lock-C">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-text"><b>ENCRYPTED.</b> Tembus LAYER 02 terlebih dahulu untuk membuka lapisan ini.</div>
+    </div>
+  </div>
+
+  <button class="btn-final" id="btnFinal" disabled>&gt; REQUEST ROOT ACCESS</button>
+
+  <div class="root-report" id="report">
+    <div class="icon" id="reportIcon">🔓</div>
+    <div class="root-eyebrow">Laporan Akhir Infiltrasi</div>
+    <div class="root-agent" id="reportAgent">AGEN: —</div>
+    <div class="root-score" id="reportScore">0</div>
+    <div class="root-total" id="reportTotal">Nilai Akhir (Skala 0–100)</div>
+    <div class="root-kkm" id="reportKkm">KKM: 80</div>
+    <div class="root-rank" id="reportRank">—</div>
+    <p class="root-note" id="reportNote"></p>
+    <div class="root-actions">
+      <button class="btn-ghost" onclick="window.print()">🖨 Simpan Laporan (PDF)</button>
+      <button class="btn-ghost" onclick="location.reload()">↺ Ulangi Operasi</button>
+    </div>
+  </div>
+
+  <footer>
+    <div>SMK DIPONEGORO TUMPANG<br>MAPEL PEMELIHARAAN KOMPUTER — TKJ</div>
+    <div class="tag">Bengkel Hardware · Pengayaan</div>
+  </footer>
+</div>
+
+<script>
+/* ===================== MATRIX RAIN BACKGROUND ===================== */
+(function(){
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) return;
+  let w, h, cols, drops;
+  const chars = "01アイウエオカキクケコ01BIOS01UEFI01".split("");
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.floor(w/16);
+    drops = new Array(cols).fill(0).map(()=>Math.random()*-50);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  function draw(){
+    ctx.fillStyle = 'rgba(5,8,6,0.08)';
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = '#39ff88';
+    ctx.font = '14px monospace';
+    for(let i=0;i<cols;i++){
+      const ch = chars[Math.floor(Math.random()*chars.length)];
+      ctx.fillText(ch, i*16, drops[i]*16);
+      if(drops[i]*16 > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 60);
+})();
+
+/* ===================== BOOT LOG TYPEWRITER ===================== */
+const bootLines = [
+  "[ INIT ] Menghubungkan ke jaringan lab sekolah...",
+  "[ OK ]   Autentikasi teknisi berhasil.",
+  "[ SCAN ] Ditemukan 3 lapisan keamanan pada firmware target.",
+  "[ INFO ] Gunakan pemahaman BIOS/UEFI-mu untuk menembusnya.",
+  "[ READY ] Mulai dari LAYER 01 di bawah ini."
+];
+(function typeBoot(){
+  const el = document.getElementById('bootLog');
+  let li = 0;
+  function nextLine(){
+    if(li >= bootLines.length) return;
+    const div = document.createElement('div');
+    div.className = 'cur';
+    el.appendChild(div);
+    let ci = 0;
+    const text = bootLines[li];
+    const timer = setInterval(()=>{
+      div.textContent = text.slice(0, ci+1);
+      ci++;
+      if(ci >= text.length){
+        clearInterval(timer);
+        div.classList.remove('cur');
+        div.classList.add('done');
+        li++;
+        setTimeout(nextLine, 150);
+      }
+    }, 14);
+  }
+  nextLine();
+})();
+
+/* ===================== DATA SOAL ===================== */
+const testAData = [
+  { q:"Kepanjangan dari BIOS adalah…",
+    opts:["Basic Input Output System","Binary Integrated Operating System","Boot Initial Output Setup","Basic Internal Operation Software"],
+    correct:0, fb:"BIOS = Basic Input Output System — firmware paling awal yang mengatur komunikasi dasar antara hardware dan sistem operasi." },
+  { q:"UEFI merupakan singkatan dari…",
+    opts:["Universal External File Interface","Unified Extensible Firmware Interface","User Efficient Firmware Init","Unified External Format Installer"],
+    correct:1, fb:"UEFI = Unified Extensible Firmware Interface, penerus BIOS dengan antarmuka grafis dan dukungan fitur modern." },
+  { q:"Fungsi utama BIOS/UEFI ketika komputer pertama kali dinyalakan adalah…",
+    opts:["Menjalankan aplikasi office secara otomatis","Melakukan POST (memeriksa & menginisialisasi hardware) sebelum sistem operasi dimuat","Menghubungkan komputer ke internet","Menginstal ulang sistem operasi"],
+    correct:1, fb:"BIOS/UEFI menjalankan POST — memeriksa CPU, RAM, dan perangkat lain — sebelum menyerahkan kendali ke bootloader OS." },
+  { q:"Skema partisi yang umum dipasangkan dengan sistem UEFI modern adalah…",
+    opts:["FAT16","MBR","GPT","EXT2"],
+    correct:2, fb:"GPT (GUID Partition Table) mendukung kapasitas disk lebih besar & jumlah partisi lebih banyak, jadi pasangan umum UEFI." },
+  { q:"Fitur UEFI yang mencegah bootloader/sistem operasi tidak sah berjalan disebut…",
+    opts:["Fast Boot","Secure Boot","Legacy Support","Overclocking"],
+    correct:1, fb:"Secure Boot memverifikasi tanda tangan digital bootloader sebelum diizinkan berjalan — lapisan keamanan tambahan UEFI." },
+  { q:"Tombol masuk BIOS/UEFI (Del/F2/F10/F12/Esc) harus ditekan pada saat…",
+    opts:["Kapan saja, bahkan saat Windows sudah menyala penuh","Sesaat setelah menekan tombol power, sebelum logo sistem operasi muncul","Setelah proses shutdown selesai","Saat baterai laptop hampir habis"],
+    correct:1, fb:"Jendela masuk BIOS/UEFI hanya terbuka sesaat di awal booting, sebelum kendali diserahkan ke sistem operasi." }
+];
+
+const testBData = [
+  { menu:"Main / Information", opts:["Menampilkan info dasar sistem: prosesor, RAM, tanggal & waktu","Mengatur urutan perangkat booting","Mengatur password BIOS"], correct:0,
+    fb:"Menu Main/Information adalah 'halaman ringkasan' sistem — cocok untuk mengecek spesifikasi tanpa mengubah apa pun." },
+  { menu:"Boot", opts:["Mengatur profil warna layar","Mengatur urutan perangkat yang dicoba sistem saat menyala (boot order)","Mengatur kecepatan kipas"], correct:1,
+    fb:"Menu Boot menentukan perangkat mana (HDD, flashdisk, dsb) yang dicoba lebih dulu saat komputer dinyalakan." },
+  { menu:"Security", opts:["Mengatur volume suara","Mengatur password BIOS dan status Secure Boot","Mengatur resolusi layar"], correct:1,
+    fb:"Menu Security menyimpan pengaturan sensitif seperti password administrator dan status Secure Boot." },
+  { menu:"Advanced", opts:["Mengatur konfigurasi hardware lanjutan seperti CPU, chipset, SATA mode","Mengatur wallpaper desktop","Mengatur jadwal restart otomatis"], correct:0,
+    fb:"Menu Advanced berisi pengaturan teknis tingkat lanjut — berisiko tinggi bila diubah tanpa memahami efeknya." },
+  { menu:"Power", opts:["Mengatur daftar aplikasi startup Windows","Mengatur perilaku daya, misalnya nyala otomatis setelah listrik padam","Mengatur brightness layar"], correct:1,
+    fb:"Menu Power mengatur perilaku terkait catu daya, termasuk perilaku sistem saat listrik kembali menyala." }
+];
+
+const testCData = [
+  { q:"Komputer sudah dipasangi flashdisk bootable Windows, tapi tetap boot ke Windows lama di HDD. Tindakan paling tepat adalah…",
+    opts:["Membiarkannya karena flashdisk memang tidak bisa dipakai boot","Masuk BIOS/UEFI lalu mengubah Boot Order atau memakai Boot Menu agar flashdisk didahulukan","Mengganti seluruh motherboard","Menghapus semua partisi HDD tanpa cadangan"],
+    correct:1, fb:"Selama flashdisk sudah bootable dengan benar, penyebab paling umum adalah urutan boot yang belum diarahkan ke flashdisk." },
+  { q:"Laptop menampilkan \"INACCESSIBLE_BOOT_DEVICE\" setelah mode SATA diubah dari AHCI ke RAID di menu Advanced. Analisis paling tepat adalah…",
+    opts:["Ini pertanda RAM rusak permanen","Perubahan pada menu Advanced yang tidak dipahami efeknya membuat OS gagal mendeteksi disk; sebaiknya kembalikan ke pengaturan semula","Ini disebabkan virus dari internet","Layar biru tidak berhubungan dengan BIOS sama sekali"],
+    correct:1, fb:"Persis mengapa LKPD mengingatkan untuk tidak sembarangan ubah menu Advanced — driver storage mengharapkan mode tertentu (mis. AHCI)." },
+  { q:"Lab sekolah ingin mencegah siswa iseng mengubah Boot Order. Menu yang berperan, dan risiko utamanya, adalah…",
+    opts:["Menu Power; risiko: baterai boros","Menu Security dengan memasang password BIOS; risiko: jika password administrator lupa, perangkat bisa sulit diakses kembali","Menu Main; tidak ada risiko sama sekali","Menu Boot; risiko: warna layar berubah"],
+    correct:1, fb:"Password BIOS di menu Security efektif membatasi akses, tapi menyimpan risiko administratif jika password itu sendiri hilang." },
+  { q:"Instalasi Windows 11 menampilkan pesan perangkat tidak memenuhi syarat TPM/Secure Boot. Yang perlu dicek di BIOS/UEFI adalah…",
+    opts:["Mengecek dan mengaktifkan TPM (fTPM/PTT) serta Secure Boot, biasanya di menu Security/Advanced","Mengganti seluruh RAM","Menonaktifkan seluruh port USB","Mengatur ulang jam sistem"],
+    correct:0, fb:"Windows 11 mensyaratkan TPM 2.0 dan Secure Boot aktif — keduanya bisa diperiksa/diaktifkan langsung dari BIOS/UEFI." }
+];
+
+/* ===================== RENDER SOAL ===================== */
+function renderChoice(container, data, prefix){
+  container.innerHTML = data.map((item, qi) => {
+    const label = item.menu ? `<div class="menu-tag">TARGET_MENU: ${item.menu}</div>` : "";
+    const optsHtml = item.opts.map((o,oi) => `
+      <label class="opt" data-qi="${qi}" data-oi="${oi}">
+        <input type="radio" name="${prefix}-${qi}" value="${oi}">
+        <span class="idx">[${oi+1}]</span><span>${o}</span>
+      </label>`).join("");
+    return `
+      <div class="q-block" data-qi="${qi}">
+        <div class="q-prompt"><span class="sym">&gt;</span> QUERY_${prefix}${qi+1}:</div>
+        ${label}
+        <div class="q-text">${item.q}</div>
+        ${optsHtml}
+        <div class="out-line" data-fb="${qi}"></div>
+      </div>`;
+  }).join("");
+
+  container.querySelectorAll(".opt").forEach(opt => {
+    opt.addEventListener("click", () => {
+      const qi = opt.dataset.qi;
+      container.querySelectorAll(`.opt[data-qi="${qi}"]`).forEach(o => o.classList.remove("picked"));
+      opt.classList.add("picked");
+    });
+  });
+}
+
+renderChoice(document.getElementById("testA"), testAData, "A");
+renderChoice(document.getElementById("testB"), testBData, "B");
+renderChoice(document.getElementById("testC"), testCData, "C");
+
+/* ===================== SCORING & UNLOCK LOGIC ===================== */
+const scores = { A:null, B:null, C:null };
+const totals = { A:testAData.length, B:testBData.length, C:testCData.length };
+const grandTotal = totals.A + totals.B + totals.C;
+
+function updateLiveScore(){
+  const done = Object.values(scores).filter(v => v !== null);
+  const sum = done.reduce((a,b) => a+b, 0);
+  document.getElementById("liveScore").textContent = `${sum} / ${grandTotal}`;
+  document.getElementById("liveFill").style.width = `${(sum/grandTotal)*100}%`;
+  document.getElementById("btnFinal").disabled = !(scores.A !== null && scores.B !== null && scores.C !== null);
+}
+
+function checkLayer(testKey, data){
+  const container = document.getElementById("test"+testKey);
+  let correctCount = 0;
+  let answeredAll = true;
+
+  data.forEach((item, qi) => {
+    const selected = container.querySelector(`input[name="${testKey}-${qi}"]:checked`);
+    const block = container.querySelector(`.q-block[data-qi="${qi}"]`);
+    const out = block.querySelector(`[data-fb="${qi}"]`);
+    if(!selected){ answeredAll = false; return; }
+    const chosen = parseInt(selected.value);
+    block.querySelectorAll(".opt").forEach(optEl => {
+      const oi = parseInt(optEl.dataset.oi);
+      optEl.querySelector("input").disabled = true;
+      if(oi === item.correct) optEl.classList.add("correct");
+      else if(oi === chosen) optEl.classList.add("wrong");
+    });
+    const isCorrect = chosen === item.correct;
+    out.classList.add("show", isCorrect ? "ok" : "bad");
+    out.innerHTML = `<span class="status">${isCorrect ? "ACCESS GRANTED" : "ACCESS DENIED"}</span> — <b>Log:</b> ${item.fb}`;
+    if(isCorrect) correctCount++;
+  });
+
+  if(!answeredAll){
+    alert("Semua QUERY di lapisan ini harus dijawab dulu sebelum eksekusi script.");
+    return null;
+  }
+  return correctCount;
+}
+
+document.querySelectorAll(".btn-exec").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const testKey = btn.dataset.test;
+    const data = testKey === "A" ? testAData : testKey === "B" ? testBData : testCData;
+    const result = checkLayer(testKey, data);
+    if(result === null) return;
+
+    scores[testKey] = result;
+    btn.disabled = true;
+    const resultEl = document.getElementById("result"+testKey);
+    resultEl.classList.add("show");
+    const pct = Math.round((result/totals[testKey])*100);
+    resultEl.innerHTML = `&gt; breach_layer_${testKey==='A'?'01':testKey==='B'?'02':'03'}.sh &mdash; <b>${result}/${totals[testKey]} node ditembus (${pct}%)</b>`;
+
+    // unlock next layer
+    if(testKey === "A"){
+      document.getElementById("lock-B").style.display = "none";
+    } else if(testKey === "B"){
+      document.getElementById("lock-C").style.display = "none";
+    }
+    updateLiveScore();
+  });
+});
+
+const KKM = 80;
+
+document.getElementById("btnFinal").addEventListener("click", () => {
+  const nameInput = document.getElementById("agentName");
+  const agentName = nameInput.value.trim();
+  if(!agentName){
+    alert("Isi dulu REGISTER_AGENT_ID (nama kamu) di bagian atas sebelum meminta ROOT ACCESS.");
+    nameInput.focus();
+    nameInput.scrollIntoView({behavior:"smooth", block:"center"});
+    return;
+  }
+
+  const sum = scores.A + scores.B + scores.C;
+  const nilai = Math.round((sum/grandTotal)*100);
+  const report = document.getElementById("report");
+  report.classList.add("show");
+  document.getElementById("reportAgent").textContent = `AGEN: ${agentName}`;
+  document.getElementById("reportScore").textContent = nilai;
+  document.getElementById("reportTotal").textContent = `Nilai Akhir (Skala 0–100) — ${sum}/${grandTotal} node ditembus`;
+
+  const kkmEl = document.getElementById("reportKkm");
+  const lulus = nilai >= KKM;
+  kkmEl.textContent = `KKM: ${KKM}  —  ${lulus ? "TUNTAS" : "BELUM TUNTAS"}`;
+  kkmEl.className = "root-kkm " + (lulus ? "pass" : "fail");
+
+  const rankEl = document.getElementById("reportRank");
+  const noteEl = document.getElementById("reportNote");
+  const iconEl = document.getElementById("reportIcon");
+
+  if(nilai >= 90){
+    iconEl.textContent = "🔓";
+    rankEl.textContent = "ROOT ACCESS GRANTED — ELITE WHITE HAT";
+    rankEl.className = "root-rank rank-1";
+    noteEl.textContent = "Ketiga lapisan berhasil ditembus nyaris sempurna. Pemahamanmu tentang BIOS/UEFI sudah level operator lapangan sungguhan. Nilai sudah jauh di atas KKM.";
+  } else if(nilai >= KKM){
+    iconEl.textContent = "🔓";
+    rankEl.textContent = "ACCESS GRANTED — SKILLED OPERATOR";
+    rankEl.className = "root-rank rank-2";
+    noteEl.textContent = "Infiltrasi berhasil dan nilai sudah memenuhi KKM. Cek kembali log ACCESS DENIED di atas untuk menutup celah pemahaman yang tersisa.";
+  } else if(nilai >= 60){
+    iconEl.textContent = "🔐";
+    rankEl.textContent = "PARTIAL ACCESS — SCRIPT KIDDIE";
+    rankEl.className = "root-rank rank-3";
+    noteEl.textContent = "Nilai masih di bawah KKM (80). Beberapa lapisan masih bocor — baca ulang materi BIOS/UEFI dan LKPD, lalu coba operasi ini sekali lagi.";
+  } else {
+    iconEl.textContent = "🔒";
+    rankEl.textContent = "ACCESS DENIED — INTRUSION FAILED";
+    rankEl.className = "root-rank rank-4";
+    noteEl.textContent = "Nilai jauh di bawah KKM (80). Sistem menahan sebagian besar percobaanmu — pelajari lagi materi BIOS/UEFI sebelum mencoba operasi ini kembali.";
+  }
+  report.scrollIntoView({behavior:"smooth", block:"center"});
+});
+</script>
+
+</body>
+</html>
