@@ -239,6 +239,57 @@
     color:var(--text-dim); border:1px dashed var(--line); border-radius:5px; padding:3px 8px;
   }
 
+  /* ==========================================================
+     SEMESTER TABS — sakelar semester ala switch panel HUD
+     ========================================================== */
+  .sem-tabs{
+    position:relative; display:inline-flex; gap:2px;
+    margin-top:20px; padding:5px;
+    background:var(--panel); border:1px solid var(--line); border-radius:11px;
+    backdrop-filter:blur(6px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03), 0 10px 26px -14px rgba(0,0,0,.7);
+  }
+  .sem-tab-glow{
+    position:absolute; top:5px; bottom:5px; left:5px;
+    width:calc(50% - 5px); border-radius:8px;
+    background:linear-gradient(120deg, var(--cyan), var(--violet));
+    box-shadow:0 0 20px rgba(34,211,255,.5), 0 0 0 1px rgba(34,211,255,.12);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+    z-index:1;
+  }
+  .sem-tab{
+    position:relative; z-index:2; appearance:none; -webkit-appearance:none;
+    background:none; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:11.5px; font-weight:700; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--text-dim);
+    padding:10px 20px; border-radius:8px;
+    transition:color .3s ease;
+  }
+  .sem-tab .dot{ width:5px; height:5px; border-radius:50%; background:var(--text-dim); transition:background .3s ease, box-shadow .3s ease; }
+  .sem-tab.active{ color:#04101a; }
+  .sem-tab.active .dot{ background:#04101a; box-shadow:0 0 6px rgba(4,16,26,.5); }
+  .sem-tab:not(.active):hover{ color:var(--cyan-bright); }
+  .sem-tab:focus-visible{ outline:2px solid var(--cyan-bright); outline-offset:2px; }
+
+  .genap-hero{
+    display:flex; flex-direction:column; align-items:flex-start; gap:16px;
+    padding:38px 26px; text-align:left;
+    background:var(--panel); border:1px dashed var(--line); border-radius:14px;
+    backdrop-filter:blur(6px);
+  }
+  .genap-hero-icon{
+    width:52px; height:52px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(135deg, var(--panel-hi), var(--panel));
+    border:1px solid var(--line-bright);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cyan-bright);
+    box-shadow:0 0 22px -6px rgba(34,211,255,.4);
+  }
+  .genap-hero-icon svg{ width:24px; height:24px; }
+  .genap-hero h2{ font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--text); }
+  .genap-hero p{ font-size:13px; color:var(--text-dim); line-height:1.7; max-width:520px; }
+
   .card{
     position:relative;
     background:var(--panel);
@@ -327,16 +378,27 @@
 <header>
   <div class="wrap">
     <div class="brand">
-      <div class="brand-chip">PW</div>
+      <div class="brand-chip">BH</div>
       <div class="brand-name">Bengkel <span>Hardware</span></div>
     </div>
-    <div class="eyebrow">Portal Materi · TKJ · Semester Ganjil</div>
-    <h1>Dasar Perakitan, Instalasi &amp; Perawatan Sistem</h1>
-    <p class="sub">Kumpulan materi ajar Semester Ganjil, sistem blok — <b style="color:var(--text)">Blok 1 (Pertemuan 1–6)</b> membahas K3, komponen hardware, bongkar pasang, BIOS/UEFI, sampai instalasi sistem operasi; <b style="color:var(--text)">Blok 2 (Pertemuan 7–11)</b> melanjutkan ke instalasi driver, troubleshooting, dan perawatan sistem.</p>
+    <div class="eyebrow" id="eyebrowText">Portal Materi · TKJ · Semester Ganjil</div>
+    <h1 id="mainTitle">Dasar Perakitan, Instalasi &amp; Perawatan Sistem</h1>
+    <p class="sub" id="mainSub">Kumpulan materi ajar Semester Ganjil, sistem blok — <b style="color:var(--text)">Blok 1 (Pertemuan 1–6)</b> membahas K3, komponen hardware, bongkar pasang, BIOS/UEFI, sampai instalasi sistem operasi; <b style="color:var(--text)">Blok 2 (Pertemuan 7–11)</b> melanjutkan ke instalasi driver, troubleshooting, dan perawatan sistem.</p>
     <div class="status-bar">
-      <div class="status-chip"><span class="led"></span> Semester Ganjil</div>
-      <div class="status-chip"><b>Blok 1</b> Pertemuan 1–6</div>
-      <div class="status-chip"><b>Blok 2</b> Pertemuan 7–11</div>
+      <div class="status-chip" id="statusSem"><span class="led"></span> Semester Ganjil</div>
+      <div class="status-chip" id="chipBlok1"><b>Blok 1</b> Pertemuan 1–6</div>
+      <div class="status-chip" id="chipBlok2"><b>Blok 2</b> Pertemuan 7–11</div>
+      <div class="status-chip" id="chipGenapInfo" style="display:none"><b>Status</b> Materi sedang disusun</div>
+    </div>
+
+    <div class="sem-tabs" role="tablist" aria-label="Pilih Semester">
+      <span class="sem-tab-glow" id="semGlow" aria-hidden="true"></span>
+      <button type="button" class="sem-tab active" id="tabGanjil" role="tab" aria-selected="true" aria-controls="timeline-ganjil" onclick="switchSemester('ganjil')">
+        <span class="dot"></span> Semester Ganjil
+      </button>
+      <button type="button" class="sem-tab" id="tabGenap" role="tab" aria-selected="false" aria-controls="timeline-genap" onclick="switchSemester('genap')">
+        <span class="dot"></span> Semester Genap
+      </button>
     </div>
 
     <div class="pengampu">
@@ -354,7 +416,7 @@
 </header>
 
 <div class="wrap">
-  <div class="timeline">
+  <div class="timeline" id="timeline-ganjil" role="tabpanel" aria-labelledby="tabGanjil">
 
     <!-- ===================== BLOK 1 ===================== -->
     <div class="block-divider">
@@ -609,6 +671,19 @@
 
   </div>
 
+  <div class="timeline" id="timeline-genap" role="tabpanel" aria-labelledby="tabGenap" style="display:none; padding-left:0;">
+    <div class="genap-hero">
+      <div class="genap-hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      </div>
+      <div>
+        <h2>Materi Semester Genap — Segera Hadir</h2>
+        <p>Modul untuk Semester Genap sedang disusun dan akan menyusul Blok 1 &amp; 2. Pantau terus halaman ini — begitu materi rilis, kartu pertemuan akan muncul di tab ini seperti Semester Ganjil.</p>
+        <span class="badge-soon" style="margin-top:14px; display:inline-block;">Konten belum tersedia</span>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-text">SMK DIPONEGORO TUMPANG · TKJ<br>Disusun oleh Wahyu Prihanto — 0877-7560-0462</div>
     <div class="footer-tag">Bengkel Hardware · Blok 1 &amp; 2</div>
@@ -616,6 +691,36 @@
 </div>
 
 <div class="pins"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<script>
+  function switchSemester(sem){
+    var isGanjil = sem === 'ganjil';
+
+    document.getElementById('tabGanjil').classList.toggle('active', isGanjil);
+    document.getElementById('tabGenap').classList.toggle('active', !isGanjil);
+    document.getElementById('tabGanjil').setAttribute('aria-selected', String(isGanjil));
+    document.getElementById('tabGenap').setAttribute('aria-selected', String(!isGanjil));
+    document.getElementById('semGlow').style.transform = isGanjil ? 'translateX(0)' : 'translateX(100%)';
+
+    document.getElementById('timeline-ganjil').style.display = isGanjil ? '' : 'none';
+    document.getElementById('timeline-genap').style.display = isGanjil ? 'none' : '';
+
+    document.getElementById('eyebrowText').textContent = 'Portal Materi · TKJ · Semester ' + (isGanjil ? 'Ganjil' : 'Genap');
+    document.getElementById('statusSem').innerHTML = '<span class="led"></span> Semester ' + (isGanjil ? 'Ganjil' : 'Genap');
+
+    document.getElementById('chipBlok1').style.display = isGanjil ? '' : 'none';
+    document.getElementById('chipBlok2').style.display = isGanjil ? '' : 'none';
+    document.getElementById('chipGenapInfo').style.display = isGanjil ? 'none' : '';
+
+    if (isGanjil){
+      document.getElementById('mainTitle').textContent = 'Dasar Perakitan, Instalasi & Perawatan Sistem';
+      document.getElementById('mainSub').innerHTML = 'Kumpulan materi ajar Semester Ganjil, sistem blok — <b style="color:var(--text)">Blok 1 (Pertemuan 1–6)</b> membahas K3, komponen hardware, bongkar pasang, BIOS/UEFI, sampai instalasi sistem operasi; <b style="color:var(--text)">Blok 2 (Pertemuan 7–11)</b> melanjutkan ke instalasi driver, troubleshooting, dan perawatan sistem.';
+    } else {
+      document.getElementById('mainTitle').textContent = 'Materi Semester Genap';
+      document.getElementById('mainSub').innerHTML = 'Kelanjutan materi Bengkel Hardware untuk Semester Genap — modul dan urutan pertemuan akan ditambahkan di sini setelah materi disusun.';
+    }
+  }
+</script>
 
 </body>
 </html>
