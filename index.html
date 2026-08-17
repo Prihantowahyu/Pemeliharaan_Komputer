@@ -1429,6 +1429,232 @@
     }
     #cyberCanvas { display: none; }
   }
+
+  /* ==========================================================
+     EXAM LOCKDOWN OVERLAY & ADMIN PIN MODAL STYLES
+     ========================================================== */
+  .exam-lockdown-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: radial-gradient(circle at 50% 40%, rgba(30, 10, 20, 0.96) 0%, rgba(3, 7, 18, 0.99) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  .lockdown-box {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.75);
+    border: 2px solid rgba(239, 68, 68, 0.5);
+    border-radius: var(--radius-xl);
+    padding: 36px 32px;
+    box-shadow: 0 0 50px rgba(239, 68, 68, 0.25), 0 20px 40px rgba(0, 0, 0, 0.8);
+    position: relative;
+  }
+  .lockdown-shield {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 2px solid #ef4444;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ef4444;
+    box-shadow: 0 0 28px rgba(239, 68, 68, 0.5);
+    margin-bottom: 18px;
+    animation: shieldPulse 2s infinite ease-in-out;
+  }
+  .lockdown-shield svg { width: 36px; height: 36px; }
+  @keyframes shieldPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+    50% { transform: scale(1.08); box-shadow: 0 0 35px rgba(239, 68, 68, 0.8); }
+  }
+  .lockdown-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    padding: 4px 14px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .lockdown-title {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+  }
+  .lockdown-desc {
+    font-size: 14px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .lockdown-quote {
+    font-size: 12.5px;
+    font-style: italic;
+    color: #94a3b8;
+    background: rgba(0, 0, 0, 0.4);
+    border-left: 3px solid #ef4444;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+    text-align: left;
+  }
+  .lockdown-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #ef4444;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .pulse-red {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+    animation: liveBlink 1.2s infinite ease-in-out;
+  }
+  .btn-unlock-trigger {
+    background: transparent;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-unlock-trigger:hover {
+    border-color: #00f0ff;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.08);
+  }
+
+  /* Admin Modal */
+  .admin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .admin-modal-card {
+    max-width: 400px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 14, 29, 0.98));
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.25);
+  }
+  .admin-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .admin-modal-header h3 {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    color: #fff;
+  }
+  .btn-close-modal {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .admin-modal-sub {
+    font-size: 12.5px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .pin-input-wrap {
+    margin-bottom: 12px;
+  }
+  .pin-input-wrap input {
+    width: 100%;
+    background: rgba(3, 7, 18, 0.8);
+    border: 1.5px solid rgba(0, 240, 255, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-align: center;
+    color: #00f0ff;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .pin-input-wrap input:focus {
+    border-color: #00f0ff;
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.5);
+  }
+  .pin-error-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #ef4444;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .admin-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-admin-submit {
+    background: linear-gradient(135deg, #00f0ff, #8b5cf6);
+    color: #030712;
+    border: none;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 13.5px;
+    padding: 11px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.4);
+    transition: all 0.2s ease;
+  }
+  .btn-admin-submit:hover {
+    filter: brightness(1.15);
+  }
+  .pin-hint {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 12px;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -1440,6 +1666,54 @@
 <div class="radial-glow glow-emerald"></div>
 <div class="top-laser-strip"></div>
 
+<!-- ==========================================================
+     EXAM LOCKDOWN OVERLAY SCREEN
+     ========================================================== -->
+<div id="examLockdownScreen" class="exam-lockdown-overlay" style="display:none;">
+  <div class="lockdown-box">
+    <div class="lockdown-shield">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><rect x="9" y="10" width="6" height="5" rx="1"/><path d="M10 10V8a2 2 0 1 1 4 0v2"/></svg>
+    </div>
+    <div class="lockdown-badge">SECURITY PROTOCOL ACTIVE</div>
+    <h2 class="lockdown-title">MODE UJIAN DIAKTIFKAN</h2>
+    <p class="lockdown-desc">
+      Akses portal modul dan materi pembelajaran ditutup sementara selama evaluasi / ujian berlangsung.
+    </p>
+    <div class="lockdown-quote">
+      "Kejujuran adalah fondasi utama integritas seorang teknisi profesional."
+    </div>
+    <div class="lockdown-status">
+      <span class="pulse-red"></span> SISTEM TERKUNCI OLEH GURU PENGAMPU
+    </div>
+    <button type="button" class="btn-unlock-trigger" onclick="openPinModal()">
+      🔐 Akses Khusus Guru (Buka Kunci)
+    </button>
+  </div>
+</div>
+
+<!-- ADMIN PIN MODAL -->
+<div id="adminPinModal" class="admin-modal-overlay" style="display:none;" onclick="handleModalBackdrop(event)">
+  <div class="admin-modal-card">
+    <div class="admin-modal-header">
+      <h3>🛡️ Panel Keamanan Guru</h3>
+      <button type="button" class="btn-close-modal" onclick="closePinModal()">✕</button>
+    </div>
+    <p class="admin-modal-sub" id="adminModalSubText">Masukkan PIN Guru untuk mengaktifkan atau menonaktifkan Mode Ujian.</p>
+    
+    <div class="pin-input-wrap">
+      <input type="password" id="inputGuruPin" maxlength="8" placeholder="Masukkan PIN Guru" autocomplete="off">
+    </div>
+    <div id="pinErrorMsg" class="pin-error-text" style="display:none;">PIN salah! Silakan coba lagi.</div>
+
+    <div class="admin-modal-actions">
+      <button type="button" id="btnToggleExam" class="btn-admin-submit" onclick="submitExamToggle()">
+        Kunci / Buka Mode Ujian
+      </button>
+    </div>
+    <div class="pin-hint">Default PIN: <b>123456</b> (Pintasan: <b>Ctrl+Shift+L</b> / Ketuk Logo 5x)</div>
+  </div>
+</div>
+
 <div class="app-wrap">
 
   <div class="pin-strip">
@@ -1450,7 +1724,7 @@
   <header class="hero-hud">
     <div class="hero-top-nav">
       <div class="brand-group">
-        <div class="brand-badge">BH</div>
+        <div class="brand-badge" id="brandLogoTrigger" style="cursor:pointer;" title="Bengkel Hardware (Ketuk 5x untuk Panel Guru)" onclick="handleLogoSecretTap()">BH</div>
         <div class="brand-info">
           <h2>Bengkel <span>Hardware</span></h2>
           <p>Sistem Portal Modul Pembelajaran TKJ</p>
@@ -2426,6 +2700,123 @@
   window.addEventListener('online', updateNetworkStatus);
   window.addEventListener('offline', updateNetworkStatus);
   updateNetworkStatus();
+
+  /* ==========================================================
+     EXAM LOCKDOWN & GURU SECURITY PANEL LOGIC
+     ========================================================== */
+  const DEFAULT_PIN = '123456';
+  const STORAGE_PIN_KEY = 'bh_guru_security_pin';
+  const STORAGE_LOCK_KEY = 'bh_exam_lockdown_state';
+
+  function getGuruPin() {
+    return localStorage.getItem(STORAGE_PIN_KEY) || DEFAULT_PIN;
+  }
+
+  function isExamLocked() {
+    return localStorage.getItem(STORAGE_LOCK_KEY) === 'true';
+  }
+
+  function applyLockdownUI() {
+    const locked = isExamLocked();
+    const overlay = document.getElementById('examLockdownScreen');
+    if (overlay) {
+      overlay.style.display = locked ? 'flex' : 'none';
+    }
+  }
+
+  function openPinModal() {
+    const modal = document.getElementById('adminPinModal');
+    const input = document.getElementById('inputGuruPin');
+    const err = document.getElementById('pinErrorMsg');
+    const btn = document.getElementById('btnToggleExam');
+    const subText = document.getElementById('adminModalSubText');
+
+    if (err) err.style.display = 'none';
+    if (input) {
+      input.value = '';
+      setTimeout(() => input.focus(), 100);
+    }
+
+    const locked = isExamLocked();
+    if (btn) {
+      btn.textContent = locked ? '🔓 Matikan Mode Ujian (Buka Akses)' : '🔒 Aktifkan Mode Ujian (Kunci Akses)';
+      btn.style.background = locked ? 'linear-gradient(135deg, #10b981, #00f0ff)' : 'linear-gradient(135deg, #ef4444, #f59e0b)';
+    }
+    if (subText) {
+      subText.textContent = locked 
+        ? 'Mode Ujian sedang AKTIF. Masukkan PIN Guru untuk membuka kembali akses materi bagi siswa.' 
+        : 'Masukkan PIN Guru untuk mengaktifkan Mode Ujian (seluruh materi akan terkunci).';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closePinModal() {
+    const modal = document.getElementById('adminPinModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function handleModalBackdrop(e) {
+    if (e.target.id === 'adminPinModal') {
+      closePinModal();
+    }
+  }
+
+  function submitExamToggle() {
+    const input = document.getElementById('inputGuruPin');
+    const err = document.getElementById('pinErrorMsg');
+    const enteredPin = (input ? input.value : '').trim();
+
+    if (enteredPin === getGuruPin()) {
+      const currentState = isExamLocked();
+      const newState = !currentState;
+      localStorage.setItem(STORAGE_LOCK_KEY, String(newState));
+      applyLockdownUI();
+      closePinModal();
+      alert(newState ? '🔒 MODE UJIAN DIAKTIFKAN: Semua akses materi terkunci.' : '🔓 MODE UJIAN DINONAKTIFKAN: Akses materi kembali normal.');
+    } else {
+      if (err) {
+        err.textContent = 'PIN Salah! Silakan periksa kembali.';
+        err.style.display = 'block';
+      }
+      if (input) input.focus();
+    }
+  }
+
+  // Keyboard shortcut Ctrl + Shift + L
+  window.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+      e.preventDefault();
+      openPinModal();
+    }
+  });
+
+  // Secret Logo 5-Tap Trigger
+  let logoTapCount = 0;
+  let logoTapTimer = null;
+  function handleLogoSecretTap() {
+    logoTapCount++;
+    clearTimeout(logoTapTimer);
+    logoTapTimer = setTimeout(() => {
+      logoTapCount = 0;
+    }, 2500);
+
+    if (logoTapCount >= 5) {
+      logoTapCount = 0;
+      openPinModal();
+    }
+  }
+
+  // Handle Enter key on PIN input
+  document.getElementById('inputGuruPin')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitExamToggle();
+    }
+  });
+
+  // Apply lockdown state on initial page load
+  applyLockdownUI();
 </script>
 
 </body>
