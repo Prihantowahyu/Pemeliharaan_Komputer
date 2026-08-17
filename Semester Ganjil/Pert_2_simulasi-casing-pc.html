@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulasi Casing PC — Identifikasi Komponen | Bengkel Hardware</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1512;
+  --bg-alt:#121f1a;
+  --panel:#16241d;
+  --line:#28392f;
+  --copper:#c97c3d;
+  --copper-bright:#e8a468;
+  --mint:#4cc9a0;
+  --cream:#f2ecdd;
+  --ink:#1c1a12;
+  --warn:#e6604c;
+  --text:#e9ecdf;
+  --text-dim:#9fb0a5;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.55;
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(76,201,160,0.07), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(201,124,61,0.08), transparent 45%);
+}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; margin:0; color:var(--cream);}
+p{margin:0;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+/* ---------- circuit trace divider ---------- */
+.trace{
+  height:22px; margin:0 auto; max-width:1080px;
+  background-image:
+    linear-gradient(90deg, transparent 0 6%, var(--line) 6% 6.5%, transparent 6.5% 20%,
+    var(--line) 20% 20.5%, transparent 20.5% 48%, var(--line) 48% 48.5%, transparent 48.5% 74%,
+    var(--line) 74% 74.5%, transparent 74.5% 92%, var(--line) 92% 92.5%, transparent 92.5%);
+  background-size: 100% 2px;
+  background-position:center;
+  background-repeat:no-repeat;
+  position:relative;
+}
+.trace::before,.trace::after{
+  content:''; position:absolute; top:8px; width:6px; height:6px; border-radius:50%;
+  background:var(--mint); box-shadow:0 0 8px var(--mint);
+}
+.trace::before{left:20%;}
+.trace::after{left:74%;}
+
+/* ---------- header ---------- */
+header.top{
+  position:sticky; top:0; z-index:50;
+  background:rgba(13,21,18,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.navrow{display:flex; align-items:center; justify-content:space-between; gap:18px; padding:14px 24px; max-width:1080px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:8px; font-family:'Space Grotesk'; font-weight:700; color:var(--copper-bright); white-space:nowrap; font-size:15px;}
+.brand span.dot{width:9px;height:9px;border-radius:50%;background:var(--mint); box-shadow:0 0 6px var(--mint); flex:none;}
+.navrow .tagr{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--text-dim);}
+
+.hero{padding:44px 24px 8px;}
+.hero-inner{max-width:1080px; margin:0 auto;}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'JetBrains Mono'; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--mint); border:1px solid var(--line); padding:5px 12px; border-radius:20px; margin-bottom:18px;
+}
+.hero h1{font-size:clamp(26px,4vw,38px); line-height:1.15; max-width:760px;}
+.hero h1 em{color:var(--copper-bright); font-style:normal;}
+.hero p.lead{margin-top:14px; max-width:660px; color:var(--text-dim); font-size:15px;}
+
+section.block{padding:44px 0 8px;}
+.sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:18px; flex-wrap:wrap;}
+.sec-head .idx{font-family:'JetBrains Mono'; color:var(--copper-bright); font-size:14px; border:1px solid var(--line); padding:3px 9px; border-radius:8px;}
+.sec-head h2{font-size:24px;}
+.sec-sub{color:var(--text-dim); font-size:14.5px; max-width:700px; margin:6px 0 22px;}
+
+/* ---------- diagram panel ---------- */
+.diagram-panel{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px; position:relative;
+}
+.diagram-panel .capt{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  margin-bottom:12px;
+}
+.diagram-panel .capt .stamp{font-family:'JetBrains Mono'; font-size:11px; color:var(--copper-bright); border:1px solid var(--copper); padding:4px 10px; border-radius:6px;}
+.diagram-panel .capt .hint2{font-family:'JetBrains Mono'; font-size:11px; color:var(--text-dim);}
+.case-svg-wrap{background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px;}
+.case-svg-wrap svg{width:100%; height:auto; display:block;}
+
+.marker circle.ring{fill:var(--mint); opacity:.28; animation:pulse 2.4s ease-in-out infinite;}
+.marker circle.dot{fill:var(--copper-bright); stroke:var(--cream); stroke-width:2;}
+.marker text{font-family:'JetBrains Mono',monospace; font-weight:700; fill:var(--ink); font-size:15px;}
+@keyframes pulse{
+  0%{ transform:scale(1); opacity:.30; }
+  50%{ transform:scale(1.55); opacity:0; }
+  100%{ transform:scale(1); opacity:0; }
+}
+.marker{transform-box:fill-box; transform-origin:center;}
+
+/* ---------- quiz identification ---------- */
+.idform{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-bottom:22px;}
+.idform label{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--text-dim);}
+.idform input{
+  background:var(--bg); border:1px solid var(--line); border-radius:6px; color:var(--text);
+  padding:7px 10px; font-family:'JetBrains Mono'; font-size:12.5px; width:170px;
+}
+.idform input:focus{outline:2px solid var(--mint); border-color:var(--mint);}
+.mode-pills{display:flex; gap:6px;}
+.pill{
+  font-family:'JetBrains Mono'; font-size:11px; padding:6px 12px; border-radius:20px;
+  border:1px solid var(--line); color:var(--text-dim); cursor:pointer; transition:.2s; background:transparent;
+}
+.pill.active{border-color:var(--mint); color:var(--mint); background:rgba(76,201,160,.08);}
+
+.score-board{
+  position:sticky; top:64px; z-index:10; display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg-alt); border:1px solid var(--line); border-radius:10px; padding:12px 16px; margin-bottom:20px;
+  flex-wrap:wrap; gap:10px;
+}
+.score-board .sb-txt{font-family:'JetBrains Mono'; font-size:13px; color:var(--text-dim);}
+.score-board .sb-txt b{color:var(--copper-bright); font-size:16px;}
+.score-board .barwrap{flex:1; min-width:140px; height:8px; background:var(--line); border-radius:6px; overflow:hidden; margin:0 14px;}
+.score-board .barfill{height:100%; width:0%; background:linear-gradient(90deg,var(--mint),var(--copper-bright)); transition:width .3s;}
+
+.quiz-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:18px;}
+.quiz-card .qn{font-family:'JetBrains Mono'; font-size:11.5px; color:var(--mint); margin-bottom:6px; display:flex; align-items:center; gap:8px;}
+.quiz-card .qn .numchip{
+  display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%;
+  background:var(--copper-bright); color:var(--ink); font-weight:700; font-size:12px;
+}
+.quiz-card h4{font-size:15.5px; font-weight:600; color:var(--cream); margin-bottom:14px;}
+.opts{display:grid; gap:8px;}
+.opt{
+  border:1px solid var(--line); border-radius:8px; padding:10px 12px; cursor:pointer; font-size:13.5px;
+  color:var(--text-dim); transition:.15s; display:flex; gap:10px;
+}
+.opt:hover{border-color:var(--copper); color:var(--text);}
+.opt.correct{border-color:var(--mint); background:rgba(76,201,160,.09); color:var(--cream);}
+.opt.wrong{border-color:var(--warn); background:rgba(230,96,76,.09); color:var(--cream);}
+.opt .k{font-family:'JetBrains Mono'; color:var(--copper-bright); flex:none;}
+.feedback{margin-top:10px; font-size:12.5px; color:var(--text-dim); display:none;}
+.feedback.show{display:block;}
+.feedback.ok{color:var(--mint);}
+.feedback.bad{color:#f0a396;}
+
+.btn{
+  font-family:'Space Grotesk'; font-weight:600; font-size:13px; padding:9px 16px; border-radius:8px;
+  border:1px solid var(--line); background:var(--bg-alt); color:var(--text); cursor:pointer; transition:.2s;
+}
+.btn:hover{border-color:var(--mint); color:var(--mint);}
+.btn.primary{background:var(--copper); border-color:var(--copper); color:#1c0f04;}
+.btn.primary:hover{background:var(--copper-bright); color:#1c0f04;}
+.foot-actions{display:flex; justify-content:center; gap:10px; margin:26px 0 10px;}
+
+.result-banner{
+  display:none; text-align:center; padding:22px 16px; background:var(--bg-alt); border:1px solid var(--line);
+  border-radius:var(--radius); margin-top:6px;
+}
+.result-banner.show{display:block;}
+.result-banner .badge{
+  display:inline-block; font-family:'Space Grotesk'; font-weight:700; font-size:14px; padding:8px 18px;
+  border-radius:20px; background:var(--mint); color:#083023; margin-bottom:10px;
+}
+.result-banner .badge.mid{background:var(--copper-bright); color:#3a1f04;}
+.result-banner .badge.low{background:var(--warn); color:#2a0d08;}
+
+footer{padding:36px 24px 60px; text-align:center;}
+footer p{font-family:'JetBrains Mono'; font-size:11px; color:var(--text-dim); letter-spacing:.04em;}
+
+@media(max-width:640px){
+  .score-board{position:static;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="navrow">
+    <div class="brand"><span class="dot"></span>Bengkel Hardware — Simulasi</div>
+    <div class="tagr mono">TKJ · Praktik Identifikasi Komponen</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">◈ Simulasi Visual · Buka Casing</span>
+    <h1>Ada apa saja <em>di dalam</em> casing PC?</h1>
+    <p class="lead">Diagram di bawah adalah tampilan casing PC yang panel sampingnya dibuka. Setiap titik bernomor menandai satu komponen. Amati bentuk dan posisinya baik-baik, lalu uji pemahamanmu lewat soal identifikasi di bagian bawah — bisa dikerjakan sendiri atau berkelompok.</p>
+  </div>
+</div>
+
+<div class="trace"><span class="runner"></span></div>
+
+<div class="wrap">
+<section class="block" id="diagram">
+  <div class="sec-head"><span class="idx">A</span><h2>Diagram Interior Casing PC</h2></div>
+  <p class="sec-sub">Klik/arahkan kursor ke tiap titik bernomor untuk melihat label "Titik N" — namun nama komponennya sengaja tidak ditampilkan di sini. Cocokkan sendiri lewat soal di bawah.</p>
+
+  <div class="diagram-panel">
+    <div class="capt">
+      <span class="stamp mono">CUTAWAY VIEW · SIDE PANEL OPEN</span>
+      <span class="hint2">10 titik bernomor</span>
+    </div>
+    <div class="case-svg-wrap">
+      <svg viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg">
+        <!-- CASE OUTER -->
+        <rect x="40" y="50" width="800" height="540" rx="20" fill="var(--panel)" stroke="var(--line)" stroke-width="3"/>
+        <!-- front bezel strip -->
+        <rect x="40" y="50" width="72" height="540" rx="20" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1.5"/>
+
+        <!-- FRONT I/O (power button + usb) -->
+        <circle cx="76" cy="92" r="10" fill="none" stroke="var(--copper-bright)" stroke-width="2.5"/>
+        <line x1="76" y1="85" x2="76" y2="92" stroke="var(--copper-bright)" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="64" y="118" width="24" height="7" rx="2" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+        <rect x="64" y="130" width="24" height="7" rx="2" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+
+        <!-- FRONT INTAKE FAN -->
+        <circle cx="76" cy="360" r="46" fill="var(--bg)" stroke="var(--line)" stroke-width="2"/>
+        <circle cx="76" cy="360" r="6" fill="var(--text-dim)"/>
+        <g stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round">
+          <path d="M76 360 L76 322"/>
+          <path d="M76 360 L108 340"/>
+          <path d="M76 360 L108 380"/>
+          <path d="M76 360 L76 398"/>
+          <path d="M76 360 L44 380"/>
+          <path d="M76 360 L44 340"/>
+        </g>
+
+        <!-- MOTHERBOARD -->
+        <rect x="150" y="90" width="440" height="450" rx="10" fill="#0f1b16" stroke="var(--line)" stroke-width="1.5"/>
+
+        <!-- CPU + cooler -->
+        <rect x="300" y="115" width="96" height="96" rx="8" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1.5"/>
+        <circle cx="348" cy="163" r="34" fill="var(--bg)" stroke="var(--copper)" stroke-width="2"/>
+        <circle cx="348" cy="163" r="5" fill="var(--copper-bright)"/>
+        <g stroke="var(--copper)" stroke-width="1.8" stroke-linecap="round" opacity="0.85">
+          <path d="M348 163 L348 135"/>
+          <path d="M348 163 L373 148"/>
+          <path d="M348 163 L373 178"/>
+          <path d="M348 163 L348 191"/>
+          <path d="M348 163 L323 178"/>
+          <path d="M348 163 L323 148"/>
+        </g>
+
+        <!-- RAM SLOTS -->
+        <g fill="#132018" stroke="var(--mint)" stroke-width="1.5">
+          <rect x="416" y="112" width="13" height="175" rx="2"/>
+          <rect x="436" y="112" width="13" height="175" rx="2"/>
+          <rect x="456" y="112" width="13" height="175" rx="2"/>
+          <rect x="476" y="112" width="13" height="175" rx="2"/>
+        </g>
+
+        <!-- Chipset heatsink (decorative, unlabeled) -->
+        <rect x="300" y="240" width="80" height="46" rx="4" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1.2"/>
+        <line x1="310" y1="252" x2="370" y2="252" stroke="var(--line)" stroke-width="1"/>
+        <line x1="310" y1="262" x2="370" y2="262" stroke="var(--line)" stroke-width="1"/>
+        <line x1="310" y1="272" x2="370" y2="272" stroke="var(--line)" stroke-width="1"/>
+
+        <!-- M.2 slot (decorative) -->
+        <rect x="300" y="300" width="100" height="16" rx="3" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1"/>
+
+        <!-- 24-pin connector on board edge -->
+        <rect x="560" y="130" width="16" height="46" rx="2" fill="var(--bg-alt)" stroke="var(--copper)" stroke-width="1.5"/>
+
+        <!-- GPU CARD -->
+        <rect x="180" y="430" width="390" height="58" rx="6" fill="var(--bg-alt)" stroke="var(--copper)" stroke-width="1.8"/>
+        <circle cx="270" cy="459" r="20" fill="var(--bg)" stroke="var(--line)" stroke-width="1.5"/>
+        <circle cx="410" cy="459" r="20" fill="var(--bg)" stroke="var(--line)" stroke-width="1.5"/>
+        <g stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" opacity="0.8">
+          <path d="M270 459 L270 442"/><path d="M270 459 L285 450"/><path d="M270 459 L285 468"/>
+          <path d="M270 459 L270 476"/><path d="M270 459 L255 468"/><path d="M270 459 L255 450"/>
+          <path d="M410 459 L410 442"/><path d="M410 459 L425 450"/><path d="M410 459 L425 468"/>
+          <path d="M410 459 L410 476"/><path d="M410 459 L395 468"/><path d="M410 459 L395 450"/>
+        </g>
+        <rect x="570" y="440" width="12" height="30" fill="var(--panel)" stroke="var(--line)"/>
+
+        <!-- PSU (top right) -->
+        <rect x="650" y="90" width="170" height="110" rx="6" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1.8"/>
+        <circle cx="735" cy="145" r="34" fill="var(--bg)" stroke="var(--line)" stroke-width="1.5"/>
+        <circle cx="735" cy="145" r="22" fill="none" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="735" cy="145" r="4" fill="var(--text-dim)"/>
+
+        <!-- CABLE BUNDLE PSU -> MOBO 24pin -->
+        <path d="M665 200 C 620 250, 610 270, 576 150" fill="none" stroke="var(--copper)" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+        <path d="M665 200 C 620 250, 610 270, 576 150" fill="none" stroke="var(--copper-bright)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <line x1="638" y1="228" x2="646" y2="222" stroke="var(--bg)" stroke-width="3"/>
+        <line x1="618" y1="252" x2="626" y2="246" stroke="var(--bg)" stroke-width="3"/>
+
+        <!-- STORAGE BAY (right side) -->
+        <rect x="640" y="270" width="120" height="150" rx="6" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="1.5"/>
+        <rect x="654" y="284" width="92" height="38" rx="3" fill="var(--bg)" stroke="var(--mint)" stroke-width="1.3"/>
+        <line x1="662" y1="303" x2="738" y2="303" stroke="var(--line)" stroke-width="1"/>
+        <rect x="654" y="334" width="92" height="70" rx="3" fill="var(--bg)" stroke="var(--line)" stroke-width="1.3"/>
+        <circle cx="700" cy="369" r="18" fill="none" stroke="var(--line)" stroke-width="1.2"/>
+
+        <!-- ===== NUMBER MARKERS ===== -->
+        <!-- 1: Casing/Chassis -->
+        <g class="marker" tabindex="0"><title>Titik 1</title>
+          <circle class="ring" cx="822" cy="320" r="15"/><circle class="dot" cx="822" cy="320" r="15"/>
+          <text x="822" y="325" text-anchor="middle">1</text>
+        </g>
+        <!-- 2: PSU -->
+        <g class="marker" tabindex="0"><title>Titik 2</title>
+          <circle class="ring" cx="735" cy="80" r="15"/><circle class="dot" cx="735" cy="80" r="15"/>
+          <text x="735" y="85" text-anchor="middle">2</text>
+        </g>
+        <!-- 3: Motherboard -->
+        <g class="marker" tabindex="0"><title>Titik 3</title>
+          <circle class="ring" cx="160" cy="80" r="15"/><circle class="dot" cx="160" cy="80" r="15"/>
+          <text x="160" y="85" text-anchor="middle">3</text>
+        </g>
+        <!-- 4: CPU + cooler -->
+        <g class="marker" tabindex="0"><title>Titik 4</title>
+          <circle class="ring" cx="348" cy="103" r="15"/><circle class="dot" cx="348" cy="103" r="15"/>
+          <text x="348" y="108" text-anchor="middle">4</text>
+        </g>
+        <!-- 5: RAM -->
+        <g class="marker" tabindex="0"><title>Titik 5</title>
+          <circle class="ring" cx="452" cy="97" r="15"/><circle class="dot" cx="452" cy="97" r="15"/>
+          <text x="452" y="102" text-anchor="middle">5</text>
+        </g>
+        <!-- 6: GPU -->
+        <g class="marker" tabindex="0"><title>Titik 6</title>
+          <circle class="ring" cx="182" cy="418" r="15"/><circle class="dot" cx="182" cy="418" r="15"/>
+          <text x="182" y="423" text-anchor="middle">6</text>
+        </g>
+        <!-- 7: Storage -->
+        <g class="marker" tabindex="0"><title>Titik 7</title>
+          <circle class="ring" cx="700" cy="258" r="15"/><circle class="dot" cx="700" cy="258" r="15"/>
+          <text x="700" y="263" text-anchor="middle">7</text>
+        </g>
+        <!-- 8: Case fan -->
+        <g class="marker" tabindex="0"><title>Titik 8</title>
+          <circle class="ring" cx="76" cy="360" r="15"/><circle class="dot" cx="76" cy="360" r="15"/>
+          <text x="76" y="365" text-anchor="middle">8</text>
+        </g>
+        <!-- 9: Front I/O panel -->
+        <g class="marker" tabindex="0"><title>Titik 9</title>
+          <circle class="ring" cx="76" cy="60" r="15"/><circle class="dot" cx="76" cy="60" r="15"/>
+          <text x="76" y="65" text-anchor="middle">9</text>
+        </g>
+        <!-- 10: Cable bundle -->
+        <g class="marker" tabindex="0"><title>Titik 10</title>
+          <circle class="ring" cx="612" cy="238" r="15"/><circle class="dot" cx="612" cy="238" r="15"/>
+          <text x="612" y="243" text-anchor="middle">10</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><span class="runner"></span></div>
+
+<section class="block" id="uji-identifikasi">
+  <div class="sec-head"><span class="idx">B</span><h2>Uji Praktik: Identifikasi Komponen</h2></div>
+  <p class="sec-sub">Jawab tiap soal sesuai nomor titik pada diagram di atas. Jawaban langsung diberi umpan balik benar/salah begitu dipilih.</p>
+
+  <div class="idform">
+    <div><label class="mono">NAMA / KELOMPOK</label><br><input id="idName" placeholder="cth: Kelompok 3 / Rani"></div>
+    <div><label class="mono">KELAS</label><br><input id="idClass" placeholder="cth: X TJKT 1"></div>
+    <div class="mode-pills">
+      <button class="pill active" id="modeIndividu" onclick="setMode('individu')">Individu</button>
+      <button class="pill" id="modeKelompok" onclick="setMode('kelompok')">Kelompok</button>
+    </div>
+  </div>
+
+  <div class="score-board">
+    <span class="sb-txt">SKOR: <b id="scoreNow">0</b>/10</span>
+    <div class="barwrap"><div class="barfill" id="scoreBar"></div></div>
+    <span class="sb-txt" id="answeredNow">0 dari 10 dijawab</span>
+  </div>
+
+  <div id="quizList"></div>
+
+  <div class="foot-actions">
+    <button class="btn primary" onclick="resetQuiz()">🔁 Ulangi dari Awal</button>
+  </div>
+
+  <div class="result-banner" id="resultBanner"></div>
+</section>
+</div>
+
+<div class="trace"><span class="runner"></span></div>
+
+<footer>
+  <p>SIMULASI VISUAL CASING PC · PENDAMPING MODUL BENGKEL HARDWARE · TKJ</p>
+</footer>
+
+<script>
+const QUESTIONS = [
+  { n:1, prompt:"Apa nama komponen pada Titik 1?",
+    opts:[
+      {k:"A", t:"Motherboard"},
+      {k:"B", t:"Casing (Chassis)", correct:true},
+      {k:"C", t:"Power Supply Unit"},
+      {k:"D", t:"Heatsink Prosesor"}
+    ],
+    note:"Casing adalah rangka/pelindung fisik yang menampung dan melindungi seluruh komponen PC di dalamnya." },
+  { n:2, prompt:"Apa nama komponen pada Titik 2?",
+    opts:[
+      {k:"A", t:"Power Supply Unit (PSU)", correct:true},
+      {k:"B", t:"VGA Card"},
+      {k:"C", t:"RAM"},
+      {k:"D", t:"Chipset"}
+    ],
+    note:"PSU mengubah arus AC dari listrik rumah menjadi DC dan mendistribusikan daya ke seluruh komponen." },
+  { n:3, prompt:"Apa nama komponen pada Titik 3?",
+    opts:[
+      {k:"A", t:"Casing"},
+      {k:"B", t:"Storage Drive"},
+      {k:"C", t:"Motherboard", correct:true},
+      {k:"D", t:"Case Fan"}
+    ],
+    note:"Motherboard adalah PCB utama yang menyatukan dan menghubungkan semua komponen lainnya." },
+  { n:4, prompt:"Apa nama komponen pada Titik 4?",
+    opts:[
+      {k:"A", t:"RAM"},
+      {k:"B", t:"Processor (CPU) & Heatsink/Fan", correct:true},
+      {k:"C", t:"Power Supply"},
+      {k:"D", t:"Panel I/O Depan"}
+    ],
+    note:"Ini adalah dudukan prosesor (socket) lengkap dengan pendingin (heatsink + fan) di atasnya." },
+  { n:5, prompt:"Apa nama komponen pada Titik 5?",
+    opts:[
+      {k:"A", t:"RAM (Memori)", correct:true},
+      {k:"B", t:"VGA Card"},
+      {k:"C", t:"Kabel Power"},
+      {k:"D", t:"Chipset"}
+    ],
+    note:"Slot-slot tipis berjajar di sisi prosesor ini adalah slot DIMM tempat modul RAM dipasang." },
+  { n:6, prompt:"Apa nama komponen pada Titik 6?",
+    opts:[
+      {k:"A", t:"Storage Drive"},
+      {k:"B", t:"VGA Card (GPU)", correct:true},
+      {k:"C", t:"RAM"},
+      {k:"D", t:"Casing"}
+    ],
+    note:"Kartu panjang dengan dua kipas ini terpasang di slot PCIe x16 — kartu grafis (GPU) diskrit." },
+  { n:7, prompt:"Apa nama komponen pada Titik 7?",
+    opts:[
+      {k:"A", t:"Power Supply"},
+      {k:"B", t:"Storage Drive (SSD/HDD)", correct:true},
+      {k:"C", t:"Processor"},
+      {k:"D", t:"Case Fan"}
+    ],
+    note:"Bay penyimpanan ini menampung drive SSD dan/atau HDD untuk menyimpan data secara permanen." },
+  { n:8, prompt:"Apa nama komponen pada Titik 8?",
+    opts:[
+      {k:"A", t:"Case Fan (Kipas Casing)", correct:true},
+      {k:"B", t:"Motherboard"},
+      {k:"C", t:"Kabel Power"},
+      {k:"D", t:"Panel I/O Depan"}
+    ],
+    note:"Kipas ini mengalirkan udara masuk/keluar casing untuk menjaga sirkulasi udara dan suhu komponen." },
+  { n:9, prompt:"Apa nama komponen pada Titik 9?",
+    opts:[
+      {k:"A", t:"VGA Card"},
+      {k:"B", t:"Panel I/O Depan (Tombol Power & Port USB)", correct:true},
+      {k:"C", t:"RAM"},
+      {k:"D", t:"Power Supply"}
+    ],
+    note:"Terletak di bagian depan atas casing — berisi tombol power dan port USB yang mudah dijangkau." },
+  { n:10, prompt:"Apa nama komponen pada Titik 10?",
+    opts:[
+      {k:"A", t:"Kabel Power PSU (mis. konektor 24-pin ATX)", correct:true},
+      {k:"B", t:"Heatsink"},
+      {k:"C", t:"Storage Drive"},
+      {k:"D", t:"Case Fan"}
+    ],
+    note:"Bundel kabel dari PSU ini menyalurkan daya ke motherboard lewat konektor 24-pin ATX." }
+];
+
+const listEl = document.getElementById('quizList');
+
+function buildQuiz(){
+  listEl.innerHTML = '';
+  QUESTIONS.forEach(q=>{
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.dataset.qn = q.n;
+    const correctKey = q.opts.find(o=>o.correct).k;
+    card.innerHTML =
+      '<div class="qn"><span class="numchip">'+q.n+'</span>Titik Nomor '+q.n+'</div>' +
+      '<h4>'+q.prompt+'</h4>' +
+      '<div class="opts" data-answer="'+correctKey+'">' +
+        q.opts.map(o=>'<div class="opt" data-key="'+o.k+'"><span class="k">'+o.k+'</span>'+o.t+'</div>').join('') +
+      '</div>' +
+      '<div class="feedback"></div>';
+    listEl.appendChild(card);
+  });
+  attachHandlers();
+  updateScore();
+}
+
+function attachHandlers(){
+  document.querySelectorAll('.opts').forEach(group=>{
+    const answer = group.dataset.answer;
+    const feedback = group.nextElementSibling;
+    const qn = group.closest('.quiz-card').dataset.qn;
+    const note = QUESTIONS.find(q=>q.n==qn).note;
+    group.querySelectorAll('.opt').forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        if(group.dataset.locked) return;
+        group.dataset.locked = "1";
+        group.querySelectorAll('.opt').forEach(o=>{
+          if(o.dataset.key === answer) o.classList.add('correct');
+          else if(o === opt) o.classList.add('wrong');
+        });
+        const isCorrect = opt.dataset.key === answer;
+        feedback.textContent = (isCorrect ? "Tepat! " : "Belum tepat. ") + note;
+        feedback.classList.add('show', isCorrect ? 'ok' : 'bad');
+        updateScore();
+      });
+    });
+  });
+}
+
+function updateScore(){
+  const groups = document.querySelectorAll('.opts');
+  let answered = 0, correct = 0;
+  groups.forEach(g=>{
+    if(g.dataset.locked){
+      answered++;
+      if(g.querySelector('.opt.wrong') === null) correct++;
+    }
+  });
+  document.getElementById('scoreNow').textContent = correct;
+  document.getElementById('answeredNow').textContent = answered + ' dari 10 dijawab';
+  document.getElementById('scoreBar').style.width = (correct/10*100) + '%';
+
+  const banner = document.getElementById('resultBanner');
+  if(answered === 10){
+    let cls='low', label='Perlu Latihan Lagi 📖';
+    if(correct === 10){ cls=''; label='Teknisi Casing Andal! ⚙️'; }
+    else if(correct >= 7){ cls='mid'; label='Teknisi Terlatih 🔧'; }
+    banner.className = 'result-banner show';
+    banner.innerHTML =
+      '<div class="badge '+cls+'">'+label+'</div>' +
+      '<p style="color:var(--text-dim); font-size:14px;">Skor akhir: <b style="color:var(--cream)">'+correct+' / 10</b>'+
+      (document.getElementById('idName').value ? ' — atas nama <b style="color:var(--cream)">'+document.getElementById('idName').value+'</b>' : '') +
+      '</p>' +
+      '<p style="margin-top:10px; font-size:13px; color:var(--text-dim);">Tekan "Ulangi dari Awal" untuk latihan lagi dengan urutan yang sama.</p>';
+  } else {
+    banner.className = 'result-banner';
+  }
+}
+
+function resetQuiz(){
+  buildQuiz();
+  document.getElementById('resultBanner').className = 'result-banner';
+}
+
+function setMode(mode){
+  document.getElementById('modeIndividu').classList.toggle('active', mode==='individu');
+  document.getElementById('modeKelompok').classList.toggle('active', mode==='kelompok');
+  document.getElementById('idName').placeholder = mode==='kelompok' ? 'cth: Kelompok 3' : 'cth: Rani Pratama';
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

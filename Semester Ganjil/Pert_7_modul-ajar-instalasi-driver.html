@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul Ajar — Instalasi Driver & Software Pendukung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b1220;
+    --panel: #121b2e;
+    --panel-alt: #16213a;
+    --border: #223049;
+    --border-soft: #1b273f;
+    --text: #e7ecf5;
+    --muted: #93a1b8;
+    --blue: #4cc2ff;
+    --amber: #ffc24c;
+    --green: #37d399;
+    --red: #ff6b6b;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(76,194,255,0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(55,211,153,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    padding-bottom:80px;
+  }
+  a{color:var(--blue);}
+  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
+
+  /* ===== TOP BAR ===== */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,32,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 24px; max-width:980px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:0.5px;}
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green);}
+  .jp-bar{display:flex; gap:3px;}
+  .jp-seg{width:14px; height:6px; border-radius:2px; background:var(--border);}
+  .jp-seg.on{background:var(--blue);}
+
+  /* ===== HERO ===== */
+  header.hero{padding:56px 0 32px;}
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12px; color:var(--amber);
+    text-transform:uppercase; letter-spacing:1.5px; display:flex; gap:10px; align-items:center; margin-bottom:18px;
+  }
+  .eyebrow::before{content:"▲"; color:var(--amber); font-size:10px;}
+  h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(30px,4.4vw,46px); line-height:1.12; letter-spacing:-0.5px;
+    max-width:780px;
+  }
+  h1 span{color:var(--blue);}
+  .subtitle{color:var(--muted); font-size:16px; max-width:640px; margin-top:14px;}
+
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;}
+  .chip{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--text);
+    background:var(--panel); border:1px solid var(--border); border-radius:20px;
+    padding:7px 14px; display:flex; align-items:center; gap:7px;
+  }
+  .chip b{color:var(--blue); font-weight:600;}
+
+  /* ===== DEVICE MANAGER HERO PANEL (signature element) ===== */
+  .devmgr{
+    margin-top:40px; background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    overflow:hidden; box-shadow:0 20px 60px -30px rgba(0,0,0,0.6);
+  }
+  .devmgr-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; background:var(--panel-alt); border-bottom:1px solid var(--border);
+    font-family:var(--font-mono); font-size:12.5px; color:var(--muted);
+  }
+  .devmgr-head .win-dots{display:flex; gap:6px;}
+  .win-dots span{width:9px; height:9px; border-radius:50%; background:var(--border);}
+  .devmgr-body{padding:6px;}
+  .dev-row{
+    display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:8px;
+    font-family:var(--font-mono); font-size:13.5px;
+  }
+  .dev-row:hover{background:rgba(255,255,255,0.02);}
+  .dev-icon{position:relative; width:22px; height:22px; flex:0 0 22px;}
+  .dev-icon svg{position:absolute; inset:0; width:22px; height:22px;}
+  .ic-warn{animation: warnFade 6s ease-in-out infinite;}
+  .ic-ok{animation: okFade 6s ease-in-out infinite; opacity:0;}
+  .dev-row:nth-child(2) .ic-warn, .dev-row:nth-child(2) .ic-ok{animation-delay:0.6s;}
+  .dev-row:nth-child(3) .ic-warn, .dev-row:nth-child(3) .ic-ok{animation-delay:1.2s;}
+  .dev-row:nth-child(4) .ic-warn, .dev-row:nth-child(4) .ic-ok{animation-delay:1.8s;}
+  @keyframes warnFade{0%,38%{opacity:1;}48%,100%{opacity:0;}}
+  @keyframes okFade{0%,38%{opacity:0;}48%,100%{opacity:1;}}
+  .dev-name{color:var(--text); flex:1; min-width:0;}
+  .dev-name small{display:block; color:var(--muted); font-size:11.5px; margin-top:2px;}
+  .dev-status{font-size:11px; padding:4px 9px; border-radius:6px; white-space:nowrap;}
+  .devmgr-foot{
+    padding:12px 18px; border-top:1px solid var(--border); background:var(--panel-alt);
+    font-family:var(--font-mono); font-size:12px; color:var(--muted);
+  }
+  .devmgr-foot b{color:var(--green);}
+
+  /* ===== SECTION FRAME ===== */
+  section{padding:52px 0; border-top:1px solid var(--border-soft);}
+  .sec-label{
+    font-family:var(--font-mono); font-size:12px; color:var(--blue); text-transform:uppercase;
+    letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px;
+  }
+  .sec-label::before{content:""; width:20px; height:1px; background:var(--blue);}
+  h2{font-family:var(--font-display); font-size:clamp(22px,3vw,30px); font-weight:600; margin-bottom:8px; letter-spacing:-0.3px;}
+  .sec-desc{color:var(--muted); max-width:680px; margin-bottom:28px; font-size:15px;}
+
+  /* ===== INFO BOX (CP/TP) ===== */
+  .info-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+  .info-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px;}
+  .info-card h3{font-family:var(--font-display); font-size:15px; color:var(--amber); margin-bottom:10px; letter-spacing:0.3px;}
+  .info-card p{font-size:14.5px; color:#c8d1e0;}
+  .info-card ol{margin-top:10px; padding-left:18px; font-size:14.5px; color:#c8d1e0;}
+  .info-card ol li{margin-bottom:8px;}
+
+  /* ===== TIMELINE 9 JP ===== */
+  .timeline{position:relative; margin-top:8px;}
+  .tl-item{
+    display:grid; grid-template-columns:70px 1fr; gap:18px; padding:16px 0; position:relative;
+  }
+  .tl-item:not(:last-child)::after{
+    content:""; position:absolute; left:34px; top:48px; bottom:-4px; width:1px; background:var(--border);
+  }
+  .tl-jp{
+    font-family:var(--font-mono); font-size:12px; color:var(--bg); background:var(--blue);
+    border-radius:8px; height:34px; width:70px; display:flex; align-items:center; justify-content:center;
+    font-weight:600; z-index:1;
+  }
+  .tl-content{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 18px;}
+  .tl-content h4{font-family:var(--font-display); font-size:15.5px; margin-bottom:4px;}
+  .tl-content p{font-size:13.5px; color:var(--muted);}
+
+  /* ===== DRIVER CARDS ===== */
+  .card-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:20px;}
+  @media(max-width:720px){.card-grid{grid-template-columns:1fr;}}
+  .dcard{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:22px; transition:border-color .2s;}
+  .dcard:hover{border-color:var(--blue);}
+  .dcard-top{display:flex; align-items:center; gap:12px; margin-bottom:12px;}
+  .dcard-icon{
+    width:38px; height:38px; border-radius:9px; background:var(--panel-alt); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; flex:0 0 38px;
+  }
+  .dcard h4{font-family:var(--font-display); font-size:16px;}
+  .dcard .tag{font-family:var(--font-mono); font-size:11px; color:var(--muted);}
+  .dcard p{font-size:14px; color:#c8d1e0; margin-bottom:10px;}
+  .dcard ul{padding-left:18px; font-size:13.5px; color:var(--muted);}
+  .dcard ul li{margin-bottom:5px;}
+  .dcard ul b{color:var(--text);}
+
+  /* ===== STEP LIST ===== */
+  .steps{counter-reset: step; margin-top:18px;}
+  .step{display:grid; grid-template-columns:44px 1fr; gap:16px; padding:16px 0; border-bottom:1px dashed var(--border);}
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    counter-increment:step; font-family:var(--font-mono); font-weight:600; font-size:14px;
+    width:40px; height:40px; border-radius:10px; background:var(--panel-alt); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; color:var(--blue);
+  }
+  .step-num::before{content: counter(step, decimal-leading-zero);}
+  .step-body h4{font-family:var(--font-display); font-size:15.5px; margin-bottom:5px;}
+  .step-body p{font-size:14px; color:var(--muted);}
+
+  /* ===== JOBSHEET TABLE ===== */
+  .table-wrap{overflow-x:auto; margin-top:20px; border:1px solid var(--border); border-radius:12px;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px;}
+  th{
+    text-align:left; font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px;
+    color:var(--muted); background:var(--panel-alt); padding:12px 14px; border-bottom:1px solid var(--border);
+  }
+  td{padding:13px 14px; border-bottom:1px solid var(--border-soft); color:#d3dbe8; background:var(--panel);}
+  tr:last-child td{border-bottom:none;}
+  .status-pill{font-family:var(--font-mono); font-size:11px; padding:3px 10px; border-radius:20px; display:inline-block;}
+  .pill-amber{background:rgba(255,194,76,0.12); color:var(--amber); border:1px solid rgba(255,194,76,0.3);}
+  .pill-green{background:rgba(55,211,153,0.12); color:var(--green); border:1px solid rgba(55,211,153,0.3);}
+
+  /* ===== TROUBLESHOOT ACCORDION ===== */
+  details{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    margin-bottom:10px; overflow:hidden;
+  }
+  summary{
+    cursor:pointer; list-style:none; padding:16px 18px; display:flex; align-items:center; gap:12px;
+    font-family:var(--font-display); font-size:14.5px; font-weight:500;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary .qmark{
+    width:22px; height:22px; border-radius:50%; background:var(--panel-alt); border:1px solid var(--amber);
+    color:var(--amber); font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; justify-content:center; flex:0 0 22px;
+  }
+  summary::after{content:"+"; margin-left:auto; color:var(--muted); font-size:18px;}
+  details[open] summary::after{content:"–";}
+  .d-body{padding:0 18px 18px 52px; font-size:14px; color:var(--muted);}
+  .d-body b{color:var(--green);}
+
+  /* ===== RUBRIK ===== */
+  .rubrik-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:20px;}
+  @media(max-width:800px){.rubrik-grid{grid-template-columns:repeat(2,1fr);}}
+  .rubrik-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .rubrik-score{font-family:var(--font-display); font-size:26px; font-weight:700;}
+  .rubrik-card.s4 .rubrik-score{color:var(--green);}
+  .rubrik-card.s3 .rubrik-score{color:var(--blue);}
+  .rubrik-card.s2 .rubrik-score{color:var(--amber);}
+  .rubrik-card.s1 .rubrik-score{color:var(--red);}
+  .rubrik-card p{font-size:13px; color:var(--muted); margin-top:8px;}
+
+  /* ===== KKTP HIGHLIGHT ===== */
+  .kktp-box{
+    margin-top:24px; padding:20px 22px; border-radius:12px; border:1px solid rgba(76,194,255,0.35);
+    background:linear-gradient(135deg, rgba(76,194,255,0.08), rgba(55,211,153,0.05));
+    font-size:14.5px;
+  }
+  .kktp-box .lbl{font-family:var(--font-mono); font-size:11px; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;}
+
+  /* ===== FOOTER BLOCK ===== */
+  .final-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; margin-top:22px;}
+  @media(max-width:720px){.final-grid{grid-template-columns:1fr;}}
+  .pancasila-tag{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px;
+    background:var(--panel-alt); border:1px solid var(--border); border-radius:20px; padding:7px 14px; margin:4px 6px 0 0;
+  }
+  .pancasila-tag .dotp{width:7px; height:7px; border-radius:50%; background:var(--amber);}
+
+  footer{padding:36px 0 10px; text-align:center; color:var(--muted); font-family:var(--font-mono); font-size:12px;}
+
+  /* ===== ILLUSTRATION MOCKUPS (contoh gambar) ===== */
+  .fig{margin:22px 0; background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .fig-cap{
+    padding:10px 16px; font-family:var(--font-mono); font-size:11.5px; color:var(--muted);
+    border-top:1px solid var(--border); background:var(--panel-alt);
+  }
+  .fig-cap b{color:var(--blue);}
+
+  /* legend grid */
+  .legend-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px;}
+  @media(max-width:720px){.legend-grid{grid-template-columns:repeat(2,1fr);}}
+  .legend-item{background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:14px; text-align:center;}
+  .legend-item svg{margin-bottom:8px;}
+  .legend-item .lname{font-family:var(--font-display); font-size:12.5px; margin-bottom:3px;}
+  .legend-item .ldesc{font-size:11.5px; color:var(--muted); line-height:1.4;}
+
+  /* browser mockup */
+  .browser-mock{padding:0;}
+  .browser-bar{display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--panel-alt); border-bottom:1px solid var(--border);}
+  .browser-dots span{display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--border); margin-right:5px;}
+  .browser-url{
+    flex:1; font-family:var(--font-mono); font-size:11.5px; color:var(--muted);
+    background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:6px 12px;
+  }
+  .browser-body{padding:20px;}
+  .download-card{
+    display:flex; align-items:center; gap:14px; background:var(--panel-alt); border:1px solid var(--border);
+    border-radius:10px; padding:16px;
+  }
+  .download-icon{
+    width:40px; height:40px; border-radius:9px; background:rgba(76,194,255,0.1); border:1px solid rgba(76,194,255,0.3);
+    display:flex; align-items:center; justify-content:center; flex:0 0 40px;
+  }
+  .download-info{flex:1;}
+  .download-info .fname{font-family:var(--font-mono); font-size:13px; color:var(--text);}
+  .download-info .fmeta{font-size:11.5px; color:var(--muted); margin-top:2px;}
+  .btn-download{
+    font-family:var(--font-mono); font-size:11.5px; background:var(--blue); color:#04121f; font-weight:600;
+    padding:8px 16px; border-radius:7px; white-space:nowrap;
+  }
+
+  /* installer wizard mockup */
+  .installer-mock{padding:0;}
+  .installer-titlebar{
+    display:flex; align-items:center; justify-content:space-between; padding:10px 16px;
+    background:var(--panel-alt); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:12px; color:var(--muted);
+  }
+  .installer-body{padding:26px 22px;}
+  .installer-body h5{font-family:var(--font-display); font-size:15px; margin-bottom:6px;}
+  .installer-body p{font-size:13px; color:var(--muted); margin-bottom:16px;}
+  .progress-track{height:8px; border-radius:5px; background:var(--border); overflow:hidden; margin-bottom:10px;}
+  .progress-fill{height:100%; width:72%; background:linear-gradient(90deg, var(--blue), var(--green)); border-radius:5px;}
+  .progress-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:var(--muted);}
+  .installer-btns{display:flex; justify-content:flex-end; gap:10px; margin-top:20px;}
+  .btn-ghost{font-family:var(--font-mono); font-size:11.5px; padding:8px 16px; border-radius:7px; border:1px solid var(--border); color:var(--muted);}
+  .btn-primary{font-family:var(--font-mono); font-size:11.5px; padding:8px 16px; border-radius:7px; background:var(--green); color:#04241a; font-weight:600;}
+
+  /* properties dialog mockup */
+  .dialog-mock{padding:22px; display:flex; gap:16px; align-items:flex-start;}
+  .dialog-icon{width:34px; height:34px; border-radius:50%; background:rgba(55,211,153,0.12); border:1px solid rgba(55,211,153,0.35); display:flex; align-items:center; justify-content:center; flex:0 0 34px;}
+  .dialog-text h5{font-family:var(--font-display); font-size:14.5px; margin-bottom:6px;}
+  .dialog-text p{font-size:13px; color:var(--muted);}
+
+  /* resolution comparison */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border);}
+  @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+  .compare-panel{background:var(--panel); padding:20px; text-align:center;}
+  .compare-screen{width:100%; height:120px; border-radius:8px; margin-bottom:12px; position:relative; overflow:hidden;}
+  .compare-screen.blurry{background:repeating-linear-gradient(45deg, #1a2436, #1a2436 4px, #223049 4px, #223049 8px); filter:blur(2.5px); opacity:0.7;}
+  .compare-screen.sharp{background:linear-gradient(135deg, #16324f, #103a2c); }
+  .compare-screen.sharp::after{content:"1920×1080"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; color:var(--green);}
+  .compare-screen.blurry::after{content:"800×600"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; color:var(--amber);}
+  .compare-label{font-family:var(--font-mono); font-size:11.5px; color:var(--muted);}
+  .compare-label b{display:block; font-family:var(--font-display); font-size:13.5px; color:var(--text); margin-bottom:3px;}
+
+  /* glossary */
+  .glossary{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px;}
+  @media(max-width:720px){.glossary{grid-template-columns:1fr;}}
+  .gterm{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px;}
+  .gterm dt{font-family:var(--font-mono); font-size:12.5px; color:var(--amber); margin-bottom:4px;}
+  .gterm dd{font-size:13px; color:var(--muted);}
+
+  /* diff track (pengayaan/remedial) */
+  .diff-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;}
+  @media(max-width:720px){.diff-grid{grid-template-columns:1fr;}}
+  .diff-card{border-radius:12px; padding:20px; border:1px solid var(--border);}
+  .diff-card.remedial{background:linear-gradient(135deg, rgba(255,194,76,0.06), transparent);}
+  .diff-card.pengayaan{background:linear-gradient(135deg, rgba(55,211,153,0.06), transparent);}
+  .diff-card h4{font-family:var(--font-display); font-size:15px; margin-bottom:10px;}
+  .diff-card.remedial h4{color:var(--amber);}
+  .diff-card.pengayaan h4{color:var(--green);}
+  .diff-card ul{padding-left:18px; font-size:13.5px; color:var(--muted);}
+  .diff-card ul li{margin-bottom:6px;}
+
+  /* checklist */
+  .checklist{margin-top:12px; display:grid; gap:8px;}
+  .check-row{display:flex; align-items:center; gap:10px; font-size:14px; color:#c8d1e0;}
+  .check-row .cb{width:18px; height:18px; border-radius:5px; border:1.5px solid var(--blue); flex:0 0 18px; display:flex; align-items:center; justify-content:center;}
+  .check-row .cb::after{content:"✓"; color:var(--blue); font-size:12px; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> TKJ · SISTEM BLOK · BLOK 2 / HARI 1</div>
+    <div class="jp-bar" title="9 JP hari ini">
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+      <div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Perangkat terdeteksi, sistem siap bekerja</div>
+    <h1>Instalasi <span>Driver</span> & Software Pendukung</h1>
+    <p class="subtitle">Modul ajar Blok 2 · Hari 1 — dari perangkat yang "tidak dikenali" sistem operasi, menjadi komputer yang siap pakai sepenuhnya.</p>
+
+    <div class="meta-row">
+      <div class="chip">📘 Blok <b>2</b></div>
+      <div class="chip">📅 Hari <b>1</b> dari 5</div>
+      <div class="chip">⏱ <b>9 JP</b> (45 menit/JP)</div>
+      <div class="chip">🎯 KD <b>Instalasi Driver & Software</b></div>
+      <div class="chip">🧭 Profil <b>Mandiri · Kreatif</b></div>
+    </div>
+
+    <!-- SIGNATURE ELEMENT: Device Manager visual -->
+    <div class="devmgr">
+      <div class="devmgr-head">
+        <span>⌘ Device Manager — LAPTOP-PRAKTIK-01</span>
+        <div class="win-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="devmgr-body">
+        <div class="dev-row">
+          <div class="dev-icon">
+            <svg class="ic-warn" viewBox="0 0 24 24" fill="none"><path d="M12 3L22 20H2L12 3Z" fill="none" stroke="#ffc24c" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v5" stroke="#ffc24c" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ffc24c"/></svg>
+            <svg class="ic-ok" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dev-name">Display adapters — NVIDIA GeForce<small>VGA · vendor NVIDIA · Hardware ID: PCI\VEN_10DE</small></div>
+          <div class="dev-status" style="background:rgba(255,194,76,.1);color:var(--amber);">belum optimal</div>
+        </div>
+        <div class="dev-row">
+          <div class="dev-icon">
+            <svg class="ic-warn" viewBox="0 0 24 24" fill="none"><path d="M12 3L22 20H2L12 3Z" fill="none" stroke="#ffc24c" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v5" stroke="#ffc24c" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ffc24c"/></svg>
+            <svg class="ic-ok" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dev-name">System devices — Chipset Controller<small>Chipset · vendor Intel · Hardware ID: PCI\VEN_8086</small></div>
+          <div class="dev-status" style="background:rgba(255,194,76,.1);color:var(--amber);">belum optimal</div>
+        </div>
+        <div class="dev-row">
+          <div class="dev-icon">
+            <svg class="ic-warn" viewBox="0 0 24 24" fill="none"><path d="M12 3L22 20H2L12 3Z" fill="none" stroke="#ffc24c" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v5" stroke="#ffc24c" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ffc24c"/></svg>
+            <svg class="ic-ok" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dev-name">Network adapters — WiFi/LAN Controller<small>LAN/WiFi · vendor Realtek · Hardware ID: PCI\VEN_10EC</small></div>
+          <div class="dev-status" style="background:rgba(255,194,76,.1);color:var(--amber);">belum optimal</div>
+        </div>
+        <div class="dev-row">
+          <div class="dev-icon">
+            <svg class="ic-warn" viewBox="0 0 24 24" fill="none"><path d="M12 3L22 20H2L12 3Z" fill="none" stroke="#ffc24c" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v5" stroke="#ffc24c" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ffc24c"/></svg>
+            <svg class="ic-ok" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dev-name">Sound, video and game controllers — Audio Device<small>Audio · vendor Realtek · Hardware ID: HDAUDIO\FUNC_01</small></div>
+          <div class="dev-status" style="background:rgba(255,194,76,.1);color:var(--amber);">belum optimal</div>
+        </div>
+      </div>
+      <div class="devmgr-foot">Target akhir hari ini: seluruh perangkat terdeteksi <b>tanpa tanda seru kuning</b> pada Device Manager.</div>
+    </div>
+  </header>
+
+  <!-- ===================== CP & TP ===================== -->
+  <section id="cp-tp">
+    <div class="sec-label">01 · Landasan Pembelajaran</div>
+    <h2>Capaian & Tujuan Pembelajaran</h2>
+    <p class="sec-desc">Fondasi kompetensi yang menjadi acuan seluruh kegiatan hari ini, sebelum masuk ke praktik teknis.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ CAPAIAN PEMBELAJARAN (CP)</h3>
+        <p>Peserta didik mampu menginstal driver perangkat dan software pendukung pada sistem operasi secara mandiri, sistematis, dan sesuai prosedur keselamatan kerja di bidang teknik komputer dan jaringan.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ TUJUAN PEMBELAJARAN (TP)</h3>
+        <ol>
+          <li>Mengidentifikasi kebutuhan driver berdasarkan pembacaan Device Manager.</li>
+          <li>Menginstal driver perangkat (VGA, chipset, LAN/WiFi, audio) dengan benar dan sesuai prosedur.</li>
+          <li>Menginstal software pendukung dasar (office, browser, antivirus) pada sistem operasi.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="kktp-box">
+      <span class="lbl">Kriteria Ketuntasan Tujuan Pembelajaran (KKTP)</span>
+      Peserta didik dinyatakan <b>tuntas</b> apabila mampu menginstal <b>minimal 3 driver perangkat</b> dan <b>2 software pendukung</b>, dengan seluruh perangkat terdeteksi <b>tanpa tanda seru</b> pada Device Manager saat verifikasi akhir.
+      <div class="checklist">
+        <div class="check-row"><span class="cb"></span> Mampu membuka & membaca status perangkat pada Device Manager</div>
+        <div class="check-row"><span class="cb"></span> Berhasil memasang minimal 3 dari 4 driver (VGA, chipset, LAN/WiFi, audio)</div>
+        <div class="check-row"><span class="cb"></span> Berhasil memasang minimal 2 software pendukung dasar</div>
+        <div class="check-row"><span class="cb"></span> Dapat menjelaskan ulang fungsi driver dengan kata-kata sendiri</div>
+        <div class="check-row"><span class="cb"></span> Device Manager bersih dari tanda seru & tanda tanya saat verifikasi akhir</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ASESMEN AWAL ===================== -->
+  <section id="asesmen-awal">
+    <div class="sec-label">01b · Sebelum Memulai</div>
+    <h2>Asesmen Diagnostik (Apersepsi)</h2>
+    <p class="sec-desc">Lisan/tulis singkat 5 menit di awal kelas untuk memetakan pemahaman awal siswa sebelum masuk materi inti.</p>
+    <div class="info-card">
+      <h3>▲ PERTANYAAN PEMANTIK</h3>
+      <ol>
+        <li>Pernahkah kamu melihat tanda seru kuning di komputer? Menurutmu, itu tanda apa?</li>
+        <li>Menurutmu, apa yang terjadi jika sebuah printer dicolokkan ke laptop tanpa driver-nya?</li>
+        <li>Dari mana biasanya orang mengunduh driver komputer/laptop?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== ALUR 9 JP ===================== -->
+  <section id="alur">
+    <div class="sec-label">02 · Peta Kegiatan</div>
+    <h2>Alur Belajar — 9 JP Hari Ini</h2>
+    <p class="sec-desc">Susunan kegiatan dari pembukaan hingga verifikasi akhir, dirancang berbasis pembelajaran mendalam (deep learning): memahami konsep dahulu, baru mempraktikkan dan merefleksikan.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content">
+          <h4>Pembukaan & Apersepsi</h4>
+          <p>Siswa membuka Device Manager pada laptop masing-masing, mengamati tanda seru kuning yang muncul, lalu berdiskusi: "Kenapa perangkat ini belum bisa dikenali sistem?"</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content">
+          <h4>Eksplorasi Konsep Driver</h4>
+          <p>Penjelasan fungsi driver, cara membaca Device Manager, jenis-jenis driver utama, serta sumber driver resmi yang aman digunakan.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content">
+          <h4>Praktik: Driver VGA & Chipset</h4>
+          <p>Identifikasi hardware ID, unduh installer resmi, instalasi, dan verifikasi tampilan grafis serta performa sistem.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">2 JP</div>
+        <div class="tl-content">
+          <h4>Praktik: Driver LAN/WiFi & Audio</h4>
+          <p>Instalasi driver jaringan agar terkoneksi internet, dilanjutkan driver audio hingga suara keluar dari speaker.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content">
+          <h4>Instalasi Software Pendukung</h4>
+          <p>Pemasangan software dasar: office suite, browser, dan antivirus, sebagai pelengkap sistem yang siap pakai.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-jp">1 JP</div>
+        <div class="tl-content">
+          <h4>Verifikasi, Asesmen & Refleksi</h4>
+          <p>Pengecekan akhir Device Manager, penilaian unjuk kerja oleh guru, dan refleksi tertulis singkat oleh siswa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI A: APA ITU DRIVER ===================== -->
+  <section id="konsep">
+    <div class="sec-label">03 · Materi Inti — Bagian 1</div>
+    <h2>Mengenal Driver & Device Manager</h2>
+    <p class="sec-desc">Sebelum praktik, siswa perlu memahami "mengapa" sebelum "bagaimana".</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ APA ITU DRIVER?</h3>
+        <p>Driver adalah perangkat lunak penerjemah yang menjembatani komunikasi antara sistem operasi dan komponen hardware. Tanpa driver, sistem operasi hanya mengenali hardware sebagai "perangkat asing" — mendeteksi keberadaannya, tetapi tidak tahu cara memanfaatkannya secara maksimal.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ AKIBAT JIKA DRIVER TIDAK TERPASANG</h3>
+        <p>VGA tanpa driver membuat resolusi layar terbatas dan tidak bisa menjalankan aplikasi grafis berat. LAN/WiFi tanpa driver membuat komputer tidak dapat terkoneksi jaringan. Audio tanpa driver membuat speaker tidak mengeluarkan suara sama sekali.</p>
+      </div>
+    </div>
+
+    <div class="dcard" style="margin-top:16px;">
+      <div class="dcard-top">
+        <div class="dcard-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="#4cc2ff" stroke-width="1.6"/><path d="M8 20h8M12 16v4" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div><h4>Membaca Device Manager</h4><span class="tag">Windows + X → Device Manager</span></div>
+      </div>
+      <p>Device Manager menampilkan status setiap perangkat keras dengan penanda visual berikut:</p>
+      <ul>
+        <li><b>Segitiga kuning bertanda seru (!)</b> — driver bermasalah, tidak sesuai, atau berjalan tidak optimal.</li>
+        <li><b>Tanda tanya abu-abu</b> — perangkat sama sekali belum dikenali sistem (unknown device).</li>
+        <li><b>Panah ke bawah</b> — perangkat terpasang tetapi dinonaktifkan (disabled).</li>
+        <li><b>Tanpa ikon tambahan</b> — perangkat terdeteksi dan berfungsi normal.</li>
+      </ul>
+
+      <div class="legend-grid">
+        <div class="legend-item">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3L22 20H2L12 3Z" stroke="#ffc24c" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v5" stroke="#ffc24c" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ffc24c"/></svg>
+          <div class="lname" style="color:var(--amber);">Tanda Seru</div>
+          <div class="ldesc">Driver bermasalah / tidak sesuai</div>
+        </div>
+        <div class="legend-item">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#93a1b8" stroke-width="1.6"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2 1.7-2 3.3" stroke="#93a1b8" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="0.9" fill="#93a1b8"/></svg>
+          <div class="lname" style="color:var(--muted);">Tanda Tanya</div>
+          <div class="ldesc">Perangkat sama sekali tak dikenali</div>
+        </div>
+        <div class="legend-item">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#93a1b8" stroke-width="1.6"/><path d="M9 12l3 3 4-6" stroke="#ff6b6b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,-1) rotate(180 12 12)"/><path d="M8 15l4-6 4 6" stroke="#ff6b6b" stroke-width="0" /><path d="M12 9v5M9 12l3 3 3-3" stroke="#ff6b6b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lname" style="color:#ff8f8f;">Panah Bawah</div>
+          <div class="ldesc">Perangkat dinonaktifkan (disabled)</div>
+        </div>
+        <div class="legend-item">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lname" style="color:var(--green);">Normal</div>
+          <div class="ldesc">Terdeteksi & berfungsi baik</div>
+        </div>
+      </div>
+      <div class="fig-cap">Gambar 1 — <b>Legenda ikon status</b> yang tampil pada Device Manager Windows.</div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI B: JENIS DRIVER ===================== -->
+  <section id="jenis-driver">
+    <div class="sec-label">04 · Materi Inti — Bagian 2</div>
+    <h2>Empat Jenis Driver yang Wajib Dikuasai</h2>
+    <p class="sec-desc">Setiap jenis driver punya sumber resmi dan cara verifikasi tersendiri. Kenali dahulu vendor dan hardware ID sebelum mengunduh.</p>
+
+    <div class="card-grid">
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="13" rx="1.5" stroke="#4cc2ff" stroke-width="1.6"/><path d="M8 20h8" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><h4>Driver VGA / Display</h4><span class="tag">Grafis & tampilan layar</span></div>
+        </div>
+        <p>Mengatur output visual, resolusi, refresh rate, hingga akselerasi grafis untuk desain dan game.</p>
+        <ul>
+          <li>Cek vendor via <b>dxdiag</b> atau tab Display Device Manager.</li>
+          <li>Unduh dari situs resmi: <b>NVIDIA, AMD,</b> atau <b>Intel</b>.</li>
+          <li>Pilih versi sesuai seri GPU dan arsitektur Windows (32/64-bit).</li>
+        </ul>
+      </div>
+
+      <div class="fig" style="grid-column:1 / -1;">
+        <div class="compare-grid">
+          <div class="compare-panel">
+            <div class="compare-screen blurry"></div>
+            <div class="compare-label"><b>Sebelum ada driver</b>Resolusi rendah, tampilan pecah/buram</div>
+          </div>
+          <div class="compare-panel">
+            <div class="compare-screen sharp"></div>
+            <div class="compare-label"><b>Sesudah driver terpasang</b>Resolusi native, tampilan tajam</div>
+          </div>
+        </div>
+        <div class="fig-cap">Gambar 2 — <b>Ilustrasi</b> dampak driver VGA terhadap kualitas tampilan layar.</div>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="1.5" stroke="#4cc2ff" stroke-width="1.6"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><h4>Driver Chipset</h4><span class="tag">Motherboard & jalur data</span></div>
+        </div>
+        <p>Mengatur komunikasi antara prosesor, RAM, dan komponen motherboard lainnya agar sistem stabil.</p>
+        <ul>
+          <li>Cek merek motherboard via <b>System Information</b> atau <b>CPU-Z</b>.</li>
+          <li>Unduh dari situs resmi <b>Intel</b> atau <b>AMD</b> sesuai chipset.</li>
+          <li>Instal <b>di awal</b> sebelum driver lain, karena menjadi fondasi komunikasi sistem.</li>
+        </ul>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2" stroke="#4cc2ff" stroke-width="1.6"/><path d="M5 12a7 7 0 0114 0M2 12a10 10 0 0120 0" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><h4>Driver LAN / WiFi</h4><span class="tag">Konektivitas jaringan</span></div>
+        </div>
+        <p>Menghubungkan komputer ke jaringan kabel maupun nirkabel agar dapat mengakses internet dan sumber daya lain.</p>
+        <ul>
+          <li>Cek vendor via <b>Network adapters</b> pada Device Manager.</li>
+          <li>Umumnya <b>Realtek, Intel, </b>atau <b>Qualcomm</b>.</li>
+          <li>Jika belum ada internet, unduh dari komputer lain lalu pindahkan via flashdisk.</li>
+        </ul>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 10v4h3l5 4V6L7 10H4z" stroke="#4cc2ff" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 9a4 4 0 010 6" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><h4>Driver Audio</h4><span class="tag">Sistem suara</span></div>
+        </div>
+        <p>Mengaktifkan input dan output suara — speaker, headset, hingga mikrofon.</p>
+        <ul>
+          <li>Cek vendor pada kategori <b>Sound, video and game controllers</b>.</li>
+          <li>Umumnya <b>Realtek HD Audio</b> pada mayoritas laptop dan motherboard.</li>
+          <li>Uji suara dengan file audio dan cek pengaturan playback device.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERI C: LANGKAH INSTALASI ===================== -->
+  <section id="langkah">
+    <div class="sec-label">05 · Materi Inti — Bagian 3</div>
+    <h2>Langkah Umum Instalasi Driver</h2>
+    <p class="sec-desc">Prosedur baku yang berlaku untuk hampir semua jenis driver, dari identifikasi hingga verifikasi akhir.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Identifikasi perangkat & versi sistem</h4>
+          <p>Buka Device Manager, catat nama perangkat dan vendor. Cek juga versi & arsitektur Windows (32-bit/64-bit) melalui Settings → System → About.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Unduh driver resmi</h4>
+          <p>Kunjungi situs resmi vendor (bukan situs pihak ketiga), lalu pilih driver sesuai model perangkat dan versi sistem operasi.</p>
+        </div>
+      </div>
+      <div class="fig browser-mock">
+        <div class="browser-bar">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="browser-url">🔒 downloadcenter.vendor-resmi.com/driver/network-adapter</div>
+        </div>
+        <div class="browser-body">
+          <div class="download-card">
+            <div class="download-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#4cc2ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="#4cc2ff" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div class="download-info">
+              <div class="fname">driver_lan_win64_v27.10.exe</div>
+              <div class="fmeta">42.3 MB · Windows 10/11 64-bit · dari situs resmi vendor</div>
+            </div>
+            <div class="btn-download">Unduh</div>
+          </div>
+        </div>
+        <div class="fig-cap">Gambar 3 — <b>Contoh</b> halaman unduh driver resmi: perhatikan alamat situs, versi OS, dan ukuran file sebelum mengunduh.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Jalankan installer sebagai Administrator</h4>
+          <p>Klik kanan file installer → Run as administrator, agar proses instalasi memiliki hak akses penuh ke sistem.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Ikuti wizard instalasi hingga selesai</h4>
+          <p>Baca setiap tahapan wizard dengan cermat, lalu restart komputer apabila diminta oleh installer.</p>
+        </div>
+      </div>
+      <div class="fig installer-mock">
+        <div class="installer-titlebar"><span>Setup — Driver Installation Wizard</span><span>—  ×</span></div>
+        <div class="installer-body">
+          <h5>Memasang driver LAN/WiFi…</h5>
+          <p>Mohon tunggu, jangan cabut perangkat atau matikan komputer selama proses berlangsung.</p>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <div class="progress-label"><span>Menyalin berkas sistem…</span><span>72%</span></div>
+          <div class="installer-btns"><div class="btn-ghost">Batal</div><div class="btn-primary">Selanjutnya</div></div>
+        </div>
+        <div class="fig-cap">Gambar 4 — <b>Contoh</b> tampilan wizard saat proses instalasi driver berjalan.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Verifikasi di Device Manager</h4>
+          <p>Pastikan tidak ada lagi tanda seru kuning atau tanda tanya pada perangkat yang baru diinstal driver-nya.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fig dialog-mock">
+      <div class="dialog-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#37d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="dialog-text">
+        <h5>Properties — Network Adapter</h5>
+        <p>Status perangkat: <b style="color:var(--green);">"Perangkat ini bekerja dengan baik."</b> Jika pesan ini muncul pada tab General setelah instalasi, artinya driver telah terpasang dan dikenali sistem dengan sempurna.</p>
+      </div>
+    </div>
+    <div class="fig-cap" style="border:none; background:transparent; padding-left:0; margin-top:-14px;">Gambar 5 — <b>Contoh</b> hasil verifikasi akhir melalui kotak dialog Properties perangkat.</div>
+  </section>
+
+  <!-- ===================== MATERI D: SOFTWARE PENDUKUNG ===================== -->
+  <section id="software">
+    <div class="sec-label">06 · Materi Inti — Bagian 4</div>
+    <h2>Instalasi Software Pendukung Dasar</h2>
+    <p class="sec-desc">Sistem yang sudah "sehat" secara hardware perlu dilengkapi software agar siap digunakan untuk pekerjaan sehari-hari.</p>
+
+    <div class="card-grid">
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="1.5" stroke="#37d399" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#37d399" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><h4>Office Suite</h4><span class="tag">Produktivitas dokumen</span></div>
+        </div>
+        <p>Microsoft Office atau LibreOffice untuk kebutuhan pengolah kata, angka, dan presentasi.</p>
+      </div>
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#37d399" stroke-width="1.6"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" stroke="#37d399" stroke-width="1.6"/></svg></div>
+          <div><h4>Browser</h4><span class="tag">Akses internet</span></div>
+        </div>
+        <p>Google Chrome, Microsoft Edge, atau Firefox sebagai gerbang akses informasi dan sumber driver lainnya.</p>
+      </div>
+      <div class="dcard">
+        <div class="dcard-top">
+          <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="#37d399" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+          <div><h4>Antivirus</h4><span class="tag">Keamanan sistem</span></div>
+        </div>
+        <p>Mengaktifkan Windows Defender atau memasang antivirus tambahan untuk melindungi sistem dari malware.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== K3 ===================== -->
+  <section id="k3">
+    <div class="sec-label">07 · Sebelum Praktik</div>
+    <h2>Keselamatan & Kesehatan Kerja (K3)</h2>
+    <p class="sec-desc">Diingatkan singkat sebelum praktik dimulai, mengingat instalasi driver melibatkan restart sistem dan file yang diunduh dari internet.</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>▲ SEBELUM MENGUNDUH</h3>
+        <p>Selalu unduh installer hanya dari situs resmi vendor. Hindari situs pihak ketiga yang menjanjikan driver "all-in-one" karena berisiko membawa malware.</p>
+      </div>
+      <div class="info-card">
+        <h3>▲ SELAMA PROSES INSTALASI</h3>
+        <p>Jangan mematikan paksa komputer atau mencabut kabel daya saat instalasi/restart berlangsung — dapat menyebabkan driver korup atau sistem gagal boot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GLOSARIUM ===================== -->
+  <section id="glosarium">
+    <div class="sec-label">07b · Istilah Teknis</div>
+    <h2>Glosarium</h2>
+    <p class="sec-desc">Istilah kunci yang muncul sepanjang materi hari ini.</p>
+    <dl class="glossary">
+      <div class="gterm"><dt>Driver</dt><dd>Perangkat lunak penerjemah antara sistem operasi dan hardware.</dd></div>
+      <div class="gterm"><dt>Chipset</dt><dd>Komponen motherboard yang mengatur jalur komunikasi data antar perangkat keras.</dd></div>
+      <div class="gterm"><dt>Hardware ID</dt><dd>Kode unik identitas sebuah perangkat keras, digunakan untuk mencari driver yang tepat.</dd></div>
+      <div class="gterm"><dt>Wizard</dt><dd>Antarmuka bertahap yang memandu pengguna menyelesaikan proses instalasi.</dd></div>
+    </dl>
+  </section>
+
+  <!-- ===================== LEMBAR KERJA PRAKTIK ===================== -->
+  <section id="jobsheet">
+    <div class="sec-label">08 · Lembar Kerja Praktik</div>
+    <h2>Jobsheet Instalasi</h2>
+    <p class="sec-desc">Diisi siswa selama praktik sebagai bukti unjuk kerja dan bahan verifikasi guru.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>No</th><th>Perangkat / Software</th><th>Sumber Installer</th><th>Status Sebelum</th><th>Status Sesudah</th><th>Paraf Guru</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Driver VGA</td><td>Situs resmi vendor GPU</td><td><span class="status-pill pill-amber">tanda seru</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+          <tr><td>2</td><td>Driver Chipset</td><td>Situs resmi Intel/AMD</td><td><span class="status-pill pill-amber">tanda seru</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+          <tr><td>3</td><td>Driver LAN/WiFi</td><td>Situs resmi Realtek/Intel</td><td><span class="status-pill pill-amber">tanda seru</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+          <tr><td>4</td><td>Driver Audio</td><td>Situs resmi Realtek</td><td><span class="status-pill pill-amber">tanda seru</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+          <tr><td>5</td><td>Office Suite</td><td>Installer resmi</td><td><span class="status-pill pill-amber">belum ada</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+          <tr><td>6</td><td>Browser & Antivirus</td><td>Installer resmi</td><td><span class="status-pill pill-amber">belum ada</span></td><td><span class="status-pill pill-green">terpasang</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== TROUBLESHOOTING ===================== -->
+  <section id="troubleshoot">
+    <div class="sec-label">09 · Studi Kasus</div>
+    <h2>Skenario Troubleshooting</h2>
+    <p class="sec-desc">Latihan berpikir kreatif dan mandiri — dorong siswa mendiskusikan solusi sebelum membuka jawaban.</p>
+
+    <details>
+      <summary><span class="qmark">1</span> Setelah instal driver VGA, layar berubah blank atau bergaris</summary>
+      <div class="d-body">Masuk ke <b>Safe Mode</b>, buka Device Manager, lalu lakukan <b>Roll Back Driver</b> pada Display adapters. Setelah normal kembali, unduh ulang versi driver yang sesuai dengan seri GPU dan coba instal ulang secara bertahap.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">2</span> Tidak ada koneksi internet untuk mengunduh driver LAN</summary>
+      <div class="d-body">Gunakan driver bawaan (CD/DVD driver motherboard) jika tersedia, atau catat <b>Hardware ID</b> perangkat dari tab Details di Device Manager, cari driver tersebut di komputer lain yang terkoneksi internet, lalu pindahkan file installer menggunakan flashdisk.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">3</span> Installer menampilkan pesan "not compatible with this version of Windows"</summary>
+      <div class="d-body">Periksa kembali <b>arsitektur sistem operasi</b> (32-bit atau 64-bit) dan versi Windows yang digunakan melalui Settings → System → About, lalu unduh ulang driver dengan spesifikasi yang benar-benar sesuai.</div>
+    </details>
+    <details>
+      <summary><span class="qmark">4</span> Device Manager masih menampilkan tanda tanya setelah driver diinstal</summary>
+      <div class="d-body">Kemungkinan driver yang dipasang tidak cocok dengan perangkat. Salin <b>Hardware ID</b> lengkap dari tab Details, lalu cari driver yang benar-benar sesuai dengan ID tersebut di situs resmi vendor.</div>
+    </details>
+  </section>
+
+  <!-- ===================== ASESMEN & RUBRIK ===================== -->
+  <section id="asesmen">
+    <div class="sec-label">10 · Asesmen</div>
+    <h2>Bentuk Penilaian & Rubrik</h2>
+    <p class="sec-desc">Penilaian utama berupa <b>unjuk kerja praktik instalasi driver & software</b>, dilengkapi rubrik empat tingkat berikut.</p>
+
+    <div class="rubrik-grid">
+      <div class="rubrik-card s4"><div class="rubrik-score">4</div><p><b>Mahir</b> — seluruh driver & software terpasang, Device Manager bersih tanpa tanda seru, mampu menjelaskan proses secara runtut.</p></div>
+      <div class="rubrik-card s3"><div class="rubrik-score">3</div><p><b>Cakap</b> — memenuhi KKTP (3 driver + 2 software terpasang) dengan sedikit bantuan pengarahan.</p></div>
+      <div class="rubrik-card s2"><div class="rubrik-score">2</div><p><b>Berkembang</b> — sebagian driver/software terpasang, masih memerlukan bimbingan intensif guru.</p></div>
+      <div class="rubrik-card s1"><div class="rubrik-score">1</div><p><b>Mula</b> — belum mampu menyelesaikan instalasi tanpa pendampingan penuh dari awal hingga akhir.</p></div>
+    </div>
+
+    <div class="diff-grid">
+      <div class="diff-card remedial">
+        <h4>↺ Remedial</h4>
+        <ul>
+          <li>Pendampingan ulang instalasi 1 driver dengan bimbingan langkah demi langkah bersama guru.</li>
+          <li>Latihan tambahan membaca ikon status Device Manager pada beberapa contoh kasus.</li>
+        </ul>
+      </div>
+      <div class="diff-card pengayaan">
+        <h4>↑ Pengayaan</h4>
+        <ul>
+          <li>Mencoba update driver ke versi terbaru menggunakan Device Manager langsung (Update driver).</li>
+          <li>Eksplorasi mandiri: mencari Hardware ID sebuah perangkat lalu menelusuri driver yang sesuai tanpa software bantuan otomatis.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PENUTUP ===================== -->
+  <section id="penutup">
+    <div class="sec-label">11 · Penutup</div>
+    <h2>Alat, Bahan & Refleksi</h2>
+
+    <div class="final-grid">
+      <div class="info-card">
+        <h3>▲ ALAT & BAHAN PRAKTIK</h3>
+        <ul style="padding-left:18px; font-size:14.5px; color:#c8d1e0; margin-top:6px;">
+          <li style="margin-bottom:6px;">Unit komputer / laptop praktik</li>
+          <li style="margin-bottom:6px;">Installer driver (VGA, chipset, LAN/WiFi, audio)</li>
+          <li style="margin-bottom:6px;">Software pendukung (office, browser, antivirus)</li>
+          <li>Koneksi internet</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>▲ PROFIL PELAJAR PANCASILA</h3>
+        <p style="margin-bottom:10px;">Terbentuk secara alami melalui proses hari ini:</p>
+        <div class="pancasila-tag"><span class="dotp"></span> Mandiri — mengidentifikasi & menyelesaikan masalah driver sendiri</div>
+        <div class="pancasila-tag"><span class="dotp"></span> Kreatif — mencari solusi saat driver tidak terdeteksi otomatis</div>
+      </div>
+    </div>
+
+    <div class="kktp-box" style="margin-top:24px;">
+      <span class="lbl">Refleksi Penutup (ditulis siswa, 5 menit)</span>
+      1) Driver apa yang paling menantang untuk dipasang, dan mengapa? &nbsp;·&nbsp;
+      2) Bagaimana caramu memastikan sebuah installer berasal dari sumber resmi? &nbsp;·&nbsp;
+      3) Apa langkah pertama yang akan kamu lakukan jika besok menemukan tanda seru kuning di komputer lain?
+    </div>
+
+    <div class="info-card" style="margin-top:24px;">
+      <h3>▲ REFERENSI / SUMBER BELAJAR</h3>
+      <ul style="padding-left:18px; font-size:13.5px; color:var(--muted); margin-top:6px;">
+        <li style="margin-bottom:5px;">Dokumentasi resmi driver: situs unduhan resmi Intel, NVIDIA, AMD, dan Realtek.</li>
+        <li style="margin-bottom:5px;">Microsoft Learn — panduan penggunaan Device Manager pada Windows.</li>
+        <li>Modul internal sekolah — Dasar-dasar Teknik Komputer dan Jaringan.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 1 · 9 JP</footer>
+
+</div>
+</body>
+</html>

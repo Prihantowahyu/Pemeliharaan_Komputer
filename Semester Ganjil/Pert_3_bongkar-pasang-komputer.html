@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prosedur Bongkar Pasang Komputer — Blok 1 / Hari 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg-deep:#12151A;
+  --bg-panel:#1B2028;
+  --bg-panel-2:#212833;
+  --pcb-green:#2E7D5B;
+  --pcb-green-bright:#4FCB92;
+  --copper:#C9834E;
+  --hazard-amber:#FFB020;
+  --static-pink:#FF6FA5;
+  --danger:#FF5D5D;
+  --text-main:#EDEAE2;
+  --text-dim:#8B93A0;
+  --mono:'JetBrains Mono', monospace;
+  --sans:'Inter', sans-serif;
+  --line:#2A313D;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg-deep);
+  color:var(--text-main);
+  font-family:var(--sans);
+  line-height:1.55;
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(46,125,91,0.10), transparent 40%),
+    radial-gradient(circle at 85% 92%, rgba(201,131,78,0.08), transparent 45%);
+}
+
+.page{max-width:980px;margin:0 auto;padding:0 20px 80px;}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:38px 0 26px;
+  border-bottom:1px dashed var(--line);
+  position:relative;
+}
+.hero .eyebrow{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--pcb-green-bright);
+  text-transform:uppercase;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--copper);}
+.hero h1{
+  font-family:var(--mono);
+  font-size:clamp(26px,4vw,40px);
+  font-weight:800;
+  margin:0 0 10px;
+  letter-spacing:-0.5px;
+  line-height:1.15;
+}
+.hero h1 span{color:var(--pcb-green-bright);}
+.hero p.sub{color:var(--text-dim);font-size:15px;max-width:640px;margin:0 0 20px;}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{
+  font-family:var(--mono);
+  font-size:12px;
+  padding:6px 12px;
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:var(--bg-panel);
+  color:var(--text-dim);
+}
+.chip b{color:var(--text-main);}
+.chip.pin{position:relative;padding-left:18px;}
+.chip.pin::before{
+  content:'';
+  position:absolute;left:7px;top:50%;transform:translateY(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--pcb-green-bright);
+}
+
+/* ---------- NAV ---------- */
+.session-nav{
+  position:sticky;top:0;
+  display:flex;gap:6px;overflow-x:auto;
+  padding:14px 0;
+  background:linear-gradient(var(--bg-deep) 78%, transparent);
+  z-index:50;
+  border-bottom:1px solid var(--line);
+  scrollbar-width:thin;
+}
+.nav-btn{
+  font-family:var(--mono);
+  font-size:12.5px;
+  white-space:nowrap;
+  background:var(--bg-panel);
+  color:var(--text-dim);
+  border:1px solid var(--line);
+  border-radius:6px 6px 0 0;
+  padding:9px 14px 8px;
+  cursor:pointer;
+  position:relative;
+  transition:color .15s, background .15s, transform .1s;
+}
+.nav-btn:hover{color:var(--text-main);}
+.nav-btn.active{
+  color:var(--bg-deep);
+  background:var(--pcb-green-bright);
+  border-color:var(--pcb-green-bright);
+  font-weight:700;
+}
+.nav-btn.active::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--pcb-green-bright);
+}
+.nav-btn .jp{opacity:.7;font-weight:400;margin-left:4px;}
+
+/* progress bar */
+.progress-wrap{
+  margin:14px 0 6px;
+  display:flex;align-items:center;gap:12px;
+}
+.progress-track{
+  flex:1;height:8px;border-radius:4px;background:var(--bg-panel);
+  border:1px solid var(--line);overflow:hidden;
+}
+.progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg, var(--copper), var(--pcb-green-bright));
+  transition:width .4s ease;
+}
+.progress-label{font-family:var(--mono);font-size:12px;color:var(--text-dim);white-space:nowrap;}
+
+/* timer widget */
+.timer-widget{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);
+  background:var(--bg-panel);border:1px solid var(--line);
+  border-radius:6px;padding:6px 10px;margin:8px 0 20px;
+  width:fit-content;
+}
+.timer-widget .led{width:8px;height:8px;border-radius:50%;background:var(--text-dim);}
+.timer-widget.running .led{background:var(--hazard-amber);box-shadow:0 0 8px var(--hazard-amber);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.timer-digits{font-size:16px;font-weight:700;letter-spacing:1px;min-width:64px;}
+.timer-widget button{
+  font-family:var(--mono);font-size:11px;
+  background:transparent;border:1px solid var(--line);color:var(--text-dim);
+  border-radius:4px;padding:4px 9px;cursor:pointer;
+}
+.timer-widget button:hover{color:var(--text-main);border-color:var(--pcb-green-bright);}
+
+/* ---------- SESSION SECTIONS ---------- */
+.session{display:none;animation:fadeIn .35s ease;}
+.session.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.session h2{
+  font-family:var(--mono);
+  font-size:22px;
+  margin:28px 0 6px;
+  display:flex;align-items:baseline;gap:10px;
+}
+.session h2 .num{color:var(--copper);}
+.session .lead{color:var(--text-dim);font-size:14.5px;margin-bottom:22px;max-width:640px;}
+
+.box{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:18px 20px;
+  margin-bottom:18px;
+}
+.box h3{
+  font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:1px;
+  color:var(--pcb-green-bright);margin:0 0 12px;
+}
+
+/* CP/TP block */
+.cp-tp{border-left:3px solid var(--pcb-green);}
+.tp-list{margin:0;padding-left:0;list-style:none;}
+.tp-list li{
+  display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line);
+  font-size:14.5px;
+}
+.tp-list li:first-child{border-top:none;}
+.tp-list .tag{
+  font-family:var(--mono);color:var(--copper);font-weight:700;flex-shrink:0;
+}
+
+/* K3 hazard banner */
+.hazard{
+  position:relative;
+  border-radius:10px;
+  padding:3px;
+  background:repeating-linear-gradient(135deg, var(--hazard-amber) 0 14px, #14171C 14px 28px);
+  margin-bottom:22px;
+}
+.hazard-inner{
+  background:var(--bg-panel);
+  border-radius:8px;
+  padding:20px 22px;
+}
+.hazard-inner h3{
+  font-family:var(--mono);color:var(--hazard-amber);font-size:14px;
+  letter-spacing:1px;text-transform:uppercase;margin:0 0 14px;
+  display:flex;align-items:center;gap:8px;
+}
+.k3-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+.k3-list li{
+  display:flex;gap:12px;align-items:flex-start;font-size:14.5px;
+}
+.k3-list .ico{
+  flex-shrink:0;width:28px;height:28px;border-radius:6px;
+  background:var(--bg-panel-2);display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+
+/* tool grid */
+.tool-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;
+}
+.tool-card{
+  border:1.5px dashed var(--line);
+  border-radius:10px;
+  padding:16px;
+  background:var(--bg-panel);
+  transition:border-color .15s, transform .15s;
+}
+.tool-card:hover{border-color:var(--pcb-green-bright);transform:translateY(-2px);}
+.tool-card .ico{font-size:26px;margin-bottom:8px;display:block;}
+.tool-card h4{margin:0 0 4px;font-size:14.5px;font-family:var(--mono);}
+.tool-card p{margin:0;font-size:12.5px;color:var(--text-dim);}
+
+/* step timeline */
+.timeline{position:relative;margin-left:6px;padding-left:26px;border-left:2px solid var(--line);}
+.step{
+  position:relative;margin-bottom:16px;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;
+}
+.step::before{
+  content:'';position:absolute;left:-32.5px;top:18px;width:12px;height:12px;
+  border-radius:50%;background:var(--bg-deep);border:2px solid var(--copper);
+}
+.step.checked::before{background:var(--pcb-green-bright);border-color:var(--pcb-green-bright);}
+.step-head{display:flex;align-items:flex-start;gap:12px;}
+.step-head input[type=checkbox]{
+  margin-top:3px;width:17px;height:17px;accent-color:var(--pcb-green-bright);cursor:pointer;flex-shrink:0;
+}
+.step-tag{font-family:var(--mono);color:var(--copper);font-size:12px;font-weight:700;}
+.step-title{font-weight:600;font-size:14.5px;}
+.step.checked .step-title{color:var(--text-dim);text-decoration:line-through;text-decoration-color:var(--pcb-green-bright);}
+.step-note{
+  margin:8px 0 0 29px;font-size:12.5px;color:var(--text-dim);
+  border-left:2px solid var(--hazard-amber);padding-left:10px;
+}
+
+/* POST terminal */
+.terminal{
+  position:relative;
+  background:#0A0D0A;
+  border-radius:12px;
+  border:1px solid #1E2A20;
+  padding:22px;
+  font-family:var(--mono);
+  overflow:hidden;
+  box-shadow:0 0 0 6px #171A16 inset, 0 20px 40px -20px rgba(0,0,0,.6);
+}
+.terminal::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(rgba(255,255,255,0.025) 0 1px, transparent 1px 3px);
+}
+.terminal-head{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.terminal-led{width:9px;height:9px;border-radius:50%;background:var(--text-dim);}
+.terminal-led.on{background:var(--pcb-green-bright);box-shadow:0 0 10px var(--pcb-green-bright);}
+.terminal-led.fault{background:var(--danger);box-shadow:0 0 10px var(--danger);}
+.terminal-title{font-size:11px;color:#4c6a53;letter-spacing:1px;}
+.term-lines{min-height:170px;font-size:13px;color:var(--pcb-green-bright);}
+.term-line{margin-bottom:4px;opacity:0;animation:typeIn .25s forwards;}
+@keyframes typeIn{to{opacity:1;}}
+.term-line.err{color:var(--danger);}
+.term-line.ok{color:var(--pcb-green-bright);}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--pcb-green-bright);vertical-align:middle;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+.post-controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  border:none;border-radius:6px;padding:10px 18px;cursor:pointer;
+  background:var(--pcb-green-bright);color:#0A0D0A;
+  transition:transform .1s, box-shadow .15s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(79,203,146,.6);}
+.btn.secondary{background:transparent;border:1px solid var(--line);color:var(--text-dim);}
+.btn.secondary:hover{color:var(--text-main);border-color:var(--pcb-green-bright);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+
+.diag-box{margin-top:18px;display:none;}
+.diag-box.show{display:block;}
+.diag-q{font-size:14.5px;font-weight:600;margin-bottom:10px;}
+.diag-opts{display:grid;gap:8px;}
+.diag-opt{
+  text-align:left;font-family:var(--sans);font-size:13.5px;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:7px;
+  padding:10px 14px;cursor:pointer;color:var(--text-main);
+}
+.diag-opt:hover{border-color:var(--pcb-green-bright);}
+.diag-opt.correct{border-color:var(--pcb-green-bright);background:rgba(79,203,146,.12);}
+.diag-opt.wrong{border-color:var(--danger);background:rgba(255,93,93,.12);}
+.diag-feedback{
+  margin-top:10px;font-size:13px;padding:10px 14px;border-radius:7px;
+  background:var(--bg-panel-2);display:none;
+}
+.diag-feedback.show{display:block;}
+
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:20px;}
+.ref-table th{
+  font-family:var(--mono);text-align:left;color:var(--text-dim);
+  font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;
+  padding:8px 10px;border-bottom:1px solid var(--line);
+}
+.ref-table td{padding:10px;border-bottom:1px dashed var(--line);vertical-align:top;}
+
+/* rubric */
+.rubric-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.rubric-table th{
+  font-family:var(--mono);background:var(--bg-panel-2);color:var(--pcb-green-bright);
+  padding:10px;text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;
+}
+.rubric-table td{padding:10px;border-bottom:1px solid var(--line);}
+.rubric-table tr:hover td{background:var(--bg-panel);}
+
+.reflect-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+.reflect-list li{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;
+}
+.reflect-list input{margin-top:3px;accent-color:var(--pcb-green-bright);}
+
+.profil-tags{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.profil-tag{
+  font-family:var(--mono);font-size:12.5px;padding:8px 14px;border-radius:20px;
+  background:linear-gradient(90deg, rgba(46,125,91,.25), rgba(255,111,165,.15));
+  border:1px solid var(--pcb-green);color:var(--text-main);
+}
+
+.box.teacher{border-left:3px solid var(--static-pink);}
+.teacher-badge{
+  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:1px;
+  color:var(--static-pink);border:1px solid var(--static-pink);border-radius:20px;
+  padding:4px 12px;margin-bottom:18px;text-transform:uppercase;
+}
+.syntax-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.syntax-table th{
+  font-family:var(--mono);background:var(--bg-panel-2);color:var(--static-pink);
+  padding:10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;
+}
+.syntax-table td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top;}
+.syntax-table td.time{font-family:var(--mono);color:var(--copper);white-space:nowrap;font-size:12.5px;}
+.syntax-table tr.stage-head td{
+  background:var(--bg-panel-2);font-family:var(--mono);font-weight:700;
+  color:var(--pcb-green-bright);text-transform:uppercase;font-size:12px;letter-spacing:.5px;
+}
+.ref-list{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+.ref-list li{
+  font-size:13.5px;padding:10px 14px;background:var(--bg-panel);border:1px solid var(--line);
+  border-radius:7px;display:flex;gap:10px;
+}
+.ref-list li span.n{font-family:var(--mono);color:var(--static-pink);flex-shrink:0;}
+
+footer{
+  margin-top:50px;padding-top:20px;border-top:1px dashed var(--line);
+  color:var(--text-dim);font-size:12px;font-family:var(--mono);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+
+@media (max-width:640px){
+  .terminal{padding:16px;}
+  .term-lines{min-height:150px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <span>SMK DIPONEGORO TUMPANG</span><span class="dot"></span>
+      <span>SEMESTER GANJIL — SISTEM BLOK</span>
+    </div>
+    <h1>Prosedur Bongkar Pasang <span>Komputer</span></h1>
+    <p class="sub">Materi ajar mendalam Blok 1, Hari ke-3 — praktik melepas dan memasang komponen komputer sesuai SOP dan K3, hingga berhasil menyalakan sistem (POST).</p>
+    <div class="chips">
+      <span class="chip pin">Blok <b>1</b></span>
+      <span class="chip pin">Hari ke- <b>3</b></span>
+      <span class="chip pin"><b>9</b> JP (45 menit/JP)</span>
+      <span class="chip pin">Asesmen: <b>Unjuk Kerja Praktik</b></span>
+      <span class="chip pin">Profil: <b>Mandiri &amp; Kreatif</b></span>
+    </div>
+  </header>
+
+  <nav class="session-nav" id="sessionNav">
+    <button class="nav-btn active" data-target="s1">01 · K3 &amp; Pengenalan<span class="jp">1 JP</span></button>
+    <button class="nav-btn" data-target="s2">02 · Alat &amp; Bahan<span class="jp">1 JP</span></button>
+    <button class="nav-btn" data-target="s3">03 · Praktik Bongkar<span class="jp">2 JP</span></button>
+    <button class="nav-btn" data-target="s4">04 · Praktik Pasang<span class="jp">2 JP</span></button>
+    <button class="nav-btn" data-target="s5">05 · Uji POST<span class="jp">2 JP</span></button>
+    <button class="nav-btn" data-target="s6">06 · Evaluasi<span class="jp">1 JP</span></button>
+    <button class="nav-btn" data-target="s7">07 · Panduan Guru<span class="jp">meta</span></button>
+  </nav>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 / 0 langkah selesai</span>
+  </div>
+
+  <div class="timer-widget" id="timerWidget">
+    <span class="led" id="timerLed"></span>
+    <span class="timer-digits" id="timerDigits">00:00</span>
+    <button id="timerStart">Mulai</button>
+    <button id="timerReset">Reset</button>
+    <span style="color:var(--text-dim);font-size:11px;">stopwatch praktik</span>
+  </div>
+
+  <main>
+
+    <!-- SESI 1 -->
+    <section class="session active" id="s1">
+      <h2><span class="num">01</span> K3 &amp; Pengenalan</h2>
+      <p class="lead">Sebelum menyentuh satu pun komponen, kenali dulu tujuan praktik hari ini dan aturan keselamatan kerja (K3) yang wajib dipatuhi.</p>
+
+      <div class="box cp-tp">
+        <h3>Capaian &amp; Tujuan Pembelajaran</h3>
+        <p style="font-size:14.5px;color:var(--text-dim);margin:0 0 14px;">Peserta didik mampu melaksanakan prosedur bongkar pasang komputer sesuai SOP dan standar teknis.</p>
+        <ul class="tp-list">
+          <li><span class="tag">TP-1</span><span>Melepas dan memasang komponen komputer sesuai urutan yang benar.</span></li>
+          <li><span class="tag">TP-2</span><span>Menerapkan K3 selama proses bongkar pasang.</span></li>
+          <li><span class="tag">TP-3</span><span>Menguji hasil perakitan hingga komputer menyala normal (POST).</span></li>
+        </ul>
+      </div>
+
+      <div class="hazard">
+        <div class="hazard-inner">
+          <h3>⚠ Wajib Dibaca Sebelum Praktik</h3>
+          <ul class="k3-list">
+            <li><span class="ico">🔌</span><span>Matikan komputer dan cabut kabel daya dari stopkontak sebelum membuka casing.</span></li>
+            <li><span class="ico">🧤</span><span>Pakai gelang anti-statis (ESD strap) dan sambungkan jepitannya ke bagian metal casing.</span></li>
+            <li><span class="ico">✋</span><span>Pegang komponen di bagian tepi (edge) — jangan menyentuh pin, chip, atau jalur PCB langsung.</span></li>
+            <li><span class="ico">📦</span><span>Letakkan komponen di atas alas/kotak anti-statis, jangan langsung di lantai atau karpet.</span></li>
+            <li><span class="ico">🪛</span><span>Gunakan ukuran obeng yang pas dengan baut — jangan memaksa bila terasa seret.</span></li>
+            <li><span class="ico">💡</span><span>Pastikan meja kerja rapi, cukup cahaya, dan bebas dari cairan di sekitar area kerja.</span></li>
+            <li><span class="ico">🚫</span><span>Jangan bekerja dengan tangan basah atau berkeringat, dan lepas aksesoris logam (jam, cincin) yang bisa menyentuh komponen tanpa sengaja.</span></li>
+            <li><span class="ico">🗂️</span><span>Simpan baut hasil bongkaran berdasarkan kelompoknya (baut casing, baut motherboard, baut bracket) agar tidak tertukar saat pemasangan.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Kenapa K3 ini penting?</h3>
+        <p style="font-size:14px;color:var(--text-dim);margin:0 0 10px;">Listrik statis dari tubuh manusia — yang disebut <b>ESD (Electrostatic Discharge)</b> — bisa mencapai ribuan volt dan tidak terasa sama sekali, tetapi cukup untuk merusak chip di dalam RAM, motherboard, atau prosesor secara diam-diam. Komponen yang rusak akibat ESD kadang masih bisa menyala, tapi cepat bermasalah di kemudian hari (hang, restart sendiri, atau mati total setelah beberapa minggu).</p>
+        <p style="font-size:14px;color:var(--text-dim);margin:0;">Gelang anti-statis bekerja dengan menyamakan potensial listrik antara tubuhmu dan casing komputer, sehingga muatan statis mengalir aman ke bagian metal casing (grounding) — bukan ke komponen. Karena itu gelang anti-statis dan cara memegang komponen yang benar adalah bagian dari kompetensi teknis, bukan sekadar formalitas.</p>
+      </div>
+
+      <div class="box">
+        <h3>Kenali Komponen Utama Sebelum Bekerja</h3>
+        <p style="font-size:14px;color:var(--text-dim);margin:0 0 14px;">Sebelum membongkar, pastikan kamu bisa mengenali dan menjelaskan fungsi tiap komponen berikut. Memahami fungsinya membantumu tahu <i>kenapa</i> urutan bongkar-pasang harus seperti itu — bukan sekadar menghafal langkah.</p>
+        <div class="tool-grid">
+          <div class="tool-card"><span class="ico">🧠</span><h4>CPU (Prosesor)</h4><p>Otak komputer yang mengeksekusi seluruh instruksi. Dipasang di socket motherboard, gampang panas sehingga butuh heatsink.</p></div>
+          <div class="tool-card"><span class="ico">📏</span><h4>RAM</h4><p>Memori sementara tempat data yang sedang diproses disimpan. Kecepatan akses tinggi, tapi datanya hilang saat daya mati.</p></div>
+          <div class="tool-card"><span class="ico">🧩</span><h4>Motherboard</h4><p>Papan sirkuit utama yang menghubungkan semua komponen — CPU, RAM, storage, kartu ekspansi — lewat jalur (trace) dan slot.</p></div>
+          <div class="tool-card"><span class="ico">🔋</span><h4>PSU (Power Supply)</h4><p>Mengubah listrik AC dari stopkontak menjadi DC dengan tegangan yang dibutuhkan tiap komponen (12V, 5V, 3.3V).</p></div>
+          <div class="tool-card"><span class="ico">💾</span><h4>Storage (HDD/SSD)</h4><p>Media penyimpanan permanen untuk sistem operasi, aplikasi, dan data — tidak hilang saat daya mati.</p></div>
+          <div class="tool-card"><span class="ico">🎮</span><h4>GPU/VGA</h4><p>Kartu pengolah grafis untuk menampilkan visual ke monitor, dipasang di slot PCIe pada motherboard.</p></div>
+          <div class="tool-card"><span class="ico">❄️</span><h4>Heatsink &amp; Fan</h4><p>Membuang panas dari CPU ke udara sekitar. Thermal paste mengisi celah mikroskopis agar transfer panas maksimal.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SESI 2 -->
+    <section class="session" id="s2">
+      <h2><span class="num">02</span> Alat &amp; Bahan Praktik</h2>
+      <p class="lead">Siapkan seluruh alat berikut di meja kerja sebelum memulai — kembalikan ke tempatnya setelah selesai.</p>
+
+      <div class="tool-grid">
+        <div class="tool-card"><span class="ico">🪛</span><h4>Toolkit Obeng Set</h4><p>Obeng plus (Phillips) ukuran PH0–PH2 untuk sebagian besar baut casing, motherboard, dan bracket. Pilih ujung yang benar-benar pas agar kepala baut tidak aus (dol).</p></div>
+        <div class="tool-card"><span class="ico">📿</span><h4>Gelang Anti-Statis</h4><p>Dipakai di pergelangan tangan, jepitannya disambungkan ke bagian metal casing agar listrik statis tubuh mengalir aman sebelum menyentuh komponen.</p></div>
+        <div class="tool-card"><span class="ico">🧴</span><h4>Thermal Paste</h4><p>Pasta penghantar panas antara CPU dan heatsink. Dioleskan ulang setiap kali heatsink dilepas-pasang — sisa lama harus dibersihkan dulu, jangan ditumpuk.</p></div>
+        <div class="tool-card"><span class="ico">🗄️</span><h4>Unit CPU/Komputer Bekas</h4><p>Unit praktik lengkap (casing, PSU, motherboard, RAM, storage) untuk dibongkar dan dirakit kembali oleh siswa secara berulang.</p></div>
+        <div class="tool-card"><span class="ico">🧵</span><h4>Cable Ties</h4><p>Mengikat dan merapikan kabel di dalam casing agar tidak menghalangi aliran udara pendingin atau menyentuh kipas.</p></div>
+        <div class="tool-card"><span class="ico">🥣</span><h4>Wadah Kecil</h4><p>Tempat memisahkan baut berdasarkan jenisnya (baut casing, baut motherboard/standoff, baut bracket) agar tidak tercecer atau tertukar.</p></div>
+        <div class="tool-card"><span class="ico">🔦</span><h4>Lampu Kerja / Senter</h4><p>Membantu melihat bagian dalam casing yang gelap, terutama saat memeriksa posisi konektor front panel yang kecil.</p></div>
+        <div class="tool-card"><span class="ico">🧻</span><h4>Tisu / Kain Bersih (Non-Serat)</h4><p>Membersihkan sisa thermal paste lama dari permukaan CPU dan heatsink sebelum mengoles yang baru — hindari kain berbulu.</p></div>
+      </div>
+
+      <div class="box" style="margin-top:18px;">
+        <h3>Tips Memilih &amp; Merawat Alat</h3>
+        <p style="font-size:14px;color:var(--text-dim);margin:0;">Obeng yang ujungnya sudah aus akan mudah selip dan merusak kepala baut — ganti bila sudah terasa longgar di dalam alur baut. Thermal paste yang sudah mengering/mengeras di kemasan sebaiknya tidak dipakai karena daya hantar panasnya menurun. Gelang anti-statis harus benar-benar menempel di kulit, bukan di atas baju, agar fungsinya efektif.</p>
+      </div>
+    </section>
+
+    <!-- SESI 3 -->
+    <section class="session" id="s3">
+      <h2><span class="num">03</span> Praktik Bongkar (Disassembly)</h2>
+      <p class="lead">Ikuti urutan berikut. Centang tiap langkah setelah benar-benar selesai dikerjakan — jangan melompati urutan.</p>
+
+      <div class="timeline" data-group="disassembly">
+        <div class="step" data-step="d1"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 01</span><div class="step-title">Matikan komputer dan cabut semua kabel dari casing (daya, monitor, dll).</div></div></div><div class="step-note">Tunggu sekitar 30 detik setelah dicabut agar kapasitor di dalam PSU benar-benar kosong sebelum casing dibuka.</div></div>
+        <div class="step" data-step="d2"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 02</span><div class="step-title">Buka baut panel samping casing, lalu lepas panel.</div></div></div><div class="step-note">Pasang gelang anti-statis sekarang, sebelum menyentuh bagian dalam. Biasanya ada 2 baut di sisi belakang casing.</div></div>
+        <div class="step" data-step="d3"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 03</span><div class="step-title">Lepas kabel dari PSU ke motherboard &amp; storage (24-pin, 4/8-pin CPU, SATA data &amp; power, front panel).</div></div></div><div class="step-note">Konektor 24-pin (ATX) memberi daya utama motherboard, sedangkan 4/8-pin (EPS) khusus memberi daya ke CPU. Tekan klip pengunci di sisi konektor sebelum menarik.</div></div>
+        <div class="step" data-step="d4"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 04</span><div class="step-title">Lepas kartu ekspansi (VGA/GPU dll) — buka baut bracket, tekan clip slot, tarik lurus keluar.</div></div></div><div class="step-note">Slot PCIe punya klip pengunci di ujung — tekan klip tersebut dulu sebelum menarik kartu, jangan langsung dicongkel.</div></div>
+        <div class="step" data-step="d5"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 05</span><div class="step-title">Lepas modul RAM — tekan clip pengunci di kedua sisi hingga RAM terangkat.</div></div></div><div class="step-note">Kedua clip di ujung slot RAM akan terbuka bersamaan dan modul RAM terdorong naik sedikit — baru angkat lurus ke atas.</div></div>
+        <div class="step" data-step="d6"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 06</span><div class="step-title">Lepas storage (HDD/SSD) dari bay — buka baut atau braket penahan.</div></div></div><div class="step-note">Untuk HDD, pegang dari sisi rangka logam, hindari mengguncang keras karena ada komponen mekanis berputar di dalamnya.</div></div>
+        <div class="step" data-step="d7"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 07</span><div class="step-title">Lepas heatsink &amp; fan CPU — buka baut/klip pengunci secara perlahan.</div></div></div><div class="step-note">Jangan mencongkel paksa — heatsink yang lengket bisa diputar perlahan searah jarum jam-berlawanan arah jarum jam agar thermal paste lepas sendiri.</div></div>
+        <div class="step" data-step="d8"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 08</span><div class="step-title">Lepas CPU dari socket — angkat tuas pengunci, angkat CPU lurus ke atas.</div></div></div><div class="step-note">Jangan menyentuh pin/kontak di bagian bawah CPU atau di dalam socket — pin yang bengkok sangat sulit diperbaiki.</div></div>
+        <div class="step" data-step="d9"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 09</span><div class="step-title">Buka semua baut standoff, lalu angkat motherboard keluar dari casing.</div></div></div><div class="step-note">Standoff adalah baut penyangga logam yang menjaga jarak motherboard dari dinding casing agar tidak terjadi korsleting.</div></div>
+        <div class="step" data-step="d10"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 10</span><div class="step-title">Lepas PSU dari casing bila diperlukan untuk pemeriksaan lebih lanjut.</div></div></div><div class="step-note">PSU biasanya ditahan 4 baut di panel belakang casing — catat arah kipas PSU sebelum dilepas untuk memudahkan pemasangan kembali.</div></div>
+      </div>
+    </section>
+
+    <!-- SESI 4 -->
+    <section class="session" id="s4">
+      <h2><span class="num">04</span> Praktik Pasang (Assembly)</h2>
+      <p class="lead">Rakit kembali unit yang sama dari nol. Urutan pemasangan tidak selalu kebalikan persis dari bongkar — ikuti urutan berikut untuk hasil yang rapi dan aman.</p>
+
+      <div class="timeline" data-group="assembly">
+        <div class="step" data-step="a1"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 01</span><div class="step-title">Pasang PSU ke casing dan kencangkan baut.</div></div></div><div class="step-note">Pastikan arah kipas PSU sesuai desain casing (umumnya menghadap ke bawah atau ke luar) agar sirkulasi udara optimal.</div></div>
+        <div class="step" data-step="a2"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 02</span><div class="step-title">Pasang CPU ke socket motherboard — cocokkan tanda segitiga/notch, jangan dipaksa, turunkan tuas pengunci.</div></div></div><div class="step-note">CPU hanya bisa masuk dalam satu orientasi. Bila terasa harus ditekan keras, hentikan dan periksa ulang posisi notch-nya.</div></div>
+        <div class="step" data-step="a3"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 03</span><div class="step-title">Oleskan thermal paste secukupnya (seukuran biji jagung) di tengah permukaan CPU.</div></div></div><div class="step-note">Terlalu banyak paste bisa meluber ke socket; terlalu sedikit membuat transfer panas kurang maksimal. Tekanan heatsink saat dipasang akan meratakannya sendiri.</div></div>
+        <div class="step" data-step="a4"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 04</span><div class="step-title">Pasang heatsink &amp; fan CPU, kencangkan baut/klip secara merata dan menyilang.</div></div></div><div class="step-note">Kencangkan baut secara menyilang (diagonal), bukan berurutan, agar tekanan heatsink ke CPU rata di semua sisi.</div></div>
+        <div class="step" data-step="a5"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 05</span><div class="step-title">Pasang modul RAM ke slot — cocokkan notch, tekan hingga klik dan clip terkunci sendiri.</div></div></div><div class="step-note">Tekan kedua ujung modul secara merata dan bersamaan hingga terdengar bunyi "klik" dari clip pengunci di kedua sisi.</div></div>
+        <div class="step" data-step="a6"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 06</span><div class="step-title">Pasang motherboard ke casing, kencangkan seluruh baut standoff.</div></div></div><div class="step-note">Pastikan jumlah dan posisi standoff sesuai lubang baut motherboard — standoff yang tidak sejajar bisa membuat motherboard melengkung.</div></div>
+        <div class="step" data-step="a7"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 07</span><div class="step-title">Pasang storage (HDD/SSD) ke bay, kencangkan baut/braket.</div></div></div><div class="step-note">Untuk HDD, hindari posisi yang membuatnya terguncang saat casing dipindahkan — getaran berlebih memperpendek usia komponen mekanis di dalamnya.</div></div>
+        <div class="step" data-step="a8"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 08</span><div class="step-title">Pasang kartu ekspansi (GPU dll) ke slot PCIe, kencangkan baut bracket.</div></div></div><div class="step-note">Dorong kartu lurus ke bawah hingga klip pengunci slot berbunyi klik dan bagian bracket sejajar dengan panel belakang casing.</div></div>
+        <div class="step" data-step="a9"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 09</span><div class="step-title">Sambungkan semua kabel: 24-pin motherboard, 4/8-pin CPU power, SATA data &amp; power, front panel, fan header.</div></div></div><div class="step-note">Ini langkah yang paling sering keliru — cek ulang satu per satu, terutama konektor front panel (power switch, LED, USB) yang ukurannya kecil dan mudah tertukar polaritasnya.</div></div>
+        <div class="step" data-step="a10"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 10</span><div class="step-title">Rapikan kabel (cable management) dengan cable ties agar tidak menghalangi aliran udara.</div></div></div><div class="step-note">Kabel yang menghalangi kipas atau heatsink bisa menyebabkan suhu komponen naik secara perlahan meski POST tetap berhasil.</div></div>
+        <div class="step" data-step="a11"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 11</span><div class="step-title">Tutup panel casing dan kencangkan baut.</div></div></div><div class="step-note">Sebelum menutup, lakukan pengecekan visual terakhir — pastikan tidak ada kabel terjepit atau baut yang tertinggal di dalam casing.</div></div>
+        <div class="step" data-step="a12"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 12</span><div class="step-title">Sambungkan kabel daya, monitor, keyboard, dan mouse.</div></div></div><div class="step-note">Gunakan port monitor yang sesuai — jika ada GPU terpasang, sambungkan monitor ke GPU, bukan ke port onboard motherboard.</div></div>
+        <div class="step" data-step="a13"><div class="step-head"><input type="checkbox"><div><span class="step-tag">STEP 13</span><div class="step-title">Nyalakan komputer dan amati proses POST — lanjutkan ke Sesi 05.</div></div></div><div class="step-note">Perhatikan lampu indikator, suara beep (jika ada speaker internal), dan tampilan awal di layar sebagai tanda-tanda awal keberhasilan.</div></div>
+      </div>
+    </section>
+
+    <!-- SESI 5 -->
+    <section class="session" id="s5">
+      <h2><span class="num">05</span> Pengujian POST</h2>
+      <p class="lead"><b>POST (Power-On Self Test)</b> adalah pemeriksaan otomatis oleh BIOS/UEFI saat komputer baru dinyalakan, sebelum sistem operasi dimuat. Coba nyalakan simulator di bawah — kadang hasilnya sukses, kadang muncul gejala yang perlu kamu diagnosis.</p>
+
+      <div class="box">
+        <h3>Apa yang Sebenarnya Terjadi Saat Tombol Power Ditekan?</h3>
+        <ul class="tp-list">
+          <li><span class="tag">1</span><span>PSU mengirim sinyal "Power Good" ke motherboard setelah tegangan listrik stabil — tanpa sinyal ini, sistem tidak akan melanjutkan proses.</span></li>
+          <li><span class="tag">2</span><span>BIOS/UEFI di chip motherboard mulai bekerja, memeriksa CPU, lalu menginisialisasi controller RAM.</span></li>
+          <li><span class="tag">3</span><span>BIOS mendata (enumerasi) seluruh perangkat yang terpasang: storage, kartu ekspansi, port USB, dan sebagainya.</span></li>
+          <li><span class="tag">4</span><span>Jika semua pemeriksaan lolos, BIOS menyerahkan proses ke bootloader untuk memuat sistem operasi dari storage.</span></li>
+        </ul>
+        <p style="font-size:13.5px;color:var(--text-dim);margin:14px 0 0;">Bila ada tahap yang gagal, BIOS akan memberi kode berupa bunyi <b>beep</b> (pada motherboard dengan speaker internal) atau kode angka/LED diagnostik, tergantung merek BIOS-nya.</p>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-head">
+          <span class="terminal-led" id="termLed"></span>
+          <span class="terminal-title">BIOS POST MONITOR — SIMULASI</span>
+        </div>
+        <div class="term-lines" id="termLines"><span style="color:var(--text-dim);">Tekan "Nyalakan Komputer" untuk memulai simulasi...</span></div>
+        <div class="post-controls">
+          <button class="btn" id="postStart">▶ Nyalakan Komputer</button>
+          <button class="btn secondary" id="postAgain" disabled>↻ Coba Lagi</button>
+        </div>
+
+        <div class="diag-box" id="diagBox">
+          <p class="diag-q" id="diagQ"></p>
+          <div class="diag-opts" id="diagOpts"></div>
+          <div class="diag-feedback" id="diagFeedback"></div>
+        </div>
+      </div>
+
+      <div class="box" style="margin-top:22px;">
+        <h3>Referensi Cepat: Gejala &amp; Kemungkinan Penyebab</h3>
+        <table class="ref-table">
+          <tr><th>Gejala</th><th>Kemungkinan Penyebab</th><th>Langkah Perbaikan</th></tr>
+          <tr><td>Tidak menyala sama sekali, kipas diam</td><td>Kabel daya/PSU belum tersambung</td><td>Periksa kabel power &amp; sakelar PSU</td></tr>
+          <tr><td>Kipas menyala, tidak ada tampilan</td><td>RAM belum terpasang sempurna</td><td>Lepas &amp; pasang ulang RAM hingga klik</td></tr>
+          <tr><td>Menyala, tidak mendeteksi storage</td><td>Kabel SATA data/power longgar</td><td>Periksa &amp; sambungkan ulang kabel SATA</td></tr>
+          <tr><td>Menyala sebentar lalu mati</td><td>Suhu CPU terlalu panas / heatsink kurang rapat</td><td>Periksa pemasangan heatsink &amp; thermal paste</td></tr>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3>Referensi Tambahan: Kode Bunyi Beep Umum (BIOS Berbasis AMI)</h3>
+        <p style="font-size:13px;color:var(--text-dim);margin:0 0 12px;">Kode ini hanya berlaku bila motherboard punya speaker internal. Jumlah dan pola beep bisa berbeda antar merek BIOS — selalu cek manual motherboard yang sebenarnya.</p>
+        <table class="ref-table">
+          <tr><th>Pola Bunyi</th><th>Arti Umum</th></tr>
+          <tr><td>1x beep pendek</td><td>Sistem normal, POST berhasil</td></tr>
+          <tr><td>2x beep pendek</td><td>Kesalahan parity/RAM ringan</td></tr>
+          <tr><td>3x beep pendek</td><td>Kegagalan pada memori dasar (base memory)</td></tr>
+          <tr><td>Beep panjang berulang</td><td>RAM tidak terdeteksi/tidak terpasang dengan benar</td></tr>
+          <tr><td>Tidak ada bunyi sama sekali</td><td>Kemungkinan masalah di PSU, motherboard, atau speaker internal tidak terpasang</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- SESI 6 -->
+    <section class="session" id="s6">
+      <h2><span class="num">06</span> Evaluasi &amp; Refleksi</h2>
+      <p class="lead">Tutup praktik hari ini dengan mengukur ketercapaian tujuan pembelajaran dan merefleksikan proses kerja.</p>
+
+      <div class="box cp-tp">
+        <h3>Kriteria Ketuntasan Tujuan Pembelajaran (KKTP)</h3>
+        <p style="font-size:14.5px;margin:0;">Siswa mampu membongkar dan merakit kembali 1 unit komputer hingga berhasil <b>POST</b> tanpa kesalahan pemasangan, sesuai batas waktu yang ditentukan.</p>
+      </div>
+
+      <div class="box">
+        <h3>Rubrik Penilaian — Unjuk Kerja Praktik</h3>
+        <table class="rubric-table">
+          <tr><th>Aspek</th><th>Perlu Bimbingan (1)</th><th>Cukup (2)</th><th>Baik (3)</th><th>Sangat Baik (4)</th></tr>
+          <tr><td>Penerapan K3</td><td>Sering lupa prosedur K3</td><td>Menerapkan sebagian K3</td><td>Menerapkan K3 dengan konsisten</td><td>K3 dijalankan tanpa diingatkan</td></tr>
+          <tr><td>Urutan Bongkar</td><td>Urutan sering keliru</td><td>Sesekali keliru urutan</td><td>Urutan tepat, sedikit ragu</td><td>Urutan tepat &amp; lancar</td></tr>
+          <tr><td>Urutan Pasang</td><td>Perlu banyak bimbingan</td><td>Sesekali perlu bantuan</td><td>Mandiri, urutan tepat</td><td>Mandiri, rapi, dan cepat</td></tr>
+          <tr><td>Ketepatan Waktu</td><td>Jauh melebihi batas waktu</td><td>Sedikit melebihi batas waktu</td><td>Selesai tepat waktu</td><td>Selesai lebih cepat, hasil rapi</td></tr>
+          <tr><td>Hasil POST</td><td>Tidak berhasil POST</td><td>Berhasil setelah beberapa kali coba</td><td>Berhasil POST pada percobaan pertama</td><td>POST berhasil &amp; kabel rapi/tertata</td></tr>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3>Refleksi Diri</h3>
+        <ul class="reflect-list">
+          <li><input type="checkbox"><span>Langkah mana yang terasa paling sulit saat membongkar atau memasang komponen?</span></li>
+          <li><input type="checkbox"><span>Apakah kamu menerapkan seluruh prosedur K3 tanpa diingatkan guru?</span></li>
+          <li><input type="checkbox"><span>Jika POST gagal di percobaan pertama, bagaimana caramu menemukan dan memperbaiki masalahnya?</span></li>
+          <li><input type="checkbox"><span>Komponen mana yang menurutmu paling berisiko rusak bila tidak hati-hati, dan kenapa?</span></li>
+          <li><input type="checkbox"><span>Apa satu hal baru yang kamu pahami hari ini tentang cara kerja komputer secara fisik?</span></li>
+        </ul>
+        <div class="profil-tags">
+          <span class="profil-tag">🧭 Mandiri — bekerja menyelesaikan seluruh prosedur secara individu</span>
+          <span class="profil-tag">💡 Kreatif — mencari solusi sendiri saat POST tidak berhasil di percobaan pertama</span>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Glosarium Istilah Penting</h3>
+        <table class="ref-table">
+          <tr><th>Istilah</th><th>Penjelasan Singkat</th></tr>
+          <tr><td>ESD</td><td>Electrostatic Discharge — lepasnya muatan listrik statis dari tubuh yang bisa merusak komponen elektronik.</td></tr>
+          <tr><td>POST</td><td>Power-On Self Test — pemeriksaan otomatis BIOS/UEFI saat komputer baru dinyalakan.</td></tr>
+          <tr><td>BIOS/UEFI</td><td>Firmware dasar di motherboard yang menjalankan POST dan menyerahkan proses ke sistem operasi.</td></tr>
+          <tr><td>Standoff</td><td>Baut penyangga logam yang menjaga jarak motherboard dari dinding casing.</td></tr>
+          <tr><td>24-pin / EPS</td><td>Konektor daya utama (24-pin) dan konektor daya khusus CPU (4/8-pin EPS) dari PSU ke motherboard.</td></tr>
+          <tr><td>SATA</td><td>Jenis kabel data &amp; power yang menghubungkan storage (HDD/SSD) ke motherboard dan PSU.</td></tr>
+          <tr><td>PCIe</td><td>Slot ekspansi di motherboard tempat kartu grafis (GPU) atau kartu tambahan lain dipasang.</td></tr>
+          <tr><td>Thermal Paste</td><td>Pasta penghantar panas antara permukaan CPU dan heatsink agar pendinginan maksimal.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- SESI 7 -->
+    <section class="session" id="s7">
+      <span class="teacher-badge">Khusus untuk Guru</span>
+      <h2><span class="num">07</span> Panduan Guru</h2>
+      <p class="lead">Bagian ini melengkapi materi siswa dengan rencana kegiatan mengajar: asesmen diagnostik awal, sintaks pembelajaran per tahap dengan alokasi waktu, rencana remedial &amp; pengayaan, serta sumber referensi.</p>
+
+      <div class="box teacher">
+        <h3>Asesmen Diagnostik Awal</h3>
+        <p style="font-size:14px;color:var(--text-dim);margin:0 0 12px;">Ajukan secara lisan atau sebagai kuis singkat sebelum masuk ke kegiatan inti, untuk mengecek kesiapan dan miskonsepsi awal siswa.</p>
+        <ul class="tp-list">
+          <li><span class="tag">Q1</span><span>Sebutkan komponen komputer yang kamu ketahui — dari mana kamu tahu komponen tersebut?</span></li>
+          <li><span class="tag">Q2</span><span>Menurutmu, apa yang bisa terjadi kalau komponen dilepas-pasang tanpa mematikan komputer dulu?</span></li>
+          <li><span class="tag">Q3</span><span>Pernahkah kamu mendengar istilah "listrik statis"? Menurutmu itu berbahaya untuk apa?</span></li>
+          <li><span class="tag">Q4</span><span>Apa yang kamu bayangkan terjadi di dalam komputer saat tombol power ditekan?</span></li>
+        </ul>
+        <p style="font-size:13px;color:var(--text-dim);margin:12px 0 0;">Gunakan hasil jawaban untuk menyesuaikan penekanan materi — misalnya jika banyak yang belum tahu bahaya ESD, perpanjang waktu penjelasan di Sesi 01.</p>
+      </div>
+
+      <div class="box teacher">
+        <h3>Sintaks Kegiatan Pembelajaran (Total 9 JP / 405 Menit)</h3>
+        <table class="syntax-table">
+          <tr><th>Tahap</th><th>Aktivitas</th><th>Waktu</th></tr>
+          <tr class="stage-head"><td colspan="3">Pendahuluan</td></tr>
+          <tr><td>Pembukaan</td><td>Salam, doa, presensi, menyampaikan tujuan pembelajaran hari ini.</td><td class="time">10 menit</td></tr>
+          <tr><td>Apersepsi</td><td>Mengaitkan pengalaman siswa dengan komputer sehari-hari; ajukan pertanyaan diagnostik awal.</td><td class="time">10 menit</td></tr>
+          <tr><td>Motivasi</td><td>Guru menyampaikan target akhir: siswa mampu membongkar-merakit hingga POST berhasil.</td><td class="time">5 menit</td></tr>
+
+          <tr class="stage-head"><td colspan="3">Kegiatan Inti</td></tr>
+          <tr><td>Sesi 01 — K3 &amp; Pengenalan</td><td>Guru menjelaskan K3 &amp; komponen utama; demonstrasi pemakaian gelang anti-statis di depan kelas.</td><td class="time">45 menit</td></tr>
+          <tr><td>Sesi 02 — Alat &amp; Bahan</td><td>Guru menunjukkan alat fisik satu per satu; siswa mengidentifikasi &amp; menyiapkan alat di meja masing-masing.</td><td class="time">45 menit</td></tr>
+          <tr><td>Sesi 03 — Praktik Bongkar</td><td>Siswa praktik membongkar unit sesuai urutan; guru berkeliling memantau penerapan K3 dan urutan kerja.</td><td class="time">90 menit</td></tr>
+          <tr><td>Sesi 04 — Praktik Pasang</td><td>Siswa merakit kembali unit; guru mendampingi dan mencatat kendala tiap siswa untuk bahan rubrik.</td><td class="time">90 menit</td></tr>
+          <tr><td>Sesi 05 — Uji POST</td><td>Siswa menyalakan unit hasil rakitannya sendiri; jika gagal, guru membimbing proses diagnosis bersama.</td><td class="time">90 menit</td></tr>
+
+          <tr class="stage-head"><td colspan="3">Penutup</td></tr>
+          <tr><td>Refleksi &amp; Evaluasi</td><td>Sesi 06 — siswa mengisi refleksi diri, guru memberi umpan balik singkat per kelompok/individu.</td><td class="time">40 menit</td></tr>
+          <tr><td>Penutup Kelas</td><td>Menyimpulkan pembelajaran bersama, menyampaikan materi pertemuan berikutnya, doa penutup.</td><td class="time">15 menit</td></tr>
+        </table>
+      </div>
+
+      <div class="box teacher">
+        <h3>Remedial &amp; Pengayaan</h3>
+        <p style="font-size:14px;margin:0 0 6px;"><b>Remedial</b> — untuk siswa yang belum mencapai KKTP:</p>
+        <ul class="tp-list">
+          <li><span class="tag">R1</span><span>Ulangi praktik bongkar-pasang dengan pendampingan langsung guru pada langkah yang paling sering keliru.</span></li>
+          <li><span class="tag">R2</span><span>Fokuskan pengulangan pada urutan kabel (24-pin, EPS, SATA, front panel) yang paling sering tertukar.</span></li>
+          <li><span class="tag">R3</span><span>Berikan waktu tambahan tanpa tekanan batas waktu, agar siswa fokus pada ketepatan, bukan kecepatan.</span></li>
+        </ul>
+        <p style="font-size:14px;margin:16px 0 6px;"><b>Pengayaan</b> — untuk siswa yang sudah tuntas lebih cepat:</p>
+        <ul class="tp-list">
+          <li><span class="tag">P1</span><span>Berikan skenario troubleshooting lebih kompleks (mis. dua gejala sekaligus) untuk didiagnosis.</span></li>
+          <li><span class="tag">P2</span><span>Minta siswa membimbing teman yang masih kesulitan (peer teaching) di bawah pengawasan guru.</span></li>
+          <li><span class="tag">P3</span><span>Tantang siswa mengukur &amp; membandingkan waktu pengerjaannya dengan sesi sebelumnya, lalu refleksikan efisiensinya.</span></li>
+        </ul>
+      </div>
+
+      <div class="box teacher">
+        <h3>Sumber &amp; Referensi Belajar</h3>
+        <ul class="ref-list">
+          <li><span class="n">01</span><span>Buku paket/modul Teknik Komputer dan Jaringan (TKJ) — bab perakitan &amp; instalasi sistem komputer.</span></li>
+          <li><span class="n">02</span><span>Manual/buku panduan motherboard yang digunakan di lab praktik (untuk kode beep &amp; posisi konektor yang sebenarnya).</span></li>
+          <li><span class="n">03</span><span>Modul K3 perkantoran/bengkel dari satuan pendidikan terkait prosedur keselamatan kerja dengan perangkat elektronik.</span></li>
+          <li><span class="n">04</span><span>Video tutorial perakitan komputer dari sumber tepercaya, sebagai referensi visual tambahan di kelas.</span></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>Blok 1 · Hari 3 · Prosedur Bongkar Pasang Komputer · 9 JP</span>
+    <span>Alat &amp; Bahan: unit CPU bekas, toolkit obeng, thermal paste, gelang anti-statis</span>
+  </footer>
+</div>
+
+<script>
+// ---------- TAB NAVIGATION ----------
+const navBtns = document.querySelectorAll('.nav-btn');
+const sessions = document.querySelectorAll('.session');
+navBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    navBtns.forEach(b=>b.classList.remove('active'));
+    sessions.forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+// ---------- PROGRESS BAR (disassembly + assembly steps) ----------
+const stepBoxes = document.querySelectorAll('.timeline .step');
+const progressFill = document.getElementById('progressFill');
+const progressLabel = document.getElementById('progressLabel');
+function updateProgress(){
+  const total = stepBoxes.length;
+  let done = 0;
+  stepBoxes.forEach(s=>{ if(s.classList.contains('checked')) done++; });
+  progressFill.style.width = total ? (done/total*100)+'%' : '0%';
+  progressLabel.textContent = done + ' / ' + total + ' langkah selesai';
+}
+stepBoxes.forEach(step=>{
+  const cb = step.querySelector('input[type=checkbox]');
+  cb.addEventListener('change', ()=>{
+    step.classList.toggle('checked', cb.checked);
+    updateProgress();
+  });
+});
+updateProgress();
+
+// ---------- STOPWATCH ----------
+let seconds = 0, timerInterval = null;
+const timerDigits = document.getElementById('timerDigits');
+const timerWidget = document.getElementById('timerWidget');
+const timerStart = document.getElementById('timerStart');
+const timerReset = document.getElementById('timerReset');
+function renderTimer(){
+  const m = String(Math.floor(seconds/60)).padStart(2,'0');
+  const s = String(seconds%60).padStart(2,'0');
+  timerDigits.textContent = m+':'+s;
+}
+timerStart.addEventListener('click', ()=>{
+  if(timerInterval){
+    clearInterval(timerInterval); timerInterval=null;
+    timerWidget.classList.remove('running');
+    timerStart.textContent='Mulai';
+  } else {
+    timerInterval = setInterval(()=>{ seconds++; renderTimer(); }, 1000);
+    timerWidget.classList.add('running');
+    timerStart.textContent='Jeda';
+  }
+});
+timerReset.addEventListener('click', ()=>{
+  clearInterval(timerInterval); timerInterval=null;
+  timerWidget.classList.remove('running');
+  timerStart.textContent='Mulai';
+  seconds = 0; renderTimer();
+});
+renderTimer();
+
+// ---------- POST SIMULATOR ----------
+const termLines = document.getElementById('termLines');
+const termLed = document.getElementById('termLed');
+const postStart = document.getElementById('postStart');
+const postAgain = document.getElementById('postAgain');
+const diagBox = document.getElementById('diagBox');
+const diagQ = document.getElementById('diagQ');
+const diagOpts = document.getElementById('diagOpts');
+const diagFeedback = document.getElementById('diagFeedback');
+
+const faultScenarios = [
+  {
+    lines:['[BIOS] Memulai Power-On Self Test...','[BIOS] Memeriksa CPU... OK','[BIOS] Memeriksa RAM... TIDAK TERDETEKSI','[BIOS] POST GAGAL — tidak ada tampilan ke monitor'],
+    question:'Layar tetap gelap dan RAM tidak terdeteksi. Apa kemungkinan penyebabnya?',
+    options:[
+      {text:'Modul RAM belum terpasang sempurna di slotnya', correct:true, explain:'Benar. RAM yang belum terkunci penuh sering menyebabkan sistem gagal POST. Lepas dan pasang ulang hingga clip di kedua sisi terkunci.'},
+      {text:'Kabel monitor tertukar warna', correct:false, explain:'Kurang tepat — warna kabel tidak memengaruhi POST. Fokus periksa pemasangan RAM.'},
+      {text:'Casing kurang bersih dari debu', correct:false, explain:'Debu bisa jadi masalah jangka panjang, tapi bukan penyebab langsung RAM tidak terdeteksi.'}
+    ]
+  },
+  {
+    lines:['[BIOS] Memulai Power-On Self Test...','[BIOS] Memeriksa daya... TIDAK ADA RESPON','[BIOS] Kipas tidak berputar','[BIOS] POST GAGAL — sistem tidak menyala'],
+    question:'Komputer sama sekali tidak menyala, kipas pun diam. Apa kemungkinan penyebabnya?',
+    options:[
+      {text:'Kabel daya dari PSU ke motherboard belum tersambung', correct:true, explain:'Benar. Konektor 24-pin atau sakelar PSU yang belum tersambung/menyala membuat seluruh sistem mati total.'},
+      {text:'Thermal paste terlalu tebal', correct:false, explain:'Thermal paste memengaruhi suhu, bukan penyebab sistem tidak menyala sama sekali.'},
+      {text:'Driver sistem operasi belum terinstal', correct:false, explain:'Sistem operasi baru berjalan setelah POST berhasil — ini masalah di tahap sebelum itu.'}
+    ]
+  },
+  {
+    lines:['[BIOS] Memulai Power-On Self Test...','[BIOS] Memeriksa CPU... OK','[BIOS] Memeriksa RAM... OK','[BIOS] Memeriksa perangkat penyimpanan... TIDAK TERDETEKSI','[BIOS] POST selesai dengan peringatan'],
+    question:'POST selesai tapi storage (HDD/SSD) tidak terdeteksi. Apa kemungkinan penyebabnya?',
+    options:[
+      {text:'Kabel SATA data atau power ke storage belum tersambung', correct:true, explain:'Benar. Storage butuh dua kabel terpisah — data dan power. Salah satu longgar sudah cukup membuatnya tidak terdeteksi.'},
+      {text:'RAM dipasang di slot yang salah', correct:false, explain:'Kurang tepat — RAM sudah terkonfirmasi OK di log sebelumnya.'},
+      {text:'Gelang anti-statis tidak dipakai', correct:false, explain:'Itu prosedur keselamatan kerja, bukan penyebab storage tidak terdeteksi.'}
+    ]
+  }
+];
+
+const successLines = ['[BIOS] Memulai Power-On Self Test...','[BIOS] Memeriksa CPU... OK','[BIOS] Memeriksa RAM... OK','[BIOS] Memeriksa perangkat penyimpanan... OK','[BIOS] POST selesai. Melanjutkan ke Boot Device...','[SISTEM] Booting ke sistem operasi...','✅ POST BERHASIL — Komputer menyala normal!'];
+
+function typeLines(lines, onDone){
+  termLines.innerHTML = '';
+  let i = 0;
+  function next(){
+    if(i >= lines.length){ if(onDone) onDone(); return; }
+    const div = document.createElement('div');
+    div.className = 'term-line';
+    if(lines[i].includes('GAGAL') || lines[i].includes('TIDAK')) div.classList.add('err');
+    if(lines[i].includes('BERHASIL') || lines[i].includes('OK')) div.classList.add('ok');
+    div.textContent = lines[i];
+    div.style.animationDelay = '0s';
+    termLines.appendChild(div);
+    i++;
+    setTimeout(next, 420);
+  }
+  next();
+}
+
+function runPost(){
+  postStart.disabled = true;
+  postAgain.disabled = true;
+  diagBox.classList.remove('show');
+  termLed.className = 'terminal-led on';
+  const roll = Math.random();
+  if(roll < 0.5){
+    typeLines(successLines, ()=>{
+      postAgain.disabled = false;
+      postStart.disabled = false;
+    });
+  } else {
+    const scenario = faultScenarios[Math.floor(Math.random()*faultScenarios.length)];
+    typeLines(scenario.lines, ()=>{
+      termLed.className = 'terminal-led fault';
+      showDiagnosis(scenario);
+      postAgain.disabled = false;
+      postStart.disabled = false;
+    });
+  }
+}
+
+function showDiagnosis(scenario){
+  diagQ.textContent = scenario.question;
+  diagOpts.innerHTML = '';
+  diagFeedback.classList.remove('show');
+  diagFeedback.textContent = '';
+  scenario.options.forEach(opt=>{
+    const b = document.createElement('button');
+    b.className = 'diag-opt';
+    b.textContent = opt.text;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('.diag-opt').forEach(o=>o.disabled=true);
+      b.classList.add(opt.correct ? 'correct' : 'wrong');
+      diagFeedback.textContent = (opt.correct ? '✅ ' : '❌ ') + opt.explain;
+      diagFeedback.classList.add('show');
+    });
+    diagOpts.appendChild(b);
+  });
+  diagBox.classList.add('show');
+}
+
+postStart.addEventListener('click', runPost);
+postAgain.addEventListener('click', runPost);
+</script>
+</body>
+</html>

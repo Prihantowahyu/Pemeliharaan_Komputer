@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari ke-5 · Backup, Restore & Dokumentasi Perawatan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#0A0F1E;
+    --bg-panel:#111A2E;
+    --bg-panel-alt:#16213A;
+    --bg-panel-soft:#1B2740;
+    --border:rgba(255,255,255,0.09);
+    --border-strong:rgba(255,255,255,0.16);
+    --cyan:#4FD1E8;
+    --cyan-dim:rgba(79,209,232,0.15);
+    --green:#3ECF8E;
+    --green-dim:rgba(62,207,142,0.15);
+    --amber:#FFB84D;
+    --amber-dim:rgba(255,184,77,0.15);
+    --magenta:#FF7EB6;
+    --text:#EAF0F7;
+    --text-muted:#93A5C4;
+    --text-faint:#5D6E8C;
+    --radius:14px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(79,209,232,0.08), transparent 45%),
+      radial-gradient(circle at 85% 20%, rgba(62,207,142,0.06), transparent 40%),
+      var(--bg-void);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--cyan-dim); color:var(--cyan);}
+
+  /* ---------- Top status bar (mimics an OS taskbar) ---------- */
+  .statusbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 24px;
+    background:rgba(10,15,30,0.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+  .statusbar .left{display:flex; align-items:center; gap:10px;}
+  .dot-cluster{display:flex; gap:6px;}
+  .dot-cluster span{width:10px; height:10px; border-radius:50%; display:inline-block;}
+  .dot-cluster .r{background:#FF6060;} .dot-cluster .y{background:#FFC24B;} .dot-cluster .g{background:#3ECF8E;}
+  .statusbar .path{color:var(--text-faint);}
+  .statusbar .right{display:flex; gap:18px; align-items:center;}
+  .live-pill{
+    display:flex; align-items:center; gap:6px;
+    padding:4px 10px; border-radius:20px;
+    background:var(--green-dim); color:var(--green); font-weight:500;
+  }
+  .live-pill::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 1.6s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:64px 0 40px; position:relative;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:0.06em;
+    color:var(--cyan); background:var(--cyan-dim);
+    border:1px solid rgba(79,209,232,0.3);
+    padding:6px 14px; border-radius:20px; margin-bottom:22px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-size:clamp(34px, 5.2vw, 58px);
+    font-weight:700;
+    line-height:1.08;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  h1.title .accent{color:var(--cyan);}
+  .hero-sub{
+    font-size:17px; color:var(--text-muted); max-width:640px; margin:0 0 32px;
+  }
+  .meta-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:44px;}
+  .meta-chip{
+    font-family:var(--font-mono); font-size:12.5px;
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-panel); border:1px solid var(--border);
+    padding:9px 14px; border-radius:10px; color:var(--text-muted);
+  }
+  .meta-chip b{color:var(--text); font-weight:600;}
+
+  /* ---------- Terminal signature element ---------- */
+  .terminal{
+    background:linear-gradient(180deg, var(--bg-panel-alt), var(--bg-panel));
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px; border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,0.02);
+  }
+  .terminal-bar .tdot{width:11px; height:11px; border-radius:50%;}
+  .terminal-title{
+    margin-left:8px; font-family:var(--font-mono); font-size:12px; color:var(--text-faint);
+  }
+  .terminal-body{padding:22px 24px; font-family:var(--font-mono); font-size:13.5px; color:#B9C7DE;}
+  .terminal-line{margin:0 0 10px; display:flex; gap:10px;}
+  .terminal-line .prompt{color:var(--green);}
+  .terminal-line .cmd{color:var(--text);}
+  .bar-track{
+    height:10px; background:rgba(255,255,255,0.06); border-radius:6px; overflow:hidden; margin:14px 0 6px; width:100%;
+  }
+  .bar-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--cyan), var(--green));
+    border-radius:6px;
+    transition:width 2.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-label{display:flex; justify-content:space-between; font-size:12px; color:var(--text-faint);}
+  .terminal-result{
+    margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);
+    color:var(--green); display:flex; align-items:center; gap:8px; opacity:0; transition:opacity .6s ease;
+  }
+  .terminal-result.show{opacity:1;}
+
+  /* ---------- Section shell ---------- */
+  section{padding:56px 0;}
+  section + section{border-top:1px solid var(--border);}
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; margin-bottom:28px; flex-wrap:wrap;}
+  .section-label{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--text-faint); margin:0 0 6px;
+  }
+  h2.section-title{
+    font-family:var(--font-display); font-size:clamp(24px,3.4vw,32px); font-weight:600; margin:0;
+  }
+
+  /* ---------- Panel / card ---------- */
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:26px;
+  }
+  .grid{display:grid; gap:18px;}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:760px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+  .cp-tp-panel{position:relative;}
+  .cp-tp-panel .tag{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--cyan);
+    background:var(--cyan-dim); display:inline-block; padding:3px 10px; border-radius:6px; margin-bottom:12px;
+  }
+  .tp-list{margin:0; padding:0; list-style:none;}
+  .tp-list li{
+    display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--border);
+  }
+  .tp-list li:last-child{border-bottom:none; padding-bottom:0;}
+  .tp-num{
+    font-family:var(--font-mono); color:var(--bg-void); background:var(--cyan);
+    width:26px; height:26px; min-width:26px; border-radius:7px;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;
+  }
+
+  /* ---------- Sub materi cards ---------- */
+  .topic-card{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:0;
+    overflow:hidden;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .topic-card:hover{border-color:var(--border-strong); transform:translateY(-3px);}
+  .topic-head{
+    display:flex; align-items:center; gap:14px;
+    padding:20px 22px;
+    border-bottom:1px solid var(--border);
+    background:var(--bg-panel-alt);
+  }
+  .topic-icon{
+    width:42px; height:42px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    flex:none;
+  }
+  .topic-icon svg{width:22px; height:22px;}
+  .topic-head h3{margin:0; font-family:var(--font-display); font-size:17px; font-weight:600;}
+  .topic-head .topic-index{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);}
+  .topic-body{padding:20px 22px 24px;}
+  .topic-body p{margin:0 0 14px; color:var(--text-muted); font-size:14.5px;}
+  .mini-steps{margin:0; padding:0; list-style:none; display:grid; gap:8px;}
+  .mini-steps li{
+    font-size:13.5px; color:var(--text); display:flex; gap:10px; align-items:flex-start;
+    background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:9px 12px;
+  }
+  .mini-steps li::before{content:'▸'; color:var(--green); flex:none; line-height:1.4;}
+  .example-badge{
+    display:inline-flex; align-items:center; gap:6px; margin:3px 5px 0 0;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);
+    background:rgba(255,255,255,0.04); border:1px solid var(--border);
+    padding:4px 9px; border-radius:20px;
+  }
+
+  /* ---------- 3-2-1 diagram ---------- */
+  .rule-diagram{display:flex; gap:16px; margin-top:18px; flex-wrap:wrap;}
+  .rule-item{
+    flex:1; min-width:160px;
+    border:1px solid var(--border); border-radius:12px; padding:18px;
+    background:rgba(255,255,255,0.02); text-align:center;
+  }
+  .rule-num{font-family:var(--font-display); font-size:34px; font-weight:700;}
+  .rule-item p{margin:8px 0 0; font-size:13px; color:var(--text-muted);}
+  .rule-item.c1 .rule-num{color:var(--cyan);}
+  .rule-item.c2 .rule-num{color:var(--green);}
+  .rule-item.c3 .rule-num{color:var(--amber);}
+
+  /* ---------- Restore timeline ---------- */
+  .timeline-scroller{
+    display:flex; gap:0; overflow-x:auto; padding:26px 4px 10px;
+    position:relative;
+  }
+  .timeline-scroller::before{
+    content:''; position:absolute; left:24px; right:24px; top:44px; height:2px;
+    background:linear-gradient(90deg, var(--border-strong), var(--border-strong));
+  }
+  .tl-node{
+    flex:none; width:150px; text-align:center; position:relative; padding-top:0; cursor:pointer;
+  }
+  .tl-dot{
+    width:16px; height:16px; border-radius:50%; background:var(--bg-panel-alt);
+    border:2px solid var(--text-faint); margin:0 auto 12px; position:relative; z-index:2;
+    transition:all .2s ease;
+  }
+  .tl-node.active .tl-dot{background:var(--cyan); border-color:var(--cyan); box-shadow:0 0 0 6px var(--cyan-dim);}
+  .tl-node.now .tl-dot{background:var(--green); border-color:var(--green); box-shadow:0 0 0 6px var(--green-dim);}
+  .tl-node .tl-label{font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);}
+  .tl-node.active .tl-label{color:var(--cyan);}
+  .tl-node.now .tl-label{color:var(--green);}
+  .tl-node .tl-title{font-size:13px; font-weight:600; margin-top:3px;}
+  .tl-detail{
+    font-size:12px; color:var(--text-muted); margin-top:6px; padding:0 6px; display:none;
+  }
+  .tl-node.selected .tl-detail{display:block;}
+
+  /* ---------- KKTP checklist ---------- */
+  .kktp-panel{
+    background:linear-gradient(135deg, rgba(62,207,142,0.07), rgba(79,209,232,0.05));
+    border:1px solid rgba(62,207,142,0.25);
+  }
+  .check-list{margin:16px 0 0; padding:0; list-style:none; display:grid; gap:10px;}
+  .check-list li{display:flex; gap:12px; align-items:flex-start; font-size:14.5px;}
+  .check-icon{
+    flex:none; width:22px; height:22px; border-radius:6px; background:var(--green-dim);
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .check-icon svg{width:13px; height:13px;}
+
+  /* ---------- Asesmen / Alat ---------- */
+  .info-card{
+    border:1px solid var(--border); border-radius:12px; padding:20px;
+    background:rgba(255,255,255,0.02);
+  }
+  .info-card .icon-wrap{
+    width:38px; height:38px; border-radius:9px; background:var(--cyan-dim);
+    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  }
+  .info-card .icon-wrap svg{width:19px; height:19px; color:var(--cyan);}
+  .info-card h4{margin:0 0 8px; font-family:var(--font-display); font-size:16px;}
+  .info-card p{margin:0; font-size:13.5px; color:var(--text-muted);}
+  .tool-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .tool-tag{
+    font-family:var(--font-mono); font-size:12px; padding:5px 10px; border-radius:7px;
+    background:var(--bg-panel-alt); border:1px solid var(--border); color:var(--text);
+  }
+
+  /* ---------- Profil pancasila ---------- */
+  .profil-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .profil-badge{
+    flex:1; min-width:220px;
+    display:flex; gap:14px; align-items:flex-start;
+    border:1px solid var(--border); border-radius:12px; padding:18px;
+    background:var(--bg-panel);
+  }
+  .profil-badge .emoji{font-size:26px;}
+  .profil-badge h4{margin:0 0 4px; font-family:var(--font-display); font-size:15.5px;}
+  .profil-badge p{margin:0; font-size:13px; color:var(--text-muted);}
+
+  /* ---------- Quiz ---------- */
+  .quiz-panel{border:1px solid var(--border); background:var(--bg-panel);}
+  .quiz-q{margin-bottom:26px;}
+  .quiz-q:last-child{margin-bottom:0;}
+  .quiz-q p.qtext{font-weight:600; font-size:15px; margin:0 0 12px;}
+  .quiz-options{display:grid; gap:9px;}
+  .quiz-opt{
+    text-align:left; width:100%; cursor:pointer;
+    font-family:var(--font-body); font-size:14px; color:var(--text);
+    background:rgba(255,255,255,0.02); border:1px solid var(--border);
+    padding:12px 14px; border-radius:9px; transition:all .18s ease;
+  }
+  .quiz-opt:hover{border-color:var(--cyan); background:rgba(79,209,232,0.06);}
+  .quiz-opt.correct{border-color:var(--green); background:var(--green-dim); color:var(--green);}
+  .quiz-opt.wrong{border-color:#FF6060; background:rgba(255,96,96,0.1); color:#FF9C9C;}
+  .quiz-score{
+    margin-top:20px; font-family:var(--font-mono); font-size:13.5px; color:var(--text-muted);
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid var(--border); padding-top:16px;
+  }
+  #scoreVal{color:var(--green); font-weight:700; font-size:15px;}
+
+  /* ---------- 3 Prinsip Pembelajaran Mendalam ---------- */
+  .prinsip-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .prinsip-card{
+    flex:1; min-width:220px; border-radius:14px; padding:22px;
+    border:1px solid var(--border); position:relative; overflow:hidden;
+  }
+  .prinsip-card::before{
+    content:''; position:absolute; top:-40%; right:-30%; width:140px; height:140px;
+    border-radius:50%; filter:blur(30px); opacity:0.25;
+  }
+  .prinsip-card.p1{background:rgba(79,209,232,0.05);} .prinsip-card.p1::before{background:var(--cyan);}
+  .prinsip-card.p2{background:rgba(62,207,142,0.05);} .prinsip-card.p2::before{background:var(--green);}
+  .prinsip-card.p3{background:rgba(255,184,77,0.05);} .prinsip-card.p3::before{background:var(--amber);}
+  .prinsip-card .p-icon{font-size:24px; margin-bottom:10px; display:block;}
+  .prinsip-card h4{margin:0 0 8px; font-family:var(--font-display); font-size:16.5px; position:relative;}
+  .prinsip-card p{margin:0; font-size:13.5px; color:var(--text-muted); position:relative;}
+
+  /* ---------- Pemantik ---------- */
+  .pemantik-panel{
+    border:1px dashed rgba(79,209,232,0.4); background:var(--cyan-dim);
+    border-radius:var(--radius); padding:24px;
+  }
+  .pemantik-panel .q-mark{font-family:var(--font-display); font-size:40px; color:var(--cyan); line-height:1; float:left; margin-right:14px;}
+  .pemantik-panel p{margin:0; font-size:16px; font-style:italic; color:var(--text);}
+  .pemantik-panel span.sub{display:block; font-size:12.5px; font-style:normal; color:var(--text-faint); margin-top:10px; font-family:var(--font-mono);}
+
+  /* ---------- Skenario / Case ---------- */
+  .case-panel{
+    border:1px solid rgba(255,96,96,0.3); background:rgba(255,96,96,0.05);
+    border-radius:var(--radius); padding:26px;
+  }
+  .case-tag{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12px;
+    color:#FF9C9C; background:rgba(255,96,96,0.12); padding:5px 12px; border-radius:20px; margin-bottom:16px;
+  }
+  .case-panel h3{margin:0 0 10px; font-family:var(--font-display); font-size:19px;}
+  .case-panel p.story{font-size:14.5px; color:var(--text-muted); margin:0 0 18px;}
+  .case-questions{margin:0; padding:0; list-style:none; display:grid; gap:10px;}
+  .case-questions li{
+    font-size:14px; padding:12px 14px; border-radius:9px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--border);
+    display:flex; gap:10px;
+  }
+  .case-questions li::before{content:'❓'; flex:none;}
+
+  /* ---------- Alur Kegiatan (Pembuka/Inti/Penutup) ---------- */
+  .alur-tabs{display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
+  .alur-tab{
+    font-family:var(--font-mono); font-size:12.5px; padding:8px 16px; border-radius:8px;
+    border:1px solid var(--border); background:var(--bg-panel-alt); color:var(--text-muted);
+    cursor:pointer; transition:all .2s ease;
+  }
+  .alur-tab.active{border-color:var(--cyan); color:var(--cyan); background:var(--cyan-dim);}
+  .alur-stage{display:none;}
+  .alur-stage.show{display:block;}
+  .alur-item{
+    display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--border);
+  }
+  .alur-item:last-child{border-bottom:none;}
+  .alur-jp{
+    flex:none; width:64px; text-align:center; font-family:var(--font-mono);
+    font-size:12px; color:var(--text-faint); padding-top:2px;
+  }
+  .alur-jp b{display:block; font-size:18px; color:var(--text); font-family:var(--font-display);}
+  .alur-content h5{margin:0 0 4px; font-size:14.5px; font-weight:600;}
+  .alur-content p{margin:0; font-size:13.5px; color:var(--text-muted);}
+
+  /* ---------- Diferensiasi ---------- */
+  .diff-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .diff-card{
+    flex:1; min-width:230px; border-radius:12px; padding:20px;
+    border:1px solid var(--border); background:rgba(255,255,255,0.02);
+  }
+  .diff-card .diff-tag{
+    font-family:var(--font-mono); font-size:11.5px; padding:4px 10px; border-radius:6px; margin-bottom:12px; display:inline-block;
+  }
+  .diff-card.slow .diff-tag{color:var(--amber); background:var(--amber-dim);}
+  .diff-card.reg .diff-tag{color:var(--cyan); background:var(--cyan-dim);}
+  .diff-card.fast .diff-tag{color:var(--green); background:var(--green-dim);}
+  .diff-card h4{margin:0 0 8px; font-family:var(--font-display); font-size:15.5px;}
+  .diff-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-muted);}
+  .diff-card li{margin-bottom:6px;}
+
+  /* ---------- Rubrik ---------- */
+  .rubrik-table{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:10px;}
+  .rubrik-table th, .rubrik-table td{
+    padding:12px 14px; border:1px solid var(--border); text-align:left; vertical-align:top;
+  }
+  .rubrik-table th{
+    background:var(--bg-panel-alt); font-family:var(--font-mono); font-size:11.5px;
+    text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted);
+  }
+  .rubrik-table td.skor{
+    font-family:var(--font-display); font-weight:700; text-align:center; font-size:16px; width:50px;
+  }
+  .rubrik-table tr td.skor.s4{color:var(--green);}
+  .rubrik-table tr td.skor.s3{color:var(--cyan);}
+  .rubrik-table tr td.skor.s2{color:var(--amber);}
+  .rubrik-table tr td.skor.s1{color:#FF7A7A;}
+  .rubrik-scroll{overflow-x:auto;}
+
+  /* ---------- Jurnal Refleksi ---------- */
+  .jurnal-panel{border:1px solid var(--border); background:var(--bg-panel);}
+  .jurnal-q{margin-bottom:18px;}
+  .jurnal-q label{display:block; font-size:14px; font-weight:600; margin-bottom:8px;}
+  .jurnal-q textarea{
+    width:100%; min-height:70px; resize:vertical;
+    background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:9px;
+    color:var(--text); font-family:var(--font-body); font-size:13.5px; padding:12px 14px;
+  }
+  .jurnal-q textarea:focus{outline:none; border-color:var(--cyan);}
+  .jurnal-emojis{display:flex; gap:10px; margin-top:8px;}
+  .jurnal-emojis button{
+    font-size:22px; background:rgba(255,255,255,0.03); border:1px solid var(--border);
+    border-radius:9px; padding:8px 12px; cursor:pointer; transition:all .15s ease;
+  }
+  .jurnal-emojis button.picked{border-color:var(--cyan); background:var(--cyan-dim); transform:scale(1.1);}
+  .jurnal-save{
+    margin-top:6px; font-family:var(--font-mono); font-size:12.5px; padding:10px 18px;
+    background:var(--green); color:#06251A; border:none; border-radius:8px; cursor:pointer; font-weight:700;
+  }
+  .jurnal-status{font-family:var(--font-mono); font-size:12px; color:var(--green); margin-left:12px; opacity:0; transition:opacity .3s;}
+  .jurnal-status.show{opacity:1;}
+
+  /* ---------- Aksi Nyata ---------- */
+  .aksi-panel{
+    background:linear-gradient(135deg, rgba(255,184,77,0.08), rgba(79,209,232,0.05));
+    border:1px solid rgba(255,184,77,0.3); border-radius:var(--radius); padding:26px;
+  }
+  .aksi-panel .aksi-badge{
+    font-family:var(--font-mono); font-size:12px; color:var(--amber); background:var(--amber-dim);
+    padding:5px 12px; border-radius:20px; display:inline-block; margin-bottom:14px;
+  }
+  .aksi-panel h3{margin:0 0 10px; font-family:var(--font-display); font-size:18px;}
+  .aksi-panel p{margin:0 0 16px; font-size:14.5px; color:var(--text-muted);}
+  .aksi-checklist{margin:0; padding:0; list-style:none; display:grid; gap:8px;}
+  .aksi-checklist li{
+    display:flex; gap:10px; align-items:center; font-size:13.5px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:10px 12px; border-radius:8px;
+  }
+  .aksi-checklist input{accent-color:var(--amber); width:16px; height:16px;}
+
+  footer{padding:40px 0 60px; text-align:center;}
+  footer p{font-size:12.5px; color:var(--text-faint); font-family:var(--font-mono);}
+
+  @media (max-width:600px){
+    .grid-3{grid-template-columns:1fr;}
+    .statusbar{font-size:11px; padding:9px 16px;}
+    .statusbar .path{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="left">
+    <div class="dot-cluster"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <span class="path">TKJ // BLOK-02 // HARI-05 // maintenance-report.exe</span>
+  </div>
+  <div class="right">
+    <span class="live-pill">SESI AKTIF</span>
+    <span>9 JP</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <span class="eyebrow">⬢ SEMESTER GANJIL · BLOK 2 · HARI KE-5</span>
+    <h1 class="title">Backup, Restore <span class="accent">&</span> Dokumentasi<br>Perawatan Komputer</h1>
+    <p class="hero-sub">Hari terakhir di Blok 2! Kamu akan belajar menyelamatkan data sebelum bencana terjadi, memutar waktu sistem ke kondisi sehat, lalu menyusun bukti kerja profesional. Skill ini adalah jaring pengaman setiap teknisi IT.</p>
+
+    <div class="meta-row">
+      <div class="meta-chip">📘 <b>Materi:</b>&nbsp;Backup, Restore & Dokumentasi</div>
+      <div class="meta-chip">⏱️ <b>Alokasi:</b>&nbsp;9 JP (1 hari penuh)</div>
+      <div class="meta-chip">🎯 <b>Fokus:</b>&nbsp;Perawatan Sistem</div>
+      <div class="meta-chip">🧩 <b>Fase:</b>&nbsp;Serah Terima Blok 2</div>
+    </div>
+
+    <!-- Signature terminal simulation -->
+    <div class="terminal" id="terminalCard">
+      <div class="terminal-bar">
+        <span class="tdot" style="background:#FF6060"></span>
+        <span class="tdot" style="background:#FFC24B"></span>
+        <span class="tdot" style="background:#3ECF8E"></span>
+        <span class="terminal-title">backup-monitor — 80x24</span>
+      </div>
+      <div class="terminal-body">
+        <p class="terminal-line"><span class="prompt">student@lab-tkj</span><span class="cmd">:~$ start-backup --target="/data/tugas" --dest="drive-eksternal"</span></p>
+        <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+        <div class="bar-label"><span id="barText">Menyiapkan proses backup…</span><span id="barPct">0%</span></div>
+        <p class="terminal-result" id="terminalResult">✔ Backup selesai. Restore point dibuat: <b style="color:#EAF0F7">RP-2026-08-03_09.42</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 3 PRINSIP PEMBELAJARAN MENDALAM ================= -->
+  <section id="prinsip">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 00 — Fondasi Pedagogi</p>
+        <h2 class="section-title">3 Prinsip Pembelajaran Mendalam</h2>
+      </div>
+    </div>
+    <div class="prinsip-row">
+      <div class="prinsip-card p1">
+        <span class="p-icon">🧭</span>
+        <h4>Berkesadaran <span style="font-weight:400; color:var(--text-faint);">(Mindful)</span></h4>
+        <p>Siswa sadar <b style="color:var(--text)">mengapa</b> ia harus bisa backup & restore — bukan sekadar mengikuti langkah, tapi memahami risiko kehilangan data di dunia nyata.</p>
+      </div>
+      <div class="prinsip-card p2">
+        <span class="p-icon">🔗</span>
+        <h4>Bermakna <span style="font-weight:400; color:var(--text-faint);">(Meaningful)</span></h4>
+        <p>Materi dikaitkan dengan skenario nyata (ransomware, laptop rusak) sehingga skill ini terasa relevan untuk kehidupan & karier siswa sebagai teknisi.</p>
+      </div>
+      <div class="prinsip-card p3">
+        <span class="p-icon">✨</span>
+        <h4>Menggembirakan <span style="font-weight:400; color:var(--text-faint);">(Joyful)</span></h4>
+        <p>Praktik dikemas seperti simulasi & tantangan (terminal interaktif, studi kasus, kuis) sehingga siswa belajar dengan rasa ingin tahu, bukan tekanan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PERTANYAAN PEMANTIK ================= -->
+  <section id="pemantik" style="padding-top:0;">
+    <div class="pemantik-panel">
+      <span class="q-mark">"</span>
+      <p>Kalau tiba-tiba semua tugas dan foto di laptopmu hilang karena terkena virus <i>ransomware</i> — apa yang sudah kamu siapkan <b>sebelum</b> hari itu terjadi?</p>
+      <span class="sub">💭 PERTANYAAN PEMANTIK — jawab dalam hati sebelum kita mulai materi hari ini</span>
+    </div>
+  </section>
+
+  <!-- ================= CP & TP ================= -->
+  <section id="cp-tp">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 01 — Landasan Belajar</p>
+        <h2 class="section-title">Capaian & Tujuan Pembelajaran</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel cp-tp-panel">
+        <span class="tag">CAPAIAN PEMBELAJARAN (CP)</span>
+        <p style="margin:0; font-size:15px; color:var(--text-muted);">
+          Peserta didik mampu <b style="color:var(--text)">melakukan backup data</b>, <b style="color:var(--text)">memulihkan sistem (restore)</b>, dan <b style="color:var(--text)">menyusun dokumentasi</b> hasil perawatan komputer secara sistematis dan bertanggung jawab.
+        </p>
+      </div>
+      <div class="panel cp-tp-panel">
+        <span class="tag" style="color:var(--green); background:var(--green-dim);">TUJUAN PEMBELAJARAN (TP)</span>
+        <ul class="tp-list">
+          <li><span class="tp-num">1</span><span>Melakukan backup data ke media eksternal maupun layanan <i>cloud</i>.</span></li>
+          <li><span class="tp-num">2</span><span>Membuat dan menggunakan <i>restore point</i> / <i>system image</i> untuk memulihkan sistem.</span></li>
+          <li><span class="tp-num">3</span><span>Menyusun laporan/dokumentasi hasil perawatan selama satu blok pembelajaran.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKENARIO / STUDI KASUS ================= -->
+  <section id="skenario">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 02 — Belajar dari Masalah Nyata</p>
+        <h2 class="section-title">Studi Kasus: Lab Komputer Terkena Ransomware</h2>
+      </div>
+    </div>
+    <div class="case-panel">
+      <span class="case-tag">⚠️ SIMULASI KEJADIAN NYATA</span>
+      <h3>Senin pagi, semua file di Lab Komputer 2 tiba-tiba terkunci</h3>
+      <p class="story">Seluruh file tugas siswa di komputer Lab 2 tiba-tiba berubah nama menjadi <code>.locked</code> dan muncul pesan minta tebusan. Guru meminta kalian sebagai teknisi untuk memulihkan lab sebelum jam pelajaran berikutnya dimulai — dan mencari tahu apa yang seharusnya sudah dilakukan agar ini tidak terjadi.</p>
+      <ul class="case-questions">
+        <li>Jika lab ini <b>rutin backup ke cloud & eksternal</b>, langkah apa yang paling cepat kamu lakukan untuk memulihkan data siswa?</li>
+        <li>Apakah <b>restore point</b> saja cukup untuk mengatasi ransomware, atau tetap butuh <b>system image</b>? Jelaskan alasanmu.</li>
+        <li>Dokumentasi apa yang perlu kamu tulis di laporan agar kejadian ini tidak terulang di blok berikutnya?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= SUB MATERI ================= -->
+  <section id="submateri">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 03 — Isi Materi</p>
+        <h2 class="section-title">Empat Kompetensi Hari Ini</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+
+      <!-- Card 1 -->
+      <div class="topic-card">
+        <div class="topic-head">
+          <div class="topic-icon" style="background:var(--cyan-dim);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
+          </div>
+          <div>
+            <div class="topic-index">SUB MATERI 01</div>
+            <h3>Metode Backup Data</h3>
+          </div>
+        </div>
+        <div class="topic-body">
+          <p>Backup = <b>menyalin data penting ke tempat lain</b> supaya tidak hilang saat komputer rusak, terkena virus, atau flashdisk hilang.</p>
+          <ul class="mini-steps">
+            <li><b>Eksternal:</b> salin ke HDD/SSD eksternal atau flashdisk berkapasitas besar.</li>
+            <li><b>Cloud:</b> unggah ke penyimpanan daring agar bisa diakses di mana saja.</li>
+            <li><b>Terjadwal:</b> atur backup otomatis agar tidak lupa dilakukan manual.</li>
+          </ul>
+          <div style="margin-top:14px;">
+            <span class="example-badge">💾 Google Drive</span>
+            <span class="example-badge">☁️ OneDrive</span>
+            <span class="example-badge">🗂️ HDD Eksternal</span>
+            <span class="example-badge">📀 NAS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="topic-card">
+        <div class="topic-head">
+          <div class="topic-icon" style="background:var(--green-dim);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3ECF8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          </div>
+          <div>
+            <div class="topic-index">SUB MATERI 02</div>
+            <h3>Restore Point & System Image</h3>
+          </div>
+        </div>
+        <div class="topic-body">
+          <p>Kalau backup menyelamatkan <b>file</b>, restore menyelamatkan <b>seluruh kondisi sistem</b> — seperti tombol "undo" raksasa untuk komputer.</p>
+          <ul class="mini-steps">
+            <li><b>Restore Point:</b> catatan kondisi sistem (setting, driver, program) pada waktu tertentu.</li>
+            <li><b>System Image:</b> salinan lengkap seluruh isi hard disk, termasuk sistem operasi.</li>
+            <li><b>Kapan dipakai:</b> setelah instal aplikasi bermasalah, kena malware, atau update yang gagal.</li>
+          </ul>
+          <div style="margin-top:14px;">
+            <span class="example-badge">🪟 Windows System Restore</span>
+            <span class="example-badge">🖼️ System Image Backup</span>
+            <span class="example-badge">🐧 Timeshift (Linux)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="topic-card">
+        <div class="topic-head">
+          <div class="topic-icon" style="background:var(--amber-dim);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FFB84D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+          </div>
+          <div>
+            <div class="topic-index">SUB MATERI 03</div>
+            <h3>Penyusunan Laporan Perawatan</h3>
+          </div>
+        </div>
+        <div class="topic-body">
+          <p>Teknisi profesional selalu meninggalkan <b>jejak tertulis</b>. Laporan membuktikan apa yang sudah dikerjakan dan menjadi acuan perawatan berikutnya.</p>
+          <ul class="mini-steps">
+            <li>Identitas unit (nomor aset, spesifikasi, lokasi).</li>
+            <li>Daftar kerusakan/temuan awal & tindakan yang dilakukan.</li>
+            <li>Hasil akhir, rekomendasi, dan tanda tangan teknisi.</li>
+          </ul>
+          <div style="margin-top:14px;">
+            <span class="example-badge">📋 Template Laporan</span>
+            <span class="example-badge">🖊️ Berita Acara</span>
+            <span class="example-badge">📸 Dokumentasi Foto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="topic-card">
+        <div class="topic-head">
+          <div class="topic-icon" style="background:rgba(255,126,182,0.15);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FF7EB6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+          <div>
+            <div class="topic-index">SUB MATERI 04</div>
+            <h3>Serah Terima Hasil Perawatan</h3>
+          </div>
+        </div>
+        <div class="topic-body">
+          <p>Blok 2 ditutup dengan <b>serah terima</b> resmi: unit dikembalikan dalam kondisi baik disertai laporan lengkap sebagai bentuk tanggung jawab kerja.</p>
+          <ul class="mini-steps">
+            <li>Presentasikan hasil kerja & laporan ke guru/penanggung jawab unit.</li>
+            <li>Tunjukkan bukti backup & restore point yang berhasil dibuat.</li>
+            <li>Tanda tangani berita acara serah terima bersama.</li>
+          </ul>
+          <div style="margin-top:14px;">
+            <span class="example-badge">🤝 Berita Acara</span>
+            <span class="example-badge">✅ Checklist Akhir</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3-2-1 RULE ================= -->
+  <section id="rule321">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 04 — Konsep Kunci</p>
+        <h2 class="section-title">Aturan Emas Backup: 3-2-1</h2>
+      </div>
+    </div>
+    <div class="panel">
+      <p style="margin:0 0 6px; color:var(--text-muted); font-size:14.5px;">Ini adalah standar dunia industri yang wajib kamu ingat sebagai calon teknisi:</p>
+      <div class="rule-diagram">
+        <div class="rule-item c1"><div class="rule-num">3</div><p>Salinan data — 1 asli + 2 backup</p></div>
+        <div class="rule-item c2"><div class="rule-num">2</div><p>Jenis media berbeda — misal HDD & Cloud</p></div>
+        <div class="rule-item c3"><div class="rule-num">1</div><p>Salinan disimpan di lokasi lain (offsite)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TIMELINE RESTORE ================= -->
+  <section id="timeline">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 05 — Visualisasi</p>
+        <h2 class="section-title">Alur Restore Point (klik tiap titik)</h2>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="timeline-scroller" id="timelineScroller">
+        <div class="tl-node" data-detail="Sistem berjalan normal, semua aplikasi update.">
+          <div class="tl-dot"></div>
+          <div class="tl-label">09:00</div>
+          <div class="tl-title">Kondisi Sehat</div>
+          <div class="tl-detail">Sistem berjalan normal — titik ini otomatis disimpan sebagai restore point.</div>
+        </div>
+        <div class="tl-node active" data-detail="Restore point dibuat sebelum instal aplikasi baru.">
+          <div class="tl-dot"></div>
+          <div class="tl-label">09:15</div>
+          <div class="tl-title">Buat Restore Point</div>
+          <div class="tl-detail">Teknisi membuat restore point manual sebelum eksperimen instalasi.</div>
+        </div>
+        <div class="tl-node" data-detail="Aplikasi baru menyebabkan sistem error/blue screen.">
+          <div class="tl-dot"></div>
+          <div class="tl-label">09:40</div>
+          <div class="tl-title">Terjadi Masalah</div>
+          <div class="tl-detail">Aplikasi baru bikin sistem crash — saatnya kembali ke titik aman!</div>
+        </div>
+        <div class="tl-node now" data-detail="Sistem dipulihkan ke kondisi 09:15 menggunakan restore point.">
+          <div class="tl-dot"></div>
+          <div class="tl-label">09:55</div>
+          <div class="tl-title">Restore Berhasil</div>
+          <div class="tl-detail">Sistem kembali ke kondisi 09:15 tanpa kehilangan file pribadi.</div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:12.5px; color:var(--text-faint); font-family:var(--font-mono); margin:6px 0 0;">👆 klik titik waktu untuk membaca ceritanya</p>
+    </div>
+  </section>
+
+  <!-- ================= ALUR KEGIATAN PEMBELAJARAN ================= -->
+  <section id="alur">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 06 — Rencana Kegiatan (9 JP)</p>
+        <h2 class="section-title">Alur Kegiatan: Pembuka → Inti → Penutup</h2>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="alur-tabs">
+        <button class="alur-tab active" data-stage="pembuka">🟢 Pembuka (1 JP)</button>
+        <button class="alur-tab" data-stage="inti">🔵 Inti (6 JP)</button>
+        <button class="alur-tab" data-stage="penutup">🟣 Penutup (2 JP)</button>
+      </div>
+
+      <div class="alur-stage show" id="stage-pembuka">
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 1</b>10-15'</div>
+          <div class="alur-content"><h5>Apersepsi & Asesmen Awal</h5><p>Guru mengajukan pertanyaan pemantik, siswa mengisi asesmen diagnostik singkat: "pernah kehilangan data penting nggak?"</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 1</b>15-25'</div>
+          <div class="alur-content"><h5>Membangun Makna</h5><p>Guru menyampaikan studi kasus ransomware sebagai pemicu diskusi kelas — mengapa backup & restore itu wajib dikuasai teknisi.</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 1</b>25-45'</div>
+          <div class="alur-content"><h5>Menyepakati Tujuan</h5><p>Siswa dan guru menyepakati target belajar hari ini (TP 1–3) beserta kriteria ketuntasannya.</p></div>
+        </div>
+      </div>
+
+      <div class="alur-stage" id="stage-inti">
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 2-3</b>90'</div>
+          <div class="alur-content"><h5>Memahami — Eksplorasi Konsep Backup</h5><p>Siswa membaca sub-materi metode backup, mendiskusikan aturan 3-2-1, lalu mengidentifikasi media backup yang tersedia di lab.</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 4-5</b>90'</div>
+          <div class="alur-content"><h5>Mengaplikasi — Praktik Backup & Restore</h5><p>Siswa mempraktikkan backup data ke eksternal/cloud, lalu membuat restore point/system image dan mengujinya secara berkelompok.</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 6-7</b>90'</div>
+          <div class="alur-content"><h5>Merefleksi — Menyusun Dokumentasi</h5><p>Siswa menyusun laporan perawatan berdasarkan hasil praktik nyata, dipandu template dan rubrik penilaian.</p></div>
+        </div>
+      </div>
+
+      <div class="alur-stage" id="stage-penutup">
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 8</b>45'</div>
+          <div class="alur-content"><h5>Presentasi & Serah Terima</h5><p>Kelompok mempresentasikan hasil backup, restore, dan laporan; dilanjutkan serah terima unit ke guru/penanggung jawab lab.</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 9</b>30'</div>
+          <div class="alur-content"><h5>Refleksi Metakognitif</h5><p>Siswa mengisi jurnal refleksi (lihat bagian Refleksi di bawah) dan kuis kilat sebagai penutup pembelajaran.</p></div>
+        </div>
+        <div class="alur-item">
+          <div class="alur-jp"><b>JP 9</b>15'</div>
+          <div class="alur-content"><h5>Tindak Lanjut</h5><p>Guru menyampaikan tugas Aksi Nyata untuk dikerjakan siswa di rumah sebagai penerapan nyata di luar kelas.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DIFERENSIASI ================= -->
+  <section id="diferensiasi">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 07 — Pembelajaran Berdiferensiasi</p>
+        <h2 class="section-title">Semua Siswa Bertumbuh, dengan Caranya Sendiri</h2>
+      </div>
+    </div>
+    <div class="diff-row">
+      <div class="diff-card slow">
+        <span class="diff-tag">🐢 PERLU PENDAMPINGAN</span>
+        <h4>Pendukung Bertahap</h4>
+        <ul>
+          <li>Menggunakan panduan langkah-per-langkah bergambar (job sheet).</li>
+          <li>Praktik berpasangan dengan teman tutor sebaya.</li>
+          <li>Fokus dulu pada 1 metode backup (eksternal) sebelum cloud.</li>
+        </ul>
+      </div>
+      <div class="diff-card reg">
+        <span class="diff-tag">🚶 REGULER</span>
+        <h4>Sesuai Alur Utama</h4>
+        <ul>
+          <li>Mengikuti seluruh alur: backup, restore, dokumentasi, serah terima.</li>
+          <li>Mengerjakan studi kasus dan laporan sesuai template standar.</li>
+          <li>Menyelesaikan kuis kilat sebagai cek pemahaman.</li>
+        </ul>
+      </div>
+      <div class="diff-card fast">
+        <span class="diff-tag">🚀 TANTANGAN LANJUT</span>
+        <h4>Pengayaan</h4>
+        <ul>
+          <li>Mencoba backup otomatis terjadwal (task scheduler) tanpa diarahkan.</li>
+          <li>Membandingkan efektivitas 2 software backup berbeda.</li>
+          <li>Menjadi mentor kelompok yang membutuhkan pendampingan.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KKTP ================= -->
+  <section id="kktp">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 08 — Standar Ketuntasan & Rubrik</p>
+        <h2 class="section-title">Kriteria Ketuntasan (KKTP)</h2>
+      </div>
+    </div>
+    <div class="panel kktp-panel">
+      <p style="margin:0 0 4px; font-size:14.5px; color:var(--text-muted);">Kamu dinyatakan <b style="color:var(--green)">tuntas</b> pada materi ini apabila:</p>
+      <ul class="check-list">
+        <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ECF8E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Berhasil melakukan backup data ke media eksternal dan/atau cloud tanpa error.</li>
+        <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ECF8E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Berhasil membuat restore point / system image yang <b>terbukti bisa dipulihkan</b>.</li>
+        <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ECF8E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Menyusun laporan perawatan yang lengkap, rapi, dan sesuai template.</li>
+      </ul>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <p style="margin:0 0 4px; font-size:14.5px; color:var(--text-muted);">Rubrik penilaian unjuk kerja & laporan (skala 1–4):</p>
+      <div class="rubrik-scroll">
+        <table class="rubrik-table">
+          <thead>
+            <tr><th>Aspek</th><th>Skor 4</th><th>Skor 3</th><th>Skor 2</th><th>Skor 1</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Backup Data</b></td>
+              <td>Backup berhasil ke 2 media berbeda, tanpa bantuan.</td>
+              <td>Backup berhasil ke 1 media, tanpa bantuan.</td>
+              <td>Backup berhasil dengan bantuan guru/teman.</td>
+              <td>Belum berhasil melakukan backup.</td>
+            </tr>
+            <tr>
+              <td><b>Restore Point / Image</b></td>
+              <td>Restore point dibuat & terbukti bisa memulihkan sistem, tanpa bantuan.</td>
+              <td>Restore point dibuat dan berhasil, dengan sedikit arahan.</td>
+              <td>Restore point dibuat namun butuh banyak bantuan.</td>
+              <td>Belum berhasil membuat/menguji restore point.</td>
+            </tr>
+            <tr>
+              <td><b>Laporan Perawatan</b></td>
+              <td>Lengkap, rapi, sistematis, sesuai template, mandiri.</td>
+              <td>Lengkap sesuai template, sedikit kurang rapi.</td>
+              <td>Sebagian komponen laporan belum lengkap.</td>
+              <td>Laporan tidak sesuai template / tidak selesai.</td>
+            </tr>
+            <tr>
+              <td><b>Sikap & Kolaborasi</b></td>
+              <td>Aktif berdiskusi, membantu teman, tanggung jawab tinggi.</td>
+              <td>Aktif berdiskusi dan bertanggung jawab pada tugasnya.</td>
+              <td>Perlu diingatkan untuk aktif/bertanggung jawab.</td>
+              <td>Pasif dan kurang bertanggung jawab pada tugas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px; color:var(--text-faint); margin:12px 0 0; font-family:var(--font-mono);">Nilai Akhir = (Total skor semua aspek / 16) × 100</p>
+    </div>
+  </section>
+
+  <!-- ================= ASESMEN & ALAT ================= -->
+  <section id="asesmen">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 09 — Penilaian & Perlengkapan</p>
+        <h2 class="section-title">Asesmen dan Alat/Bahan Praktik</h2>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <div class="info-card">
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9"/></svg></div>
+        <h4>Asesmen</h4>
+        <p><b style="color:var(--text)">Unjuk kerja praktik</b> — kamu dinilai langsung saat melakukan backup & restore, ditambah <b style="color:var(--text)">penilaian laporan/dokumentasi</b> yang kamu susun.</p>
+      </div>
+      <div class="info-card">
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg></div>
+        <h4>Alat & Bahan Praktik</h4>
+        <p>Perlengkapan yang perlu kamu siapkan selama praktik hari ini:</p>
+        <div class="tool-tags">
+          <span class="tool-tag">🖥️ Unit Komputer</span>
+          <span class="tool-tag">💽 Media Penyimpanan Eksternal</span>
+          <span class="tool-tag">📄 Template Laporan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROFIL PANCASILA ================= -->
+  <section id="pancasila">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 10 — Karakter</p>
+        <h2 class="section-title">Profil Pelajar Pancasila</h2>
+      </div>
+    </div>
+    <div class="profil-row">
+      <div class="profil-badge">
+        <span class="emoji">🧠</span>
+        <div>
+          <h4>Bernalar Kritis</h4>
+          <p>Menganalisis penyebab masalah sistem sebelum memutuskan metode restore yang tepat.</p>
+        </div>
+      </div>
+      <div class="profil-badge">
+        <span class="emoji">🚀</span>
+        <div>
+          <h4>Mandiri</h4>
+          <p>Menyelesaikan proses backup, restore, hingga penyusunan laporan tanpa terus bergantung pada arahan guru.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JURNAL REFLEKSI ================= -->
+  <section id="refleksi">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 11 — Refleksi Metakognitif</p>
+        <h2 class="section-title">Jurnal Refleksi Siswa</h2>
+      </div>
+    </div>
+    <div class="panel jurnal-panel">
+      <p style="margin:0 0 18px; font-size:14px; color:var(--text-muted);">Sebelum pulang, tuliskan refleksimu secara jujur. Tidak ada jawaban salah — ini untuk membantumu belajar lebih baik.</p>
+
+      <div class="jurnal-q">
+        <label>1. Bagaimana perasaanmu saat mengerjakan praktik hari ini?</label>
+        <div class="jurnal-emojis" data-group="mood">
+          <button data-val="😖">😖</button>
+          <button data-val="😐">😐</button>
+          <button data-val="🙂">🙂</button>
+          <button data-val="🤩">🤩</button>
+        </div>
+      </div>
+
+      <div class="jurnal-q">
+        <label>2. Bagian mana yang paling sulit — backup, restore, atau menulis laporan? Kenapa?</label>
+        <textarea placeholder="Tulis jawabanmu di sini..."></textarea>
+      </div>
+
+      <div class="jurnal-q">
+        <label>3. Apa satu hal baru yang kamu pelajari dan ingin kamu terapkan di komputer pribadimu?</label>
+        <textarea placeholder="Tulis jawabanmu di sini..."></textarea>
+      </div>
+
+      <div>
+        <button class="jurnal-save" id="jurnalSaveBtn">Simpan Refleksi</button>
+        <span class="jurnal-status" id="jurnalStatus">✔ Refleksi tersimpan, terima kasih!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AKSI NYATA ================= -->
+  <section id="aksinyata">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 12 — Tindak Lanjut</p>
+        <h2 class="section-title">Aksi Nyata: Praktik di Luar Kelas</h2>
+      </div>
+    </div>
+    <div class="aksi-panel">
+      <span class="aksi-badge">🏠 TUGAS MANDIRI — DIKERJAKAN DI RUMAH</span>
+      <h3>Selamatkan Data Pribadimu Sendiri!</h3>
+      <p>Terapkan apa yang sudah kamu pelajari hari ini pada perangkat pribadimu (HP/laptop). Ini bukan sekadar tugas sekolah — ini kebiasaan yang akan menyelamatkanmu di masa depan.</p>
+      <ul class="aksi-checklist">
+        <li><input type="checkbox"> Backup minimal 1 folder penting (tugas/foto) ke Google Drive atau media eksternal.</li>
+        <li><input type="checkbox"> Buat 1 restore point di laptop pribadi (jika menggunakan Windows).</li>
+        <li><input type="checkbox"> Tuliskan bukti (tangkapan layar) dan laporkan singkat ke guru minggu depan.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section id="quiz">
+    <div class="section-head">
+      <div>
+        <p class="section-label">// 13 — Cek Pemahaman</p>
+        <h2 class="section-title">Kuis Kilat 🎯</h2>
+      </div>
+    </div>
+    <div class="panel quiz-panel" id="quizPanel">
+
+      <div class="quiz-q" data-q="1">
+        <p class="qtext">1. Apa perbedaan utama antara backup data dan system image?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Backup hanya bisa dilakukan lewat internet, system image tidak</button>
+          <button class="quiz-opt" data-correct="true">Backup menyalin file penting, system image menyalin seluruh isi sistem operasi</button>
+          <button class="quiz-opt" data-correct="false">Keduanya adalah istilah yang persis sama</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" data-q="2">
+        <p class="qtext">2. Menurut aturan 3-2-1, berapa jenis media penyimpanan berbeda yang disarankan?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">1 jenis media</button>
+          <button class="quiz-opt" data-correct="true">2 jenis media</button>
+          <button class="quiz-opt" data-correct="false">3 jenis media</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" data-q="3">
+        <p class="qtext">3. Kapan sebaiknya kamu membuat restore point secara manual?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Setelah komputer benar-benar rusak parah</button>
+          <button class="quiz-opt" data-correct="true">Sebelum menginstal aplikasi atau melakukan perubahan besar pada sistem</button>
+          <button class="quiz-opt" data-correct="false">Restore point tidak perlu pernah dibuat manual</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" data-q="4">
+        <p class="qtext">4. Kenapa laporan perawatan penting disusun oleh seorang teknisi?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="false">Hanya formalitas administrasi yang tidak berpengaruh</button>
+          <button class="quiz-opt" data-correct="true">Sebagai bukti kerja, riwayat perbaikan, dan acuan perawatan berikutnya</button>
+          <button class="quiz-opt" data-correct="false">Supaya laptop menjadi lebih cepat performanya</button>
+        </div>
+      </div>
+
+      <div class="quiz-score">
+        <span>Skor kamu</span>
+        <span><span id="scoreVal">0</span> / 4 benar</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>MODUL AJAR · TKJ · SEMESTER GANJIL · BLOK 2 — HARI KE-5 · 9 JP</p>
+  </footer>
+</div>
+
+<script>
+  // Terminal backup simulation
+  window.addEventListener('DOMContentLoaded', () => {
+    const fill = document.getElementById('barFill');
+    const pct = document.getElementById('barPct');
+    const text = document.getElementById('barText');
+    const result = document.getElementById('terminalResult');
+
+    setTimeout(() => { fill.style.width = '100%'; }, 400);
+
+    let current = 0;
+    const interval = setInterval(() => {
+      current += Math.floor(Math.random()*14)+6;
+      if(current >= 100){ current = 100; clearInterval(interval); text.textContent = 'Selesai memindai & menyalin data'; result.classList.add('show'); }
+      pct.textContent = current + '%';
+    }, 260);
+
+    // Alur kegiatan tabs
+    document.querySelectorAll('.alur-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.alur-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.alur-stage').forEach(s => s.classList.remove('show'));
+        tab.classList.add('active');
+        document.getElementById('stage-' + tab.dataset.stage).classList.add('show');
+      });
+    });
+
+    // Jurnal mood emoji picker
+    document.querySelectorAll('.jurnal-emojis button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.parentElement;
+        group.querySelectorAll('button').forEach(b => b.classList.remove('picked'));
+        btn.classList.add('picked');
+      });
+    });
+
+    // Jurnal save (client-side only, no data sent anywhere)
+    const jurnalBtn = document.getElementById('jurnalSaveBtn');
+    if(jurnalBtn){
+      jurnalBtn.addEventListener('click', () => {
+        const status = document.getElementById('jurnalStatus');
+        status.classList.add('show');
+        setTimeout(() => status.classList.remove('show'), 2600);
+      });
+    }
+
+    // Timeline node interaction
+    document.querySelectorAll('.tl-node').forEach(node => {
+      node.addEventListener('click', () => {
+        document.querySelectorAll('.tl-node').forEach(n => n.classList.remove('selected'));
+        node.classList.add('selected');
+      });
+    });
+
+    // Quiz interaction
+    let score = 0;
+    const answered = new Set();
+    document.querySelectorAll('.quiz-q').forEach(q => {
+      const qid = q.dataset.q;
+      q.querySelectorAll('.quiz-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if(answered.has(qid)) return;
+          answered.add(qid);
+          const isCorrect = btn.dataset.correct === 'true';
+          q.querySelectorAll('.quiz-opt').forEach(b => {
+            b.disabled = true;
+            if(b.dataset.correct === 'true') b.classList.add('correct');
+            else if(b === btn) b.classList.add('wrong');
+          });
+          if(isCorrect) score++;
+          document.getElementById('scoreVal').textContent = score;
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

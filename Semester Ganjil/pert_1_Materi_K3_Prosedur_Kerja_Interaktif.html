@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K3 & Prosedur Kerja Perawatan Komputer — Blok 1, Hari 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#12161d;
+  --bg-panel:#1a2029;
+  --bg-panel-alt:#212936;
+  --bg-raised:#262f3d;
+  --amber:#ffb02e;
+  --amber-dim:#8a692f;
+  --teal:#2ee6ac;
+  --red:#ff5c5c;
+  --text:#eef1f6;
+  --text-muted:#a3b3c4;
+  --border:rgba(255,255,255,0.09);
+  --stripe: repeating-linear-gradient(135deg, var(--amber) 0px, var(--amber) 18px, #12161d 18px, #12161d 36px);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans', sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{
+  font-family:'Rajdhani', sans-serif;
+  font-weight:700;
+  letter-spacing:0.01em;
+  text-transform:uppercase;
+  margin:0;
+}
+.mono{font-family:'IBM Plex Mono', monospace;}
+p{margin:0 0 1em 0;}
+.container{max-width:900px;margin:0 auto;padding:0 24px;}
+section{padding:64px 0;}
+img,svg{max-width:100%;}
+
+/* progress bar */
+#progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--amber),var(--teal));width:0%;z-index:999;transition:width .1s;}
+
+/* HERO */
+.hero{
+  position:relative;
+  padding:0;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.hero-stripe{
+  height:14px;
+  background:var(--stripe);
+}
+.hero-inner{
+  padding:72px 24px 56px;
+  max-width:900px;
+  margin:0 auto;
+  position:relative;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--amber);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.78rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+.eyebrow::before{content:"⚠";}
+.hero h1{
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  line-height:0.98;
+  color:var(--text);
+}
+.hero h1 span{color:var(--amber);}
+.hero .sub{
+  margin-top:18px;
+  max-width:560px;
+  color:var(--text-muted);
+  font-size:1.05rem;
+  text-transform:none;
+}
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:34px;
+}
+.meta-chip{
+  border:1px solid var(--border);
+  background:var(--bg-panel);
+  border-radius:6px;
+  padding:8px 14px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.78rem;
+  color:var(--text-muted);
+}
+.meta-chip b{color:var(--text);font-weight:600;}
+
+/* section headers */
+.sec-head{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  margin-bottom:32px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.sec-head .letter{
+  font-size:2.6rem;
+  color:var(--amber);
+  line-height:1;
+}
+.sec-head h2{font-size:1.6rem;color:var(--text);}
+.sec-head .badge{
+  margin-left:auto;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;
+  color:var(--text-muted);
+  border:1px solid var(--border);
+  padding:4px 10px;
+  border-radius:100px;
+  white-space:nowrap;
+}
+
+/* callout boxes */
+.callout{
+  border-radius:10px;
+  padding:22px 24px;
+  margin:24px 0;
+  border:1px solid var(--border);
+  background:var(--bg-panel);
+}
+.callout.idea{border-left:4px solid var(--teal);}
+.callout.warn{border-left:4px solid var(--amber);}
+.callout .tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  display:block;
+}
+.callout.idea .tag{color:var(--teal);}
+.callout.warn .tag{color:var(--amber);}
+.callout p{margin:0 0 8px 0;color:var(--text-muted);font-size:0.96rem;}
+.callout p:last-child{margin-bottom:0;}
+
+/* pillar cards */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0;}
+@media(max-width:720px){.grid3{grid-template-columns:1fr;}}
+.pillar{
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:22px;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.pillar:hover{transform:translateY(-4px);border-color:var(--amber-dim);}
+.pillar .ic{font-size:1.6rem;margin-bottom:10px;display:block;}
+.pillar h3{font-size:1rem;color:var(--text);margin-bottom:8px;letter-spacing:0.02em;}
+.pillar p{color:var(--text-muted);font-size:0.9rem;margin:0;}
+
+/* risk tabs */
+.risk-tabs{display:flex;gap:8px;margin:28px 0 0;flex-wrap:wrap;}
+.risk-tab{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.8rem;
+  padding:10px 16px;
+  border-radius:8px 8px 0 0;
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-bottom:none;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:all .15s;
+}
+.risk-tab.active{background:var(--bg-panel-alt);color:var(--amber);}
+.risk-panel{
+  display:none;
+  background:var(--bg-panel-alt);
+  border:1px solid var(--border);
+  border-radius:0 10px 10px 10px;
+  padding:26px;
+}
+.risk-panel.active{display:block;animation:fadein .3s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.risk-panel ul{margin:12px 0 0;padding-left:20px;color:var(--text-muted);}
+.risk-panel li{margin-bottom:6px;}
+.sim-box{
+  margin-top:20px;background:var(--bg-raised);border:1px solid var(--border);
+  border-radius:10px;padding:20px;text-align:center;
+}
+.sim-label{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;}
+.sim-toggle{display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.sim-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:0.78rem;padding:9px 16px;border-radius:100px;
+  border:1px solid var(--border);background:var(--bg-panel);color:var(--text-muted);cursor:pointer;transition:all .2s;
+}
+.sim-btn.active{border-color:var(--amber);color:var(--amber);background:rgba(255,176,46,0.08);}
+.sim-caption{font-size:0.83rem;color:var(--text-muted);margin-top:14px;min-height:20px;}
+.sign-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px;}
+@media(max-width:720px){.sign-grid{grid-template-columns:repeat(2,1fr);}}
+.sign-card{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;
+  padding:14px 10px;text-align:center;transition:transform .2s;
+}
+.sign-card:hover{transform:translateY(-3px);}
+.sign-card svg{width:64px;height:64px;margin-bottom:8px;}
+.sign-card span{display:block;font-size:0.74rem;color:var(--text-muted);line-height:1.3;}
+.anatomy-box{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:12px;
+  padding:24px;text-align:center;margin:24px 0;
+}
+.anatomy-caption{color:var(--text-muted);font-size:0.88rem;margin-top:14px;max-width:480px;margin-left:auto;margin-right:auto;}
+.sop-pool{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 12px;}
+.sop-chip{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;
+  padding:10px 16px;font-size:0.86rem;color:var(--text-muted);cursor:pointer;transition:all .15s;
+  position:relative;
+}
+.sop-chip:hover{border-color:var(--amber-dim);}
+.sop-chip.picked{border-color:var(--teal);color:var(--teal);background:rgba(46,230,172,0.1);cursor:default;}
+.sop-chip .order-num{
+  display:none;font-family:'IBM Plex Mono',monospace;color:var(--teal);margin-right:6px;
+}
+.sop-chip.picked .order-num{display:inline;}
+.sop-chip.error{border-color:var(--red);color:var(--red);animation:shake .3s;}
+
+/* ESD demo */
+.esd-demo{
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:26px;
+  margin-top:20px;
+  text-align:center;
+}
+.esd-toggle{display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.esd-btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.82rem;
+  padding:10px 18px;
+  border-radius:100px;
+  border:1px solid var(--border);
+  background:var(--bg-raised);
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:all .2s;
+}
+.esd-btn.active{border-color:var(--amber);color:var(--amber);background:rgba(255,176,46,0.08);}
+.esd-caption{font-size:0.85rem;color:var(--text-muted);margin-top:16px;min-height:20px;}
+
+/* APD grid */
+.apd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0;}
+@media(max-width:720px){.apd-grid{grid-template-columns:repeat(2,1fr);}}
+.apd-card{
+  perspective:1000px;
+  height:150px;
+}
+.apd-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .5s;
+}
+.apd-card.flipped .apd-inner{transform:rotateY(180deg);}
+.apd-card:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:10px;}
+.risk-tab:focus-visible, .match-item:focus-visible, .sop-chip:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+.apd-face{
+  position:absolute;width:100%;height:100%;
+  backface-visibility:hidden;
+  border-radius:10px;
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:12px;text-align:center;
+}
+.apd-front{background:var(--bg-panel);}
+.apd-front .ic{font-size:1.8rem;margin-bottom:8px;}
+.apd-front span{font-size:0.82rem;color:var(--text);font-weight:600;}
+.apd-back{background:var(--bg-raised);transform:rotateY(180deg);}
+.apd-back p{font-size:0.78rem;color:var(--text-muted);margin:0;}
+
+/* timeline */
+.timeline{margin:32px 0;position:relative;padding-left:36px;}
+.timeline::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:30px;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-dot{
+  position:absolute;left:-36px;top:2px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--bg-panel);border:2px solid var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--amber);
+}
+.tl-item h3{font-size:1.05rem;color:var(--text);margin-bottom:10px;}
+.tl-item ul{margin:0;padding-left:18px;color:var(--text-muted);font-size:0.92rem;}
+.tl-item li{margin-bottom:5px;}
+
+/* summary table */
+table.data{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.88rem;}
+table.data th, table.data td{border:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top;}
+table.data th{background:var(--bg-panel-alt);color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em;}
+table.data td{color:var(--text-muted);background:var(--bg-panel);}
+
+/* rangkuman */
+.summary-box{
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px;
+  margin-top:24px;
+}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:10px;color:var(--text-muted);}
+.summary-box li::marker{color:var(--amber);}
+
+/* quiz */
+.score-badge{
+  position:sticky; top:14px; float:right;
+  font-family:'IBM Plex Mono',monospace;
+  background:var(--bg-panel-alt);
+  border:1px solid var(--amber-dim);
+  color:var(--amber);
+  padding:6px 14px;border-radius:100px;font-size:0.8rem;
+}
+.q-block{
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:22px;
+  margin-bottom:18px;
+}
+.q-block .qn{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:0.8rem;margin-bottom:6px;display:block;}
+.q-block .qtext{color:var(--text);font-weight:600;margin-bottom:14px;}
+.opt{
+  display:block;width:100%;text-align:left;
+  background:var(--bg-panel-alt);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  padding:10px 14px;border-radius:8px;
+  margin-bottom:8px;
+  cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:0.9rem;
+  transition:all .15s;
+}
+.opt:hover{border-color:var(--amber-dim);}
+.opt.correct{background:rgba(46,230,172,0.12);border-color:var(--teal);color:var(--teal);}
+.opt.wrong{background:rgba(255,92,92,0.12);border-color:var(--red);color:var(--red);}
+.opt[disabled]{cursor:default;}
+.q-feedback{font-size:0.82rem;color:var(--text-muted);margin-top:8px;display:none;}
+.q-feedback.show{display:block;}
+
+/* essay */
+.essay-list{list-style:none;padding:0;margin:24px 0;counter-reset:essay;}
+.essay-list li{
+  counter-increment:essay;
+  background:var(--bg-panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px 18px 16px 52px;
+  margin-bottom:12px;
+  position:relative;
+  color:var(--text-muted);
+  font-size:0.92rem;
+}
+.essay-list li::before{
+  content:counter(essay);
+  position:absolute;left:16px;top:16px;
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--amber);font-weight:600;
+}
+
+/* observation table */
+.obs-note{font-size:0.8rem;color:var(--text-muted);margin-top:10px;}
+.print-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:0.78rem;
+  background:var(--bg-panel-alt);border:1px solid var(--border);color:var(--amber);
+  padding:8px 16px;border-radius:8px;cursor:pointer;margin-top:14px;
+}
+.print-btn:hover{border-color:var(--amber);}
+
+/* case studies */
+.case-card{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:12px;
+  padding:24px;margin-bottom:18px;
+}
+.case-card .case-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--red);
+  text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:10px;
+}
+.case-card h3{font-size:1.05rem;color:var(--text);margin-bottom:10px;}
+.case-card p{color:var(--text-muted);font-size:0.92rem;}
+.case-reveal-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:0.78rem;
+  background:transparent;border:1px solid var(--amber-dim);color:var(--amber);
+  padding:8px 14px;border-radius:100px;cursor:pointer;margin-top:6px;
+}
+.case-analysis{
+  display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);
+  font-size:0.9rem;color:var(--teal);
+}
+.case-analysis.show{display:block;}
+
+/* glossary */
+.glossary-search{
+  width:100%;padding:12px 16px;border-radius:8px;border:1px solid var(--border);
+  background:var(--bg-panel);color:var(--text);font-family:'IBM Plex Sans',sans-serif;
+  font-size:0.92rem;margin-bottom:20px;
+}
+.glossary-search:focus{outline:none;border-color:var(--amber-dim);}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media(max-width:720px){.gloss-grid{grid-template-columns:1fr;}}
+.gloss-item{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;
+  padding:16px 18px;
+}
+.gloss-item dt{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:0.88rem;margin-bottom:6px;}
+.gloss-item dd{margin:0;color:var(--text-muted);font-size:0.85rem;}
+.gloss-item.hidden{display:none;}
+
+/* matching game */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:28px 0;}
+@media(max-width:640px){.match-wrap{grid-template-columns:1fr;}}
+.match-col-label{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;}
+.match-item{
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;
+  padding:12px 14px;margin-bottom:10px;cursor:pointer;font-size:0.86rem;color:var(--text-muted);
+  transition:all .15s;
+}
+.match-item:hover{border-color:var(--amber-dim);}
+.match-item.selected{border-color:var(--amber);color:var(--amber);background:rgba(255,176,46,0.08);}
+.match-item.matched{border-color:var(--teal);color:var(--teal);background:rgba(46,230,172,0.08);cursor:default;}
+.match-item.shake{animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.match-status{font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--text-muted);text-align:center;margin-top:4px;}
+
+/* rapid fire true/false */
+.rapid-item{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;
+  padding:14px 18px;margin-bottom:10px;
+}
+.rapid-item p{margin:0;font-size:0.9rem;color:var(--text);flex:1;}
+.rapid-btns{display:flex;gap:8px;flex-shrink:0;}
+.rapid-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:0.75rem;
+  border:1px solid var(--border);background:var(--bg-raised);color:var(--text-muted);
+  padding:7px 12px;border-radius:6px;cursor:pointer;
+}
+.rapid-btn.correct{border-color:var(--teal);color:var(--teal);background:rgba(46,230,172,0.1);}
+.rapid-btn.wrong{border-color:var(--red);color:var(--red);background:rgba(255,92,92,0.1);}
+.rapid-btn[disabled]{cursor:default;opacity:0.6;}
+
+/* references */
+.ref-list{list-style:none;padding:0;margin:20px 0 0;}
+.ref-list li{
+  border:1px solid var(--border);background:var(--bg-panel);border-radius:8px;
+  padding:12px 16px;margin-bottom:10px;font-size:0.88rem;
+}
+.ref-list a{color:var(--amber);text-decoration:none;}
+.ref-list a:hover{text-decoration:underline;}
+.ref-list span{display:block;color:var(--text-muted);font-size:0.8rem;margin-top:3px;}
+
+@media print{
+  body{background:#fff;color:#111;}
+  #progress, .hero, .risk-tabs, .esd-demo, .apd-grid, .case-card .case-reveal-btn,
+  .print-btn, .match-wrap, #quiz, .rapid-item .rapid-btns, footer, .glossary-search{display:none !important;}
+  table.data th{background:#eee;color:#111;}
+  table.data td{background:#fff;color:#111;}
+}
+
+/* lesson scenario */
+.plan-banner{
+  background:var(--bg-panel);border:1px solid var(--amber-dim);border-radius:10px;
+  padding:16px 20px;margin-bottom:24px;font-size:0.88rem;color:var(--text-muted);
+  display:flex;gap:12px;align-items:flex-start;
+}
+.plan-banner .ic{font-size:1.2rem;flex-shrink:0;}
+.plan-table-wrap{overflow-x:auto;margin:24px 0;}
+table.plan{width:100%;border-collapse:collapse;font-size:0.86rem;min-width:640px;}
+table.plan th, table.plan td{border:1px solid var(--border);padding:12px 14px;text-align:left;vertical-align:top;}
+table.plan th{background:var(--bg-panel-alt);color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;}
+table.plan td{background:var(--bg-panel);color:var(--text-muted);}
+table.plan td.jp{font-family:'IBM Plex Mono',monospace;color:var(--amber);white-space:nowrap;font-weight:600;}
+table.plan td a{color:var(--teal);text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;}
+table.plan td a:hover{text-decoration:underline;}
+.plan-mode{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;
+  padding:3px 8px;border-radius:100px;margin-top:6px;letter-spacing:0.03em;
+}
+.plan-mode.teori{background:rgba(46,230,172,0.12);color:var(--teal);}
+.plan-mode.diskusi{background:rgba(255,176,46,0.12);color:var(--amber);}
+.plan-mode.praktik{background:rgba(255,92,92,0.12);color:var(--red);}
+.plan-mode.evaluasi{background:rgba(139,150,164,0.18);color:var(--text-muted);}
+.plan-total{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--bg-panel-alt);border:1px solid var(--border);border-radius:8px;
+  padding:12px 18px;font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--text);margin-top:4px;
+}
+
+@media print{
+  .plan-banner{display:none !important;}
+}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--text-muted);font-size:0.8rem;}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Blok 1 &middot; Hari ke-1 dari 5 &middot; 9 JP (±405 menit)</div>
+    <h1>K3 &amp; Prosedur<br>Kerja <span>Perawatan Komputer</span></h1>
+    <p class="sub">Sebelum menyentuh satu pun komponen, seorang teknisi belajar cara tidak merusaknya — dan cara tidak melukai diri sendiri. Ini fondasi Blok 1, sebelum praktik perakitan dimulai.</p>
+    <div class="meta-row">
+      <div class="meta-chip">Mapel <b>Dasar Perakitan, Instalasi &amp; Perawatan Sistem</b></div>
+      <div class="meta-chip">Kelas <b>X TKJ / Fase E</b></div>
+      <div class="meta-chip">Semester <b>Ganjil — Sistem Blok</b></div>
+    </div>
+  </div>
+  <div class="hero-stripe"></div>
+</div>
+
+<div class="container">
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">🗓️</div><h2>Skenario Pembelajaran &mdash; 9 JP (405 Menit)</h2></div>
+    <div class="plan-banner">
+      <span class="ic">👩‍🏫</span>
+      <span>Panduan ini untuk guru: memetakan konten HTML ini ke seluruh alokasi <b style="color:var(--text)">9 JP</b> di Hari 1, karena membaca materi &amp; mengisi kuis saja hanya mengisi sekitar 1 JP. Sisanya diisi demonstrasi dan praktik langsung dengan unit PC sungguhan. Klik tautan "Buka bagian" untuk lompat ke materi terkait.</span>
+    </div>
+    <div class="plan-table-wrap">
+      <table class="plan">
+        <tr><th>JP</th><th>Kegiatan</th><th>Guru</th><th>Siswa</th><th>Materi</th></tr>
+        <tr>
+          <td class="jp">JP 1<br>45'</td>
+          <td>Pembukaan &amp; Apersepsi<span class="plan-mode teori">TEORI</span></td>
+          <td>Membuka dengan ilustrasi motherboard rusak, memandu diskusi Pendahuluan &amp; bagian A</td>
+          <td>Menyimak, menjawab pertanyaan pemantik, mencatat poin penting K3</td>
+          <td><a href="#pendahuluan">Buka Pendahuluan &rarr;</a><br><a href="#bagian-a">Buka Bagian A &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 2<br>45'</td>
+          <td>Risiko Kerja &amp; Studi Kasus<span class="plan-mode diskusi">DISKUSI</span></td>
+          <td>Memandu diskusi 2 studi kasus, mengawasi game mencocokkan risiko-pencegahan berpasangan</td>
+          <td>Berdiskusi kelompok kecil, mengerjakan game mencocokkan &amp; simulasi ESD</td>
+          <td><a href="#bagian-b">Buka Bagian B &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 3&ndash;4<br>90'</td>
+          <td>Demonstrasi APD &amp; Gelang Anti-Statis<span class="plan-mode praktik">PRAKTIK</span></td>
+          <td>Mendemonstrasikan cara memakai gelang anti-statis &amp; matras di unit PC sungguhan, menekankan poin "Penting Diperhatikan"</td>
+          <td>Mengamati demonstrasi, mencoba memakai gelang secara bergiliran dengan pengawasan guru</td>
+          <td><a href="#bagian-c">Buka Bagian C &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 5&ndash;6<br>90'</td>
+          <td>Praktik SOP Buka-Tutup Casing<span class="plan-mode praktik">PRAKTIK</span></td>
+          <td>Mengawasi &amp; menilai penerapan SOP tiap kelompok menggunakan Lembar Observasi</td>
+          <td>Praktik bergiliran: sebelum &ndash; selama &ndash; setelah bekerja sesuai SOP, tata letak alat</td>
+          <td><a href="#bagian-d">Buka Bagian D &rarr;</a><br><a href="#evaluasi">Buka Lembar Observasi &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 7<br>45'</td>
+          <td>Penguatan &amp; Glosarium<span class="plan-mode diskusi">DISKUSI</span></td>
+          <td>Membahas istilah yang masih rancu, meminta siswa saling menjelaskan istilah ke teman</td>
+          <td>Mengerjakan Kuis Kilat Benar/Salah, mengeksplorasi Glosarium</td>
+          <td><a href="#evaluasi">Buka Kuis &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 8<br>45'</td>
+          <td>Evaluasi Tertulis<span class="plan-mode evaluasi">EVALUASI</span></td>
+          <td>Mengawasi tes tertulis, menyiapkan lembar jawaban uraian</td>
+          <td>Mengerjakan 8 soal pilihan ganda &amp; 4 soal uraian secara individu</td>
+          <td><a href="#evaluasi">Buka Evaluasi &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="jp">JP 9<br>45'</td>
+          <td>Refleksi &amp; Cadangan<span class="plan-mode evaluasi">EVALUASI</span></td>
+          <td>Membahas jawaban bersama, memberi pengayaan/remedial bagi yang belum tuntas KKTP</td>
+          <td>Merefleksikan hasil observasi &amp; kuis, bertanya bagian yang belum jelas</td>
+          <td><a href="#tujuan">Buka KKTP &rarr;</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="plan-total"><span>Total alokasi waktu</span><span>9 JP &middot; ±405 menit</span></div>
+  </section>
+
+  <section class="reveal" id="tujuan">
+    <div class="callout idea">
+      <span class="tag">Capaian Pembelajaran</span>
+      <p style="color:var(--text);font-size:1rem;">Peserta didik mampu menerapkan prosedur keselamatan dan kesehatan kerja (K3) serta SOP bengkel dalam kegiatan perawatan komputer.</p>
+    </div>
+    <div class="sec-head" style="margin-top:36px;">
+      <div class="letter mono">TP</div>
+      <h2>Tujuan Pembelajaran</h2>
+    </div>
+    <div class="grid3">
+      <div class="pillar"><span class="ic">🗣️</span><h3>Menjelaskan</h3><p>Pentingnya K3 dalam pekerjaan perawatan komputer.</p></div>
+      <div class="pillar"><span class="ic">🔍</span><h3>Mengidentifikasi</h3><p>Risiko kerja — listrik statis, korsleting, cedera fisik — dan cara pencegahannya.</p></div>
+      <div class="pillar"><span class="ic">🛠️</span><h3>Menerapkan</h3><p>SOP bengkel/lab: gelang anti-statis, APD, dan tata letak alat.</p></div>
+    </div>
+    <div class="callout warn">
+      <span class="tag">Kriteria Ketuntasan (KKTP)</span>
+      <p>Siswa dapat menyebutkan minimal <b style="color:var(--text)">4 risiko kerja</b> beserta cara pencegahannya, dan mendemonstrasikan penggunaan gelang anti-statis dengan benar.</p>
+    </div>
+  </section>
+
+  <section class="reveal" id="pendahuluan">
+    <div class="sec-head"><div class="letter mono">—</div><h2>Pendahuluan</h2></div>
+    <p>Sebelum mulai merakit, menginstal, atau memperbaiki komputer, seorang teknisi wajib memahami dan menerapkan Keselamatan dan Kesehatan Kerja (K3). Komputer terlihat "aman", tapi di dalamnya ada komponen elektronik sensitif, sumber tegangan listrik, dan bagian logam yang tajam. Kecerobohan sekecil apa pun — lupa gelang anti-statis, kabel power masih tersambung — bisa merusak komponen bernilai jutaan rupiah, bahkan membahayakan diri sendiri.</p>
+    <p style="color:var(--text-muted);">Materi hari ini adalah fondasi sebelum masuk ke praktik perakitan pada hari-hari berikutnya. Teknisi profesional bekerja sesuai SOP bukan karena diawasi — tapi karena itu sudah jadi kebiasaan yang aman dan bertanggung jawab.</p>
+    <div class="callout idea">
+      <span class="tag">💡 Ilustrasi Pembuka</span>
+      <p style="font-size:0.98rem;">Bayangkan sebuah motherboard senilai <b style="color:var(--text)">Rp 2.000.000</b> rusak permanen hanya karena teknisi lupa memakai gelang anti-statis saat memasang RAM. Kerusakan akibat listrik statis sering tidak terlihat langsung — komponen "mati pelan-pelan" atau jadi tidak stabil.</p>
+    </div>
+  </section>
+
+  <section class="reveal" id="bagian-a">
+    <div class="sec-head"><div class="letter mono">A</div><h2>Pengertian &amp; Tujuan K3 di Lingkungan TI</h2></div>
+    <p>K3 adalah segala upaya untuk menjamin keutuhan dan kesempurnaan jasmani maupun rohani tenaga kerja. Di bidang TI, K3 berfokus pada tiga hal:</p>
+    <div class="grid3">
+      <div class="pillar"><span class="ic">🧍</span><h3>Safety</h3><p>Keselamatan diri teknisi — mencegah cedera, sengatan listrik, atau kecelakaan kerja.</p></div>
+      <div class="pillar"><span class="ic">💾</span><h3>Equipment Safety</h3><p>Mencegah kerusakan komponen akibat ESD, korsleting, atau penanganan yang salah.</p></div>
+      <div class="pillar"><span class="ic">🩺</span><h3>Health</h3><p>Menjaga postur tubuh dan lingkungan kerja tetap nyaman, tanpa gangguan jangka panjang.</p></div>
+    </div>
+    <p style="margin-top:20px;"><b style="color:var(--text);">Tujuannya:</b> mencegah kecelakaan kerja, melindungi komponen dari ESD dan kesalahan prosedur, meningkatkan efisiensi kerja, serta membentuk sikap profesional calon teknisi TI yang siap masuk dunia kerja (DUDI).</p>
+    <div class="callout warn">
+      <span class="tag">Dasar Hukum</span>
+      <p>Undang-Undang No. 1 Tahun 1970 tentang Keselamatan Kerja mewajibkan setiap tempat kerja — termasuk bengkel/lab sekolah — menyediakan kondisi kerja yang aman bagi setiap orang di dalamnya.</p>
+    </div>
+
+    <div class="sec-head" style="margin-top:36px;"><h2 style="font-size:1.05rem;">Rambu K3 yang Perlu Dikenali di Bengkel</h2></div>
+    <div class="sign-grid">
+      <div class="sign-card">
+        <svg viewBox="0 0 100 100"><polygon points="50,8 95,88 5,88" fill="none" stroke="#ffb02e" stroke-width="5"/><text x="50" y="70" text-anchor="middle" font-size="42">⚡</text></svg>
+        <span>Awas Tegangan Listrik</span>
+      </div>
+      <div class="sign-card">
+        <svg viewBox="0 0 100 100"><polygon points="50,8 95,88 5,88" fill="none" stroke="#ffb02e" stroke-width="5"/><text x="50" y="68" text-anchor="middle" font-size="38">🖐️</text></svg>
+        <span>Sensitif ESD &mdash; Wajib Grounding</span>
+      </div>
+      <div class="sign-card">
+        <svg viewBox="0 0 100 100"><polygon points="50,8 95,88 5,88" fill="none" stroke="#ffb02e" stroke-width="5"/><text x="50" y="70" text-anchor="middle" font-size="38">🔪</text></svg>
+        <span>Awas Tepi Tajam</span>
+      </div>
+      <div class="sign-card">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#2ee6ac" stroke-width="5"/><text x="50" y="68" text-anchor="middle" font-size="38">📿</text></svg>
+        <span>Wajib Gelang Anti-Statis</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" id="bagian-b">
+    <div class="sec-head"><div class="letter mono">B</div><h2>Risiko Kerja dalam Perawatan Komputer</h2></div>
+    <p>Ada tiga kelompok risiko utama yang paling sering dihadapi teknisi. Klik tab di bawah untuk melihat masing-masing:</p>
+    <div class="risk-tabs">
+      <div class="risk-tab active" data-target="risk-esd" tabindex="0" role="tab" aria-selected="true">⚡ ESD</div>
+      <div class="risk-tab" data-target="risk-listrik" tabindex="0" role="tab" aria-selected="false">🔌 Listrik &amp; Korsleting</div>
+      <div class="risk-tab" data-target="risk-tajam" tabindex="0" role="tab" aria-selected="false">✂️ Benda Tajam</div>
+      <div class="risk-tab" data-target="risk-ergonomis" tabindex="0" role="tab" aria-selected="false">🧍 Ergonomis</div>
+    </div>
+    <div class="risk-panel active" id="risk-esd">
+      <p><b style="color:var(--text)">Electrostatic Discharge (ESD)</b> adalah pelepasan muatan listrik statis secara tiba-tiba antara dua benda dengan potensial berbeda — misalnya dari tubuh manusia ke komponen komputer. Muatan statis tubuh bisa mencapai ribuan volt, jauh lebih tinggi dari yang dibutuhkan untuk merusak IC, RAM, atau prosesor — meski teknisi sendiri tidak merasakan sengatan apa pun.</p>
+      <ul>
+        <li>Gesekan tubuh dengan kursi, karpet, atau pakaian sintetis</li>
+        <li>Udara kering (kelembapan rendah meningkatkan risiko statis)</li>
+        <li>Menyentuh komponen langsung tanpa grounding</li>
+      </ul>
+      <p style="margin-top:12px;">Dampaknya bisa <b style="color:var(--text)">langsung</b> (komponen langsung rusak) atau <b style="color:var(--red)">laten</b> (tetap terlihat berfungsi tapi usia pakainya menurun dan bisa gagal sewaktu-waktu) — dampak laten inilah yang paling berbahaya karena sulit dideteksi.</p>
+    </div>
+    <div class="risk-panel" id="risk-listrik">
+      <ul>
+        <li>Sengatan listrik akibat menyentuh komponen bertegangan saat unit masih tersambung ke PSU/stop kontak</li>
+        <li>Korsleting akibat obeng atau logam lain menyentuh dua jalur berbeda pada motherboard saat masih menyala</li>
+        <li>Kerusakan akibat lonjakan tegangan (surge) saat memasang/melepas kabel dalam kondisi komputer menyala</li>
+      </ul>
+      <div class="sim-box">
+        <div class="sim-label mono">Simulasi &mdash; Obeng Menyentuh Motherboard</div>
+        <div class="sim-toggle">
+          <button class="sim-btn active" id="btn-psu-off">🔌 PSU Mati &amp; Kabel Tercabut</button>
+          <button class="sim-btn" id="btn-psu-on">⚠️ PSU Masih Menyala</button>
+        </div>
+        <svg id="short-svg" viewBox="0 0 500 150" style="max-width:440px;">
+          <rect x="60" y="35" width="380" height="80" rx="8" fill="#232a36" stroke="#3a4757" stroke-width="2"/>
+          <line x1="90" y1="55" x2="410" y2="55" stroke="#4a5768" stroke-width="3"/>
+          <line x1="90" y1="95" x2="410" y2="95" stroke="#4a5768" stroke-width="3"/>
+          <text x="250" y="30" text-anchor="middle" font-size="13" fill="#8fa0b3" font-family="IBM Plex Mono, monospace">MOTHERBOARD</text>
+          <g id="screwdriver" transform="rotate(35 250 75)">
+            <rect x="230" y="40" width="10" height="70" rx="3" fill="#c7cdd6"/>
+            <rect x="226" y="30" width="18" height="16" rx="2" fill="#ffb02e"/>
+          </g>
+          <g id="short-spark" opacity="0">
+            <text x="250" y="80" text-anchor="middle" font-size="30">💥</text>
+          </g>
+          <g id="short-safe" opacity="1">
+            <text x="330" y="130" text-anchor="middle" font-size="16">🔌</text>
+            <text x="330" y="148" text-anchor="middle" font-size="10" fill="#2ee6ac" font-family="IBM Plex Mono, monospace">Tercabut</text>
+          </g>
+        </svg>
+        <div class="sim-caption" id="short-caption">Kabel power sudah tercabut — obeng boleh menyentuh jalur motherboard tanpa risiko korsleting.</div>
+      </div>
+    </div>
+    <div class="risk-panel" id="risk-tajam">
+      <ul>
+        <li>Luka gores/sayat akibat tepi casing atau bracket logam yang tajam</li>
+        <li>Cedera jari akibat terjepit saat memasang/melepas RAM, kartu ekspansi, atau kipas</li>
+      </ul>
+    </div>
+    <div class="risk-panel" id="risk-ergonomis">
+      <ul>
+        <li>Cedera akibat postur kerja yang salah — membungkuk terlalu lama di depan unit PC</li>
+        <li>Cedera punggung akibat mengangkat unit PC dengan cara yang keliru</li>
+      </ul>
+      <div class="sim-box">
+        <div class="sim-label mono">Simulasi &mdash; Mengangkat Unit PC</div>
+        <div class="sim-toggle">
+          <button class="sim-btn active" id="btn-postur-salah">🙅 Postur Salah</button>
+          <button class="sim-btn" id="btn-postur-benar">🙆 Postur Benar</button>
+        </div>
+        <svg id="posture-svg" viewBox="0 0 300 180" style="max-width:280px;">
+          <line x1="20" y1="165" x2="280" y2="165" stroke="#3a4757" stroke-width="2"/>
+          <g id="posture-figure"></g>
+        </svg>
+        <div class="sim-caption" id="posture-caption">Membungkuk dengan punggung melengkung saat mengangkat beban berat membebani tulang belakang dan berisiko cedera.</div>
+      </div>
+    </div>
+
+    <div class="esd-demo">
+      <div class="mono" style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Simulasi &mdash; Apa yang terjadi saat memegang RAM?</div>
+      <div class="esd-toggle">
+        <button class="esd-btn active" id="btn-tanpa">⚡ Tanpa Gelang Anti-Statis</button>
+        <button class="esd-btn" id="btn-dengan">✅ Dengan Gelang Anti-Statis</button>
+      </div>
+      <svg id="esd-svg" viewBox="0 0 500 160" style="max-width:460px;">
+        <!-- body -->
+        <circle cx="60" cy="80" r="26" fill="#2c3646" stroke="#3a4757" stroke-width="2"/>
+        <text x="60" y="85" text-anchor="middle" font-size="22">🧑</text>
+        <!-- wire path body to ground -->
+        <path id="wire" d="M 60 106 Q 60 145 250 145 Q 440 145 440 106" fill="none" stroke="#3a4757" stroke-width="3" stroke-dasharray="6 6"/>
+        <!-- component (RAM) -->
+        <rect x="225" y="55" width="50" height="50" rx="6" id="ram" fill="#3a4757" stroke="#4a5768" stroke-width="2"/>
+        <text x="250" y="86" text-anchor="middle" font-size="20">🖥️</text>
+        <!-- spark -->
+        <g id="spark" opacity="0">
+          <text x="140" y="70" font-size="26">⚡</text>
+        </g>
+        <!-- ground symbol -->
+        <rect x="425" y="60" width="30" height="46" rx="4" fill="#2c3646" stroke="#3a4757" stroke-width="2"/>
+        <text x="440" y="86" text-anchor="middle" font-size="18">⏚</text>
+      </svg>
+      <div class="esd-caption" id="esd-caption">Tanpa grounding, muatan statis di tubuh melompat ke komponen — kerusakan bisa terjadi tanpa terasa.</div>
+    </div>
+
+    <div class="sec-head" style="margin-top:44px;"><h2 style="font-size:1.1rem;">Ringkasan Risiko &amp; Cara Pencegahan</h2></div>
+    <table class="data">
+      <tr><th>Jenis Risiko</th><th>Penyebab Utama</th><th>Cara Pencegahan</th></tr>
+      <tr><td>ESD (listrik statis)</td><td>Gesekan tubuh, udara kering, menyentuh komponen tanpa grounding</td><td>Gunakan gelang &amp; matras anti-statis, sentuh bodi logam casing sebelum memegang komponen</td></tr>
+      <tr><td>Sengatan listrik</td><td>Menyentuh komponen bertegangan saat unit masih menyala/tersambung</td><td>Cabut kabel power sebelum membuka casing, pastikan PSU dalam posisi OFF</td></tr>
+      <tr><td>Korsleting</td><td>Logam (obeng) menyentuh jalur berbeda saat unit menyala</td><td>Matikan &amp; cabut kabel power sebelum membuka casing — jangan pernah bekerja di dalam unit saat masih menyala</td></tr>
+      <tr><td>Cedera benda tajam</td><td>Tepi casing/bracket logam yang tajam</td><td>Gunakan sarung tangan saat perlu, bekerja hati-hati &amp; tidak terburu-buru</td></tr>
+      <tr><td>Cedera ergonomis</td><td>Postur kerja tidak tepat, mengangkat unit sembarangan</td><td>Atur posisi meja/kursi kerja, angkat unit dengan postur tubuh yang benar</td></tr>
+    </table>
+
+    <div class="sec-head" style="margin-top:44px;"><h2 style="font-size:1.1rem;">🎯 Cocokkan Risiko dengan Cara Pencegahan</h2></div>
+    <p style="color:var(--text-muted);font-size:0.92rem;">Klik satu risiko di kiri, lalu klik pencegahan yang paling tepat di kanan.</p>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-label">Risiko</div>
+        <div id="match-left"></div>
+      </div>
+      <div>
+        <div class="match-col-label">Cara Pencegahan</div>
+        <div id="match-right"></div>
+      </div>
+    </div>
+    <div class="match-status" id="match-status">0 dari 5 pasangan benar</div>
+
+    <div class="sec-head" style="margin-top:48px;"><h2 style="font-size:1.1rem;">📁 Studi Kasus Nyata</h2></div>
+    <div class="case-card">
+      <span class="case-tag">Kasus 01 &mdash; Bengkel Sekolah</span>
+      <h3>"Komputer Mati Total Setelah Upgrade RAM"</h3>
+      <p>Rangga, siswa kelas X TKJ, diminta menambah RAM di PC lab sekolah. Karena terburu-buru sebelum bel pulang, ia langsung membuka casing dan memasang modul RAM baru tanpa memakai gelang anti-statis — toh menurutnya "tangannya tidak kesetrum apa-apa". Tiga hari kemudian, komputer itu tiba-tiba tidak mau menyala sama sekali, padahal saat pemasangan semua terlihat baik-baik saja.</p>
+      <button class="case-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Lihat Analisis &darr;</button>
+      <div class="case-analysis">Ini contoh klasik dampak <b>laten</b> dari ESD. Rangga tidak merasakan sengatan karena tegangan yang merusak IC jauh lebih kecil dari ambang rasa manusia. Komponen sempat "terlihat baik-baik saja" sebelum akhirnya gagal total. Seandainya Rangga memakai gelang anti-statis dan menyentuh bodi logam casing lebih dulu, muatan statis di tubuhnya akan tersalur aman ke ground sebelum menyentuh RAM.</div>
+    </div>
+    <div class="case-card">
+      <span class="case-tag">Kasus 02 &mdash; Workshop Servis</span>
+      <h3>"Obeng yang Membuat Motherboard Berasap"</h3>
+      <p>Seorang teknisi magang ingin cepat selesai memperbaiki PC pelanggan. Ia melepas dan memasang kembali kabel SATA sambil PSU masih menyala, karena "kan cuma sebentar". Saat obeng yang dipegangnya tanpa sengaja menyentuh dua jalur berbeda di motherboard yang masih beraliran listrik, muncul percikan kecil dan bau hangus dari board tersebut.</p>
+      <button class="case-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Lihat Analisis &darr;</button>
+      <div class="case-analysis">Ini adalah kasus <b>korsleting (short circuit)</b> akibat mengabaikan SOP paling dasar: mematikan &amp; mencabut daya sebelum membuka atau menyentuh bagian dalam unit. "Cuma sebentar" adalah alasan paling umum di balik kecelakaan kerja — SOP dibuat justru untuk pekerjaan yang terasa sepele dan cepat, karena di situlah kelalaian paling sering terjadi.</div>
+    </div>
+  </section>
+
+  <section class="reveal" id="bagian-c">
+    <div class="sec-head"><div class="letter mono">C</div><h2>Alat Pelindung Diri (APD)</h2></div>
+    <p>Untuk mengurangi risiko-risiko di atas, teknisi wajib menggunakan APD yang sesuai. Klik/tap kartu (atau tekan Enter saat kartu terpilih) untuk melihat fungsinya:</p>
+    <div class="apd-grid">
+      <div class="apd-card"><div class="apd-inner">
+        <div class="apd-face apd-front"><span class="ic">📿</span><span>Gelang Anti-Statis</span></div>
+        <div class="apd-face apd-back"><p>Menyalurkan muatan statis dari tubuh ke titik grounding agar tidak berpindah ke komponen.</p></div>
+      </div></div>
+      <div class="apd-card"><div class="apd-inner">
+        <div class="apd-face apd-front"><span class="ic">🟩</span><span>Matras Anti-Statis</span></div>
+        <div class="apd-face apd-back"><p>Alas kerja yang aman dari muatan statis untuk meletakkan komponen lepas.</p></div>
+      </div></div>
+      <div class="apd-card"><div class="apd-inner">
+        <div class="apd-face apd-front"><span class="ic">🧤</span><span>Sarung Tangan</span></div>
+        <div class="apd-face apd-back"><p>Melindungi tangan dari goresan casing atau bracket logam yang tajam.</p></div>
+      </div></div>
+      <div class="apd-card"><div class="apd-inner">
+        <div class="apd-face apd-front"><span class="ic">🥽</span><span>Kacamata Pelindung</span></div>
+        <div class="apd-face apd-back"><p>Melindungi mata dari debu atau serpihan saat membersihkan unit.</p></div>
+      </div></div>
+      <div class="apd-card"><div class="apd-inner">
+        <div class="apd-face apd-front"><span class="ic">😷</span><span>Masker</span></div>
+        <div class="apd-face apd-back"><p>Melindungi saluran pernapasan dari debu yang menumpuk di dalam casing.</p></div>
+      </div></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:40px;"><h2 style="font-size:1.1rem;">Cara Memakai Gelang Anti-Statis</h2></div>
+    <div class="anatomy-box">
+      <svg viewBox="0 0 400 180" style="max-width:340px;">
+        <ellipse cx="90" cy="90" rx="34" ry="46" fill="#232a36" stroke="#3a4757" stroke-width="2"/>
+        <rect x="66" y="70" width="48" height="18" rx="9" fill="#ffb02e"/>
+        <path d="M 114 79 C 200 60, 260 100, 330 90" fill="none" stroke="#8fa0b3" stroke-width="4" stroke-dasharray="3 5"/>
+        <circle cx="330" cy="90" r="10" fill="#2ee6ac"/>
+        <path d="M 322 82 L 338 98 M 338 82 L 322 98" stroke="#12161d" stroke-width="2"/>
+        <text x="90" y="150" text-anchor="middle" font-size="11" fill="#ffb02e" font-family="IBM Plex Mono, monospace">Strap</text>
+        <text x="220" y="150" text-anchor="middle" font-size="11" fill="#8fa0b3" font-family="IBM Plex Mono, monospace">Kabel Koil</text>
+        <text x="330" y="120" text-anchor="middle" font-size="11" fill="#2ee6ac" font-family="IBM Plex Mono, monospace">Klip Grounding</text>
+      </svg>
+      <p class="anatomy-caption">Tiga bagian utama gelang anti-statis: <b style="color:var(--amber)">strap</b> yang menyentuh kulit pergelangan tangan, <b style="color:var(--text-muted)">kabel koil</b> elastis sebagai penghubung, dan <b style="color:var(--teal)">klip grounding</b> yang dijepitkan ke titik ground.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot">1</div><p>Pastikan gelang anti-statis dalam kondisi baik — kabel dan klip tidak putus.</p></div>
+      <div class="tl-item"><div class="tl-dot">2</div><p>Kenakan gelang pada pergelangan tangan hingga menyentuh kulit langsung (bukan di atas lengan baju).</p></div>
+      <div class="tl-item"><div class="tl-dot">3</div><p>Hubungkan klip gelang ke titik grounding — misalnya bagian logam casing PC yang belum tersambung listrik.</p></div>
+      <div class="tl-item"><div class="tl-dot">4</div><p>Pastikan casing/PSU tidak menyala namun kabel ground tetap tersambung, atau ikuti SOP sekolah yang berlaku.</p></div>
+      <div class="tl-item"><div class="tl-dot">5</div><p>Lepaskan gelang hanya setelah seluruh pekerjaan pemasangan komponen selesai.</p></div>
+    </div>
+    <div class="callout warn">
+      <span class="tag">⚠️ Penting Diperhatikan</span>
+      <p>Jika tidak tersedia gelang anti-statis, teknisi dapat melakukan grounding sederhana dengan menyentuh bagian logam casing PC yang belum menyala secara berkala — namun cara ini kurang efektif dan hanya alternatif darurat.</p>
+      <p>Jangan pernah bekerja di atas karpet atau permukaan sintetis yang mudah menimbulkan gesekan dan muatan statis.</p>
+    </div>
+  </section>
+
+  <section class="reveal" id="bagian-d">
+    <div class="sec-head"><div class="letter mono">D</div><h2>SOP Bengkel/Lab Perawatan Komputer</h2></div>
+    <p>SOP adalah panduan tertulis berisi langkah-langkah kerja baku agar pekerjaan dilakukan secara aman, konsisten, dan sesuai standar. SOP ini berlaku sepanjang tiga fase kerja:</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot mono">01</div>
+        <h3>Sebelum Bekerja</h3>
+        <ul>
+          <li>Gunakan pakaian kerja/wearpack, lepaskan aksesoris logam (cincin, gelang, jam tangan logam)</li>
+          <li>Periksa kelengkapan alat kerja (toolkit, gelang anti-statis, matras)</li>
+          <li>Pastikan area kerja bersih, kering, bebas cairan</li>
+          <li>Catat kondisi awal unit yang akan dikerjakan</li>
+        </ul>
+      </div>
+      <div class="tl-item"><div class="tl-dot mono">02</div>
+        <h3>Selama Bekerja</h3>
+        <ul>
+          <li>Cabut kabel power sebelum membuka casing atau memasang/melepas komponen</li>
+          <li>Kenakan gelang anti-statis sebelum menyentuh komponen elektronik</li>
+          <li>Letakkan komponen lepas di atas matras anti-statis, jangan ditumpuk sembarangan</li>
+          <li>Gunakan alat sesuai fungsinya, jaga tata letak tetap rapi</li>
+        </ul>
+      </div>
+      <div class="tl-item"><div class="tl-dot mono">03</div>
+        <h3>Setelah Bekerja</h3>
+        <ul>
+          <li>Rapikan kabel dan komponen, pastikan tidak ada baut tertinggal di dalam casing</li>
+          <li>Kembalikan alat kerja ke tempat penyimpanan semula</li>
+          <li>Bersihkan area kerja dari debu dan sisa material</li>
+          <li>Lepaskan gelang anti-statis dengan benar, lalu laporkan hasil pekerjaan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sec-head" style="margin-top:36px;"><h2 style="font-size:1.1rem;">Tata Letak Alat &amp; Ruang Kerja</h2></div>
+    <div class="grid3">
+      <div class="pillar"><span class="ic">🤚</span><h3>Jangkauan Tangan</h3><p>Alat yang sering digunakan diletakkan paling dekat.</p></div>
+      <div class="pillar"><span class="ic">🔀</span><h3>Pisahkan Jalur</h3><p>Kabel power terpisah dari area komponen elektronik lepas.</p></div>
+      <div class="pillar"><span class="ic">🚶</span><h3>Jalur Bebas</h3><p>Lalu-lalang antar meja tidak terhalang kabel atau alat.</p></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:44px;"><h2 style="font-size:1.1rem;">🧩 Simulasi &mdash; Susun Urutan SOP yang Benar</h2></div>
+    <p style="color:var(--text-muted);font-size:0.92rem;">Langkah-langkah di bawah teracak dari tiga fase kerja. Klik satu per satu sesuai urutan yang seharusnya, dari langkah pertama hingga terakhir.</p>
+    <div id="sop-order-pool" class="sop-pool"></div>
+    <div class="match-status" id="sop-order-status">Langkah terpilih: 0 / 6</div>
+    <button class="print-btn" id="sop-order-reset" style="display:none;">🔄 Ulangi</button>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">✓</div><h2>Rangkuman</h2></div>
+    <div class="summary-box">
+      <ul>
+        <li>K3 adalah upaya melindungi keselamatan teknisi, keutuhan perangkat, dan kesehatan kerja secara menyeluruh.</li>
+        <li>Tiga risiko utama: ESD (listrik statis), sengatan listrik/korsleting, dan cedera benda tajam/mekanik.</li>
+        <li>APD wajib: gelang anti-statis, matras anti-statis, sarung tangan, dan kacamata pelindung sesuai kebutuhan.</li>
+        <li>SOP bengkel mengatur tiga tahap kerja — sebelum, selama, setelah — termasuk tata letak alat yang aman dan efisien.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">📖</div><h2>Glosarium Istilah</h2></div>
+    <input type="text" class="glossary-search" id="gloss-search" placeholder="Cari istilah… misalnya 'grounding'">
+    <dl class="gloss-grid" id="gloss-grid"></dl>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">⚡</div><h2>Kuis Kilat: Benar atau Salah?</h2></div>
+    <p style="color:var(--text-muted);font-size:0.92rem;">Uji refleks pemahamanmu — klik Benar atau Salah untuk tiap pernyataan.</p>
+    <div id="rapid-quiz"></div>
+  </section>
+
+  <section class="reveal" id="evaluasi">
+    <div class="sec-head"><div class="letter mono">E</div><h2>Evaluasi Pembelajaran</h2><span class="badge">Tes tertulis + observasi</span></div>
+    <p><b style="color:var(--text)">A. Pilihan Ganda</b> &mdash; klik jawabanmu untuk melihat apakah benar.</p>
+    <div id="quiz"></div>
+
+    <p style="margin-top:36px;"><b style="color:var(--text)">B. Uraian</b></p>
+    <ul class="essay-list">
+      <li>Jelaskan pengertian K3 dan sebutkan tiga tujuan penerapan K3 dalam pekerjaan perawatan komputer!</li>
+      <li>Sebutkan dan jelaskan minimal 4 risiko kerja yang dapat terjadi saat merawat/merakit komputer beserta cara pencegahannya!</li>
+      <li>Jelaskan langkah-langkah memakai gelang anti-statis dengan benar!</li>
+      <li>Mengapa muatan listrik statis (ESD) dianggap berbahaya meskipun teknisi tidak merasakan sengatan apa pun? Jelaskan!</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">📋</div><h2>Lembar Observasi Penerapan K3</h2></div>
+    <p>Digunakan guru untuk menilai penerapan K3 peserta didik secara langsung selama praktik/simulasi.</p>
+    <table class="data">
+      <tr><th>No</th><th>Aspek yang Diamati</th><th>Ya</th><th>Tidak</th><th>Catatan</th></tr>
+      <tr><td>1</td><td>Melepas aksesoris logam sebelum bekerja</td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td>Mencabut kabel power sebelum membuka casing</td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td>Memakai gelang anti-statis dengan benar</td><td></td><td></td><td></td></tr>
+      <tr><td>4</td><td>Meletakkan komponen di tempat aman/matras anti-statis</td><td></td><td></td><td></td></tr>
+      <tr><td>5</td><td>Merapikan alat &amp; area kerja setelah selesai</td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="obs-note">Referensi: Undang-Undang No. 1 Tahun 1970 tentang Keselamatan Kerja; modul K3 Teknik Komputer dan Jaringan; SOP bengkel/lab TKJ.</p>
+    <button class="print-btn" onclick="window.print()">🖨️ Cetak Lembar Observasi</button>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><div class="letter mono">🔗</div><h2>Referensi &amp; Bacaan Lanjutan</h2></div>
+    <ul class="ref-list">
+      <li><a href="https://peraturan.go.id/id/uu-no-1-tahun-1970" target="_blank" rel="noopener">Undang-Undang No. 1 Tahun 1970 tentang Keselamatan Kerja</a><span>Dasar hukum utama K3 di Indonesia — teks resmi, peraturan.go.id</span></li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>Materi Ajar — Dasar Perakitan, Instalasi &amp; Perawatan Sistem &middot; Blok 1, Hari 1 &middot; SMK Diponegoro Tumpang</footer>
+
+<script>
+// scroll progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrollable = h.scrollHeight - h.clientHeight;
+  const pct = scrollable > 0 ? (h.scrollTop / scrollable) * 100 : 0;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.1});
+revealEls.forEach(el => io.observe(el));
+
+// risk tabs
+document.querySelectorAll('.risk-tab').forEach(tab => {
+  const activate = () => {
+    document.querySelectorAll('.risk-tab').forEach(t=>{t.classList.remove('active'); t.setAttribute('aria-selected','false');});
+    document.querySelectorAll('.risk-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected','true');
+    document.getElementById(tab.dataset.target).classList.add('active');
+  };
+  tab.addEventListener('click', activate);
+  tab.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); }
+  });
+});
+
+// ESD demo
+const btnTanpa = document.getElementById('btn-tanpa');
+const btnDengan = document.getElementById('btn-dengan');
+const wire = document.getElementById('wire');
+const spark = document.getElementById('spark');
+const ram = document.getElementById('ram');
+const caption = document.getElementById('esd-caption');
+
+function setDemo(grounded){
+  if(grounded){
+    btnDengan.classList.add('active'); btnTanpa.classList.remove('active');
+    wire.setAttribute('stroke', '#2ee6ac');
+    wire.setAttribute('stroke-dasharray', '0');
+    ram.setAttribute('stroke', '#2ee6ac');
+    spark.setAttribute('opacity','0');
+    caption.textContent = 'Dengan gelang anti-statis, muatan statis mengalir aman ke ground — komponen tetap utuh.';
+    caption.style.color = 'var(--teal)';
+  } else {
+    btnTanpa.classList.add('active'); btnDengan.classList.remove('active');
+    wire.setAttribute('stroke', '#3a4757');
+    wire.setAttribute('stroke-dasharray', '6 6');
+    ram.setAttribute('stroke', '#ff5c5c');
+    spark.setAttribute('opacity','1');
+    caption.textContent = 'Tanpa grounding, muatan statis di tubuh melompat ke komponen — kerusakan bisa terjadi tanpa terasa.';
+    caption.style.color = 'var(--text-muted)';
+  }
+}
+btnTanpa.addEventListener('click', () => setDemo(false));
+btnDengan.addEventListener('click', () => setDemo(true));
+
+// Helper: makes a non-native element behave like a button for keyboard users
+function makeKeyboardActivatable(el, handler){
+  el.setAttribute('tabindex','0');
+  el.setAttribute('role','button');
+  el.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      handler(e);
+    }
+  });
+}
+
+// APD flip on tap/click/keyboard
+document.querySelectorAll('.apd-card').forEach(c => {
+  const toggle = () => c.classList.toggle('flipped');
+  c.addEventListener('click', toggle);
+  makeKeyboardActivatable(c, toggle);
+});
+
+// Quiz
+const quizData = [
+  {
+    q: "Pelepasan muatan listrik statis secara tiba-tiba dari tubuh manusia ke komponen elektronik disebut …",
+    opts: ["Short circuit","ESD","Grounding","Overload","Surge"],
+    correct: 1,
+    explain: "ESD (Electrostatic Discharge) adalah pelepasan muatan statis secara tiba-tiba antar dua benda berbeda potensial."
+  },
+  {
+    q: "Berikut ini yang BUKAN termasuk fungsi gelang anti-statis adalah …",
+    opts: ["Menyalurkan muatan statis ke ground","Mencegah kerusakan komponen akibat ESD","Melindungi tangan dari sayatan logam","Menjaga keamanan komponen elektronik","Digunakan sebelum menyentuh komponen"],
+    correct: 2,
+    explain: "Melindungi tangan dari sayatan logam adalah fungsi sarung tangan kerja, bukan gelang anti-statis."
+  },
+  {
+    q: "Langkah pertama yang harus dilakukan sebelum membuka casing komputer adalah …",
+    opts: ["Memakai sarung tangan","Mencabut kabel power dari stop kontak","Menyalakan komputer","Membersihkan meja kerja","Memasang gelang anti-statis di lengan baju"],
+    correct: 1,
+    explain: "Mencabut kabel power adalah langkah wajib pertama agar tidak ada tegangan listrik saat casing dibuka."
+  },
+  {
+    q: "Dampak ESD yang paling berbahaya bagi teknisi adalah dampak yang bersifat …",
+    opts: ["Langsung dan terlihat jelas","Laten (tidak langsung terlihat, muncul kemudian)","Tidak berpengaruh pada komponen","Hanya terjadi pada malam hari","Hanya terjadi di ruangan ber-AC"],
+    correct: 1,
+    explain: "Dampak laten paling berbahaya karena sulit dideteksi dan komponen bisa gagal sewaktu-waktu di kemudian hari."
+  },
+  {
+    q: "Berikut ini adalah contoh penerapan SOP yang benar SETELAH selesai bekerja, kecuali …",
+    opts: ["Merapikan kabel dan komponen","Mengembalikan alat ke tempat semula","Membiarkan baut tertinggal di dalam casing","Membersihkan area kerja","Melepas gelang anti-statis dengan benar"],
+    correct: 2,
+    explain: "Membiarkan baut tertinggal di dalam casing justru berbahaya dan bertentangan dengan SOP setelah bekerja."
+  },
+  {
+    q: "Titik grounding yang paling tepat untuk klip gelang anti-statis adalah …",
+    opts: ["Bagian logam casing PC yang belum tersambung listrik","Meja kayu di ruang kerja","Permukaan karpet","Layar monitor","Kabel USB yang tersambung ke laptop"],
+    correct: 0,
+    explain: "Bagian logam casing yang belum tersambung listrik (atau titik ground lain sesuai SOP sekolah) adalah tempat yang tepat untuk menyalurkan muatan statis."
+  },
+  {
+    q: "Mengapa bekerja di atas karpet atau permukaan sintetis berbahaya bagi komponen elektronik?",
+    opts: ["Karena permukaannya kotor","Karena mudah menimbulkan gesekan dan muatan listrik statis","Karena permukaannya licin","Karena membuat ruangan panas","Karena mengganggu sinyal Wi-Fi"],
+    correct: 1,
+    explain: "Gesekan pada karpet/permukaan sintetis mudah menghasilkan muatan statis yang berisiko merusak komponen elektronik lewat ESD."
+  },
+  {
+    q: "Fungsi utama matras/alas kerja anti-statis adalah …",
+    opts: ["Membuat meja kerja terlihat rapi","Menjadi alas kerja yang aman dari muatan statis untuk meletakkan komponen","Melindungi tangan dari benda tajam","Menyerap suara bising di bengkel","Menahan panas dari solder"],
+    correct: 1,
+    explain: "Matras anti-statis menyediakan permukaan kerja yang bebas muatan statis untuk meletakkan komponen lepas."
+  }
+];
+
+const rapidData = [
+  {stmt:"Menyentuh komponen elektronik tanpa gelang anti-statis tidak masalah selama tidak terasa kesetrum.", answer:false, explain:"Salah — dampak ESD sering bersifat laten dan tidak terasa, tapi tetap bisa merusak komponen."},
+  {stmt:"Kabel power harus dicabut sebelum membuka casing komputer.", answer:true, explain:"Benar — ini langkah SOP paling dasar untuk mencegah sengatan listrik dan korsleting."},
+  {stmt:"Bekerja di atas karpet lebih aman karena empuk dan nyaman.", answer:false, explain:"Salah — karpet justru meningkatkan risiko gesekan dan muatan statis."},
+  {stmt:"Gelang anti-statis boleh dipakai di atas lengan baju asal tetap terpasang.", answer:false, explain:"Salah — gelang harus menyentuh kulit langsung agar grounding berfungsi."},
+  {stmt:"K3 di bengkel TI diatur dalam Undang-Undang No. 1 Tahun 1970.", answer:true, explain:"Benar — UU ini menjadi dasar hukum keselamatan kerja di semua tempat kerja, termasuk bengkel/lab sekolah."}
+];
+
+const glossaryData = [
+  {term:"K3", def:"Keselamatan dan Kesehatan Kerja — upaya menjamin keselamatan, kesehatan, dan keutuhan tenaga kerja saat bekerja."},
+  {term:"ESD (Electrostatic Discharge)", def:"Pelepasan muatan listrik statis secara tiba-tiba antara dua benda berbeda potensial, misalnya dari tubuh ke komponen elektronik."},
+  {term:"Grounding", def:"Proses menyalurkan muatan listrik/statis ke bumi (ground) agar tidak berbahaya bagi manusia atau komponen elektronik."},
+  {term:"SOP", def:"Standard Operating Procedure — panduan tertulis berisi langkah kerja baku agar pekerjaan dilakukan aman, konsisten, dan sesuai standar."},
+  {term:"APD", def:"Alat Pelindung Diri — perlengkapan yang dipakai untuk mengurangi risiko cedera atau kerusakan saat bekerja, misalnya gelang anti-statis dan sarung tangan."},
+  {term:"Short Circuit (Korsleting)", def:"Hubungan arus pendek akibat dua jalur listrik berbeda saling bersentuhan, dapat merusak komponen atau memicu percikan api."},
+  {term:"Dampak Laten", def:"Kerusakan komponen yang tidak langsung terlihat — komponen tetap berfungsi sementara, namun usia pakainya menurun dan bisa gagal sewaktu-waktu."},
+  {term:"Anti-Static Wrist Strap", def:"Gelang anti-statis — perangkat yang dipakai di pergelangan tangan dan dihubungkan ke titik ground untuk menyalurkan muatan statis tubuh."},
+  {term:"Ergonomis", def:"Prinsip kerja yang memperhatikan postur tubuh dan lingkungan kerja agar nyaman dan tidak menimbulkan cedera jangka panjang."},
+  {term:"DUDI", def:"Dunia Usaha dan Dunia Industri — sebutan untuk lingkungan kerja profesional yang menjadi tujuan lulusan SMK."}
+];
+
+let score = 0;
+const quizEl = document.getElementById('quiz');
+const scoreBadge = document.createElement('div');
+scoreBadge.className = 'score-badge mono';
+scoreBadge.textContent = `SKOR: 0 / ${quizData.length}`;
+quizEl.parentNode.insertBefore(scoreBadge, quizEl);
+
+quizData.forEach((item, qi) => {
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  block.innerHTML = `
+    <span class="qn mono">SOAL ${qi+1}</span>
+    <div class="qtext">${item.q}</div>
+    <div class="opts"></div>
+    <div class="q-feedback"></div>
+  `;
+  const optsWrap = block.querySelector('.opts');
+  const letters = ['a','b','c','d','e'];
+  item.opts.forEach((optText, oi) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = `${letters[oi]}. ${optText}`;
+    b.addEventListener('click', () => {
+      if(block.dataset.answered) return;
+      block.dataset.answered = "1";
+      const buttons = optsWrap.querySelectorAll('.opt');
+      buttons.forEach((bb, bi) => {
+        bb.setAttribute('disabled','');
+        if(bi === item.correct) bb.classList.add('correct');
+        else if(bi === oi) bb.classList.add('wrong');
+      });
+      if(oi === item.correct) score++;
+      scoreBadge.textContent = `SKOR: ${score} / ${quizData.length}`;
+      const fb = block.querySelector('.q-feedback');
+      fb.textContent = (oi === item.correct ? '✓ Benar. ' : '✗ Kurang tepat. ') + item.explain;
+      fb.classList.add('show');
+    });
+    optsWrap.appendChild(b);
+  });
+  quizEl.appendChild(block);
+});
+
+// Matching game: risk <-> prevention
+const matchPairs = [
+  {risk:"ESD (listrik statis)", prevent:"Gunakan gelang & matras anti-statis, sentuh bodi logam casing dulu"},
+  {risk:"Sengatan listrik", prevent:"Cabut kabel power sebelum membuka casing"},
+  {risk:"Korsleting", prevent:"Matikan & cabut daya sebelum bekerja"},
+  {risk:"Cedera benda tajam", prevent:"Gunakan sarung tangan, bekerja hati-hati"},
+  {risk:"Cedera ergonomis", prevent:"Atur posisi meja/kursi, angkat unit dengan postur benar"}
+];
+const risksShuffled = [...matchPairs].sort(() => Math.random()-0.5);
+const preventsShuffled = [...matchPairs].sort(() => Math.random()-0.5);
+const matchLeft = document.getElementById('match-left');
+const matchRight = document.getElementById('match-right');
+const matchStatus = document.getElementById('match-status');
+let selectedRisk = null;
+let matchedCount = 0;
+
+risksShuffled.forEach(pair => {
+  const el = document.createElement('div');
+  el.className = 'match-item';
+  el.textContent = pair.risk;
+  el.dataset.risk = pair.risk;
+  const select = () => {
+    if(el.classList.contains('matched')) return;
+    document.querySelectorAll('#match-left .match-item').forEach(x=>x.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedRisk = pair.risk;
+  };
+  el.addEventListener('click', select);
+  makeKeyboardActivatable(el, select);
+  matchLeft.appendChild(el);
+});
+
+preventsShuffled.forEach(pair => {
+  const el = document.createElement('div');
+  el.className = 'match-item';
+  el.textContent = pair.prevent;
+  const tryMatch = () => {
+    if(el.classList.contains('matched') || !selectedRisk) return;
+    if(pair.risk === selectedRisk){
+      el.classList.add('matched');
+      document.querySelector(`#match-left .match-item[data-risk="${CSS.escape(selectedRisk)}"]`).classList.add('matched');
+      matchedCount++;
+      matchStatus.textContent = matchedCount === matchPairs.length
+        ? `🎉 Semua ${matchPairs.length} pasangan benar!`
+        : `${matchedCount} dari ${matchPairs.length} pasangan benar`;
+    } else {
+      el.classList.add('shake');
+      setTimeout(()=>el.classList.remove('shake'), 300);
+    }
+    document.querySelectorAll('#match-left .match-item').forEach(x=>x.classList.remove('selected'));
+    selectedRisk = null;
+  };
+  el.addEventListener('click', tryMatch);
+  makeKeyboardActivatable(el, tryMatch);
+  matchRight.appendChild(el);
+});
+
+// Glossary
+const glossGrid = document.getElementById('gloss-grid');
+glossaryData.forEach(g => {
+  const item = document.createElement('div');
+  item.className = 'gloss-item';
+  item.innerHTML = `<dt>${g.term}</dt><dd>${g.def}</dd>`;
+  item.dataset.search = (g.term + ' ' + g.def).toLowerCase();
+  glossGrid.appendChild(item);
+});
+document.getElementById('gloss-search').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('.gloss-item').forEach(item => {
+    item.classList.toggle('hidden', q && !item.dataset.search.includes(q));
+  });
+});
+
+// Rapid-fire true/false
+const rapidEl = document.getElementById('rapid-quiz');
+rapidData.forEach(item => {
+  const row = document.createElement('div');
+  row.className = 'rapid-item';
+  row.innerHTML = `
+    <p>${item.stmt}</p>
+    <div class="rapid-btns">
+      <button class="rapid-btn" data-val="true">Benar</button>
+      <button class="rapid-btn" data-val="false">Salah</button>
+    </div>
+  `;
+  const feedback = document.createElement('div');
+  feedback.className = 'q-feedback';
+  row.appendChild(feedback);
+  row.querySelectorAll('.rapid-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(row.dataset.answered) return;
+      row.dataset.answered = "1";
+      const val = btn.dataset.val === "true";
+      row.querySelectorAll('.rapid-btn').forEach(b => {
+        b.setAttribute('disabled','');
+        const bVal = b.dataset.val === "true";
+        if(bVal === item.answer) b.classList.add('correct');
+        else if(b === btn) b.classList.add('wrong');
+      });
+      feedback.textContent = (val === item.answer ? '✓ Tepat. ' : '✗ Kurang tepat. ') + item.explain;
+      feedback.classList.add('show');
+    });
+  });
+  rapidEl.appendChild(row);
+});
+
+// Simulasi Korsleting
+const btnPsuOff = document.getElementById('btn-psu-off');
+const btnPsuOn = document.getElementById('btn-psu-on');
+const shortSpark = document.getElementById('short-spark');
+const shortSafe = document.getElementById('short-safe');
+const shortCaption = document.getElementById('short-caption');
+const screwdriver = document.getElementById('screwdriver');
+
+function setShort(psuOn){
+  if(psuOn){
+    btnPsuOn.classList.add('active'); btnPsuOff.classList.remove('active');
+    shortSpark.setAttribute('opacity','1');
+    shortSafe.setAttribute('opacity','0');
+    screwdriver.setAttribute('transform','rotate(35 250 75) translate(0,-4)');
+    shortCaption.textContent = 'Bahaya! Obeng menyentuh dua jalur berbeda saat unit masih menyala — korsleting dan percikan bisa terjadi seketika.';
+    shortCaption.style.color = 'var(--red)';
+  } else {
+    btnPsuOff.classList.add('active'); btnPsuOn.classList.remove('active');
+    shortSpark.setAttribute('opacity','0');
+    shortSafe.setAttribute('opacity','1');
+    screwdriver.setAttribute('transform','rotate(35 250 75)');
+    shortCaption.textContent = 'Kabel power sudah tercabut — obeng boleh menyentuh jalur motherboard tanpa risiko korsleting.';
+    shortCaption.style.color = 'var(--text-muted)';
+  }
+}
+btnPsuOff.addEventListener('click', () => setShort(false));
+btnPsuOn.addEventListener('click', () => setShort(true));
+
+// Simulasi Postur
+const btnPosturSalah = document.getElementById('btn-postur-salah');
+const btnPosturBenar = document.getElementById('btn-postur-benar');
+const postureFigure = document.getElementById('posture-figure');
+const postureCaption = document.getElementById('posture-caption');
+
+const posturSalahSVG = `
+  <path d="M 70 55 Q 130 60 150 130" fill="none" stroke="#ff5c5c" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="65" cy="45" r="14" fill="#ff5c5c"/>
+  <path d="M 150 130 L 145 160" stroke="#ff5c5c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 70 70 L 40 110" stroke="#ff5c5c" stroke-width="6" stroke-linecap="round"/>
+  <rect x="20" y="105" width="45" height="35" rx="4" fill="#8fa0b3" stroke="#4a5768" stroke-width="2"/>
+  <text x="150" y="30" font-size="11" fill="#ff5c5c" font-family="IBM Plex Mono, monospace">Punggung melengkung</text>
+`;
+const posturBenarSVG = `
+  <line x1="150" y1="45" x2="150" y2="120" stroke="#2ee6ac" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="150" cy="35" r="14" fill="#2ee6ac"/>
+  <path d="M 150 120 L 145 160" stroke="#2ee6ac" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 150 120 L 100 155" fill="none" stroke="#2ee6ac" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 150 65 L 100 105" stroke="#2ee6ac" stroke-width="6" stroke-linecap="round"/>
+  <rect x="60" y="115" width="45" height="35" rx="4" fill="#8fa0b3" stroke="#4a5768" stroke-width="2"/>
+  <text x="185" y="30" font-size="11" fill="#2ee6ac" font-family="IBM Plex Mono, monospace">Punggung tegak, lutut ditekuk</text>
+`;
+
+function setPosture(salah){
+  if(salah){
+    btnPosturSalah.classList.add('active'); btnPosturBenar.classList.remove('active');
+    postureFigure.innerHTML = posturSalahSVG;
+    postureCaption.textContent = 'Membungkuk dengan punggung melengkung saat mengangkat beban berat membebani tulang belakang dan berisiko cedera.';
+    postureCaption.style.color = 'var(--red)';
+  } else {
+    btnPosturBenar.classList.add('active'); btnPosturSalah.classList.remove('active');
+    postureFigure.innerHTML = posturBenarSVG;
+    postureCaption.textContent = 'Punggung tegak dan lutut ditekuk saat mengangkat unit PC memindahkan beban ke kaki, bukan ke punggung.';
+    postureCaption.style.color = 'var(--teal)';
+  }
+}
+setPosture(true);
+btnPosturSalah.addEventListener('click', () => setPosture(true));
+btnPosturBenar.addEventListener('click', () => setPosture(false));
+
+// SOP ordering game
+const sopSteps = [
+  "Periksa kelengkapan alat kerja (toolkit, gelang anti-statis, matras)",
+  "Cabut kabel power sebelum membuka casing",
+  "Kenakan gelang anti-statis sebelum menyentuh komponen elektronik",
+  "Letakkan komponen lepas di atas matras anti-statis",
+  "Rapikan kabel dan komponen, pastikan tidak ada baut tertinggal",
+  "Lepaskan gelang anti-statis dengan benar, lalu laporkan hasil pekerjaan"
+];
+const sopShuffled = sopSteps.map((s,i)=>({text:s, correctIndex:i})).sort(()=>Math.random()-0.5);
+const sopPool = document.getElementById('sop-order-pool');
+const sopStatus = document.getElementById('sop-order-status');
+const sopReset = document.getElementById('sop-order-reset');
+let sopPicks = [];
+
+function renderSopPool(){
+  sopPool.innerHTML = '';
+  sopPicks = [];
+  sopStatus.textContent = `Langkah terpilih: 0 / ${sopSteps.length}`;
+  sopReset.style.display = 'none';
+  sopShuffled.forEach(step => {
+    const chip = document.createElement('div');
+    chip.className = 'sop-chip';
+    chip.innerHTML = `<span class="order-num"></span>${step.text}`;
+    const pick = () => {
+      if(chip.classList.contains('picked')) return;
+      const expectedIndex = sopPicks.length;
+      if(step.correctIndex === expectedIndex){
+        chip.classList.add('picked');
+        chip.querySelector('.order-num').textContent = (sopPicks.length+1) + '.';
+        sopPicks.push(step);
+        sopStatus.textContent = `Langkah terpilih: ${sopPicks.length} / ${sopSteps.length}`;
+        if(sopPicks.length === sopSteps.length){
+          sopStatus.textContent = `🎉 Urutan lengkap dan benar!`;
+          sopReset.style.display = 'inline-block';
+        }
+      } else {
+        chip.classList.add('error');
+        setTimeout(()=>chip.classList.remove('error'), 400);
+      }
+    };
+    chip.addEventListener('click', pick);
+    makeKeyboardActivatable(chip, pick);
+    sopPool.appendChild(chip);
+  });
+}
+renderSopPool();
+sopReset.addEventListener('click', () => {
+  sopShuffled.sort(()=>Math.random()-0.5);
+  renderSopPool();
+});
+</script>
+</body>
+</html>

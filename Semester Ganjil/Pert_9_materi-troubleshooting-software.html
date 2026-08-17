@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Troubleshooting Software & Sistem Operasi — Modul Ajar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --bg-panel:#111729;
+    --bg-panel-alt:#161f38;
+    --bg-raised:#1b2542;
+    --border:#26304d;
+    --border-soft:#1c2540;
+    --text:#e9edf6;
+    --text-muted:#8a93b3;
+    --text-dim:#5b6584;
+    --amber:#f4a93d;
+    --teal:#33d6b0;
+    --red:#ff6161;
+    --blue:#5b8dff;
+    --mono:'JetBrains Mono',monospace;
+    --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(91,141,255,.08), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 100% 10%, rgba(244,169,61,.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+  a{color:var(--blue);}
+  ::selection{background:var(--amber); color:#101425;}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px 120px;}
+
+  /* ---------- LED status dot ---------- */
+  .led{width:8px; height:8px; border-radius:50%; display:inline-block; box-shadow:0 0 8px currentColor; flex:none;}
+  .led.on{background:var(--teal); color:var(--teal); animation:blink 2.2s ease-in-out infinite;}
+  .led.warn{background:var(--amber); color:var(--amber);}
+  .led.err{background:var(--red); color:var(--red);}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  /* ---------- HERO / BOOT SEQUENCE ---------- */
+  .hero{
+    border-bottom:1px solid var(--border-soft);
+    padding:56px 0 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.015) 0px, rgba(255,255,255,.015) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+  }
+  .boot-log{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+    max-width:640px;
+    margin:0 0 28px;
+    white-space:pre-wrap;
+    min-height:96px;
+  }
+  .boot-log .ok{color:var(--teal);}
+  .boot-log .cursor{display:inline-block; width:7px; height:14px; background:var(--amber); vertical-align:-2px; animation:blink 1s step-end infinite;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"//"; color:var(--text-dim);}
+
+  h1.title{
+    font-family:var(--mono);
+    font-weight:800;
+    font-size:clamp(28px,4.4vw,46px);
+    line-height:1.12;
+    margin:0 0 14px;
+    letter-spacing:-.01em;
+  }
+  h1.title .sub{
+    display:block;
+    font-size:.44em;
+    font-weight:500;
+    color:var(--text-muted);
+    letter-spacing:0;
+    margin-top:10px;
+  }
+
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-top:26px;
+  }
+  .chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    padding:9px 14px;
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+  .chip b{color:var(--text); font-weight:600;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:52px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+  .sec-num{
+    font-family:var(--mono); color:var(--text-dim); font-size:13px; font-weight:600;
+  }
+  h2{
+    font-family:var(--mono);
+    font-size:clamp(20px,2.6vw,26px);
+    margin:0;
+    letter-spacing:-.01em;
+  }
+  .sec-desc{color:var(--text-muted); max-width:680px; margin:14px 0 30px; font-size:15px;}
+
+  /* ---------- CP/TP CARDS ---------- */
+  .cp-box{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-left:3px solid var(--blue);
+    border-radius:10px;
+    padding:20px 22px;
+    margin-bottom:28px;
+  }
+  .cp-box .label{font-family:var(--mono); font-size:11px; color:var(--blue); letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px;}
+  .cp-box p{margin:0; color:var(--text); font-size:15px;}
+
+  .tp-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .tp-list li{
+    display:grid; grid-template-columns:44px 1fr; gap:16px;
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px;
+  }
+  .tp-num{
+    font-family:var(--mono); font-weight:800; font-size:18px; color:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    background:var(--bg-raised); border-radius:8px; height:44px;
+  }
+  .tp-list p{margin:0; font-size:14.5px; color:var(--text);}
+  .tp-list .tp-tag{font-family:var(--mono); font-size:11px; color:var(--text-dim); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:.08em;}
+
+  /* ---------- PIPELINE / PETA MATERI ---------- */
+  .pipeline{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  }
+  .pipeline .stage{
+    padding:20px 16px; background:var(--bg-panel); position:relative; border-right:1px solid var(--border);
+  }
+  .pipeline .stage:last-child{border-right:none;}
+  .pipeline .stage .n{font-family:var(--mono); font-size:11px; color:var(--text-dim);}
+  .pipeline .stage h4{font-size:14.5px; margin:6px 0 6px; font-family:var(--mono); color:var(--text);}
+  .pipeline .stage p{font-size:12.5px; color:var(--text-muted); margin:0;}
+  .pipeline .stage::after{
+    content:"→"; position:absolute; right:-13px; top:50%; transform:translateY(-50%);
+    color:var(--amber); font-size:16px; z-index:2; font-family:var(--mono);
+  }
+  .pipeline .stage:last-child::after{content:"";}
+  @media(max-width:760px){
+    .pipeline{grid-template-columns:1fr;}
+    .pipeline .stage{border-right:none; border-bottom:1px solid var(--border);}
+    .pipeline .stage::after{content:"↓"; right:auto; left:16px; top:auto; bottom:-13px; transform:none;}
+    .pipeline .stage:last-child{border-bottom:none;}
+  }
+
+  /* ---------- GEJALA CARDS ---------- */
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+
+  .gejala-card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  }
+  .gejala-head{
+    display:flex; align-items:center; gap:10px; padding:14px 18px;
+    background:var(--bg-panel-alt); border-bottom:1px solid var(--border);
+  }
+  .gejala-head h4{margin:0; font-family:var(--mono); font-size:14.5px; flex:1;}
+  .sev{font-family:var(--mono); font-size:10px; letter-spacing:.08em; padding:3px 8px; border-radius:5px; text-transform:uppercase; font-weight:700;}
+  .sev.high{background:rgba(255,97,97,.14); color:var(--red);}
+  .sev.mid{background:rgba(244,169,61,.14); color:var(--amber);}
+  .gejala-body{padding:16px 18px;}
+  .gejala-body p{margin:0 0 10px; font-size:13.8px; color:var(--text-muted);}
+  .gejala-body .row{display:flex; gap:8px; font-size:13.2px; margin-bottom:6px;}
+  .gejala-body .row b{color:var(--text-muted); font-weight:600; min-width:82px; flex:none; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; padding-top:2px;}
+  .gejala-body .row span{color:var(--text);}
+
+  /* ---------- BSOD MOCK PANEL ---------- */
+  .bsod{
+    margin:26px 0; border-radius:12px; overflow:hidden; border:1px solid var(--border);
+    background:linear-gradient(160deg,#0b3b8f,#0a4fb0);
+    padding:34px 30px; font-family:var(--mono); color:#fff; position:relative;
+  }
+  .bsod .face{font-size:34px; margin-bottom:14px;}
+  .bsod h3{margin:0 0 14px; font-size:19px; font-weight:600; line-height:1.5;}
+  .bsod p{font-size:13px; opacity:.92; max-width:520px; line-height:1.7; margin:0 0 16px;}
+  .bsod .stopcode{font-size:12.5px; opacity:.85;}
+  .bsod .qr{
+    position:absolute; right:30px; top:30px; width:64px; height:64px; background:#fff; border-radius:6px;
+    display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(5,1fr); padding:6px; gap:2px;
+  }
+  .bsod .qr i{background:#0b3b8f; border-radius:1px;}
+  .bsod .qr i:nth-child(3n){background:transparent;}
+  .bsod-anno{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:-6px;
+  }
+  @media(max-width:720px){.bsod-anno{grid-template-columns:1fr;}}
+  .bsod-anno .item{background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px;}
+  .bsod-anno .item b{display:block; font-family:var(--mono); font-size:12px; color:var(--amber); margin-bottom:5px;}
+  .bsod-anno .item span{font-size:13px; color:var(--text-muted);}
+
+  /* ---------- TOOLS TABLE ---------- */
+  .tool-table{width:100%; border-collapse:collapse; margin-top:6px; font-size:13.6px;}
+  .tool-table th{
+    font-family:var(--mono); text-align:left; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-dim); padding:10px 14px; border-bottom:1px solid var(--border);
+  }
+  .tool-table td{padding:13px 14px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  .tool-table tr:hover td{background:var(--bg-panel-alt);}
+  .tool-table td.name{color:var(--text); font-family:var(--mono); font-weight:600; font-size:13px; white-space:nowrap;}
+  .tool-table .path{display:block; font-family:var(--mono); font-size:11px; color:var(--blue); margin-top:3px;}
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:12px; background:var(--bg-panel);}
+
+  /* ---------- STEP FLOW (repair technique) ---------- */
+  .steps{list-style:none; margin:0; padding:0; counter-reset:step;}
+  .steps li{
+    counter-increment:step; position:relative; padding:0 0 26px 46px; border-left:1px dashed var(--border);
+    margin-left:17px;
+  }
+  .steps li:last-child{border-left:1px dashed transparent; padding-bottom:0;}
+  .steps li::before{
+    content:counter(step,decimal-leading-zero);
+    position:absolute; left:-17px; top:0; width:34px; height:34px; border-radius:50%;
+    background:var(--bg-raised); border:1px solid var(--border); color:var(--amber);
+    font-family:var(--mono); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  .steps h4{margin:2px 0 6px; font-size:15px; font-family:var(--mono);}
+  .steps p{margin:0; font-size:13.8px; color:var(--text-muted);}
+  .steps .cmd{
+    display:inline-block; margin-top:8px; font-family:var(--mono); font-size:12px; background:var(--bg-raised);
+    border:1px solid var(--border); color:var(--teal); padding:5px 10px; border-radius:6px;
+  }
+
+  /* ---------- CASE STUDY ACCORDION ---------- */
+  .case{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; margin-bottom:16px; overflow:hidden;
+  }
+  .case-head{
+    display:flex; align-items:center; gap:14px; padding:18px 20px; cursor:pointer; user-select:none;
+  }
+  .case-head .tag{
+    font-family:var(--mono); font-size:11px; background:rgba(91,141,255,.14); color:var(--blue);
+    padding:4px 9px; border-radius:5px; flex:none; font-weight:700; letter-spacing:.04em;
+  }
+  .case-head h4{margin:0; font-size:15px; flex:1; font-weight:600;}
+  .case-head .chev{font-family:var(--mono); color:var(--text-dim); transition:transform .25s ease; flex:none;}
+  .case.open .case-head .chev{transform:rotate(90deg); color:var(--amber);}
+  .case-body{
+    max-height:0; overflow:hidden; transition:max-height .35s ease;
+  }
+  .case.open .case-body{max-height:900px;}
+  .case-body-inner{padding:0 20px 22px; border-top:1px solid var(--border-soft); margin-top:2px;}
+  .case-body-inner p{font-size:13.8px; color:var(--text-muted); margin:14px 0 12px;}
+  .case-body-inner .lbl{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--amber); margin-top:14px; display:block;}
+  .case-body-inner ol{margin:8px 0 0; padding-left:18px; font-size:13.6px; color:var(--text);}
+  .case-body-inner li{margin-bottom:6px;}
+  .hint-btn{
+    font-family:var(--mono); font-size:11.5px; background:none; border:1px solid var(--border); color:var(--text-muted);
+    padding:6px 12px; border-radius:6px; cursor:pointer; margin-top:6px;
+  }
+  .hint-btn:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* ---------- KKTP / ASESMEN ---------- */
+  .status-panel{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; padding:22px 24px;
+  }
+  .status-panel .row{display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border-soft);}
+  .status-panel .row:last-child{border-bottom:none;}
+  .status-panel .row .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-dim); min-width:120px; padding-top:2px;}
+  .status-panel .row .v{font-size:14px; color:var(--text); flex:1;}
+
+  .info-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+  .info-card{background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; padding:20px 22px;}
+  .info-card .label{font-family:var(--mono); font-size:11px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px;}
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag-list span{
+    font-size:12.5px; background:var(--bg-raised); border:1px solid var(--border); color:var(--text-muted);
+    padding:6px 11px; border-radius:20px;
+  }
+
+  /* ---------- TIMELINE JP ---------- */
+  .timeline{position:relative; padding-left:2px;}
+  .tl-row{
+    display:grid; grid-template-columns:96px 1fr; gap:18px; padding:14px 0; border-bottom:1px solid var(--border-soft);
+  }
+  .tl-row:last-child{border-bottom:none;}
+  .tl-time{font-family:var(--mono); font-size:12px; color:var(--amber); padding-top:2px;}
+  .tl-time small{display:block; color:var(--text-dim); font-size:10.5px; margin-top:2px;}
+  .tl-body b{display:block; font-size:14px; margin-bottom:3px;}
+  .tl-body span{font-size:13px; color:var(--text-muted);}
+  .tl-jp{
+    font-family:var(--mono); font-size:10.5px; background:var(--bg-raised); border:1px solid var(--border);
+    color:var(--teal); padding:2px 8px; border-radius:20px; margin-left:8px;
+  }
+
+  /* ---------- QUIZ FORMATIF ---------- */
+  .quiz{background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:16px;}
+  .quiz .q{font-size:14.5px; font-weight:600; margin:0 0 14px;}
+  .quiz .opts{display:grid; gap:8px;}
+  .quiz .opt{
+    display:flex; align-items:center; gap:10px; padding:10px 14px; border:1px solid var(--border); border-radius:8px;
+    cursor:pointer; font-size:13.5px; color:var(--text-muted); background:var(--bg-panel-alt); transition:.15s;
+  }
+  .quiz .opt:hover{border-color:var(--blue);}
+  .quiz .opt.correct{border-color:var(--teal); background:rgba(51,214,176,.1); color:var(--teal);}
+  .quiz .opt.wrong{border-color:var(--red); background:rgba(255,97,97,.08); color:var(--red);}
+  .quiz .opt .letter{font-family:var(--mono); font-weight:700; font-size:12px; width:22px; height:22px; border-radius:50%; background:var(--bg-raised); display:flex; align-items:center; justify-content:center; flex:none;}
+  .quiz .fb{margin-top:12px; font-size:13px; color:var(--text-dim); display:none;}
+  .quiz .fb.show{display:block;}
+
+  /* ---------- GLOSARIUM ---------- */
+  .gloss{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:720px){.gloss{grid-template-columns:1fr;}}
+  .gloss .item{background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px;}
+  .gloss .item b{font-family:var(--mono); font-size:13px; color:var(--amber); font-weight:700; display:block;}
+  .gloss .item span{margin:4px 0 0; font-size:13.3px; color:var(--text-muted); display:block;}
+
+  /* ---------- RUBRIK ---------- */
+  .rubrik{width:100%; border-collapse:collapse; font-size:13px;}
+  .rubrik th{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim); text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);}
+  .rubrik td{padding:12px; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top;}
+  .rubrik td.skor{font-family:var(--mono); color:var(--amber); font-weight:700; text-align:center; width:56px;}
+  .rubrik td.krit{color:var(--text); font-weight:600; width:150px;}
+
+  /* ---------- RANGKUMAN / RECAP MAP ---------- */
+  .recap{
+    background:linear-gradient(135deg, rgba(91,141,255,.06), rgba(51,214,176,.05));
+    border:1px solid var(--border); border-radius:14px; padding:26px;
+  }
+  .recap-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px;}
+  @media(max-width:760px){.recap-grid{grid-template-columns:1fr 1fr;}}
+  .recap-grid .pill{background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; text-align:center;}
+  .recap-grid .pill .ico{font-size:18px; margin-bottom:4px;}
+  .recap-grid .pill span{display:block; font-size:12px; color:var(--text-muted); font-family:var(--mono);}
+
+  /* ---------- REMEDIAL / PENGAYAAN ---------- */
+  .rp-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){.rp-grid{grid-template-columns:1fr;}}
+  .rp-card{border-radius:12px; padding:20px 22px; border:1px solid var(--border);}
+  .rp-card.remedial{background:rgba(255,97,97,.05); border-color:rgba(255,97,97,.25);}
+  .rp-card.pengayaan{background:rgba(51,214,176,.05); border-color:rgba(51,214,176,.25);}
+  .rp-card .label{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px;}
+  .rp-card.remedial .label{color:var(--red);}
+  .rp-card.pengayaan .label{color:var(--teal);}
+  .rp-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-muted);}
+  .rp-card li{margin-bottom:6px;}
+
+  /* ---------- REFERENSI ---------- */
+  .ref-list{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+  .ref-list li{
+    display:flex; gap:12px; align-items:baseline; font-size:13.5px; color:var(--text-muted);
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:12px 16px;
+  }
+  .ref-list b{color:var(--text); font-family:var(--mono); font-size:11px; flex:none; min-width:18px;}
+
+  /* ---------- STOPCODE LIST ---------- */
+  .stopcode-list{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+  @media(max-width:720px){.stopcode-list{grid-template-columns:1fr;}}
+  .stopcode-list .sc{
+    background:var(--bg-panel); border:1px solid var(--border); border-left:3px solid var(--red); border-radius:8px;
+    padding:10px 14px; font-family:var(--mono); font-size:12px;
+  }
+  .stopcode-list .sc b{display:block; color:var(--red); font-size:12.5px; margin-bottom:3px;}
+  .stopcode-list .sc span{color:var(--text-muted); font-family:var(--sans); font-size:12.5px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:40px 0 10px; text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11.5px;}
+
+  .callout{
+    display:flex; gap:12px; background:rgba(51,214,176,.06); border:1px solid rgba(51,214,176,.28);
+    border-radius:10px; padding:14px 16px; margin-top:22px;
+  }
+  .callout .ic{color:var(--teal); font-family:var(--mono); flex:none;}
+  .callout p{margin:0; font-size:13.5px; color:var(--text-muted);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="boot-log" id="bootLog"></div>
+    <div class="eyebrow"><span class="led on"></span> Modul Ajar · Teknik Komputer & Jaringan</div>
+    <h1 class="title">Troubleshooting Software<br>& Sistem Operasi
+      <span class="sub">Mendiagnosis gejala, membaca sinyal error, dan memperbaiki sistem — dari Safe Mode sampai studi kasus nyata.</span>
+    </h1>
+    <div class="meta-row">
+      <div class="chip">📦 <b>Blok 2</b></div>
+      <div class="chip">🗓️ <b>Hari ke-3</b></div>
+      <div class="chip">⏱️ <b>9 JP</b> (1 hari penuh)</div>
+      <div class="chip">🎯 <b>Semester Ganjil</b> — Dasar Perakitan, Instalasi & Perawatan</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- CP & TP -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Capaian & Tujuan Pembelajaran</h2></div>
+    <p class="sec-desc">Sebelum masuk ke praktik, pahami dulu arah tujuannya — supaya setiap langkah troubleshooting yang kalian lakukan hari ini punya alasan yang jelas.</p>
+
+    <div class="cp-box">
+      <div class="label">Capaian Pembelajaran (CP)</div>
+      <p>Peserta didik mampu mendiagnosis dan mengatasi kerusakan/masalah pada software dan sistem operasi secara sistematis, menggunakan tools diagnosa bawaan OS maupun prosedur perbaikan standar industri.</p>
+    </div>
+
+    <ul class="tp-list">
+      <li>
+        <div class="tp-num">1</div>
+        <div><span class="tp-tag">Identifikasi</span><p>Mengidentifikasi gejala masalah software — mulai dari <em>crash</em>, <em>blue screen</em> (BSOD), hingga <em>boot failure</em> — beserta ciri dan kemungkinan penyebabnya.</p></div>
+      </li>
+      <li>
+        <div class="tp-num">2</div>
+        <div><span class="tp-tag">Diagnosa</span><p>Menggunakan <em>Safe Mode</em> dan tools diagnosa bawaan sistem operasi untuk mempersempit sumber masalah sebelum melakukan perbaikan.</p></div>
+      </li>
+      <li>
+        <div class="tp-num">3</div>
+        <div><span class="tp-tag">Perbaikan</span><p>Memperbaiki masalah software umum: meng-uninstall program bermasalah, melakukan repair OS, dan memverifikasi bahwa sistem kembali stabil.</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PETA MATERI -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Alur Belajar Hari Ini</h2></div>
+    <p class="sec-desc">Troubleshooting bukan tebak-tebakan — ini alur kerja. Empat tahap ini akan kita lalui berurutan, sama seperti teknisi profesional bekerja di lapangan.</p>
+    <div class="pipeline">
+      <div class="stage"><span class="n">01 · Kenali</span><h4>Gejala</h4><p>Membaca tanda-tanda kerusakan software & OS.</p></div>
+      <div class="stage"><span class="n">02 · Isolasi</span><h4>Safe Mode & Tools</h4><p>Masuk ke mode aman, gunakan tools diagnosa bawaan.</p></div>
+      <div class="stage"><span class="n">03 · Eksekusi</span><h4>Teknik Perbaikan</h4><p>Uninstall, repair, atau reset komponen bermasalah.</p></div>
+      <div class="stage"><span class="n">04 · Uji</span><h4>Studi Kasus</h4><p>Terapkan seluruh alur pada 2 kasus nyata.</p></div>
+    </div>
+  </section>
+
+  <!-- ALOKASI WAKTU -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02B</span><h2>Alokasi Waktu (9 JP × 45 menit)</h2></div>
+    <p class="sec-desc">Rincian waktu untuk satu hari penuh, agar teori, demonstrasi, dan praktik studi kasus seimbang.</p>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-time">07.00–07.45<small>JP 1</small></div>
+        <div class="tl-body"><b>Pembukaan & Apersepsi <span class="tl-jp">1 JP</span></b><span>Review materi sebelumnya, penyampaian tujuan pembelajaran hari ini.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">07.45–09.15<small>JP 2–3</small></div>
+        <div class="tl-body"><b>Gejala Umum Masalah Software & OS <span class="tl-jp">2 JP</span></b><span>Penjelasan crash, BSOD, boot failure, freeze, malware — diskusi kelompok mengidentifikasi ciri masing-masing.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">09.30–11.00<small>JP 4–5</small></div>
+        <div class="tl-body"><b>Safe Mode & Tools Diagnosa <span class="tl-jp">2 JP</span></b><span>Demonstrasi guru + praktik mandiri masuk Safe Mode, Event Viewer, Task Manager, SFC/DISM.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">11.00–12.30<small>JP 6–7</small></div>
+        <div class="tl-body"><b>Teknik Perbaikan Software <span class="tl-jp">2 JP</span></b><span>Praktik uninstall program bermasalah & simulasi repair/reset OS pada unit komputer.</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">13.15–14.45<small>JP 8–9</small></div>
+        <div class="tl-body"><b>Studi Kasus & Asesmen <span class="tl-jp">2 JP</span></b><span>Pengerjaan 2 studi kasus troubleshooting secara individu/kelompok, dilanjutkan refleksi & penutup.</span></div>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="ic">ⓘ</span>
+      <p>Istirahat: 09.15–09.30 (15 menit) dan 12.30–13.15 (45 menit, ISHOMA). Total waktu efektif belajar tetap 9 JP × 45 menit = 405 menit.</p>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 1: GEJALA -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Gejala Umum Masalah Software & Sistem Operasi</h2></div>
+    <p class="sec-desc">Setiap kerusakan meninggalkan "jejak". Semakin cepat kalian mengenali jejak ini, semakin cepat pula proses diagnosa dilakukan.</p>
+
+    <div class="grid-2">
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led err"></span><h4>Application Crash</h4><span class="sev mid">Umum</span></div>
+        <div class="gejala-body">
+          <p>Program tertutup mendadak, membeku (not responding), atau muncul pesan "has stopped working".</p>
+          <div class="row"><b>Penyebab</b><span>File program korup, konflik versi library/DLL, RAM tidak cukup, bug aplikasi.</span></div>
+          <div class="row"><b>Indikator</b><span>Error dialog spesifik, Event Viewer mencatat Application Error.</span></div>
+        </div>
+      </div>
+
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led err"></span><h4>Blue Screen of Death (BSOD)</h4><span class="sev high">Kritis</span></div>
+        <div class="gejala-body">
+          <p>Layar biru penuh muncul tiba-tiba, sistem otomatis restart, disertai kode berhenti (stop code).</p>
+          <div class="row"><b>Penyebab</b><span>Driver hardware bermasalah, RAM rusak, konflik sistem tingkat kernel.</span></div>
+          <div class="row"><b>Indikator</b><span>Stop code seperti <em>MEMORY_MANAGEMENT</em>, <em>IRQL_NOT_LESS_OR_EQUAL</em>.</span></div>
+        </div>
+      </div>
+
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led warn"></span><h4>Boot Failure</h4><span class="sev high">Kritis</span></div>
+        <div class="gejala-body">
+          <p>Komputer menyala tapi gagal masuk ke sistem operasi — berhenti di logo, layar hitam, atau loop restart.</p>
+          <div class="row"><b>Penyebab</b><span>Boot sector/MBR rusak, file sistem hilang, kegagalan update Windows.</span></div>
+          <div class="row"><b>Indikator</b><span>Pesan "Operating System not found" atau "Automatic Repair".</span></div>
+        </div>
+      </div>
+
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led warn"></span><h4>System Freeze / Hang</h4><span class="sev mid">Umum</span></div>
+        <div class="gejala-body">
+          <p>Seluruh sistem berhenti merespons — mouse dan keyboard tidak bereaksi sama sekali.</p>
+          <div class="row"><b>Penyebab</b><span>Overheating, proses background berat, resource habis (RAM/CPU 100%).</span></div>
+          <div class="row"><b>Indikator</b><span>Task Manager tidak terbuka, LED disk menyala terus-menerus.</span></div>
+        </div>
+      </div>
+
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led err"></span><h4>Infeksi Malware / Virus</h4><span class="sev high">Kritis</span></div>
+        <div class="gejala-body">
+          <p>Kinerja sistem melambat drastis, muncul pop-up aneh, program berjalan sendiri, atau antivirus mendadak nonaktif.</p>
+          <div class="row"><b>Penyebab</b><span>File dari sumber tidak resmi, flashdisk terinfeksi, unduhan bajakan/crack.</span></div>
+          <div class="row"><b>Indikator</b><span>Proses asing di Task Manager, penggunaan jaringan tinggi tanpa sebab jelas.</span></div>
+        </div>
+      </div>
+
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led warn"></span><h4>Update Failure</h4><span class="sev mid">Umum</span></div>
+        <div class="gejala-body">
+          <p>Windows Update gagal terpasang berulang kali, atau sistem stuck di layar "Working on updates".</p>
+          <div class="row"><b>Penyebab</b><span>File update korup, ruang penyimpanan penuh, koneksi terputus saat update.</span></div>
+          <div class="row"><b>Indikator</b><span>Kode error seperti 0x80070002 pada Windows Update.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BSOD Mock -->
+    <div class="bsod">
+      <div class="qr">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="face">:(</div>
+      <h3>Your PC ran into a problem and needs to restart.<br>We're just collecting some error info, and then we'll restart for you.</h3>
+      <p>0% complete</p>
+      <p class="stopcode">Stop code: MEMORY_MANAGEMENT<br>What failed: ntoskrnl.exe</p>
+    </div>
+    <div class="bsod-anno">
+      <div class="item"><b>Stop Code</b><span>Kode unik yang menunjuk pada kategori error — kunci utama pencarian solusi.</span></div>
+      <div class="item"><b>What Failed</b><span>Nama driver/file yang memicu crash, jika tersedia oleh sistem.</span></div>
+      <div class="item"><b>Langkah Awal</b><span>Catat kode & nama file sebelum restart — dibutuhkan saat masuk Event Viewer.</span></div>
+    </div>
+
+    <p style="font-size:13.5px; color:var(--text-muted); margin-top:26px;"><b style="color:var(--text);">Stop code BSOD lain yang sering ditemui:</b></p>
+    <div class="stopcode-list">
+      <div class="sc"><b>IRQL_NOT_LESS_OR_EQUAL</b><span>Driver mengakses memori dengan cara yang salah — sering karena driver usang.</span></div>
+      <div class="sc"><b>PAGE_FAULT_IN_NONPAGED_AREA</b><span>Umumnya menandakan RAM bermasalah atau hard disk mulai rusak.</span></div>
+      <div class="sc"><b>CRITICAL_PROCESS_DIED</b><span>Proses inti Windows berhenti tiba-tiba — sering terkait file sistem korup.</span></div>
+      <div class="sc"><b>KERNEL_SECURITY_CHECK_FAILURE</b><span>Data sistem penting rusak, kadang dipicu oleh malware.</span></div>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 2: SAFE MODE & TOOLS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Safe Mode & Tools Diagnosa Bawaan OS</h2></div>
+    <p class="sec-desc">Safe Mode menjalankan Windows dengan driver dan layanan minimal — ini "ruang steril" untuk memastikan apakah masalah berasal dari software pihak ketiga atau dari sistem inti.</p>
+
+    <div class="steps">
+      <li>
+        <h4>Masuk ke Safe Mode</h4>
+        <p>Dari layar login, tahan <b>Shift</b> lalu klik <b>Restart</b> → <em>Troubleshoot → Advanced Options → Startup Settings → Restart</em> → tekan <b>4</b> untuk Safe Mode.</p>
+        <span class="cmd">msconfig → Boot → Safe boot</span>
+      </li>
+      <li>
+        <h4>Uji apakah masalah masih muncul</h4>
+        <p>Jika masalah hilang di Safe Mode → penyebabnya software/driver pihak ketiga. Jika masih muncul → kemungkinan masalah ada di sistem inti Windows.</p>
+      </li>
+      <li>
+        <h4>Gunakan tools diagnosa bawaan sesuai gejala</h4>
+        <p>Pilih tools yang relevan dari tabel di bawah untuk menelusuri akar masalah lebih dalam.</p>
+      </li>
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:22px;">
+      <table class="tool-table">
+        <thead><tr><th>Tools</th><th>Fungsi</th><th>Kapan Digunakan</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">Event Viewer<span class="path">eventvwr.msc</span></td>
+            <td>Mencatat log error, warning, dan aktivitas sistem secara rinci.</td>
+            <td>Setelah crash/BSOD, untuk menemukan penyebab pastinya.</td>
+          </tr>
+          <tr>
+            <td class="name">Task Manager<span class="path">Ctrl+Shift+Esc</span></td>
+            <td>Memantau penggunaan CPU, RAM, disk, dan menghentikan proses bermasalah.</td>
+            <td>Saat sistem lambat, freeze, atau resource penuh.</td>
+          </tr>
+          <tr>
+            <td class="name">System Restore<span class="path">rstrui.exe</span></td>
+            <td>Mengembalikan sistem ke titik pemulihan sebelum masalah terjadi.</td>
+            <td>Setelah instalasi update/driver yang menyebabkan error.</td>
+          </tr>
+          <tr>
+            <td class="name">Startup Repair<span class="path">Recovery Environment</span></td>
+            <td>Memperbaiki file boot secara otomatis.</td>
+            <td>Saat sistem gagal booting sama sekali.</td>
+          </tr>
+          <tr>
+            <td class="name">SFC<span class="path">sfc /scannow</span></td>
+            <td>Memindai & memperbaiki file sistem Windows yang korup.</td>
+            <td>Saat dicurigai ada file sistem rusak/hilang.</td>
+          </tr>
+          <tr>
+            <td class="name">DISM<span class="path">DISM /Online /Cleanup-Image /RestoreHealth</span></td>
+            <td>Memperbaiki image sistem yang menjadi dasar kerja SFC.</td>
+            <td>Ketika SFC gagal memperbaiki karena image rusak.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="ic">ⓘ</span>
+      <p>Urutan yang direkomendasikan saat file sistem dicurigai korup: jalankan <b>DISM</b> terlebih dahulu untuk memperbaiki image, baru kemudian <b>SFC</b> untuk memindai file sistem.</p>
+    </div>
+  </section>
+
+  <!-- GLOSARIUM -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04B</span><h2>Glosarium Istilah</h2></div>
+    <p class="sec-desc">Istilah kunci yang akan sering muncul selama praktik hari ini.</p>
+    <div class="gloss">
+      <div class="item"><b>BSOD</b><span>Blue Screen of Death — layar biru error kritis yang memaksa Windows restart.</span></div>
+      <div class="item"><b>MBR / BCD</b><span>Master Boot Record / Boot Configuration Data — data yang memberi tahu komputer cara memuat sistem operasi.</span></div>
+      <div class="item"><b>Kernel</b><span>Inti sistem operasi yang mengatur komunikasi antara hardware dan software.</span></div>
+      <div class="item"><b>Driver</b><span>Software penghubung antara sistem operasi dan perangkat keras (GPU, printer, dll).</span></div>
+      <div class="item"><b>Safe Mode</b><span>Mode Windows yang hanya memuat driver & layanan penting untuk keperluan diagnosa.</span></div>
+      <div class="item"><b>Registry</b><span>Basis data internal Windows tempat pengaturan sistem dan aplikasi disimpan.</span></div>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 3: TEKNIK PERBAIKAN -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Teknik Perbaikan Software Umum</h2></div>
+    <p class="sec-desc">Setelah akar masalah ditemukan, saatnya eksekusi perbaikan. Berikut dua teknik paling sering dipakai teknisi di lapangan.</p>
+
+    <div class="grid-2">
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led on"></span><h4>Uninstall Program Bermasalah</h4></div>
+        <div class="gejala-body">
+          <div class="row"><b>Langkah</b><span>Settings → Apps → pilih program → Uninstall, lalu hapus sisa file/registry dengan uninstaller khusus bila perlu.</span></div>
+          <div class="row"><b>Cocok untuk</b><span>Aplikasi yang menyebabkan crash tapi sistem OS masih sehat.</span></div>
+          <div class="row"><b>Perhatian</b><span>Restart setelah uninstall untuk memastikan proses & service terkait benar-benar berhenti.</span></div>
+        </div>
+      </div>
+      <div class="gejala-card">
+        <div class="gejala-head"><span class="led on"></span><h4>Repair / Reset Sistem Operasi</h4></div>
+        <div class="gejala-body">
+          <div class="row"><b>Langkah</b><span>Settings → System → Recovery → "Reset this PC" (Keep my files), atau gunakan media instalasi untuk Repair Install.</span></div>
+          <div class="row"><b>Cocok untuk</b><span>Kerusakan file sistem inti, boot failure berulang, atau OS sangat tidak stabil.</span></div>
+          <div class="row"><b>Perhatian</b><span>Backup data penting dahulu — meski opsi "keep files" tersedia, risiko tetap ada.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOAL FORMATIF -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Cek Pemahaman (Formatif)</h2></div>
+    <p class="sec-desc">Sebelum masuk studi kasus, pastikan konsep dasarnya sudah lekat. Klik salah satu opsi untuk melihat apakah jawabanmu benar.</p>
+
+    <div class="quiz" id="q1">
+      <p class="q">1. Jika sebuah aplikasi selalu crash tapi sistem berjalan normal di Safe Mode, apa kesimpulan yang paling tepat?</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q1')"><span class="letter">A</span> Kerusakan pasti ada di RAM fisik</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q1')"><span class="letter">B</span> Masalah kemungkinan besar dari software/driver pihak ketiga</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q1')"><span class="letter">C</span> Sistem operasi harus segera diinstal ulang total</div>
+      </div>
+      <p class="fb" id="fb-q1"></p>
+    </div>
+
+    <div class="quiz" id="q2">
+      <p class="q">2. Tools apa yang paling tepat digunakan untuk memeriksa penyebab pasti sebuah BSOD setelah komputer restart?</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q2')"><span class="letter">A</span> Task Manager</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q2')"><span class="letter">B</span> Event Viewer</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q2')"><span class="letter">C</span> Disk Cleanup</div>
+      </div>
+      <p class="fb" id="fb-q2"></p>
+    </div>
+
+    <div class="quiz" id="q3">
+      <p class="q">3. Ketika file sistem dicurigai korup, urutan perbaikan yang paling tepat adalah...</p>
+      <div class="opts">
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q3')"><span class="letter">A</span> SFC dulu, baru DISM</div>
+        <div class="opt" data-correct="true" onclick="answerQuiz(this,'q3')"><span class="letter">B</span> DISM dulu, baru SFC</div>
+        <div class="opt" data-correct="false" onclick="answerQuiz(this,'q3')"><span class="letter">C</span> Langsung Reset PC tanpa tools apa pun</div>
+      </div>
+      <p class="fb" id="fb-q3"></p>
+    </div>
+  </section>
+
+  <!-- SUB MATERI 4: STUDI KASUS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Studi Kasus Troubleshooting</h2></div>
+    <p class="sec-desc">Terapkan seluruh alur — gejala → Safe Mode/tools → perbaikan — pada dua kasus berikut. Klik tiap kasus untuk melihat pertanyaan pemandu dan kunci pembahasannya.</p>
+
+    <div class="case" id="case1">
+      <div class="case-head" onclick="toggleCase('case1')">
+        <span class="tag">KASUS 01</span>
+        <h4>Laptop mengalami Blue Screen setiap kali membuka aplikasi desain grafis.</h4>
+        <span class="chev">›</span>
+      </div>
+      <div class="case-body">
+        <div class="case-body-inner">
+          <p><b>Skenario:</b> Seorang siswa melaporkan laptopnya selalu blue screen dengan stop code <em>SYSTEM_SERVICE_EXCEPTION</em> tepat setelah membuka aplikasi desain grafis yang baru diinstal minggu lalu.</p>
+          <span class="lbl">Pertanyaan Pemandu</span>
+          <ol>
+            <li>Apa langkah pertama yang harus dilakukan sebelum menyalakan ulang laptop?</li>
+            <li>Tools apa yang digunakan untuk mengecek log penyebab BSOD tersebut?</li>
+            <li>Jika penyebabnya adalah driver GPU yang tidak kompatibel, apa langkah perbaikannya?</li>
+          </ol>
+          <button class="hint-btn" onclick="toggleHint('hint1')">Tampilkan kunci pembahasan</button>
+          <div id="hint1" style="display:none; margin-top:12px;">
+            <ol>
+              <li>Catat stop code yang tampil, lalu masuk ke <b>Safe Mode</b> agar aplikasi & driver tambahan tidak dimuat.</li>
+              <li>Buka <b>Event Viewer</b> untuk melihat detail error dan nama driver yang gagal.</li>
+              <li>Uninstall/rollback driver GPU melalui Device Manager, lalu install ulang driver versi stabil dari situs resmi produsen.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case" id="case2">
+      <div class="case-head" onclick="toggleCase('case2')">
+        <span class="tag">KASUS 02</span>
+        <h4>PC lab sekolah tidak bisa booting setelah mati listrik mendadak.</h4>
+        <span class="chev">›</span>
+      </div>
+      <div class="case-body">
+        <div class="case-body-inner">
+          <p><b>Skenario:</b> Setelah listrik padam mendadak, sebuah PC di lab komputer hanya menampilkan layar hitam dengan tulisan "Automatic Repair couldn't repair your PC" saat dinyalakan kembali.</p>
+          <span class="lbl">Pertanyaan Pemandu</span>
+          <ol>
+            <li>Apa kemungkinan penyebab utama kerusakan ini?</li>
+            <li>Tools bawaan Windows apa yang relevan untuk kasus boot failure seperti ini?</li>
+            <li>Susun urutan langkah perbaikan dari yang paling ringan ke paling berat.</li>
+          </ol>
+          <button class="hint-btn" onclick="toggleHint('hint2')">Tampilkan kunci pembahasan</button>
+          <div id="hint2" style="display:none; margin-top:12px;">
+            <ol>
+              <li>Mati listrik mendadak berpotensi merusak file boot (MBR/BCD) yang sedang ditulis saat itu.</li>
+              <li>Gunakan <b>Startup Repair</b> dari Recovery Environment; jika gagal, lanjut ke Command Prompt untuk perintah <em>bootrec</em>.</li>
+              <li>Urutan: (1) Startup Repair otomatis → (2) perbaikan boot manual via Command Prompt → (3) System Restore ke titik sebelumnya → (4) Reset/Repair Install jika semua gagal.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASESMEN / KKTP -->
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Kriteria Ketuntasan & Asesmen</h2></div>
+    <div class="status-panel">
+      <div class="row"><div class="k">KKTP</div><div class="v">Siswa mampu mendiagnosis dan menyelesaikan <b>2 studi kasus</b> masalah software/OS menggunakan Safe Mode atau tools bawaan dengan benar.</div></div>
+      <div class="row"><div class="k">Bentuk Asesmen</div><div class="v">Studi kasus tertulis + unjuk kerja troubleshooting langsung di unit komputer.</div></div>
+      <div class="row"><div class="k">Indikator Sukses</div><div class="v">Mampu menyebutkan gejala, memilih tools diagnosa yang tepat, dan menjelaskan langkah perbaikan secara runtut untuk kedua kasus.</div></div>
+    </div>
+
+    <p style="font-size:13.5px; color:var(--text-muted); margin:26px 0 12px;"><b style="color:var(--text);">Rubrik Penilaian Unjuk Kerja</b> (skala 1–4 per kasus)</p>
+    <div class="tbl-wrap">
+      <table class="rubrik">
+        <thead><tr><th>Skor</th><th>Kriteria</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td class="skor">4</td><td class="krit">Mahir</td><td>Mengidentifikasi gejala, memilih tools yang tepat, dan menjelaskan langkah perbaikan secara runtut & mandiri tanpa bantuan.</td></tr>
+          <tr><td class="skor">3</td><td class="krit">Cakap</td><td>Mampu menyelesaikan seluruh alur dengan sedikit arahan dari guru pada satu tahap.</td></tr>
+          <tr><td class="skor">2</td><td class="krit">Berkembang</td><td>Mengenali gejala dengan benar, namun masih keliru memilih tools atau urutan perbaikan.</td></tr>
+          <tr><td class="skor">1</td><td class="krit">Awal</td><td>Membutuhkan bimbingan penuh untuk mengidentifikasi gejala maupun tools yang sesuai.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REMEDIAL & PENGAYAAN -->
+  <section>
+    <div class="sec-head"><span class="sec-num">09</span><h2>Remedial & Pengayaan</h2></div>
+    <p class="sec-desc">Tidak semua siswa tuntas di waktu yang sama — berikut tindak lanjut untuk keduanya.</p>
+    <div class="rp-grid">
+      <div class="rp-card remedial">
+        <div class="label">Remedial</div>
+        <ul>
+          <li>Pendampingan ulang praktik masuk Safe Mode secara berpasangan dengan tutor sebaya.</li>
+          <li>Mengerjakan ulang 1 studi kasus dengan tingkat kesulitan yang disederhanakan.</li>
+          <li>Diberi checklist langkah troubleshooting sebagai alat bantu selama praktik.</li>
+        </ul>
+      </div>
+      <div class="rp-card pengayaan">
+        <div class="label">Pengayaan</div>
+        <ul>
+          <li>Menyusun sendiri 1 studi kasus baru beserta kunci pembahasannya untuk teman sekelas.</li>
+          <li>Mengeksplorasi Command Prompt lanjutan: <em>bootrec</em>, <em>chkdsk</em>, <em>diskpart</em>.</li>
+          <li>Riset singkat perbandingan tools recovery di Windows vs Linux.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALAT & PROFIL -->
+  <section>
+    <div class="sec-head"><span class="sec-num">10</span><h2>Alat, Bahan & Profil Pelajar Pancasila</h2></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="label">Alat & Bahan Praktik</div>
+        <div class="tag-list">
+          <span>🖥️ Unit komputer (simulasi bermasalah)</span>
+          <span>💿 Media instalasi OS (USB/DVD)</span>
+          <span>📝 Lembar kerja studi kasus</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="label">Profil Pelajar Pancasila</div>
+        <div class="tag-list">
+          <span>🧠 Bernalar Kritis</span>
+          <span>🎯 Mandiri</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RANGKUMAN -->
+  <section>
+    <div class="sec-head"><span class="sec-num">11</span><h2>Rangkuman</h2></div>
+    <div class="recap">
+      <p style="margin:0; font-size:14.5px; color:var(--text);">Troubleshooting software & OS adalah proses sistematis: kenali <b>gejala</b>, isolasi penyebab lewat <b>Safe Mode & tools diagnosa</b>, lakukan <b>perbaikan yang tepat sasaran</b>, lalu verifikasi hasilnya lewat <b>studi kasus nyata</b>. Semakin runtut alurnya, semakin cepat dan akurat perbaikan dilakukan.</p>
+      <div class="recap-grid">
+        <div class="pill"><div class="ico">🩺</div><span>Kenali Gejala</span></div>
+        <div class="pill"><div class="ico">🛡️</div><span>Safe Mode</span></div>
+        <div class="pill"><div class="ico">🔧</div><span>Perbaikan</span></div>
+        <div class="pill"><div class="ico">✅</div><span>Verifikasi</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENSI -->
+  <section>
+    <div class="sec-head"><span class="sec-num">12</span><h2>Referensi & Sumber Belajar</h2></div>
+    <ul class="ref-list">
+      <li><b>01</b> Microsoft Learn — Windows Client Troubleshooting Documentation (learn.microsoft.com)</li>
+      <li><b>02</b> Microsoft Support — Cara mengatasi Blue Screen di Windows (support.microsoft.com)</li>
+      <li><b>03</b> Buku Ajar Teknik Komputer & Jaringan — Perawatan & Perbaikan Komputer, Kemdikbudristek</li>
+      <li><b>04</b> Modul praktik internal sekolah & lembar kerja simulasi troubleshooting</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>SMK · MODUL AJAR TKJ · BLOK 2 / HARI 3 / 9 JP · TROUBLESHOOTING SOFTWARE & SISTEM OPERASI</footer>
+
+<script>
+  // Boot log typing effect
+  const lines = [
+    "SYSTEM DIAGNOSTIC UTILITY v2.6",
+    "Memuat modul ajar ......................... <span class='ok'>OK</span>",
+    "Memeriksa capaian pembelajaran ............ <span class='ok'>OK</span>",
+    "Menyiapkan studi kasus (2/2) ............... <span class='ok'>OK</span>",
+    "Status: <span class='ok'>SIAP DIGUNAKAN</span>"
+  ];
+  const el = document.getElementById('bootLog');
+  let out = "";
+  let li = 0;
+  function typeLine(){
+    if(li >= lines.length){ el.innerHTML = out + '<span class="cursor"></span>'; return; }
+    const line = lines[li];
+    let ci = 0;
+    // strip html tags for typing count but render progressively using a temp approach
+    const plain = line.replace(/<[^>]*>/g,'');
+    function typeChar(){
+      if(ci <= plain.length){
+        // reveal by re-slicing original line up to matching plain length using a simple trick
+        let shown = line;
+        if(ci < plain.length){
+          // find cut point in raw string corresponding to ci plain chars
+          let count=0, idx=0;
+          while(idx < line.length && count < ci){
+            if(line[idx] === '<'){ while(line[idx] !== '>'){idx++;} idx++; continue; }
+            count++; idx++;
+          }
+          shown = line.slice(0, idx);
+        }
+        el.innerHTML = out + shown + '<span class="cursor"></span>';
+        ci++;
+        setTimeout(typeChar, 8);
+      } else {
+        out += line + "\n";
+        li++;
+        setTimeout(typeLine, 120);
+      }
+    }
+    typeChar();
+  }
+  typeLine();
+
+  function answerQuiz(el, qid){
+    const opts = document.querySelectorAll('#'+qid+' .opt');
+    const fb = document.getElementById('fb-'+qid);
+    opts.forEach(o => o.style.pointerEvents = 'none');
+    opts.forEach(o => {
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); }
+    });
+    if(el.dataset.correct !== 'true'){
+      el.classList.add('wrong');
+      fb.textContent = '✕ Belum tepat — perhatikan opsi yang ditandai hijau sebagai jawaban benar.';
+    } else {
+      fb.textContent = '✓ Benar! Pemahamanmu sudah sesuai.';
+    }
+    fb.classList.add('show');
+  }
+
+  function toggleCase(id){
+    document.getElementById(id).classList.toggle('open');
+  }
+  function toggleHint(id){
+    const h = document.getElementById(id);
+    h.style.display = h.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+</body>
+</html>
