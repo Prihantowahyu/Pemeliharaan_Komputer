@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bengkel Hardware — Portal Materi Interaktif TKJ</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#030712">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bengkel Hardware">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -294,6 +301,28 @@
     padding: 8px 16px;
     border-radius: 100px;
   }
+  .btn-pwa-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+    border: none;
+    color: #030712;
+    font-family: var(--font-heading);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 0 14px var(--cyan-glow);
+    transition: all 0.25s ease;
+  }
+  .btn-pwa-install:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--cyan-glow);
+  }
+  .btn-pwa-install svg { width: 13px; height: 13px; }
   .live-dot {
     width: 8px;
     height: 8px;
@@ -1429,8 +1458,12 @@
       </div>
       
       <div class="telemetry-widget">
+        <button id="pwaInstallBtn" type="button" class="btn-pwa-install" style="display:none;" onclick="triggerPwaInstall()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Install App
+        </button>
         <div class="live-dot"></div>
-        <div class="telemetry-text">STATUS: <b>ONLINE / OFFLINE READY</b></div>
+        <div class="telemetry-text">STATUS: <b id="networkStatus">ONLINE / FAST CACHE</b></div>
         <div class="clock-digital" id="digitalClock">--:--:--</div>
       </div>
     </div>
@@ -2341,6 +2374,58 @@
       document.getElementById('searchModul').focus();
     }
   });
+
+  /* ==========================================================
+     SERVICE WORKER & PWA INSTALL LOGIC
+     ========================================================== */
+  let deferredPrompt;
+  const installBtn = document.getElementById('pwaInstallBtn');
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => {
+          console.log('[PWA] Service Worker registered:', reg.scope);
+        })
+        .catch(err => {
+          console.warn('[PWA] Service Worker registration failed:', err);
+        });
+    });
+  }
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.style.display = 'inline-flex';
+  });
+
+  function triggerPwaInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(choice => {
+        if (choice.outcome === 'accepted') {
+          console.log('[PWA] User installed the app');
+        }
+        deferredPrompt = null;
+        if (installBtn) installBtn.style.display = 'none';
+      });
+    }
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBtn) installBtn.style.display = 'none';
+  });
+
+  function updateNetworkStatus() {
+    const statusElem = document.getElementById('networkStatus');
+    if (statusElem) {
+      statusElem.textContent = navigator.onLine ? 'ONLINE / FAST CACHE' : 'OFFLINE MODE (INSTANT)';
+      statusElem.style.color = navigator.onLine ? 'var(--emerald)' : 'var(--amber)';
+    }
+  }
+  window.addEventListener('online', updateNetworkStatus);
+  window.addEventListener('offline', updateNetworkStatus);
+  updateNetworkStatus();
 </script>
 
 </body>
