@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-v2';
+const CACHE_NAME = 'bengkel-hw-v4';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -25,23 +25,24 @@ const ASSETS_TO_CACHE = [
   './Pert_11_materi-backup-restore.html'
 ];
 
-// Install Event: Pre-cache all core assets
+// Install Event: Cache fresh assets and force activate
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log('[ServiceWorker] Pre-caching offline assets');
+      console.log('[ServiceWorker] Pre-caching v4 assets');
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate Event: Clean up old caches
+// Activate Event: Delete all old caches immediately
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keyList => {
       return Promise.all(keyList.map(key => {
         if (key !== CACHE_NAME) {
-          console.log('[ServiceWorker] Removing old cache', key);
+          console.log('[ServiceWorker] Clearing old cache:', key);
           return caches.delete(key);
         }
       }));
@@ -49,43 +50,37 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch Event: Cache-First with Network fallback & dynamic caching
+// Fetch Event: Network-First for HTML to get latest lockdown/exam updates, Cache-First for assets
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        // Fetch in background to update cache for next time
-        fetch(event.request).then(networkResponse => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, networkResponse);
-            });
-          }
-        }).catch(() => {/* offline mode */});
-        
-        return cachedResponse;
-      }
+  const isHtml = event.request.headers.get('accept')?.includes('text/html') || event.request.url.endsWith('.html') || event.request.url.endsWith('/');
 
-      // If not in cache, fetch from network and cache
-      return fetch(event.request).then(networkResponse => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+  if (isHtml) {
+    // Network-First for HTML (always get latest version if online, fallback to cache if offline)
+    event.respondWith(
+      fetch(event.request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
         }
-
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache);
-        });
-
         return networkResponse;
       }).catch(() => {
-        // Fallback for HTML documents
-        if (event.request.headers.get('accept').includes('text/html')) {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
+        return caches.match(event.request).then(cached => cached || caches.match('./index.html'));
+      })
+    );
+  } else {
+    // Cache-First for static assets (icons, images, PDF)
+    event.respondWith(
+      caches.match(event.request).then(cachedResponse => {
+        return cachedResponse || fetch(event.request).then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            const resClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
+          }
+          return networkResponse;
+        });
+      })
+    );
+  }
 });

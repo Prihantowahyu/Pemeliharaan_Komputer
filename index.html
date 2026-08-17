@@ -1648,12 +1648,26 @@
   .btn-admin-submit:hover {
     filter: brightness(1.15);
   }
-  .pin-hint {
+  .btn-footer-lock {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    color: var(--cyan);
     font-family: var(--font-mono);
-    font-size: 10px;
-    color: #64748b;
-    margin-top: 12px;
-    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .btn-footer-lock:hover {
+    background: rgba(0, 240, 255, 0.18);
+    border-color: var(--cyan);
+    box-shadow: 0 0 14px var(--cyan-glow);
+    transform: translateY(-1px);
   }
 </style>
 </head>
@@ -2387,8 +2401,13 @@
       <b>SMK DIPONEGORO TUMPANG</b> · Teknik Komputer &amp; Jaringan (TKJ)<br>
       Disusun secara interaktif oleh <b>Wahyu Prihanto</b> · 0877-7560-0462
     </div>
-    <div class="footer-badge">
-      BENGKEL HARDWARE · EDISI FUTURISTIK
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <button type="button" class="btn-footer-lock" onclick="openPinModal()" title="Panel Keamanan Guru / Mode Ujian">
+        🛡️ Panel Guru
+      </button>
+      <div class="footer-badge">
+        BENGKEL HARDWARE · EDISI FUTURISTIK
+      </div>
     </div>
   </footer>
 
