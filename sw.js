@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-v7';
+const CACHE_NAME = 'bengkel-hw-v8';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -22,7 +22,17 @@ const ASSETS_TO_CACHE = [
   './Pert_8_modul-ajar-troubleshooting-hardware.html',
   './Pert_9_materi-troubleshooting-software.html',
   './Pert_10_materi-perawatan-berkala.html',
-  './Pert_11_materi-backup-restore.html'
+  './Pert_11_materi-backup-restore.html',
+  './Genap_Pert_1_upgrade-komponen-komputer.html',
+  './Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html',
+  './Genap_Pert_3_perawatan-laptop-perangkat-mobile.html',
+  './Genap_Pert_4_keamanan-sistem-antivirus-firewall.html',
+  './Genap_Pert_5_manajemen-partisi-storage.html',
+  './Genap_Pert_6_diagnosa-kerusakan-diagnostic-tools-ai.html',
+  './Genap_Pert_7_instalasi-ulang-recovery-restore-point.html',
+  './Genap_Pert_8_studi-kasus-troubleshooting-kompleks.html',
+  './Genap_Pert_9_proyek-perawatan-perbaikan-unit-sekolah.html',
+  './Genap_Pert_10_uji-kompetensi-laporan-perawatan.html'
 ];
 
 // Install Event: Cache fresh assets and force activate

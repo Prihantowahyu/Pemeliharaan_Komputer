@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perawatan Laptop & Perangkat Mobile &mdash; Bengkel Hardware TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-void: #030712;
+    --bg-surface: #070d1d;
+    --panel: #0d162c;
+    --panel-alt: #13203e;
+    --panel-border: rgba(56, 189, 248, 0.18);
+    --panel-bright: rgba(56, 189, 248, 0.45);
+    
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.4);
+    --cyan-soft: #38bdf8;
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.4);
+    --magenta: #ec4899;
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --red: #ef4444;
+    
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html {
+    background: var(--bg-void);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background:
+      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      var(--bg-void);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    padding-bottom: 80px;
+  }
+
+  a { color: var(--cyan-soft); text-decoration: none; }
+  a:hover { color: var(--cyan); text-decoration: underline; }
+  
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* Topbar */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+  }
+  .brand-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
+    font-weight: 700; background: rgba(0, 240, 255, 0.08);
+    padding: 6px 12px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    transition: all 0.2s ease;
+  }
+  .brand-back:hover {
+    background: rgba(0, 240, 255, 0.2);
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow);
+    text-decoration: none;
+    transform: translateX(-2px);
+  }
+  .jp-indicator { display: flex; align-items: center; gap: 8px; }
+  .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
+  .jp-bar { display: flex; gap: 3px; }
+  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+
+  /* Hero Section */
+  header.hero { padding: 48px 0 28px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+  }
+  h1 {
+    font-family: var(--font-heading); font-weight: 800;
+    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .chip {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .chip b { color: var(--cyan-soft); font-weight: 600; }
+
+  /* Signature Interactive Hero Widget */
+  .hero-widget-box {
+    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  }
+  .widget-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  }
+  .widget-dots { display: flex; gap: 6px; }
+  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
+  .widget-body { padding: 24px; }
+
+  /* Content Sections */
+  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  .sec-tag {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
+  h2 {
+    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
+    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+  }
+  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+
+  /* Cards Grid */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  
+  .card {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 22px; transition: all 0.25s ease;
+  }
+  .card:hover {
+    border-color: var(--cyan-soft); background: var(--panel-alt);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
+  .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
+  .card li { margin-bottom: 6px; }
+  .card li b { color: var(--text-main); }
+
+  /* Step by step numbered list */
+  .step-list { counter-reset: stp; margin-top: 16px; }
+  .step-item {
+    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-badge {
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
+    background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
+    display: flex; align-items: center; justify-content: center; color: var(--cyan);
+  }
+  .step-badge::before { content: counter(stp, decimal-leading-zero); }
+  .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
+  .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Interactive Elements */
+  .btn-action {
+    background: linear-gradient(135deg, var(--cyan) 0%, #38bdf8 50%, var(--violet) 100%);
+    color: #030712; border: none; font-family: var(--font-heading);
+    font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 14px rgba(0, 240, 255, 0.3);
+  }
+  .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  
+  .custom-input, select.custom-select {
+    width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
+    font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
+  }
+  .custom-input:focus, select.custom-select:focus {
+    border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
+  }
+
+  /* Callout & Tips */
+  .callout {
+    background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
+    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+  }
+  .callout.amber {
+    background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
+  }
+  .callout.emerald {
+    background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
+  }
+
+  /* Mini Quiz / Self-Check */
+  .quiz-box {
+    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
+  }
+  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  .quiz-opt {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
+    font-size: 13.5px; transition: all 0.2s;
+  }
+  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
+  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
+  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
+
+  /* Footer */
+  footer.mod-footer {
+    margin-top: 60px; padding: 24px 0; border-top: 1px solid var(--panel-border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="./index.html" class="brand-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      PORTAL UTAMA
+    </a>
+    <div class="jp-indicator">
+      <span class="jp-label">ALOKASI WAKTU:</span>
+      <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
+      <span class="jp-label"><b>9 JP</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">BLOK 1 &middot; HARI 3 &middot; 9 JP</div>
+    <h1>Perawatan Laptop & Perangkat Mobile</h1>
+    <p class="subtitle">Arsitektur laptop vs desktop, SOP pembongkaran casing notebook dan penerapan K3, pembersihan heatsink fan & repaste thermal paste, kalibrasi baterai, serta pemeliharaan software perangkat mobile.</p>
+    <div class="meta-row"><div class="chip"><b>Fokus:</b> Mobile Hardware & Laptop</div><div class="chip"><b>Metode:</b> Praktik Teardown & K3</div><div class="chip"><b>KKTP:</b> Servis 1 Unit Laptop Sesuai SOP</div><div class="chip"><b>Profil:</b> Mandiri, Kreatif</div></div>
+
+    <!-- Signature Interactive Hero Widget -->
+    
+<div class="hero-widget-box">
+  <div class="widget-head">
+    <span>LAPTOP BATTERY HEALTH &amp; THERMAL THROTTLING ANALYZER</span>
+    <div class="widget-dots"><span></span><span></span><span></span></div>
+  </div>
+  <div class="widget-body">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:16px;">
+      <div>
+        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">DESIGN CAPACITY (mWh):</label>
+        <input type="number" id="batDesign" class="custom-input" value="48000" oninput="calcBatteryHealth()">
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">FULL CHARGE CAPACITY (mWh):</label>
+        <input type="number" id="batFull" class="custom-input" value="38400" oninput="calcBatteryHealth()">
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">SUHU IDLE CPU LAPTOP (&deg;C):</label>
+        <input type="number" id="cpuTemp" class="custom-input" value="62" oninput="calcBatteryHealth()">
+      </div>
+    </div>
+    <div style="background:rgba(3,7,18,0.75); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">BATTERY HEALTH:</div>
+        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--cyan);" id="batHealthResult">80% (Kondisi Baik)</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">WEAR LEVEL:</div>
+        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--amber);" id="batWearResult">20% Degradasi</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">STATUS THERMAL &amp; REKOMENDASI:</div>
+        <div style="font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--emerald);" id="thermalRecResult">&check; Suhu Normal (Belum Perlu Repaste)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function calcBatteryHealth() {
+  const design = parseFloat(document.getElementById('batDesign').value) || 48000;
+  const full = parseFloat(document.getElementById('batFull').value) || 38400;
+  const temp = parseFloat(document.getElementById('cpuTemp').value) || 60;
+  
+  const health = Math.min(100, Math.max(0, Math.round((full / design) * 100)));
+  const wear = 100 - health;
+
+  document.getElementById('batHealthResult').textContent = health + "% (" + (health > 75 ? "Kondisi Baik" : health > 50 ? "Kondisi Sedang" : "Perlu Ganti") + ")";
+  document.getElementById('batWearResult').textContent = wear + "% Degradasi";
+
+  let rec = "✓ Suhu Normal (Belum Perlu Repaste)";
+  let color = "var(--emerald)";
+  if (temp >= 75) {
+    rec = "⚠ Terlalu Panas! Wajib Bersihkan Heatsink Fan & Repaste Thermal Paste";
+    color = "var(--red)";
+  } else if (temp >= 65) {
+    rec = "ℹ Suhu Mulai Hangat, Jadwalkan Pembersihan Debu";
+    color = "var(--amber)";
+  }
+  const el = document.getElementById('thermalRecResult');
+  el.textContent = rec;
+  el.style.color = color;
+}
+</script>
+
+  </header>
+
+  
+<section id="sop-laptop">
+  <div class="sec-tag">Bagian 1</div>
+  <h2>1. SOP Pembongkaran &amp; K3 Khusus Laptop</h2>
+  <p class="sec-desc">Struktur laptop sangat ringkih dan padat. Kesalahan kecil saat membongkar dapat merusak casing plastik atau jalur PCB motherboard.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>A. Persiapan Peralatan</h4>
+      <ul>
+        <li><b>Precision Screwdriver (PH00, PH0, Torx T5):</b> Ukuran presisi agar baut tidak aus/slek.</li>
+        <li><b>Plastic Pry Tool / Spudger:</b> Membuka klip casing tanpa menggores body laptop.</li>
+        <li><b>Screw Tray Magnetik:</b> Menyortir baut berdasarkan panjang dan lokasi penempatan.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>B. Prosedur Wajib K3</h4>
+      <ul>
+        <li><b>CABUT KONEKTOR BATERAI PERTAMA KALI:</b> Wajib sebelum menyentuh komponen lain untuk mencegah korsleting jalur 19V/3.3V.</li>
+        <li><b>Gunakan ESD Wrist Strap:</b> Lindungi chip SMD dan komponen BGA dari listrik statis tubuh.</li>
+        <li><b>Lepas Baut Sesuai Urutan Angka:</b> Terutama baut heatsink CPU/GPU (urutan 1-2-3-4).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>C. Perawatan Heatsink &amp; Fan</h4>
+      <ul>
+        <li><b>Bersihkan Sirip Tembaga (Fin):</b> Debu sering menggumpal seperti selimut tebal di antara kipas dan sirip radiator.</li>
+        <li><b>Ganti Thermal Paste:</b> Gunakan pasta non-konduktif dengan konduktivitas tinggi (&ge; 8.5 W/mK).</li>
+        <li><b>Ganti Thermal Pad:</b> Pada chip VRAM dan MOSFET VRM jika sudah sobek/kering.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="mobile-care">
+  <div class="sec-tag">Bagian 2</div>
+  <h2>2. Perawatan Software &amp; Sistem Perangkat Mobile</h2>
+  <p class="sec-desc">Optimalisasi performa smartphone/tablet sistem operasi Android &amp; iOS.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Manajemen Cache &amp; Storage Internal</h4>
+      <ul>
+        <li><b>Pembersihan Partisi Cache (Wipe Cache Partition):</b> Menghapus file temporary sistem via Recovery Mode tanpa menghapus data pribadi.</li>
+        <li><b>Manajemen Aplikasi Bloatware:</b> Nonaktifkan (disable) aplikasi bawaan yang berjalan di background dan menguras baterai.</li>
+        <li><b>Penyimpanan Minimum:</b> Sisakan ruang kosong minimal 15-20% agar storage UFS/eMMC tidak mengalami pelambatan transfer write.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Keamanan &amp; Siklus Daya Baterai Li-Ion</h4>
+      <ul>
+        <li><b>Rule 20-80:</b> Usahakan mengisi daya saat baterai mencapai 20% dan cabut di 80-85% untuk memperpanjang usia siklus baterai.</li>
+        <li><b>Hindari Overheating:</b> Jangan menggunakan perangkat untuk tugas berat saat sedang proses pengisian daya (charging).</li>
+        <li><b>Update Patch Keamanan Berkala:</b> Mencegah eksploitasi celah keamanan zero-day pada sistem operasi mobile.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+  <footer class="mod-footer">
+    <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
+    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+  </footer>
+</div>
+
+</body>
+</html>

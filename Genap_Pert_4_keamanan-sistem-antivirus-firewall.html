@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keamanan Sistem: Antivirus, Firewall &amp; Update Sistem &mdash; Bengkel Hardware TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-void: #030712;
+    --bg-surface: #070d1d;
+    --panel: #0d162c;
+    --panel-alt: #13203e;
+    --panel-border: rgba(56, 189, 248, 0.18);
+    --panel-bright: rgba(56, 189, 248, 0.45);
+    
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.4);
+    --cyan-soft: #38bdf8;
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.4);
+    --magenta: #ec4899;
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --red: #ef4444;
+    
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html {
+    background: var(--bg-void);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background:
+      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      var(--bg-void);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    padding-bottom: 80px;
+  }
+
+  a { color: var(--cyan-soft); text-decoration: none; }
+  a:hover { color: var(--cyan); text-decoration: underline; }
+  
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* Topbar */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+  }
+  .brand-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
+    font-weight: 700; background: rgba(0, 240, 255, 0.08);
+    padding: 6px 12px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    transition: all 0.2s ease;
+  }
+  .brand-back:hover {
+    background: rgba(0, 240, 255, 0.2);
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow);
+    text-decoration: none;
+    transform: translateX(-2px);
+  }
+  .jp-indicator { display: flex; align-items: center; gap: 8px; }
+  .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
+  .jp-bar { display: flex; gap: 3px; }
+  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+
+  /* Hero Section */
+  header.hero { padding: 48px 0 28px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+  }
+  h1 {
+    font-family: var(--font-heading); font-weight: 800;
+    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .chip {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .chip b { color: var(--cyan-soft); font-weight: 600; }
+
+  /* Signature Interactive Hero Widget */
+  .hero-widget-box {
+    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  }
+  .widget-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  }
+  .widget-dots { display: flex; gap: 6px; }
+  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
+  .widget-body { padding: 24px; }
+
+  /* Content Sections */
+  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  .sec-tag {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
+  h2 {
+    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
+    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+  }
+  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+
+  /* Cards Grid */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  
+  .card {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 22px; transition: all 0.25s ease;
+  }
+  .card:hover {
+    border-color: var(--cyan-soft); background: var(--panel-alt);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
+  .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
+  .card li { margin-bottom: 6px; }
+  .card li b { color: var(--text-main); }
+
+  /* Step by step numbered list */
+  .step-list { counter-reset: stp; margin-top: 16px; }
+  .step-item {
+    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-badge {
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
+    background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
+    display: flex; align-items: center; justify-content: center; color: var(--cyan);
+  }
+  .step-badge::before { content: counter(stp, decimal-leading-zero); }
+  .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
+  .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Interactive Elements */
+  .btn-action {
+    background: linear-gradient(135deg, var(--cyan) 0%, #38bdf8 50%, var(--violet) 100%);
+    color: #030712; border: none; font-family: var(--font-heading);
+    font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 14px rgba(0, 240, 255, 0.3);
+  }
+  .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  
+  .custom-input, select.custom-select {
+    width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
+    font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
+  }
+  .custom-input:focus, select.custom-select:focus {
+    border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
+  }
+
+  /* Callout & Tips */
+  .callout {
+    background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
+    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+  }
+  .callout.amber {
+    background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
+  }
+  .callout.emerald {
+    background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
+  }
+
+  /* Mini Quiz / Self-Check */
+  .quiz-box {
+    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
+  }
+  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  .quiz-opt {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
+    font-size: 13.5px; transition: all 0.2s;
+  }
+  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
+  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
+  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
+
+  /* Footer */
+  footer.mod-footer {
+    margin-top: 60px; padding: 24px 0; border-top: 1px solid var(--panel-border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="./index.html" class="brand-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      PORTAL UTAMA
+    </a>
+    <div class="jp-indicator">
+      <span class="jp-label">ALOKASI WAKTU:</span>
+      <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
+      <span class="jp-label"><b>9 JP</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">BLOK 1 &middot; HARI 4 &middot; 9 JP</div>
+    <h1>Keamanan Sistem: Antivirus, Firewall &amp; Update Sistem</h1>
+    <p class="subtitle">Konfigurasi antivirus dan perlindungan real-time, pengaturan Windows Defender Firewall (Inbound & Outbound Rules), manajemen patch update OS, proteksi malware/ransomware, serta edukasi keamanan cyber.</p>
+    <div class="meta-row"><div class="chip"><b>Fokus:</b> Cyber Security & OS Hardening</div><div class="chip"><b>Metode:</b> Praktik Konfigurasi & Lab</div><div class="chip"><b>KKTP:</b> Konfigurasi Firewall & Antivirus Terverifikasi</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Mandiri</div></div>
+
+    <!-- Signature Interactive Hero Widget -->
+    
+<div class="hero-widget-box">
+  <div class="widget-head">
+    <span>INTERACTIVE FIREWALL INBOUND/OUTBOUND RULE TESTER</span>
+    <div class="widget-dots"><span></span><span></span><span></span></div>
+  </div>
+  <div class="widget-body">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:16px;">
+      <div>
+        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PILIH PORT JARINGAN:</label>
+        <select id="fwPort" class="custom-select" onchange="runFwTest()">
+          <option value="80">Port 80 (HTTP Web Unsecured)</option>
+          <option value="443" selected>Port 443 (HTTPS Web Secured)</option>
+          <option value="445">Port 445 (SMB File Sharing / Vektor WannaCry)</option>
+          <option value="3389">Port 3389 (RDP - Remote Desktop Protocol)</option>
+          <option value="21">Port 21 (FTP File Transfer)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PROFIL JARINGAN (NETWORK PROFILE):</label>
+        <select id="fwProfile" class="custom-select" onchange="runFwTest()">
+          <option value="public" selected>Public Network (WiFi Cafe / Sekolah)</option>
+          <option value="private">Private Network (Jaringan Rumah / Lab Terpercaya)</option>
+        </select>
+      </div>
+    </div>
+    <div style="background:rgba(3,7,18,0.75); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">STATUS ATURAN FIREWALL:</div>
+        <div style="font-family:var(--font-heading); font-size:20px; font-weight:800; color:var(--emerald);" id="fwStatusResult">ALLOW (Trafik Diizinkan Aman)</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">TINGKAT RISIKO KEAMANAN:</div>
+        <div style="font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--cyan);" id="fwRiskResult">Rendah (Enkripsi TLS/SSL)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function runFwTest() {
+  const port = document.getElementById('fwPort').value;
+  const profile = document.getElementById('fwProfile').value;
+  const statusEl = document.getElementById('fwStatusResult');
+  const riskEl = document.getElementById('fwRiskResult');
+
+  if (port === '445') {
+    statusEl.textContent = 'BLOCK INBOUND (Wajib Diblokir di Public)';
+    statusEl.style.color = 'var(--red)';
+    riskEl.textContent = 'KRITIS! Vektor Utama Penyebaran Ransomware EternalBlue';
+    riskEl.style.color = 'var(--red)';
+  } else if (port === '3389') {
+    if (profile === 'public') {
+      statusEl.textContent = 'BLOCK (Koneksi RDP Diblokir Otomatis)';
+      statusEl.style.color = 'var(--amber)';
+      riskEl.textContent = 'Tinggi: Mencegah Serangan Brute Force RDP';
+      riskEl.style.color = 'var(--amber)';
+    } else {
+      statusEl.textContent = 'ALLOW DENGAN OTENTIKASI NLA';
+      statusEl.style.color = 'var(--cyan)';
+      riskEl.textContent = 'Sedang: Hanya Izinkan Komputer Terdaftar';
+      riskEl.style.color = 'var(--cyan)';
+    }
+  } else if (port === '80') {
+    statusEl.textContent = 'ALLOW (Peringatan: Trafik Plain Text)';
+    statusEl.style.color = 'var(--amber)';
+    riskEl.textContent = 'Sedang: Rentan Man-in-the-Middle Attack';
+    riskEl.style.color = 'var(--amber)';
+  } else {
+    statusEl.textContent = 'ALLOW (Trafik Diizinkan Aman)';
+    statusEl.style.color = 'var(--emerald)';
+    riskEl.textContent = 'Rendah (Trafik Terenkripsi Standar)';
+    riskEl.style.color = 'var(--cyan)';
+  }
+}
+</script>
+
+  </header>
+
+  
+<section id="firewall-guide">
+  <div class="sec-tag">Bagian 1</div>
+  <h2>1. Konfigurasi Windows Defender Firewall with Advanced Security</h2>
+  <p class="sec-desc">Firewall bertindak sebagai gerbang filter pelindung yang memeriksa setiap paket data masuk (Inbound) dan keluar (Outbound).</p>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Membuka Konsol Manajemen Firewall Tingkat Lanjut</h4>
+        <p>Tekan <code>Win + R</code> &rarr; ketik <code>wf.msc</code> &rarr; tekan Enter untuk membuka konsol <i>Windows Defender Firewall with Advanced Security</i>.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Membuat Inbound Rule Baru untuk Blokir Port Berbahaya</h4>
+        <p>Klik <b>Inbound Rules</b> &rarr; pilih <b>New Rule...</b> &rarr; pilih jenis <b>Port</b> &rarr; pilih protokol <b>TCP</b> &rarr; masukkan port spesifik (mis. <code>445, 139</code>) &rarr; pilih aksi <b>Block the connection</b> &rarr; centang semua profil (Domain, Private, Public) &rarr; beri nama rule (mis. <code>BLOKIR_SMB_MALWARE</code>).</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Verifikasi Status Proteksi Real-Time Antivirus</h4>
+        <p>Buka <i>Windows Security</i> &rarr; <i>Virus &amp; threat protection</i> &rarr; pastikan <b>Real-time protection</b>, <b>Cloud-delivered protection</b>, dan <b>Tamper Protection</b> berstatus ON.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cyber-hygiene">
+  <div class="sec-tag">Bagian 2</div>
+  <h2>2. Cyber Hygiene &amp; Mitigasi Serangan Social Engineering</h2>
+  <p class="sec-desc">Pertahanan terkuat dimulai dari kesadaran pengguna (User Awareness).</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>A. Proteksi Phishing</h4>
+      <p>Jangan mengklik tautan mencurigakan atau mengunduh file lampiran dari pengirim tidak dikenal (mis. file berekstensi <code>.exe</code>, <code>.vbs</code>, atau <code>.iso</code> berkedok tagihan/invoice).</p>
+    </div>
+    <div class="card">
+      <h4>B. Nonaktifkan USB Auto-Run</h4>
+      <p>Blokir fitur AutoPlay/AutoRun melalui Group Policy (<code>gpedit.msc</code>) agar virus USB shortcut tidak dapat mengeksekusi script secara otomatis saat flashdisk dicolokkan.</p>
+    </div>
+    <div class="card">
+      <h4>C. Manajemen Patch Update</h4>
+      <p>Jalankan Windows Update rutin untuk menutup celah kerentanan (CVE) pada kernel sistem operasi dan browser.</p>
+    </div>
+  </div>
+</section>
+
+
+  <footer class="mod-footer">
+    <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
+    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+  </footer>
+</div>
+
+</body>
+</html>
