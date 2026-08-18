@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-v8';
+const CACHE_NAME = 'bengkel-hw-v9';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -7,6 +7,8 @@ const ASSETS_TO_CACHE = [
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
+  './cbt-anti-cheat.css',
+  './cbt-anti-cheat.js',
   './pert_1_Materi_K3_Prosedur_Kerja_Interaktif.html',
   './Pert_2_materi-hardware-komputer.html',
   './Pert_2_simulasi-casing-pc.html',

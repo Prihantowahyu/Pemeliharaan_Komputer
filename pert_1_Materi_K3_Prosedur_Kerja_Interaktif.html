@@ -519,6 +519,7 @@ footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -972,6 +973,37 @@ footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color
   </section>
 
 </div>
+
+
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: K3 & Prosedur Kerja Perawatan Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Mengapa gelang anti-statis (ESD Wrist Strap) wajib dikenakan teknisi sebelum memegang motherboard atau RAM?", "options": ["Agar tangan tidak kotor terkena debu", "Mengalirkan muatan listrik statis dari tubuh manusia ke ground sehingga tidak merusak sirkuit mikrochip IC yang sangat sensitif", "Meningkatkan daya cengkeram saat memegang obeng", "Sebagai tanda pengenal teknisi resmi"], "correctIndex": 1, "explanation": "Listrik statis tubuh manusia (ESD) ribuan volt dapat merusak gerbang silikon mikroprosesor dan RAM tanpa terlihat secara kasat mata."}, {"question": "Langkah pertama apa yang WAJIB dilakukan sebelum membuka penutup casing unit komputer?", "options": ["Membersihkan meja dengan lap basah", "Mencabut kabel power utama dari stop kontak listrik dan menekan tombol power 5 detik untuk membuang sisa arus kapasitor", "Menyalakan monitor", "Menginstal antivirus"], "correctIndex": 1, "explanation": "Memutus aliran listrik total dan discharge kapasitor mencegah bahaya sengatan listrik (shock hazard) dan korsleting pada sirkuit."}, {"question": "Jenis tabung Alat Pemadam Api Ringan (APAR) apa yang paling tepat digunakan untuk memadamkan kebakaran peralatan komputer (Kebakaran Kelas C)?", "options": ["APAR Busa (Foam)", "APAR Gas Karbon Dioksida (CO2) atau Clean Agent Gas", "Ember berisi air", "Karung basah"], "correctIndex": 1, "explanation": "Gas CO2 dan Clean Agent tidak menghantarkan listrik (non-conductive) dan tidak meninggalkan residu cairan korosif yang merusak motherboard."}, {"question": "Postur ergonomis tubuh yang benar saat mengangkat unit casing CPU yang berat dari lantai adalah?", "options": ["Membungkukkan punggung dengan lutut tetap lurus", "Menekuk lutut dan menjaga punggung tetap tegak sehingga tumpuan beban berada pada otot paha/kaki", "Mengangkat sambil memutar badan 180 derajat", "Menarik casing menggunakan satu tangan"], "correctIndex": 1, "explanation": "Menekuk lutut memindahkan beban angkat ke otot kaki yang kuat, mencegah cedera saraf terjepit (HNP) pada tulang belakang."}, {"question": "Bahan apa yang paling aman digunakan sebagai alas meja kerja teknisi perakitan komputer?", "options": ["Karpet wol sintetis", "Matras karet antistatis (ESD Table Mat) yang terhubung ke grounding", "Kaca transparan tipis", "Kain sutra"], "correctIndex": 1, "explanation": "ESD table mat menyerap dan mengalirkan listrik statis secara terkendali ke ground tanpa menimbulkan percikan arus tiba-tiba."}]
+      });
+    }
+  });
+  </script>
 
 <footer>Materi Ajar — Dasar Perakitan, Instalasi &amp; Perawatan Sistem &middot; Blok 1, Hari 1 &middot; SMK Diponegoro Tumpang</footer>
 

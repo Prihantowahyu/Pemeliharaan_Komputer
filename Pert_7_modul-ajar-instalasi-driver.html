@@ -338,6 +338,7 @@
   .check-row .cb{width:18px; height:18px; border-radius:5px; border:1.5px solid var(--blue); flex:0 0 18px; display:flex; align-items:center; justify-content:center;}
   .check-row .cb::after{content:"✓"; color:var(--blue); font-size:12px; font-weight:700;}
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -912,7 +913,38 @@
     </div>
   </section>
 
-  <footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 1 · 9 JP</footer>
+  
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Instalasi & Manajemen Driver Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Apa fungsi utama dari software Driver pada sistem komputer?", "options": ["Sebagai game penghibur teknisi", "Sebagai jembatan penerjemah komunikasi antara sistem operasi dengan perangkat keras (hardware) agar dapat berfungsi optimal", "Sebagai kabel penghubung listrik", "Sebagai pengganti BIOS"], "correctIndex": 1, "explanation": "Driver memberikan instruksi API khusus kepada sistem operasi tentang cara mengontrol register dan fungsi hardware spesifik."}, {"question": "Tanda visual apa di Device Manager (devmgmt.msc) yang menunjukkan adanya perangkat keras yang belum terpasang drivernya?", "options": ["Ikon centang hijau", "Tanda seru warna kuning (Yellow Exclamation Mark) pada kategori Other Devices", "Tanda silang merah", "Ikon tanda tanya biru"], "correctIndex": 1, "explanation": "Tanda seru kuning menandakan hardware terdeteksi oleh bus PCIe/USB tetapi Windows tidak memiliki driver yang cocok."}, {"question": "Kode identitas unik perangkat keras yang dapat dilihat di Device Manager untuk mencari driver yang tepat di internet disebut?", "options": ["Serial Number Casing", "Hardware ID (berisi kode Vendor ID 'VEN' dan Device ID 'DEV')", "MAC Address WiFi", "IP Address"], "correctIndex": 1, "explanation": "Hardware ID seperti VEN_10DE&DEV_2504 secara presisi mengidentifikasi manufaktur (NVIDIA) dan tipe chip grafisnya."}, {"question": "Sertifikasi resmi dari Microsoft yang menandakan bahwa driver telah lolos uji kestabilan dan kompatibilitas dengan kernel Windows disebut?", "options": ["Open Source License", "WHQL (Windows Hardware Quality Labs) Certified", "Beta Driver", "Trial License"], "correctIndex": 1, "explanation": "Driver bersertifikasi WHQL telah ditandatangani secara digital oleh Microsoft dan dijamin tidak menyebabkan crash kernel BSOD."}, {"question": "Fitur di Device Manager yang digunakan untuk membatalkan instalasi driver terbaru dan kembali ke versi driver stabil sebelumnya adalah?", "options": ["Disable Device", "Roll Back Driver", "Uninstall Device", "Scan for hardware changes"], "correctIndex": 1, "explanation": "Roll Back Driver memulihkan paket driver versi sebelumnya jika driver yang baru diupdate menimbulkan error/glitch."}]
+      });
+    }
+  });
+  </script>
+
+<footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 1 · 9 JP</footer>
 
 </div>
 </body>

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -654,37 +644,13 @@ function printLKPD1() {
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa RAM 2x8GB Dual Channel lebih baik daripada 1x16GB pada frekuensi yang sama?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">A. Karena total kapasitas 16GB lebih besar secara fisik</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">B. Karena Dual Channel menggandakan data bus dari 64-bit menjadi 128-bit sehingga bandwidth transfer meningkat ~2x lipat</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">C. Karena dua keping RAM mengonsumsi daya lebih hemat</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">D. Karena satu keping RAM 16GB tidak kompatibel dengan motherboard modern</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Software apa yang paling tepat untuk melakukan proses disk cloning OS dari HDD ke SSD tanpa kehilangan data?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">A. CCleaner (Pembersih Cache)</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">B. Macrium Reflect atau Acronis True Image (Disk Cloning/Imaging)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">C. Malwarebytes (Anti-Malware)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">D. CPU-Z (CPU Identification)</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Apa kegunaan utama memeriksa QVL (Qualified Vendor List) sebelum membeli RAM baru?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">A. Untuk mengetahui harga RAM di pasaran</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">B. Untuk memastikan RAM telah diuji kompatibilitasnya dengan motherboard spesifik yang digunakan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">C. Untuk mengetahui apakah RAM bisa di-overclock</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">D. Untuk mengetahui kapan tanggal garansi RAM berakhir</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Berapa sudut yang tepat saat memasukkan SSD M.2 ke dalam slotnya?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">A. Horizontal (0 derajat, lurus rata)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">B. Vertikal (90 derajat, tegak lurus)</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">C. 30 derajat (miring ke atas), kemudian ditekan ke bawah dan dikunci baut</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">D. 45 derajat (miring diagonal)</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 5: Apa fungsi utama profil XMP pada modul RAM?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">A. Mengaktifkan fitur error correction (ECC) pada RAM consumer</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">B. Menyimpan parameter frekuensi, tegangan, dan timing optimal di atas standar JEDEC default untuk performa lebih tinggi</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">C. Menambahkan kapasitas virtual RAM dari storage SSD</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">D. Mengenkripsi data yang disimpan di modul RAM</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -743,18 +709,19 @@ function printLKPD1() {
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Upgrade Komponen Komputer: RAM, Storage &amp; VGA Card',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Mengapa RAM 2x8GB Dual Channel lebih cepat dibanding RAM 1x16GB Single Channel pada frekuensi yang sama?", "options": ["Karena total kapasitas 16GB lebih besar secara fisik", "Karena Dual Channel menggandakan data bus dari 64-bit menjadi 128-bit sehingga throughput transfer memori naik hingga 2x lipat", "Karena dua keping RAM mengonsumsi daya listrik lebih sedikit", "Karena satu keping 16GB tidak didukung oleh motherboard modern"], "correctIndex": 1, "explanation": "Dual channel mengaktifkan 2 memory controller 64-bit secara paralel sehingga bus width menjadi 128-bit, menggandakan transfer rate teoritis."}, {"question": "Software disk cloning apa yang paling umum digunakan untuk migrasi OS dari HDD ke SSD tanpa kehilangan data?", "options": ["CCleaner Free Edition", "Macrium Reflect / Clonezilla", "Malwarebytes Anti-Malware", "CPU-Z Identification Utility"], "correctIndex": 1, "explanation": "Macrium Reflect dan Clonezilla memiliki fitur disk imaging/cloning sektor cerdas yang menyalin seluruh partisi sistem termasuk bootloader EFI."}, {"question": "Berapa sudut kemiringan yang tepat saat memasukkan SSD M.2 NVMe ke dalam soket M.2 di motherboard?", "options": ["0 derajat (rata horizontal)", "30 derajat (miring ke atas) sebelum ditekan perlahan ke standoff baut", "90 derajat (tegak lurus vertikal)", "45 derajat (miring diagonal penuh)"], "correctIndex": 1, "explanation": "Soket M.2 dirancang dengan sudut orientasi 30 derajat agar pin konektor emas masuk sempurna sebelum ditekan ke bawah."}, {"question": "Apa fungsi utama mengaktifkan profil XMP (Intel) atau EXPO (AMD) pada BIOS?", "options": ["Mengaktifkan sistem pendingin cair secara otomatis", "Menjalankan RAM pada frekuensi, voltase, dan timing optimal yang telah divalidasi pabrik di atas standar JEDEC default", "Mengubah partisi MBR menjadi GPT otomatis", "Menonaktifkan kartu grafis terintegrasi"], "correctIndex": 1, "explanation": "XMP/EXPO memuat preset overclocking resmi dari chip SPD RAM agar frekuensi mencapai spesifikasi label (misal 3200MHz atau 6000MHz)."}, {"question": "Jika total konsumsi daya sistem komputer dihitung 320 Watt, berapa kapasitas minimal PSU 80 Plus yang direkomendasikan?", "options": ["300 Watt", "500W - 550W 80+ Bronze (memberikan buffer efisiensi 30-40%)", "1200W 80+ Platinum", "250W Standard"], "correctIndex": 1, "explanation": "PSU bekerja paling efisien pada beban 50-70% kapasitasnya. Sistem 320W membutuhkan PSU minimal 500-550W untuk keamanan transient spike."}, {"question": "Manakah slot RAM yang direkomendasikan dipasang terlebih dahulu pada motherboard dengan 4 slot DIMM untuk konfigurasi dual-channel?", "options": ["Slot 1 & 2 (DIMM A1 & A2)", "Slot 2 & 4 (DIMM A2 & B2)", "Slot 1 & 3 (DIMM A1 & B1)", "Slot 3 & 4 (DIMM B1 & B2)"], "correctIndex": 1, "explanation": "Topologi daisy-chain motherboard modern mengoptimalkan sinyal memori pada slot ujung trace (Slot A2 dan B2)."}, {"question": "Berapa batas kecepatan sequential read maksimal untuk SSD yang menggunakan antarmuka SATA III 2.5 inci?", "options": ["~150 MB/s", "~550 - 600 MB/s (terbatas oleh bandwidth bus SATA 6 Gbps)", "~3.500 MB/s", "~7.400 MB/s"], "correctIndex": 1, "explanation": "Protokol SATA III memiliki bandwidth maksimal 6 Gbps (teoritis ~600 MB/s), sehingga SSD SATA mentok di kecepatan ~550 MB/s."}, {"question": "Apa kegunaan utama memeriksa daftar QVL (Qualified Vendor List) di website produsen motherboard sebelum membeli RAM?", "options": ["Mengetahui harga pasar RAM termurah", "Memastikan modul RAM spesifik tersebut telah diuji kompatibilitas dan stabilitas XMP-nya oleh pabrikan motherboard", "Mengecek apakah RAM bergaransi seumur hidup", "Mengetahui warna LED RGB RAM"], "correctIndex": 1, "explanation": "QVL memuat kode part number RAM yang 100% lolos uji kompatibilitas pada motherboard dan BIOS tertentu."}, {"question": "Konektor daya tambahan 8-pin PCIe dari Power Supply mampu menyuplai daya listrik maksimal sebesar berapa?", "options": ["75 Watt", "150 Watt", "300 Watt", "450 Watt"], "correctIndex": 1, "explanation": "Konektor PCIe 6-pin menyuplai 75W, sedangkan konektor PCIe 8-pin menyuplai hingga 150W tambahan ke kartu grafis."}, {"question": "Software gratis apa yang digunakan untuk menguji kecepatan sequential dan random read/write storage secara akurat?", "options": ["FurMark", "CrystalDiskMark", "MemTest86", "Core Temp"], "correctIndex": 1, "explanation": "CrystalDiskMark adalah software benchmark storage standar industri untuk menguji performa read/write MB/s dan IOPS."}]
+    });
   }
-}
+});
 </script>
 
 </body>

@@ -334,6 +334,7 @@ footer p{font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono';}
 .result-detail{max-width:520px; margin:0 auto; text-align:left; font-size:13px; color:var(--text-dim);}
 .result-detail li{margin-bottom:6px;}
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -1323,6 +1324,37 @@ footer p{font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono';}
 </section>
 
 </div>
+
+
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Arsitektur & Komponen Hardware Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Komponen motherboard apa yang berfungsi sebagai pengatur distribusi daya voltase presisi dari PSU menuju ke inti prosesor (CPU)?", "options": ["Chipset Southbridge", "VRM (Voltage Regulator Module) yang terdiri dari MOSFET, Choke, dan Kapasitor", "Slot PCIe x1", "Port SATA"], "correctIndex": 1, "explanation": "VRM menurunkan dan menstabilkan tegangan 12V dari PSU menjadi ~1.1-1.3V yang sangat presisi untuk inti core prosesor."}, {"question": "Apa perbedaan mendasar antara memori penyimpanan volatile (RAM) dan non-volatile (SSD/HDD)?", "options": ["RAM menyimpan data permanen sedangkan SSD hilang saat mati lampu", "RAM membutuhkan daya listrik konstan untuk mempertahankan datanya (hilang saat PC mati), sedangkan SSD menyimpan data permanen tanpa daya listrik", "RAM berkapasitas lebih besar dari SSD", "SSD lebih cepat daripada cache L1 CPU"], "correctIndex": 1, "explanation": "RAM bersifat volatile (memori kerja sementara), sedangkan SSD/HDD adalah secondary storage non-volatile permanen."}, {"question": "Konektor daya utama dari Power Supply yang dihubungkan ke motherboard standar ATX memiliki jumlah pin sebanyak berapa?", "options": ["4-pin", "24-pin (20+4 pin)", "8-pin PCIe", "SATA Power 15-pin"], "correctIndex": 1, "explanation": "Konektor ATX 24-pin menyuplai jalur daya 12V, 5V, 3.3V, 5VSB (standby), dan sinyal Power-Good ke seluruh motherboard."}, {"question": "Slot ekspansi motherboard yang memiliki bandwidth transmisi data tertinggi dan dikhususkan untuk kartu grafis diskrit (VGA) adalah?", "options": ["PCI Legacy 32-bit", "PCI Express (PCIe) x16", "PCIe x1", "Slot M.2 Key-E WiFi"], "correctIndex": 1, "explanation": "PCIe x16 memiliki 16 jalur data simultan berkecepatan tinggi yang langsung terhubung ke jalur PCIe lane prosesor."}, {"question": "Fungsi dari pasta pendingin (Thermal Paste) yang dioleskan di antara prosesor dan heatsink adalah?", "options": ["Sebagai lem perekat agar prosesor tidak lepas", "Mengisi celah mikroskopis udara di antara permukaan IHS prosesor dan baseplate heatsink untuk memaksimalkan transfer konduksi panas", "Menghasilkan arus listrik tambahan", "Mendinginkan prosesor hingga 0°C secara kimia"], "correctIndex": 1, "explanation": "Udara adalah isolator panas yang buruk. Pasta termal memiliki konduktivitas termal tinggi untuk menggantikan rongga udara mikroskopis."}]
+      });
+    }
+  });
+  </script>
 
 <footer>
   <p>MODUL AJAR HARDWARE KOMPUTER · 9 JP · KURIKULUM MERDEKA / DEEP LEARNING · PROFIL PELAJAR: BERNALAR KRITIS</p>

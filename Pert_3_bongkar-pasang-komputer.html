@@ -387,6 +387,7 @@ footer{
   .term-lines{min-height:150px;font-size:12px;}
 }
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 <div class="page">
@@ -728,7 +729,38 @@ footer{
 
   </main>
 
-  <footer>
+  
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: SOP Perakitan & Pembongkaran Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Indikator fisik apa yang memastikan prosesor telah terpasang pada orientasi soket yang tepat (misal soket LGA/AM4)?", "options": ["Tanda segitiga emas di sudut prosesor harus sejajar dengan tanda segitiga pada soket motherboard", "Prosesor ditekan paksa hingga berbunyi kencang", "Prosesor dilem dengan perekat", "Tulisan merk prosesor menghadap ke atas"], "correctIndex": 0, "explanation": "Segitiga emas (pin 1 alignment marker) dan lekukan notch memastikan prosesor tidak terbalik sebelum tuas soket dikunci."}, {"question": "Mengapa baut standoff (kuningan) wajib dipasang di antara casing dan motherboard?", "options": ["Sebagai hiasan casing", "Mencegah bagian belakang papan PCB motherboard menyentuh pelat logam casing yang dapat menyebabkan korsleting fatal (short circuit)", "Meredam getaran kipas", "Menambah bobot komputer"], "correctIndex": 1, "explanation": "Standoff memberikan jarak celah aman (clearance) agar pin solderan timah di balik motherboard tidak menyentuh ground casing logam."}, {"question": "Bunyi 'KLIK' pada kedua ujung slot RAM saat pemasangan menandakan apa?", "options": ["RAM mengalami patah fisik", "Pengait pengunci otomatis slot DIMM telah mengunci modul RAM pada posisi kontak yang sempurna", "Slot RAM rusak", "RAM terpasang terbalik"], "correctIndex": 1, "explanation": "Klip penahan otomatis akan mengatup dan mengeluarkan bunyi klik saat modul RAM ditekan dengan tekanan merata."}, {"question": "Konektor kabel front panel casing yang memiliki polaritas Positif (+) dan Negatif (-) dan jika terbalik tidak akan menyala adalah?", "options": ["Power SW (Switch)", "Power LED & HDD LED", "Reset SW", "Speaker Internal"], "correctIndex": 1, "explanation": "Dioda LED bersifat semikonduktor satu arah (polaritas anoda positif dan katoda negatif). Switch mekanik Power SW/Reset SW tidak memiliki polaritas."}, {"question": "Pengujian awal Power-On Self Test (POST) di luar casing sebelum seluruh komponen dirakit ke dalam casing bertujuan untuk?", "options": ["Menghemat waktu pengerjaan", "Memastikan kombinasi inti prosesor, motherboard, RAM, dan display berfungsi normal sebelum dirapikan ke dalam casing yang sempit", "Menguji ketahanan debu", "Menghabiskan baterai CMOS"], "correctIndex": 1, "explanation": "Breadboarding / test bench luar casing memudahkan troubleshooting jika ada komponen yang Dead-on-Arrival (DOA)."}]
+      });
+    }
+  });
+  </script>
+
+<footer>
     <span>Blok 1 · Hari 3 · Prosedur Bongkar Pasang Komputer · 9 JP</span>
     <span>Alat &amp; Bahan: unit CPU bekas, toolkit obeng, thermal paste, gelang anti-statis</span>
   </footer>

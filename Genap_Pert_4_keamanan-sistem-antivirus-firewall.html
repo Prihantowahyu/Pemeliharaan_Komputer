@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -526,32 +516,13 @@ function printL4(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa yang dimaksud dengan 'Controlled Folder Access' dan apa fungsi utamanya?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">A. Fitur backup otomatis file ke cloud setiap jam</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">B. Fitur Windows Security yang mencegah program tidak dikenali memodifikasi file di folder yang dilindungi, sebagai proteksi khusus anti-ransomware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">C. Pengaturan hak akses folder untuk pengguna berbeda dalam satu komputer</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">D. Fitur enkripsi file secara otomatis menggunakan BitLocker</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Port 445 (SMB) pada Windows wajib diblokir melalui Firewall karena alasan keamanan utama apa?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">A. Port 445 menggunakan bandwidth terlalu besar dan memperlambat jaringan</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">B. Port 445 adalah jalur utama penyebaran ransomware WannaCry (EternalBlue exploit) dan lateral movement serangan siber antar komputer dalam jaringan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">C. Port 445 sudah tidak digunakan dan menyebabkan konflik dengan protokol baru</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">D. Port 445 hanya untuk printer jaringan dan tidak relevan untuk komputer biasa</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Perintah CMD apa yang digunakan untuk mengembalikan folder tersembunyi pada flashdisk yang terinfeksi virus shortcut?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">A. ipconfig /flushdns</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">B. attrib -h -r -s /s /d F:\ (F: adalah drive letter flashdisk)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">C. sfc /scannow</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">D. chkdsk F: /f /r</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa perintah PowerShell yang digunakan untuk menonaktifkan SMBv1 pada Windows Server/Workstation?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">A. Disable-SMBv1 -Force</div><div class="quiz-opt" onclick="checkQuiz(this, true, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">B. Set-SmbServerConfiguration -EnableSMB1Protocol $false</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">C. netsh firewall set service SMBv1 disable</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">D. Remove-WindowsFeature FS-SMB1</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -577,18 +548,19 @@ function printL4(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Keamanan Sistem Operasi: Antivirus, Firewall &amp; Patch Management',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Port jaringan nomor berapa (protokol SMB) yang menjadi vektor utama penyebaran massal ransomware WannaCry dan wajib diblokir pada profil Public Firewall?", "options": ["Port 80 (HTTP)", "Port 445 (SMB over IP)", "Port 443 (HTTPS)", "Port 53 (DNS)"], "correctIndex": 1, "explanation": "Eksploit EternalBlue mengeksploitasi kerentanan SMBv1 pada Port 445 untuk menginfeksi komputer lain dalam satu jaringan tanpa interaksi user."}, {"question": "Fitur Windows Security apa yang secara khusus mengunci folder dokumen penting agar tidak dapat dimodifikasi atau dienkripsi oleh ransomware?", "options": ["Windows Hello", "Controlled Folder Access (Ransomware Protection)", "Device Encryption", "SmartScreen Filter"], "correctIndex": 1, "explanation": "Controlled Folder Access memblokir aplikasi asing yang mencoba menulis/mengubah file di dalam direktori folder yang dilindungi."}, {"question": "Perintah Command Prompt apa yang dijalankan dengan hak Administrator untuk memulihkan folder yang disembunyikan oleh virus shortcut pada flashdisk (Drive F:)?", "options": ["ipconfig /renew", "attrib -h -r -s /s /d F:\\*.*", "format F: /q", "del F:\\*.* /f /s /q"], "correctIndex": 1, "explanation": "Perintah attrib menghapus atribut hidden (-h), read-only (-r), dan system (-s) secara rekursif (/s /d) pada seluruh file flashdisk."}, {"question": "Konsol manajemen apa di Windows yang digunakan untuk mengatur aturan Inbound dan Outbound Rules Firewall tingkat lanjut?", "options": ["devmgmt.msc", "wf.msc (Windows Defender Firewall with Advanced Security)", "diskmgmt.msc", "compmgmt.msc"], "correctIndex": 1, "explanation": "wf.msc adalah konsol MMC tingkat lanjut untuk membuat rule port, IP, protokol, dan isolasi koneksi jaringan."}, {"question": "Apa bahaya utama membiarkan protokol jadul SMBv1 tetap aktif pada sistem operasi komputer?", "options": ["Mengurangi kecepatan transfer internet menjadi 10 Mbps", "Protokol SMBv1 memiliki celah keamanan kritis (CVE-2017-0144) yang memungkinkan eksekusi kode berbahaya jarak jauh secara otomatis", "Membuat monitor tidak bisa menyala", "Menghapus driver audio"], "correctIndex": 1, "explanation": "SMBv1 adalah protokol usang tahun 1980-an tanpa enkripsi modern dan memiliki exploit buffer overflow berbahaya."}, {"question": "Jenis malware yang mengunci seluruh file dokumen pengguna dengan enkripsi militer AES-256 lalu meminta tebusan mata uang kripto disebut?", "options": ["Adware", "Ransomware", "Spyware", "Keylogger"], "correctIndex": 1, "explanation": "Ransomware mengenkripsi file korban dan menuntut tebusan uang tebusan (ransom) untuk mendapatkan kunci dekripsi privat."}, {"question": "Metode serangan siber yang memanipulasi psikologis manusia melalui email/pesan palsu yang menyamar sebagai instansi resmi untuk mencuri password disebut?", "options": ["DDoS Attack", "Phishing / Social Engineering", "SQL Injection", "Brute Force Password"], "correctIndex": 1, "explanation": "Phishing mengelabui korban agar secara sukarela memasukkan username, password, atau OTP pada website tiruan."}, {"question": "Apa fungsi utama dari fitur 'Tamper Protection' pada Windows Security?", "options": ["Mempercepat proses rendering video", "Mencegah aplikasi berbahaya atau virus mengubah pengaturan antivirus dan mematikan Real-time Protection secara diam-diam", "Mengganti background desktop secara otomatis", "Menonaktifkan update Windows"], "correctIndex": 1, "explanation": "Tamper Protection mengunci settingan proteksi Windows Defender agar virus atau malware tidak bisa mematikannya via PowerShell/Registry."}, {"question": "Mengapa fitur USB AutoPlay / AutoRun sebaiknya dinonaktifkan melalui Group Policy (gpedit.msc) di komputer laboratorium sekolah?", "options": ["Agar flashdisk tidak bisa dibaca sama sekali", "Mencegah eksekusi script malware autorun.inf secara otomatis saat flashdisk siswa dicolokkan ke port USB", "Menghemat kapasitas flashdisk", "Mempercepat proses copy file"], "correctIndex": 1, "explanation": "Virus USB memanfaatkan AutoPlay untuk langsung menjalankan payload file executable tanpa menunggu siswa mengklik file tersebut."}, {"question": "Perintah PowerShell apa yang digunakan administrator untuk menonaktifkan protokol SMBv1 pada Windows?", "options": ["Disable-NetworkAdapter", "Set-SmbServerConfiguration -EnableSMB1Protocol $false", "Stop-Service WindowsFirewall", "Clear-DnsClientCache"], "correctIndex": 1, "explanation": "Cmdlet Set-SmbServerConfiguration mematikan dukungan server SMBv1 secara permanen pada registry Windows."}]
+    });
   }
-}
+});
 </script>
 
 </body>

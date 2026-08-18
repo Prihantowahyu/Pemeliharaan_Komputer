@@ -475,6 +475,7 @@
     .statusbar .path{display:none;}
   }
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -1103,7 +1104,38 @@
     </div>
   </section>
 
-  <footer>
+  
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Backup & Disaster Recovery Sistem',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Metode backup apa yang hanya menyalin file yang baru dibuat atau dimodifikasi sejak backup terakhir, sehingga menghemat waktu dan kapasitas penyimpanan?", "options": ["Full Backup", "Incremental Backup", "Manual Copy", "Mirror Snapshot"], "correctIndex": 1, "explanation": "Incremental backup hanya mencadangkan perubahan data terbaru dari titik backup sebelumnya, sangat efisien untuk backup harian."}, {"question": "Metode pencadangan cloud storage otomatis (seperti Google Drive / OneDrive) memiliki keunggulan utama dalam mengantisipasi bencana apa?", "options": ["Mengurangi kecepatan internet", "Bencana fisik lokal (kebakaran, banjir, pencurian unit komputer di lab) karena data tersimpan di server off-site terpisah", "Membuat komputer tidak perlu listrik", "Menghapus kebutuhan password"], "correctIndex": 1, "explanation": "Salinan off-site cloud menjamin data tetap utuh meskipun seluruh perangkat keras di laboratorium sekolah hancur total."}, {"question": "Software utilitas backup image berbasis Linux open-source yang sangat populer untuk kloning massal PC laboratorium sekolah via LAN/USB adalah?", "options": ["Clonezilla", "Paint", "Notepad++", "VLC"], "correctIndex": 0, "explanation": "Clonezilla mampu melakukan kloning sektor disk secara cepat dan mendukung deployment massal multikast ke puluhan PC sekaligus."}, {"question": "Apa kepanjangan dari RTO (Recovery Time Objective) dalam manajemen pemulihan bencana sistem IT?", "options": ["Real Time Online", "Target batas waktu maksimal yang dibutuhkan untuk memulihkan sistem komputer hingga kembali beroperasi normal setelah insiden kerusakan", "Right To Operate", "Read The Option"], "correctIndex": 1, "explanation": "RTO mengukur seberapa cepat tim teknisi mampu mengembalikan layanan komputer agar kegiatan belajar/kantor tidak terganggu."}, {"question": "Sebelum menjalankan proses restore data dari file backup, tindakan apa yang wajib diverifikasi teknisi terlebih dahulu?", "options": ["Mematikan monitor", "Memastikan integritas file backup tidak korup dan media target memiliki kapasitas penyimpanan yang mencukupi", "Mengganti mouse", "Menjual harddisk lama"], "correctIndex": 1, "explanation": "Verifikasi checksum hash file backup memastikan data di dalam file image valid sebelum menimpa partisi target."}]
+      });
+    }
+  });
+  </script>
+
+<footer>
     <p>MODUL AJAR · TKJ · SEMESTER GANJIL · BLOK 2 — HARI KE-5 · 9 JP</p>
   </footer>
 </div>

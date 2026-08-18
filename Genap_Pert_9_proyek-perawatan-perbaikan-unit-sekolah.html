@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -517,27 +507,13 @@ function printLKPD9(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa konfigurasi 'Positive Air Pressure' sangat direkomendasikan untuk komputer laboratorium sekolah?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">A. Karena membuat kipas casing berputar tanpa menggunakan daya listrik</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">B. Karena udara masuk hanya melalui filter debu depan dan udara berlebih didorong keluar lewat celah casing, meminimalkan debu liar masuk dari celah tanpa filter</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">C. Karena menghasilkan suara kipas yang lebih hening</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">D. Karena menurunkan suhu pendingin hingga di bawah 0 derajat Celcius</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa dampak utama jika kabel power di dalam casing dibiarkan berantakan dan menutupi area tengah motherboard?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">A. Mengakibatkan harddisk otomatis terformat</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">B. Mengganggu alur sirkulasi udara (airflow disruption) dari kipas depan ke belakang, menciptakan kantong udara panas (hot spot), dan meningkatkan suhu komponen</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">C. Mengubah tegangan listrik 12V menjadi 5V secara acak</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">D. Memperlambat kecepatan download internet</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Cairan apa yang paling aman dan tepat digunakan untuk membersihkan sisa pasta termal kering pada prosesor?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">A. Air sabun cuci piring</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">B. Alkohol Isopropil berkadar kemurnian tinggi 90-99% (IPA)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">C. Minyak kayu putih atau minyak tanah</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">D. Thinner cat besi</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -563,18 +539,19 @@ function printLKPD9(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Proyek Akhir: Perawatan &amp; Perbaikan Unit Komputer Sekolah',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Mengapa konfigurasi tekanan udara positif (Positive Air Pressure) sangat disarankan untuk komputer laboratorium sekolah?", "options": ["Agar kipas tidak memerlukan daya listrik", "Volume udara masuk (Intake) lebih besar dari udara keluar (Exhaust) melalui filter debu, sehingga udara bersih menekan keluar dan debu liar tidak masuk dari celah casing", "Agar suara PC lebih berisik", "Agar casing transparan"], "correctIndex": 1, "explanation": "Positive pressure mencegah debu masuk dari lubang-lubang tanpa filter karena udara bertekanan positif terus mendorong keluar."}, {"question": "Apa dampak teknis jangka panjang jika kabel power di dalam casing dibiarkan berantakan dan menutupi motherboard?", "options": ["Harddisk terformat sendiri", "Menghambat aliran sirkulasi udara (airflow disruption) dari kipas depan ke belakang, menciptakan kantong panas (hot spot), dan menaikkan suhu komponen 5-10°C", "Monitor menjadi buram", "Keyboard lambat merespons"], "correctIndex": 1, "explanation": "Cable management yang rapi memaksimalkan efisiensi pendinginan konveksi udara di dalam casing PC."}, {"question": "Cairan pembersih kimia apa yang memiliki tingkat penguapan instan dan aman digunakan untuk membersihkan kerak pasta termal lama pada prosesor?", "options": ["Air mineral", "Alkohol Isopropil 90-99% (IPA)", "Minyak goreng", "Deterjen cair"], "correctIndex": 1, "explanation": "Alkohol Isopropil kemurnian tinggi melarutkan silikon pasta termal tanpa residu konduktif dan menguap dalam hitungan detik."}, {"question": "Dokumen resmi apa yang wajib diterbitkan dan ditandatangani oleh teknisi siswa dan kepala laboratorium setelah pekerjaan servis komputer selesai?", "options": ["Surat Izin Mengemudi", "Berita Acara Serah Terima (BAST) Pemeliharaan Komputer", "Kwitansi jual beli", "Kartu Tanda Siswa"], "correctIndex": 1, "explanation": "BAST adalah dokumen legal pertanggungjawaban teknis yang mencatat spesifikasi, tindakan servis, dan hasil uji kelayakan unit."}, {"question": "Berapa durasi waktu minimum pelaksanaan stress test stabilitas beban penuh (Prime95 + FurMark) sebelum unit PC dinyatakan layak serah terima?", "options": ["10 detik", "15 - 20 menit tanpa terjadi crash/BSOD dan suhu stabil di bawah 75°C", "3 hari penuh", "5 jam"], "correctIndex": 1, "explanation": "Durasi 15-20 menit cukup untuk mencapai kesetimbangan termal (thermal equilibrium) maksimal pada heatsink pendingin."}, {"question": "Langkah pertama yang wajib dilakukan saat memulai proyek servis komputer laboratorium adalah?", "options": ["Langsung menyiram PC dengan air", "Audit & Pra-Inspeksi awal (mencatat spesifikasi, suhu idle awal, dan riwayat keluhan pengguna)", "Mengganti seluruh kabel power", "Menjual casing PC"], "correctIndex": 1, "explanation": "Audit awal mendokumentasikan baseline kondisi sebelum servis untuk perbandingan terukur setelah perbaikan selesai."}, {"question": "Alat bertenaga angin apa yang digunakan untuk meniup tumpukan debu tebal pada sirip heatsink dan rongga power supply tanpa menyentuh komponen fisik?", "options": ["Kompresor angin basah", "Electric Air Blower Antistatis", "Penyedot debu rumah tangga", "Kipas angin dinding"], "correctIndex": 1, "explanation": "Electric air blower khusus elektronik meniup partikel debu kering berkecepatan tinggi tanpa risiko induksi listrik statis."}, {"question": "Apa fungsi pelumasan bearing kipas pendingin menggunakan pelumas tetes sintetis khusus saat servis berkala?", "options": ["Mengubah warna baling-baling kipas", "Mengurangi gesekan mekanis poros bearing, menghilangkan suara bising gemeretak, dan menjaga RPM putaran kipas tetap optimal", "Menambah kapasitas watt PSU", "Menonaktifkan kipas"], "correctIndex": 1, "explanation": "Bearing kipas yang kering kehilangan pelumasannya sehingga putaran melambat dan aus; pelumas silikon memulihkan efisiensi putaran."}, {"question": "Bagaimana cara pengujian fungsionalitas port peripheral secara menyeluruh sebelum unit PC ditutup casingnya?", "options": ["Melihat lampu LED indikator menyala", "Menguji colok flashdisk di semua port USB depan/belakang, menguji headset pada jack audio, dan menguji transfer data kabel LAN", "Memformat ulang Windows", "Menekan tombol power berulang-ulang"], "correctIndex": 1, "explanation": "Pengujian fisik seluruh I/O port memastikan tidak ada kabel front panel yang terlepas atau pin USB yang korsleting."}, {"question": "Stiker label log servis yang ditempelkan pada casing komputer laboratorium wajib memuat informasi apa?", "options": ["Nama game yang terinstal", "Tanggal servis, nama tim teknisi pelaksana, tindakan yang dilakukan, dan jadwal servis berikutnya", "Harga beli komputer", "Password BIOS"], "correctIndex": 1, "explanation": "Label log pemeliharaan memudahkan monitoring riwayat servis berkala oleh tim teknisi laboratorium berikutnya."}]
+    });
   }
-}
+});
 </script>
 
 </body>

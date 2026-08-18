@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -486,27 +476,13 @@ function printL7(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa perbedaan antara instalasi 'Upgrade' dan 'Custom: Advanced' (Clean Install) saat menginstal ulang Windows?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">A. Upgrade lebih cepat, Custom lebih lambat</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">B. Upgrade mempertahankan semua file, aplikasi, dan pengaturan dari Windows lama. Clean Install menghapus seluruh isi drive dan menginstal Windows segar tanpa sisa file lama — menghasilkan sistem yang lebih bersih dan performan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">C. Upgrade hanya untuk Windows 10 ke 11, Custom untuk versi yang sama</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">D. Tidak ada perbedaan nyata antara keduanya</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang terjadi pada file pribadi (Documents, Pictures, Videos) saat System Restore dilakukan?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">A. Semua file pribadi ikut terhapus bersama restore point lama</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">B. File pribadi TIDAK terpengaruh — hanya driver, registry, dan file sistem yang di-rollback ke titik snapshot</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">C. File pribadi disalin ke partisi tersembunyi selama proses restore</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">D. File pribadi dipindahkan ke folder Windows.old secara otomatis</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Perintah WinRE mana yang digunakan untuk membangun ulang Boot Configuration Data (BCD) yang rusak?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">A. sfc /rebuildbcd</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">B. diskpart /fix</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">C. bootrec /rebuildbcd — setelah sebelumnya menjalankan bootrec /fixmbr dan bootrec /fixboot</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">D. bcdedit /rebuild all</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -532,18 +508,19 @@ function printL7(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Instalasi Ulang Sistem Operasi &amp; Strategi Pemulihan Darurat',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Aturan baku pencadangan data 'Strategi 3-2-1' mensyaratkan hal apa saja?", "options": ["3 harddisk, 2 komputer, 1 flashdisk", "3 salinan data penting, disimpan pada 2 jenis media penyimpanan fisik berbeda, dengan minimal 1 salinan disimpan di lokasi terpisah/cloud", "Backup dilakukan 3 kali sehari selama 2 minggu untuk 1 file", "3 password berbeda untuk 2 akun"], "correctIndex": 1, "explanation": "Strategi 3-2-1 menjamin nol kehilangan data dengan redundansi media dan isolasi lokasi geografis."}, {"question": "Apa perbedaan fundamental antara proses 'Clean Install' dengan 'In-place Upgrade' pada instalasi sistem operasi Windows?", "options": ["Clean Install mempertahankan seluruh virus lama", "Clean Install memformat seluruh partisi sistem dan menginstal OS fresh tanpa sisa file/registry lama yang bermasalah", "Clean Install hanya membutuhkan waktu 2 menit", "In-place Upgrade menghapus semua data"], "correctIndex": 1, "explanation": "Clean Install membersihkan seluruh tumpukan registry dan file sampah lama, menghasilkan performa sistem operasi yang paling prima."}, {"question": "Jika sistem Windows mengalami kegagalan booting setelah pembaruan driver, fitur pemulihan apa yang dapat mengembalikan konfigurasi sistem tanpa menghapus file dokumen pribadi?", "options": ["Format C:", "System Restore Point (rstrui.exe)", "Fdisk delete all", "Clear CMOS jumper"], "correctIndex": 1, "explanation": "System Restore hanya memulihkan snapshot registry, driver, dan system files. Dokumen di folder User tidak tersentuh sama sekali."}, {"question": "Perintah WinRE (Windows Recovery Environment) apa yang digunakan di Command Prompt untuk memperbaiki dan membangun ulang file Boot Configuration Data (BCD) yang korup?", "options": ["sfc /scannow", "bootrec /rebuildbcd", "diskpart /clean", "ipconfig /flushdns"], "correctIndex": 1, "explanation": "Perintah bootrec /rebuildbcd memindai instalasi Windows dan menulis ulang konfigurasi booting BCD yang hilang."}, {"question": "Kombinasi pengaturan apa di software Rufus yang wajib dipilih saat membuat bootable USB Windows 11 untuk komputer modern dengan firmware UEFI?", "options": ["Partition Scheme: MBR & Target: BIOS (CSM)", "Partition Scheme: GPT & Target: UEFI (non CSM)", "Partition Scheme: Floppy & Target: MS-DOS", "File System: FAT16"], "correctIndex": 1, "explanation": "Windows 11 mewajibkan instalasi berbasis UEFI native yang mensyaratkan skema partisi GPT pada media instalasi."}, {"question": "Fitur pemulihan darurat sistem Windows yang dapat diakses dengan menekan tombol Shift saat mengklik menu Restart disebut?", "options": ["Safe Mode BIOS", "Windows Recovery Environment (WinRE / Advanced Startup)", "Task Manager", "Device Manager"], "correctIndex": 1, "explanation": "Menu Advanced Startup (WinRE) memuat opsi Startup Repair, System Restore, Command Prompt Recovery, dan Startup Settings."}, {"question": "Jenis backup apa yang membuat salinan identik (klon sektor) seluruh partisi Windows beserta aplikasi dan konfigurasinya menjadi satu file image (.vhd)?", "options": ["Copy Paste folder Desktop", "System Image Backup", "Export Bookmark Browser", "Create Shortcut"], "correctIndex": 1, "explanation": "System Image Backup mencadangkan seluruh kondisi drive C: secara bit-by-bit untuk pemulihan instan ke hardware baru."}, {"question": "Urutan instalasi driver hardware pasca clean install Windows yang paling tepat adalah?", "options": ["Driver Audio &rarr; Game &rarr; Wallpaper", "Chipset Driver Motherboard &rarr; Driver Grafis (VGA) &rarr; Driver Jaringan (LAN/WiFi) &rarr; Driver Audio & Periferal", "Driver Printer &rarr; Direct X &rarr; Antivirus", "Bebas tanpa urutan"], "correctIndex": 1, "explanation": "Chipset driver harus diinstal pertama kali agar sistem operasi mengenali jalur komunikasi bus controller motherboard dengan benar."}, {"question": "Berapa alokasi kapasitas ruang disk minimum yang direkomendasikan untuk System Protection Restore Point pada drive C:?", "options": ["100 Megabyte", "5% - 10% dari total kapasitas drive (sekitar 10-20 GB)", "90% dari total harddisk", "1 Gigabyte"], "correctIndex": 1, "explanation": "Kapasitas 5-10% cukup untuk menampung 3-5 titik snapshot pemulihan sistem sebelum snapshot terlama ditimpa otomatis."}, {"question": "Bagaimana cara memastikan seluruh driver hardware telah terpasang sempurna tanpa konflik setelah proses instalasi ulang?", "options": ["Melihat tampilan desktop Windows", "Membuka Device Manager (devmgmt.msc) dan memastikan tidak ada tanda seru kuning (warning) atau unknown device", "Mengecek kapasitas RAM di Task Manager", "Membuka browser Google"], "correctIndex": 1, "explanation": "Device Manager menampilkan status seluruh perangkat keras. Tidak adanya tanda seru kuning membuktikan driver terkonfigurasi 100%."}]
+    });
   }
-}
+});
 </script>
 
 </body>

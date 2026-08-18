@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -570,32 +560,13 @@ function printLKPD2(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa perbedaan mendasar teknologi print head Thermal Bubble (Canon/HP) vs Piezoelectric (Epson)?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">A. Thermal menggunakan laser untuk mencetak, Piezoelectric menggunakan tinta</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">B. Thermal menggunakan panas resistor untuk mendorong tinta, Piezoelectric menggunakan getaran kristal listrik</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">C. Thermal lebih mahal dan tahan lama, Piezoelectric lebih murah</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">D. Keduanya menggunakan teknologi yang identik dengan nama berbeda</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang WAJIB dilakukan setelah mengganti atau membersihkan waste ink pad pada printer Epson?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">A. Mencetak 50 halaman test page untuk memanaskan sistem</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">B. Melakukan factory reset dari menu printer langsung</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">C. Reset counter waste ink digital menggunakan Epson Adjustment Tool / Service Program</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">D. Mengganti selang damper secara bersamaan</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Komponen printer apa yang berfungsi memberi tahu posisi horizontal head print berdasarkan pembacaan optik?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">A. Pickup Roller — menarik kertas masuk tray</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">B. Encoder Strip (Timing Belt Film) — pita transparan dengan garis kode</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">C. Fuser Unit — melebur toner ke kertas</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">D. CR Motor (Carriage Motor) — menggerakkan head kiri-kanan</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa perintah yang diketik di Run Dialog (Win+R) untuk mengakses daftar printer yang dishare dari PC lain di jaringan?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">A. ipconfig /renew</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">B. netstat -an</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">C. \\[IP_ADDRESS_PC_HOST] contoh: \\192.168.1.100</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">D. ping 192.168.1.1</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -633,18 +604,19 @@ function printLKPD2(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Perawatan &amp; Troubleshooting Printer / Scanner Jaringan',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Apa perbedaan teknologi dasar print head Thermal Bubble (Canon/HP) vs Piezoelectric (Epson)?", "options": ["Thermal menggunakan laser, Piezoelectric menggunakan pita jarum", "Thermal menggunakan resistor panas pembuat gelembung uap, Piezoelectric menggunakan getaran kristal piezoelektrik listrik", "Thermal hanya untuk cetak hitam-putih, Piezoelectric untuk warna", "Keduanya menggunakan teknologi yang persis sama"], "correctIndex": 1, "explanation": "Thermal Bubble memanaskan tinta hingga meletup keluar, sedangkan Piezoelectric memanfaatkan deformasi kristal akibat pulsa listrik."}, {"question": "Apa tindakan WAJIB setelah mencuci atau mengganti bantalan busa penampung tinta buangan (waste ink pad) pada printer inkjet?", "options": ["Mencetak 100 lembar kertas kosong", "Mereset counter digital waste ink menggunakan software Adjustment Program / Service Tool khusus", "Mengganti seluruh kabel power printer", "Mematikan printer selama 3 hari berturut-turut"], "correctIndex": 1, "explanation": "Counter waste ink adalah hitungan firmware internal. Jika tidak direset dengan Adjustment Tool, printer akan tetap dalam status blinking lock."}, {"question": "Komponen printer apa yang berupa pita film plastik transparan bergaris halus dan berfungsi sebagai sensor pemandu posisi horizontal carriage head?", "options": ["Pickup Roller", "Encoder Strip (Timing Belt Strip)", "Fuser Sleeve", "Pressure Roller"], "correctIndex": 1, "explanation": "Encoder strip dibaca oleh sensor optik pada carriage unit untuk menentukan koordinat horizontal penembakan titik tinta."}, {"question": "Cairan pembersih apa yang paling aman digunakan untuk membersihkan karet penarik kertas (pickup roller) yang berdebu dan licin?", "options": ["Minyak pelumas mesin jahit", "Kain microfiber yang sedikit dibasahi air bersih atau rubber cleaner khusus", "Thinner cat berkadar tinggi", "Bensin murni"], "correctIndex": 1, "explanation": "Zat pelarut keras seperti thinner merusak elastisitas karet. Gunakan air bersih atau cairan peremaja karet (rubber revitalizer)."}, {"question": "Pada printer laser, komponen apa yang bertugas memanaskan dan melebur serbuk toner ke serat kertas pada suhu ~180-200°C?", "options": ["OPC Drum Unit", "Fuser Unit (Heating Roller & Pressure Roller)", "Laser Scanning Unit (LSU)", "Transfer Roller"], "correctIndex": 1, "explanation": "Fuser unit menggunakan pemanas keramik/halogen dan roller silikon untuk melelehkan resin toner agar permanen menempel pada kertas."}, {"question": "Perintah apa yang diketikkan di Run dialog (Win+R) pada PC klien untuk mengakses printer yang dibagikan (shared) oleh PC host di jaringan LAN?", "options": ["ping 192.168.1.1", "\\\\[IP_PC_HOST] contoh: \\\\192.168.1.100", "netstat -an", "tracert google.com"], "correctIndex": 1, "explanation": "Mengakses UNC path \\\\IP_HOST akan membuka folder dan printer yang dibagikan secara lokal melalui protokol SMB."}, {"question": "Jika printer mengalami status 'Offline' padahal kabel terhubung, service Windows apa di services.msc yang harus di-restart?", "options": ["Windows Update", "Print Spooler", "Remote Desktop Services", "Routing and Remote Access"], "correctIndex": 1, "explanation": "Service Print Spooler mengelola antrean cetak dokumen Windows. Me-restart service ini sering menyelesaikan status printer macet/offline."}, {"question": "Hasil cetak dokumen printer inkjet terdapat garis-garis putih horizontal putus-putus. Tindakan pertama teknisi adalah?", "options": ["Mengganti motor penarik kertas", "Mencetak Nozzle Check Pattern lalu menjalankan Head Cleaning dari menu maintenance driver", "Menyiram print head dengan air keran", "Menginstal ulang sistem operasi Windows"], "correctIndex": 1, "explanation": "Garis putus menandakan lubang nozzle tersumbat tinta kering. Solusi awal adalah nozzle check dan head cleaning software."}, {"question": "Bagaimana cara mengambil kertas yang tersangkut (paper jam) di dalam printer yang benar sesuai SOP?", "options": ["Menarik paksa kertas dari tray belakang berlawanan arah putaran roller", "Menarik kertas secara perlahan dan merata SEARAH alur keluar kertas ke depan", "Mencungkil kertas menggunakan obeng logam tajam", "Menghidupkan printer dan membiarkan motor menggulung paksa kertas sobek"], "correctIndex": 1, "explanation": "Menarik kertas berlawanan arah dapat mematahkan gir transmisi dan merusak sensor ASF mekanik di dalam printer."}, {"question": "Kaca flatbed scanner terdapat noda garis hitam vertikal pada hasil scan. Cara perawatannya adalah?", "options": ["Mengganti lampu laser scanner", "Membersihkan permukaan kaca flatbed dengan kain microfiber dan cairan pembersih kaca anti-gores", "Mengubah resolusi scan menjadi 100 DPI", "Memformat harddisk komputer"], "correctIndex": 1, "explanation": "Noda debu/koreksi pada kaca pemindai akan terbaca memanjang sebagai garis vertikal oleh sensor CIS scanner."}]
+    });
   }
-}
+});
 </script>
 
 </body>

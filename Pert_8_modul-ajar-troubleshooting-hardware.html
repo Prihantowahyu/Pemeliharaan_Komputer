@@ -270,6 +270,7 @@
   .quiz-essay{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:10px; font-size:14.5px; color:var(--text);}
   .quiz-key{margin-top:16px;}
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -872,7 +873,38 @@
     </div>
   </section>
 
-  <footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 2 · 9 JP</footer>
+  
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Troubleshooting Perangkat Keras Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Gejala komputer menyala, kipas berputar kencang, namun tidak ada tampilan apa pun di monitor (No Display) dengan kode beep 1 panjang 2 pendek paling sering disebabkan oleh?", "options": ["Keyboard rusak", "Masalah pada kartu grafis (VGA Card) atau slot PCIe kotor", "Kabel power supply terputus", "Harddisk penuh"], "correctIndex": 1, "explanation": "Kode beep AMI/Award 1 panjang 2 pendek adalah indikasi standar kegagalan inisialisasi video/display adapter."}, {"question": "Langkah awal apa yang dilakukan untuk mereset seluruh pengaturan BIOS kembali ke setelan pabrik secara hardware saat komputer tidak bisa masuk BIOS?", "options": ["Mengganti monitor", "Melakukan Clear CMOS dengan memindahkan pin Jumper CLRTC atau melepas baterai kancing CR2032 selama 5 menit tanpa arus listrik", "Menyiram motherboard dengan air", "Menekan tombol power 100 kali"], "correctIndex": 1, "explanation": "Memutus daya ke chip CMOS menghapus konfigurasi volatile BIOS dan mengembalikan mikrokode ke setelan default pabrik."}, {"question": "Indikator 4 lampu LED kecil pada motherboard modern yang menyala berurutan saat POST untuk menunjukkan titik kegagalan hardware disebut?", "options": ["RGB Aura Light", "Q-LED Debug (CPU, DRAM, VGA, BOOT)", "Power Supply LED", "LAN Activity LED"], "correctIndex": 1, "explanation": "Q-LED Debug yang berhenti menyala pada LED tertentu (misal DRAM) langsung menunjukkan komponen yang mengalami error tanpa perlu speaker beep."}, {"question": "Kondisi fisik kapasitor motherboard atau PSU yang mengalami kerusakan akibat kelebihan tegangan/panas ditandai oleh?", "options": ["Kapasitor menjadi dingin", "Bagian atas pelat kapasitor menggembung (kembung), retak, atau mengeluarkan kerak cairan elektrolit berwarna cokelat", "Warna kapasitor berubah menjadi emas", "Kapasitor mengeluarkan suara musik"], "correctIndex": 1, "explanation": "Kapasitor elektrolit kembung kehilangan kapasitansinya dan menyebabkan riak tegangan (ripple) tidak stabil yang membuat PC sering hang."}, {"question": "Alat ukur elektronik apa yang digunakan untuk menguji nilai tegangan keluaran 12V, 5V, dan 3.3V pada kabel konektor Power Supply secara akurat?", "options": ["Termometer Badan", "Multimeter Digital / Digital PSU Tester", "Speedometer", "Barometer"], "correctIndex": 1, "explanation": "Multimeter digital mengukur voltase DC aktual dari kabel 24-pin dan PCIe untuk memastikan tegangan berada di batas toleransi ±5%."}]
+      });
+    }
+  });
+  </script>
+
+<footer>MODUL AJAR · TEKNIK KOMPUTER & JARINGAN · BLOK 2 — HARI 2 · 9 JP</footer>
 
 </div>
 </body>

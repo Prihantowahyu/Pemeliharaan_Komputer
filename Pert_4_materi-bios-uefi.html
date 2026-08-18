@@ -257,6 +257,7 @@
     .detail{page-break-inside:avoid;}
   }
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -295,6 +296,37 @@
     <button id="btnEsc"><b>ESC</b>Kembali ke Atas</button>
   </div>
 </div>
+
+
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Konfigurasi BIOS & UEFI Firmware',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Fitur keamanan firmware modern pada UEFI yang memvalidasi sertifikat digital bootloader untuk mencegah eksekusi rootkit/malware saat booting adalah?", "options": ["Fast Boot", "Secure Boot", "Overclocking Mode", "XMP Profile"], "correctIndex": 1, "explanation": "Secure Boot hanya mengizinkan eksekusi OS dan driver yang memiliki tanda tangan digital (signature) resmi terverifikasi."}, {"question": "Komponen hardware apa yang menyimpan daya listrik kecil untuk menjaga pengaturan tanggal, waktu, dan setting BIOS tidak hilang saat kabel listrik PC dicabut?", "options": ["Baterai Kancing Lithium CR2032 (3 Volt)", "Kapasitor Power Supply", "Kabel Front Panel", "Kipas Heatsink"], "correctIndex": 0, "explanation": "Baterai kancing CR2032 memberi suplai daya ke chip CMOS RTC (Real-Time Clock) agar pengaturan sistem tidak reset."}, {"question": "Menu BIOS apa yang digunakan untuk menentukan urutan media penyimpanan pertama yang akan dibaca saat komputer dinyalakan?", "options": ["Power Management", "Boot Priority / Boot Order", "Advanced Chipset Features", "Integrated Peripherals"], "correctIndex": 1, "explanation": "Boot Priority menentukan apakah komputer akan boot terlebih dahulu dari USB Flashdisk, SSD NVMe, atau Harddisk."}, {"question": "Tombol keyboard standar apa yang paling umum ditekan berulang-ulang saat logo komputer muncul untuk masuk ke menu BIOS/UEFI?", "options": ["Spasi atau Enter", "Delete (Del) atau F2", "Ctrl + Alt + Del", "Caps Lock"], "correctIndex": 1, "explanation": "Tombol Del dan F2 adalah interrupt key standar BIOS untuk memasuki UEFI Setup Utility."}, {"question": "Fitur CSM (Compatibility Support Module) pada UEFI diaktifkan jika sistem operasi atau hardware menggunakan standar apa?", "options": ["Windows 11 64-bit UEFI Native", "Legacy BIOS / Skema Partisi MBR 32-bit", "DirectX 12", "NVMe PCIe Gen4"], "correctIndex": 1, "explanation": "CSM mengemulasikan lingkungan Legacy BIOS lama agar hardware atau OS berbasis MBR tetap bisa booting di motherboard UEFI."}]
+      });
+    }
+  });
+  </script>
 
 <footer class="note">↑ ↓ ← → Navigasi &nbsp;·&nbsp; Enter Pilih &nbsp;·&nbsp; Dokumen Rencana Pembelajaran — TJKT SMK Diponegoro Tumpang</footer>
 

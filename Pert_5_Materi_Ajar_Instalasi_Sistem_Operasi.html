@@ -338,6 +338,7 @@
     *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
   }
 </style>
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 </head>
 <body>
 
@@ -670,6 +671,37 @@
     </ul>
   </div>
 </div>
+
+
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section" style="padding: 40px 0; border-top: 1px solid rgba(56, 189, 248, 0.2);">
+    <div style="font-family:var(--font-mono, monospace); font-size:11px; font-weight:700; color:#00f0ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+      Evaluasi Mandiri &amp; CBT
+    </div>
+    <h2 style="font-family:var(--font-heading, sans-serif); font-size:24px; color:#fff; margin-bottom:8px;">
+      Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)
+    </h2>
+    <p style="font-size:13.5px; color:#94a3b8; max-width:760px; margin-bottom:20px;">
+      Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).
+    </p>
+    
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <script src="./cbt-anti-cheat.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.CBTEngine) {
+      window.CBTEngine.init({
+        containerId: 'cbtAppArea',
+        title: 'Ulangan Harian: Instalasi Sistem Operasi Komputer',
+        subject: 'Pemeliharaan Komputer & Jaringan',
+        durationMinutes: 30,
+        questions: [{"question": "Partisi tersembunyi berformat FAT32 berukuran ~100-260 MB yang otomatis dibuat Windows pada disk GPT dan berisi file boot loader (bootx64.efi) disebut?", "options": ["Partisi Data D:", "EFI System Partition (ESP)", "MSR Partition", "Swap Partition"], "correctIndex": 1, "explanation": "Partisi EFI menyimpan bootloader yang dibaca langsung oleh firmware UEFI untuk memuat kernel Windows (winload.efi)."}, {"question": "Saat memilih jenis instalasi Windows, opsi mana yang wajib dipilih untuk melakukan instalasi bersih (Clean Install)?", "options": ["Upgrade: Install Windows and keep files", "Custom: Install Windows only (advanced)", "Repair System", "Dynamic Setup"], "correctIndex": 1, "explanation": "Custom Advanced memberikan kontrol penuh untuk menghapus, membuat, dan memformat partisi sistem dari nol."}, {"question": "Kapasitas minimal RAM yang disyaratkan resmi oleh Microsoft untuk menjalankan sistem operasi Windows 11 64-bit adalah?", "options": ["1 Gigabyte", "4 Gigabyte (dengan modul TPM 2.0 & Secure Boot)", "512 Megabyte", "16 Gigabyte"], "correctIndex": 1, "explanation": "Spesifikasi minimum Windows 11 mencakup 4GB RAM, storage 64GB, prosesor 64-bit dual-core 1GHz, TPM 2.0, dan Secure Boot."}, {"question": "Format sistem file default yang digunakan oleh sistem operasi Windows modern untuk partisi sistem drive C: adalah?", "options": ["FAT32", "NTFS", "ext4", "APFS"], "correctIndex": 1, "explanation": "NTFS mendukung hak akses keamanan, enkripsi file, kompresi, dan journaling transaksi yang disyaratkan kernel Windows."}, {"question": "Fase konfigurasi pertama setelah file Windows selesai disalin (pemilihan bahasa, keyboard layout, nama akun, PIN) disebut tahap?", "options": ["POST Sequence", "OOBE (Out-Of-Box Experience)", "Diskpart Mode", "Safe Mode"], "correctIndex": 1, "explanation": "OOBE adalah antarmuka setup pengguna pertama kali untuk personalisasi akun dan privasi sebelum masuk ke Desktop."}]
+      });
+    }
+  });
+  </script>
 
 <footer>
   <div class="footer-inner">

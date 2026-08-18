@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -522,32 +512,13 @@ function printL3(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa konektor baterai laptop WAJIB dicabut dari motherboard sebelum menyentuh komponen lain?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">A. Agar baterai tidak langsung habis saat proses servis</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">B. Karena tegangan sisa baterai dapat menyebabkan korsleting dan kerusakan komponen meskipun laptop sudah dimatikan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">C. Karena baterai akan mengalami kerusakan jika dibiarkan tersambung lebih dari 10 menit</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">D. Hanya formalitas prosedur, tidak benar-benar berbahaya</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang dimaksud 'thermal throttling' pada CPU laptop dan mengapa ini terjadi?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">A. Proses overclock otomatis CPU saat suhu rendah untuk performa maksimal</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">B. Mekanisme otomatis CPU yang menurunkan kecepatan clock dan tegangan ketika suhu mendekati batas thermal limit untuk mencegah kerusakan hardware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">C. Fungsi pendingin laptop yang mempercepat kipas secara otomatis</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">D. Proses update firmware CPU yang terjadi di latar belakang</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Metode aplikasi thermal paste yang paling direkomendasikan untuk CPU laptop adalah?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">A. Smear Method: oleskan pasta merata ke seluruh permukaan die CPU</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">B. Pea/Dot Method: teteskan pasta sebesar biji kacang hijau di tengah die, biarkan menyebar saat heatsink dipasang</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">C. Line Method: buat garis lurus dari kiri ke kanan die CPU</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">D. Cross Method: buat pola X atau + di seluruh permukaan die</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Perintah CMD apa yang digunakan untuk membuat laporan kesehatan baterai laptop Windows?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">A. ipconfig /batteryreport</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">B. powercfg /batteryreport /output C:\battery.html</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">C. msconfig /battery</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">D. netsh battery status report</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -573,18 +544,19 @@ function printL3(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Perawatan Laptop &amp; Perangkat Mobile (Smartphone/Tablet)',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Mengapa konektor baterai laptop WAJIB dilepas dari motherboard sebagai langkah pertama sebelum menyentuh komponen lain saat teardown?", "options": ["Agar baterai laptop tidak cepat habis", "Karena jalur sirkuit motherboard masih dialiri tegangan listrik siaga baterai yang rentan korsleting fatal jika tersentuh obeng/komponen logam", "Agar sekrup casing tidak berkarat", "Hanya formalitas pabrik tanpa alasan teknis"], "correctIndex": 1, "explanation": "Tegangan standby 3.3V/19V selalu aktif di motherboard laptop saat baterai terhubung, membongkar dalam kondisi ini sangat berisiko membakar chip IC."}, {"question": "Apa yang dimaksud dengan fenomena 'Thermal Throttling' pada laptop?", "options": ["Kipas laptop berhenti berputar saat suhu dingin", "Mekanisme proteksi prosesor yang secara otomatis memangkas kecepatan clock dan voltase ketika suhu mendekati batas aman (TjMax) untuk mencegah kerusakan fisik", "Peningkatan kecepatan render secara drastis saat laptop dicolok charger", "Kerusakan pada kabel fleksibel LCD layar laptop"], "correctIndex": 1, "explanation": "Saat CPU mencapai suhu kritis (~95-105°C), clock dipaksa turun drastis (misal dari 4.0GHz ke 1.2GHz) agar prosesor mendingin."}, {"question": "Metode aplikasi pasta termal manakah yang paling direkomendasikan pada die chip CPU/GPU laptop?", "options": ["Mengoleskan pasta setebal 2mm secara manual dengan jari tanpa sarung tangan", "Pea / Dot Method (meneteskan sebutir pasta sebesar biji kacang di tengah die, lalu diratakan alami oleh tekanan heatsink)", "Menyemprotkan pasta ke seluruh motherboard", "Menggunakan lem alteco"], "correctIndex": 1, "explanation": "Pea method menghasilkan lapisan tipis tanpa rongga udara saat baseplate heatsink dikencangkan secara presisi."}, {"question": "Perintah Command Prompt Windows apa yang digunakan untuk menghasilkan file laporan analisis kesehatan baterai laptop secara mendalam?", "options": ["ipconfig /battery", "powercfg /batteryreport", "dxdiag /battery", "chkdsk /battery"], "correctIndex": 1, "explanation": "Perintah powercfg /batteryreport mengekstrak log baterai HTML yang memuat Full Charge Capacity, Design Capacity, dan Cycle Count."}, {"question": "Berapa persentase kapasitas baterai (Rule 20-80) yang direkomendasikan untuk memaksimalkan siklus hidup sel baterai Lithium-Ion/Polymer?", "options": ["Selalu habiskan sampai 0% lalu cas sampai 100%", "Mulai mengisi daya di kisaran ~20% dan cabut charger di kisaran ~80-85%", "Biarkan laptop dicolok charger non-stop 24 jam sehari selama 1 tahun", "Cas baterai hanya saat laptop dalam keadaan mati"], "correctIndex": 1, "explanation": "Sel lithium mengalami tegangan kimia tertinggi pada tegangan 100% dan 0%. Menjaga di rentang 20-80% memperpanjang siklus baterai hingga 2-3x lipat."}, {"question": "Alat berbahan apa yang wajib digunakan teknisi saat mencongkel klip sambungan casing laptop agar bodi plastik tidak lecet/patah?", "options": ["Obeng minus besi tajam", "Plastic Pry Tool / Spudger berbahan nilon sintetis", "Pisau cutter", "Tang buaya"], "correctIndex": 1, "explanation": "Spudger plastik memiliki kekerasan yang lebih lunak daripada bodi laptop sehingga klip pengait terlepas tanpa merusak estetika casing."}, {"question": "Mengapa sekrup heatsink CPU/GPU laptop diberi nomor urut 1-2-3-4 di sekitar per penekan?", "options": ["Nomor urut menunjukkan panjang baut dalam milimeter", "Menunjukkan urutan pengencangan secara menyilang (diagonal) agar tekanan pasta termal pada die kaca CPU merata dan tidak retak", "Menunjukkan tanggal pembuatan laptop", "Sebagai hiasan estetika pabrik"], "correctIndex": 1, "explanation": "Pengencangan diagonal bertahap menjaga kestabilan tekanan mekanis pada die prosesor laptop yang tidak memiliki pelindung IHS logam."}, {"question": "Apa fungsi pembersihan partisi cache ('Wipe Cache Partition') via Recovery Mode pada smartphone Android?", "options": ["Menghapus seluruh foto, video, dan kontak pengguna", "Menghapus file sementara sisa pembaruan sistem dan aplikasi yang korup tanpa menghapus data pribadi pengguna", "Mengubah OS Android menjadi iOS", "Membuka kunci jaringan SIM card"], "correctIndex": 1, "explanation": "Wipe cache membersihkan file sementara dalvik-cache sistem operasi untuk mengatasi lagging pasca update OS."}, {"question": "Kabel pita sangat tipis yang menghubungkan keyboard dan touchpad ke motherboard laptop disebut konektor jenis apa?", "options": ["Kabel Molex 4-pin", "Kabel FPC / FFC (Flat Printed Circuit) dengan soket pengunci ZIF (Zero Insertion Force)", "Kabel Coaxial BNC", "Kabel SCSI 50-pin"], "correctIndex": 1, "explanation": "Konektor FPC/FFC menggunakan pengait ZIF tipis yang harus diangkat perlahan dengan pinset antistatis."}, {"question": "Kondisi fisik baterai laptop/HP yang telah mengalami degradasi parah akibat gas kimia dan sangat berbahaya karena berisiko terbakar adalah?", "options": ["Baterai dingin saat dicas", "Baterai kembung / membengkak (Swollen Battery) yang menekan touchpad/casing hingga melengkung", "Baterai berwarna hitam", "Baterai yang kabelnya fleksibel"], "correctIndex": 1, "explanation": "Baterai kembung menandakan degradasi elektrolit yang menghasilkan gas bertekanan tinggi. Wajib segera diganti dan dibuang di tempat limbah B3."}]
+    });
   }
-}
+});
 </script>
 
 </body>

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -557,32 +547,13 @@ function printL5(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa batasan kapasitas disk per drive yang menjadi kekurangan utama skema partisi MBR?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">A. Maksimal 1 Terabyte</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">B. Maksimal 2 Terabyte — karena MBR menggunakan 32-bit sector addressing (maks 2^32 sektor × 512 byte = 2 TB)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">C. Maksimal 4 Terabyte</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">D. Tidak ada batasan, bisa digunakan untuk disk berukuran apapun</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa arti nilai '0' pada atribut S.M.A.R.T. ID 05 (Reallocated Sectors Count) untuk sebuah HDD?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">A. Berarti disk baru dibeli dan belum pernah digunakan</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">B. Berarti disk dalam kondisi normal — belum ada sektor fisik yang mengalami kerusakan dan perlu direlokasi</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">C. Berarti disk sudah penuh dan tidak ada ruang yang tersisa</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">D. Berarti fitur S.M.A.R.T. tidak aktif pada disk tersebut</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Mengapa SSD tidak boleh di-defragmentasi menggunakan software defragmentasi biasa?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">A. Karena SSD tidak memiliki file system sehingga defrag tidak berpengaruh</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">B. Karena SSD mengakses semua lokasi dalam waktu yang sama (tidak ada rotational latency), sehingga defrag tidak memberi manfaat dan justru menambah write cycle yang tidak perlu, mempercepat degradasi sel NAND</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">C. Karena Windows tidak mendukung defrag untuk SSD</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">D. Karena defrag akan menghapus data pada SSD secara permanen</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Perintah CMD apa untuk memeriksa apakah fitur TRIM untuk SSD sudah aktif di Windows?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">A. trim /status C:</div><div class="quiz-opt" onclick="checkQuiz(this, true, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">B. fsutil behavior query DisableDeleteNotify — hasil 0 berarti TRIM AKTIF</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">C. diskpart /trim query</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">D. chkdsk C: /trim</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -608,18 +579,19 @@ function printL5(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Manajemen Partisi &amp; Optimasi Storage (HDD / SSD / NVMe)',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Berapa batasan kapasitas maksimal satu media penyimpanan (disk) yang menggunakan skema partisi MBR (Master Boot Record)?", "options": ["512 Gigabyte", "2 Terabyte (2 TB)", "128 Terabyte", "9.4 Zettabyte"], "correctIndex": 1, "explanation": "MBR menggunakan alamat sektor 32-bit (2^32 × 512 byte = 2.19 TB), sehingga kapasitas di atas 2 TB tidak dapat dialokasikan."}, {"question": "Berapa jumlah maksimal partisi primer (Primary Partition) yang dapat dibuat pada sebuah disk berskema GPT (GUID Partition Table)?", "options": ["Hanya 4 partisi", "Hingga 128 partisi primer tanpa memerlukan partisi extended", "Hanya 1 partisi", "Maksimal 16 partisi"], "correctIndex": 1, "explanation": "Skema GPT standar Windows mendukung hingga 128 partisi primer independen yang masing-masing memiliki GUID unik."}, {"question": "Pada tabel atribut kesehatan S.M.A.R.T., atribut ID 05 'Reallocated Sectors Count' yang memiliki nilai Raw Data > 0 pada HDD menandakan apa?", "options": ["Harddisk dalam kondisi 100% baru dan sehat", "Terdapat sektor fisik piringan magnetik yang rusak (bad sector) dan telah dialihkan ke sektor cadangan — sinyal bahaya untuk segera backup data", "Kapasitas harddisk bertambah secara otomatis", "Kabel SATA harddisk kendor"], "correctIndex": 1, "explanation": "Reallocated sector adalah bad sector fisik permanen. Adanya nilai ini menunjukkan degradasi piringan magnetik yang berisiko data loss."}, {"question": "Fitur sistem operasi apa yang wajib aktif pada SSD untuk memberi tahu controller blok memori mana yang sudah tidak terpakai agar performa write tetap kencang?", "options": ["Defragmenter", "TRIM Command", "ReadyBoost", "Disk Compression"], "correctIndex": 1, "explanation": "TRIM membersihkan sel flash NAND yang telah dihapus di level OS saat komputer idle sehingga saat ada penulisan baru tidak perlu siklus erase lambat."}, {"question": "Mengapa media penyimpanan SSD sangat dilarang untuk di-defragmentasi (Defrag) menggunakan software defrag HDD tradisional?", "options": ["Karena SSD tidak memiliki file system", "Karena SSD tidak memiliki latency mekanis piringan berputar, dan defrag hanya menambah beban siklus tulis (write cycle) yang mempercepat keausan sel NAND", "Karena proses defrag akan menghapus seluruh isi partisi SSD", "Karena proses defrag membutuhkan waktu 3 hari"], "correctIndex": 1, "explanation": "SSD mengakses semua blok memori dengan kecepatan sama instan. Defrag menambah Terabytes Written (TBW) yang memotong umur pakai SSD."}, {"question": "Berapa batas ukuran maksimal untuk satu file tunggal yang dapat disimpan pada sistem file FAT32?", "options": ["700 Megabyte", "4 Gigabyte (4 GB)", "2 Terabyte", "Tidak terbatas"], "correctIndex": 1, "explanation": "Sistem file FAT32 memiliki batasan arsitektur 32-bit ukuran file maksimal 4.294.967.295 byte (~4 GB). File ISO/Video >4GB wajib memakai NTFS/exFAT."}, {"question": "Tool command line bawaan Windows apa yang dapat mengonversi disk MBR menjadi GPT tanpa menghapus data partisi di dalamnya?", "options": ["format.exe", "MBR2GPT.exe", "convert.exe /fat32", "fdisk.exe"], "correctIndex": 1, "explanation": "MBR2GPT.exe memvalidasi dan mengubah struktur layout disk MBR ke GPT secara live tanpa merusak data OS Windows."}, {"question": "Perintah Diskpart apa yang digunakan untuk mengecilkan ukuran partisi aktif sebesar 50 GB guna membuat partisi baru?", "options": ["format quick", "shrink desired=51200", "extend size=51200", "delete partition override"], "correctIndex": 1, "explanation": "Perintah shrink desired=51200 memotong 51.200 MB (50 GB) dari partisi terpilih menjadi Unallocated Space."}, {"question": "Sistem file modern bawaan Windows yang mendukung fitur hak akses keamanan file (ACL Permissions), enkripsi EFS, dan pencatatan transaksi data (Journaling) adalah?", "options": ["FAT16", "NTFS (New Technology File System)", "exFAT", "ext2"], "correctIndex": 1, "explanation": "NTFS memiliki fitur journaling yang mencegah korupsi data saat listrik padam tiba-tiba serta mendukung permission multi-user."}, {"question": "Untuk mengecek apakah perintah TRIM pada Windows sudah aktif, perintah CMD Administrator yang benar adalah?", "options": ["trim /check", "fsutil behavior query DisableDeleteNotify (nilai 0 = TRIM Aktif)", "diskpart /trim", "chkdsk /trim:on"], "correctIndex": 1, "explanation": "Output DisableDeleteNotify = 0 menandakan bahwa notifikasi TRIM diaktifkan dan dikirimkan ke SSD setiap ada file yang dihapus."}]
+    });
   }
-}
+});
 </script>
 
 </body>

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -498,27 +488,13 @@ function printL6(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa yang dimaksud 'Distance to TjMax' dalam monitoring HWiNFO64 dan mengapa nilainya semakin kecil itu berbahaya?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">A. Jarak fisik antara CPU dan heatsink dalam milimeter</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">B. Perbedaan antara suhu maksimum aman CPU (TjMax) dan suhu aktual saat ini — nilai kecil berarti CPU hampir mencapai batas termalnya dan akan throttling</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">C. Persentase performa CPU yang tersisa sebelum overclocking berhenti</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">D. Jarak antara CPU socket dan slot RAM dalam centimeter</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Mengapa Prime95 dengan mode 'Small FFTs' menghasilkan suhu CPU lebih tinggi dibanding mode 'Blend'?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">A. Karena Small FFTs menggunakan lebih banyak kapasitas RAM</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">B. Karena Small FFTs memaksimalkan aktivitas FPU (Floating Point Unit) dalam cache L1/L2 CPU tanpa banyak akses memori, menghasilkan panas paling tinggi per watt dengan cepat — ideal untuk menguji sistem pendingin</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">C. Karena Small FFTs lebih banyak menggunakan GPU dalam proses kalkulasinya</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">D. Karena Small FFTs menonaktifkan power saving feature CPU</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Event ID 41 (Kernel-Power) di Windows Event Viewer mengindikasikan apa?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">A. Update Windows berhasil diinstal</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">B. Sistem mengalami restart atau shutdown mendadak tanpa proses shutdown bersih — kemungkinan crash hardware (PSU, RAM, thermal), bukan software</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">C. Sistem baru pertama kali dinyalakan setelah pemasangan OS baru</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">D. Driver perangkat keras berhasil diperbarui secara otomatis</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -543,18 +519,19 @@ function printL6(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Diagnosa Kerusakan dengan Software Diagnostic Tools &amp; Teknologi AI Prediktif',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Software diagnostik open-source/gratis apa yang paling komprehensif untuk memantau ratusan telemetri sensor suhu, clock, dan voltase secara real-time?", "options": ["Paint 3D", "HWiNFO64", "VLC Media Player", "Adobe Reader"], "correctIndex": 1, "explanation": "HWiNFO64 adalah tool telemetri sensor terstandar industri untuk memantau status CPU, GPU, Motherboard, dan PSU."}, {"question": "Mode pengujian apa pada software Prime95 yang menghasilkan beban termal prosesor paling ekstrem untuk menguji kemampuan pendingin CPU?", "options": ["Custom Blend", "Small FFTs (Fast Fourier Transforms)", "Large In-place FFTs", "Memory Benchmark"], "correctIndex": 1, "explanation": "Small FFTs memusatkan kalkulasi intensif pada FPU di dalam cache L1/L2 prosesor sehingga menghasilkan suhu panas maksimal."}, {"question": "Software stress test apa yang menggunakan rendering donut bulu 3D OpenGL untuk menguji ketahanan suhu dan VRM kartu grafis (GPU)?", "options": ["CrystalDiskInfo", "FurMark (GPU Burn-in Test)", "MemTest86", "WinRAR Benchmark"], "correctIndex": 1, "explanation": "FurMark membebani seluruh core shader grafis 100% untuk mendeteksi artefak dan kegagalan termal GPU."}, {"question": "Software diagnostik apa yang dijalankan via bootable USB tanpa melalui sistem operasi Windows untuk menguji sel memori RAM dari kerusakan fisik?", "options": ["CCleaner", "MemTest86", "DirectX Diagnostic Tool", "CPU-Z"], "correctIndex": 1, "explanation": "MemTest86 berjalan secara mandiri di level bare-metal hardware untuk menguji seluruh alamat memori tanpa terhalang proteksi OS."}, {"question": "Pada Windows Event Viewer, nomor Event ID berapa yang mencatat insiden sistem mati/restart mendadak (Kernel-Power crash)?", "options": ["Event ID 100", "Event ID 41 (Kernel-Power)", "Event ID 7036", "Event ID 1000"], "correctIndex": 1, "explanation": "Event ID 41 menandakan ungraceful shutdown di mana komputer kehilangan daya listrik seketika tanpa proses shutdown normal."}, {"question": "Tool bawaan Windows apa yang dapat diakses dengan perintah 'perfmon /rel' untuk melihat grafik riwayat stabilitas dan insiden crash harian komputer?", "options": ["Task Manager", "Reliability Monitor (Grafik Indeks Stabilitas 1-10)", "Device Manager", "Disk Management"], "correctIndex": 1, "explanation": "Reliability Monitor menampilkan timeline grafik indeks stabilitas sistem dan daftar error aplikasi secara kronologis."}, {"question": "Apa yang dimaksud dengan parameter 'Distance to TjMax' pada pembacaan sensor suhu prosesor?", "options": ["Jarak fisik antara soket prosesor dan slot RAM", "Selisih derajat Celcius antara suhu prosesor saat ini dengan batas maksimal termal aman (TjMax) sebelum throttling", "Kecepatan putaran kipas pendingin dalam RPM", "Ketebalan pasta termal"], "correctIndex": 1, "explanation": "Distance to TjMax = Suhu Maksimal - Suhu Saat Ini. Semakin kecil angkanya mendekati 0°C, semakin dekat prosesor dengan batas bahaya overheating."}, {"question": "Toleransi batas penurunan tegangan (voltage drop) pada jalur 12V Power Supply sesuai standar ATX Power Supply Design Guide adalah berapa persen?", "options": ["Maksimal ±20%", "Maksimal ±5% (tegangan tidak boleh turun di bawah 11.40 Volt)", "Boleh turun hingga 8 Volt", "Tidak ada batasan toleransi"], "correctIndex": 1, "explanation": "Standar ATX menetapkan batas regulasi tegangan ±5%. Jalur 12V minimal 11.40V dan maksimal 12.60V untuk mencegah crash."}, {"question": "Fitur diagnosa prediktif berbasis AI pada software storage modern memanfaatkan tren data S.M.A.R.T. untuk apa?", "options": ["Mempercepat koneksi WiFi", "Memprediksi estimasi tanggal kegagalan fisik disk (MTBF) sebelum terjadi data loss permanen", "Mengubah HDD menjadi SSD secara otomatis", "Menambah kapasitas storage"], "correctIndex": 1, "explanation": "Algoritma Machine Learning menganalisis laju kenaikan bad sector dan error read rate untuk memperingatkan pengguna sebelum disk mati total."}, {"question": "Jika software MemTest86 mendeteksi error pada 'Pass 1 Test 7', tindakan awal teknisi adalah?", "options": ["Langsung membuang seluruh motherboard komputer", "Membersihkan pin emas RAM dengan penghapus antistatis, menonaktifkan XMP, dan menguji keping RAM satu per satu untuk isolasi modul rusak", "Menginstal ulang Windows", "Mengganti kabel monitor"], "correctIndex": 1, "explanation": "Isolasi per modul RAM dan pembersihan pin kontak adalah langkah wajib untuk memastikan keping RAM mana yang benar-benar rusak."}]
+    });
   }
-}
+});
 </script>
 
 </body>

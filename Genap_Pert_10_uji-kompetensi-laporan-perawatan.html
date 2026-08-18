@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -550,27 +540,13 @@ function printLKPD10(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Berapa alokasi total jam pelajaran (JP) pembelajaran Pemeliharaan Komputer & Jaringan selama 1 tahun penuh (Semester Ganjil + Genap)?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">A. 45 JP</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">B. 90 JP</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">C. 180 JP (90 JP Semester Ganjil + 90 JP Semester Genap)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">D. 360 JP</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa fungsi utama buku portofolio teknisi komputer saat siswa diterjunkan ke industri pada program PKL?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">A. Hanya sebagai syarat administratif kelulusan nilai rapor</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">B. Sebagai bukti autentik kompetensi, log sheet jam terbang praktik nyata, dan dokumentasi kemampuan pemecahan masalah teknis di hadapan mentor industri</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">C. Sebagai buku catatan teori harian</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">D. Untuk menggantikan kartu identitas siswa</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Pada skema penilaian UKK berstandar BNSP, aspek apa yang memiliki bobot penilaian tertinggi?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">A. Kecepatan merapikan meja kerja di akhir ujian</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">B. Ketepatan diagnosa, metode pemecahan masalah (troubleshooting), dan kepatuhan K3 keselamatan kerja</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">C. Menghafal seluruh nama komponen secara lisan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">D. Merek komponen yang dipilih</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -596,18 +572,19 @@ function printLKPD10(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Uji Kompetensi Mandiri &amp; Kompilasi Portofolio Perawatan Komputer',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Berapa total alokasi jam pelajaran (JP) kurikulum Pemeliharaan Komputer & Jaringan selama 1 tahun penuh pembelajaran kelas X TKJ?", "options": ["45 JP", "180 JP (90 JP Semester Ganjil + 90 JP Semester Genap)", "360 JP", "90 JP total"], "correctIndex": 1, "explanation": "Kurikulum kejuruan TKJ mengalokasikan 180 JP penuh untuk memastikan penguasaan kompetensi vokasi hardware dan software."}, {"question": "Pada skema Uji Kompetensi Keahlian (UKK) berstandar BNSP/LSP-P1, berapa nilai batas Kriteria Ketercapaian Tujuan Pembelajaran (KKM) minimal untuk dinyatakan Kompeten?", "options": ["50 Poin", "75 Poin (Predikat B / Kompeten)", "100 Poin mutlak", "60 Poin"], "correctIndex": 1, "explanation": "Standar kompetensi vokasi menetapkan skor ambang batas minimal 75 untuk kelayakan kerja di dunia industri."}, {"question": "Dokumen kompilasi apa yang membuktikan jam terbang, lembar kerja pengujian, dan rekam jejak praktik siswa yang dibawa saat wawancara seleksi PKL di industri?", "options": ["Buku catatan harian", "Buku Portofolio Log Sheet Perawatan Komputer 1 Tahun", "Kuitansi spp", "Kliping majalah"], "correctIndex": 1, "explanation": "Portofolio teknis adalah bukti autentik keterampilan praktis siswa yang dinilai oleh mentor industri IT."}, {"question": "Tiga klaster utama yang diujikan dalam simulasi UKK Praktik Mandiri Pemeliharaan Komputer adalah?", "options": ["Mengetik cepat, Menggambar, Desain logo", "Klaster 1 (Hardware Assembly & Upgrade), Klaster 2 (OS, Driver & Partisi GPT), Klaster 3 (Troubleshooting & Stress Testing)", "Editing video, Animasi 3D, Streaming", "Merakit meja, Mengecat dinding, Mengelas"], "correctIndex": 1, "explanation": "Tiga klaster tersebut mencakup siklus utuh keahlian teknisi komputer: perakitan fisik, deployment sistem operasi, dan penanganan kerusakan."}, {"question": "Aspek penilaian unjuk kerja apa yang memiliki konsekuensi diskualifikasi langsung jika dilanggar saat ujian praktik UKK?", "options": ["Warna baju seragam", "Pelanggaran fatal K3 keselamatan kerja (seperti membongkar komponen bertegangan listrik tanpa memutus arus atau korsleting disengaja)", "Kecepatan menulis laporan", "Merek obeng yang digunakan"], "correctIndex": 1, "explanation": "K3 adalah prioritas nomor satu di industri; tindakan ceroboh yang membahayakan nyawa atau merusak alat uji membatalkan kelulusan."}, {"question": "Berapa alokasi waktu standar industri yang diberikan untuk menyelesaikan ujian praktik perakitan hardware dan instalasi OS mandiri pada UKK Mini?", "options": ["10 menit", "90 Menit (1.5 Jam)", "8 jam penuh", "2 hari"], "correctIndex": 1, "explanation": "Alokasi 90 menit melatih efisiensi kerja cepat dan tepat sesuai ritme kerja service engineer profesional."}, {"question": "Bagaimana cara membuktikan integritas lembar hasil ujian CBT online siswa bebas dari kecurangan?", "options": ["Meminta teman sekelas bersumpah", "Memeriksa Token Hash Integritas Digital dan Log Rekaman Pelanggaran (0x Pelanggaran pada status cetak resmi)", "Menghapus semua file", "Menyerahkan foto selfie"], "correctIndex": 1, "explanation": "Sistem anti-cheat mencatat log timestamp dan menyematkan kode hash verifikasi unik pada berita acara nilai siswa."}, {"question": "Sikap kerja profesional apa yang wajib ditunjukkan seorang teknisi komputer saat menghadapi kerusakan yang belum pernah ditemui sebelumnya?", "options": ["Langsung menyerah dan menyalahkan komputer", "Menerapkan kerangka investigasi berlapis secara logis, membaca dokumentasi service manual, dan mencatat langkah isolasi secara sistematis", "Mengganti semua komponen secara membabi buta", "Memukul casing PC"], "correctIndex": 1, "explanation": "Pemecahan masalah yang tenang, terstruktur, dan berbasis data teknis adalah ciri utama teknisi profesional."}, {"question": "Mengapa refleksi diri dan evaluasi mandiri di akhir semester sangat penting bagi siswa sebelum terjun ke program Praktik Kerja Lapangan (PKL)?", "options": ["Hanya untuk mengisi waktu kosong", "Mengidentifikasi kelebihan keahlian diri dan memetakan area kompetensi yang masih perlu ditingkatkan agar siap memenuhi standar DUDI", "Mencari kesalahan teman sekelas", "Menghapus materi pelajaran lama"], "correctIndex": 1, "explanation": "Refleksi diri menumbuhkan kemandirian belajar dan kesiapan mental sebelum bekerja di bawah supervisi industri nyata."}, {"question": "Sertifikasi kompetensi yang diterbitkan oleh sekolah/LSP setelah siswa lulus seluruh modul pembelajaran membuktikan apa?", "options": ["Siswa boleh tidak mengikuti ujian sekolah", "Siswa telah teruji secara kompeten dan mandiri menguasai standar okupasi Teknisi Komputer Junior siap kerja", "Siswa mendapatkan hadiah komputer gratis", "Siswa otomatis menjadi kepala sekolah"], "correctIndex": 1, "explanation": "Sertifikat kompetensi adalah bukti validasi resmi penguasaan keterampilan vokasi standar dunia kerja."}]
+    });
   }
-}
+});
 </script>
 
 </body>

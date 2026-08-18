@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cbt-anti-cheat.css">
 <style>
   :root {
     --bg-void: #030712;
@@ -219,17 +220,6 @@
   .callout.emerald {
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
-
-  /* Quiz options */
-  .quiz-opt {
-    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer;
-    font-size: 13.5px; transition: all 0.2s;
-  }
-  .quiz-opt:hover { border-color: var(--violet); background: rgba(139, 92, 246, 0.12); }
-  .quiz-opt.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--emerald); color: #6ee7b7; }
-  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: #fca5a5; }
 
   /* Footer */
   footer.mod-footer {
@@ -547,32 +537,13 @@ function printLKPD8(){
 
   </section>
 
-  <!-- BANK SOAL ASESMEN FORMATIF -->
-  <section id="asesmen-quiz">
-    <div class="sec-tag">Evaluasi Mandiri</div>
-    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
-    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
-    <div class="quiz-list">
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Pada analisis minidump WinDbg, jika baris IMAGE_NAME menyebutkan 'nvlddmkm.sys', komponen mana yang paling utama dicurigai bermasalah?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">A. Driver kartu suara Realtek High Definition Audio</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">B. Driver grafis NVIDIA GeForce (Display Driver Subsystem)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">C. Controller penyimpanan SATA AHCI</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">D. Keyboard dan touchpad driver</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa perbedaan utama gejala restart mendadak akibat kegagalan Power Supply (PSU) dibanding crash akibat Driver/OS?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">A. Kegagalan PSU selalu menampilkan layar biru BSOD dengan teks error</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">B. Kegagalan PSU mematikan PC seketika seperti dicabut kabel listrik (tanpa BSOD dan tanpa log BugCheck), sedangkan crash driver biasanya memunculkan BSOD dan menulis minidump</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">C. Kegagalan PSU hanya terjadi saat booting awal di menu BIOS</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">D. Tidak ada perbedaan gejala antara keduanya</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Mengapa membersihkan driver display menggunakan DDU (Display Driver Uninstaller) di Safe Mode jauh lebih efektif daripada uninstall biasa via Control Panel?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">A. Karena DDU secara otomatis meng-upgrade VGA ke seri terbaru</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">B. Karena DDU menghapus seluruh file library, entri registry, cache shader, dan sisa konfigurasi driver lama yang biasanya terkunci oleh Windows saat mode normal</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">C. Karena DDU memperbaiki kerusakan fisik pada chip solder GPU</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">D. Karena DDU menonaktifkan kartu grafis secara permanen</div>
-        </div>
-        
-        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
-          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa tindakan pertama yang wajib dilakukan saat PC menampilkan kode BSOD 'WHEA_UNCORRECTABLE_ERROR'?</div>
-          <div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">A. Langsung menginstal ulang seluruh sistem operasi</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">B. Masuk BIOS untuk memulihkan pengaturan ke 'Load Optimized Defaults' guna membatalkan overclocking/undervolting dan memeriksa suhu hardware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">C. Memformat seluruh drive data D:</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">D. Mengganti monitor dengan resolusi lebih rendah</div>
-        </div>
-        </div>
+  <!-- CBT ULANGAN HARIAN & UJIAN PRAKTIK ANTI-CURANG -->
+  <section id="cbt-exam-section">
+    <div class="sec-tag">Evaluasi Mandiri &amp; CBT</div>
+    <h2>Ulangan Harian &amp; Uji Praktik Mandiri (Anti-Cheat CBT)</h2>
+    <p class="sec-desc">Sistem evaluasi interaktif terproteksi anti-kecurangan (Fullscreen Lockdown, Tab-Switch Detection, Acak Soal &amp; Pilihan, Rekap Nilai Otomatis &amp; Cetak Berita Acara Guru).</p>
+    
+    <div id="cbtAppArea"></div>
   </section>
 
   <!-- RUBRIK PENILAIAN GURU -->
@@ -598,18 +569,19 @@ function printLKPD8(){
   </footer>
 </div>
 
+<script src="./cbt-anti-cheat.js"></script>
 <script>
-function checkQuiz(elem, isCorrect, expl) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ JAWABAN BENAR!\n\n' + expl);
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Studi Kasus Troubleshooting Kompleks (Hardware, Firmware, Driver &amp; OS)',
+      subject: 'Pemeliharaan Komputer & Jaringan',
+      durationMinutes: 30,
+      questions: [{"question": "Pada investigasi troubleshooting berlapis, layer manakah yang wajib diperiksa pertama kali sebelum mendiagnosis masalah software?", "options": ["Layer 4 (Aplikasi & Software)", "Layer 1 (Fisik & Elektrikal: PSU, kabel, kebersihan debu, pasta termal)", "Layer 3 (Driver Kernel)", "Layer 2 (BIOS Firmware)"], "correctIndex": 1, "explanation": "Layer 1 (Fisik & Catu Daya) wajib dipastikan sehat terlebih dahulu karena ketidakstabilan listrik membuat diagnosa software bias."}, {"question": "Layar monitor menampilkan pola garis warna-warni kotak-kotak catur (checkerboard visual artifacts) saat menjalankan beban grafis 3D. Indikasi kerusakan utama adalah?", "options": ["Kabel mouse kendor", "Degradasi memori VRAM kartu grafis (GPU) atau solder ball BGA chip GPU retak akibat siklus panas ekstrem", "Keyboard kotor", "Kapasitas SSD penuh"], "correctIndex": 1, "explanation": "Artefak grafis adalah tanda khas kegagalan memori video (VRAM) atau chip silikon GPU yang mengalami degradasi."}, {"question": "Kode Blue Screen 'DRIVER_IRQL_NOT_LESS_OR_EQUAL' (0x000000D1) pada minidump WinDbg umumnya disebabkan oleh apa?", "options": ["Monitor kekurangan daya listrik", "Driver mode kernel mencoba mengakses alamat memori yang tidak valid atau memiliki level prioritas request (IRQL) terlarang", "Kabel LAN terputus", "Kipas casing berputar terbalik"], "correctIndex": 1, "explanation": "Stop code 0xD1 terjadi akibat bug pada driver hardware (biasanya driver display atau network) saat interaksi kernel."}, {"question": "PC tiba-tiba mati total seketika seperti dicabut kabel listrik saat beban GPU meningkat (tanpa BSOD dan tanpa log BugCheck). Komponen apa yang paling dicurigai?", "options": ["Kabel HDMI", "Power Supply Unit (PSU) trip akibat over-current protection (OCP) atau drop tegangan rail 12V di bawah batas toleransi", "Kartu suara audio", "Mouse USB"], "correctIndex": 1, "explanation": "Mati mendadak tanpa BSOD menunjukkan hilangnya daya listrik seketika sehingga sistem tidak sempat menulis log crash dump."}, {"question": "Software utilitas gratis apa yang wajib digunakan teknisi di Safe Mode untuk membersihkan seluruh sisa instalasi driver VGA lama sebelum memasang driver baru?", "options": ["WinRAR", "DDU (Display Driver Uninstaller)", "VLC Player", "Microsoft Word"], "correctIndex": 1, "explanation": "DDU membersihkan seluruh cache shader, file library, dan entri registry driver display yang biasanya terkunci di Windows normal."}, {"question": "Stop code BSOD 'WHEA_UNCORRECTABLE_ERROR' (0x00000124) adalah indikasi langsung dari kegagalan sistem pada level apa?", "options": ["Kesalahan pengetikan dokumen Word", "Kesalahan fatal perangkat keras (Hardware Error Architecture) seperti CPU undervoltage, overheating, atau kegagalan VRM motherboard", "Koneksi internet lambat", "Kapasitas flashdisk habis"], "correctIndex": 1, "explanation": "WHEA mendeteksi kesalahan komputasi fatal hardware (Machine Check Exception) yang tidak dapat dipulihkan oleh OS."}, {"question": "Mengapa membersihkan slot RAM dan pin emas RAM dengan penghapus karet antistatis sering menyelesaikan masalah BSOD 'MEMORY_MANAGEMENT'?", "options": ["Karena penghapus menambah kapasitas RAM", "Karena lapisan oksidasi dan debu mikroskopis pada pin kontak emas yang menghambat sinyal listrik frekuensi tinggi berhasil terangkat", "Karena mengubah frekuensi RAM", "Hanya mitos belaka"], "correctIndex": 1, "explanation": "Penghapus karet membersihkan lapisan korosi/oksidasi tipis pada pin emas tanpa menggores tembaga konduktor."}, {"question": "Kode BSOD 'INACCESSIBLE_BOOT_DEVICE' (0x0000007B) setelah pembaruan BIOS umumnya disebabkan oleh ketidakcocokan pengaturan apa di BIOS?", "options": ["Pengaturan tanggal dan jam", "Mode SATA/VMD Controller (berubah antara AHCI, RAID, atau IDE)", "Kecepatan kipas casing", "Warna lampu RGB"], "correctIndex": 1, "explanation": "Perubahan mode controller membuat Windows gagal memuat driver storage yang sesuai saat inisialisasi boot kernel."}, {"question": "Perintah perintah kombinasi Windows apa yang digunakan untuk memverifikasi dan memperbaiki integritas file sistem Windows yang korup via Command Prompt Administrator?", "options": ["ipconfig & ping", "sfc /scannow dilanjutkan DISM /Online /Cleanup-Image /RestoreHealth", "format C: /q", "del /f /s /q *.*"], "correctIndex": 1, "explanation": "SFC memindai file sistem dan DISM mengunduh komponen file sistem yang rusak langsung dari server Microsoft Update."}, {"question": "Apa fungsi dari file .DMP minidump yang tersimpan di C:\\Windows\\Minidump\\ bagi seorang teknisi komputer?", "options": ["Menyimpan file cadangan dokumen siswa", "Rekam jejak memori saat crash terjadi yang dapat dibedah menggunakan WinDbg untuk mengetahui nama file modul/driver pelaku pemicu BSOD", "Mempercepat proses booting", "Menghapus virus"], "correctIndex": 1, "explanation": "Crash dump merekam register CPU, stack trace, dan modul driver yang aktif tepat pada milidetik terjadinya kernel crash."}]
+    });
   }
-}
+});
 </script>
 
 </body>
