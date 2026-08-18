@@ -817,7 +817,21 @@ footer p{font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono';}
         <div class="label-face label-back">
           <span class="tag">Penjelasan</span>
           <p>Menyimpan data aplikasi yang sedang aktif berjalan.</p>
-          <ul><li>DDR5 (cth. 6000MHz) lebih hemat daya & lebih cepat dari DDR4 (cth. 3200MHz)</li><li>DIMM untuk desktop, SO-DIMM untuk laptop</li></ul>
+          <ul><li>DDR5 (cth. 6000MHz) memiliki fitur <b>On-Die ECC</b> & efisiensi daya 1.1V dibanding DDR4 1.2V</li><li>DIMM untuk desktop PC, SO-DIMM untuk laptop/mini PC</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="label-card" onclick="this.classList.toggle('flipped')">
+      <div class="label-inner">
+        <div class="label-face label-front">
+          <div><span class="tag">Akselerasi AI</span><h3>NPU (Neural Unit)</h3></div>
+          <div class="barcode"></div>
+          <div class="hint">TOPS · AI PC 2025/2026</div>
+        </div>
+        <div class="label-face label-back">
+          <span class="tag">Penjelasan</span>
+          <p>Prosesor khusus komputasi kecerdasan buatan (AI) lokal hemat daya.</p>
+          <ul><li>Terdapat pada CPU modern (Intel Core Ultra, AMD Ryzen AI, Qualcomm Snapdragon X)</li><li>Menjalankan fitur AI offline tanpa membebani CPU & GPU utama</li></ul>
         </div>
       </div>
     </div>
@@ -828,17 +842,21 @@ footer p{font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono';}
 
 <section class="block" id="storagepsu">
   <div class="sec-head"><span class="idx">03</span><h2>Storage & Power Supply Unit</h2></div>
-  <p class="sec-sub">Datasheet perbandingan HDD, SSD SATA, dan SSD NVMe — plus konektor utama yang wajib dikenali dari PSU.</p>
+  <p class="sec-sub">Datasheet perbandingan HDD, SSD SATA, dan SSD NVMe M.2 (Gen 3/4/5) — plus parameter umur SSD (TBW) dan konektor utama PSU.</p>
   <div class="tablewrap">
     <table class="datasheet">
-      <tr><th>Parameter</th><th>HDD</th><th>SSD SATA 2.5"</th><th>SSD NVMe M.2</th></tr>
-      <tr><td>Teknologi</td><td>Piringan magnetik mekanis (5400/7200 RPM)</td><td>Flash memory (NAND)</td><td>Flash memory (NAND)</td></tr>
-      <tr><td>Interface</td><td>SATA</td><td>SATA</td><td>PCIe bus (langsung)</td></tr>
-      <tr><td>Read/Write</td><td class="hl">~100–150 MB/s</td><td class="hl">~500–550 MB/s</td><td class="hl">~3500–7500 MB/s</td></tr>
-      <tr><td>Ketahanan shock</td><td>Rentan bila terguncang</td><td>Tahan guncangan</td><td>Tahan guncangan, sangat ringkas</td></tr>
+      <tr><th>Parameter</th><th>HDD Mekanikal</th><th>SSD SATA 2.5"</th><th>SSD NVMe M.2 (PCIe)</th></tr>
+      <tr><td>Teknologi</td><td>Piringan magnetik mekanis (5400/7200 RPM)</td><td>Flash memory (NAND Flash)</td><td>Flash memory (3D NAND / TLC / QLC)</td></tr>
+      <tr><td>Interface</td><td>SATA 3 (Kabel 6 Gbps)</td><td>SATA 3 (Kabel 6 Gbps)</td><td>PCIe M.2 Direct Bus (Gen 3 / 4 / 5)</td></tr>
+      <tr><td>Read/Write</td><td class="hl">~100–150 MB/s</td><td class="hl">~500–550 MB/s</td><td class="hl">~3500–14000 MB/s</td></tr>
+      <tr><td>Ketahanan shock</td><td>Rentan bila terguncang</td><td>Tahan guncangan fisik</td><td>Tahan guncangan fisik & sangat ringkas</td></tr>
+      <tr><td>Indikator Umur</td><td>Bad Sector & S.M.A.R.T.</td><td>TBW (Terabytes Written)</td><td>TBW, NVMe Health % & Suhu Operasi</td></tr>
     </table>
   </div>
-  <h4 style="margin-top:30px; font-size:16px; color:var(--cream);">Konektor Utama PSU</h4>
+  <div style="background:var(--panel); border:1px solid var(--mint); border-radius:10px; padding:14px 18px; margin-top:16px; font-size:13px; color:var(--text-dim);">
+    💡 <b style="color:var(--mint);">Tips Teknisi (TBW & SMART Health):</b> SSD memiliki batas masa pakai penulisan data yang diukur dalam <b>TBW (Terabytes Written)</b>. Selalu periksa parameter kesehatan SSD menggunakan software diagnostik (seperti CrystalDiskInfo). Jika sisa Health < 10% atau muncul peringatan SMART, segera backup data siswa/sekolah sebelum drive mengunci ke mode <i>Read-Only</i>!
+  </div>
+  <h4 style="margin-top:24px; font-size:16px; color:var(--cream);">Konektor Utama PSU</h4>
   <div class="connectors">
     <div class="conn"><b>24-pin ATX</b>Suplai utama ke motherboard</div>
     <div class="conn"><b>8-pin EPS</b>Suplai daya ke CPU</div>

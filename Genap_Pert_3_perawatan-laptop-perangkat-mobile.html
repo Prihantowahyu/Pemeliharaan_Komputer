@@ -426,16 +426,24 @@ function calcLaptop(){
       <p>Baut heatsink laptop umumnya diberi nomor 1-2-3-4. Kencangkan selalu <b>secara bersilang (diagonal)</b> sesuai urutan angka. Ini memastikan tekanan merata pada seluruh permukaan die CPU dan mencegah motherboard melengkung (warping).</p>
     </div>
   </div>
-  <div class="callout amber" style="margin-top:16px;">
+  <div class="callout" style="margin-top:16px; border-left-color:var(--cyan); background:rgba(0,240,255,0.08);">
+    <b>🧪 Material Pendingin Modern (2025/2026):</b>
+    <ul style="margin-top:6px; padding-left:18px;">
+      <li><b>Thermal Paste Tradisional:</b> Pasta berbasis karbon/silikon non-konduktif. Rentan mengalami <i>pump-out effect</i> (pasta terdorong keluar die setelah siklus panas-dingin berulang).</li>
+      <li><b>Honeywell PTM7950 (Phase Change Material):</b> Lembaran padat saat dingin dan berubah menjadi semi-cair saat suhu &gt;45°C. Sangat tahan lama, tidak mengalami pump-out, menjadi standar emas laptop gaming modern.</li>
+      <li><b>⚠️ Peringatan Keras Liquid Metal (Logam Cair):</b> Logam cair (Galinstan) bersifat <b>KONDUKTIF LISTRIK</b> dan korosif terhadap tembaga/aluminium tanpa pelindung nikel. Jangan pernah digunakan pada laptop biasa tanpa isolasi busa/konformal coating karena kebocoran setetes saja akan membakar motherboard secara instan!</li>
+    </ul>
+  </div>
+  <div class="callout amber" style="margin-top:10px;">
     <b>&#9888; Perhatian Thermal Pad:</b> Selain thermal paste pada CPU/GPU die, banyak chip lain (VRAM, MOSFET VRM, M.2 SSD controller) menggunakan <b>thermal pad</b> berupa lembaran karet termal. Ganti thermal pad yang sudah keras/kering dengan ketebalan yang sama (ukur dengan vernier caliper: 0.5mm, 1mm, 1.5mm).
   </div>
 </section>
 
 <section id="baterai-mobile">
   <div class="sec-tag">Bagian D &middot; Baterai &amp; Mobile</div>
-  <h2>D. Manajemen Baterai Laptop &amp; Perawatan Smartphone</h2>
-  <p class="sec-desc">Baterai lithium modern memiliki karakteristik kimia unik yang mempengaruhi cara kita menggunakannya agar awet.</p>
-  <div class="grid-2">
+  <h2>D. Manajemen Baterai Laptop &amp; SOP Bahaya Baterai Kembung</h2>
+  <p class="sec-desc">Baterai lithium modern memiliki karakteristik kimia unik yang wajib diperlakukan dengan prosedur K3 tinggi untuk mencegah bahaya kebakaran bengkel.</p>
+  <div class="grid-3">
     <div class="card">
       <h4 style="color:var(--cyan);">Membaca Battery Report Windows</h4>
       <p>Buka Command Prompt sebagai Administrator, ketik: <code>powercfg /batteryreport /output C:\battery_report.html</code></p>
@@ -444,18 +452,29 @@ function calcLaptop(){
         <li><b>Design Capacity:</b> Kapasitas desain pabrik (mWh)</li>
         <li><b>Full Charge Capacity:</b> Kapasitas aktual saat ini</li>
         <li><b>Battery Health %:</b> Full Charge / Design × 100%</li>
-        <li><b>Cycle Count:</b> Berapa kali baterai sudah di-charge (baterai laptop standar dirancang untuk 300-500 siklus penuh)</li>
+        <li><b>Cycle Count:</b> Berapa kali baterai di-charge penuh</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:var(--warn); background:rgba(230,96,76,0.06);">
+      <h4 style="color:var(--warn);">🚨 SOP K3 Baterai Kembung (Swollen)</h4>
+      <p>Jika casing laptop/touchpad terangkat akibat baterai membengkak:</p>
+      <ul style="margin-top:6px; color:#fca5a5;">
+        <li><b>JANGAN PERNAH MENUSUK</b> baterai dengan jarum/obeng (bahaya <i>Thermal Runaway</i> & semburan api).</li>
+        <li><b>Hentikan Pengisian Daya:</b> Jangan colok adaptor AC.</li>
+        <li><b>Pelepasan Hati-Hati:</b> Tarik <i>stretch pull tabs</i> perlahan.</li>
+        <li><b>Simpan Aman:</b> Tempatkan di wadah kaleng logam berpasir.</li>
       </ul>
     </div>
     <div class="card">
-      <h4 style="color:var(--amber);">Tips Memperpanjang Usia Baterai Smartphone</h4>
+      <h4 style="color:var(--amber);">Tips Usia Baterai Smartphone</h4>
       <ul>
-        <li><b>Aturan 20-80%:</b> Usahakan mengisi daya saat 20% dan mencabut di 80-85%. Hindari pengisian dari 0% ke 100% terlalu sering.</li>
-        <li><b>Hindari Suhu Ekstrem:</b> Baterai Li-Po rusak lebih cepat dalam suhu &gt;40&deg;C (misal di dalam mobil di bawah sinar matahari).</li>
-        <li><b>Nonaktifkan Fast Charge saat tidak diperlukan:</b> Charging lambat lebih sehat untuk sel baterai.</li>
-        <li><b>Update Software Berkala:</b> Update OS membawa perbaikan manajemen daya (power management) yang lebih efisien.</li>
+        <li><b>Aturan 20-80%:</b> Isi daya saat 20% dan cabut di 80-85%. Hindari 0% ke 100% terus-menerus.</li>
+        <li><b>Hindari Suhu Ekstrem:</b> Baterai Li-Po rusak dalam suhu &gt;40&deg;C (misal di mobil panas).</li>
+        <li><b>Kesehatan Baterai:</b> Batasi penggunaan sambil bermain game saat charging.</li>
+        <li><b>Update OS:</b> Manfaatkan fitur <i>Battery Protection / Smart Charge</i> bawaan.</li>
       </ul>
     </div>
+  </div>
   </div>
 </section>
 

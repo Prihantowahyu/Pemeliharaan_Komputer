@@ -553,11 +553,25 @@
     <div class="dcard">
       <div class="dcard-top">
         <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#4cc2ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="17" r="2" stroke="#4cc2ff" stroke-width="1.6"/></svg></div>
-        <div><h4>Apa itu Swap Test?</h4><span class="tag">Mengganti komponen dengan yang diketahui baik (known-good)</span></div>
+        <div><h4>Metode Eliminasi 4-Tingkat (Rule of Simplest Cause First)</h4><span class="tag">Standar Service Center & Industri IT</span></div>
+      </div>
+      <p>Teknisi profesional tidak langsung membongkar komponen mahal. Selalu lakukan eliminasi dari kemungkinan <b>yang termudah & termurah ke yang tersulit</b>:</p>
+      <ul>
+        <li><b>Level 1 (Fisik & Kelistrikan - 50% Kasus):</b> Cek kabel power AC, saklar I/O PSU, stopkontak, kabel HDMI/DP monitor, tombol power casing (JFP1), debu pada pin RAM.</li>
+        <li><b>Level 2 (Konfigurasi BIOS & Firmware):</b> Reset CMOS (cabut baterai CR2032), cek Boot Priority, periksa mode UEFI/Legacy & SATA AHCI.</li>
+        <li><b>Level 3 (Sistem Operasi & Driver):</b> Masuk Safe Mode, cek Device Manager, periksa BSOD error code, jalankan <code>sfc /scannow</code>.</li>
+        <li><b>Level 4 (Kerusakan Komponen - Swap Test):</b> Lakukan Swap Test dengan komponen <i>Known-Good</i> (RAM, GPU, PSU, Motherboard).</li>
+      </ul>
+    </div>
+
+    <div class="dcard" style="margin-top:14px;">
+      <div class="dcard-top">
+        <div class="dcard-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#37d399" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="17" r="2" stroke="#37d399" stroke-width="1.6"/></svg></div>
+        <div><h4>Teknik Minimal Konfigurasi &amp; Swap Test</h4><span class="tag" style="background:rgba(55,211,153,.1); color:var(--green); border-color:rgba(55,211,153,.3);">Known-Good Component Method</span></div>
       </div>
       <p>Swap test dilakukan dengan mengganti komponen yang dicurigai bermasalah menggunakan komponen cadangan yang dipastikan berfungsi baik, lalu menguji apakah gejala hilang.</p>
       <ul>
-        <li><b>Minimal konfigurasi</b> — lepas semua komponen non-esensial (drive, kartu tambahan), sisakan motherboard, CPU, 1 keping RAM, dan PSU.</li>
+        <li><b>Minimal konfigurasi (Breadboarding)</b> — lepas semua komponen non-esensial (drive, kartu ekspansi, casing front panel), sisakan motherboard, CPU, 1 keping RAM, dan PSU di atas meja isolator.</li>
         <li><b>Uji satu per satu</b> — tambahkan atau ganti satu komponen setiap kali percobaan, catat hasilnya.</li>
         <li><b>Gunakan komponen cadangan</b> — RAM, VGA, atau PSU lain yang sudah diketahui berfungsi normal sebagai pembanding.</li>
       </ul>
