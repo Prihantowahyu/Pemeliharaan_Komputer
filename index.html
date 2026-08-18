@@ -5133,28 +5133,28 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
   const allModuleDefinitions = [
     // Semester Ganjil (11 Modul)
-    { id: 'g1', sem: 'ganjil', idx: 0, title: 'Pert 1: K3LH & Pengenalan Lab', file: './Pertemuan-1/index.html' },
-    { id: 'g2', sem: 'ganjil', idx: 1, title: 'Pert 2: Anatomi Komponen PC', file: './Pertemuan-2/index.html' },
-    { id: 'g3', sem: 'ganjil', idx: 2, title: 'Pert 3: SOP Perakitan Hardware', file: './Pertemuan-3/index.html' },
-    { id: 'g4', sem: 'ganjil', idx: 3, title: 'Pert 4: Konfigurasi BIOS & UEFI', file: './Pertemuan-4/index.html' },
-    { id: 'g5', sem: 'ganjil', idx: 4, title: 'Pert 5: Media Bootable & MBR/GPT', file: './Pertemuan-5/index.html' },
-    { id: 'g6', sem: 'ganjil', idx: 5, title: 'Pert 6: Instalasi Windows & Linux', file: './Pertemuan-6/index.html' },
-    { id: 'g7', sem: 'ganjil', idx: 6, title: 'Pert 7: Manajemen Driver Perangkat', file: './Pertemuan-7/index.html' },
-    { id: 'g8', sem: 'ganjil', idx: 7, title: 'Pert 8: Instalasi Software Aplikasi', file: './Pertemuan-8/index.html' },
-    { id: 'g9', sem: 'ganjil', idx: 8, title: 'Pert 9: Troubleshooting POST & Beep', file: './Pertemuan-9/index.html' },
-    { id: 'g10', sem: 'ganjil', idx: 9, title: 'Pert 10: Perawatan Hardware & Thermal', file: './Pertemuan-10/index.html' },
-    { id: 'g11', sem: 'ganjil', idx: 10, title: 'Pert 11: Uji Kompetensi Blok 1', file: './Pertemuan-11/index.html' },
+    { id: 'g1', sem: 'ganjil', idx: 0, title: 'Pert 1: K3LH & SOP Lab Hardware', file: './pert_1_Materi_K3_Prosedur_Kerja_Interaktif.html' },
+    { id: 'g2', sem: 'ganjil', idx: 1, title: 'Pert 2: Anatomi Komponen PC', file: './Pert_2_materi-hardware-komputer.html' },
+    { id: 'g3', sem: 'ganjil', idx: 2, title: 'Pert 3: SOP Bongkar Pasang Komputer', file: './Pert_3_bongkar-pasang-komputer.html' },
+    { id: 'g4', sem: 'ganjil', idx: 3, title: 'Pert 4: Konfigurasi BIOS & UEFI', file: './Pert_4_materi-bios-uefi.html' },
+    { id: 'g5', sem: 'ganjil', idx: 4, title: 'Pert 5: Instalasi Sistem Operasi', file: './Pert_5_Materi_Ajar_Instalasi_Sistem_Operasi.html' },
+    { id: 'g6', sem: 'ganjil', idx: 5, title: 'Pert 6: Bootable USB Windows & Linux', file: './Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html' },
+    { id: 'g7', sem: 'ganjil', idx: 6, title: 'Pert 7: Manajemen Driver Perangkat', file: './Pert_7_modul-ajar-instalasi-driver.html' },
+    { id: 'g8', sem: 'ganjil', idx: 7, title: 'Pert 8: Troubleshooting Hardware', file: './Pert_8_modul-ajar-troubleshooting-hardware.html' },
+    { id: 'g9', sem: 'ganjil', idx: 8, title: 'Pert 9: Troubleshooting Software', file: './Pert_9_materi-troubleshooting-software.html' },
+    { id: 'g10', sem: 'ganjil', idx: 9, title: 'Pert 10: Perawatan Berkala PC', file: './Pert_10_materi-perawatan-berkala.html' },
+    { id: 'g11', sem: 'ganjil', idx: 10, title: 'Pert 11: Backup & Restore Sistem', file: './Pert_11_materi-backup-restore.html' },
 
     // Semester Genap (10 Modul)
     { id: 'gn1', sem: 'genap', idx: 0, title: 'Genap 1: Upgrade Komponen PC', file: './Genap_Pert_1_upgrade-komponen-komputer.html' },
-    { id: 'gn2', sem: 'genap', idx: 1, title: 'Genap 2: Manajemen Partisi & Backup', file: './Genap_Pert_2_partisi-hardisk-backup-system.html' },
-    { id: 'gn3', sem: 'genap', idx: 2, title: 'Genap 3: Perawatan Peripheral Printer', file: './Genap_Pert_3_perawatan-peripheral-printer.html' },
-    { id: 'gn4', sem: 'genap', idx: 3, title: 'Genap 4: Troubleshooting Layar & GPU', file: './Genap_Pert_4_troubleshooting-layar-monitor.html' },
-    { id: 'gn5', sem: 'genap', idx: 4, title: 'Genap 5: Pemeliharaan Laptop & Notebook', file: './Genap_Pert_5_perawatan-laptop-notebook.html' },
-    { id: 'gn6', sem: 'genap', idx: 5, title: 'Genap 6: Keamanan PC & Proteksi Malware', file: './Genap_Pert_6_keamanan-komputer-antivirus.html' },
-    { id: 'gn7', sem: 'genap', idx: 6, title: 'Genap 7: Optimasi OS & Registry Tune-up', file: './Genap_Pert_7_optimasi-kinerja-komputer.html' },
-    { id: 'gn8', sem: 'genap', idx: 7, title: 'Genap 8: Troubleshooting Jaringan LAN', file: './Genap_Pert_8_troubleshooting-jaringan-pc.html' },
-    { id: 'gn9', sem: 'genap', idx: 8, title: 'Genap 9: SOP Manajemen Bengkel Lab', file: './Genap_Pert_9_sop-manajemen-laboratorium.html' },
+    { id: 'gn2', sem: 'genap', idx: 1, title: 'Genap 2: Troubleshooting Printer & Scanner', file: './Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html' },
+    { id: 'gn3', sem: 'genap', idx: 2, title: 'Genap 3: Pemeliharaan Laptop & Mobile', file: './Genap_Pert_3_perawatan-laptop-perangkat-mobile.html' },
+    { id: 'gn4', sem: 'genap', idx: 3, title: 'Genap 4: Keamanan Sistem & Antivirus', file: './Genap_Pert_4_keamanan-sistem-antivirus-firewall.html' },
+    { id: 'gn5', sem: 'genap', idx: 4, title: 'Genap 5: Manajemen Partisi & Storage', file: './Genap_Pert_5_manajemen-partisi-storage.html' },
+    { id: 'gn6', sem: 'genap', idx: 5, title: 'Genap 6: Diagnosa Tools & Hardware AI', file: './Genap_Pert_6_diagnosa-kerusakan-diagnostic-tools-ai.html' },
+    { id: 'gn7', sem: 'genap', idx: 6, title: 'Genap 7: Recovery & Restore Point OS', file: './Genap_Pert_7_instalasi-ulang-recovery-restore-point.html' },
+    { id: 'gn8', sem: 'genap', idx: 7, title: 'Genap 8: Studi Kasus Kasus Kompleks', file: './Genap_Pert_8_studi-kasus-troubleshooting-kompleks.html' },
+    { id: 'gn9', sem: 'genap', idx: 8, title: 'Genap 9: Proyek Servis Bengkel Lab', file: './Genap_Pert_9_proyek-perawatan-perbaikan-unit-sekolah.html' },
     { id: 'gn10', sem: 'genap', idx: 9, title: 'Genap 10: Uji Kompetensi Laporan Akhir', file: './Genap_Pert_10_uji-kompetensi-laporan-perawatan.html' }
   ];
 
