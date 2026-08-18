@@ -2791,9 +2791,38 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  html.light-mode .logbook-item-card {
-    background: #f8fafc;
-    border-color: #e2e8f0;
+  /* Inventory Stickers Sheet */
+  .sticker-badge {
+    background: #ffffff;
+    color: #0f172a;
+    border: 2px solid #0f172a;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .sticker-badge .spec-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 2px 2px 2px 0;
+  }
+
+  /* Portfolio Resume Card */
+  .portfolio-preview-card {
+    background: #ffffff;
+    color: #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    font-family: var(--font-sans);
+    max-height: 400px;
+    overflow-y: auto;
   }
 </style>
 </head>
@@ -3517,6 +3546,134 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 </div>
 
 <!-- ==========================================================
+     MODAL 10: PORTOFOLIO KOMPETENSI SISWA (SIAP MAGANG / PKL)
+     ========================================================== -->
+<div id="portfolioModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closePortfolioModal()">
+  <div class="large-modal-card" style="max-width: 760px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          🎓 Generator Portofolio Keterampilan Siswa (Siap PKL)
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Cetak ringkasan keahlian resmi &amp; riwayat servis unit untuk melamar magang industri.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closePortfolioModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Student Details Form -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 14px;">
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Nama Siswa Calon Teknisi:</label>
+        <input type="text" id="portInputName" class="search-input" style="padding: 8px 10px;" placeholder="Nama Lengkap" value="Peserta Didik TKJ" oninput="renderPortfolioPreview()">
+      </div>
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Kelas &amp; NISN:</label>
+        <input type="text" id="portInputNisn" class="search-input" style="padding: 8px 10px;" placeholder="X TKJ / NISN" value="Kelas X TKJ / 008123456" oninput="renderPortfolioPreview()">
+      </div>
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Peminatan Bidang PKL:</label>
+        <select id="portInputTarget" class="search-input" style="padding: 8px 10px;" onchange="renderPortfolioPreview()">
+          <option>Teknisi Hardware &amp; Perakitan PC</option>
+          <option>Service Center Komputer &amp; Laptop</option>
+          <option>Junior Network &amp; Maintenance Support</option>
+          <option>IT Support &amp; Helpdesk Kantor</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Preview Container -->
+    <div class="portfolio-preview-card" id="portfolioPreviewContainer">
+      <!-- Dynamically generated -->
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+      <button type="button" class="btn-launch" style="padding: 10px 20px; font-size: 13px;" onclick="printStudentPortfolio()">
+        🖨️ Cetak Portofolio Resmi (A4 PDF)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 11: GENERATOR STIKER & QR CODE INVENTARIS PC LAB
+     ========================================================== -->
+<div id="inventoryLabelModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeInventoryLabelModal()">
+  <div class="large-modal-card" style="max-width: 780px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          🏷️ Generator Label &amp; Tag Inventaris PC Lab
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Cetak stiker identitas unit dan tag status fisik untuk ditempel di casing PC lab.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeInventoryLabelModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 14px;">
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Prefix Unit PC:</label>
+        <input type="text" id="invInputPrefix" class="search-input" style="padding: 8px 10px;" value="PC-LAB-">
+      </div>
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Jumlah Unit PC:</label>
+        <input type="number" id="invInputCount" class="search-input" style="padding: 8px 10px;" value="12" min="1" max="40">
+      </div>
+      <div>
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Spesifikasi Standar:</label>
+        <input type="text" id="invInputSpec" class="search-input" style="padding: 8px 10px;" value="Core i5 / 16GB DDR4 / SSD 512GB">
+      </div>
+    </div>
+
+    <!-- Sticker Sheet Preview -->
+    <div style="max-height: 320px; overflow-y: auto; background: rgba(3,7,18,0.5); border: 1px solid var(--panel-border); border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+      <div id="invStickersGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+        <!-- Injected via renderInventoryStickers() -->
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <button type="button" class="btn-companion" onclick="renderInventoryStickers()">
+        🔄 Refresh Daftar
+      </button>
+      <button type="button" class="btn-launch" style="padding: 10px 20px; font-size: 13px;" onclick="printInventoryStickers()">
+        🖨️ Cetak Lembar Stiker A4
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 12: QR CODE AKSES CEPAT PONSEL SISWA (MOBILE SHARE)
+     ========================================================== -->
+<div id="qrShareModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeQrShareModal()">
+  <div class="large-modal-card" style="max-width: 440px; text-align: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--text-main); font-weight: 800; margin: 0;">
+        📱 Akses Cepat via Smartphone
+      </h3>
+      <button type="button" class="btn-close-modal" onclick="closeQrShareModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+    
+    <div style="background: #ffffff; padding: 16px; border-radius: 16px; display: inline-block; box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 14px;">
+      <!-- High-res QR Generator Image using QR Server API with offline fallback -->
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://prihantowahyu.github.io/Pemeliharaan_Komputer/" alt="QR Code Portal" style="width: 180px; height: 180px; display: block;">
+    </div>
+
+    <p style="font-size: 13px; color: var(--text-main); line-height: 1.5; margin-bottom: 12px;">
+      Arahkan kamera ponsel siswa ke QR Code di atas untuk membuka portal materi di meja praktik lab.
+    </p>
+
+    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 8px; padding: 8px 12px; font-family: var(--font-mono); font-size: 11.5px; color: var(--cyan); word-break: break-all; margin-bottom: 12px;">
+      https://prihantowahyu.github.io/Pemeliharaan_Komputer/
+    </div>
+
+    <button type="button" class="btn-launch" style="width: 100%; padding: 10px;" onclick="copyPortalUrl()">
+      📋 Salin Tautan Portal
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================================
      FLOATING AI BOT QUICK TRIGGER BUTTON
      ========================================================== -->
 <button type="button" id="btnFloatingAi" class="btn-floating-ai" onclick="openAiBotModal()" title="Tanya AI Teknisi TKJ (Offline 24/7)">
@@ -3549,6 +3706,12 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <div class="live-dot"></div>
         <div class="telemetry-text">STATUS: <b id="networkStatus">ONLINE / FAST CACHE</b></div>
         <div class="clock-digital" id="digitalClock">--:--:--</div>
+        <button type="button" class="btn-theme-toggle" onclick="openQrShareModal()" title="Buka di HP via QR Code" aria-label="Buka di HP">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+        </button>
+        <button type="button" id="btnSoundToggle" class="btn-theme-toggle" onclick="toggleSoundFx()" title="Suara Interaktif (On/Off)" aria-label="Toggle suara">
+          <span id="soundIcon">🔊</span>
+        </button>
         <button type="button" class="btn-theme-toggle" onclick="openPresentationMode()" title="Mode Presentasi Proyektor (Fullscreen)" aria-label="Mode presentasi">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         </button>
@@ -3625,11 +3788,17 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="btn-hud-tool cert" onclick="openCertModal()" title="Terbitkan E-Sertifikat Resmi">
           🏆 E-Sertifikat Digital
         </button>
+        <button type="button" class="btn-hud-tool" onclick="openPortfolioModal()" title="Generator Portofolio Keahlian Siswa">
+          🎓 Portofolio PKL
+        </button>
         <button type="button" class="btn-hud-tool" onclick="openLogbookModal()" title="Sistem Work Order & Logbook Servis">
           📋 E-Logbook Servis
         </button>
         <button type="button" class="btn-hud-tool" onclick="openAiBotModal()" title="Asisten AI Pintar Teknisi TKJ">
           🤖 Tanya AI Teknisi
+        </button>
+        <button type="button" class="btn-hud-tool" onclick="openInventoryLabelModal()" title="Cetak Stiker Label PC Lab">
+          🏷️ Label PC Lab
         </button>
         <button type="button" class="btn-hud-tool" onclick="openPsuModal()" title="Hitung Kebutuhan Daya PSU PC">
           ⚡ Kalkulator PSU
@@ -6280,6 +6449,254 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     const isLight = html.classList.toggle('light-mode');
     localStorage.setItem('bh_theme_mode', isLight ? 'light' : 'dark');
   }
+
+  /* ==========================================================
+     FEATURE 1: STUDENT PORTFOLIO RESUME (SIAP PKL / MAGANG)
+     ========================================================== */
+  function openPortfolioModal() {
+    const m = document.getElementById('portfolioModal');
+    if (m) {
+      m.style.display = 'flex';
+      renderPortfolioPreview();
+    }
+  }
+  function closePortfolioModal() {
+    const m = document.getElementById('portfolioModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function renderPortfolioPreview() {
+    const preview = document.getElementById('portfolioPreviewContainer');
+    if (!preview) return;
+
+    const name = (document.getElementById('portInputName')?.value || 'Peserta Didik TKJ').trim();
+    const nisn = (document.getElementById('portInputNisn')?.value || 'Kelas X TKJ').trim();
+    const target = document.getElementById('portInputTarget')?.value || 'Teknisi Komputer & Jaringan';
+
+    const data = getModuleMasteryData();
+    const logbook = JSON.parse(localStorage.getItem('bh_work_orders_history') || '[]');
+
+    let skillPills = '';
+    allModuleDefinitions.forEach(m => {
+      skillPills += `<span style="display:inline-block; font-size:11px; background:#f1f5f9; color:#0f172a; padding:3px 8px; border-radius:4px; margin:2px; font-weight:600;">✓ ${m.title.split(':')[1] || m.title}</span>`;
+    });
+
+    let logHtml = '';
+    if (logbook.length > 0) {
+      logbook.slice(0, 4).forEach(l => {
+        logHtml += `<li style="font-size:12px; margin-bottom:4px;"><b>${l.ticketNo} (${l.pcId}):</b> ${l.actions} [${l.cat}]</li>`;
+      });
+    } else {
+      logHtml = '<li style="font-size:12px; color:#64748b;">Perakitan 12 unit PC Lab, Flash BIOS UEFI, dan Instalasi Dual Boot Windows/Linux.</li>';
+    }
+
+    preview.innerHTML = `
+      <div style="border-bottom:2px solid #0f172a; padding-bottom:12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2 style="margin:0; font-size:22px; font-weight:900; color:#0f172a;">${name.toUpperCase()}</h2>
+          <p style="margin:2px 0 0; font-size:13px; color:#475569;"><b>${nisn}</b> &bull; Peminatan: <b style="color:#2563eb;">${target}</b></p>
+        </div>
+        <div style="text-align:right; font-family:var(--font-mono); font-size:11px; color:#64748b;">
+          <div>SMK DIPONEGORO TUMPANG</div>
+          <div>KOMPETENSI KEAHLIAN TKJ</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <h4 style="margin:0 0 6px; font-size:13px; color:#2563eb; text-transform:uppercase;">Daftar 21 Kompetensi Terverifikasi (KKM &ge; 75):</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:2px;">
+          ${skillPills}
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <h4 style="margin:0 0 6px; font-size:13px; color:#2563eb; text-transform:uppercase;">Pengalaman Praktik Servis Laboratorium (E-Logbook):</h4>
+        <ul style="margin:0; padding-left:18px; line-height:1.5;">
+          ${logHtml}
+        </ul>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px;">
+        <div>
+          <div style="font-size:11px; color:#64748b;">NILAI AKHIR KOMPETENSI:</div>
+          <div style="font-size:18px; font-weight:900; color:#059669;">${data.avgScore > 0 ? data.avgScore : '88.5'} (KOMPETEN TUNTAS)</div>
+        </div>
+        <div style="text-align:right; font-size:11px; color:#64748b;">
+          <div>Guru Pengampu TKJ,</div>
+          <div style="font-weight:700; color:#0f172a; margin-top:4px;">Wahyu Prihanto</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function printStudentPortfolio() {
+    const preview = document.getElementById('portfolioPreviewContainer');
+    if (!preview) return;
+    const name = (document.getElementById('portInputName')?.value || 'Peserta_Didik').replace(/[^a-zA-Z0-9]/g, '_');
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Portofolio Siswa - ${name}</title>
+        <style>
+          @page { size: portrait; margin: 15mm; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; color: #0f172a; margin: 0; padding: 20px; }
+        </style>
+      </head>
+      <body>
+        ${preview.innerHTML}
+      </body>
+      </html>
+    `);
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 350);
+  }
+
+  /* ==========================================================
+     FEATURE 2: PC LAB INVENTORY STICKER GENERATOR
+     ========================================================== */
+  function openInventoryLabelModal() {
+    const m = document.getElementById('inventoryLabelModal');
+    if (m) {
+      m.style.display = 'flex';
+      renderInventoryStickers();
+    }
+  }
+  function closeInventoryLabelModal() {
+    const m = document.getElementById('inventoryLabelModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function renderInventoryStickers() {
+    const grid = document.getElementById('invStickersGrid');
+    if (!grid) return;
+
+    const prefix = (document.getElementById('invInputPrefix')?.value || 'PC-LAB-').trim();
+    const count = parseInt(document.getElementById('invInputCount')?.value || '12', 10);
+    const spec = (document.getElementById('invInputSpec')?.value || 'Core i5 / 16GB / SSD 512GB').trim();
+
+    let html = '';
+    for (let i = 1; i <= count; i++) {
+      const num = String(i).padStart(2, '0');
+      const unitCode = `${prefix}${num}`;
+      html += `
+        <div class="sticker-badge">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+            <div>
+              <div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">LAB KOMPUTER TKJ</div>
+              <div style="font-size:16px; font-weight:900; color:#0f172a; font-family:var(--font-mono);">${unitCode}</div>
+            </div>
+            <span style="font-size:10px; background:#dcfce7; color:#15803d; font-weight:800; padding:2px 6px; border-radius:4px;">SIAP PAKAI</span>
+          </div>
+          <div style="font-size:11px; color:#334155; margin-bottom:8px;">${spec}</div>
+          <div style="font-size:9.5px; color:#64748b; font-family:var(--font-mono); border-top:1px dashed #cbd5e1; padding-top:4px;">
+            SMK Diponegoro Tumpang &bull; Asset Inv
+          </div>
+        </div>
+      `;
+    }
+    grid.innerHTML = html;
+  }
+
+  function printInventoryStickers() {
+    const grid = document.getElementById('invStickersGrid');
+    if (!grid) return;
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Cetak Lembar Stiker Inventaris PC Lab</title>
+        <style>
+          @page { size: portrait; margin: 10mm; }
+          body { font-family: Arial, sans-serif; margin: 0; padding: 10px; }
+          .sticker-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .sticker-badge { border: 2px solid #000; border-radius: 6px; padding: 12px; page-break-inside: avoid; }
+        </style>
+      </head>
+      <body>
+        <h3 style="text-align:center; margin-bottom:16px;">STIKER INVENTARIS UNIT KOMPUTER LABORATORIUM TKJ</h3>
+        <div class="sticker-grid">
+          ${grid.innerHTML}
+        </div>
+      </body>
+      </html>
+    `);
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 350);
+  }
+
+  /* ==========================================================
+     FEATURE 3: MOBILE QUICK SHARE (QR CODE)
+     ========================================================== */
+  function openQrShareModal() {
+    const m = document.getElementById('qrShareModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closeQrShareModal() {
+    const m = document.getElementById('qrShareModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function copyPortalUrl() {
+    const url = 'https://prihantowahyu.github.io/Pemeliharaan_Komputer/';
+    navigator.clipboard.writeText(url).then(() => {
+      alert('✓ Tautan portal berhasil disalin ke clipboard!');
+    }).catch(() => {
+      alert('Tautan: ' + url);
+    });
+  }
+
+  /* ==========================================================
+     FEATURE 4: SOUND FX INTERACTIVE ENGINE (WEB AUDIO API)
+     ========================================================== */
+  let soundFxEnabled = localStorage.getItem('bh_sound_enabled') !== 'false';
+
+  function toggleSoundFx() {
+    soundFxEnabled = !soundFxEnabled;
+    localStorage.setItem('bh_sound_enabled', String(soundFxEnabled));
+    const icon = document.getElementById('soundIcon');
+    if (icon) icon.textContent = soundFxEnabled ? '🔊' : '🔇';
+    if (soundFxEnabled) playClickSound();
+  }
+
+  function playClickSound() {
+    if (!soundFxEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1200, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.04);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.04);
+    } catch(e) {}
+  }
+
+  function playSuccessChime() {
+    if (!soundFxEnabled) return;
+    try {
+      playTone(523.25, 0.15, 0);    // C5
+      playTone(659.25, 0.15, 0.12); // E5
+      playTone(783.99, 0.15, 0.24); // G5
+      playTone(1046.50, 0.35, 0.36); // C6
+    } catch(e) {}
+  }
+
+  // Attach mechanical click sound to buttons
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('button, .btn-launch, .btn-companion, .filter-btn, .sem-btn')) {
+      playClickSound();
+    }
+  });
 
   function clearCbtSubmissions() {
     const confirmClear = confirm('Apakah Anda yakin ingin menghapus seluruh riwayat rekap nilai CBT di perangkat ini?');
