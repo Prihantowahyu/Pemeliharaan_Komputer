@@ -2678,6 +2678,123 @@
     border-color: #e2e8f0;
     color: #1e293b;
   }
+  /* Floating AI Helper Trigger */
+  .btn-floating-ai {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
+    color: #030712;
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 12px 20px;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .btn-floating-ai:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 16px 35px rgba(0, 240, 255, 0.6);
+  }
+  html.light-mode .btn-floating-ai {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+  }
+
+  /* AI Chat Area */
+  .ai-chat-window {
+    height: 380px;
+    overflow-y: auto;
+    background: rgba(3, 7, 18, 0.7);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  html.light-mode .ai-chat-window {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+  }
+  .ai-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .ai-msg.bot {
+    align-self: flex-start;
+    background: rgba(13, 22, 44, 0.85);
+    border: 1px solid var(--panel-border);
+    color: var(--text-main);
+  }
+  html.light-mode .ai-msg.bot {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    color: #1e293b;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  }
+  .ai-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+    color: #030712;
+    font-weight: 600;
+  }
+  html.light-mode .ai-msg.user {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    color: #ffffff;
+  }
+
+  /* Stopwatch Big Display */
+  .timer-big-display {
+    font-family: var(--font-mono);
+    font-size: 56px;
+    font-weight: 900;
+    text-align: center;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
+    padding: 24px;
+    background: rgba(3, 7, 18, 0.75);
+    border: 2px solid var(--panel-border);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  }
+  html.light-mode .timer-big-display {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1d4ed8;
+    text-shadow: none;
+  }
+
+  /* Logbook Ticket Card */
+  .logbook-item-card {
+    background: rgba(13, 22, 44, 0.6);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  html.light-mode .logbook-item-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+  }
 </style>
 </head>
 <body>
@@ -3277,6 +3394,12 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="btn-hud-tool cert" onclick="openCertModal()" title="Terbitkan E-Sertifikat Resmi">
           🏆 E-Sertifikat Digital
         </button>
+        <button type="button" class="btn-hud-tool" onclick="openLogbookModal()" title="Sistem Work Order & Logbook Servis">
+          📋 E-Logbook Servis
+        </button>
+        <button type="button" class="btn-hud-tool" onclick="openAiBotModal()" title="Asisten AI Pintar Teknisi TKJ">
+          🤖 Tanya AI Teknisi
+        </button>
         <button type="button" class="btn-hud-tool" onclick="openPsuModal()" title="Hitung Kebutuhan Daya PSU PC">
           ⚡ Kalkulator PSU
         </button>
@@ -3286,8 +3409,14 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="btn-hud-tool" onclick="openBeepModal()" title="Simulasi Suara Speaker Motherboard">
           🔊 Lab Beep BIOS
         </button>
+        <button type="button" class="btn-hud-tool" onclick="openSpeedTimerModal()" title="Stopwatch & Uji Kecepatan Praktik">
+          ⏱️ Timer Perakitan
+        </button>
         <button type="button" class="btn-hud-tool" onclick="openCheatsheetModal()" title="Kamus Shortcut BIOS & Pinout Motherboard">
           📑 Cheatsheet &amp; Pinout
+        </button>
+        <button type="button" class="btn-hud-tool" onclick="openBackupRestoreModal()" title="Backup & Restore Profil Belajar">
+          🔄 Backup Data
         </button>
       </div>
     </div>
@@ -5349,22 +5478,380 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
   }
 
-  // Keyboard navigation for presentation mode
-  window.addEventListener('keydown', e => {
-    const pres = document.getElementById('presentationOverlay');
-    if (pres && pres.style.display === 'flex') {
-      if (e.key === 'ArrowRight' || e.key === 'Space') {
-        e.preventDefault();
-        nextPresSlide();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevPresSlide();
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        closePresentationMode();
-      }
+  /* ==========================================================
+     SUPPORT SYSTEM 1: E-LOGBOOK & WORK ORDER SPK
+     ========================================================== */
+  function openLogbookModal() {
+    const m = document.getElementById('logbookModal');
+    if (m) {
+      m.style.display = 'flex';
+      renderLogbookList();
     }
-  });
+  }
+  function closeLogbookModal() {
+    const m = document.getElementById('logbookModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function saveWorkOrderTicket() {
+    const tech = (document.getElementById('spkInputTech')?.value || 'Teknisi Siswa').trim();
+    const pcId = (document.getElementById('spkInputPcId')?.value || 'PC-LAB-01').trim();
+    const cat = document.getElementById('spkInputCategory')?.value || 'Hardware';
+    const actions = (document.getElementById('spkInputActions')?.value || 'Perbaikan standar').trim();
+
+    const ticketNo = 'SPK-' + Math.floor(1000 + Math.random() * 9000);
+    const dateStr = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    const newTicket = { ticketNo, tech, pcId, cat, actions, dateStr, status: 'SELESAI' };
+
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_work_orders_history')) || [];
+      records.unshift(newTicket);
+      localStorage.setItem('bh_work_orders_history', JSON.stringify(records));
+      renderLogbookList();
+      alert(`✓ Tiket ${ticketNo} berhasil dicatat ke dalam logbook bengkel!`);
+    } catch(err) {
+      alert('Gagal menyimpan: ' + err.message);
+    }
+  }
+
+  function renderLogbookList() {
+    const container = document.getElementById('logbookListContainer');
+    if (!container) return;
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_work_orders_history')) || [];
+      if (records.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:16px; color:var(--text-muted); font-size:12.5px;">Belum ada riwayat lembar servis tersimpan.</div>';
+        return;
+      }
+
+      let html = '';
+      records.forEach((r, idx) => {
+        html += `
+          <div class="logbook-item-card">
+            <div>
+              <div style="font-family:var(--font-mono); font-size:12px; font-weight:800; color:var(--cyan);">${r.ticketNo} &bull; ${r.pcId}</div>
+              <div style="font-size:12px; color:var(--text-main); margin-top:2px;"><b>Teknisi:</b> ${r.tech} &bull; <b>Kategori:</b> ${r.cat}</div>
+              <div style="font-size:11.5px; color:var(--text-sub); margin-top:2px;">${r.actions} (${r.dateStr})</div>
+            </div>
+            <button type="button" class="btn-companion" style="font-size:11px; padding:5px 10px;" onclick="printSingleSpk('${r.ticketNo}', '${r.tech}', '${r.pcId}', '${r.cat}', '${r.actions}', '${r.dateStr}')">
+              🖨️ Cetak Berita Acara
+            </button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    } catch(e) {
+      container.innerHTML = 'Gagal memuat logbook.';
+    }
+  }
+
+  function printSingleSpk(no, tech, pcId, cat, actions, date) {
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Berita Acara Servis - ${no}</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 30px; color: #111; }
+          .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 20px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+          td, th { padding: 8px 12px; border: 1px solid #999; }
+          th { background: #eee; text-align: left; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h2>LEMBAR BERITA ACARA PERBAIKAN &amp; SERVIS UNIT PC</h2>
+          <p>LABORATORIUM TEKNIK KOMPUTER DAN JARINGAN &bull; SMK DIPONEGORO TUMPANG</p>
+        </div>
+        <table>
+          <tr><th width="30%">Nomor Tiket SPK</th><td><b>${no}</b></td></tr>
+          <tr><th>Waktu Pengerjaan</th><td>${date}</td></tr>
+          <tr><th>Nama Teknisi Siswa</th><td><b>${tech}</b></td></tr>
+          <tr><th>Identitas Unit / PC</th><td><b>${pcId}</b></td></tr>
+          <tr><th>Kategori Servis</th><td>${cat}</td></tr>
+          <tr><th>Uraian Tindakan Perbaikan</th><td>${actions}</td></tr>
+          <tr><th>Status Akhir Unit</th><td><b style="color:green;">KOMPETEN / SELESAI LOLOS QC</b></td></tr>
+        </table>
+        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+          <div style="text-align: center;">
+            <p>Laboran / Guru Pengampu,</p>
+            <br><br><br>
+            <p><b>( Wahyu Prihanto )</b></p>
+          </div>
+          <div style="text-align: center;">
+            <p>Teknisi Siswa Pelaksana,</p>
+            <br><br><br>
+            <p><b>( ${tech} )</b></p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 300);
+  }
+
+  /* ==========================================================
+     SUPPORT SYSTEM 2: AI ASSISTANT TEKNISI TKJ (OFFLINE)
+     ========================================================== */
+  function openAiBotModal() {
+    const m = document.getElementById('aiBotModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closeAiBotModal() {
+    const m = document.getElementById('aiBotModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function sendAiQuickQuestion(text) {
+    const input = document.getElementById('aiChatInput');
+    if (input) {
+      input.value = text;
+      handleAiChatSubmit(new Event('submit'));
+    }
+  }
+
+  function handleAiChatSubmit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const input = document.getElementById('aiChatInput');
+    const q = (input ? input.value : '').trim();
+    if (!q) return;
+
+    const chatWin = document.getElementById('aiChatWindow');
+    if (!chatWin) return;
+
+    // Append user message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'ai-msg user';
+    userDiv.textContent = q;
+    chatWin.appendChild(userDiv);
+    input.value = '';
+    chatWin.scrollTop = chatWin.scrollHeight;
+
+    // Generate intelligent AI response based on hardware knowledge base
+    setTimeout(() => {
+      const ans = getAiHardwareAnswer(q);
+      const botDiv = document.createElement('div');
+      botDiv.className = 'ai-msg bot';
+      botDiv.innerHTML = ans;
+      chatWin.appendChild(botDiv);
+      chatWin.scrollTop = chatWin.scrollHeight;
+    }, 400);
+  }
+
+  function getAiHardwareAnswer(query) {
+    const q = query.toLowerCase();
+
+    if (q.includes('no display') || (q.includes('layar') && q.includes('gelap')) || q.includes('blank')) {
+      return "💡 <b>Diagnosa Kasus No Display (Layar Gelap):</b><br>1. Periksa apakah kabel monitor tertukar colok di motherboard onboard padahal memakai GPU terpisah.<br>2. Cabut RAM, bersihkan pin emas kuningan dengan karet penghapus pensil hingga mengkilap.<br>3. Reset BIOS CMOS dengan mencabut baterai CR2032 selama 3 menit.";
+    }
+    if (q.includes('front panel') || q.includes('power sw') || q.includes('reset sw')) {
+      return "🔌 <b>Urutan Pinout Front Panel 9-Pin (JFP1):</b><br>• <b>Pin Atas:</b> [Power LED +][Power LED -][Power SW][Power SW][No Pin]<br>• <b>Pin Bawah:</b> [HDD LED +][HDD LED -][Reset SW][Reset SW][Pin Kosong]<br><i>Tips: Tombol Power SW & Reset SW bebas polaritas (+/- bolak-balik tidak apa-apa).</i>";
+    }
+    if (q.includes('mbr') || q.includes('gpt') || q.includes('uefi') || q.includes('bios')) {
+      return "⚙️ <b>Perbedaan MBR vs GPT:</b><br>• <b>MBR (Master Boot Record):</b> Standar Legacy lama, batas maksimal disk 2TB, maksimal 4 partisi primer.<br>• <b>GPT (GUID Partition Table):</b> Standar Modern UEFI, mendukung kapasitas hingga 9.4 ZB, mendukung 128 partisi primer & fitur Secure Boot Windows 11.";
+    }
+    if (q.includes('bsod') || q.includes('blue screen')) {
+      return "⚠️ <b>Penanganan Blue Screen (BSOD):</b><br>1. Catat kode error (misal <code>MEMORY_MANAGEMENT</code> = Masalah RAM, <code>INACCESSIBLE_BOOT_DEVICE</code> = Masalah Mode AHCI/SSD).<br>2. Buka Command Prompt (Admin) lalu ketik <code>sfc /scannow</code> untuk perbaikan file sistem Windows.";
+    }
+    if (q.includes('thermal paste') || q.includes('pasta')) {
+      return "🌡️ <b>Aplikasi Thermal Paste yang Tepat:</b><br>Gunakan metode <b>'Titik Sebutir Jagung (Pea Method)'</b> tepat di tengah permukaan Integrated Heat Spreader (IHS) prosesor. Jangan mengoleskan terlalu tebal karena justru menghambat transfer panas ke heatsink.";
+    }
+    if (q.includes('psu') || q.includes('daya') || q.includes('watt')) {
+      return "⚡ <b>Panduan Daya Power Supply (PSU):</b><br>• Rakitan Kantor/Lab (i3/i5 + iGPU): <b>450W</b><br>• Rakitan Gaming Menengah (i5/Ryzen 5 + RTX 3060/4060): <b>550W – 650W 80+ Bronze/Gold</b><br>• Selalu beri <i>headroom buffer 30%</i> agar PSU bekerja di titik efisiensi 50-70%.";
+    }
+
+    return `💡 <b>Saran Teknisi untuk "${query}":</b><br>Pastikan Anda memeriksa koneksi kabel daya 24-Pin ATX & 8-Pin CPU EPS, pastikan RAM terpasang hingga berbunyi <i>klik</i>, dan periksa apakah ada kode beep BIOS yang berbunyi saat komputer dinyalakan. Silakan gunakan fitur <b>🩺 Diagnosa PC</b> atau <b>🔊 Lab Beep BIOS</b> di portal ini!`;
+  }
+
+  /* ==========================================================
+     SUPPORT SYSTEM 3: SPEED ASSEMBLY TIMER & STOPWATCH
+     ========================================================== */
+  let speedTimerInterval = null;
+  let speedTimerRunning = false;
+  let speedTimerTargetMs = 25 * 60 * 1000;
+  let speedTimerCurrentMs = 25 * 60 * 1000;
+  let speedTimerMode = 'countdown'; // 'countdown' or 'stopwatch'
+  let speedTimerLabel = 'Uji Perakitan PC';
+
+  function openSpeedTimerModal() {
+    const m = document.getElementById('speedTimerModal');
+    if (m) {
+      m.style.display = 'flex';
+      renderSpeedTimerDisplay();
+      renderSpeedTimerRecords();
+    }
+  }
+  function closeSpeedTimerModal() {
+    const m = document.getElementById('speedTimerModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function setTimerPreset(minutes, label, btnEl) {
+    if (speedTimerRunning) toggleSpeedTimer();
+    document.querySelectorAll('#speedTimerModal .cheat-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+
+    speedTimerLabel = label;
+    if (minutes === 0) {
+      speedTimerMode = 'stopwatch';
+      speedTimerCurrentMs = 0;
+    } else {
+      speedTimerMode = 'countdown';
+      speedTimerTargetMs = minutes * 60 * 1000;
+      speedTimerCurrentMs = speedTimerTargetMs;
+    }
+    renderSpeedTimerDisplay();
+  }
+
+  function toggleSpeedTimer() {
+    const btn = document.getElementById('btnTimerStartPause');
+    if (speedTimerRunning) {
+      // Pause
+      clearInterval(speedTimerInterval);
+      speedTimerRunning = false;
+      if (btn) btn.textContent = '▶️ Lanjutkan Ujian';
+    } else {
+      // Start
+      speedTimerRunning = true;
+      if (btn) btn.textContent = '⏸️ Jeda Waktu';
+      const startTime = Date.now() - (speedTimerMode === 'stopwatch' ? speedTimerCurrentMs : (speedTimerTargetMs - speedTimerCurrentMs));
+
+      speedTimerInterval = setInterval(() => {
+        if (speedTimerMode === 'countdown') {
+          const elapsed = Date.now() - startTime;
+          speedTimerCurrentMs = Math.max(0, speedTimerTargetMs - elapsed);
+          if (speedTimerCurrentMs <= 0) {
+            clearInterval(speedTimerInterval);
+            speedTimerRunning = false;
+            if (btn) btn.textContent = '▶️ Mulai Ujian';
+            playTone(1000, 1.5);
+            alert(`⏰ WAKTU HABIS untuk ${speedTimerLabel}! Ujian Praktik Selesai.`);
+            saveSpeedTimerRecord(speedTimerLabel, 'Waktu Habis');
+          }
+        } else {
+          speedTimerCurrentMs = Date.now() - startTime;
+        }
+        renderSpeedTimerDisplay();
+      }, 50);
+    }
+  }
+
+  function resetSpeedTimer() {
+    if (speedTimerRunning) toggleSpeedTimer();
+    speedTimerCurrentMs = speedTimerMode === 'countdown' ? speedTimerTargetMs : 0;
+    renderSpeedTimerDisplay();
+    const btn = document.getElementById('btnTimerStartPause');
+    if (btn) btn.textContent = '▶️ Mulai Ujian';
+  }
+
+  function renderSpeedTimerDisplay() {
+    const disp = document.getElementById('speedTimerDisplay');
+    if (!disp) return;
+
+    const totalSec = Math.floor(speedTimerCurrentMs / 1000);
+    const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    const ms = String(Math.floor((speedTimerCurrentMs % 1000) / 100));
+
+    disp.textContent = `${m}:${s}.${ms}`;
+  }
+
+  function saveSpeedTimerRecord(testName, timeFormatted) {
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_lab_timer_scores')) || [];
+      records.unshift({
+        testName,
+        time: timeFormatted,
+        date: new Date().toLocaleDateString('id-ID')
+      });
+      localStorage.setItem('bh_lab_timer_scores', JSON.stringify(records));
+      renderSpeedTimerRecords();
+    } catch(e) {}
+  }
+
+  function renderSpeedTimerRecords() {
+    const list = document.getElementById('speedTimerRecordsList');
+    if (!list) return;
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_lab_timer_scores')) || [];
+      if (records.length === 0) {
+        list.innerHTML = 'Belum ada rekor waktu tercatat. Uji keterampilan Anda!';
+        return;
+      }
+      let html = '<ul style="padding-left:18px; line-height:1.6; margin:0;">';
+      records.slice(0, 5).forEach(r => {
+        html += `<li><b>${r.testName}</b>: ${r.time} (${r.date})</li>`;
+      });
+      html += '</ul>';
+      list.innerHTML = html;
+    } catch(e) {}
+  }
+
+  /* ==========================================================
+     SUPPORT SYSTEM 4: BACKUP & RESTORE DATA BELAJAR (.JSON)
+     ========================================================== */
+  function openBackupRestoreModal() {
+    const m = document.getElementById('backupRestoreModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closeBackupRestoreModal() {
+    const m = document.getElementById('backupRestoreModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function exportProfileBackupJson() {
+    const backupData = {
+      version: "1.0",
+      exportDate: new Date().toISOString(),
+      theme: localStorage.getItem('bh_theme_mode') || 'light',
+      ganjilCompleted: JSON.parse(localStorage.getItem('bh_tkj_completed_modules') || '[]'),
+      genapCompleted: JSON.parse(localStorage.getItem('bh_tkj_genap_completed_modules') || '[]'),
+      cbtSubmissions: JSON.parse(localStorage.getItem('bh_cbt_all_submissions') || '[]'),
+      workOrders: JSON.parse(localStorage.getItem('bh_work_orders_history') || '[]'),
+      timerScores: JSON.parse(localStorage.getItem('bh_lab_timer_scores') || '[]')
+    };
+
+    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `Backup_Profil_TKJ_${new Date().toISOString().slice(0,10)}.json`;
+    link.click();
+    alert('✓ File cadangan profil belajar (.JSON) berhasil diunduh!');
+  }
+
+  function importProfileBackupJson() {
+    const input = document.getElementById('inputRestoreFile');
+    if (!input || !input.files || !input.files[0]) {
+      alert('Pilih file backup (.json) terlebih dahulu!');
+      return;
+    }
+
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.ganjilCompleted) localStorage.setItem('bh_tkj_completed_modules', JSON.stringify(data.ganjilCompleted));
+        if (data.genapCompleted) localStorage.setItem('bh_tkj_genap_completed_modules', JSON.stringify(data.genapCompleted));
+        if (data.cbtSubmissions) localStorage.setItem('bh_cbt_all_submissions', JSON.stringify(data.cbtSubmissions));
+        if (data.workOrders) localStorage.setItem('bh_work_orders_history', JSON.stringify(data.workOrders));
+        if (data.timerScores) localStorage.setItem('bh_lab_timer_scores', JSON.stringify(data.timerScores));
+        if (data.theme) localStorage.setItem('bh_theme_mode', data.theme);
+
+        alert('🎉 Profil belajar berhasil dipulihkan! Halaman akan dimuat ulang.');
+        window.location.reload();
+      } catch(err) {
+        alert('Gagal memulihkan file: Format JSON tidak valid (' + err.message + ')');
+      }
+    };
+    reader.readAsText(file);
+  }
+
 
 
 
