@@ -1648,282 +1648,36 @@
   .btn-admin-submit:hover {
     filter: brightness(1.15);
   }
-  /* ==========================================================
-     PAGE ACCESS LOCK GATE (PASSWORD: 230587) STYLES
+    /* ==========================================================
+     PANEL GURU BUTTON STYLES
      ========================================================== */
-  .page-access-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999999;
-    background: radial-gradient(circle at 50% 35%, rgba(13, 22, 44, 0.98) 0%, rgba(3, 7, 18, 0.99) 100%);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .page-access-overlay.gate-unlocked {
-    opacity: 0;
-    transform: scale(1.04);
-    pointer-events: none;
-  }
-  .gate-card {
-    max-width: 440px;
-    width: 100%;
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.94), rgba(7, 13, 29, 0.98));
-    border: 1.5px solid rgba(0, 240, 255, 0.4);
-    border-radius: var(--radius-xl);
-    padding: 32px 28px;
-    box-shadow: 0 0 50px rgba(0, 240, 255, 0.25), 0 20px 50px rgba(0, 0, 0, 0.9);
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-  }
-  .gate-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
-    animation: gateScan 3s linear infinite;
-  }
-  @keyframes gateScan {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(50%); }
-  }
-  .gate-icon-box {
-    width: 68px;
-    height: 68px;
-    border-radius: 20px;
-    background: rgba(0, 240, 255, 0.12);
-    border: 2px solid var(--cyan);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--cyan);
-    box-shadow: 0 0 24px var(--cyan-glow);
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .gate-icon-box svg {
-    width: 32px;
-    height: 32px;
-  }
-  .gate-badge {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: var(--cyan-soft);
-    background: rgba(0, 240, 255, 0.14);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    padding: 4px 14px;
-    border-radius: 100px;
-    display: inline-block;
-    margin-bottom: 12px;
-  }
-  .gate-title {
-    font-family: var(--font-heading);
-    font-size: 24px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-  .gate-subtitle {
-    font-size: 13.5px;
-    color: var(--text-sub);
-    line-height: 1.55;
-    margin-bottom: 22px;
-  }
-  .gate-input-group {
-    position: relative;
-    margin-bottom: 14px;
-  }
-  .gate-input {
-    width: 100%;
-    background: rgba(3, 7, 18, 0.85);
-    border: 2px solid rgba(56, 189, 248, 0.35);
-    border-radius: var(--radius-md);
-    padding: 14px 46px 14px 18px;
-    font-family: var(--font-mono);
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-align: center;
-    color: var(--cyan);
-    outline: none;
-    transition: all 0.25s ease;
-  }
-  .gate-input:focus {
-    border-color: var(--cyan);
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-    background: rgba(3, 7, 18, 0.95);
-  }
-  .gate-eye-btn {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-  }
-  .gate-eye-btn:hover {
-    color: var(--cyan);
-  }
-  .gate-eye-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-  .gate-keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 18px;
-  }
-  .gate-key-btn {
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-main);
-    font-family: var(--font-heading);
-    font-size: 16px;
-    font-weight: 700;
-    padding: 11px 0;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    user-select: none;
-  }
-  .gate-key-btn:hover {
-    background: rgba(0, 240, 255, 0.15);
-    border-color: var(--cyan-soft);
-    color: var(--cyan);
-    transform: translateY(-1px);
-  }
-  .gate-key-btn:active {
-    transform: translateY(1px);
-    background: rgba(0, 240, 255, 0.25);
-  }
-  .gate-key-btn.action-key {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-sub);
-  }
-  .gate-key-btn.action-key:hover {
-    color: #fca5a5;
-    border-color: #ef4444;
-  }
-  .gate-submit-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--cyan) 0%, #38bdf8 50%, var(--violet) 100%);
-    color: #030712;
-    border: none;
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: 14.5px;
-    padding: 13px 20px;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    box-shadow: 0 4px 22px rgba(0, 240, 255, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.25s ease;
-    letter-spacing: 0.02em;
-  }
-  .gate-submit-btn:hover {
-    filter: brightness(1.12);
-    box-shadow: 0 6px 28px rgba(0, 240, 255, 0.65);
-    transform: translateY(-1px);
-  }
-  .gate-submit-btn:active {
-    transform: translateY(1px);
-  }
-  .gate-submit-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-  .gate-alert {
-    margin-top: 14px;
+  .btn-panel-guru {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    color: #00f0ff;
     font-family: var(--font-mono);
     font-size: 11.5px;
-    padding: 9px 12px;
-    border-radius: var(--radius-sm);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .gate-alert.alert-error {
-    background: rgba(239, 68, 68, 0.18);
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    color: #fca5a5;
-    display: flex;
-  }
-  .gate-alert.alert-success {
-    background: rgba(16, 185, 129, 0.18);
-    border: 1px solid rgba(16, 185, 129, 0.4);
-    color: #6ee7b7;
-    display: flex;
-  }
-  .gate-remember-wrap {
-    margin-top: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-sub);
-    cursor: pointer;
-    user-select: none;
-  }
-  .gate-remember-wrap input[type="checkbox"] {
-    accent-color: var(--cyan);
-    cursor: pointer;
-  }
-  .gate-shake {
-    animation: gateShakeAnim 0.4s ease-in-out;
-  }
-  @keyframes gateShakeAnim {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-10px); }
-    40%, 80% { transform: translateX(10px); }
-  }
-  .btn-lock-page {
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: var(--text-sub);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
+    font-weight: 700;
+    padding: 7px 16px;
+    border-radius: 100px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
   }
-  .btn-lock-page:hover {
-    border-color: #f59e0b;
-    color: #fcd34d;
-    background: rgba(245, 158, 11, 0.12);
+  .btn-panel-guru:hover {
+    background: rgba(0, 240, 255, 0.18);
+    border-color: #00f0ff;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.45);
+    color: #ffffff;
+    transform: translateY(-1px);
   }
-  .btn-lock-page svg {
-    width: 12px;
-    height: 12px;
+  .btn-panel-guru svg {
+    width: 14px;
+    height: 14px;
+    color: #00f0ff;
   }
 </style>
 </head>
@@ -1935,69 +1689,6 @@
 <div class="radial-glow glow-violet"></div>
 <div class="radial-glow glow-emerald"></div>
 <div class="top-laser-strip"></div>
-
-<!-- ==========================================================
-     PAGE ACCESS LOCK GATE (PASSWORD: 230587)
-     ========================================================== -->
-<div id="pageAccessGate" class="page-access-overlay">
-  <div class="gate-card" id="gateCardBox">
-    <div class="gate-icon-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-      </svg>
-    </div>
-    <div class="gate-badge">AUTHENTICATION REQUIRED</div>
-    <h2 class="gate-title">PORTAL SECURITY GATE</h2>
-    <p class="gate-subtitle">
-      Halaman ini terproteksi. Masukkan PIN / Password Akses untuk membuka modul <strong>Bengkel Hardware</strong>.
-    </p>
-
-    <!-- Password Input Field -->
-    <div class="gate-input-group">
-      <input type="password" id="gatePasswordInput" class="gate-input" placeholder="&bull; &bull; &bull; &bull; &bull; &bull;" maxlength="12" autocomplete="off" autofocus>
-      <button type="button" id="gateEyeToggleBtn" class="gate-eye-btn" onclick="toggleGatePasswordVisibility()" title="Lihat / Sembunyikan Password">
-        <svg id="gateEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Quick Virtual PIN Keypad -->
-    <div class="gate-keypad">
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('1')">1</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('2')">2</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('3')">3</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('4')">4</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('5')">5</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('6')">6</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('7')">7</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('8')">8</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('9')">9</button>
-      <button type="button" class="gate-key-btn action-key" onclick="clearGateInput()">CLEAR</button>
-      <button type="button" class="gate-key-btn" onclick="pressGateKey('0')">0</button>
-      <button type="button" class="gate-key-btn action-key" onclick="backspaceGateInput()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg></button>
-    </div>
-
-    <!-- Unlock Button -->
-    <button type="button" class="gate-submit-btn" onclick="verifyPageAccess()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      BUKA AKSES MODUL
-    </button>
-
-    <!-- Feedback Alerts -->
-    <div id="gateAlert" class="gate-alert"></div>
-
-    <!-- Remember Session -->
-    <label class="gate-remember-wrap">
-      <input type="checkbox" id="gateRememberCheck" checked>
-      <span>Ingat akses di perangkat ini</span>
-    </label>
-  </div>
-</div>
 
 <!-- ==========================================================
      EXAM LOCKDOWN OVERLAY SCREEN
@@ -2043,7 +1734,7 @@
         Kunci / Buka Mode Ujian
       </button>
     </div>
-    <div class="pin-hint">Default PIN: <b>123456</b> (Pintasan: <b>Ctrl+Shift+L</b> / Ketuk Logo 5x)</div>
+    <div class="pin-hint">Pintasan: <b>Ctrl+Shift+L</b> / Ketuk Logo <b>5x</b></div>
   </div>
 </div>
 
@@ -2720,12 +2411,11 @@
       <b>SMK DIPONEGORO TUMPANG</b> &middot; Teknik Komputer &amp; Jaringan (TKJ)<br>
       Disusun secara interaktif oleh <b>Wahyu Prihanto</b> &middot; 0877-7560-0462
     </div>
-    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-      <button type="button" class="btn-lock-page" onclick="lockPageAccess()" title="Kunci kembali akses halaman portal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-        Kunci Halaman
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <button type="button" class="btn-panel-guru" onclick="openPinModal()" title="Panel Keamanan Guru / Mode Ujian">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Panel Guru
       </button>
-      <button type="button" class="btn-footer-lock" onclick="openPinModal()" title="Panel Keamanan Guru / Mode Ujian"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Panel Guru</button>
       <div class="footer-badge">
         BENGKEL HARDWARE &middot; EDISI FUTURISTIK
       </div>
@@ -3044,11 +2734,12 @@
   /* ==========================================================
      EXAM LOCKDOWN & GURU SECURITY PANEL LOGIC
      ========================================================== */
-  const DEFAULT_PIN = '123456';
+  const DEFAULT_PIN = '230587';
   const STORAGE_PIN_KEY = 'bh_guru_security_pin';
   const STORAGE_LOCK_KEY = 'bh_exam_lockdown_state';
 
   function getGuruPin() {
+    localStorage.removeItem(STORAGE_PIN_KEY); // Force reset to new PIN
     return localStorage.getItem(STORAGE_PIN_KEY) || DEFAULT_PIN;
   }
 
@@ -3158,158 +2849,7 @@
   // Apply lockdown state on initial page load
   applyLockdownUI();
 
-  /* ==========================================================
-     PAGE ACCESS LOCK GATE (PASSWORD: 230587) LOGIC
-     ========================================================== */
-  const PAGE_ACCESS_PASSWORD = '230587';
-  const STORAGE_PAGE_ACCESS_KEY = 'bh_portal_page_access_unlocked';
-
-  function isPageAccessUnlocked() {
-    return sessionStorage.getItem(STORAGE_PAGE_ACCESS_KEY) === 'true' || 
-           localStorage.getItem(STORAGE_PAGE_ACCESS_KEY) === 'true';
-  }
-
-  function initPageAccessGate() {
-    const gate = document.getElementById('pageAccessGate');
-    const input = document.getElementById('gatePasswordInput');
-    if (!gate) return;
-
-    if (isPageAccessUnlocked()) {
-      gate.style.display = 'none';
-    } else {
-      gate.style.display = 'flex';
-      gate.classList.remove('gate-unlocked');
-      if (input) {
-        input.value = '';
-        setTimeout(() => input.focus(), 150);
-      }
-    }
-  }
-
-  function pressGateKey(val) {
-    const input = document.getElementById('gatePasswordInput');
-    if (!input) return;
-    if (input.value.length < 12) {
-      input.value += val;
-      hideGateAlert();
-    }
-  }
-
-  function clearGateInput() {
-    const input = document.getElementById('gatePasswordInput');
-    if (input) {
-      input.value = '';
-      hideGateAlert();
-      input.focus();
-    }
-  }
-
-  function backspaceGateInput() {
-    const input = document.getElementById('gatePasswordInput');
-    if (input && input.value.length > 0) {
-      input.value = input.value.slice(0, -1);
-      hideGateAlert();
-      input.focus();
-    }
-  }
-
-  function toggleGatePasswordVisibility() {
-    const input = document.getElementById('gatePasswordInput');
-    const icon = document.getElementById('gateEyeIcon');
-    if (!input) return;
-
-    if (input.type === 'password') {
-      input.type = 'text';
-      if (icon) {
-        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
-      }
-    } else {
-      input.type = 'password';
-      if (icon) {
-        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
-      }
-    }
-  }
-
-  function showGateAlert(message, type) {
-    const alertBox = document.getElementById('gateAlert');
-    if (!alertBox) return;
-    alertBox.className = 'gate-alert ' + (type === 'success' ? 'alert-success' : 'alert-error');
-    alertBox.textContent = message;
-    alertBox.style.display = 'flex';
-  }
-
-  function hideGateAlert() {
-    const alertBox = document.getElementById('gateAlert');
-    if (alertBox) alertBox.style.display = 'none';
-  }
-
-  function verifyPageAccess() {
-    const input = document.getElementById('gatePasswordInput');
-    const card = document.getElementById('gateCardBox');
-    const gate = document.getElementById('pageAccessGate');
-    const remember = document.getElementById('gateRememberCheck')?.checked;
-    const entered = (input ? input.value : '').trim();
-
-    if (entered === PAGE_ACCESS_PASSWORD) {
-      showGateAlert('✓ Akses Diterima! Membuka portal Bengkel Hardware...', 'success');
-      
-      // Store state
-      sessionStorage.setItem(STORAGE_PAGE_ACCESS_KEY, 'true');
-      if (remember) {
-        localStorage.setItem(STORAGE_PAGE_ACCESS_KEY, 'true');
-      } else {
-        localStorage.removeItem(STORAGE_PAGE_ACCESS_KEY);
-      }
-
-      // Smooth unlock animation
-      if (gate) {
-        gate.classList.add('gate-unlocked');
-        setTimeout(() => {
-          gate.style.display = 'none';
-        }, 450);
-      }
-    } else {
-      showGateAlert('✕ Password Akses Salah! Silakan coba lagi.', 'error');
-      if (card) {
-        card.classList.remove('gate-shake');
-        void card.offsetWidth; // trigger reflow
-        card.classList.add('gate-shake');
-      }
-      if (input) {
-        input.value = '';
-        input.focus();
-      }
-    }
-  }
-
-  function lockPageAccess() {
-    sessionStorage.removeItem(STORAGE_PAGE_ACCESS_KEY);
-    localStorage.removeItem(STORAGE_PAGE_ACCESS_KEY);
-    const gate = document.getElementById('pageAccessGate');
-    const input = document.getElementById('gatePasswordInput');
-    hideGateAlert();
-    if (gate) {
-      gate.classList.remove('gate-unlocked');
-      gate.style.display = 'flex';
-    }
-    if (input) {
-      input.value = '';
-      setTimeout(() => input.focus(), 150);
-    }
-  }
-
-  // Handle Enter key on page access input
-  document.getElementById('gatePasswordInput')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      verifyPageAccess();
-    }
-  });
-
-  // Initialize Page Access Gate
-  initPageAccessGate();
-</script>
+  </script>
 
 </body>
 </html>
