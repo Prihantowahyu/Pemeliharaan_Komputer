@@ -16,6 +16,8 @@
   let violationLogs = [];
   let isExamActive = false;
   let examMetadata = {};
+  let gracePeriodUntil = 0;
+  let lastViolationTime = 0;
 
   // Utility: Fisher-Yates Shuffle Algorithm
   function shuffleArray(array) {
@@ -38,20 +40,13 @@
     return 'TKJ-' + Math.abs(hash).toString(16).toUpperCase();
   }
 
-  // Anti-Cheat: Enable Key & Context Blockers
+  // Anti-Cheat: Event Listeners
   function enableProtectionListeners() {
-    // Block context menu (Right Click)
     document.addEventListener('contextmenu', blockEvent);
-    
-    // Block Copy, Cut, Paste, Select
     document.addEventListener('copy', blockEvent);
     document.addEventListener('cut', blockEvent);
     document.addEventListener('paste', blockEvent);
-
-    // Block keyboard inspect shortcuts
     window.addEventListener('keydown', handleKeyGuard);
-
-    // Detect Tab Switch / Window Blur / Minimize
     window.addEventListener('blur', handleWindowBlur);
     document.addEventListener('visibilitychange', handleVisibilityChange);
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -76,9 +71,9 @@
   }
 
   function handleKeyGuard(e) {
-    if (!isExamActive) return;
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
 
-    // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+C, Ctrl+V, Ctrl+S, Ctrl+P, Alt+Tab alert
+    // Block F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+C, Ctrl+V, Ctrl+S, Ctrl+P
     if (
       e.keyCode === 123 || // F12
       (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
@@ -91,39 +86,49 @@
   }
 
   function handleWindowBlur() {
-    if (isExamActive) {
-      recordViolation("Meninggalkan jendela ujian (Alt+Tab / Split Screen / Membuka App Lain)");
-    }
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
+    
+    // Only record if document is truly hidden / blurred to another window
+    setTimeout(() => {
+      if (isExamActive && (document.hidden || !document.hasFocus()) && Date.now() >= gracePeriodUntil) {
+        recordViolation("Meninggalkan jendela ujian (Alt+Tab / Split Screen / Membuka App Lain)");
+      }
+    }, 300);
   }
 
   function handleVisibilityChange() {
-    if (isExamActive && document.hidden) {
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
+
+    if (document.hidden) {
       recordViolation("Berpindah tab browser atau meminimalkan browser");
     }
   }
 
   function handleFullscreenChange() {
-    if (isExamActive && !document.fullscreenElement) {
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
+
+    if (!document.fullscreenElement) {
       recordViolation("Keluar dari Mode Fullscreen Layar Penuh");
     }
   }
 
-  // Record Violation & Strike System
+  // Record Violation & Strike System with Debounce
   function recordViolation(reason) {
-    if (!isExamActive) return;
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
+
+    // Debounce multiple events within 2.5 seconds
+    if (Date.now() - lastViolationTime < 2500) return;
+    lastViolationTime = Date.now();
 
     violationCount++;
     const now = new Date().toLocaleTimeString('id-ID');
     violationLogs.push(`[${now}] Pelanggaran #${violationCount}: ${reason}`);
 
-    // Update Strike UI
     updateStrikeDots();
 
     if (violationCount >= 3) {
-      // Lock exam immediately!
       lockExamScreen();
     } else {
-      // Show warning popup
       showWarningPopup(reason);
     }
   }
@@ -152,7 +157,9 @@
     const popup = document.getElementById('cbtWarningPopup');
     if (popup) popup.classList.remove('active');
 
-    // Request fullscreen again if exited
+    // Add brief grace period after dismissing warning
+    gracePeriodUntil = Date.now() + 2000;
+
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
@@ -174,6 +181,7 @@
       document.getElementById('teacherUnlockPinInput').value = '';
       violationCount = 0; // reset strike after teacher unlock
       updateStrikeDots();
+      gracePeriodUntil = Date.now() + 3000; // 3 sec grace
       alert('✓ Ujian berhasil dibuka kembali oleh Guru Pengawas. Harap lanjutkan dengan jujur!');
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
@@ -203,9 +211,10 @@
                 SISTEM CBT ANTI-CURANG AKTIF
               </div>
               <h3 style="font-family:var(--font-heading); font-size:20px; color:#fff; margin-top:8px;">${config.title}</h3>
-              <p style="font-size:13px; color:var(--text-sub); margin-top:4px;">Durasi: <b>${config.durationMinutes} Menit</b> &middot; Jumlah: <b>${config.questions.length} Soal (Diacak Otomatis)</b> &middot; KKM: <b>75</b></p>
+              <p style="font-size:13px; color:var(--text-sub); margin-top:4px;">Durasi: <b>${config.durationMinutes || 30} Menit</b> &middot; Jumlah: <b>${config.questions.length} Soal (Diacak Otomatis)</b> &middot; KKM: <b>75</b></p>
             </div>
-            <div>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <input type="text" id="cbtStudentNameInput" class="custom-input" placeholder="Masukkan Nama Siswa..." style="width:220px; padding:8px 12px; font-size:12.5px;">
               <button type="button" class="btn-action" onclick="CBTEngine.startExam()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 Mulai Ulangan Harian
@@ -216,10 +225,11 @@
           <div style="background:rgba(3,7,18,0.6); border:1px solid var(--panel-border); border-radius:12px; padding:16px;">
             <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); font-weight:700; margin-bottom:6px;">TATA TERTIB &amp; ATURAN KEAMANAN UJIAN:</div>
             <ul style="font-size:12.5px; color:var(--text-sub); padding-left:18px; line-height:1.6;">
-              <li>Ujian akan berjalan otomatis dalam <b>Mode Fullscreen</b>.</li>
-              <li>Dilarang berpindah tab, membuka jendela baru, atau melakukan Alt+Tab. Sistem akan mendeteksi dan memberi <b>Peringatan Pelanggaran</b>.</li>
-              <li><b>3x Pelanggaran</b> akan membuat lembar ujian <b>TERKUNCI</b> dan hanya bisa dibuka dengan PIN Guru.</li>
-              <li>Soal dan pilihan jawaban <b>diacak otomatis (randomized)</b> untuk setiap siswa.</li>
+              <li>Ketik nama lengkap Anda pada kolom di atas sebelum menekan tombol <b>Mulai Ulangan Harian</b>.</li>
+              <li>Ujian akan berjalan otomatis dalam <b>Mode Fullscreen Layar Penuh</b>.</li>
+              <li>Dilarang berpindah tab browser, membuka Google/ChatGPT/WhatsApp, atau melakukan Alt+Tab. Sistem akan mendeteksi dan memberi <b>Peringatan Pelanggaran</b>.</li>
+              <li><b>3x Pelanggaran</b> akan membuat lembar ujian <b>TERKUNCI</b> dan hanya bisa dibuka dengan PIN Guru (<code>230587</code>).</li>
+              <li>Soal dan urutan opsi pilihan (A/B/C/D) <b>diacak otomatis (randomized)</b> untuk setiap siswa.</li>
             </ul>
           </div>
 
@@ -232,7 +242,7 @@
           <div class="cbt-exam-box">
             <div class="cbt-exam-topbar">
               <div>
-                <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan);">${config.subject} &middot; Kelas X TKJ</div>
+                <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan);">${config.subject || 'Pemeliharaan Komputer & Jaringan'} &middot; Kelas X TKJ</div>
                 <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:#fff;" id="cbtStudentNameHeader">Peserta Ujian</div>
               </div>
               <div style="display:flex; align-items:center; gap:16px;">
@@ -292,10 +302,13 @@
     },
 
     startExam: function() {
-      const studentName = prompt("Masukkan Nama Lengkap Siswa:", "");
-      if (!studentName || studentName.trim() === "") {
-        alert("Nama siswa wajib diisi untuk memulai ujian!");
-        return;
+      let studentName = document.getElementById('cbtStudentNameInput') ? document.getElementById('cbtStudentNameInput').value.trim() : '';
+      if (!studentName) {
+        studentName = prompt("Masukkan Nama Lengkap Siswa:", "");
+        if (!studentName || studentName.trim() === "") {
+          alert("Nama siswa wajib diisi untuk memulai ujian!");
+          return;
+        }
       }
 
       examMetadata.studentName = studentName.trim();
@@ -305,12 +318,15 @@
       violationCount = 0;
       violationLogs = [];
       userAnswers = {};
+      lastViolationTime = 0;
       updateStrikeDots();
+
+      // 4 SECONDS STARTUP GRACE PERIOD (Prevents false positive blur on start/fullscreen transition)
+      gracePeriodUntil = Date.now() + 4000;
 
       // Shuffle Questions & Options (RANDOMIZED SOAL & OPSI)
       const rawQuestions = examMetadata.questions;
       activeQuestions = shuffleArray(rawQuestions).map((q, qIndex) => {
-        // Create indexed options array and shuffle it
         const indexedOptions = q.options.map((opt, optIndex) => ({
           text: opt,
           isCorrect: optIndex === q.correctIndex
@@ -331,18 +347,20 @@
       timeRemaining = (examMetadata.durationMinutes || 30) * 60;
       this.updateTimerDisplay();
 
+      // Show Overlay First
+      document.getElementById('cbtModalOverlay').classList.add('active');
+      isExamActive = true;
+
       // Request Fullscreen
       const docEl = document.documentElement;
       if (docEl.requestFullscreen) {
         docEl.requestFullscreen().catch(() => {});
       }
 
-      // Show Overlay
-      document.getElementById('cbtModalOverlay').classList.add('active');
-      isExamActive = true;
       enableProtectionListeners();
 
       // Start Countdown Timer
+      clearInterval(examTimer);
       examTimer = setInterval(() => {
         timeRemaining--;
         this.updateTimerDisplay();
@@ -384,7 +402,6 @@
 
     selectAnswer: function(qIdx, oIdx) {
       userAnswers[qIdx] = oIdx;
-      // update styling
       const qCard = document.getElementsByClassName('cbt-q-card')[qIdx];
       if (qCard) {
         const labels = qCard.querySelectorAll('.cbt-option');
@@ -444,15 +461,15 @@
       });
 
       const rawScore = Math.round((correctCount / totalQuestions) * 100);
-      const penalty = violationCount * 5; // Pengurangan 5 poin per pelanggaran
+      const penalty = violationCount * 5; // -5 per violation strike
       const finalScore = Math.max(0, rawScore - penalty);
 
       let grade = 'D (Kurang)';
-      let gradeColor = 'var(--red)';
+      let gradeColor = 'var(--red, #ef4444)';
       let kkmStatus = 'TIDAK LULUS KKM (Minimal 75)';
       if (finalScore >= 90) { grade = 'A (Sangat Baik / Mahir)'; gradeColor = '#00f0ff'; kkmStatus = 'LULUS KKM DENGAN PUJIAN'; }
       else if (finalScore >= 75) { grade = 'B (Baik / Kompeten)'; gradeColor = '#10b981'; kkmStatus = 'LULUS KKM (KOMPETEN)'; }
-      else if (finalScore >= 60) { grade = 'C (Cukup)'; gradeColor = 'var(--amber)'; kkmStatus = 'REMIDIAL DIANJURKAN'; }
+      else if (finalScore >= 60) { grade = 'C (Cukup)'; gradeColor = 'var(--amber, #f59e0b)'; kkmStatus = 'REMIDIAL DIANJURKAN'; }
 
       const token = generateIntegrityToken(examMetadata.studentName, finalScore, violationCount);
       const integrityStatus = violationCount === 0 ? "100% JUJUR (Nol Pelanggaran)" : `${violationCount}x Pelanggaran Tercatat (Penalti -${penalty} Poin)`;
@@ -464,7 +481,7 @@
         <div class="cbt-score-display">
           <div>
             <div style="font-family:var(--font-mono); font-size:12px; color:var(--text-sub);">NAMA PESERTA: <b style="color:#fff;">${examMetadata.studentName}</b></div>
-            <div style="font-family:var(--font-mono); font-size:12px; color:var(--text-sub); margin-top:4px;">MATA PELAJARAN: <b style="color:#fff;">${examMetadata.title}</b></div>
+            <div style="font-family:var(--font-mono); font-size:12px; color:var(--text-sub); margin-top:4px;">MATERI: <b style="color:#fff;">${examMetadata.title}</b></div>
             <div style="font-family:var(--font-mono); font-size:12px; color:var(--text-sub); margin-top:4px;">INTEGRITAS: <b style="color:${violationCount===0?'#10b981':'#ef4444'};">${integrityStatus}</b></div>
             <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-top:4px;">TOKEN VERIFIKASI: <b style="color:#00f0ff;">${token}</b></div>
           </div>
@@ -494,7 +511,7 @@
           </div>
         </div>
 
-        <!-- Teacher Action Toolbar (MEMUDAHKAN GURU MENILAI) -->
+        <!-- Teacher Action Toolbar -->
         <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:16px; margin-bottom:16px;">
           <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:#c4b5fd; margin-bottom:10px;">📋 PANEL PENILAIAN GURU (PINTASAN CEPAT):</div>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -517,7 +534,6 @@
         </div>
       `;
 
-      // Scroll to result
       resBox.scrollIntoView({ behavior: 'smooth' });
     },
 
