@@ -1770,29 +1770,27 @@
     <p class="hero-desc" id="pageMainDesc">
       Portal materi terintegrasi untuk mata pelajaran <strong>Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</strong>.
       Terbagi menjadi <strong>Blok 1 (Pertemuan 1&ndash;6)</strong> mengenai K3, komponen, perakitan, BIOS/UEFI &amp; OS, serta <strong>Blok 2 (Pertemuan 7&ndash;11)</strong> mengenai driver, troubleshooting hardware/software, hingga backup &amp; perawatan sistem berkala.
-    </p>
-
-    <!-- System Quick Metrics -->
+    </p>    <!-- System Quick Metrics -->
     <div class="metrics-grid">
       <div class="metric-card">
         <span class="label">Total Modul</span>
-        <span class="value">
+        <span class="value" id="metricTotalModul">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          11 Pertemuan
+          <span id="metricTotalModulText">11 Pertemuan</span>
         </span>
       </div>
       <div class="metric-card">
         <span class="label">Alokasi Waktu</span>
-        <span class="value">
+        <span class="value" id="metricAlokasi">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          99 JP Total
+          <span id="metricAlokasiText">99 JP Total</span>
         </span>
       </div>
       <div class="metric-card">
         <span class="label">Fokus Belajar</span>
-        <span class="value">
+        <span class="value" id="metricFokus">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          Praktik + Teori
+          <span id="metricFokusText">Praktik + Teori</span>
         </span>
       </div>
       <div class="metric-card">
@@ -1809,7 +1807,7 @@
       <div class="progress-hud-header">
         <span class="progress-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          Progres Belajar Mandiri
+          <span id="progressTitleText">Progres Belajar Mandiri &middot; Semester Ganjil</span>
         </span>
         <span class="progress-stats" id="progressText">0 / 11 Selesai (0%)</span>
       </div>
@@ -1850,12 +1848,12 @@
       <span class="search-shortcut">/</span>
     </div>
 
-    <div class="filter-pills">
-      <button type="button" class="filter-btn active" onclick="setFilter('all', this)">Semua (11)</button>
-      <button type="button" class="filter-btn" onclick="setFilter('blok1', this)">Blok 1 (Perakitan)</button>
-      <button type="button" class="filter-btn" onclick="setFilter('blok2', this)">Blok 2 (Perawatan)</button>
-      <button type="button" class="filter-btn" onclick="setFilter('praktik', this)">Praktik</button>
-      <button type="button" class="filter-btn" onclick="setFilter('completed', this)">Tuntas</button>
+    <div class="filter-pills" id="filterPillsContainer">
+      <button type="button" class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Semua (11)</button>
+      <button type="button" class="filter-btn" data-filter="blok1" onclick="setFilter('blok1', this)">Blok 1 (Perakitan)</button>
+      <button type="button" class="filter-btn" data-filter="blok2" onclick="setFilter('blok2', this)">Blok 2 (Perawatan)</button>
+      <button type="button" class="filter-btn" data-filter="praktik" onclick="setFilter('praktik', this)">Praktik</button>
+      <button type="button" class="filter-btn" data-filter="completed" onclick="setFilter('completed', this)">Tuntas</button>
     </div>
   </div>
 
@@ -2132,7 +2130,7 @@
         </div>
         <h3 class="card-title">
           <span class="card-title-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </span>
           Instalasi Driver &amp; Utilitas Pendukung
         </h3>
@@ -2283,96 +2281,181 @@
   </div>
 
   <!-- ==========================================================
-       GENAP TIMELINE (TEASER & ROADMAP)
+       GENAP TIMELINE (FULL CYBER-HUD DESIGN SYSTEM)
        ========================================================== -->
-  <!-- ==========================================================
-       GENAP TIMELINE (SILABUS & ROADMAP MATERI)
-       ========================================================== -->
-  <div class="genap-container" id="timelineGenap">
-    <div class="genap-hero-card">
-      <div class="genap-badge-pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        KURIKULUM SEMESTER GENAP &middot; KELAS X TKJ
-      </div>
-      <h2>Pemeliharaan Lanjutan, Perbaikan &amp; Uji Kompetensi</h2>
-      <p>
-        Kelanjutan kurikulum setelah menguasai fondasi perakitan komputer. Semester Genap berfokus pada <strong>Upgrade Komponen, Periferal Printer/Laptop, Keamanan &amp; Partisi, Diagnostic Tools, Troubleshooting Kompleks</strong>, hingga <strong>Proyek Servis Unit Sekolah &amp; Uji Kompetensi</strong>.
-      </p>
-    </div>
+  <div class="timeline-container" id="timelineGenap" style="display:none;">
 
-    <!-- BLOK 1 GENAP -->
-    <div class="block-header" style="margin-left:0; padding-left:0; margin-bottom:18px;">
-      <div class="block-header-inner" style="border-radius: var(--radius-md);">
+    <!-- ===================== BLOK 1 GENAP ===================== -->
+    <div class="block-header" data-block="genap_blok1">
+      <div class="block-header-inner">
         <div class="block-title-group">
           <span class="block-tag">BLOK 1 &middot; GENAP</span>
           <div>
             <div class="block-heading">Pemeliharaan Lanjutan &amp; Manajemen Sistem</div>
-            <div class="block-meta">Hari 1&ndash;5 &middot; Upgrade, Laptop/Periferal, Keamanan &amp; Storage</div>
+            <div class="block-meta">Pertemuan 1&ndash;5 (Hari 1&ndash;5) &middot; Upgrade, Periferal, Laptop, Keamanan &amp; Storage</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="genap-roadmap-grid" style="margin-bottom: 28px;">
-      <div class="genap-card-locked" style="border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:var(--cyan);">HARI 1 &middot; BLOK 1 (9 JP)</div>
-        <h3 style="color:#fff;">Upgrade Komponen Komputer (RAM, Storage, VGA)</h3>
-        <p>Analisis bottleneck sistem, kompatibilitas slot RAM/NVMe/PCIe, kalkulasi daya PSU pasca-upgrade, dan optimasi dual-channel.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok">Hardware Upgrade</span>
-          <a class="btn-launch" href="./Genap_Pert_1_upgrade-komponen-komputer.html" style="padding:7px 14px; font-size:12px;">
+    <!-- GENAP PERTEMUAN 1 -->
+    <div class="module-node" id="genap-node-1" data-block="genap_blok1" data-type="praktik upgrade" data-title="Upgrade Komponen Komputer RAM Storage SSD NVMe VGA GPU dual channel bottleneck psu">
+      <div class="node-pin">01</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 1</span>
+            <span class="badge badge-jp">9 JP &middot; 405 Menit</span>
+            <span class="badge badge-type">Hardware Upgrade</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(1, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/></svg>
+          </span>
+          Upgrade Komponen Komputer (RAM, Storage &amp; VGA Card)
+        </h3>
+        <p class="card-desc">
+          Analisis bottleneck sistem, evaluasi kompatibilitas DDR4/DDR5 &amp; M.2 NVMe PCIe Gen4/Gen5, kalkulasi kapasitas PSU 80 Plus, pemasangan VGA diskrit, dan benchmark performa sebelum vs sesudah upgrade.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_1_upgrade-komponen-komputer.html">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 1
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:var(--cyan);">HARI 2 &middot; BLOK 1 (9 JP)</div>
-        <h3 style="color:#fff;">Perawatan &amp; Troubleshooting Printer / Scanner</h3>
-        <p>Pembersihan print head, penanganan paper jam &amp; roller karet, reset waste ink pad, instalasi driver &amp; sharing printer LAN.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok">Periferal</span>
-          <a class="btn-launch" href="./Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html" style="padding:7px 14px; font-size:12px;">
+    <!-- GENAP PERTEMUAN 2 -->
+    <div class="module-node" id="genap-node-2" data-block="genap_blok1" data-type="praktik periferal" data-title="Perawatan & Troubleshooting Printer Scanner head clean paper jam ink pad sharing lan">
+      <div class="node-pin">02</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 2</span>
+            <span class="badge badge-jp">9 JP &middot; Periferal</span>
+            <span class="badge badge-type">Praktik &amp; Servis</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(2, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          </span>
+          Perawatan &amp; Troubleshooting Printer / Scanner
+        </h3>
+        <p class="card-desc">
+          Penanganan kerusakan periferal kantor &amp; sekolah: nozzle check, deep cleaning print head, penanganan paper jam &amp; roller aus, reset waste ink pad counter, sharing printer jaringan LAN, dan kalibrasi scanner.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 2
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:var(--cyan);">HARI 3 &middot; BLOK 1 (9 JP)</div>
-        <h3 style="color:#fff;">Perawatan Laptop &amp; Perangkat Mobile</h3>
-        <p>SOP membongkar casing notebook/laptop, pembersihan debu heatsink fan, repaste thermal paste, dan penggantian modul baterai/keyboard.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok">Mobile Hardware</span>
-          <a class="btn-launch" href="./Genap_Pert_3_perawatan-laptop-perangkat-mobile.html" style="padding:7px 14px; font-size:12px;">
+    <!-- GENAP PERTEMUAN 3 -->
+    <div class="module-node" id="genap-node-3" data-block="genap_blok1" data-type="praktik mobile" data-title="Perawatan Laptop & Perangkat Mobile teardown repaste fan baterai engsel keyboard fleksibel">
+      <div class="node-pin">03</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 3</span>
+            <span class="badge badge-jp">9 JP &middot; Mobile HW</span>
+            <span class="badge badge-type">Teardown &amp; Repaste</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(3, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          </span>
+          Perawatan Laptop &amp; Perangkat Mobile
+        </h3>
+        <p class="card-desc">
+          SOP teardown notebook &amp; laptop modern: pembersihan debu heatsink fins &amp; fan blower, penggantian pasta termal &amp; thermal pad, diagnostik keyboard ribbon, kalibrasi baterai Li-ion, serta perawatan engsel casing.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_3_perawatan-laptop-perangkat-mobile.html">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 3
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:var(--cyan);">HARI 4 &middot; BLOK 1 (9 JP)</div>
-        <h3 style="color:#fff;">Keamanan Sistem: Antivirus, Firewall &amp; Update</h3>
-        <p>Konfigurasi Windows Defender/Firewall, proteksi malware &amp; ransomware, manajemen update OS, serta patching keamanan sistem berkala.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok">Keamanan OS</span>
-          <a class="btn-launch" href="./Genap_Pert_4_keamanan-sistem-antivirus-firewall.html" style="padding:7px 14px; font-size:12px;">
+    <!-- GENAP PERTEMUAN 4 -->
+    <div class="module-node" id="genap-node-4" data-block="genap_blok1" data-type="teori praktik security" data-title="Keamanan Sistem Antivirus Firewall Update windows defender malware ransomware patch">
+      <div class="node-pin">04</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 4</span>
+            <span class="badge badge-jp">9 JP &middot; Security</span>
+            <span class="badge badge-type">Cyber Defense</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(4, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          Keamanan Sistem: Antivirus, Firewall &amp; Update
+        </h3>
+        <p class="card-desc">
+          Proteksi endpoint sistem: konfigurasi Microsoft Defender &amp; Firewall rules (inbound/outbound), isolasi malware &amp; ransomware, penambalan exploit zero-day via Windows Update WSUS, serta hardening akun administrator.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_4_keamanan-sistem-antivirus-firewall.html">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 4
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:var(--cyan);">HARI 5 &middot; BLOK 1 (9 JP)</div>
-        <h3 style="color:#fff;">Manajemen Partisi &amp; Storage (HDD / SSD)</h3>
-        <p>Pembuatan partisi dinamis, resizing volume tanpa hilang data, monitoring kesehatan S.M.A.R.T. disk, dan optimasi SSD TRIM.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok">Storage Mgmt</span>
-          <a class="btn-launch" href="./Genap_Pert_5_manajemen-partisi-storage.html" style="padding:7px 14px; font-size:12px;">
+    <!-- GENAP PERTEMUAN 5 -->
+    <div class="module-node" id="genap-node-5" data-block="genap_blok1" data-type="praktik storage" data-title="Manajemen Partisi Storage HDD SSD diskpart gpt mbr smart trim bad sector">
+      <div class="node-pin">05</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 5</span>
+            <span class="badge badge-jp">9 JP &middot; Storage</span>
+            <span class="badge badge-type">Partisi &amp; TRIM</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(5, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </span>
+          Manajemen Partisi &amp; Storage (HDD / SSD)
+        </h3>
+        <p class="card-desc">
+          Manajemen storage tingkat mahir: Disk Management, Diskpart CLI, GPT vs MBR, resizing partisi tanpa hilang data, monitoring parameter S.M.A.R.T., bad sector repair, dan optimasi perintah SSD TRIM.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_5_manajemen-partisi-storage.html">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 5
           </a>
@@ -2380,85 +2463,184 @@
       </div>
     </div>
 
-    <!-- BLOK 2 GENAP -->
-    <div class="block-header alt" style="margin-left:0; padding-left:0; margin-bottom:18px;">
-      <div class="block-header-inner" style="border-radius: var(--radius-md);">
+    <!-- ===================== BLOK 2 GENAP ===================== -->
+    <div class="block-header alt" data-block="genap_blok2">
+      <div class="block-header-inner">
         <div class="block-title-group">
           <span class="block-tag">BLOK 2 &middot; GENAP</span>
           <div>
             <div class="block-heading">Diagnostik Kompleks, Proyek Servis &amp; Uji Kompetensi</div>
-            <div class="block-meta">Hari 1&ndash;5 &middot; Diagnostic Tools, Studi Kasus, Proyek Unit Sekolah &amp; Uji Kompetensi</div>
+            <div class="block-meta">Pertemuan 6&ndash;10 (Hari 6&ndash;10) &middot; AI Diagnostic, Recovery, Studi Kasus, Proyek Unit &amp; UKK</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="genap-roadmap-grid">
-      <div class="genap-card-locked" style="border: 1px solid rgba(139, 92, 246, 0.35); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:#c4b5fd;">HARI 1 &middot; BLOK 2 (9 JP)</div>
-        <h3 style="color:#fff;">Diagnosa Kerusakan dengan Software Diagnostic Tools &amp; AI</h3>
-        <p>Pengujian stabilitas &amp; kesehatan komponen menggunakan MemTest86, CrystalDiskInfo, HWiNFO, FurMark GPU, dan Prime95.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok2">Diagnostic Tools</span>
-          <a class="btn-launch" href="./Genap_Pert_6_diagnosa-kerusakan-diagnostic-tools-ai.html" style="padding:7px 14px; font-size:12px; background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
+    <!-- GENAP PERTEMUAN 6 -->
+    <div class="module-node alt" id="genap-node-6" data-block="genap_blok2" data-type="praktik ai" data-title="Diagnosa Kerusakan Software Diagnostic Tools AI MemTest86 CrystalDiskInfo HWiNFO FurMark Prime95">
+      <div class="node-pin">06</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 6</span>
+            <span class="badge badge-jp">9 JP &middot; AI Tools</span>
+            <span class="badge badge-type">Diagnostic Suite</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(6, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </span>
+          Diagnosa Kerusakan via Diagnostic Tools &amp; AI
+        </h3>
+        <p class="card-desc">
+          Pemeriksaan stabilitas mendalam menggunakan suite software diagnostik: MemTest86 (RAM), CrystalDiskInfo (HDD/SSD), HWiNFO64 (voltase &amp; thermal), FurMark (GPU burn-in), Prime95, serta asisten AI troubleshooting.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_6_diagnosa-kerusakan-diagnostic-tools-ai.html" style="background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 6
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(139, 92, 246, 0.35); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:#c4b5fd;">HARI 2 &middot; BLOK 2 (9 JP)</div>
-        <h3 style="color:#fff;">Instalasi Ulang Sistem &amp; Recovery / Restore Point</h3>
-        <p>Clean install OS terstandarisasi, pembuatan System Image Snapshot, rollback darurat saat sistem crash, dan otomatisasi deployment.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok2">Recovery System</span>
-          <a class="btn-launch" href="./Genap_Pert_7_instalasi-ulang-recovery-restore-point.html" style="padding:7px 14px; font-size:12px; background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
+    <!-- GENAP PERTEMUAN 7 -->
+    <div class="module-node alt" id="genap-node-7" data-block="genap_blok2" data-type="praktik recovery" data-title="Instalasi Ulang Recovery Restore Point clean install sysprep snapshot rollback winre">
+      <div class="node-pin">07</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 7</span>
+            <span class="badge badge-jp">9 JP &middot; Recovery</span>
+            <span class="badge badge-type">Deployment</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(7, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          </span>
+          Instalasi Ulang Sistem &amp; Recovery / Restore Point
+        </h3>
+        <p class="card-desc">
+          Teknik instalasi ulang terstandarisasi industri: master sysprep image cloning, pembuatan System Restore Point otomatis, recovery environment (WinRE), rollback darurat, serta otomatisasi driver post-install.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_7_instalasi-ulang-recovery-restore-point.html" style="background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Buka Modul Hari 7
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="genap-card-locked" style="border: 1px solid rgba(139, 92, 246, 0.35); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:#c4b5fd;">HARI 3 &middot; BLOK 2 (9 JP)</div>
-        <h3 style="color:#fff;">Studi Kasus Troubleshooting Kompleks</h3>
-        <p>Bedah kasus nyata: PC restart loop tiba-tiba, artifact layar GPU, BSOD kode acak, korupsi data disk, dan drop tegangan PSU.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-blok2">Studi Kasus</span>
-          <a class="btn-launch" href="./Genap_Pert_8_studi-kasus-troubleshooting-kompleks.html" style="padding:7px 14px; font-size:12px; background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
-            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Buka Modul Hari 8
-          </a>
+    <!-- GENAP PERTEMUAN 8 -->
+    <div class="module-node alt" id="genap-node-8" data-block="genap_blok2" data-type="praktik studi kasus" data-title="Studi Kasus Troubleshooting Kompleks restart loop artifact bsod drop voltase rail psu">
+      <div class="node-pin">08</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 8</span>
+            <span class="badge badge-jp">9 JP &middot; Kasus Riil</span>
+            <span class="badge badge-type">Troubleshooting Lanjut</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(8, this.checked)">
+            <span>Selesai</span>
+          </label>
         </div>
-      </div>
-
-      <div class="genap-card-locked" style="border: 1px solid rgba(139, 92, 246, 0.35); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:#c4b5fd;">HARI 4 &middot; BLOK 2 (9 JP)</div>
-        <h3 style="color:#fff;">Proyek Akhir: Perawatan &amp; Perbaikan Unit Sekolah</h3>
-        <p>Praktik kerja nyata di laboratorium komputer: servis menyeluruh 1 unit PC sekolah (hardware cleaning, cable routing, OS tune-up, audit kesehatan).</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-jp">Proyek Nyata</span>
-          <a class="btn-launch" href="./Genap_Pert_9_proyek-perawatan-perbaikan-unit-sekolah.html" style="padding:7px 14px; font-size:12px; background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </span>
+          Studi Kasus Troubleshooting Kompleks
+        </h3>
+        <p class="card-desc">
+          Bedah kasus nyata kerusakan intermiten: PC restart mendadak saat full load, artifact dan crash driver grafis, BSOD random kode ntoskrnl.exe, transfer data corrupt, dan drop tegangan jalur +12V rail PSU.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_8_studi-kasus-troubleshooting-kompleks.html" style="background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Buka Modul Hari 9
-          </a>
-        </div>
-      </div>
-
-      <div class="genap-card-locked" style="border: 1px solid rgba(139, 92, 246, 0.35); background: rgba(13, 22, 44, 0.75);">
-        <div class="num" style="color:#c4b5fd;">HARI 5 &middot; BLOK 2 (9 JP)</div>
-        <h3 style="color:#fff;">Uji Kompetensi &amp; Dokumentasi Laporan Perawatan</h3>
-        <p>Ujian praktik mandiri penanganan kerusakan, penyusunan Berita Acara Servis, dan dokumentasi log sheet perawatan berstandar industri.</p>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:14px;">
-          <span class="badge badge-type">Uji Kompetensi</span>
-          <a class="btn-launch" href="./Genap_Pert_10_uji-kompetensi-laporan-perawatan.html" style="padding:7px 14px; font-size:12px; background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
-            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Buka Modul Hari 10
+            Buka Studi Kasus
           </a>
         </div>
       </div>
     </div>
+
+    <!-- GENAP PERTEMUAN 9 -->
+    <div class="module-node alt" id="genap-node-9" data-block="genap_blok2" data-type="praktik proyek" data-title="Proyek Akhir Perawatan Perbaikan Unit Sekolah servis lab audit hardware cleaning repaste">
+      <div class="node-pin">09</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 9</span>
+            <span class="badge badge-jp">9 JP &middot; Proyek Nyata</span>
+            <span class="badge badge-type">Hands-On Lab</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(9, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </span>
+          Proyek Akhir: Perawatan &amp; Perbaikan Unit Sekolah
+        </h3>
+        <p class="card-desc">
+          Penerapan keahlian teknisi pada unit komputer laboratorium nyata: audit kondisi fisik/software, pembersihan menyeluruh, repaste CPU/GPU, perapian manajemen kabel, tune-up OS, dan kartu riwayat servis.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_9_proyek-perawatan-perbaikan-unit-sekolah.html" style="background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Proyek
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- GENAP PERTEMUAN 10 -->
+    <div class="module-node alt" id="genap-node-10" data-block="genap_blok2" data-type="praktik ujikom" data-title="Uji Kompetensi Dokumentasi Laporan Perawatan UKK berita acara log sheet sertifikasi">
+      <div class="node-pin">10</div>
+      <div class="module-card">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 10</span>
+            <span class="badge badge-jp">9 JP &middot; Uji Mandiri</span>
+            <span class="badge badge-type">Uji Kompetensi UKK</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteGenap(10, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </span>
+          Uji Kompetensi &amp; Dokumentasi Laporan Perawatan
+        </h3>
+        <p class="card-desc">
+          Evaluasi unjuk kerja mandiri standar industri (UKK): pemecahan kasus kerusakan simulasi berbatas waktu, pengujian fungsi pasca perbaikan, penyusunan Berita Acara Servis, dan penyerahan unit layak pakai.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Genap_Pert_10_uji-kompetensi-laporan-perawatan.html" style="background:linear-gradient(135deg, #8b5cf6, #00f0ff);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Uji Kompetensi
+          </a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- FOOTER -->
@@ -2596,61 +2778,141 @@
   updateClock();
 
   /* ==========================================================
-     SEMESTER SWITCHER LOGIC
+     SEMESTER SWITCHER & CONFIGURATION
      ========================================================== */
+  let activeSemester = 'ganjil';
+  const TOTAL_MODULES_GANJIL = 11;
+  const TOTAL_MODULES_GENAP = 10;
+  const STORAGE_KEY_GANJIL = 'bh_tkj_completed_modules';
+  const STORAGE_KEY_GENAP = 'bh_tkj_genap_completed_modules';
+
   function setSemester(sem) {
+    activeSemester = sem;
     const isGanjil = sem === 'ganjil';
+    
+    // Update active tab styling
     document.getElementById('btnGanjil').classList.toggle('active', isGanjil);
     document.getElementById('btnGenap').classList.toggle('active', !isGanjil);
     document.getElementById('semTabPill').style.transform = isGanjil ? 'translateX(0)' : 'translateX(100%)';
 
+    // Show/hide timelines
     document.getElementById('timelineGanjil').style.display = isGanjil ? 'block' : 'none';
     document.getElementById('timelineGenap').style.display = isGanjil ? 'none' : 'block';
-    document.getElementById('filterToolbar').style.display = isGanjil ? 'flex' : 'none';
 
+    // Headings and Descriptions
     const mainHeading = document.getElementById('pageMainHeading');
     const mainDesc = document.getElementById('pageMainDesc');
+    const metricModul = document.getElementById('metricTotalModulText');
+    const metricAlokasi = document.getElementById('metricAlokasiText');
+    const metricFokus = document.getElementById('metricFokusText');
+    const searchInput = document.getElementById('searchModul');
 
     if (isGanjil) {
       mainHeading.innerHTML = 'Dasar Perakitan, Instalasi &amp; Perawatan Sistem Komputer';
       mainDesc.innerHTML = 'Portal materi terintegrasi untuk mata pelajaran <strong>Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</strong>. Terbagi menjadi <strong>Blok 1 (Pertemuan 1&ndash;6)</strong> dan <strong>Blok 2 (Pertemuan 7&ndash;11)</strong>.';
+      if (metricModul) metricModul.textContent = '11 Pertemuan';
+      if (metricAlokasi) metricAlokasi.textContent = '99 JP Total';
+      if (metricFokus) metricFokus.textContent = 'Fondasi & Perawatan';
+      if (searchInput) searchInput.placeholder = 'Cari materi Ganjil (SOP, BIOS, Driver, Troubleshooting, dll)...';
     } else {
       mainHeading.innerHTML = 'Pemeliharaan Lanjutan, Perbaikan &amp; Uji Kompetensi';
-      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas X TKJ</strong>. Terbagi menjadi <strong>Blok 1 (Hari 1&ndash;5: Upgrade, Periferal, Laptop, Keamanan, Partisi)</strong> dan <strong>Blok 2 (Hari 1&ndash;5: Diagnostic Tools, Recovery, Studi Kasus, Proyek Perbaikan Sekolah, Uji Kompetensi)</strong>.';
+      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas X TKJ</strong>. Terbagi menjadi <strong>Blok 1 (Hari 1&ndash;5: Upgrade, Periferal, Laptop, Keamanan, Partisi)</strong> dan <strong>Blok 2 (Hari 6&ndash;10: Diagnostic Tools, Recovery, Kasus Kompleks, Proyek Servis Lab, Uji Kompetensi)</strong>.';
+      if (metricModul) metricModul.textContent = '10 Pertemuan';
+      if (metricAlokasi) metricAlokasi.textContent = '90 JP Total';
+      if (metricFokus) metricFokus.textContent = 'Lanjutan & Ujikom';
+      if (searchInput) searchInput.placeholder = 'Cari materi Genap (Upgrade, Laptop, Printer, AI Tools, Ujikom, dll)...';
+    }
+
+    // Render Filter Pills
+    renderFilterPills();
+
+    // Update Progress UI
+    updateProgressUI();
+
+    // Run Filter
+    filterCards();
+
+    // Update URL hash without scroll jump
+    if (history.replaceState) {
+      history.replaceState(null, null, isGanjil ? '#ganjil' : '#genap');
+    }
+  }
+
+  function renderFilterPills() {
+    const container = document.getElementById('filterPillsContainer');
+    if (!container) return;
+
+    if (activeSemester === 'ganjil') {
+      container.innerHTML = `
+        <button type="button" class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">Semua (11)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'blok1' ? 'active' : ''}" onclick="setFilter('blok1', this)">Blok 1 (Perakitan)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'blok2' ? 'active' : ''}" onclick="setFilter('blok2', this)">Blok 2 (Perawatan)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik</button>
+        <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
+      `;
+    } else {
+      container.innerHTML = `
+        <button type="button" class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">Semua (10)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'genap_blok1' ? 'active' : ''}" onclick="setFilter('genap_blok1', this)">Blok 1 (Lanjutan)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'genap_blok2' ? 'active' : ''}" onclick="setFilter('genap_blok2', this)">Blok 2 (Diagnostik & UKK)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik & Proyek</button>
+        <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
+      `;
     }
   }
 
   /* ==========================================================
      STUDENT PROGRESS TRACKER (LOCALSTORAGE)
      ========================================================== */
-  const TOTAL_MODULES = 11;
-  const STORAGE_KEY = 'bh_tkj_completed_modules';
-
-  function getCompletedList() {
+  function getCompletedList(isGenap = false) {
+    const key = isGenap ? STORAGE_KEY_GENAP : STORAGE_KEY_GANJIL;
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      return JSON.parse(localStorage.getItem(key)) || [];
     } catch(e) {
       return [];
     }
   }
 
-  function saveCompletedList(list) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  function saveCompletedList(list, isGenap = false) {
+    const key = isGenap ? STORAGE_KEY_GENAP : STORAGE_KEY_GANJIL;
+    localStorage.setItem(key, JSON.stringify(list));
   }
 
   function updateProgressUI() {
-    const list = getCompletedList();
+    const isGenap = activeSemester === 'genap';
+    const total = isGenap ? TOTAL_MODULES_GENAP : TOTAL_MODULES_GANJIL;
+    const list = getCompletedList(isGenap);
     const count = list.length;
-    const percent = Math.round((count / TOTAL_MODULES) * 100);
+    const percent = Math.round((count / total) * 100);
 
-    document.getElementById('progressText').textContent = `${count} / ${TOTAL_MODULES} Selesai (${percent}%)`;
+    const titleEl = document.getElementById('progressTitleText');
+    if (titleEl) {
+      titleEl.innerHTML = isGenap 
+        ? 'Progres Belajar Mandiri &middot; Semester Genap' 
+        : 'Progres Belajar Mandiri &middot; Semester Ganjil';
+    }
+
+    document.getElementById('progressText').textContent = `${count} / ${total} Selesai (${percent}%)`;
     document.getElementById('progressBarFill').style.width = `${percent}%`;
 
-    // Apply visual states to each module
-    for (let i = 1; i <= TOTAL_MODULES; i++) {
+    // Apply visual states to Ganjil modules
+    const ganjilList = getCompletedList(false);
+    for (let i = 1; i <= TOTAL_MODULES_GANJIL; i++) {
       const node = document.getElementById(`node-${i}`);
       if (node) {
-        const isDone = list.includes(i);
+        const isDone = ganjilList.includes(i);
+        node.classList.toggle('completed', isDone);
+        const checkbox = node.querySelector('.check-completed input');
+        if (checkbox) checkbox.checked = isDone;
+      }
+    }
+
+    // Apply visual states to Genap modules
+    const genapList = getCompletedList(true);
+    for (let i = 1; i <= TOTAL_MODULES_GENAP; i++) {
+      const node = document.getElementById(`genap-node-${i}`);
+      if (node) {
+        const isDone = genapList.includes(i);
         node.classList.toggle('completed', isDone);
         const checkbox = node.querySelector('.check-completed input');
         if (checkbox) checkbox.checked = isDone;
@@ -2659,18 +2921,26 @@
   }
 
   function toggleComplete(moduleId, isChecked) {
-    let list = getCompletedList();
+    let list = getCompletedList(false);
     if (isChecked) {
       if (!list.includes(moduleId)) list.push(moduleId);
     } else {
       list = list.filter(id => id !== moduleId);
     }
-    saveCompletedList(list);
+    saveCompletedList(list, false);
     updateProgressUI();
   }
 
-  // Initialize progress on load
-  updateProgressUI();
+  function toggleCompleteGenap(moduleId, isChecked) {
+    let list = getCompletedList(true);
+    if (isChecked) {
+      if (!list.includes(moduleId)) list.push(moduleId);
+    } else {
+      list = list.filter(id => id !== moduleId);
+    }
+    saveCompletedList(list, true);
+    updateProgressUI();
+  }
 
   /* ==========================================================
      SEARCH & FILTER LOGIC
@@ -2685,10 +2955,14 @@
   }
 
   function filterCards() {
-    const query = document.getElementById('searchModul').value.toLowerCase().trim();
-    const nodes = document.querySelectorAll('.module-node');
-    const blockHeaders = document.querySelectorAll('.block-header');
-    const completedList = getCompletedList();
+    const query = (document.getElementById('searchModul').value || '').toLowerCase().trim();
+    const isGenap = activeSemester === 'genap';
+    const targetTimeline = isGenap ? document.getElementById('timelineGenap') : document.getElementById('timelineGanjil');
+    if (!targetTimeline) return;
+
+    const nodes = targetTimeline.querySelectorAll('.module-node');
+    const blockHeaders = targetTimeline.querySelectorAll('.block-header');
+    const completedList = getCompletedList(isGenap);
     let visibleCount = 0;
 
     nodes.forEach(node => {
@@ -2696,17 +2970,21 @@
       const text = node.innerText.toLowerCase();
       const block = node.getAttribute('data-block') || '';
       const type = (node.getAttribute('data-type') || '').toLowerCase();
-      const id = parseInt(node.id.replace('node-', ''));
+      
+      const rawId = isGenap ? node.id.replace('genap-node-', '') : node.id.replace('node-', '');
+      const id = parseInt(rawId);
       const isCompleted = completedList.includes(id);
 
-      // Check text search
+      // Text search
       const matchesSearch = !query || title.includes(query) || text.includes(query);
 
-      // Check category filter
+      // Category filter
       let matchesFilter = true;
       if (currentFilter === 'blok1') matchesFilter = block === 'blok1';
       else if (currentFilter === 'blok2') matchesFilter = block === 'blok2';
-      else if (currentFilter === 'praktik') matchesFilter = type.includes('praktik') || type.includes('simulasi');
+      else if (currentFilter === 'genap_blok1') matchesFilter = block === 'genap_blok1';
+      else if (currentFilter === 'genap_blok2') matchesFilter = block === 'genap_blok2';
+      else if (currentFilter === 'praktik') matchesFilter = type.includes('praktik') || type.includes('simulasi') || type.includes('upgrade') || type.includes('proyek');
       else if (currentFilter === 'completed') matchesFilter = isCompleted;
 
       if (matchesSearch && matchesFilter) {
@@ -2732,6 +3010,25 @@
     if (e.key === '/' && document.activeElement !== document.getElementById('searchModul')) {
       e.preventDefault();
       document.getElementById('searchModul').focus();
+    }
+  });
+
+  // Handle URL Hash on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = (window.location.hash || '').toLowerCase();
+    if (hash === '#genap' || hash === '#semester-genap') {
+      setSemester('genap');
+    } else {
+      setSemester('ganjil');
+    }
+  });
+
+  window.addEventListener('hashchange', () => {
+    const hash = (window.location.hash || '').toLowerCase();
+    if (hash === '#genap' || hash === '#semester-genap') {
+      if (activeSemester !== 'genap') setSemester('genap');
+    } else if (hash === '#ganjil' || hash === '#semester-ganjil') {
+      if (activeSemester !== 'ganjil') setSemester('ganjil');
     }
   });
 
@@ -2908,4 +3205,4 @@
   </script>
 
 </body>
-</html>
+</html>tml>
