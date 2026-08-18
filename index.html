@@ -58,30 +58,39 @@
 
   /* ── LIGHT MODE ── */
   html.light-mode {
-    --bg-void:       #f0f7ff;
-    --bg-surface:    #e2eeff;
-    --panel:         rgba(255, 255, 255, 0.82);
-    --panel-hover:   rgba(255, 255, 255, 0.96);
-    --panel-border:  rgba(56, 132, 234, 0.25);
-    --panel-bright:  rgba(56, 132, 234, 0.55);
-    
-    --cyan:          #0284c7;
-    --cyan-glow:     rgba(2, 132, 199, 0.35);
-    --cyan-soft:     #0ea5e9;
+    /* Background system */
+    --bg-void:       #f0f5ff;
+    --bg-surface:    #e8effc;
+    --panel:         rgba(255, 255, 255, 0.95);
+    --panel-hover:   rgba(255, 255, 255, 1);
+    --panel-border:  rgba(203, 213, 225, 0.9);
+    --panel-bright:  rgba(99, 102, 241, 0.4);
+
+    /* Accent palette — vibrant but not neon */
+    --cyan:          #2563eb;
+    --cyan-glow:     rgba(37, 99, 235, 0.2);
+    --cyan-soft:     #3b82f6;
     --violet:        #7c3aed;
-    --violet-glow:   rgba(124, 58, 237, 0.35);
+    --violet-glow:   rgba(124, 58, 237, 0.2);
     --magenta:       #db2777;
     --amber:         #d97706;
     --emerald:       #059669;
-    --emerald-glow:  rgba(5, 150, 105, 0.35);
-    
+    --emerald-glow:  rgba(5, 150, 105, 0.2);
+
+    /* Text */
     --text-main:     #0f172a;
-    --text-sub:      #334155;
-    --text-muted:    #64748b;
-    
-    --canvas-opacity: 0.25;
-    --grid-opacity:   0.06;
-    --glow-opacity:   0.10;
+    --text-sub:      #475569;
+    --text-muted:    #94a3b8;
+
+    --canvas-opacity: 0.0;
+    --grid-opacity:   0.0;
+    --glow-opacity:   0.0;
+
+    /* Light-mode shadows (card elevation) */
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.06);
+    --shadow-md: 0 4px 12px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.05);
+    --shadow-lg: 0 10px 30px rgba(15,23,42,0.10), 0 4px 10px rgba(15,23,42,0.06);
+    --shadow-xl: 0 20px 50px rgba(15,23,42,0.12), 0 8px 20px rgba(15,23,42,0.07);
   }
 
   * {
@@ -1908,60 +1917,625 @@
     box-shadow: 0 0 14px rgba(14, 165, 233, 0.3);
   }
 
-  /* Light mode: top laser strip uses warm gradient */
-  html.light-mode .top-laser-strip {
-    background: linear-gradient(90deg, transparent, #0ea5e9, #7c3aed, #db2777, #0ea5e9, transparent);
-    background-size: 200% 100%;
-    animation: laserScan 4s linear infinite;
-    box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
-    opacity: 0.7;
+  /* ==========================================================
+     LIGHT MODE DESIGN SYSTEM (Clean, Cheerful, Modern Education)
+     ========================================================== */
+  html.light-mode body {
+    background: linear-gradient(180deg, #f8fafc 0%, #eff6ff 40%, #f8fafc 100%);
+    color: #0f172a;
   }
 
-  /* Block header light mode */
-  html.light-mode .block-header-inner {
-    background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, rgba(255, 255, 255, 0.7) 100%);
-    border-left-color: var(--cyan);
-    border-top-color: rgba(14, 165, 233, 0.25);
-    border-right-color: rgba(14, 165, 233, 0.12);
-    border-bottom-color: rgba(14, 165, 233, 0.12);
-  }
-  html.light-mode .block-header.alt .block-header-inner {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.1) 0%, rgba(255, 255, 255, 0.7) 100%);
-    border-left-color: var(--violet);
-  }
-
-  /* Pengampu card light mode */
-  html.light-mode .pengampu-hud {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(124, 58, 237, 0.2);
+  /* Hide robotic / harsh cyber effects in light mode */
+  html.light-mode #cyberCanvas,
+  html.light-mode .grid-overlay,
+  html.light-mode .radial-glow,
+  html.light-mode .top-laser-strip,
+  html.light-mode .pin-strip,
+  html.light-mode header.hero-hud::before,
+  html.light-mode header.hero-hud::after,
+  html.light-mode .module-card::before,
+  html.light-mode .module-card::after,
+  html.light-mode .brand-badge::after {
+    display: none !important;
   }
 
-  /* Sem switch light mode */
-  html.light-mode .sem-switch-deck {
-    background: rgba(240, 247, 255, 0.9);
-    border-color: rgba(14, 165, 233, 0.2);
+  /* ── 1. HERO HEADER ── */
+  html.light-mode header.hero-hud {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+    padding: 32px 36px;
   }
 
-  /* Progress bar glow in light mode */
+  html.light-mode .brand-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(59, 130, 246, 0.3);
+    border-radius: 14px;
+  }
+
+  html.light-mode .brand-info h2 {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  html.light-mode .brand-info h2 span {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  html.light-mode .brand-info p {
+    color: #6366f1;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  html.light-mode .telemetry-widget {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  }
+
+  html.light-mode .telemetry-text {
+    color: #475569;
+    font-weight: 600;
+  }
+
+  html.light-mode .clock-digital {
+    color: #2563eb;
+    font-weight: 700;
+    border-left: 1px solid #cbd5e1;
+  }
+
+  html.light-mode .btn-pwa-install {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  }
+
+  html.light-mode .hero-main-title {
+    background: linear-gradient(135deg, #0f172a 20%, #1e40af 60%, #4338ca 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  html.light-mode .hero-desc {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  html.light-mode .hero-desc strong {
+    color: #0f172a;
+    font-weight: 700;
+  }
+
+  /* ── 2. METRIC CARDS ── */
+  html.light-mode .metric-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    padding: 14px 18px;
+    transition: all 0.25s ease;
+  }
+
+  html.light-mode .metric-card:hover {
+    background: #ffffff;
+    border-color: #93c5fd;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px -4px rgba(37, 99, 235, 0.12);
+  }
+
+  html.light-mode .metric-card .label {
+    color: #64748b;
+    font-weight: 700;
+    font-size: 10.5px;
+  }
+
+  html.light-mode .metric-card .value {
+    color: #1d4ed8;
+    font-weight: 800;
+    font-size: 17px;
+  }
+
+  /* ── 3. PROGRESS HUD ── */
+  html.light-mode .progress-hud-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    padding: 18px 22px;
+  }
+
+  html.light-mode .progress-title {
+    color: #334155;
+    font-weight: 800;
+    font-size: 12.5px;
+  }
+
+  html.light-mode .progress-stats {
+    color: #2563eb;
+    font-weight: 800;
+    font-size: 13px;
+  }
+
+  html.light-mode .progress-bar-track {
+    background: #e2e8f0;
+    height: 10px;
+    border-radius: 100px;
+  }
+
   html.light-mode .progress-bar-fill {
-    box-shadow: 0 0 8px rgba(2, 132, 199, 0.5);
+    background: linear-gradient(90deg, #38bdf8 0%, #3b82f6 50%, #10b981 100%);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
   }
 
-  /* pin-strip light mode */
-  html.light-mode .pin-strip span {
-    opacity: 0.5;
+  /* ── 4. BOTTOM DECK & SEMESTER SWITCHER ── */
+  html.light-mode .hero-bottom-deck {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
   }
 
-  /* card title icon light mode */
+  html.light-mode .sem-switch-deck {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 4px;
+    border-radius: 14px;
+  }
+
+  html.light-mode .sem-tab-pill {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    border-radius: 10px;
+  }
+
+  html.light-mode .sem-btn {
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  html.light-mode .sem-btn.active {
+    color: #ffffff;
+  }
+
+  html.light-mode .sem-btn:not(.active):hover {
+    color: #0f172a;
+  }
+
+  html.light-mode .pengampu-hud {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    border-radius: 14px;
+  }
+
+  html.light-mode .pengampu-badge {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  }
+
+  html.light-mode .pengampu-meta .role {
+    color: #6366f1;
+    font-weight: 700;
+  }
+
+  html.light-mode .pengampu-meta .name {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  html.light-mode .pengampu-wa {
+    color: #059669;
+    font-weight: 700;
+  }
+
+  html.light-mode .pengampu-wa:hover {
+    color: #047857;
+    text-shadow: none;
+  }
+
+  /* ── 5. SEARCH & FILTER TOOLBAR ── */
+  html.light-mode .control-toolbar {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    padding: 14px 20px;
+  }
+
+  html.light-mode .search-input {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  html.light-mode .search-input::placeholder {
+    color: #94a3b8;
+  }
+
+  html.light-mode .search-input:focus {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  }
+
+  html.light-mode .search-icon {
+    color: #64748b;
+  }
+
+  html.light-mode .search-shortcut {
+    background: #e2e8f0;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    font-weight: 700;
+  }
+
+  html.light-mode .filter-btn {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+  }
+
+  html.light-mode .filter-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-color: #cbd5e1;
+  }
+
+  html.light-mode .filter-btn.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
+  }
+
+  /* ── 6. TIMELINE & DATA RAIL ── */
+  html.light-mode .timeline-container::before {
+    background: linear-gradient(180deg, #bfdbfe 0%, #c7d2fe 50%, #a7f3d0 100%);
+    box-shadow: none;
+    width: 3px;
+    border-radius: 10px;
+  }
+
+  html.light-mode .block-header-inner {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid #2563eb;
+    border-radius: 0 14px 14px 0;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    padding: 14px 20px;
+  }
+
+  html.light-mode .block-header.alt .block-header-inner {
+    background: #fdf4ff;
+    border-left-color: #7c3aed;
+    border-color: #f3e8ff;
+    border-left: 5px solid #7c3aed;
+  }
+
+  html.light-mode .block-tag {
+    background: #dbeafe;
+    color: #1d4ed8;
+    box-shadow: none;
+    font-weight: 800;
+  }
+
+  html.light-mode .block-header.alt .block-tag {
+    background: #ede9fe;
+    color: #6d28d9;
+    box-shadow: none;
+  }
+
+  html.light-mode .block-heading {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  html.light-mode .block-meta {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  /* ── 7. NODE PINS & MODULE CARDS ── */
+  html.light-mode .node-pin {
+    background: #ffffff;
+    border: 2px solid #3b82f6;
+    color: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
+    font-weight: 800;
+  }
+
+  html.light-mode .module-node.alt .node-pin {
+    background: #ffffff;
+    border-color: #8b5cf6;
+    color: #6d28d9;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.16);
+  }
+
+  html.light-mode .module-node.completed .node-pin {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.18);
+  }
+
+  html.light-mode .module-card {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 18px;
+    padding: 22px 26px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html.light-mode .module-card:hover {
+    background: #ffffff;
+    border-color: #93c5fd;
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px -4px rgba(37, 99, 235, 0.12), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+  }
+
+  html.light-mode .module-node.completed .module-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    border-color: #a7f3d0;
+  }
+
+  /* Badges */
+  html.light-mode .badge-blok {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+    font-weight: 700;
+  }
+
+  html.light-mode .badge-blok2 {
+    background: #faf5ff;
+    color: #7e22ce;
+    border-color: #e9d5ff;
+    font-weight: 700;
+  }
+
+  html.light-mode .badge-jp {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fde68a;
+    font-weight: 700;
+  }
+
+  html.light-mode .badge-type {
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #a7f3d0;
+    font-weight: 700;
+  }
+
+  /* Completion Checkbox */
+  html.light-mode .check-completed {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  html.light-mode .check-completed:hover {
+    color: #059669;
+  }
+
+  html.light-mode .check-completed input {
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 5px;
+  }
+
+  html.light-mode .check-completed input:checked {
+    background: #10b981;
+    border-color: #10b981;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+
+  html.light-mode .check-completed input:checked::before {
+    color: #ffffff;
+  }
+
+  /* Card Titles & Details */
+  html.light-mode .card-title {
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 19px;
+  }
+
   html.light-mode .card-title-icon {
-    background: rgba(14, 165, 233, 0.08);
-    border-color: rgba(14, 165, 233, 0.2);
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    color: #2563eb;
+    border-radius: 10px;
   }
 
-  /* Genap hero card light mode */
+  html.light-mode .module-node.alt .card-title-icon {
+    background: #faf5ff;
+    border-color: #ede9fe;
+    color: #7c3aed;
+  }
+
+  html.light-mode .card-desc {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* Action Buttons */
+  html.light-mode .btn-launch {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+    border-radius: 10px;
+    padding: 10px 20px;
+  }
+
+  html.light-mode .btn-launch:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.38);
+  }
+
+  html.light-mode .btn-companion {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 9px 16px;
+  }
+
+  html.light-mode .btn-companion:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  }
+
+  html.light-mode .btn-companion svg {
+    color: #2563eb;
+  }
+
+  /* ── 8. SEMESTER GENAP VIEW ── */
   html.light-mode .genap-hero-card {
-    background: linear-gradient(135deg, rgba(237, 233, 254, 0.6) 0%, rgba(255, 255, 255, 0.9) 100%);
-    border-color: rgba(124, 58, 237, 0.25);
+    background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+    border: 1px solid #c7d2fe;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.08);
+  }
+
+  html.light-mode .genap-badge-pill {
+    background: #ede9fe;
+    border: 1px solid #c4b5fd;
+    color: #6d28d9;
+    font-weight: 800;
+  }
+
+  html.light-mode .genap-hero-card h2 {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  html.light-mode .genap-hero-card p {
+    color: #475569;
+  }
+
+  html.light-mode .genap-card-locked {
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  }
+
+  html.light-mode .genap-card-locked:hover {
+    border-color: #7c3aed;
+    border-style: solid;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.12);
+  }
+
+  html.light-mode .genap-card-locked .num {
+    color: #7c3aed;
+    font-weight: 800;
+  }
+
+  html.light-mode .genap-card-locked h3 {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  html.light-mode .genap-card-locked p {
+    color: #64748b;
+  }
+
+  /* ── 9. FOOTER & ADMIN ── */
+  html.light-mode footer.app-footer {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  }
+
+  html.light-mode .footer-left {
+    color: #64748b;
+  }
+
+  html.light-mode .footer-left b {
+    color: #0f172a;
+  }
+
+  html.light-mode .footer-badge {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border: 1px solid #dbeafe;
+    background-color: #eff6ff;
+  }
+
+  html.light-mode .btn-panel-guru {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #2563eb;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  }
+
+  html.light-mode .btn-panel-guru:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+  }
+
+  html.light-mode .btn-panel-guru svg {
+    color: #2563eb;
+  }
+
+  html.light-mode .no-results {
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 18px;
+  }
+
+  html.light-mode .no-results h3 {
+    color: #0f172a;
+  }
+
+  html.light-mode .no-results p {
+    color: #64748b;
+  }
+
+  html.light-mode .admin-modal-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  }
+
+  html.light-mode .admin-modal-header h3 {
+    color: #0f172a;
+  }
+
+  html.light-mode .admin-modal-sub {
+    color: #64748b;
+  }
+
+  html.light-mode .pin-input-wrap input {
+    background: #f8fafc;
+    border-color: #93c5fd;
+    color: #1d4ed8;
   }
 </style>
 </head>
