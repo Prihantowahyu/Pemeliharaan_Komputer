@@ -1,7 +1,7 @@
 /**
  * CBT ANTI-CHEAT & EXAM ENGINE
  * SMK Diponegoro Tumpang - Pemeliharaan Komputer & Jaringan
- * PIN Guru Keamanan: 230587
+ * Otorisasi Keamanan Guru Pengawas
  */
 
 (function(window) {
@@ -228,7 +228,7 @@
               <li>Ketik nama lengkap Anda pada kolom di atas sebelum menekan tombol <b>Mulai Ulangan Harian</b>.</li>
               <li>Ujian akan berjalan otomatis dalam <b>Mode Fullscreen Layar Penuh</b>.</li>
               <li>Dilarang berpindah tab browser, membuka Google/ChatGPT/WhatsApp, atau melakukan Alt+Tab. Sistem akan mendeteksi dan memberi <b>Peringatan Pelanggaran</b>.</li>
-              <li><b>3x Pelanggaran</b> akan membuat lembar ujian <b>TERKUNCI</b> dan hanya bisa dibuka dengan PIN Guru (<code>230587</code>).</li>
+              <li><b>3x Pelanggaran</b> akan membuat lembar ujian <b>TERKUNCI</b> dan hanya bisa dibuka dengan <b>Otorisasi / PIN Guru Pengawas</b>.</li>
               <li>Soal dan urutan opsi pilihan (A/B/C/D) <b>diacak otomatis (randomized)</b> untuk setiap siswa.</li>
             </ul>
           </div>

@@ -213,7 +213,7 @@
   40%, 80% { transform: translate(-46%, -50%); }
 }
 
-/* Teacher Lock Modal (PIN Guru: 230587) */
+/* Teacher Lock Modal (Otorisasi Guru) */
 .cbt-lock-screen {
   display: none;
   position: fixed;

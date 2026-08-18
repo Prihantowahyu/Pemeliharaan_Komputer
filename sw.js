@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-v11';
+const CACHE_NAME = 'bengkel-hw-v12';
 
 const ASSETS_TO_CACHE = [
   './',
