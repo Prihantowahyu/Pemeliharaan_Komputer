@@ -13,8 +13,28 @@
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* ==========================================================
+     ULTRA-FAST & LOW-SPEC HARDWARE ACCELERATION ENGINE
+     ========================================================== */
+  .module-node, .metric-card, .block-header, .large-modal-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 140px;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   /* ==========================================================
      CYBER-HUD DESIGN TOKENS
      Kombinasi Cyberpunk Clean + Glassmorphic Futuristik
