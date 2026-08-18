@@ -3291,7 +3291,190 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       Slide Selanjutnya (Panah Kanan) &rarr;
     </button>
   </div>
+<!-- ==========================================================
+     MODAL 6: E-LOGBOOK & WORK ORDER SERVIS (SPK BENGKEL)
+     ========================================================== -->
+<div id="logbookModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeLogbookModal()">
+  <div class="large-modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          📋 E-Logbook &amp; Surat Perintah Kerja (SPK) Servis Lab
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Dokumentasi pekerjaan perawatan dan perbaikan unit komputer sekolah / Teaching Factory.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeLogbookModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Form SPK Baru -->
+    <div style="background: rgba(13,22,44,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+      <h4 style="font-family: var(--font-heading); color: var(--cyan); margin-bottom: 12px;">+ Input Lembar Servis / SPK Baru:</h4>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px;">
+        <div>
+          <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Nama Teknisi Siswa:</label>
+          <input type="text" id="spkInputTech" class="search-input" style="padding: 8px 10px;" placeholder="Nama Anda" value="Ahmad Rizky">
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">No. Unit / Inventaris PC:</label>
+          <input type="text" id="spkInputPcId" class="search-input" style="padding: 8px 10px;" placeholder="Contoh: PC-LAB-04" value="PC-LAB-01">
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Kategori Masalah:</label>
+          <select id="spkInputCategory" class="search-input" style="padding: 8px 10px;">
+            <option>Hardware (RAM / PSU / GPU / Overheat)</option>
+            <option>Software (Instal Ulang OS / Driver / Virus)</option>
+            <option>Periferal (Printer / Scanner / Keyboard)</option>
+            <option>Perawatan Rutin &amp; Pembersihan Lab</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label style="font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 3px;">Tindakan Perbaikan yang Dilakukan:</label>
+        <input type="text" id="spkInputActions" class="search-input" style="padding: 8px 10px;" placeholder="Contoh: Pembersihan pin RAM dengan karet penghapus, penggantian thermal paste CPU" value="Pembersihan pin RAM dan ganti thermal paste CPU">
+      </div>
+      <button type="button" class="btn-launch" style="padding: 9px 18px; font-size: 12.5px;" onclick="saveWorkOrderTicket()">
+        💾 Simpan ke Logbook Servis
+      </button>
+    </div>
+
+    <!-- Logbook History List -->
+    <h4 style="font-family: var(--font-heading); color: var(--text-main); margin-bottom: 10px;">Riwayat Tiket Servis di Lab Ini:</h4>
+    <div id="logbookListContainer" style="max-height: 240px; overflow-y: auto; margin-bottom: 14px;">
+      <!-- Dynamically injected -->
+    </div>
+  </div>
 </div>
+
+<!-- ==========================================================
+     MODAL 7: AI ASSISTANT TEKNISI TKJ (OFFLINE BOT)
+     ========================================================== -->
+<div id="aiBotModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeAiBotModal()">
+  <div class="large-modal-card" style="max-width: 680px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #00f0ff, #8b5cf6); display: flex; align-items: center; justify-content: center; color: #030712; font-weight: 800;">🤖</div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--text-main); font-weight: 800;">
+            AI Assistant Teknisi Hardware TKJ
+          </h3>
+          <p style="font-size: 12px; color: #10b981; font-weight: 600;">● Online 24/7 &bull; Siap Membantu Praktik</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeAiBotModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Chat Messages Window -->
+    <div class="ai-chat-window" id="aiChatWindow">
+      <div class="ai-msg bot">
+        👋 <b>Halo Teknisi Muda!</b> Saya asisten AI pintar untuk bengkel komputer. Tanyakan apa saja seputar perakitan, troubleshooting hardware, instalasi OS, BIOS, atau jaringan!
+      </div>
+    </div>
+
+    <!-- Quick Chips -->
+    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;">
+      <button type="button" class="filter-btn" style="font-size: 10.5px; padding: 4px 10px;" onclick="sendAiQuickQuestion('PC tidak tampil / No Display tapi kipas muter?')">PC No Display?</button>
+      <button type="button" class="filter-btn" style="font-size: 10.5px; padding: 4px 10px;" onclick="sendAiQuickQuestion('Bagaimana urutan pasang kabel Front Panel?')">Pin Front Panel?</button>
+      <button type="button" class="filter-btn" style="font-size: 10.5px; padding: 4px 10px;" onclick="sendAiQuickQuestion('Apa perbedaan partisi MBR dan GPT?')">MBR vs GPT?</button>
+      <button type="button" class="filter-btn" style="font-size: 10.5px; padding: 4px 10px;" onclick="sendAiQuickQuestion('Bagaimana cara mengatasi BSOD Memory Management?')">Fix BSOD?</button>
+    </div>
+
+    <!-- Input Bar -->
+    <form onsubmit="handleAiChatSubmit(event)" style="display: flex; gap: 8px;">
+      <input type="text" id="aiChatInput" class="search-input" placeholder="Ketik pertanyaan teknis Anda di sini..." autocomplete="off">
+      <button type="submit" class="btn-launch" style="padding: 10px 18px; border-radius: 10px;">Kirim</button>
+    </form>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 8: SPEED ASSEMBLY TIMER & STOPWATCH
+     ========================================================== -->
+<div id="speedTimerModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeSpeedTimerModal()">
+  <div class="large-modal-card" style="max-width: 580px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          ⏱️ Timer Uji Kecepatan Praktik (Speed Test)
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Uji kecepatan dan presisi Anda sesuai standar sertifikasi industri / LKS TKJ.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeSpeedTimerModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Presets Selector -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+      <button type="button" class="cheat-tab-btn active" id="btnPreset_25" onclick="setTimerPreset(25, 'Uji Perakitan PC', this)">🛠️ Perakitan PC (25m)</button>
+      <button type="button" class="cheat-tab-btn" id="btnPreset_20" onclick="setTimerPreset(20, 'Instalasi OS & Driver', this)">💿 Instalasi OS (20m)</button>
+      <button type="button" class="cheat-tab-btn" id="btnPreset_5" onclick="setTimerPreset(5, 'Crimping Kabel LAN', this)">🔌 Kabel LAN (5m)</button>
+      <button type="button" class="cheat-tab-btn" id="btnPreset_0" onclick="setTimerPreset(0, 'Stopwatch Bebas', this)">⏱️ Bebas</button>
+    </div>
+
+    <!-- Big Timer Numbers -->
+    <div class="timer-big-display" id="speedTimerDisplay">25:00.0</div>
+
+    <!-- Controls -->
+    <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;">
+      <button type="button" class="btn-launch" id="btnTimerStartPause" style="padding: 12px 28px; font-size: 15px;" onclick="toggleSpeedTimer()">
+        ▶️ Mulai Ujian
+      </button>
+      <button type="button" class="btn-companion" style="padding: 12px 20px; font-size: 14px;" onclick="resetSpeedTimer()">
+        🔄 Reset Waktu
+      </button>
+    </div>
+
+    <!-- Leaderboard / Recent Records -->
+    <div style="background: rgba(3,7,18,0.5); border-radius: 12px; padding: 14px;">
+      <div style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">🏆 CATATAN REKOR WAKTU SISWA:</div>
+      <div id="speedTimerRecordsList" style="font-size: 12.5px; color: var(--text-sub);">Belum ada rekor waktu tercatat. Uji keterampilan Anda!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 9: BACKUP & RESTORE DATA PROFIL BELAJAR
+     ========================================================== -->
+<div id="backupRestoreModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeBackupRestoreModal()">
+  <div class="large-modal-card" style="max-width: 540px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          🔄 Cadangkan &amp; Pulihkan Profil Belajar
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Pindahkan progres tuntas, riwayat ujian, dan tiket logbook Anda ke PC lain.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeBackupRestoreModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Export Box -->
+      <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 14px; padding: 18px;">
+        <h4 style="font-family: var(--font-heading); color: #10b981; margin-bottom: 6px;">📦 1. Cadangkan Profil Belajar (Export JSON)</h4>
+        <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 12px;">Unduh seluruh data progres centang 21 modul, sertifikat, dan nilai ujian Anda ke dalam 1 file cadangan.</p>
+        <button type="button" class="btn-launch" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 12.5px;" onclick="exportProfileBackupJson()">
+          📥 Unduh File Backup (.JSON)
+        </button>
+      </div>
+
+      <!-- Import Box -->
+      <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 14px; padding: 18px;">
+        <h4 style="font-family: var(--font-heading); color: #c4b5fd; margin-bottom: 6px;">📂 2. Pulihkan Profil Belajar (Import JSON)</h4>
+        <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 12px;">Pilih file <code>.json</code> yang pernah Anda cadangkan sebelumnya untuk melanjutkan belajar di PC ini.</p>
+        <input type="file" id="inputRestoreFile" accept=".json" style="font-size: 12px; color: var(--text-main); margin-bottom: 10px;">
+        <button type="button" class="btn-companion" style="font-size: 12.5px; background: rgba(139,92,246,0.25); color: #fff; border-color: var(--violet);" onclick="importProfileBackupJson()">
+          🚀 Terapkan &amp; Pulihkan Data
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     FLOATING AI BOT QUICK TRIGGER BUTTON
+     ========================================================== -->
+<button type="button" id="btnFloatingAi" class="btn-floating-ai" onclick="openAiBotModal()" title="Tanya AI Teknisi TKJ (Offline 24/7)">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <span>Tanya AI Teknisi</span>
+</button>
 
 <div class="app-wrap">
 
@@ -5852,8 +6035,33 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     reader.readAsText(file);
   }
 
+  /* ==========================================================
+     THEME TOGGLE & CBT CLEAR HELPERS
+     ========================================================== */
+  (function initTheme() {
+    const saved = localStorage.getItem('bh_theme_mode');
+    const theme = saved || 'light';
+    if (theme === 'light') {
+      document.documentElement.classList.add('light-mode');
+    } else {
+      document.documentElement.classList.remove('light-mode');
+    }
+  })();
 
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isLight = html.classList.toggle('light-mode');
+    localStorage.setItem('bh_theme_mode', isLight ? 'light' : 'dark');
+  }
 
+  function clearCbtSubmissions() {
+    const confirmClear = confirm('Apakah Anda yakin ingin menghapus seluruh riwayat rekap nilai CBT di perangkat ini?');
+    if (confirmClear) {
+      localStorage.removeItem('bh_cbt_all_submissions');
+      if (typeof updateTeacherCbtCount === 'function') updateTeacherCbtCount();
+      alert('✓ Seluruh data riwayat CBT berhasil dikosongkan.');
+    }
+  }
 
   </script>
 
