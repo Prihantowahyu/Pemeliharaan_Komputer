@@ -2813,16 +2813,132 @@
     margin: 2px 2px 2px 0;
   }
 
-  /* Portfolio Resume Card */
-  .portfolio-preview-card {
-    background: #ffffff;
-    color: #1e293b;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    font-family: var(--font-sans);
-    max-height: 400px;
-    overflow-y: auto;
+  /* Fullscreen Projector Presentation Mode */
+  .presentation-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #030712 !important;
+    background-image: 
+      radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.15) 0%, transparent 40%) !important;
+    z-index: 99999999 !important;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 36px 48px;
+    box-sizing: border-box;
+    color: #ffffff;
+    backdrop-filter: blur(24px);
+    overflow: hidden;
+  }
+
+  .presentation-header-deck {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .presentation-slide-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    background: rgba(13, 22, 44, 0.88);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 240, 255, 0.12);
+    border-radius: 28px;
+    padding: 44px 56px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 480px;
+    animation: slideFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .slide-num-pill {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--cyan);
+    background: rgba(0, 240, 255, 0.12);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    padding: 6px 16px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+
+  .slide-title {
+    font-family: var(--font-heading);
+    font-size: clamp(26px, 3.2vw, 40px);
+    font-weight: 900;
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    background: linear-gradient(135deg, #ffffff 40%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .slide-content-text {
+    font-size: clamp(15px, 1.6vw, 18.5px);
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+    max-width: 960px;
+  }
+
+  .slide-points-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 14px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .slide-point-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: clamp(14px, 1.35vw, 16.5px);
+    color: #f1f5f9;
+    font-weight: 600;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+  }
+  .slide-point-item:hover {
+    background: rgba(0, 240, 255, 0.08);
+    border-color: rgba(0, 240, 255, 0.4);
+    transform: translateX(4px);
+  }
+
+  .presentation-footer-deck {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 </style>
 </head>
@@ -3343,26 +3459,32 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
      PRESENTATION FULLSCREEN VIEW (TEACHER PROJECTOR MODE)
      ========================================================== -->
 <div id="presentationOverlay" class="presentation-overlay" style="display:none;">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span style="font-family: var(--font-mono); font-weight: 800; color: var(--cyan); background: rgba(0,240,255,0.15); padding: 4px 12px; border-radius: 6px;">MODE PROYEKTOR GURU</span>
-      <span id="presSlideCounter" style="font-family: var(--font-mono); font-size: 13px; color: var(--text-sub);">Slide 1 dari 10</span>
+  <div class="presentation-header-deck">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 800; color: #030712; background: linear-gradient(135deg, var(--cyan), var(--violet)); padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 20px rgba(0,240,255,0.4);">
+        📽️ MODE PROYEKTOR GURU
+      </span>
+      <span id="presSlideCounter" style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 5px 12px; border-radius: 6px;">
+        Slide 1 dari 6
+      </span>
     </div>
-    <button type="button" class="btn-close-modal" onclick="closePresentationMode()" style="font-size: 26px; color: #ef4444;" title="Keluar Mode Presentasi (Esc)">&#10005;</button>
+    <button type="button" class="btn-companion" onclick="closePresentationMode()" style="padding: 8px 16px; font-size: 13px; color: #f87171; border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.15);" title="Keluar Mode Layar Penuh">
+      ✕ Keluar Presentasi (Esc)
+    </button>
   </div>
 
   <div class="presentation-slide-card" id="presSlideCard">
     <!-- Slide Content Dynamically Injected -->
   </div>
 
-  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; width: 100%;">
-    <button type="button" class="btn-companion" style="padding: 12px 24px; font-size: 14px;" onclick="prevPresSlide()">
+  <div class="presentation-footer-deck">
+    <button type="button" class="btn-companion" style="padding: 12px 24px; font-size: 14px; border-radius: 12px;" onclick="prevPresSlide()">
       &larr; Slide Sebelumnya (Panah Kiri)
     </button>
-    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">
-      Pintasan Keyboard: <b>&larr; / &rarr;</b> untuk navigasi, <b>Esc</b> untuk keluar
+    <div style="font-family: var(--font-mono); font-size: 12.5px; color: #64748b; background: rgba(255,255,255,0.04); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+      Gunakan tombol keyboard: <b style="color:#00f0ff;">&larr;</b> / <b style="color:#00f0ff;">&rarr;</b> atau <b style="color:#00f0ff;">Spasi</b>
     </div>
-    <button type="button" class="btn-launch" style="padding: 12px 24px; font-size: 14px;" onclick="nextPresSlide()">
+    <button type="button" class="btn-launch" style="padding: 12px 28px; font-size: 14.5px; border-radius: 12px;" onclick="nextPresSlide()">
       Slide Selanjutnya (Panah Kanan) &rarr;
     </button>
   </div>
@@ -6047,6 +6169,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     if (currentSlideIndex < presentationSlides.length - 1) {
       currentSlideIndex++;
       renderCurrentPresSlide();
+      if (typeof playClickSound === 'function') playClickSound();
     }
   }
 
@@ -6054,8 +6177,26 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     if (currentSlideIndex > 0) {
       currentSlideIndex--;
       renderCurrentPresSlide();
+      if (typeof playClickSound === 'function') playClickSound();
     }
   }
+
+  // Keyboard navigation for Presentation Mode & Wireless Presenter Clickers
+  window.addEventListener('keydown', (e) => {
+    const el = document.getElementById('presentationOverlay');
+    if (el && el.style.display !== 'none') {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        nextPresSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+        e.preventDefault();
+        prevPresSlide();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closePresentationMode();
+      }
+    }
+  });
 
   /* ==========================================================
      SUPPORT SYSTEM 1: E-LOGBOOK & WORK ORDER SPK
