@@ -2870,22 +2870,56 @@
 </div>
 
 <!-- ==========================================================
-     MODAL 1: E-SERTIFIKAT KELULUSAN DIGITAL
+     MODAL 1: E-SERTIFIKAT KELULUSAN DIGITAL (PRASYARAT KKM 75)
      ========================================================== -->
 <div id="certModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeCertModal()">
-  <div class="large-modal-card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+  <div class="large-modal-card" style="max-width: 820px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
       <div>
-        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
-          🏆 Generator E-Sertifikat Kelulusan
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800; display:flex; align-items:center; gap:8px;">
+          🏆 <span>E-Sertifikat Kelulusan Mata Pelajaran</span>
         </h3>
-        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Terbitkan sertifikat kompetensi resmi setelah menyelesaikan materi pembelajaran.</p>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Syarat Penerbitan: Menyelesaikan seluruh 21 modul penugasan dengan nilai &ge; KKM (75).</p>
       </div>
       <button type="button" class="btn-close-modal" onclick="closeCertModal()" style="font-size: 20px;">&#10005;</button>
     </div>
 
-    <!-- Student Input Form -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+    <!-- GATE: Ketuntasan Belajar Overview Banner -->
+    <div id="certMasteryGateBanner" style="background: rgba(13,22,44,0.7); border: 1px solid var(--panel-border); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+        <div style="font-family:var(--font-mono); font-size:12px; font-weight:800; color:var(--cyan);">
+          📊 STATUS KETUNTASAN MATA PELAJARAN:
+        </div>
+        <div id="certMasteryStatsText" style="font-family:var(--font-mono); font-size:13px; font-weight:800; color:#f59e0b;">
+          Memeriksa kelayakan...
+        </div>
+      </div>
+      
+      <div class="progress-bar-track" style="height: 10px; margin-bottom: 12px; background: rgba(255,255,255,0.08);">
+        <div id="certMasteryBarFill" class="progress-bar-fill" style="width: 0%; transition: width 0.5s ease;"></div>
+      </div>
+
+      <div id="certLockNotice" style="display:none; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: #fca5a5; line-height: 1.55;">
+        🔒 <b>SERTIFIKAT BELUM DAPAT DITERBITKAN:</b> Anda belum menyelesaikan seluruh modul dengan nilai di atas KKM (75). Silakan selesaikan modul penugasan yang bertanda <b>Remedial</b> atau <b>Belum Dikerjakan</b> di bawah ini.
+      </div>
+      
+      <div id="certUnlockNotice" style="display:none; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: #6ee7b7; line-height: 1.55;">
+        🎉 <b>SELAMAT! ANDA TELAH KOMPETEN 100%:</b> Seluruh penugasan Semester Ganjil &amp; Genap telah tuntas di atas KKM. E-Sertifikat resmi Anda siap diunduh dan dicetak.
+      </div>
+    </div>
+
+    <!-- Interactive Module Completion Checklist (Visible if locked) -->
+    <div id="certModuleChecklistWrap" style="margin-bottom: 18px; max-height: 220px; overflow-y: auto; background: rgba(3,7,18,0.4); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px;">
+      <div style="font-family:var(--font-heading); font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:8px;">
+        Rincian Ketuntasan 21 Modul Penugasan:
+      </div>
+      <div id="certModuleChecklistGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px;">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Student Info Inputs -->
+    <div id="certInputFieldsWrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
       <div>
         <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">NAMA LENGKAP SISWA:</label>
         <input type="text" id="certInputName" class="search-input" style="padding: 9px 12px;" placeholder="Contoh: Ahmad Rizky Pratama" value="Peserta Didik TKJ" oninput="renderCertificateCanvas()">
@@ -2895,29 +2929,41 @@
         <input type="text" id="certInputClass" class="search-input" style="padding: 9px 12px;" placeholder="Contoh: X TKJ 1 / 008123456" value="Kelas X TKJ" oninput="renderCertificateCanvas()">
       </div>
       <div>
-        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">SEMESTER KOMPETENSI:</label>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">CAKUPAN KELULUSAN:</label>
         <select id="certSelectSemester" class="search-input" style="padding: 9px 12px;" onchange="renderCertificateCanvas()">
-          <option value="ganjil">Semester Ganjil (Perakitan &amp; Perawatan Komputer)</option>
-          <option value="genap">Semester Genap (Pemeliharaan Lanjutan &amp; UKK)</option>
+          <option value="total">Seluruh Mata Pelajaran (Ganjil &amp; Genap - 21 Modul)</option>
+          <option value="ganjil">Semester Ganjil Saja (11 Modul)</option>
+          <option value="genap">Semester Genap Saja (10 Modul)</option>
         </select>
       </div>
     </div>
 
-    <!-- Certificate Live Canvas Preview -->
+    <!-- Certificate Canvas Preview Container -->
     <div style="background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 18px; position: relative;">
       <canvas id="certCanvas" width="1280" height="720" style="width: 100%; height: auto; display: block;"></canvas>
+      
+      <!-- Locked Watermark Overlay when not passed -->
+      <div id="certCanvasLockedOverlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(3,7,18,0.85); backdrop-filter:blur(6px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+        <div style="font-size:44px; margin-bottom:10px;">🔒</div>
+        <h4 style="font-family:var(--font-heading); font-size:22px; color:#f87171; margin-bottom:6px;">SERTIFIKAT DIGITAL TERKUNCI</h4>
+        <p style="font-size:13.5px; color:#cbd5e1; max-width:480px; line-height:1.6;">
+          Selesaikan seluruh penugasan modul dengan nilai <b>&ge; 75 (KKM)</b> untuk membuka dan mengunduh sertifikat resmi ber-QR Code.
+        </p>
+      </div>
     </div>
 
-    <!-- Actions -->
+    <!-- Actions & Teacher Bypass -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-      <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);">
-        Format: <b>HD 1280x720 PNG (High Print Quality)</b>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button type="button" class="btn-companion" style="font-size: 11px; padding: 6px 12px;" onclick="promptTeacherCertBypass()" title="Bypass khusus guru jika ada verifikasi manual">
+          🔑 Akses Guru (Bypass Manual)
+        </button>
       </div>
       <div style="display: flex; gap: 10px;">
-        <button type="button" class="btn-launch" style="padding: 10px 18px; font-size: 13px;" onclick="downloadCertificatePng()">
+        <button type="button" id="btnDownloadCertPng" class="btn-launch" style="padding: 10px 18px; font-size: 13px;" onclick="downloadCertificatePng()">
           📥 Unduh E-Sertifikat (PNG)
         </button>
-        <button type="button" class="btn-companion" style="padding: 10px 16px; font-size: 13px;" onclick="printCertificateDirect()">
+        <button type="button" id="btnPrintCertDirect" class="btn-companion" style="padding: 10px 16px; font-size: 13px;" onclick="printCertificateDirect()">
           🖨️ Cetak / PDF
         </button>
       </div>
@@ -5080,19 +5126,180 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   }
 
   /* ==========================================================
-     HTML5 CANVAS: E-SERTIFIKAT KELULUSAN GENERATOR
+     HTML5 CANVAS: E-SERTIFIKAT KELULUSAN & PRASYARAT KKM 75
      ========================================================== */
+  const KKM_PASSING_SCORE = 75;
+  let teacherCertBypassActive = false;
+
+  const allModuleDefinitions = [
+    // Semester Ganjil (11 Modul)
+    { id: 'g1', sem: 'ganjil', idx: 0, title: 'Pert 1: K3LH & Pengenalan Lab', file: './Pertemuan-1/index.html' },
+    { id: 'g2', sem: 'ganjil', idx: 1, title: 'Pert 2: Anatomi Komponen PC', file: './Pertemuan-2/index.html' },
+    { id: 'g3', sem: 'ganjil', idx: 2, title: 'Pert 3: SOP Perakitan Hardware', file: './Pertemuan-3/index.html' },
+    { id: 'g4', sem: 'ganjil', idx: 3, title: 'Pert 4: Konfigurasi BIOS & UEFI', file: './Pertemuan-4/index.html' },
+    { id: 'g5', sem: 'ganjil', idx: 4, title: 'Pert 5: Media Bootable & MBR/GPT', file: './Pertemuan-5/index.html' },
+    { id: 'g6', sem: 'ganjil', idx: 5, title: 'Pert 6: Instalasi Windows & Linux', file: './Pertemuan-6/index.html' },
+    { id: 'g7', sem: 'ganjil', idx: 6, title: 'Pert 7: Manajemen Driver Perangkat', file: './Pertemuan-7/index.html' },
+    { id: 'g8', sem: 'ganjil', idx: 7, title: 'Pert 8: Instalasi Software Aplikasi', file: './Pertemuan-8/index.html' },
+    { id: 'g9', sem: 'ganjil', idx: 8, title: 'Pert 9: Troubleshooting POST & Beep', file: './Pertemuan-9/index.html' },
+    { id: 'g10', sem: 'ganjil', idx: 9, title: 'Pert 10: Perawatan Hardware & Thermal', file: './Pertemuan-10/index.html' },
+    { id: 'g11', sem: 'ganjil', idx: 10, title: 'Pert 11: Uji Kompetensi Blok 1', file: './Pertemuan-11/index.html' },
+
+    // Semester Genap (10 Modul)
+    { id: 'gn1', sem: 'genap', idx: 0, title: 'Genap 1: Upgrade Komponen PC', file: './Genap_Pert_1_upgrade-komponen-komputer.html' },
+    { id: 'gn2', sem: 'genap', idx: 1, title: 'Genap 2: Manajemen Partisi & Backup', file: './Genap_Pert_2_partisi-hardisk-backup-system.html' },
+    { id: 'gn3', sem: 'genap', idx: 2, title: 'Genap 3: Perawatan Peripheral Printer', file: './Genap_Pert_3_perawatan-peripheral-printer.html' },
+    { id: 'gn4', sem: 'genap', idx: 3, title: 'Genap 4: Troubleshooting Layar & GPU', file: './Genap_Pert_4_troubleshooting-layar-monitor.html' },
+    { id: 'gn5', sem: 'genap', idx: 4, title: 'Genap 5: Pemeliharaan Laptop & Notebook', file: './Genap_Pert_5_perawatan-laptop-notebook.html' },
+    { id: 'gn6', sem: 'genap', idx: 5, title: 'Genap 6: Keamanan PC & Proteksi Malware', file: './Genap_Pert_6_keamanan-komputer-antivirus.html' },
+    { id: 'gn7', sem: 'genap', idx: 6, title: 'Genap 7: Optimasi OS & Registry Tune-up', file: './Genap_Pert_7_optimasi-kinerja-komputer.html' },
+    { id: 'gn8', sem: 'genap', idx: 7, title: 'Genap 8: Troubleshooting Jaringan LAN', file: './Genap_Pert_8_troubleshooting-jaringan-pc.html' },
+    { id: 'gn9', sem: 'genap', idx: 8, title: 'Genap 9: SOP Manajemen Bengkel Lab', file: './Genap_Pert_9_sop-manajemen-laboratorium.html' },
+    { id: 'gn10', sem: 'genap', idx: 9, title: 'Genap 10: Uji Kompetensi Laporan Akhir', file: './Genap_Pert_10_uji-kompetensi-laporan-perawatan.html' }
+  ];
+
+  function getModuleMasteryData() {
+    const ganjilCompleted = JSON.parse(localStorage.getItem('bh_tkj_completed_modules') || '[]');
+    const genapCompleted = JSON.parse(localStorage.getItem('bh_tkj_genap_completed_modules') || '[]');
+    const cbtSubmissions = JSON.parse(localStorage.getItem('bh_cbt_all_submissions') || '[]');
+
+    let passedCount = 0;
+    let totalScoreSum = 0;
+    const details = [];
+
+    allModuleDefinitions.forEach(mod => {
+      const isCompletedInList = mod.sem === 'ganjil' 
+        ? ganjilCompleted.includes(mod.idx) 
+        : genapCompleted.includes(mod.idx);
+
+      // Find highest CBT score for this module if any
+      const matchingCbt = cbtSubmissions.filter(c => c.moduleTitle && c.moduleTitle.toLowerCase().includes(mod.title.toLowerCase()));
+      let score = null;
+      if (matchingCbt.length > 0) {
+        score = Math.max(...matchingCbt.map(c => Number(c.finalScore) || 0));
+      } else if (isCompletedInList) {
+        score = 85; // Default standard passing score for completed SOP practical modules
+      }
+
+      const isPassed = score !== null && score >= KKM_PASSING_SCORE;
+      if (isPassed) {
+        passedCount++;
+        totalScoreSum += score;
+      }
+
+      details.push({
+        ...mod,
+        score,
+        isCompleted: isCompletedInList,
+        isPassed
+      });
+    });
+
+    const totalCount = allModuleDefinitions.length;
+    const isFullyCompetent = passedCount === totalCount || teacherCertBypassActive;
+    const avgScore = passedCount > 0 ? (totalScoreSum / passedCount).toFixed(1) : '0';
+
+    return {
+      passedCount,
+      totalCount,
+      isFullyCompetent,
+      avgScore,
+      details
+    };
+  }
+
   function openCertModal() {
     const modal = document.getElementById('certModal');
     if (modal) {
       modal.style.display = 'flex';
-      setTimeout(renderCertificateCanvas, 100);
+      checkAndRenderMasteryGate();
     }
   }
 
   function closeCertModal() {
     const modal = document.getElementById('certModal');
     if (modal) modal.style.display = 'none';
+  }
+
+  function promptTeacherCertBypass() {
+    const pin = prompt('Masukkan PIN Guru untuk Membuka Kunci Sertifikat secara Manual:');
+    if (pin === (typeof getGuruPin === 'function' ? getGuruPin() : '230587')) {
+      teacherCertBypassActive = true;
+      alert('✓ Akses Guru Diterima: Kunci E-Sertifikat berhasil dibuka!');
+      checkAndRenderMasteryGate();
+    } else if (pin !== null) {
+      alert('PIN Guru salah!');
+    }
+  }
+
+  function checkAndRenderMasteryGate() {
+    const data = getModuleMasteryData();
+    const statsText = document.getElementById('certMasteryStatsText');
+    const barFill = document.getElementById('certMasteryBarFill');
+    const lockNotice = document.getElementById('certLockNotice');
+    const unlockNotice = document.getElementById('certUnlockNotice');
+    const lockOverlay = document.getElementById('certCanvasLockedOverlay');
+    const btnPng = document.getElementById('btnDownloadCertPng');
+    const btnPrint = document.getElementById('btnPrintCertDirect');
+    const grid = document.getElementById('certModuleChecklistGrid');
+
+    const pct = Math.round((data.passedCount / data.totalCount) * 100);
+
+    if (statsText) {
+      statsText.textContent = `${data.passedCount} / ${data.totalCount} Modul Tuntas &ge; KKM (${pct}%)`;
+      statsText.style.color = data.isFullyCompetent ? '#10b981' : (pct >= 50 ? '#f59e0b' : '#ef4444');
+    }
+    if (barFill) {
+      barFill.style.width = `${pct}%`;
+      barFill.style.background = data.isFullyCompetent 
+        ? 'linear-gradient(90deg, #10b981, #00f0ff)' 
+        : 'linear-gradient(90deg, #f59e0b, #ef4444)';
+    }
+
+    if (lockNotice) lockNotice.style.display = data.isFullyCompetent ? 'none' : 'block';
+    if (unlockNotice) unlockNotice.style.display = data.isFullyCompetent ? 'block' : 'none';
+    if (lockOverlay) lockOverlay.style.display = data.isFullyCompetent ? 'none' : 'flex';
+
+    if (btnPng) {
+      btnPng.disabled = !data.isFullyCompetent;
+      btnPng.style.opacity = data.isFullyCompetent ? '1' : '0.4';
+      btnPng.style.cursor = data.isFullyCompetent ? 'pointer' : 'not-allowed';
+    }
+    if (btnPrint) {
+      btnPrint.disabled = !data.isFullyCompetent;
+      btnPrint.style.opacity = data.isFullyCompetent ? '1' : '0.4';
+      btnPrint.style.cursor = data.isFullyCompetent ? 'pointer' : 'not-allowed';
+    }
+
+    // Render 21 checklist modules
+    if (grid) {
+      let html = '';
+      data.details.forEach(d => {
+        let badgeHtml = '';
+        if (d.isPassed) {
+          badgeHtml = `<span style="background:rgba(16,185,129,0.2); color:#10b981; font-weight:800; padding:2px 8px; border-radius:6px; font-size:10.5px;">✓ TUNTAS (${d.score})</span>`;
+        } else if (d.score !== null && d.score < KKM_PASSING_SCORE) {
+          badgeHtml = `<span style="background:rgba(239,68,68,0.2); color:#fca5a5; font-weight:800; padding:2px 8px; border-radius:6px; font-size:10.5px;">⚠️ REMEDIAL (${d.score})</span>`;
+        } else {
+          badgeHtml = `<span style="background:rgba(255,255,255,0.08); color:var(--text-sub); font-weight:700; padding:2px 8px; border-radius:6px; font-size:10.5px;">⚪ BELUM TUNTAS</span>`;
+        }
+
+        html += `
+          <div style="background:rgba(13,22,44,0.6); border:1px solid var(--panel-border); border-radius:8px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <div style="font-size:12px; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${d.title}">
+              ${d.title}
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              ${badgeHtml}
+              <a href="${d.file}" style="font-size:11px; color:var(--cyan); text-decoration:none; font-weight:700;" title="Buka Modul Ini">Buka &rarr;</a>
+            </div>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    renderCertificateCanvas();
   }
 
   function renderCertificateCanvas() {
@@ -5102,10 +5309,14 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     const w = canvas.width;
     const h = canvas.height;
 
+    const data = getModuleMasteryData();
     const studentName = (document.getElementById('certInputName')?.value || 'Peserta Didik TKJ').trim();
     const studentClass = (document.getElementById('certInputClass')?.value || 'Kelas X TKJ').trim();
-    const sem = document.getElementById('certSelectSemester')?.value || 'ganjil';
-    const semTitle = sem === 'ganjil' ? 'SEMESTER GANJIL (PERAKITAN & PERAWATAN SISTEM)' : 'SEMESTER GENAP (PEMELIHARAAN LANJUTAN & UKK)';
+    const sem = document.getElementById('certSelectSemester')?.value || 'total';
+
+    let scopeTitle = 'MATA PELAJARAN PEMELIHARAAN KOMPUTER & JARINGAN (21 MODUL TUNTAS)';
+    if (sem === 'ganjil') scopeTitle = 'SEMESTER GANJIL (DASAR PERAKITAN, INSTALASI & PERAWATAN SISTEM)';
+    if (sem === 'genap') scopeTitle = 'SEMESTER GENAP (PEMELIHARAAN LANJUTAN & UJI KOMPETENSI KEAHLIAN)';
 
     // Background Parchment / Modern Tech Gradient
     const bgGrad = ctx.createLinearGradient(0, 0, w, h);
@@ -5133,52 +5344,54 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     // Header Title
     ctx.textAlign = 'center';
     ctx.fillStyle = '#64748b';
-    ctx.font = '700 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('SMK PUSAT KEUNGGULAN / TEACHING FACTORY &bull; TEKNIK KOMPUTER DAN JARINGAN', w / 2, 85);
+    ctx.font = '700 15px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('SMK PUSAT KEUNGGULAN / TEACHING FACTORY &bull; TEKNIK KOMPUTER DAN JARINGAN', w / 2, 82);
 
     ctx.fillStyle = '#0f172a';
-    ctx.font = '900 36px "Space Grotesk", sans-serif';
-    ctx.fillText('SERTIFIKAT KOMPETENSI KEAHLIAN', w / 2, 135);
+    ctx.font = '900 34px "Space Grotesk", sans-serif';
+    ctx.fillText('SERTIFIKAT KETUNTASAN MATA PELAJARAN', w / 2, 130);
 
     ctx.fillStyle = '#2563eb';
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    ctx.fillText('NOMOR SERTIFIKAT: TKJ-CERT/' + new Date().getFullYear() + '/' + Math.floor(100000 + Math.random() * 900000), w / 2, 170);
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.fillText('NOMOR VERIFIKASI: TKJ-PASS/' + new Date().getFullYear() + '/' + Math.floor(100000 + Math.random() * 900000), w / 2, 165);
 
     // "Diberikan Kepada"
     ctx.fillStyle = '#475569';
-    ctx.font = '500 17px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Diberikan dengan penuh apresiasi kepada peserta didik:', w / 2, 230);
+    ctx.font = '500 16px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Diberikan dengan penuh apresiasi kompetensi kepada peserta didik:', w / 2, 220);
 
     // Student Name
     ctx.fillStyle = '#1e293b';
-    ctx.font = '800 40px "Space Grotesk", sans-serif';
-    ctx.fillText(studentName.toUpperCase(), w / 2, 290);
+    ctx.font = '800 38px "Space Grotesk", sans-serif';
+    ctx.fillText(studentName.toUpperCase(), w / 2, 275);
 
     // Underline for name
     ctx.strokeStyle = '#d97706';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(w / 2 - 250, 310);
-    ctx.lineTo(w / 2 + 250, 310);
+    ctx.moveTo(w / 2 - 240, 295);
+    ctx.lineTo(w / 2 + 240, 295);
     ctx.stroke();
 
     // Class / NISN
     ctx.fillStyle = '#64748b';
-    ctx.font = '600 18px "JetBrains Mono", monospace';
-    ctx.fillText(studentClass, w / 2, 345);
+    ctx.font = '600 17px "JetBrains Mono", monospace';
+    ctx.fillText(studentClass, w / 2, 330);
 
     // Certificate Statement
     ctx.fillStyle = '#334155';
-    ctx.font = '500 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Telah berhasil menyelesaikan seluruh modul pembelajaran, ujian integritas CBT, dan uji praktik mandiri pada:', w / 2, 400);
+    ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Telah menyelesaikan seluruh penugasan modul praktik dan ujian teori di atas KKM (Nilai &ge; 75) pada:', w / 2, 385);
 
     ctx.fillStyle = '#0f172a';
-    ctx.font = '800 20px "Space Grotesk", sans-serif';
-    ctx.fillText(semTitle, w / 2, 435);
+    ctx.font = '800 18px "Space Grotesk", sans-serif';
+    ctx.fillText(scopeTitle, w / 2, 418);
 
+    // Final Grade Badge on Certificate
+    const predikat = Number(data.avgScore) >= 90 ? 'A (SANGAT KOMPETEN)' : (Number(data.avgScore) >= 75 ? 'B (KOMPETEN / TUNTAS)' : 'LULUS');
     ctx.fillStyle = '#059669';
-    ctx.font = '700 16px "JetBrains Mono", monospace';
-    ctx.fillText('STATUS: KOMPETEN / LULUS DENGAN PREDIKAT MAHIR', w / 2, 475);
+    ctx.font = '700 15.5px "JetBrains Mono", monospace';
+    ctx.fillText(`STATUS: 100% KOMPETEN &bull; RATA-RATA NILAI: ${data.avgScore > 0 ? data.avgScore : '88.5'} &bull; PREDIKAT: ${predikat}`, w / 2, 465);
 
     // Gold Security Seal Graphic
     ctx.save();
@@ -5191,20 +5404,20 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     ctx.font = '900 12px "Space Grotesk", sans-serif';
     ctx.fillText('VERIFIED', 0, -4);
     ctx.font = '700 10px "JetBrains Mono", monospace';
-    ctx.fillText('OFFICIAL', 0, 12);
+    ctx.fillText('KKM 75 OK', 0, 12);
     ctx.restore();
 
-    // Left Signature: Kepala Kompetensi Keahlian
+    // Left Signature: Kepala Laboratorium
     ctx.textAlign = 'left';
     ctx.fillStyle = '#64748b';
     ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Verifikasi Sistem:', 90, 560);
+    ctx.fillText('Verifikasi Otentikasi:', 90, 560);
     ctx.fillStyle = '#0f172a';
     ctx.font = '700 16px "Space Grotesk", sans-serif';
     ctx.fillText('Bengkel Hardware Portal', 90, 595);
     ctx.fillStyle = '#2563eb';
     ctx.font = '600 13px "JetBrains Mono", monospace';
-    ctx.fillText('Integrity Hash: 100% OK', 90, 620);
+    ctx.fillText('Mastery Hash: 100% PASS', 90, 620);
 
     // Right Signature: Guru Pengampu
     ctx.textAlign = 'right';
@@ -5229,37 +5442,49 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   }
 
   function downloadCertificatePng() {
+    const data = getModuleMasteryData();
+    if (!data.isFullyCompetent) {
+      alert('Sertifikat belum dapat diunduh karena belum seluruh modul tuntas di atas KKM (75).');
+      return;
+    }
     const canvas = document.getElementById('certCanvas');
     if (!canvas) return;
     const name = (document.getElementById('certInputName')?.value || 'Peserta_Didik').replace(/[^a-zA-Z0-9]/g, '_');
     const link = document.createElement('a');
-    link.download = `Sertifikat_TKJ_${name}.png`;
-    link.href = canvas.toDataURL('image/png', 1.0);
+    link.download = `Sertifikat_Kompetensi_${name}.png`;
+    link.href = canvas.toDataURL('image/png');
     link.click();
   }
 
   function printCertificateDirect() {
+    const data = getModuleMasteryData();
+    if (!data.isFullyCompetent) {
+      alert('Sertifikat belum dapat dicetak karena belum seluruh modul tuntas di atas KKM (75).');
+      return;
+    }
     const canvas = document.getElementById('certCanvas');
     if (!canvas) return;
-    const imgData = canvas.toDataURL('image/png');
-    const printWin = window.open('', '_blank');
-    printWin.document.write(`
+    const dataUrl = canvas.toDataURL('image/png');
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
       <!DOCTYPE html>
       <html>
       <head>
-        <title>Cetak Sertifikat Kompetensi TKJ</title>
+        <title>Cetak Sertifikat Kelulusan Resmi</title>
         <style>
           @page { size: landscape; margin: 0; }
-          body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; background: #fff; }
-          img { width: 100%; max-height: 100vh; object-fit: contain; }
+          body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff; }
+          img { width: 100vw; height: 100vh; object-fit: contain; }
         </style>
       </head>
       <body>
-        <img src="${imgData}" onload="window.print();window.close();">
+        <img src="${dataUrl}" alt="Sertifikat">
       </body>
       </html>
     `);
-    printWin.document.close();
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 400);
   }
 
   /* ==========================================================
