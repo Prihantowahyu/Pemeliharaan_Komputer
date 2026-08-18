@@ -927,7 +927,7 @@
     box-shadow: 0 0 10px var(--emerald);
   }
   .check-completed input:checked::before {
-    content: "âœ“";
+    content: "&#10003;";
     font-size: 11px;
     font-weight: 800;
     color: #030712;
@@ -1194,7 +1194,7 @@
   }
 
   /* ==========================================================
-     RESPONSIVE â€” TABLET (â‰¤ 768px)
+     RESPONSIVE &mdash; TABLET (â‰¤ 768px)
      ========================================================== */
   @media (max-width: 768px) {
     .app-wrap { padding: 0 16px; }
@@ -1311,7 +1311,7 @@
   }
 
   /* ==========================================================
-     RESPONSIVE â€” MOBILE (â‰¤ 480px)
+     RESPONSIVE &mdash; MOBILE (â‰¤ 480px)
      ========================================================== */
   @media (max-width: 480px) {
     .app-wrap { padding: 0 12px; }
@@ -1330,7 +1330,7 @@
     .brand-info h2 { font-size: 18px; }
     .brand-info p { font-size: 9.5px; }
 
-    /* Telemetry â€” hanya tampilkan live dot + clock di HP kecil */
+    /* Telemetry &mdash; hanya tampilkan live dot + clock di HP kecil */
     .telemetry-text { display: none; }
     .clock-digital { border-left: none; padding-left: 0; }
 
@@ -1338,7 +1338,7 @@
     .hero-main-title { font-size: 19px; }
     .hero-desc { font-size: 12.5px; line-height: 1.55; }
 
-    /* Metrics â€” 1 kolom di HP kecil */
+    /* Metrics &mdash; 1 kolom di HP kecil */
     .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px; }
     .metric-card .label { font-size: 9px; }
     .metric-card .value { font-size: 13px; }
@@ -1349,7 +1349,7 @@
     .progress-stats { font-size: 10.5px; }
     .progress-bar-track { height: 6px; }
 
-    /* Semester tabs â€” full width, tombol lebih compact */
+    /* Semester tabs &mdash; full width, tombol lebih compact */
     .sem-btn { padding: 8px 8px; font-size: 11px; gap: 5px; }
 
     /* Pengampu */
@@ -1363,7 +1363,7 @@
     .filter-pills { gap: 5px; }
     .filter-btn { font-size: 10px; padding: 5px 9px; }
 
-    /* Timeline â€” lebih compact */
+    /* Timeline &mdash; lebih compact */
     .timeline-container { padding-left: 38px; }
     .timeline-container::before { left: 13px; width: 2px; }
     .block-header { margin: 20px 0 14px -38px; padding-left: 38px; }
@@ -1391,7 +1391,7 @@
     .card-title-icon { width: 22px; height: 22px; }
     .card-desc { font-size: 12px; line-height: 1.55; margin-bottom: 12px; }
 
-    /* Buttons â€” stack vertikal di HP kecil */
+    /* Buttons &mdash; stack vertikal di HP kecil */
     .card-actions-row { flex-direction: column; align-items: stretch; gap: 7px; }
     .btn-launch { justify-content: center; font-size: 12px; padding: 10px 14px; }
     .btn-companion { justify-content: center; font-size: 10.5px; padding: 8px 12px; }
@@ -1419,7 +1419,7 @@
   }
 
   /* ==========================================================
-     REDUCE MOTION â€” aksesibilitas
+     REDUCE MOTION &mdash; aksesibilitas
      ========================================================== */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -1955,7 +1955,7 @@
 
     <!-- Password Input Field -->
     <div class="gate-input-group">
-      <input type="password" id="gatePasswordInput" class="gate-input" placeholder="â€¢ â€¢ â€¢ â€¢ â€¢ â€¢" maxlength="12" autocomplete="off" autofocus>
+      <input type="password" id="gatePasswordInput" class="gate-input" placeholder="&bull; &bull; &bull; &bull; &bull; &bull;" maxlength="12" autocomplete="off" autofocus>
       <button type="button" id="gateEyeToggleBtn" class="gate-eye-btn" onclick="toggleGatePasswordVisibility()" title="Lihat / Sembunyikan Password">
         <svg id="gateEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -1977,7 +1977,7 @@
       <button type="button" class="gate-key-btn" onclick="pressGateKey('9')">9</button>
       <button type="button" class="gate-key-btn action-key" onclick="clearGateInput()">CLEAR</button>
       <button type="button" class="gate-key-btn" onclick="pressGateKey('0')">0</button>
-      <button type="button" class="gate-key-btn action-key" onclick="backspaceGateInput()">âŒ«</button>
+      <button type="button" class="gate-key-btn action-key" onclick="backspaceGateInput()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg></button>
     </div>
 
     <!-- Unlock Button -->
@@ -2019,7 +2019,7 @@
       <span class="pulse-red"></span> SISTEM TERKUNCI OLEH GURU PENGAMPU
     </div>
     <button type="button" class="btn-unlock-trigger" onclick="openPinModal()">
-      ðŸ” Akses Khusus Guru (Buka Kunci)
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>  Akses Khusus Guru (Buka Kunci)
     </button>
   </div>
 </div>
@@ -2028,8 +2028,8 @@
 <div id="adminPinModal" class="admin-modal-overlay" style="display:none;" onclick="handleModalBackdrop(event)">
   <div class="admin-modal-card">
     <div class="admin-modal-header">
-      <h3>ðŸ›¡ï¸ Panel Keamanan Guru</h3>
-      <button type="button" class="btn-close-modal" onclick="closePinModal()">âœ•</button>
+      <h3><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>  Panel Keamanan Guru</h3>
+      <button type="button" class="btn-close-modal" onclick="closePinModal()">&#10005;</button>
     </div>
     <p class="admin-modal-sub" id="adminModalSubText">Masukkan PIN Guru untuk mengaktifkan atau menonaktifkan Mode Ujian.</p>
     
@@ -2082,7 +2082,7 @@
     <h1 class="hero-main-title" id="pageMainHeading">Dasar Perakitan, Instalasi &amp; Perawatan Sistem Komputer</h1>
     <p class="hero-desc" id="pageMainDesc">
       Portal materi terintegrasi untuk mata pelajaran <strong>Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</strong>.
-      Terbagi menjadi <strong>Blok 1 (Pertemuan 1â€“6)</strong> mengenai K3, komponen, perakitan, BIOS/UEFI &amp; OS, serta <strong>Blok 2 (Pertemuan 7â€“11)</strong> mengenai driver, troubleshooting hardware/software, hingga backup &amp; perawatan sistem berkala.
+      Terbagi menjadi <strong>Blok 1 (Pertemuan 1&ndash;6)</strong> mengenai K3, komponen, perakitan, BIOS/UEFI &amp; OS, serta <strong>Blok 2 (Pertemuan 7&ndash;11)</strong> mengenai driver, troubleshooting hardware/software, hingga backup &amp; perawatan sistem berkala.
     </p>
 
     <!-- System Quick Metrics -->
@@ -2195,7 +2195,7 @@
           <span class="block-tag">BLOK 1</span>
           <div>
             <div class="block-heading">Fondasi Perakitan &amp; Instalasi Sistem</div>
-            <div class="block-meta">Pertemuan 1â€“6 Â· Standar Industri Komputer</div>
+            <div class="block-meta">Pertemuan 1&ndash;6 &middot; Standar Industri Komputer</div>
           </div>
         </div>
       </div>
@@ -2207,7 +2207,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 1</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 1</span>
             <span class="badge badge-jp">Fondasi SOP</span>
             <span class="badge badge-type">Teori &amp; Simulasi</span>
           </div>
@@ -2240,8 +2240,8 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 2</span>
-            <span class="badge badge-jp">9 JP Â· 405 Menit</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 2</span>
+            <span class="badge badge-jp">9 JP &middot; 405 Menit</span>
             <span class="badge badge-type">Interaktif</span>
           </div>
           <label class="check-completed">
@@ -2277,7 +2277,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 3</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 3</span>
             <span class="badge badge-jp">Praktik Lab</span>
             <span class="badge badge-type">Hands-on</span>
           </div>
@@ -2310,7 +2310,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 4</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 4</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Firmware</span>
           </div>
@@ -2351,7 +2351,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 5</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 5</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Instalasi OS</span>
           </div>
@@ -2364,7 +2364,7 @@
           <span class="card-title-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </span>
-          Instalasi Sistem Operasi â€” Windows 11 &amp; Linux
+          Instalasi Sistem Operasi &mdash; Windows 11 &amp; Linux
         </h3>
         <p class="card-desc">
           Teknik instalasi OS modern: skema partisi GPT vs MBR, pemformatan drive, bypass syarat TPM (bila diperlukan), partisi root &amp; swap Linux, hingga konfigurasi OOBE pertama.
@@ -2388,7 +2388,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok">Blok 1 Â· Pertemuan 6</span>
+            <span class="badge badge-blok">Blok 1 &middot; Pertemuan 6</span>
             <span class="badge badge-jp">Media Boot</span>
             <span class="badge badge-type">Praktik Flash</span>
           </div>
@@ -2426,7 +2426,7 @@
           <span class="block-tag">BLOK 2</span>
           <div>
             <div class="block-heading">Driver, Troubleshooting &amp; Perawatan Sistem</div>
-            <div class="block-meta">Pertemuan 7â€“11 Â· Pemeliharaan Lanjutan &amp; Pemulihan</div>
+            <div class="block-meta">Pertemuan 7&ndash;11 &middot; Pemeliharaan Lanjutan &amp; Pemulihan</div>
           </div>
         </div>
       </div>
@@ -2438,7 +2438,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok2">Blok 2 Â· Pertemuan 7</span>
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 7</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Driver Suite</span>
           </div>
@@ -2471,7 +2471,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok2">Blok 2 Â· Pertemuan 8</span>
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 8</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Diagnostik Lab</span>
           </div>
@@ -2504,7 +2504,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok2">Blok 2 Â· Pertemuan 9</span>
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 9</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Software Repair</span>
           </div>
@@ -2537,7 +2537,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok2">Blok 2 Â· Pertemuan 10</span>
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 10</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Maintenance</span>
           </div>
@@ -2570,7 +2570,7 @@
       <div class="module-card">
         <div class="card-top-bar">
           <div class="card-tags">
-            <span class="badge badge-blok2">Blok 2 Â· Pertemuan 11</span>
+            <span class="badge badge-blok2">Blok 2 &middot; Pertemuan 11</span>
             <span class="badge badge-jp">9 JP</span>
             <span class="badge badge-type">Disaster Recovery</span>
           </div>
@@ -2609,7 +2609,7 @@
     <div class="genap-hero-card">
       <div class="genap-badge-pill">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        KURIKULUM SEMESTER GENAP Â· KELAS X TKJ
+        KURIKULUM SEMESTER GENAP &middot; KELAS X TKJ
       </div>
       <h2>Pemeliharaan Lanjutan, Perbaikan &amp; Uji Kompetensi</h2>
       <p>
@@ -2621,10 +2621,10 @@
     <div class="block-header" style="margin-left:0; padding-left:0; margin-bottom:18px;">
       <div class="block-header-inner" style="border-radius: var(--radius-md);">
         <div class="block-title-group">
-          <span class="block-tag">BLOK 1 Â· GENAP</span>
+          <span class="block-tag">BLOK 1 &middot; GENAP</span>
           <div>
             <div class="block-heading">Pemeliharaan Lanjutan &amp; Manajemen Sistem</div>
-            <div class="block-meta">Hari 1â€“5 Â· Upgrade, Laptop/Periferal, Keamanan &amp; Storage</div>
+            <div class="block-meta">Hari 1&ndash;5 &middot; Upgrade, Laptop/Periferal, Keamanan &amp; Storage</div>
           </div>
         </div>
       </div>
@@ -2632,35 +2632,35 @@
 
     <div class="genap-roadmap-grid" style="margin-bottom: 28px;">
       <div class="genap-card-locked">
-        <div class="num">HARI 1 Â· BLOK 1</div>
+        <div class="num">HARI 1 &middot; BLOK 1</div>
         <h3>Upgrade Komponen Komputer (RAM, Storage, VGA)</h3>
         <p>Analisis bottleneck sistem, kompatibilitas slot RAM/NVMe/PCIe, kalkulasi daya PSU pasca-upgrade, dan optimasi dual-channel.</p>
         <span class="badge badge-blok" style="margin-top: 10px; display: inline-block;">Hardware Upgrade</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 2 Â· BLOK 1</div>
+        <div class="num">HARI 2 &middot; BLOK 1</div>
         <h3>Perawatan &amp; Troubleshooting Printer / Scanner</h3>
         <p>Pembersihan print head, penanganan paper jam &amp; roller karet, reset waste ink pad, instalasi driver &amp; sharing printer LAN.</p>
         <span class="badge badge-blok" style="margin-top: 10px; display: inline-block;">Periferal</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 3 Â· BLOK 1</div>
+        <div class="num">HARI 3 &middot; BLOK 1</div>
         <h3>Perawatan Laptop &amp; Perangkat Mobile</h3>
         <p>SOP membongkar casing notebook/laptop, pembersihan debu heatsink fan, repaste thermal paste, dan penggantian modul baterai/keyboard.</p>
         <span class="badge badge-blok" style="margin-top: 10px; display: inline-block;">Mobile Hardware</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 4 Â· BLOK 1</div>
+        <div class="num">HARI 4 &middot; BLOK 1</div>
         <h3>Keamanan Sistem: Antivirus, Firewall &amp; Update</h3>
         <p>Konfigurasi Windows Defender/Firewall, proteksi malware &amp; ransomware, manajemen update OS, serta patching keamanan sistem berkala.</p>
         <span class="badge badge-blok" style="margin-top: 10px; display: inline-block;">Keamanan OS</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 5 Â· BLOK 1</div>
+        <div class="num">HARI 5 &middot; BLOK 1</div>
         <h3>Manajemen Partisi &amp; Storage (HDD / SSD)</h3>
         <p>Pembuatan partisi dinamis, resizing volume tanpa hilang data, monitoring kesehatan S.M.A.R.T. disk, dan optimasi SSD TRIM.</p>
         <span class="badge badge-blok" style="margin-top: 10px; display: inline-block;">Storage Mgmt</span>
@@ -2671,10 +2671,10 @@
     <div class="block-header alt" style="margin-left:0; padding-left:0; margin-bottom:18px;">
       <div class="block-header-inner" style="border-radius: var(--radius-md);">
         <div class="block-title-group">
-          <span class="block-tag">BLOK 2 Â· GENAP</span>
+          <span class="block-tag">BLOK 2 &middot; GENAP</span>
           <div>
             <div class="block-heading">Diagnostik Kompleks, Proyek Servis &amp; Uji Kompetensi</div>
-            <div class="block-meta">Hari 1â€“5 Â· Diagnostic Tools, Studi Kasus, Proyek Unit Sekolah &amp; Uji Kompetensi</div>
+            <div class="block-meta">Hari 1&ndash;5 &middot; Diagnostic Tools, Studi Kasus, Proyek Unit Sekolah &amp; Uji Kompetensi</div>
           </div>
         </div>
       </div>
@@ -2682,35 +2682,35 @@
 
     <div class="genap-roadmap-grid">
       <div class="genap-card-locked">
-        <div class="num">HARI 1 Â· BLOK 2</div>
+        <div class="num">HARI 1 &middot; BLOK 2</div>
         <h3>Diagnosa Kerusakan dengan Diagnostic Tools</h3>
         <p>Pengujian stabilitas &amp; kesehatan komponen menggunakan MemTest86, CrystalDiskInfo, HWiNFO, FurMark GPU, dan Prime95.</p>
         <span class="badge badge-blok2" style="margin-top: 10px; display: inline-block;">Diagnostic Tools</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 2 Â· BLOK 2</div>
+        <div class="num">HARI 2 &middot; BLOK 2</div>
         <h3>Instalasi Ulang Sistem &amp; Recovery / Restore Point</h3>
         <p>Clean install OS terstandarisasi, pembuatan System Image Snapshot, rollback darurat saat sistem crash, dan otomatisasi deployment.</p>
         <span class="badge badge-blok2" style="margin-top: 10px; display: inline-block;">Recovery System</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 3 Â· BLOK 2</div>
+        <div class="num">HARI 3 &middot; BLOK 2</div>
         <h3>Studi Kasus Troubleshooting Kompleks</h3>
         <p>Bedah kasus nyata: PC restart loop tiba-tiba, artifact layar GPU, BSOD kode acak, korupsi data disk, dan drop tegangan PSU.</p>
         <span class="badge badge-blok2" style="margin-top: 10px; display: inline-block;">Studi Kasus</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 4 Â· BLOK 2</div>
+        <div class="num">HARI 4 &middot; BLOK 2</div>
         <h3>Proyek Akhir: Perawatan &amp; Perbaikan Unit Sekolah</h3>
         <p>Praktik kerja nyata di laboratorium komputer: servis menyeluruh 1 unit PC sekolah (hardware cleaning, cable routing, OS tune-up, audit kesehatan).</p>
         <span class="badge badge-jp" style="margin-top: 10px; display: inline-block;">Proyek Nyata</span>
       </div>
 
       <div class="genap-card-locked">
-        <div class="num">HARI 5 Â· BLOK 2</div>
+        <div class="num">HARI 5 &middot; BLOK 2</div>
         <h3>Uji Kompetensi &amp; Dokumentasi Laporan Perawatan</h3>
         <p>Ujian praktik mandiri penanganan kerusakan, penyusunan Berita Acara Servis, dan dokumentasi log sheet perawatan berstandar industri.</p>
         <span class="badge badge-type" style="margin-top: 10px; display: inline-block;">Uji Kompetensi</span>
@@ -2721,8 +2721,8 @@
   <!-- FOOTER -->
   <footer class="app-footer">
     <div class="footer-left">
-      <b>SMK DIPONEGORO TUMPANG</b> Â· Teknik Komputer &amp; Jaringan (TKJ)<br>
-      Disusun secara interaktif oleh <b>Wahyu Prihanto</b> Â· 0877-7560-0462
+      <b>SMK DIPONEGORO TUMPANG</b> &middot; Teknik Komputer &amp; Jaringan (TKJ)<br>
+      Disusun secara interaktif oleh <b>Wahyu Prihanto</b> &middot; 0877-7560-0462
     </div>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <button type="button" class="btn-lock-page" onclick="lockPageAccess()" title="Kunci kembali akses halaman portal">
@@ -2733,7 +2733,7 @@
         🛡️ Panel Guru
       </button>
       <div class="footer-badge">
-        BENGKEL HARDWARE Â· EDISI FUTURISTIK
+        BENGKEL HARDWARE &middot; EDISI FUTURISTIK
       </div>
     </div>
   </footer>
@@ -2873,10 +2873,10 @@
 
     if (isGanjil) {
       mainHeading.innerHTML = 'Dasar Perakitan, Instalasi &amp; Perawatan Sistem Komputer';
-      mainDesc.innerHTML = 'Portal materi terintegrasi untuk mata pelajaran <strong>Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</strong>. Terbagi menjadi <strong>Blok 1 (Pertemuan 1â€“6)</strong> dan <strong>Blok 2 (Pertemuan 7â€“11)</strong>.';
+      mainDesc.innerHTML = 'Portal materi terintegrasi untuk mata pelajaran <strong>Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</strong>. Terbagi menjadi <strong>Blok 1 (Pertemuan 1&ndash;6)</strong> dan <strong>Blok 2 (Pertemuan 7&ndash;11)</strong>.';
     } else {
       mainHeading.innerHTML = 'Pemeliharaan Lanjutan, Perbaikan &amp; Uji Kompetensi';
-      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas X TKJ</strong>. Terbagi menjadi <strong>Blok 1 (Hari 1â€“5: Upgrade, Periferal, Laptop, Keamanan, Partisi)</strong> dan <strong>Blok 2 (Hari 1â€“5: Diagnostic Tools, Recovery, Studi Kasus, Proyek Perbaikan Sekolah, Uji Kompetensi)</strong>.';
+      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas X TKJ</strong>. Terbagi menjadi <strong>Blok 1 (Hari 1&ndash;5: Upgrade, Periferal, Laptop, Keamanan, Partisi)</strong> dan <strong>Blok 2 (Hari 1&ndash;5: Diagnostic Tools, Recovery, Studi Kasus, Proyek Perbaikan Sekolah, Uji Kompetensi)</strong>.';
     }
   }
 
@@ -3085,7 +3085,7 @@
 
     const locked = isExamLocked();
     if (btn) {
-      btn.textContent = locked ? 'ðŸ”“ Matikan Mode Ujian (Buka Akses)' : 'ðŸ”’ Aktifkan Mode Ujian (Kunci Akses)';
+      btn.textContent = locked ? '🔓 Matikan Mode Ujian (Buka Akses)' : '🔒 Aktifkan Mode Ujian (Kunci Akses)';
       btn.style.background = locked ? 'linear-gradient(135deg, #10b981, #00f0ff)' : 'linear-gradient(135deg, #ef4444, #f59e0b)';
     }
     if (subText) {
@@ -3119,7 +3119,7 @@
       localStorage.setItem(STORAGE_LOCK_KEY, String(newState));
       applyLockdownUI();
       closePinModal();
-      alert(newState ? 'ðŸ”’ MODE UJIAN DIAKTIFKAN: Semua akses materi terkunci.' : 'ðŸ”“ MODE UJIAN DINONAKTIFKAN: Akses materi kembali normal.');
+      alert(newState ? '🔒 MODE UJIAN DIAKTIFKAN: Semua akses materi terkunci.' : '🔓 MODE UJIAN DINONAKTIFKAN: Akses materi kembali normal.');
     } else {
       if (err) {
         err.textContent = 'PIN Salah! Silakan periksa kembali.';
