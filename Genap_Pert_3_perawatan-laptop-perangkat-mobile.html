@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perawatan Laptop & Perangkat Mobile &mdash; Bengkel Hardware TKJ</title>
+<title>Perawatan Laptop &amp; Perangkat Mobile (Smartphone/Tablet) &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,152 +248,344 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 1 &middot; HARI 3 &middot; 9 JP</div>
-    <h1>Perawatan Laptop & Perangkat Mobile</h1>
-    <p class="subtitle">Arsitektur laptop vs desktop, SOP pembongkaran casing notebook dan penerapan K3, pembersihan heatsink fan & repaste thermal paste, kalibrasi baterai, serta pemeliharaan software perangkat mobile.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Mobile Hardware & Laptop</div><div class="chip"><b>Metode:</b> Praktik Teardown & K3</div><div class="chip"><b>KKTP:</b> Servis 1 Unit Laptop Sesuai SOP</div><div class="chip"><b>Profil:</b> Mandiri, Kreatif</div></div>
+    <div class="eyebrow">BLOK 1 &middot; HARI 3 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Perawatan Laptop &amp; Perangkat Mobile (Smartphone/Tablet)</h1>
+    <p class="subtitle">Panduan mendalam arsitektur komponen laptop vs desktop, SOP pembongkaran notebook sesuai K3, prosedur pembersihan heatsink kipas dan penggantian thermal paste CPU/GPU, kalibrasi siklus baterai Li-Ion/Li-Po, serta pemeliharaan software dan keamanan perangkat mobile Android/iOS.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi Teardown, Praktik, Diskusi</div><div class="chip"><b>KKTP:</b> Servis 1 Unit Laptop Sesuai SOP</div><div class="chip"><b>Profil Pelajar:</b> Mandiri, Kreatif, Bernalar Kritis</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>LAPTOP BATTERY HEALTH &amp; THERMAL THROTTLING ANALYZER</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; LAPTOP BATTERY HEALTH ANALYZER &amp; THERMAL STATUS ADVISOR</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:16px;">
-      <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">DESIGN CAPACITY (mWh):</label>
-        <input type="number" id="batDesign" class="custom-input" value="48000" oninput="calcBatteryHealth()">
-      </div>
-      <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">FULL CHARGE CAPACITY (mWh):</label>
-        <input type="number" id="batFull" class="custom-input" value="38400" oninput="calcBatteryHealth()">
-      </div>
-      <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">SUHU IDLE CPU LAPTOP (&deg;C):</label>
-        <input type="number" id="cpuTemp" class="custom-input" value="62" oninput="calcBatteryHealth()">
-      </div>
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">DESIGN CAPACITY (mWh) [dari battery report]:</label>
+      <input type="number" id="batDes" class="custom-input" value="48000" oninput="calcLaptop()"></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">FULL CHARGE CAPACITY (mWh) [dari battery report]:</label>
+      <input type="number" id="batFull" class="custom-input" value="37000" oninput="calcLaptop()"></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">SUHU CPU IDLE SEBELUM SERVIS (&deg;C):</label>
+      <input type="number" id="tempBefore" class="custom-input" value="75" oninput="calcLaptop()"></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">SUHU CPU IDLE SETELAH SERVIS (&deg;C):</label>
+      <input type="number" id="tempAfter" class="custom-input" value="55" oninput="calcLaptop()"></div>
     </div>
-    <div style="background:rgba(3,7,18,0.75); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-      <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">BATTERY HEALTH:</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--cyan);" id="batHealthResult">80% (Kondisi Baik)</div>
-      </div>
-      <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">WEAR LEVEL:</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--amber);" id="batWearResult">20% Degradasi</div>
-      </div>
-      <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">STATUS THERMAL &amp; REKOMENDASI:</div>
-        <div style="font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--emerald);" id="thermalRecResult">&check; Suhu Normal (Belum Perlu Repaste)</div>
-      </div>
+    <div style="background:rgba(3,7,18,0.75);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;">
+      <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">BATTERY HEALTH:</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:800;color:var(--cyan);" id="batHealth">77% (Cukup Baik)</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">WEAR LEVEL:</div>
+      <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--amber);" id="batWear">23% Degradasi</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">PENURUNAN SUHU CPU:</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:800;color:var(--emerald);" id="tempDrop">-20°C</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">REKOMENDASI TINDAKAN:</div>
+      <div style="font-family:var(--font-mono);font-size:12px;font-weight:700;" id="recAction" style="color:var(--cyan);">Jadwalkan Ganti Baterai &lt;1 Tahun</div></div>
     </div>
   </div>
 </div>
 <script>
-function calcBatteryHealth() {
-  const design = parseFloat(document.getElementById('batDesign').value) || 48000;
-  const full = parseFloat(document.getElementById('batFull').value) || 38400;
-  const temp = parseFloat(document.getElementById('cpuTemp').value) || 60;
-  
-  const health = Math.min(100, Math.max(0, Math.round((full / design) * 100)));
-  const wear = 100 - health;
-
-  document.getElementById('batHealthResult').textContent = health + "% (" + (health > 75 ? "Kondisi Baik" : health > 50 ? "Kondisi Sedang" : "Perlu Ganti") + ")";
-  document.getElementById('batWearResult').textContent = wear + "% Degradasi";
-
-  let rec = "✓ Suhu Normal (Belum Perlu Repaste)";
-  let color = "var(--emerald)";
-  if (temp >= 75) {
-    rec = "⚠ Terlalu Panas! Wajib Bersihkan Heatsink Fan & Repaste Thermal Paste";
-    color = "var(--red)";
-  } else if (temp >= 65) {
-    rec = "ℹ Suhu Mulai Hangat, Jadwalkan Pembersihan Debu";
-    color = "var(--amber)";
-  }
-  const el = document.getElementById('thermalRecResult');
-  el.textContent = rec;
-  el.style.color = color;
+function calcLaptop(){
+  const des=parseFloat(document.getElementById('batDes').value)||48000;
+  const full=parseFloat(document.getElementById('batFull').value)||37000;
+  const tb=parseFloat(document.getElementById('tempBefore').value)||75;
+  const ta=parseFloat(document.getElementById('tempAfter').value)||55;
+  const health=Math.min(100,Math.max(0,Math.round((full/des)*100)));
+  const wear=100-health;
+  const drop=tb-ta;
+  document.getElementById('batHealth').textContent=health+'% ('+(health>=80?'Sangat Baik':health>=60?'Cukup Baik':health>=40?'Perlu Perhatian':'Segera Ganti')+')';
+  document.getElementById('batWear').textContent=wear+'% Degradasi';
+  document.getElementById('tempDrop').textContent=(drop>0?'-':'')+Math.abs(drop)+'°C';
+  document.getElementById('tempDrop').style.color=drop>=10?'var(--emerald)':drop>=0?'var(--amber)':'var(--red)';
+  let rec='Baterai Prima, Monitoring Rutin';
+  let col='var(--emerald)';
+  if(health<40){rec='Ganti Baterai SEKARANG — Risiko Bengkak/Bocor';col='var(--red)';}
+  else if(health<60){rec='Rencanakan Penggantian Baterai dalam 3 Bulan';col='var(--amber)';}
+  else if(health<80){rec='Jadwalkan Ganti Baterai <1 Tahun';col='var(--amber)';}
+  const el=document.getElementById('recAction');
+  el.textContent=rec;el.style.color=col;
 }
 </script>
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Arsitektur Laptop: Komponen, Material & Perbedaan dengan Desktop (90 Menit)</h4>
+            <p>Identifikasi komponen pada diagram exploded view laptop: SO-DIMM RAM, M.2 SSD, baterai LiPo, DC-in board, keyboard membrane, LCD panel, antenna WiFi. Perbedaan desain thermal: vapor chamber vs heatpipe tembaga, single/dual fan exhaust.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>SOP Pembongkaran Notebook & Penerapan K3 (90 Menit)</h4>
+            <p>Demonstrasi pembongkaran laptop nyata step-by-step: pelepasan baut casing (pemetaan baut di kertas), penggunaan pry tool plastik dan spudger, pelepasan konektor flat cable (FPC), pelepasan baterai, identifikasi modul komponen internal.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik: Pembersihan Heatsink Fan & Repaste Thermal (90 Menit)</h4>
+            <p>Siswa membongkar laptop, membersihkan debu di antara sirip heatsink menggunakan blower dan kuas, membersihkan sisa pasta termal lama dengan alkohol isopropil dan kapas, mengaplikasikan pasta termal baru dengan metode dot center/pea method, merakit kembali.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Kalibrasi Baterai, Diagnosa Baterai & Perawatan Mobile (90 Menit)</h4>
+            <p>Prosedur kalibrasi baterai laptop (full discharge-full charge cycle), membaca laporan battery report (powercfg /batteryreport), interpretasi Design Capacity vs Full Charge Capacity. Perawatan software smartphone: wipe cache partition, manajemen bloatware, update security patch.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Evaluasi Hasil Servis, Pengujian Termal & LKPD (45 Menit)</h4>
+            <p>Nyalakan laptop setelah servis, pantau suhu idle menggunakan HWiNFO64. Bandingkan suhu sebelum vs sesudah cleaning. Target: penurunan suhu minimal 10-15°C. Pengisian LKPD dan penilaian teknis oleh guru.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="sop-laptop">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. SOP Pembongkaran &amp; K3 Khusus Laptop</h2>
-  <p class="sec-desc">Struktur laptop sangat ringkih dan padat. Kesalahan kecil saat membongkar dapat merusak casing plastik atau jalur PCB motherboard.</p>
-
-  <div class="grid-3">
-    <div class="card">
-      <h4>A. Persiapan Peralatan</h4>
-      <ul>
-        <li><b>Precision Screwdriver (PH00, PH0, Torx T5):</b> Ukuran presisi agar baut tidak aus/slek.</li>
-        <li><b>Plastic Pry Tool / Spudger:</b> Membuka klip casing tanpa menggores body laptop.</li>
-        <li><b>Screw Tray Magnetik:</b> Menyortir baut berdasarkan panjang dan lokasi penempatan.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>B. Prosedur Wajib K3</h4>
-      <ul>
-        <li><b>CABUT KONEKTOR BATERAI PERTAMA KALI:</b> Wajib sebelum menyentuh komponen lain untuk mencegah korsleting jalur 19V/3.3V.</li>
-        <li><b>Gunakan ESD Wrist Strap:</b> Lindungi chip SMD dan komponen BGA dari listrik statis tubuh.</li>
-        <li><b>Lepas Baut Sesuai Urutan Angka:</b> Terutama baut heatsink CPU/GPU (urutan 1-2-3-4).</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>C. Perawatan Heatsink &amp; Fan</h4>
-      <ul>
-        <li><b>Bersihkan Sirip Tembaga (Fin):</b> Debu sering menggumpal seperti selimut tebal di antara kipas dan sirip radiator.</li>
-        <li><b>Ganti Thermal Paste:</b> Gunakan pasta non-konduktif dengan konduktivitas tinggi (&ge; 8.5 W/mK).</li>
-        <li><b>Ganti Thermal Pad:</b> Pada chip VRAM dan MOSFET VRM jika sudah sobek/kering.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="mobile-care">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. Perawatan Software &amp; Sistem Perangkat Mobile</h2>
-  <p class="sec-desc">Optimalisasi performa smartphone/tablet sistem operasi Android &amp; iOS.</p>
-
+<section id="arsitektur-laptop">
+  <div class="sec-tag">Bagian A &middot; Arsitektur</div>
+  <h2>A. Arsitektur Internal Laptop vs Komputer Desktop</h2>
+  <p class="sec-desc">Laptop dirancang dengan prioritasi dimensi dan konsumsi daya, menghasilkan desain yang jauh lebih ringkas namun juga lebih kompleks dalam perawatannya.</p>
   <div class="grid-2">
     <div class="card">
-      <h4>Manajemen Cache &amp; Storage Internal</h4>
+      <h4 style="color:var(--cyan);">Komponen Khusus Laptop (Tidak Ada di Desktop)</h4>
       <ul>
-        <li><b>Pembersihan Partisi Cache (Wipe Cache Partition):</b> Menghapus file temporary sistem via Recovery Mode tanpa menghapus data pribadi.</li>
-        <li><b>Manajemen Aplikasi Bloatware:</b> Nonaktifkan (disable) aplikasi bawaan yang berjalan di background dan menguras baterai.</li>
-        <li><b>Penyimpanan Minimum:</b> Sisakan ruang kosong minimal 15-20% agar storage UFS/eMMC tidak mengalami pelambatan transfer write.</li>
+        <li><b>SO-DIMM RAM:</b> Modul memori format kecil (Small Outline), beberapa laptop memiliki RAM soldered langsung ke motherboard (tidak bisa upgrade).</li>
+        <li><b>DC-In Jack / Board:</b> Port pengisi daya (adaptor) yang rentan patah jika ditarik miring.</li>
+        <li><b>Keyboard Membrane:</b> Terhubung via konektor ZIF (Zero Insertion Force) flat cable yang sangat tipis dan mudah robek.</li>
+        <li><b>Baterai LiPo (Lithium Polymer):</b> Berbentuk pouch flat, kapasitas lebih besar dari Li-Ion tapi rentan bengkak (swollen battery).</li>
+        <li><b>Antena WiFi:</b> Kabel tipis bercoating metalik yang mengelilingi bezel layar untuk penerimaan sinyal optimal.</li>
       </ul>
     </div>
     <div class="card">
-      <h4>Keamanan &amp; Siklus Daya Baterai Li-Ion</h4>
-      <ul>
-        <li><b>Rule 20-80:</b> Usahakan mengisi daya saat baterai mencapai 20% dan cabut di 80-85% untuk memperpanjang usia siklus baterai.</li>
-        <li><b>Hindari Overheating:</b> Jangan menggunakan perangkat untuk tugas berat saat sedang proses pengisian daya (charging).</li>
-        <li><b>Update Patch Keamanan Berkala:</b> Mencegah eksploitasi celah keamanan zero-day pada sistem operasi mobile.</li>
+      <h4 style="color:var(--amber);">Sistem Pendingin Laptop: Heatpipe &amp; Vapor Chamber</h4>
+      <p>Laptop tidak bisa menggunakan heatsink tower besar seperti desktop, sehingga menggunakan teknologi perpindahan panas yang lebih canggih:</p>
+      <ul style="margin-top:8px;">
+        <li><b>Heatpipe Tembaga:</b> Pipa tembaga berisi cairan refrigeran yang menyerap panas CPU/GPU lalu memindahkannya ke fin radiator di dekat kipas. Efisiensi termal sangat tinggi.</li>
+        <li><b>Vapor Chamber:</b> Teknologi premium pada laptop gaming — ruang datar berisi uap refrigeran yang menyebarkan panas merata ke seluruh permukaan chamber.</li>
+        <li><b>Debu Sebagai Musuh Utama:</b> Debu menumpuk di antara sirip fin dan heatsink seperti selimut tebal, menghambat aliran udara secara dramatis.</li>
       </ul>
     </div>
   </div>
 </section>
 
+<section id="sop-teardown">
+  <div class="sec-tag">Bagian B &middot; SOP Teardown</div>
+  <h2>B. SOP Pembongkaran Laptop yang Aman (Anti Rusak)</h2>
+  <p class="sec-desc">Kesalahan pembongkaran adalah penyebab nomor 1 kerusakan laptop di luar kerusakan hardware itu sendiri. Prosedur ini wajib diikuti dengan teliti.</p>
+  <div class="step-list">
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Persiapan Dokumen &amp; Peralatan Khusus</h4>
+      <p>Siapkan: Precision screwdriver set (PH00, PH0, Torx T5/T6), plastic pry tool set (spudger), magnetized screw tray dengan label, dan panduan/service manual laptop dari situs resmi produsen (Google: "[model laptop] service manual filetype:pdf"). Foto kondisi awal sebelum dibongkar sebagai referensi perakitan.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>LANGKAH KRITIS: Cabut Baterai PERTAMA KALI</h4>
+      <p><b>SELALU</b> lepaskan konektor baterai internal dari motherboard sebelum menyentuh komponen lain. Bahkan setelah laptop dimatikan, tegangan sisa dari baterai dapat menyebabkan korsleting jalur PCB jika komponen tersentuh. Untuk laptop dengan baterai built-in (non-removable), cari konektor baterai di dekat motherboard dan cabut.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Pemetaan Baut pada Kertas / Cardboard</h4>
+      <p>Gambar sketsa posisi lubang baut di atas kertas. Tempelkan setiap baut yang dilepas pada posisi yang sesuai di sketsa tersebut menggunakan selotip. Laptop menggunakan baut dengan panjang berbeda di posisi berbeda — baut yang terpasang di lubang yang salah dapat menembus dan merusak komponen internal.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuka Casing Bawah Menggunakan Pry Tool</h4>
+      <p>Setelah semua baut dilepas, masukkan tip plastic spudger di celah antara panel bawah dan keyboard bezel. Geser perlahan mengikuti kontur untuk melepaskan klip-klip plastik. Jangan gunakan obeng atau benda logam karena akan menggores dan merusak klip plastik secara permanen.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Pelepasan Konektor Flat Cable (FPC/FFC)</h4>
+      <p>Konektor ribbon cable memiliki locking mechanism berbeda: tipe <b>flip-up</b> (pengait diangkat dari satu sisi), tipe <b>push-pull</b> (ditarik lurus dari soket). Selalu gunakan penjepit anti-statik dan jangan pernah menarik kabel itu sendiri — selalu pegang housing konektornya.</p></div></div>
+  </div>
+</section>
+
+<section id="repaste-thermal">
+  <div class="sec-tag">Bagian C &middot; Thermal Maintenance</div>
+  <h2>C. Prosedur Repaste Thermal &amp; Cleaning Heatsink Fan</h2>
+  <p class="sec-desc">Thermal paste yang mengering adalah penyebab utama laptop gaming modern yang tiba-tiba lambat dan panas — karena CPU melakukan thermal throttling (menurunkan clock otomatis untuk mendinginkan diri).</p>
+  <div class="grid-3">
+    <div class="card">
+      <h4 style="color:var(--cyan);">Membersihkan Sisa Thermal Paste Lama</h4>
+      <p>Gunakan kapas / cotton bud yang dibasahi <b>alkohol isopropil 99%</b>. Usap sisa pasta dari die CPU dan baseplate heatsink hingga bersih mengkilap. Jangan menggunakan alkohol 70% (kadar air terlalu tinggi). Biarkan kering 1-2 menit sebelum aplikasi pasta baru.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--amber);">Metode Aplikasi Thermal Paste yang Benar</h4>
+      <p><b>Pea/Dot Method:</b> Teteskan pasta termal sebesar biji kacang hijau tepat di <b>tengah die CPU/GPU</b>. Tekanan pemasangan heatsink akan menyebarkan pasta secara merata. Jangan smear manual &mdash; menyebabkan gelembung udara.</p>
+      <p style="margin-top:6px;"><b>Panduan konduktivitas:</b> Pilih pasta &ge; 6.5 W/mK. Merek terpercaya: Thermal Grizzly Kryonaut, Arctic MX-6, Noctua NT-H2.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--emerald);">Baut Heatsink: Urutan Pengencangan Penting</h4>
+      <p>Baut heatsink laptop umumnya diberi nomor 1-2-3-4. Kencangkan selalu <b>secara bersilang (diagonal)</b> sesuai urutan angka. Ini memastikan tekanan merata pada seluruh permukaan die CPU dan mencegah motherboard melengkung (warping).</p>
+    </div>
+  </div>
+  <div class="callout amber" style="margin-top:16px;">
+    <b>&#9888; Perhatian Thermal Pad:</b> Selain thermal paste pada CPU/GPU die, banyak chip lain (VRAM, MOSFET VRM, M.2 SSD controller) menggunakan <b>thermal pad</b> berupa lembaran karet termal. Ganti thermal pad yang sudah keras/kering dengan ketebalan yang sama (ukur dengan vernier caliper: 0.5mm, 1mm, 1.5mm).
+  </div>
+</section>
+
+<section id="baterai-mobile">
+  <div class="sec-tag">Bagian D &middot; Baterai &amp; Mobile</div>
+  <h2>D. Manajemen Baterai Laptop &amp; Perawatan Smartphone</h2>
+  <p class="sec-desc">Baterai lithium modern memiliki karakteristik kimia unik yang mempengaruhi cara kita menggunakannya agar awet.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="color:var(--cyan);">Membaca Battery Report Windows</h4>
+      <p>Buka Command Prompt sebagai Administrator, ketik: <code>powercfg /batteryreport /output C:\battery_report.html</code></p>
+      <p style="margin-top:8px;">Laporan akan memuat:</p>
+      <ul style="margin-top:6px;">
+        <li><b>Design Capacity:</b> Kapasitas desain pabrik (mWh)</li>
+        <li><b>Full Charge Capacity:</b> Kapasitas aktual saat ini</li>
+        <li><b>Battery Health %:</b> Full Charge / Design × 100%</li>
+        <li><b>Cycle Count:</b> Berapa kali baterai sudah di-charge (baterai laptop standar dirancang untuk 300-500 siklus penuh)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--amber);">Tips Memperpanjang Usia Baterai Smartphone</h4>
+      <ul>
+        <li><b>Aturan 20-80%:</b> Usahakan mengisi daya saat 20% dan mencabut di 80-85%. Hindari pengisian dari 0% ke 100% terlalu sering.</li>
+        <li><b>Hindari Suhu Ekstrem:</b> Baterai Li-Po rusak lebih cepat dalam suhu &gt;40&deg;C (misal di dalam mobil di bawah sinar matahari).</li>
+        <li><b>Nonaktifkan Fast Charge saat tidak diperlukan:</b> Charging lambat lebih sehat untuk sel baterai.</li>
+        <li><b>Update Software Berkala:</b> Update OS membawa perbaikan manajemen daya (power management) yang lebih efisien.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-3: Laporan Servis &amp; Pemeliharaan Laptop</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA / KELOMPOK:</label><input type="text" id="l3_nama" class="custom-input" placeholder="Nama lengkap..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">MERK &amp; MODEL LAPTOP:</label><input type="text" id="l3_model" class="custom-input" placeholder="Contoh: Asus VivoBook 14 A412DA"></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">SUHU CPU IDLE SEBELUM:</label><input type="text" id="l3_temp_before" class="custom-input" placeholder="Contoh: 78°C"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">SUHU CPU IDLE SETELAH CLEANING &amp; REPASTE:</label><input type="text" id="l3_temp_after" class="custom-input" placeholder="Contoh: 55°C"></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">BATTERY HEALTH (dari powercfg /batteryreport):</label><input type="text" id="l3_bhealth" class="custom-input" placeholder="Contoh: 73%"></div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">DESKRIPSI KONDISI FISIK KOMPONEN YANG DIAMATI:</label>
+    <textarea class="custom-textarea" id="l3_kondisi" rows="4" placeholder="Contoh: Heatsink dipenuhi gumpalan debu tebal (~2mm) di antara sirip fin. Kipas berputar pelan dan berbunyi gemeretak. Thermal paste CPU sudah kering dan mengelupas di bagian tepi. Thermal pad VRAM masih dalam kondisi baik..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">TINDAKAN PERAWATAN YANG DILAKUKAN (urutan langkah):</label>
+    <textarea class="custom-textarea" id="l3_tindakan" rows="4" placeholder="1. Melepas panel bawah casing dengan spudger plastik...&#10;2. Mencabut konektor baterai dari motherboard...&#10;3. Membersihkan heatsink dengan blower angin dan kuas antistatis...&#10;4. Membersihkan sisa thermal paste lama dengan alkohol isopropil 99%...&#10;5. Mengaplikasikan thermal paste baru metode Pea Method..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">KESIMPULAN &amp; REKOMENDASI UNTUK PEMILIK LAPTOP:</label>
+    <textarea class="custom-textarea" id="l3_kesimpulan" rows="3" placeholder="Kesimpulan: Setelah cleaning dan repaste, suhu CPU turun dari X°C menjadi Y°C (penurunan Z°C). Laptop kini tidak lagi mengalami thermal throttling. Rekomendasi: Jadwalkan maintenance thermal kembali dalam 6-12 bulan. Battery health 73% — rencanakan penggantian baterai dalam 1 tahun ke depan..."></textarea>
+  </div>
+  <button type="button" class="btn-action" onclick="printL3()">&#128438; Preview &amp; Cetak Laporan Servis Laptop</button>
+</div>
+<script>
+function printL3(){
+  const w=window.open('','_blank');
+  const data={nama:document.getElementById('l3_nama').value||'—',model:document.getElementById('l3_model').value||'—',tb:document.getElementById('l3_temp_before').value||'—',ta:document.getElementById('l3_temp_after').value||'—',bh:document.getElementById('l3_bhealth').value||'—',cond:document.getElementById('l3_kondisi').value||'—',act:document.getElementById('l3_tindakan').value||'—',conc:document.getElementById('l3_kesimpulan').value||'—'};
+  w.document.write('<html><head><title>Laporan Servis Laptop</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LAPORAN SERVIS LAPTOP — LKPD 3</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  w.document.write('<p><b>Nama:</b> '+data.nama+'</p><p><b>Model Laptop:</b> '+data.model+'</p><p><b>Tanggal:</b> '+new Date().toLocaleDateString('id-ID')+'</p><p><b>Suhu CPU:</b> Sebelum '+data.tb+' → Setelah '+data.ta+'</p><p><b>Battery Health:</b> '+data.bh+'</p><hr>');
+  w.document.write('<p><b>Kondisi Fisik:</b><br>'+data.cond.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<p><b>Tindakan:</b><br>'+data.act.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<p><b>Kesimpulan:</b><br>'+data.conc.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa konektor baterai laptop WAJIB dicabut dari motherboard sebelum menyentuh komponen lain?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">A. Agar baterai tidak langsung habis saat proses servis</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">B. Karena tegangan sisa baterai dapat menyebabkan korsleting dan kerusakan komponen meskipun laptop sudah dimatikan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">C. Karena baterai akan mengalami kerusakan jika dibiarkan tersambung lebih dari 10 menit</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Laptop yang dimatikan masih memiliki tegangan dari baterai yang selalu tersambung ke motherboard. Jika komponen logam (misalnya obeng) menyentuh jalur bertegangan, dapat menyebabkan korsleting yang merusak komponen secara permanen. Mencabut konektor baterai adalah langkah K3 fundamental.')">D. Hanya formalitas prosedur, tidak benar-benar berbahaya</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang dimaksud 'thermal throttling' pada CPU laptop dan mengapa ini terjadi?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">A. Proses overclock otomatis CPU saat suhu rendah untuk performa maksimal</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">B. Mekanisme otomatis CPU yang menurunkan kecepatan clock dan tegangan ketika suhu mendekati batas thermal limit untuk mencegah kerusakan hardware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">C. Fungsi pendingin laptop yang mempercepat kipas secara otomatis</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal throttling adalah fitur perlindungan diri CPU. Ketika suhu mendekati TjMax (biasanya 95-105°C), CPU secara otomatis mengurangi frekuensi kerja (misal dari 4.0 GHz turun ke 1.8 GHz) dan tegangan untuk mengurangi panas yang dihasilkan. Hasilnya adalah performa yang sangat lambat. Cleaning heatsink dan repaste adalah solusi utama.')">D. Proses update firmware CPU yang terjadi di latar belakang</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Metode aplikasi thermal paste yang paling direkomendasikan untuk CPU laptop adalah?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">A. Smear Method: oleskan pasta merata ke seluruh permukaan die CPU</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">B. Pea/Dot Method: teteskan pasta sebesar biji kacang hijau di tengah die, biarkan menyebar saat heatsink dipasang</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">C. Line Method: buat garis lurus dari kiri ke kanan die CPU</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Pea/Dot Method adalah metode yang direkomendasikan karena tekanan pemasangan heatsink akan menyebarkan pasta secara merata dan alami, meminimalkan gelembung udara. Smear manual justru sering meninggalkan gelembung udara yang mengurangi konduktivitas termal.')">D. Cross Method: buat pola X atau + di seluruh permukaan die</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Perintah CMD apa yang digunakan untuk membuat laporan kesehatan baterai laptop Windows?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">A. ipconfig /batteryreport</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">B. powercfg /batteryreport /output C:\battery.html</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">C. msconfig /battery</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'powercfg /batteryreport' adalah perintah resmi Windows (Power Configuration) untuk menghasilkan laporan HTML lengkap yang memuat Design Capacity, Full Charge Capacity, Cycle Count, dan histori penggunaan baterai.')">D. netsh battery status report</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum Berkembang (1-40)</th><th>Mulai Berkembang (41-70)</th><th>Berkembang Sesuai (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Penerapan K3 Teardown</b></td><td>Tidak mencabut baterai, menggunakan obeng logam sembarangan pada casing</td><td>K3 dasar dilakukan namun tidak konsisten (lupa mencabut baterai di tengah proses)</td><td>K3 lengkap: cabut baterai, ESD wrist strap, pemetaan baut, penggunaan pry tool plastik</td><td>K3 sempurna + mendokumentasikan proses dengan foto/video sebagai panduan rekan</td></tr>
+    <tr><td><b>Pembersihan Thermal</b></td><td>Tidak dapat membersihkan heatsink atau mengaplikasikan thermal paste dengan benar</td><td>Dapat membersihkan debu namun aplikasi pasta terlalu banyak/sedikit atau metode salah</td><td>Cleaning heatsink bersih, aplikasi pasta benar (Pea Method), baut dikencang bersilang</td><td>Cleaning sempurna + penggantian thermal pad yang aus + penurunan suhu terukur minimal 15°C</td></tr>
+    <tr><td><b>Analisis Battery Report</b></td><td>Tidak dapat membuat atau membaca battery report</td><td>Dapat membuat battery report namun tidak bisa menginterpretasi design vs full charge capacity</td><td>Membaca dan menghitung battery health % dengan benar serta memberikan rekomendasi</td><td>Analisis mendalam termasuk cycle count, histori pengisian, dan rekomendasi penggantian berdasar data</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

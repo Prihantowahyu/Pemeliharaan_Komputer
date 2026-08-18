@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instalasi Ulang Sistem &amp; Recovery / Restore Point &mdash; Bengkel Hardware TKJ</title>
+<title>Instalasi Ulang Sistem Operasi &amp; Strategi Pemulihan Darurat &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,115 +248,303 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 2 &middot; HARI 2 &middot; 9 JP</div>
-    <h1>Instalasi Ulang Sistem &amp; Recovery / Restore Point</h1>
-    <p class="subtitle">Prosedur backup data pra-instalasi strategi 3-2-1, clean install sistem operasi Windows/Linux terstandarisasi, pembuatan System Image Backup, dan pemulihan darurat sistem menggunakan Restore Point.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> OS Deployment & Recovery</div><div class="chip"><b>Metode:</b> Praktik Clean Install & Snapshot</div><div class="chip"><b>KKTP:</b> Instal Ulang Lengkap & Berhasil Restore</div><div class="chip"><b>Profil:</b> Mandiri, Kreatif</div></div>
+    <div class="eyebrow">BLOK 2 &middot; HARI 2 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Instalasi Ulang Sistem Operasi &amp; Strategi Pemulihan Darurat</h1>
+    <p class="subtitle">Prosedur backup data berstandar industri (3-2-1 strategy), persiapan media instalasi bootable USB Windows/Linux, clean install OS terstandarisasi, pembuatan System Image Backup lengkap, konfigurasi System Restore Point, dan prosedur pemulihan darurat menggunakan Windows Recovery Environment (WinRE).</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi Clean Install, Praktik Recovery</div><div class="chip"><b>KKTP:</b> Instal Ulang Berhasil & Restore Point Terbukti Bekerja</div><div class="chip"><b>Profil Pelajar:</b> Mandiri, Kreatif</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>SYSTEM RECOVERY &amp; RESTORE POINT FLOW SIMULATOR</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; SYSTEM RECOVERY SIMULATOR &amp; BACKUP STRATEGY PLANNER</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
-      <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px;">
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); margin-bottom:8px;">1. TITIK PEMULIHAN (RESTORE POINT):</div>
-        <ul style="font-size:13px; color:var(--text-sub); padding-left:16px; margin-bottom:12px;">
-          <li>Restore Point #1 (Kondisi Fresh Install)</li>
-          <li>Restore Point #2 (Sebelum Update Driver GPU)</li>
-        </ul>
-        <button type="button" class="btn-action" style="font-size:12px; padding:8px 14px;" onclick="simulateRestore()">Rollback ke Restore Point #1</button>
-      </div>
-      <div id="restoreSimResult" style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; flex-direction:column; justify-content:center;">
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-bottom:4px;">STATUS SYSTEM INTEGRITY:</div>
-        <div style="font-family:var(--font-heading); font-size:18px; font-weight:700; color:var(--emerald);" id="restoreStatusTitle">Sistem Berjalan Normal</div>
-        <p style="font-size:12.5px; color:var(--text-sub); margin-top:6px;" id="restoreStatusDesc">File sistem, registry, dan driver berada dalam status terverifikasi.</p>
-      </div>
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">SKENARIO PEMULIHAN:</label>
+      <select id="recovScen" class="custom-select" onchange="runRecov()">
+        <option value="rp" selected>Rollback via System Restore Point (Windows masih bisa booting)</option>
+        <option value="winre">Startup Repair via Windows Recovery Environment (WinRE)</option>
+        <option value="sysimage">Pemulihan dari System Image Backup</option>
+        <option value="bcd">Perbaikan BCD (Boot Configuration Data) Rusak</option>
+        <option value="clean">Clean Install Ulang dari Nol</option>
+      </select></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">STATUS SISTEM SAAT INI:</label>
+      <select id="recovStatus" class="custom-select" onchange="runRecov()">
+        <option value="boot_ok" selected>Windows masih bisa booting normal</option>
+        <option value="bsod">BSOD / Restart Loop (tidak bisa masuk Windows)</option>
+        <option value="no_boot">Tidak bisa boot sama sekali / Layar hitam</option>
+      </select></div>
+    </div>
+    <div id="recovResult" style="background:rgba(3,7,18,0.75);border:1px solid rgba(0,240,255,0.3);border-radius:var(--radius-md);padding:18px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);font-weight:700;margin-bottom:4px;" id="recovTitle">METODE PEMULIHAN: System Restore Point</div>
+      <div style="font-size:13.5px;color:#e2e8f0;line-height:1.6;" id="recovDesc">1. Tekan Win+R &rarr; ketik rstrui &rarr; Enter. 2. Pilih "Choose a different restore point". 3. Pilih titik pemulihan sebelum masalah terjadi. 4. Klik Next &rarr; Finish &rarr; konfirmasi. 5. Sistem akan restart dan pulih ke kondisi snapshot tersebut. Proses memakan waktu 10-15 menit. Data file pribadi tidak terpengaruh.</div>
     </div>
   </div>
 </div>
 <script>
-function simulateRestore() {
-  const title = document.getElementById('restoreStatusTitle');
-  const desc = document.getElementById('restoreStatusDesc');
-  title.textContent = 'Pemulihan Berhasil Dilakukan (100%)';
-  title.style.color = 'var(--cyan)';
-  desc.textContent = 'Registry dan file sistem Windows berhasil dikembalikan ke status Fresh Install tanpa menghapus dokumen pribadi pada folder User.';
+function runRecov(){
+  const scen=document.getElementById('recovScen').value;
+  const stat=document.getElementById('recovStatus').value;
+  const title=document.getElementById('recovTitle');
+  const desc=document.getElementById('recovDesc');
+  
+  const map={
+    rp:{t:'System Restore Point (dari dalam Windows)',d:'1. Win+R &rarr; rstrui &rarr; Enter. 2. Pilih titik pemulihan yang diinginkan. 3. Klik Next &rarr; Finish. 4. Sistem restart otomatis dan pulih (~15 menit). File pribadi aman, hanya driver dan registry yang di-rollback.'},
+    winre:{t:'Windows Recovery Environment (WinRE) — Startup Repair',d:'1. Boot dari USB Windows / tekan F8 saat booting. 2. Pilih Troubleshoot &rarr; Advanced options &rarr; Startup Repair. 3. WinRE akan otomatis mendeteksi dan memperbaiki masalah boot. 4. Jika gagal, coba System Restore dari menu yang sama. Durasi: 10-30 menit.'},
+    sysimage:{t:'System Image Recovery (Kembalikan seluruh kondisi disk)',d:'1. Boot dari USB Windows. 2. Troubleshoot &rarr; Advanced options &rarr; System Image Recovery. 3. Pilih file image backup (*.vhd). 4. Konfirmasi disk tujuan pemulihan. PERHATIAN: Semua data pada disk tujuan akan diganti oleh isi image backup. Pastikan sudah backup data terbaru. Durasi: 20-60 menit tergantung ukuran image.'},
+    bcd:{t:'Perbaikan Boot Configuration Data (BCD) — CMD WinRE',d:'1. Boot dari USB Windows &rarr; Repair your computer &rarr; Command Prompt. 2. Jalankan berurutan: bootrec /fixmbr &rarr; bootrec /fixboot &rarr; bootrec /scanos &rarr; bootrec /rebuildbcd. 3. Ketik Y untuk menambahkan instalasi Windows yang ditemukan. 4. Restart tanpa USB. Digunakan ketika dual-boot bermasalah atau BCD rusak karena virus.'},
+    clean:{t:'Clean Install dari Nol (Hapus semua, instal fresh)',d:'1. Backup SEMUA data penting ke drive eksternal TERLEBIH DAHULU. 2. Boot dari USB bootable Windows. 3. Saat pemilihan partisi, hapus semua partisi dan buat partisi baru. 4. Lanjutkan instalasi. 5. Pasca instalasi: instal driver, Windows Update, software. Ini opsi terakhir bila semua metode recovery lain gagal. Semua data di C: akan HILANG PERMANEN.'}
+  };
+  
+  title.textContent='METODE PEMULIHAN: '+map[scen].t;
+  desc.innerHTML=map[scen].d;
+  
+  if(stat==='no_boot' && scen==='rp'){
+    desc.innerHTML='<b style="color:var(--red);">&#9888; TIDAK BISA DIGUNAKAN:</b> System Restore Point hanya bisa diakses jika Windows masih bisa booting. Jika layar hitam total, gunakan WinRE (boot dari USB Windows) atau pilih opsi Startup Repair.';
+  }
 }
 </script>
 
   </header>
 
-  
-<section id="prosedur-backup">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Strategi Backup 3-2-1 Sebelum Instalasi Ulang</h2>
-  <p class="sec-desc">Aturan baku industri untuk menjamin nol kehilangan data (Zero Data Loss).</p>
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Strategi Backup 3-2-1 & Persiapan Media Instalasi (90 Menit)</h4>
+            <p>Teori backup: RPO (Recovery Point Objective) dan RTO (Recovery Time Objective). Strategi 3-2-1: 3 salinan, 2 media berbeda, 1 off-site/cloud. Membuat bootable USB Windows 11 menggunakan Rufus: mode GPT+UEFI vs MBR+Legacy, format NTFS, Windows to Go vs Normal Install.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Proses Clean Install Windows dari Awal (90 Menit)</h4>
+            <p>Demonstrasi lengkap instalasi Windows dari bootable USB: masuk BIOS set boot priority, loading setup Windows, pemilihan tipe instalasi (Custom: Advanced), pembuatan partisi baru (hapus partisi lama, buat partisi system baru), proses copy file dan setup awal, konfigurasi out-of-box (OOBE): nama PC, akun, pengaturan privasi.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik: Instal Driver & Software Pasca Instalasi OS (90 Menit)</h4>
+            <p>Prosedur sistematis pasca instalasi: (1) Update Windows Update, (2) Instal Chipset Driver, (3) Instal LAN/WiFi Driver, (4) Instal VGA Driver, (5) Instal Audio Driver, (6) Aktifkan lisensi Windows. Penggunaan Snappy Driver Installer untuk mempercepat instalasi driver. Membuat restore point pertama setelah fresh install.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>System Image Backup & Recovery Environment (WinRE) (90 Menit)</h4>
+            <p>Membuat System Image Backup ke drive eksternal menggunakan Windows built-in Backup and Restore. Pengenalan Windows Recovery Environment: Startup Repair, System Restore, System Image Recovery, Command Prompt WinRE. Praktik rollback Restore Point dari WinRE. Perbaikan BCD (bootrec /fixmbr, /fixboot, /rebuildbcd).</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Evaluasi Hasil Instalasi & Pengisian LKPD (45 Menit)</h4>
+            <p>Verifikasi hasil instalasi: Device Manager tanpa tanda seru kuning, DirectX Diagnostic Tool (dxdiag), lisensi aktif. Pengisian LKPD dan presentasi checklist instalasi masing-masing kelompok.</p>
+          </div>
+        </div>
+        </div>
+  </section>
 
+  <!-- CONTENT SECTIONS -->
+  
+<section id="backup-321">
+  <div class="sec-tag">Bagian A &middot; Strategi Backup</div>
+  <h2>A. Strategi Backup 3-2-1: Standar Industri Zero Data Loss</h2>
+  <p class="sec-desc">Kehilangan data adalah salah satu insiden paling merugikan di lingkungan pendidikan dan bisnis. Strategi 3-2-1 adalah standar minimum yang digunakan oleh para profesional IT untuk memastikan data selalu dapat dipulihkan.</p>
   <div class="grid-3">
     <div class="card">
-      <h4>3 Salinan Data</h4>
-      <p>Miliki minimal 3 salinan data penting: 1 data utama di PC dan 2 salinan cadangan backup.</p>
+      <h4 style="color:var(--cyan);">3 — Tiga Salinan Data</h4>
+      <p>Miliki minimal <b>3 salinan</b> dari setiap data penting: 1 data asli (primary) + 2 salinan backup. Mengapa 3? Karena dua salinan masih rentan — jika dua terjadi kerusakan bersamaan (mis. banjir mengenai PC + external drive di ruangan sama), data masih aman di salinan ketiga.</p>
     </div>
     <div class="card">
-      <h4>2 Media Berbeda</h4>
-      <p>Simpan cadangan data pada 2 jenis media penyimpanan fisik yang berbeda (mis. Internal SSD + External HDD USB / NAS).</p>
+      <h4 style="color:var(--amber);">2 — Dua Jenis Media Berbeda</h4>
+      <p>Simpan salinan pada <b>2 jenis media fisik berbeda</b>, misalnya: Internal SSD (media 1) + External HDD USB (media 2). Mengapa berbeda? Karena satu jenis media memiliki mode kegagalan yang sama — semua SSD bisa tiba-tiba gagal bersamaan saat usia pakai habis.</p>
     </div>
     <div class="card">
-      <h4>1 Salinan Off-site</h4>
-      <p>Simpan 1 salinan di lokasi fisik berbeda atau cloud storage (Google Drive, OneDrive) untuk antisipasi bencana fisik.</p>
+      <h4 style="color:var(--emerald);">1 — Satu Salinan Off-Site / Cloud</h4>
+      <p>Simpan <b>1 salinan di lokasi terpisah</b> atau cloud storage (Google Drive, OneDrive, IDriveE2). Ini melindungi dari bencana fisik seperti kebakaran atau banjir yang bisa menghancurkan semua perangkat di satu lokasi sekaligus.</p>
     </div>
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <b>RPO & RTO:</b> <b>Recovery Point Objective (RPO)</b> = berapa lama data yang boleh hilang (misal: backup harian = RPO 24 jam). <b>Recovery Time Objective (RTO)</b> = berapa lama sistem boleh down sebelum pulih. Semakin kecil RPO dan RTO, semakin kritis sistem tersebut dan semakin mahal solusi backup yang diperlukan.
   </div>
 </section>
 
-<section id="restore-point-steps">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. Membuat &amp; Menggunakan System Restore Point</h2>
-  <p class="sec-desc">Fitur snapshot otomatis yang mencatat konfigurasi registry, driver, dan file sistem Windows.</p>
-
+<section id="bootable-usb">
+  <div class="sec-tag">Bagian B &middot; Media Instalasi</div>
+  <h2>B. Membuat Bootable USB Windows dengan Rufus</h2>
+  <p class="sec-desc">Rufus adalah software gratis dan portabel terpopuler untuk membuat USB bootable Windows 10/11 dan distribusi Linux.</p>
   <div class="step-list">
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Mengaktifkan System Protection</h4>
-        <p>Buka <i>System Properties</i> (ketik <code>sysdm.cpl</code>) &rarr; tab <b>System Protection</b> &rarr; pilih Drive <code>C: (System)</code> &rarr; klik <b>Configure</b> &rarr; pilih <b>Turn on system protection</b> &rarr; alokasikan ruang disk minimal 5-10%.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Membuat Manual Restore Point</h4>
-        <p>Klik tombol <b>Create...</b> &rarr; masukkan deskripsi (mis. <code>SEBELUM_UPDATE_DRIVER_VGA</code>) &rarr; klik Create. Windows akan membuat snapshot registry dalam beberapa detik.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Rollback Sistem Melalui Windows Recovery Environment (WinRE)</h4>
-        <p>Jika Windows mengalami crash/BSOD, masuk ke mode <i>Advanced Startup &rarr; Troubleshoot &rarr; Advanced options &rarr; System Restore</i> &rarr; pilih titik snapshot yang diinginkan &rarr; sistem akan otomatis pulih ke kondisi stabil.</p>
-      </div>
-    </div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Download ISO Windows & Persiapan USB</h4>
+      <p>Download ISO Windows resmi dari <b>microsoft.com/software-download/windows11</b>. Siapkan USB minimal 8 GB. <b>PERHATIAN:</b> Semua data di USB akan dihapus. Backup isi USB terlebih dahulu jika ada data penting.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Konfigurasi Rufus yang Tepat</h4>
+      <p>Device: pilih USB drive. Boot selection: pilih ISO. <b>Partition scheme: GPT</b> (untuk PC modern UEFI). Target system: UEFI (non CSM). File system: NTFS atau FAT32 (jika ukuran ISO &lt; 4GB). Cluster size: default. Klik START. Pilih mode <b>Standard Windows Installation</b> untuk instalasi normal.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Mengatur Boot Priority di BIOS/UEFI</h4>
+      <p>Restart PC &rarr; tekan Del/F2/F12 saat logo muncul &rarr; masuk BIOS/UEFI. Cari menu <b>Boot Order / Boot Priority</b>. Pindahkan USB Drive ke urutan pertama. Simpan (F10) dan restart. PC akan boot dari USB. Jika tidak berhasil, cek apakah Secure Boot perlu dinonaktifkan sementara untuk USB non-Microsoft.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Proses Instalasi: Custom Advanced (Clean Install)</h4>
+      <p>Pilih <b>"Custom: Install Windows only (advanced)"</b> bukan Upgrade. Hapus semua partisi lama dengan tombol Delete hingga hanya ada "Unallocated Space". Klik New untuk membuat partisi baru. Windows akan otomatis membuat partisi EFI, MSR, dan partisi sistem. Klik Next untuk memulai instalasi.</p></div></div>
   </div>
 </section>
 
+<section id="restore-point">
+  <div class="sec-tag">Bagian C &middot; System Restore</div>
+  <h2>C. Membuat &amp; Mengelola System Restore Point</h2>
+  <p class="sec-desc">System Restore adalah "mesin waktu" Windows yang menyimpan snapshot registry, driver, dan file sistem — bukan file pribadi — pada titik waktu tertentu.</p>
+  <div class="step-list">
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Mengaktifkan System Protection</h4>
+      <p>Buka <b>System Properties</b> (<code>sysdm.cpl</code>) &rarr; tab <b>System Protection</b>. Pilih drive C: &rarr; klik <b>Configure</b>. Pilih <b>"Turn on system protection"</b>. Atur kapasitas disk: minimal 5-10% (sekitar 5-15 GB). Klik OK. Tanpa ini, Restore Point tidak bisa dibuat.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuat Restore Point Manual Sebelum Perubahan Besar</h4>
+      <p>Setiap kali akan melakukan perubahan besar (instal driver baru, update besar, atau eksperimen registry), buat Restore Point manual: tab System Protection &rarr; klik <b>Create...</b> &rarr; beri deskripsi (misal: <code>SEBELUM-INSTAL-DRIVER-GPU-560</code>) &rarr; klik Create. Selesai dalam hitungan detik.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Rollback via System Restore saat Masalah Terjadi</h4>
+      <p>Jika Windows mulai bermasalah setelah perubahan: <code>Win + R</code> &rarr; <code>rstrui</code> &rarr; pilih titik pemulihan yang dibuat sebelumnya &rarr; Next &rarr; Finish. Sistem restart dan memulihkan diri dalam 15-20 menit. <b>File di Documents, Desktop, dll tidak terpengaruh</b> — hanya konfigurasi sistem yang di-rollback.</p></div></div>
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-7: Laporan Instalasi OS &amp; Verifikasi Recovery</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA / KELOMPOK:</label><input type="text" id="l7_nama" class="custom-input" placeholder="Nama..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">VERSI OS YANG DIINSTAL:</label><input type="text" id="l7_os" class="custom-input" placeholder="Contoh: Windows 11 Pro 24H2 Build 26100"></div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. CHECKLIST PASCA INSTALASI (centang yang sudah dilakukan):</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px;background:rgba(3,7,18,0.5);border-radius:var(--radius-sm);">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c1"> Windows Update selesai (0 pending)</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c2"> Chipset Driver terinstal</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c3"> LAN/WiFi Driver terinstal</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c4"> VGA/Display Driver terinstal</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c5"> Audio Driver terinstal</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c6"> Device Manager: 0 tanda seru kuning</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c7"> Antivirus aktif dan terupdate</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="c8"> System Restore Point pertama dibuat</label>
+    </div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. KENDALA SELAMA PROSES INSTALASI & CARA MENGATASINYA:</label>
+    <textarea class="custom-textarea" id="l7_kendala" rows="3" placeholder="Contoh: Driver WiFi tidak terdeteksi otomatis, diinstal manual dari website produsen motherboard..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. VERIFIKASI RESTORE POINT - DESKRIPSI RESTORE POINT YANG DIBUAT:</label>
+    <textarea class="custom-textarea" id="l7_rp" rows="2" placeholder="Nama Restore Point: FRESH-INSTALL-[NAMA-PC]-[TANGGAL]&#10;Dibuat pada: [Tanggal & Jam] | Ukuran: sekitar X MB"></textarea>
+  </div>
+  <button type="button" class="btn-action" onclick="printL7()">&#128438; Preview &amp; Cetak Laporan Instalasi</button>
+</div>
+<script>
+function printL7(){
+  const w=window.open('','_blank');
+  const checks=['Windows Update','Chipset Driver','LAN/WiFi Driver','VGA Driver','Audio Driver','Device Manager OK','Antivirus Aktif','Restore Point'];
+  const chkHtml=checks.map((c,i)=>`${document.getElementById('c'+(i+1)).checked?'[✓]':'[ ]'} ${c}`).join('<br>');
+  w.document.write('<html><head><title>LKPD Instalasi OS</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LKPD-7: LAPORAN INSTALASI OS & RECOVERY</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  w.document.write('<p><b>Nama:</b> '+(document.getElementById('l7_nama').value||'—')+'</p>');
+  w.document.write('<p><b>OS Terinstal:</b> '+(document.getElementById('l7_os').value||'—')+'</p><hr>');
+  w.document.write('<p><b>Checklist Pasca Instalasi:</b><br>'+chkHtml+'</p><hr>');
+  w.document.write('<p><b>Kendala & Solusi:</b><br>'+(document.getElementById('l7_kendala').value||'—').replace(/
+/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>Restore Point:</b><br>'+(document.getElementById('l7_rp').value||'—').replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa perbedaan antara instalasi 'Upgrade' dan 'Custom: Advanced' (Clean Install) saat menginstal ulang Windows?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">A. Upgrade lebih cepat, Custom lebih lambat</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">B. Upgrade mempertahankan semua file, aplikasi, dan pengaturan dari Windows lama. Clean Install menghapus seluruh isi drive dan menginstal Windows segar tanpa sisa file lama — menghasilkan sistem yang lebih bersih dan performan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">C. Upgrade hanya untuk Windows 10 ke 11, Custom untuk versi yang sama</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Upgrade install memindahkan semua data dari Windows lama, termasuk registry, driver, dan aplikasi. Ini cepat tetapi bisa membawa masalah lama. Clean Install dimulai dari nol — semua partisi dihapus, Windows diinstal fresh tanpa sisa konfigurasi bermasalah. Lebih lambat tapi menghasilkan sistem yang paling bersih.')">D. Tidak ada perbedaan nyata antara keduanya</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang terjadi pada file pribadi (Documents, Pictures, Videos) saat System Restore dilakukan?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">A. Semua file pribadi ikut terhapus bersama restore point lama</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">B. File pribadi TIDAK terpengaruh — hanya driver, registry, dan file sistem yang di-rollback ke titik snapshot</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">C. File pribadi disalin ke partisi tersembunyi selama proses restore</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'System Restore hanya memodifikasi komponen sistem Windows: registry hive, file driver, dan file protected sistem. Folder personal seperti Documents, Desktop, Downloads, Pictures tidak disentuh sama sekali. Ini adalah perbedaan fundamental dari clean install yang menghapus segalanya.')">D. File pribadi dipindahkan ke folder Windows.old secara otomatis</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Perintah WinRE mana yang digunakan untuk membangun ulang Boot Configuration Data (BCD) yang rusak?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">A. sfc /rebuildbcd</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">B. diskpart /fix</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">C. bootrec /rebuildbcd — setelah sebelumnya menjalankan bootrec /fixmbr dan bootrec /fixboot</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Urutan perbaikan BCD yang benar: (1) bootrec /fixmbr (perbaiki MBR), (2) bootrec /fixboot (tulis boot sector baru), (3) bootrec /scanos (cari instalasi Windows), (4) bootrec /rebuildbcd (bangun ulang BCD dari instalasi yang ditemukan). Semua dijalankan di CMD dari WinRE (boot via USB Windows).')">D. bcdedit /rebuild all</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Persiapan Media Instalasi</b></td><td>Tidak bisa membuat bootable USB</td><td>USB dibuat namun konfigurasi Rufus salah (MBR padahal PC UEFI)</td><td>Bootable USB berhasil dibuat dengan konfigurasi GPT+UEFI yang tepat</td><td>Bootable USB sempurna + penjelasan parameter Rufus kepada rekan + troubleshoot boot failure</td></tr>
+    <tr><td><b>Proses Instalasi Lengkap</b></td><td>Tidak dapat menyelesaikan instalasi tanpa bantuan penuh</td><td>Instalasi selesai namun beberapa driver belum terinstal</td><td>Instalasi clean + semua driver terinstal (Device Manager bersih) + Windows Update selesai</td><td>Instalasi sempurna + System Image Backup dibuat + Restore Point pertama terdokumentasi</td></tr>
+    <tr><td><b>Prosedur Recovery</b></td><td>Tidak bisa membuat atau menggunakan Restore Point</td><td>Restore Point dibuat namun tidak bisa digunakan saat simulasi masalah</td><td>Membuat Restore Point + berhasil rollback via rstrui.exe</td><td>Menguasai WinRE + berhasil repair startup + menggunakan bootrec commands di CMD WinRE</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

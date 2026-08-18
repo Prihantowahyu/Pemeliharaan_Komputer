@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Uji Kompetensi Mandiri &amp; Dokumentasi Laporan Perawatan &mdash; Bengkel Hardware TKJ</title>
+<title>Uji Kompetensi Mandiri &amp; Kompilasi Portofolio Perawatan Komputer &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,137 +248,367 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 2 &middot; HARI 5 &middot; 9 JP</div>
-    <h1>Uji Kompetensi Mandiri &amp; Dokumentasi Laporan Perawatan</h1>
-    <p class="subtitle">Simulasi Uji Kompetensi Keahlian (UKK Mini) mandiri berbatas waktu, rubrik penilaian standar industri BNSP/LSP, kompilasi portofolio log sheet perawatan 1 tahun, dan refleksi capaian belajar.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Uji Kompetensi Mandiri</div><div class="chip"><b>Metode:</b> Simulasi UKK Mini & Portofolio</div><div class="chip"><b>KKTP:</b> Skor Minimal KKM Pada Seluruh Unit</div><div class="chip"><b>Profil:</b> Mandiri, Bernalar Kritis</div></div>
+    <div class="eyebrow">BLOK 2 &middot; HARI 5 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Uji Kompetensi Mandiri &amp; Kompilasi Portofolio Perawatan Komputer</h1>
+    <p class="subtitle">Simulasi Uji Kompetensi Keahlian (UKK Mini) mandiri berbatas waktu standar industri BNSP/LSP, pengujian unjuk kerja 3 klaster kompetensi (Hardware Assembly & Upgrade, OS & Storage Deployment, Complex Troubleshooting), kompilasi buku portofolio log sheet perawatan selama 1 tahun, dan sertifikasi kesiapan Praktik Kerja Lapangan (PKL).</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Simulasi UKK Mandiri, Uji Unjuk Kerja, Portofolio Showcase</div><div class="chip"><b>KKTP:</b> Lulus Ambang Batas KKM (Minimal Skor 75) & Portofolio Lengkap</div><div class="chip"><b>Profil Pelajar:</b> Mandiri, Bernalar Kritis, Tangguh</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>SIMULATOR TIMER UJIAN PRAKTIK UKK MINI &amp; SCORING RUBRIC</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; UKK MINI PRACTICAL EXAM TIMER &amp; REAL-TIME COMPETENCY SCORING</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:18px;">
+  <div style="padding:24px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px;background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:18px;">
       <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">SISA WAKTU UJIAN PRAKTIK MANDIRI:</div>
-        <div style="font-family:var(--font-heading); font-size:36px; font-weight:800; color:var(--cyan);" id="ukkTimerDisplay">90:00</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">SISA WAKTU UJIAN PRAKTIK MANDIRI:</div>
+        <div style="font-family:var(--font-heading);font-size:38px;font-weight:800;color:var(--cyan);" id="liveUkkTimer">90:00</div>
       </div>
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn-action" onclick="startUkkTimer()">Mulai Ujian</button>
-        <button type="button" class="btn-action" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="resetUkkTimer()">Reset Timer</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="button" class="btn-action" onclick="startUkkExamTimer()">&#9654; Mulai Ujian Praktik</button>
+        <button type="button" class="btn-action" style="background:rgba(255,255,255,0.1);color:#fff;" onclick="pauseUkkExamTimer()">&#10074;&#10074; Jeda</button>
+        <button type="button" class="btn-action" style="background:rgba(239,68,68,0.2);color:var(--red);border:1px solid var(--red);" onclick="resetUkkExamTimer()">&#8634; Reset</button>
       </div>
     </div>
-    
-    <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px;">
-      <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:#fff; margin-bottom:10px;">RUBRIK PENILAIAN MANDIRI (SKOR MAKSIMAL 100):</div>
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-sub); cursor:pointer;">
-          <input type="checkbox" class="rubrik-check" value="25" onchange="calcScore()"> 1. Kepatuhan K3 &amp; Ketelitian Pembongkaran/Perakitan (25 Poin)
+
+    <div style="background:rgba(3,7,18,0.8);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:18px;margin-bottom:16px;">
+      <div style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:12px;">LEMBAR SKORING LANGSUNG 4 ASPEK KOMPETENSI (Total 100 Poin):</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:10px;">
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-sub);cursor:pointer;padding:8px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);">
+          <input type="checkbox" class="ukk-chk" value="25" onchange="calcUkkScoreLive()">
+          <span><b>1. K3, Pembongkaran/Perakitan &amp; Cable Management</b> (25 Poin &middot; Bobot 25%)</span>
         </label>
-        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-sub); cursor:pointer;">
-          <input type="checkbox" class="rubrik-check" value="25" onchange="calcScore()"> 2. Instalasi OS, Driver &amp; Partisi Storage Tepat (25 Poin)
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-sub);cursor:pointer;padding:8px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);">
+          <input type="checkbox" class="ukk-chk" value="25" onchange="calcUkkScoreLive()">
+          <span><b>2. Clean Install OS UEFI, Partisi GPT &amp; Driver Deployment</b> (25 Poin &middot; Bobot 25%)</span>
         </label>
-        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-sub); cursor:pointer;">
-          <input type="checkbox" class="rubrik-check" value="30" onchange="calcScore()"> 3. Ketepatan Analisis &amp; Penanganan Kasus Kerusakan (30 Poin)
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-sub);cursor:pointer;padding:8px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);">
+          <input type="checkbox" class="ukk-chk" value="30" onchange="calcUkkScoreLive()">
+          <span><b>3. Ketepatan Diagnosa &amp; Penanganan Kasus Kerusakan</b> (30 Poin &middot; Bobot 30%)</span>
         </label>
-        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-sub); cursor:pointer;">
-          <input type="checkbox" class="rubrik-check" value="20" onchange="calcScore()"> 4. Kelengkapan Laporan Portofolio &amp; Berita Acara (20 Poin)
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-sub);cursor:pointer;padding:8px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);">
+          <input type="checkbox" class="ukk-chk" value="20" onchange="calcUkkScoreLive()">
+          <span><b>4. Kelengkapan Portofolio 1 Tahun &amp; Berita Acara Servis</b> (20 Poin &middot; Bobot 20%)</span>
         </label>
       </div>
-      <div style="margin-top:14px; border-top:1px solid var(--panel-border); padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-family:var(--font-mono); font-size:12px; color:var(--text-muted);">TOTAL SKOR: <b id="totalScoreText" style="color:var(--cyan); font-size:16px;">0 / 100</b></span>
-        <span id="scoreVerdict" style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--amber);">Status: Belum Memenuhi KKM (Min. 75)</span>
+
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+          <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">PEROLEHAN SKOR: </span>
+          <span id="ukkTotalScore" style="font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--cyan);">0 / 100</span>
+        </div>
+        <div id="ukkStatusBadge" style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--amber);padding:6px 12px;border-radius:100px;background:rgba(245,158,11,0.1);border:1px solid var(--amber);">
+          STATUS: BELUM MEMENUHI KKM (&lt; 75)
+        </div>
       </div>
     </div>
   </div>
 </div>
 <script>
-let ukkSeconds = 5400; // 90 min
-let ukkInterval = null;
+let ukkTime = 5400; // 90 min
+let ukkTimerObj = null;
 
-function startUkkTimer() {
-  if (ukkInterval) return;
-  ukkInterval = setInterval(() => {
-    if (ukkSeconds <= 0) {
-      clearInterval(ukkInterval);
-      ukkInterval = null;
-      alert('⏰ WAKTU UJIAN SELESAI! Silakan kumpulkan laporan kepada guru penguji.');
+function startUkkExamTimer() {
+  if (ukkTimerObj) return;
+  ukkTimerObj = setInterval(() => {
+    if (ukkTime <= 0) {
+      clearInterval(ukkTimerObj);
+      ukkTimerObj = null;
+      alert('⏰ WAKTU UJIAN SELESAI! Seluruh pekerjaan praktikum dihentikan.');
       return;
     }
-    ukkSeconds--;
-    const m = String(Math.floor(ukkSeconds / 60)).padStart(2, '0');
-    const s = String(ukkSeconds % 60).padStart(2, '0');
-    document.getElementById('ukkTimerDisplay').textContent = `${m}:${s}`;
+    ukkTime--;
+    const m = String(Math.floor(ukkTime / 60)).padStart(2, '0');
+    const s = String(ukkTime % 60).padStart(2, '0');
+    document.getElementById('liveUkkTimer').textContent = `${m}:${s}`;
   }, 1000);
 }
 
-function resetUkkTimer() {
-  clearInterval(ukkInterval);
-  ukkInterval = null;
-  ukkSeconds = 5400;
-  document.getElementById('ukkTimerDisplay').textContent = "90:00";
+function pauseUkkExamTimer() {
+  clearInterval(ukkTimerObj);
+  ukkTimerObj = null;
 }
 
-function calcScore() {
-  const checks = document.querySelectorAll('.rubrik-check');
+function resetUkkExamTimer() {
+  pauseUkkExamTimer();
+  ukkTime = 5400;
+  document.getElementById('liveUkkTimer').textContent = "90:00";
+}
+
+function calcUkkScoreLive() {
+  const chks = document.querySelectorAll('.ukk-chk');
   let score = 0;
-  checks.forEach(c => {
-    if (c.checked) score += parseInt(c.value);
-  });
-  document.getElementById('totalScoreText').textContent = score + " / 100";
-  const verdict = document.getElementById('scoreVerdict');
-  if (score >= 75) {
-    verdict.textContent = "Status: KOMPETEN (Lulus KKM)";
-    verdict.style.color = "var(--emerald)";
+  chks.forEach(c => { if(c.checked) score += parseInt(c.value); });
+  
+  document.getElementById('ukkTotalScore').textContent = score + " / 100";
+  const badge = document.getElementById('ukkStatusBadge');
+  if (score >= 86) {
+    badge.textContent = "STATUS: SANGAT KOMPETEN (A) — SIAP PKL";
+    badge.style.color = "var(--cyan)";
+    badge.style.borderColor = "var(--cyan)";
+    badge.style.background = "rgba(0,240,255,0.1)";
+  } else if (score >= 75) {
+    badge.textContent = "STATUS: KOMPETEN (B) — LULUS KKM";
+    badge.style.color = "var(--emerald)";
+    badge.style.borderColor = "var(--emerald)";
+    badge.style.background = "rgba(16,185,129,0.1)";
   } else {
-    verdict.textContent = "Status: Belum Memenuhi KKM (Min. 75)";
-    verdict.style.color = "var(--amber)";
+    badge.textContent = "STATUS: BELUM MEMENUHI KKM (< 75)";
+    badge.style.color = "var(--amber)";
+    badge.style.borderColor = "var(--amber)";
+    badge.style.background = "rgba(245,158,11,0.1)";
   }
 }
 </script>
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Briefing Standar UKK, Penjelasan Rubrik BNSP & Persiapan Meja Uji (90 Menit)</h4>
+            <p>Penyampaian tata tertib ujian praktik mandiri. Pembagian nomor meja kerja dan kit hardware. Penjelasan 3 klaster uji unjuk kerja berbatas waktu: Klaster 1 (Perakitan & Upgrade), Klaster 2 (OS, Driver & Partisi), Klaster 3 (Troubleshooting Kasus Blind Test).</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Sesi Uji Praktik Mandiri 1: Perakitan, Upgrade & BIOS Setup (90 Menit)</h4>
+            <p>Siswa mengerjakan perakitan unit PC / upgrade modul dari nol secara individual dalam batas waktu 60 menit. Kepatuhan K3, penanganan komponen sensitif ESD, manajemen baut, pengkabelan rapi, dan konfigurasi BIOS UEFI.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Sesi Uji Praktik Mandiri 2: Clean Install OS, Driver & Manajemen Partisi (90 Menit)</h4>
+            <p>Instalasi OS Windows dari bootable USB mandiri, pembuatan skema partisi GPT (EFI, System C, Data D), instalasi seluruh driver hardware tanpa tanda seru kuning, aktivasi firewall, dan pembuatan Restore Point snapshot.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Sesi Uji Praktik Mandiri 3: Blind-Test Troubleshooting & Stabilitas (90 Menit)</h4>
+            <p>Guru memberikan gangguan kerusakan tersembunyi pada unit PC (misal: RAM kotor, jumper reset CMOS, driver GPU korup, port firewall terblokir). Siswa mendeteksi, mendiagnosa, dan memperbaiki dalam waktu maksimal 30 menit.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Kompilasi Buku Portofolio 1 Tahun, Refleksi & Sertifikasi PKL (45 Menit)</h4>
+            <p>Pengumpulan dan verifikasi buku portofolio log sheet siswa selama Semester Ganjil & Genap. Guru memberikan umpan balik evaluatif dan menerbitkan sertifikat kesiapan Praktik Kerja Lapangan (PKL) industri.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="portofolio-review">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Struktur Kompilasi Portofolio Log Sheet 1 Tahun</h2>
-  <p class="sec-desc">Dokumentasi portofolio membuktikan jam terbang dan penguasaan kompetensi vokasi.</p>
+<section id="skema-ukk">
+  <div class="sec-tag">Bagian A &middot; Standar Kompetensi</div>
+  <h2>A. Skema Uji Kompetensi Keahlian (UKK) Teknisi Komputer Junior</h2>
+  <p class="sec-desc">Struktur penilaian mengadopsi standar Badan Nasional Sertifikasi Profesi (BNSP) dan Lembaga Sertifikasi Profesi (LSP-P1) Teknik Komputer & Jaringan.</p>
 
   <div class="grid-3">
     <div class="card">
-      <h4>A. Rekapitulasi Blok 1</h4>
-      <p>Log sheet perakitan PC dari nol, konfigurasi BIOS/UEFI, instalasi sistem operasi, penanganan printer/scanner, perawatan laptop, dan manajemen partisi storage.</p>
+      <h4 style="color:var(--cyan);">Klaster 1 &middot; Hardware Assembly</h4>
+      <ul>
+        <li>Kepatuhan K3 & penanganan elektrostatik (ESD).</li>
+        <li>Presisi pemasangan prosesor, heatsink, pasta, dan RAM dual channel.</li>
+        <li>Pemasangan storage M.2 NVMe dan kartu ekspansi grafis.</li>
+        <li>Manajemen jalur kabel (cable routing) dan airflow.</li>
+      </ul>
     </div>
     <div class="card">
-      <h4>B. Rekapitulasi Blok 2</h4>
-      <p>Laporan stress testing diagnostic tools, recovery sistem, penyelesaian studi kasus troubleshooting kompleks, dan berita acara servis lab sekolah.</p>
+      <h4 style="color:var(--amber);">Klaster 2 &middot; OS &amp; Deployment</h4>
+      <ul>
+        <li>Konfigurasi BIOS UEFI, Secure Boot, dan boot priority.</li>
+        <li>Partisi storage GPT dan format sistem file NTFS.</li>
+        <li>Clean install OS Windows & driver tanpa error.</li>
+        <li>Konfigurasi firewall dan aktivasi Restore Point.</li>
+      </ul>
     </div>
     <div class="card">
-      <h4>C. Lembar Refleksi PKL</h4>
-      <p>Pernyataan kesiapan dan sertifikasi kompetensi teknisi junior sebelum diterjunkan ke program Praktik Kerja Lapangan (PKL) industri.</p>
+      <h4 style="color:var(--emerald);">Klaster 3 &middot; Troubleshooting &amp; Test</h4>
+      <ul>
+        <li>Investigasi kerusakan bertingkat dengan metode 4 layer.</li>
+        <li>Penggunaan software diagnostik telemetri sensor.</li>
+        <li>Penanganan kasus BSOD / boot failure terisolasi.</li>
+        <li>Pengujian stabilitas beban penuh (stress testing).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="portofolio-struktur">
+  <div class="sec-tag">Bagian B &middot; Kompilasi Portofolio</div>
+  <h2>B. Struktur Buku Portofolio Log Sheet 1 Tahun</h2>
+  <p class="sec-desc">Buku portofolio menjadi bukti autentik rekam jejak praktik dan jam terbang siswa yang dibawa saat wawancara Praktik Kerja Lapangan (PKL) di dunia usaha / dunia industri (DUDI).</p>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Halaman Profil &amp; Lembar Pernyataan Integritas Teknisi</h4>
+        <p>Identitas siswa, rekap capaian jam pelajaran (180 JP = 90 JP Ganjil + 90 JP Genap), visi keahlian, dan pakta integritas profesionalisme teknisi.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Kumpulan LKPD 1 s.d. 10 Terverifikasi</h4>
+        <p>Seluruh lembar kerja peserta didik yang telah diisi, dinilai, dan ditandatangani oleh guru pengampu mata pelajaran selama Semester Ganjil dan Genap.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Dokumentasi Foto/Video Before &amp; After Proyek Servis</h4>
+        <p>Foto bukti unjuk kerja fisik perakitan, perapian kabel, pembersihan heatsink, dan screenshot pembacaan sensor benchmark sistem.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Lembar Refleksi Diri &amp; Rekomendasi Kesiapan PKL Industri</h4>
+        <p>Catatan reflektif penguasaan materi, kendala yang berhasil diatasi, serta rekomendasi penempatan divisi kerja saat program PKL di industri IT.</p>
+      </div>
     </div>
   </div>
 </section>
 
 
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-10: Lembar Penilaian Mandiri (Self-Assessment) &amp; Portofolio Tahunan</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA LENGKAP SISWA:</label><input type="text" id="l10_nama" class="custom-input" placeholder="Nama siswa..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NISN / NOMOR MEJA UJI:</label><input type="text" id="l10_nisn" class="custom-input" placeholder="NISN - Meja 05"></div>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. REKAPITULASI CAPAIAN KOMPETENSI 1 TAHUN PEMBELAJARAN:</label>
+    <textarea class="custom-textarea" id="l10_rekap" rows="4" placeholder="Semester Ganjil (90 JP): Menguasai K3, pengenalan komponen hardware, perakitan PC, instalasi BIOS UEFI, instalasi driver, troubleshooting dasar.&#10;Semester Genap (90 JP): Menguasai upgrade komponen, servis printer/scanner, perawatan laptop, hardening firewall, manajemen partisi GPT, software diagnostic AI, recovery sistem, studi kasus kompleks, dan proyek lab sekolah."></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. CATATAN REFLEKSI DIRI (Kelebihan & Area yang Masih Perlu Ditingkatkan):</label>
+    <textarea class="custom-textarea" id="l10_refleksi" rows="3" placeholder="Kelebihan saya adalah kecepatan diagnosa hardware dan instalasi sistem. Hal yang masih perlu ditingkatkan adalah ketelitian saat menganalisis minidump crash dump yang rumit."></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. KESIAPAN MENGIKUTI PRAKTIK KERJA LAPANGAN (PKL) INDUSTRI:</label>
+    <select id="l10_ready" class="custom-select">
+      <option selected>SANGAT SIAP — Siap ditempatkan di divisi Computer Hardware Service &amp; Network Maintenance</option>
+      <option>SIAP DENGAN PENDAMPINGAN — Siap melaksanakan tugas teknisi junior</option>
+    </select>
+  </div>
+
+  <button type="button" class="btn-action" onclick="printLKPD10()">&#128438; Preview &amp; Cetak Sertifikat Evaluasi Portofolio</button>
+</div>
+<script>
+function printLKPD10(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>Sertifikat Evaluasi Portofolio TKJ</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LEMBAR EVALUASI PORTOFOLIO & KESIAPAN PKL</h3><h4>SMK DIPONEGORO TUMPANG &middot; KELAS X TKJ</h4><hr></center>');
+  w.document.write('<p><b>Nama Siswa:</b> '+(document.getElementById('l10_nama').value||'—')+'</p>');
+  w.document.write('<p><b>NISN / Meja:</b> '+(document.getElementById('l10_nisn').value||'—')+'</p><hr>');
+  w.document.write('<p><b>A. Rekapitulasi Capaian 180 JP:</b><br>'+(document.getElementById('l10_rekap').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>B. Refleksi Diri Siswa:</b><br>'+(document.getElementById('l10_refleksi').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>C. Status Kesiapan PKL:</b> '+(document.getElementById('l10_ready').value)+'</p>');
+  w.document.write('<br><br><div style="display:flex;justify-content:space-between;"><div>Siswa Yang Dinilai,<br><br><br><br><b>(....................)</b></div><div>Guru Pembimbing TKJ,<br><br><br><br><b>Wahyu Prihanto</b></div></div></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Berapa alokasi total jam pelajaran (JP) pembelajaran Pemeliharaan Komputer & Jaringan selama 1 tahun penuh (Semester Ganjil + Genap)?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">A. 45 JP</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">B. 90 JP</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">C. 180 JP (90 JP Semester Ganjil + 90 JP Semester Genap)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Total alokasi waktu kurikulum adalah 180 Jam Pelajaran (JP), terbagi rata menjadi 90 JP pada Semester Ganjil (fondasi dasar & instalasi) dan 90 JP pada Semester Genap (upgrade, periferal, diagnostik lanjutan, recovery & proyek servis).')">D. 360 JP</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa fungsi utama buku portofolio teknisi komputer saat siswa diterjunkan ke industri pada program PKL?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">A. Hanya sebagai syarat administratif kelulusan nilai rapor</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">B. Sebagai bukti autentik kompetensi, log sheet jam terbang praktik nyata, dan dokumentasi kemampuan pemecahan masalah teknis di hadapan mentor industri</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">C. Sebagai buku catatan teori harian</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dunia industri membutuhkan bukti nyata kompetensi teknis (skills proof). Buku portofolio membuktikan bahwa siswa telah menguji coba, membongkar, menginstal, dan menyelesaikan studi kasus kerusakan secara mandiri berstandar SOP.')">D. Untuk menggantikan kartu identitas siswa</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Pada skema penilaian UKK berstandar BNSP, aspek apa yang memiliki bobot penilaian tertinggi?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">A. Kecepatan merapikan meja kerja di akhir ujian</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">B. Ketepatan diagnosa, metode pemecahan masalah (troubleshooting), dan kepatuhan K3 keselamatan kerja</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">C. Menghafal seluruh nama komponen secara lisan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Di dunia industri, kemampuan menganalisis akar masalah secara logis dan menyelesaikannya dengan aman (K3) tanpa merusak komponen lain adalah kompetensi inti teknisi yang memiliki bobot penilaian tertinggi.')">D. Merek komponen yang dipilih</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Uji Praktik Mandiri</b></td><td>Gagal merakit dan tidak menyelesaikan instalasi</td><td>Merakit dan instalasi selesai namun melewati batas waktu</td><td>Semua klaster uji selesai tepat waktu sesuai standar SOP</td><td>Ujian selesai lebih cepat + 100% tepat tanpa koreksi + siap diterjunkan PKL</td></tr>
+    <tr><td><b>Kelengkapan Portofolio</b></td><td>Portofolio kosong atau hanya sebagian kecil</td><td>LKPD ada namun tidak lengkap dan belum ditandatangani</td><td>Portofolio 10 LKPD lengkap dengan data pengujian dan refleksi</td><td>Portofolio sempurna + dokumentasi foto/video + rekomendasi industri terlampir</td></tr>
+    <tr><td><b>Sikap Kerja &amp; Kemandirian</b></td><td>Bekerja sembarangan dan bergantung pada bantuan rekan</td><td>Bekerja mandiri namun kurang teliti dalam penanganan baut</td><td>Mandiri, disiplin waktu, mematuhi K3, dan bertanggung jawab</td><td>Sikap profesional teknisi industri + kepemimpinan tim + teladan bagi rekan</td></tr>
+  </tbody>
+</table>
+
+  </section>
+
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

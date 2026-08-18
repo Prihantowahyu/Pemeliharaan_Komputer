@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upgrade Komponen Komputer (RAM, Storage, VGA Card) &mdash; Bengkel Hardware TKJ</title>
+<title>Upgrade Komponen Komputer: RAM, Storage &amp; VGA Card &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,233 +248,514 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 1 &middot; HARI 1 &middot; 9 JP</div>
-    <h1>Upgrade Komponen Komputer (RAM, Storage, VGA Card)</h1>
-    <p class="subtitle">Analisis kompatibilitas socket/slot/daya, prosedur upgrade RAM dual-channel, migrasi HDD ke SSD NVMe/SATA, pemasangan kartu grafis, dan benchmark performa sistem sebelum & sesudah upgrade.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Hardware Upgrade</div><div class="chip"><b>Metode:</b> Praktik & Benchmark</div><div class="chip"><b>KKTP:</b> Peningkatan Performa Terukur</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Kreatif</div></div>
+    <div class="eyebrow">BLOK 1 &middot; HARI 1 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Upgrade Komponen Komputer: RAM, Storage &amp; VGA Card</h1>
+    <p class="subtitle">Panduan teknis mendalam tentang prosedur analisis kompatibilitas hardware, kalkulasi kebutuhan daya PSU, upgrade RAM dual-channel, migrasi HDD ke NVMe SSD dengan disk cloning, pemasangan VGA Card, dan pengujian performa sistem terukur menggunakan software benchmark industri.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi, Praktik, Diskusi Kolaboratif</div><div class="chip"><b>KKTP:</b> Upgrade & Benchmark Terukur</div><div class="chip"><b>Profil Pelajar:</b> Bernalar Kritis, Kreatif, Mandiri</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>INTERACTIVE UPGRADE &amp; PSU CALCULATOR</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px; background:var(--panel); border:1px solid var(--panel-border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; INTERACTIVE PSU CALCULATOR &amp; BOTTLENECK ANALYZER</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:16px;">
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:16px;">
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PROSESOR (CPU):</label>
-        <select id="calcCpu" class="custom-select" onchange="runUpgradeCalc()">
-          <option value="65">Intel Core i3 / Ryzen 3 (65W)</option>
-          <option value="95" selected>Intel Core i5 / Ryzen 5 (95W)</option>
-          <option value="125">Intel Core i7 / Ryzen 7 (125W)</option>
-          <option value="180">Intel Core i9 / Ryzen 9 (180W)</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">PROSESOR (TDP):</label>
+        <select id="calcCpu" class="custom-select" onchange="runCalc()">
+          <option value="65">Ryzen 3 / Core i3 (65W)</option>
+          <option value="95" selected>Ryzen 5 / Core i5 (95W)</option>
+          <option value="125">Ryzen 7 / Core i7 (125W)</option>
+          <option value="180">Ryzen 9 / Core i9 (180W)</option>
         </select>
       </div>
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">KARTU GRAFIS (GPU):</label>
-        <select id="calcGpu" class="custom-select" onchange="runUpgradeCalc()">
-          <option value="30">Integrated Intel UHD / Radeon Vega (30W)</option>
-          <option value="75">GTX 1650 / RX 6400 (75W - Tanpa PCIe Pin)</option>
-          <option value="170" selected>RTX 4060 / RX 7600 (170W - 1x 8-Pin)</option>
-          <option value="250">RTX 4070 Ti / RX 7800 XT (250W - 2x 8-Pin)</option>
-          <option value="350">RTX 4080 / 4090 (350W+ - 12VHPWR)</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">KARTU GRAFIS (TGP):</label>
+        <select id="calcGpu" class="custom-select" onchange="runCalc()">
+          <option value="30">Integrated Intel UHD (30W)</option>
+          <option value="75">GTX 1650 / RX 6400 (75W)</option>
+          <option value="170" selected>RTX 4060 / RX 7600 (170W)</option>
+          <option value="250">RTX 4070 Ti / RX 7800 XT (250W)</option>
+          <option value="350">RTX 4080 Super / RX 7900 XTX (350W)</option>
         </select>
       </div>
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">STORAGE UPGRADE:</label>
-        <select id="calcStorage" class="custom-select" onchange="runUpgradeCalc()">
-          <option value="15">HDD 3.5 Inch SATA (15W)</option>
-          <option value="5" selected>SSD NVMe PCIe Gen4 M.2 (5W)</option>
-          <option value="10">Dual SSD (SATA + M.2 NVMe) (10W)</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">KONFIGURASI RAM:</label>
+        <select id="calcRam" class="custom-select" onchange="runCalc()">
+          <option value="5">4GB Single Channel (5W)</option>
+          <option value="8">8GB Single Channel (8W)</option>
+          <option value="10" selected>16GB Dual Channel 2x8GB (10W)</option>
+          <option value="15">32GB Dual Channel 2x16GB (15W)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">STORAGE KONFIGURASI:</label>
+        <select id="calcStorage" class="custom-select" onchange="runCalc()">
+          <option value="15">HDD 3.5" 7200RPM (15W)</option>
+          <option value="5" selected>SSD NVMe M.2 (5W)</option>
+          <option value="10">HDD + SSD NVMe Dual (10W)</option>
+          <option value="12">2x SSD NVMe + HDD (12W)</option>
         </select>
       </div>
     </div>
-    <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <div style="background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;">
       <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">ESTIMASI TOTAL DAYA SISTEM:</div>
-        <div style="font-family:var(--font-heading); font-size:24px; font-weight:800; color:var(--cyan);" id="calcWattResult">320 Watt</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:4px;">TOTAL KONSUMSI DAYA:</div>
+        <div style="font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--cyan);" id="calcWatt">320 Watt</div>
       </div>
       <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">REKOMENDASI MINIMAL PSU:</div>
-        <div style="font-family:var(--font-heading); font-size:20px; font-weight:700; color:var(--emerald);" id="calcPsuResult">500W &middot; 80+ Bronze</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:4px;">REKOMENDASI PSU MINIMAL:</div>
+        <div style="font-family:var(--font-heading);font-size:18px;font-weight:800;color:var(--emerald);" id="calcPsu">550W 80+ Bronze</div>
       </div>
       <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">STATUS BOTTLENECK:</div>
-        <div style="font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--cyan-soft);" id="calcBottleneckResult">&check; Kompatibel &amp; Seimbang</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:4px;">KONEKTOR DAYA GPU:</div>
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--amber);" id="calcConnector">1x PCIe 8-Pin</div>
       </div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:4px;">ANALISIS BOTTLENECK:</div>
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cyan-soft);" id="calcBottleneck">&#10003; Seimbang &amp; Kompatibel</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">
+      * Kalkulasi sudah memperhitungkan overhead motherboard (25W), pendingin CPU aktif (15W), dan fan casing (5W). Tambahkan buffer keamanan 20-30% pada pemilihan PSU aktual.
     </div>
   </div>
 </div>
 <script>
-function runUpgradeCalc() {
-  const cpu = parseInt(document.getElementById('calcCpu').value) || 95;
-  const gpu = parseInt(document.getElementById('calcGpu').value) || 170;
-  const storage = parseInt(document.getElementById('calcStorage').value) || 5;
-  const base = 50; // motherboard, ram, fans
-  const total = cpu + gpu + storage + base;
+function runCalc() {
+  const cpu = parseInt(document.getElementById('calcCpu').value)||95;
+  const gpu = parseInt(document.getElementById('calcGpu').value)||170;
+  const ram = parseInt(document.getElementById('calcRam').value)||10;
+  const st = parseInt(document.getElementById('calcStorage').value)||5;
+  const base = 25+15+5; // mobo+cooler+fans
+  const total = cpu+gpu+ram+st+base;
   
-  document.getElementById('calcWattResult').textContent = total + " Watt";
-  
-  let recPsu = "450W · 80+ Standard";
-  if (total > 350) recPsu = "650W · 80+ Gold";
-  else if (total > 260) recPsu = "550W · 80+ Bronze";
-  else if (total > 180) recPsu = "500W · 80+ Bronze";
-  document.getElementById('calcPsuResult').textContent = recPsu;
+  document.getElementById('calcWatt').textContent = total + " Watt";
 
-  let bneck = "✓ Kompatibel & Seimbang";
-  if (cpu <= 65 && gpu >= 250) bneck = "⚠ CPU Bottleneck (GPU Terlalu Kuat)";
-  else if (cpu >= 180 && gpu <= 75) bneck = "ℹ GPU Bottleneck untuk Gaming";
-  document.getElementById('calcBottleneckResult').textContent = bneck;
+  let psu = "450W 80+ Standard";
+  if(total > 400) psu = "750W 80+ Gold";
+  else if(total > 330) psu = "650W 80+ Gold";
+  else if(total > 260) psu = "600W 80+ Bronze";
+  else if(total > 200) psu = "550W 80+ Bronze";
+  document.getElementById('calcPsu').textContent = psu;
+
+  let conn = "Tidak diperlukan (Integrated)";
+  if(gpu >= 350) conn = "1x 16-Pin 12VHPWR (600W)";
+  else if(gpu >= 250) conn = "2x PCIe 8-Pin";
+  else if(gpu >= 120) conn = "1x PCIe 8-Pin";
+  else if(gpu >= 75) conn = "1x PCIe 6-Pin atau Bus-Powered";
+  document.getElementById('calcConnector').textContent = conn;
+
+  let bn = "✓ Seimbang & Kompatibel";
+  let col = "var(--emerald)";
+  if(cpu <= 65 && gpu >= 250) { bn = "⚠ CPU Bottleneck — GPU tidak akan bekerja maksimal"; col="var(--amber)"; }
+  else if(cpu >= 180 && gpu <= 75) { bn = "ℹ GPU Bottleneck untuk gaming — CPU oversized"; col="var(--amber)"; }
+  const bn_el = document.getElementById('calcBottleneck');
+  bn_el.textContent = bn; bn_el.style.color = col;
 }
 </script>
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Pendahuluan & Teori Dasar Upgrade Hardware (90 Menit)</h4>
+            <p>Motivasi upgrade melalui studi kasus bottleneck nyata. Penjelasan konsep dual-channel RAM, perbedaan teknologi NVMe Gen3/Gen4 vs SATA SSD, arsitektur PCIe 4.0 x16 untuk VGA, dan prinsip kerja PSU 80 Plus.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Analisis Kompatibilitas & Perencanaan Upgrade (90 Menit)</h4>
+            <p>Menggunakan CPU-Z, HWiNFO untuk membaca spesifikasi sistem lama. Pembacaan QVL (Qualified Vendor List) RAM motherboard, deteksi slot M.2 (PCIe vs SATA key), kalkulasi TDP komponen dan kebutuhan minimal daya PSU.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik Pembongkaran, Pemasangan & Kloning Disk (90 Menit)</h4>
+            <p>Penerapan K3 (ESD wrist strap, pemutusan arus), pemasangan RAM dual-channel slot A2-B2, instalasi SSD NVMe, kloning disk sistem menggunakan Macrium Reflect/Acronis True Image, dan pemasangan VGA Card pada slot PCIe x16.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Benchmark, Analisis Performa & Troubleshooting Hasil Upgrade (90 Menit)</h4>
+            <p>Pengujian menggunakan CrystalDiskMark (storage), UserBenchmark (RAM bandwidth), Cinebench R23 (CPU), FurMark (GPU). Penyusunan tabel perbandingan performa sebelum vs sesudah. Troubleshooting umum: RAM tidak terdeteksi, boot loop, driver GPU.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Evaluasi, Presentasi Laporan & Penyusunan LKPD (45 Menit)</h4>
+            <p>Setiap kelompok mempresentasikan data benchmark hasil upgrade. Guru memberikan penilaian berdasarkan rubrik KKTP. Pengisian LKPD digital dan kesimpulan teknis.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="kompatibilitas">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Analisis Kompatibilitas Upgrade Hardware</h2>
-  <p class="sec-desc">Sebelum membeli komponen upgrade, teknisi komputer wajib memverifikasi 3 parameter krusial: soket/slot fisik, dukungan arsitektur BIOS/firmware, dan kapasitas catu daya (PSU).</p>
+<section id="teori-ram">
+  <div class="sec-tag">Bagian A &middot; Teori RAM</div>
+  <h2>A. Teori Mendalam: Upgrade Memori RAM</h2>
+  <p class="sec-desc">Memori akses acak (RAM) adalah komponen yang paling berpengaruh terhadap responsivitas multitasking sistem operasi modern. Pemilihan konfigurasi RAM yang tepat menentukan bandwidth data yang tersedia untuk prosesor.</p>
+
+  <table class="tech-table">
+    <thead><tr><th>Spesifikasi</th><th>DDR4 (2015-2023)</th><th>DDR5 (2021-Sekarang)</th></tr></thead>
+    <tbody>
+      <tr><td>Tegangan Operasi</td><td>1.20V &ndash; 1.35V (XMP)</td><td>1.10V &ndash; 1.25V (XMP 3.0)</td></tr>
+      <tr><td>Kecepatan Transfer Maks</td><td>~3.200 MT/s &ndash; 4.800 MT/s</td><td>~6.400 MT/s &ndash; 12.800 MT/s</td></tr>
+      <tr><td>Bandwidth Dual Channel</td><td>~51 GB/s (3.200 MHz)</td><td>~102 GB/s (6.400 MHz)</td></tr>
+      <tr><td>Kapasitas Per Modul</td><td>Maks 32 GB per DIMM</td><td>Maks 64 GB per DIMM</td></tr>
+      <tr><td>Teknologi On-Die ECC</td><td>Tidak tersedia (standard)</td><td>Tersedia secara native</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-2" style="margin-top:20px;">
+    <div class="card">
+      <h4 style="color:var(--cyan);">Prinsip Dual Channel &amp; Mengapa Sangat Penting</h4>
+      <p>Dual channel bekerja dengan mengaktifkan dua modul RAM secara paralel, menggandakan bus width (jalur data) dari 64-bit menjadi <b>128-bit</b>. Ini berarti CPU dapat memindahkan data ke/dari memori sebanyak dua kali lipat dalam satu clock cycle.</p>
+      <ul style="margin-top:10px;">
+        <li><b>Single Channel 1x16GB:</b> Bandwidth ~25,6 GB/s</li>
+        <li><b>Dual Channel 2x8GB:</b> Bandwidth ~51,2 GB/s (+100%)</li>
+        <li>Peningkatan nyata pada gaming &amp; rendering multi-core</li>
+        <li>Slot yang benar: <b>A2 &amp; B2</b> (slot ke-2 dan ke-4 dari CPU)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--amber);">XMP / EXPO Profile &amp; Cara Mengaktifkannya</h4>
+      <p>RAM modern memiliki profil kecepatan yang dikunci pada kecepatan default JEDEC (2133/2400 MHz) untuk kompatibilitas maksimal. Profil XMP (Intel) atau EXPO (AMD) menyimpan parameter timing optimal.</p>
+      <ul style="margin-top:10px;">
+        <li>Masuk BIOS &rarr; menu <b>AI Tweaker / OC</b></li>
+        <li>Aktifkan profil <b>XMP Profile 1</b> atau <b>EXPO I</b></li>
+        <li>Simpan dan restart &rarr; verifikasi kecepatan di CPU-Z</li>
+        <li>Timing RAM: CL (CAS Latency), tRCD, tRP, tRAS</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>&#9432; Tips Kompatibilitas RAM:</b> Selalu cek <b>QVL (Qualified Vendor List)</b> di website produsen motherboard sebelum membeli RAM baru. QVL memastikan RAM telah diuji kompatibilitasnya dengan specific motherboard yang Anda gunakan.
+  </div>
+</section>
+
+<section id="teori-storage">
+  <div class="sec-tag">Bagian B &middot; Teori Storage</div>
+  <h2>B. Teknologi SSD: NVMe PCIe Gen4 vs SATA vs HDD</h2>
+  <p class="sec-desc">Upgrade storage dari HDD mekanik ke SSD NVMe adalah investasi upgrade dengan return-on-investment terbaik untuk hampir semua komputer, memberikan peningkatan performa hingga 10x lipat.</p>
+
+  <table class="tech-table">
+    <thead><tr><th>Parameter</th><th>HDD 3.5" 7200RPM</th><th>SSD SATA III 2.5"</th><th>SSD NVMe PCIe Gen4</th></tr></thead>
+    <tbody>
+      <tr><td>Kecepatan Baca Sequential</td><td>~100-150 MB/s</td><td>~550 MB/s</td><td>~7.000-7.400 MB/s</td></tr>
+      <tr><td>Kecepatan Tulis Sequential</td><td>~100-130 MB/s</td><td>~520 MB/s</td><td>~6.500-6.900 MB/s</td></tr>
+      <tr><td>Latency Akses Data</td><td>5-10 ms (milidetik)</td><td>0.05-0.1 ms</td><td>0.02-0.05 ms</td></tr>
+      <tr><td>IOPS (4K Random Read)</td><td>~100 IOPS</td><td>~100.000 IOPS</td><td>~1.000.000 IOPS</td></tr>
+      <tr><td>Konsumsi Daya (Aktif)</td><td>6-10 Watt</td><td>2-3 Watt</td><td>3-7 Watt</td></tr>
+      <tr><td>Ketahanan Fisik (Goncangan)</td><td>Sangat Rentan</td><td>Tahan</td><td>Tahan</td></tr>
+    </tbody>
+  </table>
+
+  <div class="step-list" style="margin-top:20px;">
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Identifikasi Jenis Slot M.2 pada Motherboard</h4>
+        <p>Buka casing PC dan lokasikan slot M.2. Periksa apakah slot mendukung <b>PCIe NVMe</b> (kecepatan penuh) atau hanya <b>SATA M.2</b> (kecepatan sama dengan SATA III). Cek manual motherboard atau website produsen. Slot PCIe NVMe umumnya lebih cepat dan memiliki label "NVMe" di PCB.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Kloning Disk Sistem (Disk Cloning) dengan Macrium Reflect</h4>
+        <p>Instal Macrium Reflect Free. Sambungkan SSD baru via USB adapter. Pilih menu <b>Clone this disk</b> &rarr; pilih sumber HDD (C:) &rarr; pilih tujuan SSD baru &rarr; aktifkan <b>Intelligent Sector Copy</b> &rarr; jalankan proses. Setelah selesai, atur urutan boot di BIOS ke SSD baru.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Pemasangan Fisik SSD NVMe ke Slot M.2</h4>
+        <p>Pasang SSD NVMe pada sudut <b>30 derajat</b> ke dalam slot M.2. Tekan ujung SSD ke bawah hingga rata dengan PCB. Kencangkan baut standoff M2x3 atau geser pengunci <b>EZ-Latch</b> (ASUS) tanpa overtighten. Pasang heatsink termal bila tersedia.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Verifikasi Performa Menggunakan CrystalDiskMark</h4>
+        <p>Jalankan CrystalDiskMark setelah booting ke SSD baru. Pilih profil pengujian <b>NVMe SSD Profile</b>. Catat skor Sequential Read/Write dan 4K Random Read/Write. Bandingkan dengan spesifikasi resmi SSD untuk memastikan performa optimal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="teori-vga">
+  <div class="sec-tag">Bagian C &middot; Teori VGA Card</div>
+  <h2>C. Pemasangan &amp; Konfigurasi Kartu Grafis (VGA / GPU)</h2>
+  <p class="sec-desc">Kartu grafis adalah komponen paling penting untuk workload visual computing: gaming, rendering 3D, desain grafis, machine learning, dan pengolahan video.</p>
 
   <div class="grid-3">
     <div class="card">
-      <h4>A. Kompatibilitas RAM</h4>
-      <p>Periksa generasi DDR motherboard (DDR3 / DDR4 / DDR5), frekuensi clock maksimum (MHz), dukungan XMP/EXPO, serta batasan channel memori.</p>
-      <ul>
-        <li><b>Dual Channel:</b> Pasang pada slot 2 &amp; 4 (DIMM A2 &amp; B2).</li>
-        <li><b>Kapasitas:</b> Minimal 16GB (2x8GB) untuk standar industri modern.</li>
-        <li><b>Tegangan:</b> DDR4 (1.2V - 1.35V), DDR5 (1.1V).</li>
-      </ul>
+      <h4 style="color:var(--cyan);">1. Cek Clearance Fisik</h4>
+      <p>Ukur panjang ruang dalam casing (mm dari bracket ke kabel manajemen). VGA kelas atas bisa berukuran hingga 340mm. Periksa juga lebar GPU (2-slot, 3-slot, atau 4-slot) terhadap ketersediaan PCIe ekspansi slot.</p>
     </div>
     <div class="card">
-      <h4>B. Kompatibilitas Storage</h4>
-      <p>Migrasi dari HDD mekanik ke Solid State Drive (SSD) adalah upgrade dengan dampak performa paling signifikan.</p>
-      <ul>
-        <li><b>SATA III (2.5"):</b> Kecepatan ~550 MB/s (Cocok untuk PC lama).</li>
-        <li><b>M.2 NVMe PCIe Gen3:</b> Kecepatan ~3.500 MB/s.</li>
-        <li><b>M.2 NVMe PCIe Gen4:</b> Kecepatan ~7.400 MB/s.</li>
-      </ul>
+      <h4 style="color:var(--amber);">2. Cek Ketersediaan Konektor PSU</h4>
+      <p>GPU modern membutuhkan konektor PCIe 6-pin (75W), 8-pin (150W), atau 12VHPWR 16-pin (600W). Jangan gunakan adapter daisy-chain murah &mdash; gunakan kabel dedicated langsung dari PSU untuk menghindari voltage drop.</p>
     </div>
     <div class="card">
-      <h4>C. Kompatibilitas VGA (GPU)</h4>
-      <p>Pastikan slot PCIe x16, clearance panjang casing PC, dan konektor daya tambahan dari Power Supply.</p>
-      <ul>
-        <li><b>Konektor Daya:</b> 6-Pin (75W), 8-Pin (150W), 12VHPWR (450W+).</li>
-        <li><b>Panjang GPU:</b> Ukur ruang internal casing (mm).</li>
-        <li><b>Tier PSU:</b> Wajib menggunakan PSU bersertifikasi 80 Plus.</li>
-      </ul>
+      <h4 style="color:var(--emerald);">3. Prosedur Pemasangan GPU</h4>
+      <p>Lepas bracket besi penutup slot PCIe. Geser GPU ke slot PCIe x16 dengan tekanan merata hingga kunci pengunci <b>terdengar klik</b>. Kencangkan baut bracket ke casing. Sambungkan konektor daya PCIe dari PSU.</p>
     </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:20px;">
+    <b>&#9888; WAJIB DILAKUKAN SETELAH PASANG GPU BARU:</b> Bersihkan driver VGA lama menggunakan <b>DDU (Display Driver Uninstaller)</b> dalam Windows Safe Mode sebelum menginstal driver baru dari website resmi NVIDIA/AMD. Ini mencegah konflik driver yang menyebabkan BSOD atau artifak layar.
   </div>
 </section>
 
-<section id="prosedur">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. SOP Langkah Kerja Upgrade &amp; Kloning Disk</h2>
-  <p class="sec-desc">Tata cara pemasangan komponen baru dan migrasi data OS dari HDD ke SSD tanpa perlu instal ulang dari nol.</p>
+<section id="benchmark-praktik">
+  <div class="sec-tag">Bagian D &middot; Benchmark &amp; Evaluasi</div>
+  <h2>D. Tabel Laporan Benchmark Performa Sebelum vs Sesudah Upgrade</h2>
+  <p class="sec-desc">Siswa wajib mengisi data benchmark aktual dari hasil pengujian langsung di komputer lab. Gunakan software berikut: CrystalDiskMark (storage), Cinebench R23 (CPU render), 3DMark Fire Strike (GPU), dan UserBenchmark (RAM).</p>
 
-  <div class="step-list">
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Persiapan K3 &amp; Pemutusan Arus Listrik</h4>
-        <p>Matikan PC, cabut kabel power PSU, tekan tombol power PC 5 detik untuk membuang sisa arus listrik statis pada kapasitor motherboard. Pasang ESD wrist strap.</p>
-      </div>
+  <div id="benchmarkInputArea" style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:24px;">
+    <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;">Tabel Perbandingan Performa (Isi berdasarkan data pengujian aktual):</div>
+    <table class="tech-table">
+      <thead><tr><th>Parameter Pengujian</th><th>SEBELUM Upgrade (Baseline)</th><th>SESUDAH Upgrade (Hasil)</th><th>Peningkatan (%)</th></tr></thead>
+      <tbody>
+        <tr><td>Boot Time Windows 11</td><td><input type="text" placeholder="misal: 68 detik" class="custom-input" style="padding:6px;font-size:12px;" id="b1_before"></td><td><input type="text" placeholder="misal: 7 detik" class="custom-input" style="padding:6px;font-size:12px;" id="b1_after"></td><td style="color:var(--emerald); font-family:var(--font-mono);" id="b1_pct">—</td></tr>
+        <tr><td>Sequential Read Storage (MB/s)</td><td><input type="text" placeholder="misal: 110 MB/s" class="custom-input" style="padding:6px;font-size:12px;" id="b2_before"></td><td><input type="text" placeholder="misal: 7.200 MB/s" class="custom-input" style="padding:6px;font-size:12px;" id="b2_after"></td><td style="color:var(--emerald); font-family:var(--font-mono);" id="b2_pct">—</td></tr>
+        <tr><td>RAM Bandwidth (GB/s)</td><td><input type="text" placeholder="misal: 14 GB/s" class="custom-input" style="padding:6px;font-size:12px;" id="b3_before"></td><td><input type="text" placeholder="misal: 38 GB/s" class="custom-input" style="padding:6px;font-size:12px;" id="b3_after"></td><td style="color:var(--emerald); font-family:var(--font-mono);" id="b3_pct">—</td></tr>
+        <tr><td>Cinebench R23 Multi-Core</td><td><input type="text" placeholder="misal: 8.500 pts" class="custom-input" style="padding:6px;font-size:12px;" id="b4_before"></td><td><input type="text" placeholder="misal: 9.100 pts" class="custom-input" style="padding:6px;font-size:12px;" id="b4_after"></td><td style="color:var(--emerald); font-family:var(--font-mono);" id="b4_pct">—</td></tr>
+        <tr><td>3DMark Fire Strike (GPU)</td><td><input type="text" placeholder="misal: 4.200 score" class="custom-input" style="padding:6px;font-size:12px;" id="b5_before"></td><td><input type="text" placeholder="misal: 22.000 score" class="custom-input" style="padding:6px;font-size:12px;" id="b5_after"></td><td style="color:var(--emerald); font-family:var(--font-mono);" id="b5_pct">—</td></tr>
+      </tbody>
+    </table>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+      <button type="button" class="btn-action" onclick="calcBenchmark()">Hitung Peningkatan Performa</button>
+      <button type="button" class="btn-action" style="background:rgba(255,255,255,0.1);color:#fff;" onclick="resetBenchmark()">Reset Tabel</button>
     </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Pemasangan Modul RAM Baru (Dual Channel)</h4>
-        <p>Buka pengait slot RAM, posisikan notch lekukan RAM sesuai pin slot, tekan kedua ujung RAM secara merata hingga terdengar bunyi "klik" dari pengunci otomatis.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Pemasangan SSD M.2 NVMe &amp; Heatsink</h4>
-        <p>Pasang SSD M.2 pada sudut 30 derajat ke slot M.2 motherboard, tekan ke bawah, kencangkan baut standoff M2 atau geser pengunci EZ-Latch, pasang thermal pad heatsink.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Migrasi Sistem (Disk Cloning) dengan Software Disk Migration</h4>
-        <p>Gunakan software seperti Macrium Reflect atau Clonezilla. Pilih <i>Source Disk</i> (HDD lama) dan <i>Destination Disk</i> (SSD baru), centang <i>Copy Partitions with Exact Alignment</i>, jalankan proses kloning.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Pengaturan Boot Priority di BIOS &amp; Verifikasi Performa</h4>
-        <p>Masuk BIOS (tekan Del/F2), ubah urutan boot ke SSD baru. Masuk Windows, jalankan CrystalDiskMark &amp; Cinebench untuk mencatat perbandingan skor kecepatan.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="benchmark">
-  <div class="sec-tag">Bagian 3</div>
-  <h2>3. Pengujian Benchmark Sebelum vs Sesudah Upgrade</h2>
-  <p class="sec-desc">Siswa wajib menyusun tabel laporan pengujian terukur (KKTP: Peningkatan performa terukur).</p>
-
-  <div class="grid-2">
-    <div class="card" style="border-left:3px solid var(--amber);">
-      <h4 style="color:var(--amber);">Kondisi Sebelum Upgrade (Baseline)</h4>
-      <ul>
-        <li><b>Storage:</b> HDD 500GB 5400 RPM (Read: 95 MB/s, Write: 85 MB/s)</li>
-        <li><b>Boot Time Windows:</b> 68 Detik</li>
-        <li><b>RAM:</b> 4GB Single Channel DDR4 (Bandwidth: 14 GB/s)</li>
-        <li><b>Respon Multitasking:</b> Sering Not Responding saat buka 10 tab browser</li>
-      </ul>
-    </div>
-    <div class="card" style="border-left:3px solid var(--emerald);">
-      <h4 style="color:var(--emerald);">Kondisi Sesudah Upgrade (SSD + RAM 16GB)</h4>
-      <ul>
-        <li><b>Storage:</b> SSD M.2 NVMe 500GB (Read: 3.450 MB/s, Write: 2.800 MB/s)</li>
-        <li><b>Boot Time Windows:</b> 7 Detik (Peningkatan 900% lebih cepat)</li>
-        <li><b>RAM:</b> 16GB (2x8GB) Dual Channel (Bandwidth: 38 GB/s)</li>
-        <li><b>Respon Multitasking:</b> Lancar instan tanpa lag</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="quiz-box">
-    <div class="quiz-q">Kuis Diagnosa: Mengapa RAM 2x8GB (Dual Channel) jauh lebih cepat daripada RAM 1x16GB (Single Channel) pada frekuensi yang sama?</div>
-    <div class="quiz-opt" onclick="checkQuiz(this, true)">A. Karena dual channel menggandakan lebar jalur data memori dari 64-bit menjadi 128-bit sehingga throughput transfer data naik hingga 2x lipat.</div>
-    <div class="quiz-opt" onclick="checkQuiz(this, false)">B. Karena RAM 2 keping mengonsumsi daya lebih sedikit daripada 1 keping.</div>
-    <div class="quiz-opt" onclick="checkQuiz(this, false)">C. Karena slot RAM motherboard hanya bisa membaca kapasitas maksimal 8GB per slot.</div>
   </div>
 </section>
 
 <script>
-function checkQuiz(elem, isCorrect) {
-  const parent = elem.parentElement;
-  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
-  if (isCorrect) {
-    elem.classList.add('correct');
-    alert('✓ Benar! Dual channel melipatgandakan data bus width menjadi 128-bit, mengurangi bottleneck CPU saat memproses data besar.');
-  } else {
-    elem.classList.add('wrong');
-    alert('✕ Kurang tepat. Silakan tinjau kembali prinsip kerja memory controller dual-channel.');
+function calcBenchmark() {
+  for(let i = 1; i <= 5; i++) {
+    const bef = parseFloat(document.getElementById('b'+i+'_before').value);
+    const aft = parseFloat(document.getElementById('b'+i+'_after').value);
+    const pctEl = document.getElementById('b'+i+'_pct');
+    if(!isNaN(bef) && !isNaN(aft) && bef > 0) {
+      const pct = Math.round(((aft - bef) / bef) * 100);
+      pctEl.textContent = (pct >= 0 ? '+' : '') + pct + '%';
+      pctEl.style.color = pct >= 0 ? 'var(--emerald)' : 'var(--red)';
+    } else {
+      pctEl.textContent = '—';
+    }
+  }
+}
+function resetBenchmark() {
+  for(let i = 1; i <= 5; i++) {
+    document.getElementById('b'+i+'_before').value = '';
+    document.getElementById('b'+i+'_after').value = '';
+    document.getElementById('b'+i+'_pct').textContent = '—';
   }
 }
 </script>
 
 
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-1: Analisis Kompatibilitas &amp; Laporan Upgrade Komponen</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+    <div>
+      <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA SISWA / KELOMPOK:</label>
+      <input type="text" id="lkpd_nama" class="custom-input" placeholder="Tulis nama lengkap...">
+    </div>
+    <div>
+      <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NOMOR UNIT PC LAB:</label>
+      <input type="text" id="lkpd_unit" class="custom-input" placeholder="Contoh: LAB-TKJ-PC05">
+    </div>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. DATA SPESIFIKASI SISTEM AWAL (baca menggunakan CPU-Z atau HWiNFO64):</label>
+    <textarea class="custom-textarea" id="lkpd_spec" rows="4" placeholder="Prosesor: Intel Core i5-XXXX (X cores, X.X GHz)&#10;RAM: X GB DDR4 Single Channel @ XXXX MHz&#10;Storage: HDD 500GB 5400RPM (Sequential Read: XX MB/s)&#10;Grafis: Integrated Intel UHD XXX"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. KOMPONEN UPGRADE YANG DIPASANG (merek, tipe, spesifikasi):</label>
+    <textarea class="custom-textarea" id="lkpd_upgrade" rows="3" placeholder="RAM Baru: XXXX DDR4 2x8GB 3200MHz XMP&#10;Storage: Samsung 980 Pro 500GB NVMe PCIe Gen4&#10;GPU: (bila ada upgrade)..."></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. KENDALA YANG DITEMUI SAAT PROSES UPGRADE &amp; CARA MENGATASINYA:</label>
+    <textarea class="custom-textarea" id="lkpd_kendala" rows="3" placeholder="Tuliskan masalah yang muncul selama proses praktik dan tindakan yang dilakukan untuk mengatasinya..."></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. KESIMPULAN TEKNIS (bandingkan performa sebelum dan sesudah, rekomendasi upgrade lanjutan):</label>
+    <textarea class="custom-textarea" id="lkpd_kesimpulan" rows="4" placeholder="Berdasarkan hasil pengujian, upgrade RAM dari single channel ke dual channel meningkatkan bandwidth memori sebesar... Upgrade SSD NVMe memberikan peningkatan boot time sebesar... Rekomendasi upgrade selanjutnya adalah..."></textarea>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+    <button type="button" class="btn-action" onclick="printLKPD1()">&#128438; Preview &amp; Cetak LKPD</button>
+  </div>
+</div>
+<script>
+function printLKPD1() {
+  const nama = document.getElementById('lkpd_nama').value || '(belum diisi)';
+  const unit = document.getElementById('lkpd_unit').value || '(belum diisi)';
+  const spec = document.getElementById('lkpd_spec').value || '(belum diisi)';
+  const upgrade = document.getElementById('lkpd_upgrade').value || '(belum diisi)';
+  const kendala = document.getElementById('lkpd_kendala').value || '(belum diisi)';
+  const kesimpulan = document.getElementById('lkpd_kesimpulan').value || '(belum diisi)';
+  const w = window.open('', '_blank');
+  w.document.write('<html><head><title>LKPD Upgrade Komputer</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LEMBAR KERJA PESERTA DIDIK</h3><h4>Upgrade Komponen Komputer — SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  w.document.write('<p><b>Nama / Kelompok:</b> '+nama+'</p><p><b>Nomor Unit PC:</b> '+unit+'</p><p><b>Tanggal Praktik:</b> '+new Date().toLocaleDateString('id-ID')+'</p><hr>');
+  w.document.write('<p><b>A. Spesifikasi Sistem Awal:</b><br>'+spec.replace(/\n/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>B. Komponen Upgrade:</b><br>'+upgrade.replace(/\n/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>C. Kendala &amp; Solusi:</b><br>'+kendala.replace(/\n/g,'<br>')+'</p><hr>');
+  w.document.write('<p><b>D. Kesimpulan Teknis:</b><br>'+kesimpulan.replace(/\n/g,'<br>')+'</p>');
+  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p>');
+  w.document.write('</body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa RAM 2x8GB Dual Channel lebih baik daripada 1x16GB pada frekuensi yang sama?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">A. Karena total kapasitas 16GB lebih besar secara fisik</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">B. Karena Dual Channel menggandakan data bus dari 64-bit menjadi 128-bit sehingga bandwidth transfer meningkat ~2x lipat</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">C. Karena dua keping RAM mengonsumsi daya lebih hemat</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dual channel mengaktifkan dua bank memori secara paralel, menggandakan lebar data bus dari 64-bit menjadi 128-bit. Ini meningkatkan bandwidth transfer memory secara signifikan (contoh: dari ~25 GB/s menjadi ~51 GB/s), terutama terasa pada game dan workload CPU-intensive.')">D. Karena satu keping RAM 16GB tidak kompatibel dengan motherboard modern</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Software apa yang paling tepat untuk melakukan proses disk cloning OS dari HDD ke SSD tanpa kehilangan data?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">A. CCleaner (Pembersih Cache)</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">B. Macrium Reflect atau Acronis True Image (Disk Cloning/Imaging)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">C. Malwarebytes (Anti-Malware)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Macrium Reflect dan Acronis True Image adalah software disk imaging/cloning yang dapat menyalin seluruh isi drive termasuk partisi tersembunyi (EFI, Recovery) ke media baru secara identik tanpa perlu instal ulang OS dari awal.')">D. CPU-Z (CPU Identification)</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Apa kegunaan utama memeriksa QVL (Qualified Vendor List) sebelum membeli RAM baru?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">A. Untuk mengetahui harga RAM di pasaran</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">B. Untuk memastikan RAM telah diuji kompatibilitasnya dengan motherboard spesifik yang digunakan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">C. Untuk mengetahui apakah RAM bisa di-overclock</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'QVL adalah daftar resmi dari produsen motherboard yang mencantumkan modul RAM yang telah diuji dan dikonfirmasi kompatibel. Mengabaikan QVL bisa mengakibatkan RAM tidak terdeteksi, tidak bisa aktivasi XMP, atau sistem tidak stabil.')">D. Untuk mengetahui kapan tanggal garansi RAM berakhir</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Berapa sudut yang tepat saat memasukkan SSD M.2 ke dalam slotnya?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">A. Horizontal (0 derajat, lurus rata)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">B. Vertikal (90 derajat, tegak lurus)</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">C. 30 derajat (miring ke atas), kemudian ditekan ke bawah dan dikunci baut</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'SSD M.2 harus dimasukkan dengan sudut 30 derajat ke dalam konektor slot M.2. Setelah terhubung penuh, ujung SSD ditekan ke bawah hingga rata dengan PCB motherboard, kemudian dikunci dengan baut standoff M2 atau pengunci EZ-Latch.')">D. 45 derajat (miring diagonal)</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 5: Apa fungsi utama profil XMP pada modul RAM?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">A. Mengaktifkan fitur error correction (ECC) pada RAM consumer</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">B. Menyimpan parameter frekuensi, tegangan, dan timing optimal di atas standar JEDEC default untuk performa lebih tinggi</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">C. Menambahkan kapasitas virtual RAM dari storage SSD</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'XMP (Extreme Memory Profile) adalah standar Intel untuk menyimpan konfigurasi OC yang telah divalidasi di chip SPD RAM. Tanpa XMP, RAM berjalan di kecepatan JEDEC default (2133 MHz). Setelah diaktifkan di BIOS, RAM bisa berjalan di kecepatan penuh sesuai label (misal 3200 MHz, 4800 MHz).')">D. Mengenkripsi data yang disimpan di modul RAM</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead>
+    <tr>
+      <th>Aspek Penilaian KKTP</th>
+      <th>Belum Berkembang (1-40)</th>
+      <th>Mulai Berkembang (41-70)</th>
+      <th>Berkembang Sesuai (71-85)</th>
+      <th>Mahir / Sangat Baik (86-100)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Penerapan K3</b></td>
+      <td>Tidak menggunakan ESD wrist strap dan tidak memutus aliran listrik</td>
+      <td>Menggunakan K3 dasar namun tidak konsisten sepanjang praktik</td>
+      <td>Menerapkan K3 lengkap: ESD, pemutusan arus, penanganan baut</td>
+      <td>K3 sempurna + memberikan panduan K3 kepada rekan kelompok</td>
+    </tr>
+    <tr>
+      <td><b>Kompatibilitas &amp; Analisis</b></td>
+      <td>Tidak dapat mengidentifikasi spesifikasi dan kompatibilitas komponen</td>
+      <td>Mampu membaca CPU-Z namun kesulitan menganalisis QVL dan kebutuhan PSU</td>
+      <td>Analisis kompatibilitas tepat termasuk QVL dan kalkulasi daya PSU</td>
+      <td>Analisis mendalam termasuk bottleneck, XMP/EXPO, dan rekomendasi upgrade lanjutan</td>
+    </tr>
+    <tr>
+      <td><b>Pemasangan Fisik</b></td>
+      <td>Tidak dapat memasang komponen atau membutuhkan bantuan penuh guru</td>
+      <td>Dapat memasang dengan banyak panduan dan koreksi</td>
+      <td>Pemasangan RAM, SSD, dan GPU mandiri sesuai prosedur</td>
+      <td>Pemasangan sempurna termasuk cable management dan thermal paste (jika diperlukan)</td>
+    </tr>
+    <tr>
+      <td><b>Benchmark &amp; Laporan Data</b></td>
+      <td>Tidak dapat menjalankan atau membaca data benchmark</td>
+      <td>Menjalankan benchmark namun tidak dapat menganalisis hasilnya</td>
+      <td>Data benchmark lengkap sebelum-sesudah dengan perhitungan persentase</td>
+      <td>Laporan analisis mendalam dengan interpretasi ilmiah dan rekomendasi tertulis</td>
+    </tr>
+  </tbody>
+</table>
+
+  </section>
+
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

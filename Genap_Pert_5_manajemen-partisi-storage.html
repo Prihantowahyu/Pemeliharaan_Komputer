@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manajemen Partisi &amp; Storage (HDD / SSD) &mdash; Bengkel Hardware TKJ</title>
+<title>Manajemen Partisi &amp; Optimasi Storage (HDD / SSD / NVMe) &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,121 +248,379 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 1 &middot; HARI 5 &middot; 9 JP</div>
-    <h1>Manajemen Partisi &amp; Storage (HDD / SSD)</h1>
-    <p class="subtitle">Tabel partisi GPT vs MBR, manajemen volume disk (Create, Shrink, Extend, Delete), format & konversi file system (FAT32, NTFS, exFAT, ext4), analisis parameter S.M.A.R.T. kesehatan media penyimpanan, dan optimasi SSD TRIM.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Storage Management</div><div class="chip"><b>Metode:</b> Praktik Diskpart & S.M.A.R.T</div><div class="chip"><b>KKTP:</b> Kelola Minimal 2 Partisi & Analisis S.M.A.R.T</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Mandiri</div></div>
+    <div class="eyebrow">BLOK 1 &middot; HARI 5 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Manajemen Partisi &amp; Optimasi Storage (HDD / SSD / NVMe)</h1>
+    <p class="subtitle">Panduan komprehensif tabel partisi GPT vs MBR, manajemen volume disk menggunakan Disk Management dan Diskpart CLI, format dan konversi sistem file (NTFS, FAT32, exFAT, ext4), analisis parameter S.M.A.R.T. untuk deteksi dini kerusakan, pengaktifan TRIM SSD, dan optimasi sistem file untuk performa maksimal.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi, Praktik Diskpart & S.M.A.R.T.</div><div class="chip"><b>KKTP:</b> Kelola 2 Partisi & Analisis S.M.A.R.T Akurat</div><div class="chip"><b>Profil Pelajar:</b> Bernalar Kritis, Mandiri</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>INTERACTIVE DISK PARTITION VISUALIZER &amp; SHRINK/EXTEND SIMULATOR</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; INTERACTIVE DISK PARTITION SIMULATOR &amp; DISKPART COMMAND GENERATOR</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="margin-bottom:14px; font-family:var(--font-mono); font-size:12px; color:var(--text-sub);">
-      DISK 0 (SSD 512 GB &middot; GPT &middot; NVMe):
+  <div style="padding:24px;">
+    <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-sub);margin-bottom:12px;">DISK 0 (512 GB &middot; NVMe SSD &middot; GPT) — Visualisasi Partisi:</div>
+    <div style="display:flex;height:56px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--panel-border);margin-bottom:20px;" id="diskVisualizer">
+      <div id="pEfi" style="width:2%;background:#38bdf8;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;color:#030712;font-weight:700;white-space:nowrap;overflow:hidden;" title="EFI System (100MB)">EFI</div>
+      <div id="pMsr" style="width:1%;background:#94a3b8;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:8px;color:#030712;" title="MSR (16MB)">MSR</div>
+      <div id="pC" style="width:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;color:#fff;font-weight:700;" title="C: Windows System">C: Windows (256 GB)</div>
+      <div id="pD" style="width:47%;background:#10b981;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;color:#030712;font-weight:700;" title="D: Data Storage">D: Data (240 GB)</div>
     </div>
-    <div style="display:flex; height:50px; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--panel-border); margin-bottom:18px;" id="partitionBar">
-      <div id="partEfi" style="width:10%; background:#38bdf8; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:11px; font-weight:700; color:#030712;" title="EFI System Partition (100 MB)">EFI (100MB)</div>
-      <div id="partC" style="width:50%; background:#8b5cf6; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:12px; font-weight:700; color:#fff;" title="Windows C: (256 GB NTFS)">C: SYSTEM (256GB)</div>
-      <div id="partD" style="width:40%; background:#10b981; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:12px; font-weight:700; color:#030712;" title="Data D: (256 GB NTFS)">D: DATA (256GB)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">OPERASI PARTISI:</label>
+      <select id="diskOp" class="custom-select" onchange="runDiskSim()">
+        <option value="shrink">Shrink C: menjadi 150 GB (Buat ruang baru)</option>
+        <option value="extend">Extend D: menggunakan Unallocated Space</option>
+        <option value="new">Buat Partisi Baru E: dari Unallocated</option>
+        <option value="delete">Delete Partisi D: (Hapus Data)</option>
+        <option value="reset">Reset ke Kondisi Awal</option>
+      </select></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">FORMAT FILE SYSTEM:</label>
+      <select id="diskFs" class="custom-select" onchange="runDiskSim()">
+        <option value="NTFS" selected>NTFS (Windows, journaling, max 16TB per file)</option>
+        <option value="FAT32">FAT32 (Kompatibel, max 4GB per file)</option>
+        <option value="exFAT">exFAT (Flash Drive, cross-platform, max 128PB)</option>
+        <option value="ext4">ext4 (Linux, journaling, max 16TB)</option>
+      </select></div>
     </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button type="button" class="btn-action" onclick="simulateShrink()">Shrink Drive C: (Bagi Partisi)</button>
-      <button type="button" class="btn-action" style="background:linear-gradient(135deg, #10b981, #38bdf8);" onclick="simulateExtend()">Extend Drive D: (Perbesar Data)</button>
-      <button type="button" class="btn-action" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="simulateReset()">Reset Partisi</button>
+    <div style="background:rgba(3,7,18,0.8);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:16px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);margin-bottom:8px;">PERINTAH DISKPART CLI YANG DIHASILKAN:</div>
+      <pre id="diskCmdOutput" style="font-family:var(--font-mono);font-size:12px;color:#a5f3fc;line-height:1.6;white-space:pre-wrap;">diskpart
+list disk
+select disk 0
+list partition
+select partition 2
+shrink desired=106000 minimum=50000</pre>
     </div>
   </div>
 </div>
 <script>
-function simulateShrink() {
-  document.getElementById('partC').style.width = '30%';
-  document.getElementById('partC').textContent = 'C: (150GB)';
-  document.getElementById('partD').style.width = '60%';
-  document.getElementById('partD').textContent = 'D: (360GB)';
+function runDiskSim(){
+  const op=document.getElementById('diskOp').value;
+  const fs=document.getElementById('diskFs').value;
+  const cmd=document.getElementById('diskCmdOutput');
+  const pC=document.getElementById('pC');
+  const pD=document.getElementById('pD');
+  
+  if(op==='shrink'){
+    pC.style.width='30%';pC.textContent='C: Win (150GB)';
+    pD.style.width='47%';
+    const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.1)','Unallocated (106GB)','20%','var(--text-muted)');
+    pU.style.width='20%';
+    cmd.textContent='diskpart
+list disk
+select disk 0
+list partition
+select partition 2
+shrink desired=108544 minimum=51200
+
+// Hasil: 106 GB Unallocated Space tersedia';
+  }else if(op==='extend'){
+    pD.style.width='67%';pD.textContent='D: Data (342GB)';
+    const pU=document.getElementById('pNew');if(pU)pU.style.width='0';
+    cmd.textContent='diskpart
+list disk
+select disk 0
+list partition
+select partition 3
+extend
+
+// Partisi D: diperluas menggunakan seluruh Unallocated Space';
+  }else if(op==='new'){
+    const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.1)','Unallocated','20%','var(--text-muted)');
+    pU.style.width='20%';pU.textContent='Unallocated';
+    const pE=document.getElementById('pE')||createPart('pE','#f59e0b','E: Baru (100GB)','18%','#030712');
+    pE.style.width='18%';
+    cmd.textContent=`diskpart
+list disk
+select disk 0
+create partition primary size=102400
+format fs=${fs} quick label="Data_Baru"
+assign letter=E
+active
+
+// Partisi E: baru berhasil dibuat (${fs})`;
+  }else if(op==='delete'){
+    pD.style.width='0';pD.textContent='';
+    const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.06)','Unallocated (240GB)','47%','var(--text-muted)');
+    pU.style.width='47%';pU.textContent='Unallocated (240GB)';
+    cmd.textContent='PERINGATAN! Perintah ini menghapus semua data pada partisi secara permanen!
+
+diskpart
+list disk
+select disk 0
+list partition
+select partition 3
+delete partition override';
+  }else{
+    pC.style.width='50%';pC.textContent='C: Windows (256 GB)';
+    pD.style.width='47%';pD.textContent='D: Data (240 GB)';
+    ['pNew','pE'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width='0';});
+    cmd.textContent='diskpart
+list disk
+select disk 0
+list partition
+detail disk
+
+// Tampilan partisi dikembalikan ke kondisi awal (2 partisi)';
+  }
 }
-function simulateExtend() {
-  document.getElementById('partC').style.width = '25%';
-  document.getElementById('partC').textContent = 'C: (120GB)';
-  document.getElementById('partD').style.width = '65%';
-  document.getElementById('partD').textContent = 'D: (390GB)';
-}
-function simulateReset() {
-  document.getElementById('partC').style.width = '50%';
-  document.getElementById('partC').textContent = 'C: SYSTEM (256GB)';
-  document.getElementById('partD').style.width = '40%';
-  document.getElementById('partD').textContent = 'D: DATA (256GB)';
+function createPart(id,bg,text,w,col){
+  const vis=document.getElementById('diskVisualizer');
+  const d=document.createElement('div');d.id=id;
+  d.style.cssText=`width:${w};background:${bg};display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:${col};font-weight:700;overflow:hidden;`;
+  d.textContent=text;vis.appendChild(d);return d;
 }
 </script>
 
   </header>
 
-  
-<section id="gpt-vs-mbr">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Tabel Partisi: GPT (GUID Partition Table) vs MBR (Master Boot Record)</h2>
-  <p class="sec-desc">Pemilihan skema partisi menentukan kapasitas maksimal storage dan kompatibilitas firmware UEFI.</p>
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Teori: GPT vs MBR, Tipe Partisi & Sistem File (90 Menit)</h4>
+            <p>Sejarah dan perbedaan fundamental MBR dan GPT. Struktur partisi: primary, extended, logical. Perbandingan sistem file: FAT32 (batas 4GB per file), NTFS (journaling, permissions, batas 16TB), exFAT (flash drive cross-platform), ext4 (Linux). Kaitan UEFI dengan GPT.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Disk Management & Diskpart CLI: Teori & Demonstrasi (90 Menit)</h4>
+            <p>Membuka Disk Management (diskmgmt.msc). Identifikasi disk, partisi, dan status. Demonstrasi: Shrink Volume, Extend Volume, Create Simple Volume, Delete Volume. Pengantar Diskpart CLI: list disk, select disk, list part, detail part. Konversi MBR ke GPT.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik Diskpart CLI & Format File System (90 Menit)</h4>
+            <p>Siswa melakukan operasi partisi mandiri menggunakan Diskpart di CMD Administrator: membuat partisi primer baru dari unallocated space, format NTFS dengan label, aktifkan partisi sebagai active (jika bootable). Simulasi konversi GPT dengan perintah convert gpt.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Analisis S.M.A.R.T., Optimasi SSD & Troubleshooting Storage (90 Menit)</h4>
+            <p>Menggunakan CrystalDiskInfo untuk membaca parameter S.M.A.R.T. Interpretasi atribut kritis: 05 (Reallocated Sectors), C5 (Current Pending Sector), C6 (Uncorrectable Sector), 05/E7 (SSD Wear Level). Verifikasi TRIM aktif (fsutil behavior query DisableDeleteNotify). Defragmentasi HDD vs TRIM SSD.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Evaluasi, Presentasi Partisi Hasil Kerja & Pengisian LKPD (45 Menit)</h4>
+            <p>Setiap kelompok menampilkan screenshot Disk Management menunjukkan hasil partisi yang telah dibuat. Presentasi data S.M.A.R.T. dan interpretasinya. Penilaian teknis dan pengisian LKPD digital.</p>
+          </div>
+        </div>
+        </div>
+  </section>
 
-  <div class="grid-2">
-    <div class="card">
-      <h4 style="color:var(--cyan);">GPT (Modern &middot; Rekomendasi Utama)</h4>
-      <ul>
-        <li><b>Kapasitas Maksimal:</b> Hingga 9.4 Zettabytes (9.4 miliar Terabytes).</li>
-        <li><b>Jumlah Partisi Primer:</b> Hingga 128 partisi primer tanpa perlu partisi extended.</li>
-        <li><b>Keamanan:</b> Memiliki tabel partisi cadangan (Backup Header) di akhir disk untuk recovery otomatis jika sektor awal korup.</li>
-        <li><b>Firmware Wajib:</b> UEFI Mode (Native 64-bit).</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4 style="color:var(--amber);">MBR (Legacy &middot; Kompatibilitas Lama)</h4>
-      <ul>
-        <li><b>Kapasitas Maksimal:</b> Terbatas maksimal 2 Terabytes (2 TB per disk).</li>
-        <li><b>Jumlah Partisi Primer:</b> Maksimal 4 partisi primer (atau 3 primer + 1 extended).</li>
-        <li><b>Keamanan:</b> Struktur header tunggal di sektor 0; jika korup, seluruh partisi hilang.</li>
-        <li><b>Firmware:</b> Legacy BIOS / CSM Mode.</li>
-      </ul>
-    </div>
+  <!-- CONTENT SECTIONS -->
+  
+<section id="gpt-mbr">
+  <div class="sec-tag">Bagian A &middot; Tabel Partisi</div>
+  <h2>A. GPT (GUID Partition Table) vs MBR (Master Boot Record): Analisis Mendalam</h2>
+  <p class="sec-desc">Skema partisi adalah fondasi infrastruktur data di setiap disk. Pemilihan yang salah dapat mengakibatkan batasan kapasitas atau ketidakcocokan dengan firmware sistem.</p>
+  <table class="tech-table">
+    <thead><tr><th>Parameter</th><th>MBR (Legacy, 1983)</th><th>GPT (Modern, 2000)</th></tr></thead>
+    <tbody>
+      <tr><td>Kapasitas Disk Maksimal</td><td>2 Terabyte (2 TB) — batas hardware 32-bit sector addressing</td><td>9.4 Zettabyte (secara teoritis tak terbatas secara praktis)</td></tr>
+      <tr><td>Jumlah Partisi Primer</td><td>Maksimal 4 primary (atau 3 primary + 1 extended berisi banyak logical)</td><td>Hingga 128 partisi primary tanpa perlu partisi extended</td></tr>
+      <tr><td>Lokasi Header Partisi</td><td>Sektor 0 saja (LBA 0) — tidak ada backup</td><td>Header utama di LBA 1 + Header cadangan di LBA terakhir disk (auto-recovery)</td></tr>
+      <tr><td>Identifikasi Partisi</td><td>Angka sederhana (0x07 NTFS, 0x0B FAT32)</td><td>GUID 128-bit unik per partisi (contoh: EFI System: C12A7328-F81F-11D2-BA4B)</td></tr>
+      <tr><td>Firmware Sistem</td><td>Legacy BIOS / CSM (Compatibility Support Module)</td><td>UEFI Native Mode (wajib untuk Secure Boot dan Windows 11)</td></tr>
+      <tr><td>Redundansi &amp; Keamanan</td><td>Single point of failure — jika sektor 0 rusak, semua data hilang</td><td>Backup header + CRC32 checksum — auto-repair dari backup jika header utama rusak</td></tr>
+    </tbody>
+  </table>
+  <div class="callout" style="margin-top:16px;">
+    <b>&#9432; Konversi MBR ke GPT:</b> Windows 11 mewajibkan disk sistem menggunakan GPT + UEFI. Konversi dapat dilakukan tanpa kehilangan data menggunakan tool <b>MBR2GPT.exe</b> bawaan Windows: <code>mbr2gpt /convert /disk:0 /allowFullOS</code>
   </div>
 </section>
 
 <section id="smart-analysis">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. Analisis Parameter S.M.A.R.T. Kesehatan Disk (HDD/SSD)</h2>
-  <p class="sec-desc">S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology) memberikan peringatan dini sebelum media penyimpanan rusak total.</p>
+  <div class="sec-tag">Bagian B &middot; S.M.A.R.T. Analysis</div>
+  <h2>B. Interpretasi Parameter S.M.A.R.T. Kesehatan Disk</h2>
+  <p class="sec-desc">S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology) adalah sistem pelaporan kesehatan internal HDD/SSD. Memahami atribut kritisnya dapat mencegah kehilangan data dengan memberikan peringatan 48-72 jam sebelum kegagalan total.</p>
+  <table class="tech-table">
+    <thead><tr><th>ID Atribut</th><th>Nama Parameter</th><th>Berlaku untuk</th><th>Nilai Kritis (Raw Value)</th><th>Interpretasi Teknisi</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--red);">05</b></td><td>Reallocated Sectors Count</td><td>HDD</td><td>&gt; 0 = BERBAHAYA</td><td>Jumlah sektor fisik rusak yang direlokasi. Nilai &gt; 0 berarti disk sudah mulai gagal secara fisik. Backup data segera.</td></tr>
+      <tr><td><b style="color:var(--amber);">C5</b></td><td>Current Pending Sector Count</td><td>HDD</td><td>&gt; 0 = Waspada</td><td>Sektor yang mengalami error pembacaan dan menunggu relokasi. Tanda awal kerusakan magnetis.</td></tr>
+      <tr><td><b style="color:var(--red);">C6</b></td><td>Uncorrectable Sector Count</td><td>HDD</td><td>&gt; 0 = KRITIS</td><td>Sektor yang tidak bisa diperbaiki sama sekali. Data pada sektor ini sudah tidak dapat dibaca. Ganti disk segera.</td></tr>
+      <tr><td><b style="color:var(--cyan);">01</b></td><td>Read Error Rate</td><td>HDD</td><td>Bergantung merk (Seagate normal tinggi)</td><td>Tingkat kesalahan pembacaan raw. Seagate menggunakan representasi berbeda dari WD — bandingkan dengan threshold.</td></tr>
+      <tr><td><b style="color:var(--emerald);">E7/05</b></td><td>SSD Wear Remaining / Life Used</td><td>SSD</td><td>&lt; 10% = Perlu ganti</td><td>Persentase sisa ketahanan sel NAND flash berdasarkan TBW (Terabytes Written). 100% = baru.</td></tr>
+      <tr><td><b style="color:var(--violet);">BB</b></td><td>Reported Uncorrectable Errors</td><td>SSD</td><td>&gt; 0 = Waspada</td><td>Error yang tidak bisa dikoreksi oleh ECC internal SSD. Tanda degenerasi sel NAND.</td></tr>
+    </tbody>
+  </table>
+</section>
 
+<section id="trim-optimize">
+  <div class="sec-tag">Bagian C &middot; Optimasi SSD</div>
+  <h2>C. Optimasi SSD: TRIM, Over-Provisioning &amp; Wear Leveling</h2>
+  <p class="sec-desc">SSD memiliki karakteristik berbeda dari HDD yang memerlukan penanganan khusus agar tetap cepat dan awet dalam jangka panjang.</p>
   <div class="grid-3">
     <div class="card">
-      <h4>05 &middot; Reallocated Sectors Count</h4>
-      <p>Jumlah sektor bad sector fisik yang telah direlokasi ke area cadangan. Jika angka raw value bernilai > 0 pada HDD, disk berisiko tinggi dan data wajib segera dibackup!</p>
+      <h4 style="color:var(--cyan);">TRIM: Mekanisme Pembersih SSD</h4>
+      <p>Ketika file dihapus di Windows, SSD tidak langsung menghapus data fisik dari sel NAND. TRIM memberi tahu SSD bahwa blok tertentu sudah tidak digunakan dan boleh dihapus saat idle, menjaga kecepatan tulis tetap optimal.</p>
+      <p style="margin-top:8px;"><b>Verifikasi TRIM aktif:</b> Buka CMD Admin &rarr; ketik: <code>fsutil behavior query DisableDeleteNotify</code>. Hasil <b>0</b> = TRIM AKTIF (normal). Hasil 1 = TRIM dinonaktifkan (perlu perbaikan).</p>
     </div>
     <div class="card">
-      <h4>C5 &middot; Current Pending Sector Count</h4>
-      <p>Sektor yang mengalami error pembacaan dan menunggu pengujian ulang/realokasi. Tanda awal kerusakan piringan magnetik.</p>
+      <h4 style="color:var(--amber);">Over-Provisioning: Cadangan Ruang Tersembunyi</h4>
+      <p>Produsen SSD menyisihkan 7-28% kapasitas NAND sebagai cadangan tersembunyi (tidak terlihat OS) untuk menggantikan sel yang rusak dan menyediakan buffer untuk operasi wear leveling. Ini sebabnya SSD 480GB terasa lebih cepat dan awet dari SSD 500GB.</p>
     </div>
     <div class="card">
-      <h4>05 / E7 &middot; SSD Wear Range Delta / Life Remaining</h4>
-      <p>Persentase sisa ketahanan sel NAND flash SSD berdasarkan TBW (Terabytes Written). 100% = baru, < 10% = sel mendekati masa akhir pakai.</p>
+      <h4 style="color:var(--emerald);">Jangan Defragmentasi SSD!</h4>
+      <p>Defragmentasi (defrag) dirancang untuk HDD mekanik yang memiliki "jarak fisik" antar sektor. Pada SSD, semua lokasi diakses dalam waktu sama (no latency). Defrag justru MERUSAK SSD karena menambah write cycle yang tidak perlu dan mempercepat degradasi sel NAND.</p>
+      <p style="margin-top:6px;">Windows secara otomatis <b>tidak men-defrag SSD</b> — ia hanya menjalankan TRIM/Optimize pada SSD.</p>
     </div>
+  </div>
+
+  <div class="step-list" style="margin-top:20px;">
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Menjalankan CHKDSK untuk Deteksi Bad Sector</h4>
+      <p>Buka CMD sebagai Administrator: <code>chkdsk C: /f /r /x</code>. Parameter /f (fix errors), /r (locate bad sectors dan recovery data), /x (force dismount jika perlu). Proses berjalan saat restart berikutnya jika drive sedang digunakan.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Verifikasi Integritas File Sistem dengan SFC</h4>
+      <p>Jalankan <code>sfc /scannow</code> di CMD Administrator untuk memindai dan memperbaiki file sistem Windows yang rusak atau tergantikan oleh malware. Dilanjutkan dengan <code>DISM /Online /Cleanup-Image /RestoreHealth</code> jika SFC menemukan masalah yang tidak bisa diperbaiki sendiri.</p></div></div>
   </div>
 </section>
 
 
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-5: Manajemen Partisi &amp; Laporan Analisis S.M.A.R.T.</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA / KELOMPOK:</label><input type="text" id="l5_nama" class="custom-input" placeholder="Nama..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NO. PC LAB:</label><input type="text" id="l5_pc" class="custom-input" placeholder="LAB-TKJ-PC..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">JENIS SKEMA PARTISI DISK C:</label>
+      <select id="l5_scheme" class="custom-select"><option>GPT (GUID Partition Table)</option><option>MBR (Master Boot Record)</option></select>
+    </div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. DATA PARTISI DISK SEBELUM PRAKTIK (dari Disk Management / Diskpart list partition):</label>
+    <textarea class="custom-textarea" id="l5_before" rows="4" placeholder="Disk 0 — 512 GB NVMe SSD (GPT)&#10;  Partisi 1: EFI System  100 MB (Healthy)&#10;  Partisi 2: MSR         16 MB&#10;  Partisi 3: C: Primary  256 GB NTFS (Boot, Page File, Crash Dump)&#10;  Partisi 4: D: Primary  240 GB NTFS (Healthy)"></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. PERINTAH DISKPART YANG DIJALANKAN (copy-paste dari CMD):</label>
+    <textarea class="custom-textarea" id="l5_cmd" rows="4" placeholder="DISKPART> list disk&#10;DISKPART> select disk 0&#10;DISKPART> list partition&#10;DISKPART> select partition 4&#10;DISKPART> shrink desired=51200 minimum=20480&#10;..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. DATA S.M.A.R.T. DISK (dari CrystalDiskInfo) — Nilai Atribut Kritis:</label>
+    <textarea class="custom-textarea" id="l5_smart" rows="5" placeholder="Status Overall: Good / Caution / Bad&#10;Power On Hours: XXXX jam&#10;Total Data Written/Read: X TB&#10;ID 05 - Reallocated Sectors Count: XX (Normal bila 0)&#10;ID C5 - Current Pending Sector Count: XX&#10;ID E7 - Life Used (SSD): XX% (sisa ketahanan NAND)"></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. INTERPRETASI DATA S.M.A.R.T. & REKOMENDASI:</label>
+    <textarea class="custom-textarea" id="l5_interpret" rows="3" placeholder="Berdasarkan data S.M.A.R.T., kondisi disk dalam status... karena... Rekomendasi: backup data segera / monitoring berkala / penggantian disk dalam X bulan..."></textarea>
+  </div>
+  <button type="button" class="btn-action" onclick="printL5()">&#128438; Preview &amp; Cetak Laporan Partisi &amp; S.M.A.R.T.</button>
+</div>
+<script>
+function printL5(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>LKPD Partisi & SMART</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LKPD-5: MANAJEMEN PARTISI & ANALISIS S.M.A.R.T.</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  const fields=[['nama','Nama'],['pc','No. PC'],['scheme','Skema Partisi'],['before','Partisi Sebelum'],['cmd','Perintah Diskpart'],['smart','Data S.M.A.R.T.'],['interpret','Interpretasi & Rekomendasi']];
+  fields.forEach(([id,label])=>{
+    const el=document.getElementById('l5_'+id);
+    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||el.options?.[el.selectedIndex]?.value||'—').replace(/
+/g,'<br>')+'</p><hr>');
+  });
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa batasan kapasitas disk per drive yang menjadi kekurangan utama skema partisi MBR?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">A. Maksimal 1 Terabyte</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">B. Maksimal 2 Terabyte — karena MBR menggunakan 32-bit sector addressing (maks 2^32 sektor × 512 byte = 2 TB)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">C. Maksimal 4 Terabyte</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'MBR menggunakan 32-bit LBA (Logical Block Addressing) untuk mengalamati sektor disk. Dengan ukuran sektor 512 byte, kapasitas maksimal yang dapat dikelola adalah 2^32 × 512 byte = 2,199 GB ≈ 2 TB. Disk lebih dari 2 TB wajib menggunakan GPT.')">D. Tidak ada batasan, bisa digunakan untuk disk berukuran apapun</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa arti nilai '0' pada atribut S.M.A.R.T. ID 05 (Reallocated Sectors Count) untuk sebuah HDD?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">A. Berarti disk baru dibeli dan belum pernah digunakan</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">B. Berarti disk dalam kondisi normal — belum ada sektor fisik yang mengalami kerusakan dan perlu direlokasi</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">C. Berarti disk sudah penuh dan tidak ada ruang yang tersisa</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Reallocated Sectors Count menghitung sektor yang sudah mengalami kerusakan fisik dan dialihkan ke area cadangan (spare area). Nilai 0 berarti belum ada sektor rusak — kondisi normal. Nilai > 0 mengindikasikan kerusakan fisik piringan magnetis dan potensi kehilangan data.')">D. Berarti fitur S.M.A.R.T. tidak aktif pada disk tersebut</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Mengapa SSD tidak boleh di-defragmentasi menggunakan software defragmentasi biasa?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">A. Karena SSD tidak memiliki file system sehingga defrag tidak berpengaruh</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">B. Karena SSD mengakses semua lokasi dalam waktu yang sama (tidak ada rotational latency), sehingga defrag tidak memberi manfaat dan justru menambah write cycle yang tidak perlu, mempercepat degradasi sel NAND</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">C. Karena Windows tidak mendukung defrag untuk SSD</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'HDD memiliki piringan berputar sehingga data yang terpencar membutuhkan waktu lebih lama untuk dibaca (rotational latency). Defrag menyatukan fragmen untuk memperpendek jarak fisik. SSD tidak memiliki komponen mekanik — semua lokasi diakses secepat yang lain. Defrag hanya menambah write cycle yang sia-sia.')">D. Karena defrag akan menghapus data pada SSD secara permanen</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Perintah CMD apa untuk memeriksa apakah fitur TRIM untuk SSD sudah aktif di Windows?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">A. trim /status C:</div><div class="quiz-opt" onclick="checkQuiz(this, true, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">B. fsutil behavior query DisableDeleteNotify — hasil 0 berarti TRIM AKTIF</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">C. diskpart /trim query</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''fsutil behavior query DisableDeleteNotify' menampilkan status TRIM. Nilai 0 = DisableDeleteNotify=0 berarti TRIM TIDAK dinonaktifkan (TRIM aktif). Nilai 1 = TRIM dinonaktifkan. Untuk mengaktifkan: fsutil behavior set DisableDeleteNotify 0.')">D. chkdsk C: /trim</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Pemahaman GPT vs MBR</b></td><td>Tidak dapat membedakan GPT dan MBR</td><td>Mengetahui perbedaan dasar namun tidak bisa menentukan mana yang tepat digunakan</td><td>Analisis tepat: batasan kapasitas, jumlah partisi, dan kebutuhan firmware</td><td>Analisis mendalam termasuk konversi MBR-GPT, partisi EFI, dan implikasi Secure Boot</td></tr>
+    <tr><td><b>Operasi Diskpart CLI</b></td><td>Tidak dapat membuka atau menggunakan Diskpart</td><td>Dapat list disk dan partition namun tidak bisa create/shrink/extend</td><td>Berhasil minimal 2 operasi: create partition + format NTFS dengan label</td><td>4+ operasi berhasil: shrink, create, format, extend + export hasil diskpart log</td></tr>
+    <tr><td><b>Analisis S.M.A.R.T.</b></td><td>Tidak dapat membuka atau memahami CrystalDiskInfo</td><td>Dapat membuka CrystalDiskInfo namun tidak bisa menginterpretasi atribut kritis</td><td>Identifikasi 3+ atribut kritis (05, C5, C6/E7) dengan interpretasi tepat</td><td>Analisis lengkap semua atribut + rekomendasi tindakan berdasarkan data + prediksi umur disk</td></tr>
+  </tbody>
+</table>
+
+  </section>
+
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

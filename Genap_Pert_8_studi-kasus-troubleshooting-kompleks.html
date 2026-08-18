@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studi Kasus Troubleshooting Kompleks &mdash; Bengkel Hardware TKJ</title>
+<title>Studi Kasus Troubleshooting Kompleks (Hardware, Firmware, Driver &amp; OS) &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,116 +248,369 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 2 &middot; HARI 3 &middot; 9 JP</div>
-    <h1>Studi Kasus Troubleshooting Kompleks</h1>
-    <p class="subtitle">Metodologi troubleshooting sistematis berlapis (Physical &rarr; Firmware &rarr; Driver &rarr; OS/Software), bedah kasus nyata PC restart loop, artifact GPU, drop tegangan PSU 12V, dan analisis BSOD crash dump.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Complex Troubleshooting</div><div class="chip"><b>Metode:</b> Bedah Kasus & Analisis Berlapis</div><div class="chip"><b>KKTP:</b> Selesaikan Min. 2 Studi Kasus Kompleks</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Mandiri</div></div>
+    <div class="eyebrow">BLOK 2 &middot; HARI 3 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Studi Kasus Troubleshooting Kompleks (Hardware, Firmware, Driver &amp; OS)</h1>
+    <p class="subtitle">Metodologi investigasi kerusakan berlapis sistematis, bedah 4 skenario kasus nyata laboratorium (PC restart loop, visual artifacts GPU, BSOD kode acak, dan drop tegangan PSU), analisis crash dump WinDbg, formulasi diagram alur keputusan (troubleshooting tree), dan penyusunan laporan analisis teknis berstandar industri.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Problem-Based Learning (PBL), Bedah Kasus, Simulasi</div><div class="chip"><b>KKTP:</b> Selesaikan Min. 2 Kasus Kompleks Secara Akurat</div><div class="chip"><b>Profil Pelajar:</b> Bernalar Kritis, Mandiri, Gotong Royong</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>INTERACTIVE BSOD CRASH DUMP ANALYZER &amp; SOLVER</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; INTERACTIVE BSOD CRASH DUMP ANALYZER &amp; MULTI-LAYER DECISION ENGINE</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="margin-bottom:14px;">
-      <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PILIH STOP CODE BSOD (BLUE SCREEN OF DEATH):</label>
-      <select id="bsodCode" class="custom-select" onchange="analyzeBsod()">
-        <option value="irql" selected>DRIVER_IRQL_NOT_LESS_OR_EQUAL (0x000000D1) - ntoskrnl.exe</option>
-        <option value="whea">WHEA_UNCORRECTABLE_ERROR (0x00000124) - Hardware Fatal</option>
-        <option value="inaccessible">INACCESSIBLE_BOOT_DEVICE (0x0000007B) - Storage/AHCI Driver</option>
-        <option value="page_fault">PAGE_FAULT_IN_NONPAGED_AREA (0x00000050) - RAM Corrupt</option>
-      </select>
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;">
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">PILIH STOP CODE BSOD / GEJALA KASUS:</label>
+        <select id="caseSelect" class="custom-select" onchange="runCaseStudy()">
+          <option value="bsod_irql" selected>0x000000D1 — DRIVER_IRQL_NOT_LESS_OR_EQUAL</option>
+          <option value="bsod_whea">0x00000124 — WHEA_UNCORRECTABLE_ERROR (Hardware Fatal)</option>
+          <option value="bsod_mem">0x0000001A — MEMORY_MANAGEMENT (RAM Corrupt)</option>
+          <option value="bsod_boot">0x0000007B — INACCESSIBLE_BOOT_DEVICE</option>
+          <option value="case_artifact">Visual Artifacts (Garis/Kotak Catur pada Layar)</option>
+          <option value="case_restart">PC Mati Mendadak Saat Beban Berat (Tanpa BSOD)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">LAYER INVESTIGASI AKTIF:</label>
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cyan);padding:10px 14px;background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-sm);" id="layerDisplay">
+          Layer 3: Driver &amp; Kernel Subsystem
+        </div>
+      </div>
     </div>
-    <div id="bsodResultBox" style="background:rgba(3,7,18,0.8); border:1px solid var(--red); border-radius:var(--radius-sm); padding:16px;">
-      <div style="font-family:var(--font-mono); font-size:11px; color:var(--red); font-weight:700; margin-bottom:4px;">PENYEBAB UTAMA &amp; LANGKAH PENANGANAN TEKNISI:</div>
-      <div style="font-size:14px; color:#fff; font-weight:600; margin-bottom:6px;" id="bsodTitle">Konflik Driver Kernel atau Kerusakan Kompatibilitas Driver</div>
-      <p style="font-size:13px; color:var(--text-sub); line-height:1.55;" id="bsodDesc">Driver mencoba mengakses alamat memori yang tidak diizinkan. Solusi: Boot ke Safe Mode, jalankan DDU (Display Driver Uninstaller) untuk membersihkan driver VGA lama, lalu instal driver WHQL versi terbaru dari website resmi manufaktur.</p>
+    <div id="caseResultBox" style="background:rgba(3,7,18,0.85);border:1px solid var(--cyan);border-radius:var(--radius-md);padding:18px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);font-weight:700;margin-bottom:6px;" id="caseHeader">BUKTI ANALISIS MINIDUMP &amp; ROOT CAUSE:</div>
+      <div style="font-size:14.5px;color:#fff;font-weight:700;margin-bottom:8px;" id="caseTitle">Konflik Driver Mode Kernel (Akses Alamat Memori Terlarang)</div>
+      <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" id="caseBody">Driver mencoba mengakses alamat memori yang tidak valid atau memiliki level IRQL yang terlalu tinggi. File pemicu umum: driver grafis (nvlddmkm.sys / amdkmdag.sys), driver WiFi, atau software anti-cheat game.</p>
+      <div style="margin-top:12px;padding:12px;background:rgba(0,240,255,0.06);border-left:3px solid var(--cyan);border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);font-weight:700;margin-bottom:4px;">SOP TINDAKAN PERBAIKAN TEKNISI:</div>
+        <div id="caseFix" style="font-size:12.5px;color:#e2e8f0;">1. Boot ke Safe Mode. 2. Jalankan Display Driver Uninstaller (DDU) untuk clean remove driver display. 3. Pasang driver WHQL versi stabil terbaru dari situs resmi. 4. Uji kestabilan dengan 3DMark / FurMark selama 15 menit.</div>
+      </div>
     </div>
   </div>
 </div>
 <script>
-function analyzeBsod() {
-  const code = document.getElementById('bsodCode').value;
-  const title = document.getElementById('bsodTitle');
-  const desc = document.getElementById('bsodDesc');
+function runCaseStudy() {
+  const val = document.getElementById('caseSelect').value;
+  const layer = document.getElementById('layerDisplay');
+  const box = document.getElementById('caseResultBox');
+  const header = document.getElementById('caseHeader');
+  const title = document.getElementById('caseTitle');
+  const body = document.getElementById('caseBody');
+  const fix = document.getElementById('caseFix');
 
-  if (code === 'whea') {
-    title.textContent = 'Kerusakan Hardware Fatal / Undervoltage / Overheating CPU';
-    desc.textContent = 'Hardware Error Architecture mendeteksi kegagalan fisik CPU/Motherboard. Solusi: Reset BIOS ke Default (nonaktifkan overclock/undervolt), periksa suhu CPU (thermal paste), dan uji stabilitas daya 12V dari Power Supply.';
-  } else if (code === 'inaccessible') {
-    title.textContent = 'Ketidakcocokan Mode Controller Storage (SATA AHCI vs RAID/IDE) atau Partisi Boot Korup';
-    desc.textContent = 'Windows gagal menemukan disk sistem saat inisialisasi boot. Solusi: Masuk BIOS, periksa SATA Mode (pastikan sesuai saat instalasi: AHCI/NVMe), jalankan Startup Repair WinRE, atau perbaiki BCD (bootrec /rebuildbcd).';
-  } else if (code === 'page_fault') {
-    title.textContent = 'Kerusakan Sel Memori RAM atau Korupsi Paging File Disk';
-    desc.textContent = 'Sistem mencari data pada memori virtual tetapi tidak ditemukan. Solusi: Jalankan MemTest86 untuk uji keping RAM fisik, bersihkan pin RAM, atau lakukan pengecekan bad sector disk dengan chkdsk /f /r.';
+  if (val === 'bsod_whea') {
+    layer.textContent = 'Layer 1 & 2: Hardware Physical & BIOS Firmware';
+    layer.style.color = 'var(--red)';
+    box.style.borderColor = 'var(--red)';
+    header.textContent = 'BUKTI ANALISIS MINIDUMP: Machine Check Exception (MCE)';
+    title.textContent = 'Kegagalan Hardware Fatal (CPU Undervoltage / Overheating / Motherboard VRM)';
+    body.textContent = 'Windows Hardware Error Architecture (WHEA) mendeteksi kesalahan komputasi fatal pada core prosesor atau bus PCIe. Sering dipicu oleh overclocking tidak stabil, pasta termal mengering (TjMax tercapai), atau drop tegangan VCore.';
+    fix.innerHTML = '1. Masuk BIOS &rarr; Load Optimized Defaults (batalkan semua overclock/undervolt). 2. Periksa suhu CPU di HWiNFO (repaste jika >85°C). 3. Update mikrokode BIOS ke versi terbaru. 4. Uji stabilitas dengan Prime95 Small FFTs.';
+  } else if (val === 'bsod_mem') {
+    layer.textContent = 'Layer 1 & 3: RAM Module & Memory Controller';
+    layer.style.color = 'var(--amber)';
+    box.style.borderColor = 'var(--amber)';
+    header.textContent = 'BUKTI ANALISIS MINIDUMP: Page Table Corruption / Bit Flip';
+    title.textContent = 'Kerusakan Integritas Sel Memori RAM atau Kontak Pin Emas Kotor';
+    body.textContent = 'Memory Manager mendeteksi kerusakan struktur partisi memori virtual/fisik. Terjadi ketika salah satu sel DRAM gagal menyimpan muatan listrik atau terjadi interferensi kontak listrik pada slot DIMM.';
+    fix.innerHTML = '1. Bersihkan pin emas RAM dengan penghapus karet antistatis. 2. Semprot slot RAM dengan contact cleaner. 3. Jalankan MemTest86 via bootable USB minimal 1 pass penuh. 4. Jika error berlanjut, isolasi keping RAM yang rusak satu per satu.';
+  } else if (val === 'bsod_boot') {
+    layer.textContent = 'Layer 2 & 3: Storage Controller & EFI Partition';
+    layer.style.color = 'var(--violet)';
+    box.style.borderColor = 'var(--violet)';
+    header.textContent = 'BUKTI ANALISIS: Storage Driver Unloaded / BCD Broken';
+    title.textContent = 'Ketidaksesuaian Mode SATA/NVMe Controller atau BCD Pointer Hilang';
+    body.textContent = 'Windows gagal menginisialisasi driver storage controller saat boot sequence. Sering terjadi setelah perubahan mode BIOS (RAID/VMD vs AHCI) atau partisi boot EFI terformat/rusak.';
+    fix.innerHTML = '1. Masuk BIOS &rarr; pastikan SATA/VMD Controller Mode sesuai dengan saat OS diinstal (AHCI/NVMe). 2. Boot dari USB WinRE &rarr; Command Prompt. 3. Jalankan bootrec /fixboot dan bootrec /rebuildbcd. 4. Jalankan chkdsk C: /f untuk cek bad sector.';
+  } else if (val === 'case_artifact') {
+    layer.textContent = 'Layer 1: GPU VRAM / Chip BGA Soldering';
+    layer.style.color = 'var(--amber)';
+    box.style.borderColor = 'var(--amber)';
+    header.textContent = 'BUKTI FISIK: Rendering Corrupt / Memory Bus Artifact';
+    title.textContent = 'Degradasi Chip VRAM GPU atau Retak Solder Ball BGA Akibat Siklus Termal';
+    body.textContent = 'Muncul garis-garis magenta/hijau atau kotak-kotak catur pada layar. Menandakan data tekstur pada memori video korup saat diproses oleh GPU core. Sering terjadi pada GPU yang beroperasi di atas 85°C dalam jangka panjang.';
+    fix.innerHTML = '1. Coba kabel display (HDMI/DP) dan monitor lain untuk eliminasi. 2. Turunkan clock memory VRAM via MSI Afterburner (-200MHz). 3. Ganti thermal pad VRAM yang sudah mengeras. 4. Jika tetap artifak, modul VRAM memerlukan proses reballing/reflow profesional.';
+  } else if (val === 'case_restart') {
+    layer.textContent = 'Layer 1: Power Supply Unit (PSU) & VRM Motherboard';
+    layer.style.color = 'var(--red)';
+    box.style.borderColor = 'var(--red)';
+    header.textContent = 'BUKTI LOG: Event ID 41 (Kernel-Power: 0x0000000000000000)';
+    title.textContent = 'Power Supply Trip (OCP/OPP) atau Drop Tegangan Rail 12V di Bawah Toleransi';
+    body.textContent = 'PC mati seketika seperti dicabut kabel listrik saat beban GPU/CPU meningkat drastis (transient power spikes). Proteksi Over Current Protection (OCP) pada PSU mendeteksi kelebihan beban atau kapasitor primer PSU sudah kering.';
+    fix.innerHTML = '1. Pasang PSU Tester digital untuk ukur voltase 12V/5V/3.3V. 2. Pantau voltage rail 12V via HWiNFO saat FurMark berjalan (jika drop <11.4V, PSU wajib diganti). 3. Hindari penggunaan kabel molex to PCIe adapter. 4. Ganti PSU dengan unit bersertifikasi 80 Plus Tier B/A.';
   } else {
-    title.textContent = 'Konflik Driver Kernel atau Kerusakan Kompatibilitas Driver';
-    desc.textContent = 'Driver mencoba mengakses alamat memori yang tidak diizinkan. Solusi: Boot ke Safe Mode, jalankan DDU (Display Driver Uninstaller) untuk membersihkan driver VGA lama, lalu instal driver WHQL versi terbaru dari website resmi manufaktur.';
+    layer.textContent = 'Layer 3: Driver & Kernel Subsystem';
+    layer.style.color = 'var(--cyan)';
+    box.style.borderColor = 'var(--cyan)';
+    header.textContent = 'BUKTI ANALISIS MINIDUMP & ROOT CAUSE:';
+    title.textContent = 'Konflik Driver Mode Kernel (Akses Alamat Memori Terlarang)';
+    body.textContent = 'Driver mencoba mengakses alamat memori yang tidak valid atau memiliki level IRQL yang terlalu tinggi. File pemicu umum: driver grafis (nvlddmkm.sys / amdkmdag.sys), driver WiFi, atau software anti-cheat game.';
+    fix.innerHTML = '1. Boot ke Safe Mode. 2. Jalankan Display Driver Uninstaller (DDU) untuk clean remove driver display. 3. Pasang driver WHQL versi stabil terbaru dari situs resmi. 4. Uji kestabilan dengan 3DMark / FurMark selama 15 menit.';
   }
 }
 </script>
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Kerangka Investigasi Berlapis (Layered Troubleshooting Model) (90 Menit)</h4>
+            <p>Pendekatan sistematis 4 layer: Layer 1 (Fisik/Elektrikal PSU, kabel, kapasitor), Layer 2 (Firmware/BIOS microcode, CMOS, POST code), Layer 3 (Driver/Kernel ntoskrnl, HAL, display driver), Layer 4 (OS & User Application). Pembagian kelompok teknisi investigasi.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Bedah Kasus 1 & 2: PC Restart Loop Mendadak & GPU Visual Artifacts (90 Menit)</h4>
+            <p>Investigasi Kasus 1: PC mati mendadak saat render/gaming (drop 12V rail vs overheating VRM). Investigasi Kasus 2: Layar bergaris warna-warni/checkerboard pattern (VRAM corruption vs solder BGA retak vs driver conflict). Praktik isolasi komponen bermasalah.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Bedah Kasus 3 & 4: BSOD Acak Berantai & Storage Inaccessible Boot (90 Menit)</h4>
+            <p>Investigasi Kasus 3: Blue Screen of Death dengan kode bervariasi (IRQL_NOT_LESS_OR_EQUAL, MEMORY_MANAGEMENT, KMODE_EXCEPTION). Investigasi Kasus 4: INACCESSIBLE_BOOT_DEVICE pasca update OS (konflik AHCI/RAID controller & korupsi partisi EFI).</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Analisis Crash Dump WinDbg & Pembuatan Troubleshooting Tree (90 Menit)</h4>
+            <p>Membuka file .DMP minidump menggunakan software debugging WinDbg. Membaca baris 'MODULE_NAME', 'IMAGE_NAME', dan 'FAILURE_BUCKET_ID'. Mengonstruksi diagram alur pengambilan keputusan (decision tree) untuk pencegahan insiden serupa.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Presentasi Kasus, Uji Petik Solusi & Evaluasi LKPD (45 Menit)</h4>
+            <p>Setiap kelompok mempresentasikan satu kasus yang berhasil dipecahkan, menjelaskan bukti log, alur investigasi, dan verifikasi bahwa solusi bekerja 100%. Penilaian guru berdasarkan rubrik KKTP.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="metode-berlapis">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Kerangka Diagnosa Berlapis (Layered Troubleshooting)</h2>
-  <p class="sec-desc">Pendekatan sistematis mengisolasi komponen untuk menghemat waktu dan biaya perbaikan.</p>
+<section id="layered-model">
+  <div class="sec-tag">Bagian A &middot; Metodologi Diagnosa</div>
+  <h2>A. Kerangka Investigasi Berlapis (Layered Troubleshooting Model)</h2>
+  <p class="sec-desc">Teknisi profesional tidak menebak-nebak kerusakan. Pendekatan 4 layer memastikan isolasi masalah berlangsung cepat, logis, dan hemat biaya perbaikan.</p>
 
   <div class="grid-2">
-    <div class="card">
-      <h4 style="color:var(--cyan);">Layer 1 &middot; Fisik &amp; Elektrikal</h4>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4 style="color:var(--red);">Layer 1 &middot; Fisik &amp; Elektrikal</h4>
+      <p>Pemeriksaan catu daya (PSU), tegangan jalur 12V/5V/3.3V, kabel power, grounding listrik, kebersihan debu, pasta termal, dan kondisi visual komponen (kapasitor kembung, jalur PCB gosong).</p>
       <ul>
-        <li>Kabel power &amp; sakelar switch PSU.</li>
-        <li>Tegangan 12V, 5V, 3.3V power supply (uji PSU tester).</li>
-        <li>Kebersihan debu heatsink, pasta pendingin, dan jalur PCIe.</li>
+        <li><b>Alat:</b> Multimeter Digital, PSU Tester, Obeng Presisi, Kuas ESD.</li>
+        <li><b>Gejala Khas:</b> Mati total, restart mendadak tanpa log, bau hangus.</li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="border-left:3px solid var(--amber);">
       <h4 style="color:var(--amber);">Layer 2 &middot; Firmware &amp; BIOS/UEFI</h4>
+      <p>Inisialisasi Power-On Self-Test (POST), pembacaan kode beep speaker, LED debug motherboard, baterai CMOS CR2032, versi mikrokode BIOS, dan konfigurasi boot priority.</p>
       <ul>
-        <li>Beep code &amp; Q-LED Debug motherboard (CPU, DRAM, VGA, BOOT).</li>
-        <li>Baterai CMOS CR2032 &amp; pengaturan tanggal/waktu sistem.</li>
-        <li>Versi mikrokode BIOS (dukungan prosesor baru &amp; stabilitas).</li>
+        <li><b>Alat:</b> POST Card Analyzer, Jumper Clear CMOS, Flashdisk BIOS Flashback.</li>
+        <li><b>Gejala Khas:</b> No Display, beep code berulang, BIOS reset sendiri.</li>
       </ul>
     </div>
-    <div class="card">
-      <h4 style="color:var(--emerald);">Layer 3 &middot; Driver &amp; Kernel OS</h4>
+    <div class="card" style="border-left:3px solid var(--cyan);">
+      <h4 style="color:var(--cyan);">Layer 3 &middot; Driver &amp; Kernel OS</h4>
+      <p>Interaksi driver perangkat keras dengan kernel Windows (ntoskrnl.exe). Analisis crash dump BSOD, mode Safe Mode, verifikasi sertifikasi driver (WHQL), dan rolling back driver bermasalah.</p>
       <ul>
-        <li>Device Manager (tanda seru kuning Hardware ID).</li>
-        <li>Windows Event Viewer (Event ID 41 Kernel-Power).</li>
-        <li>Safe Mode isolation &amp; clean boot diagnostic.</li>
+        <li><b>Alat:</b> WinDbg, DDU (Display Driver Uninstaller), Device Manager, Event Viewer.</li>
+        <li><b>Gejala Khas:</b> BSOD stop code spesifik, freeze saat install driver, layar berkedip.</li>
       </ul>
     </div>
-    <div class="card">
-      <h4 style="color:var(--violet);">Layer 4 &middot; Software &amp; Registry</h4>
+    <div class="card" style="border-left:3px solid var(--emerald);">
+      <h4 style="color:var(--emerald);">Layer 4 &middot; Software &amp; Registry</h4>
+      <p>Integritas file sistem Windows (SFC & DISM), konflik software startup, infeksi malware background, korupsi registry Windows, dan service background yang macet.</p>
       <ul>
-        <li>Integritas file sistem: <code>sfc /scannow</code> &amp; <code>DISM /Online /Cleanup-Image /RestoreHealth</code>.</li>
-        <li>Startup impact pada Task Manager &amp; background bloatware.</li>
-        <li>Antivirus scanning &amp; malware infection scan.</li>
+        <li><b>Alat:</b> <code>sfc /scannow</code>, <code>DISM</code>, Task Manager, Autoruns Sysinternals.</li>
+        <li><b>Gejala Khas:</b> Aplikasi crash, loading lambat, popup error dll/exe.</li>
       </ul>
     </div>
   </div>
 </section>
 
+<section id="windbg-guide">
+  <div class="sec-tag">Bagian B &middot; Debugging Crash Dump</div>
+  <h2>B. Panduan Analisis Crash Dump Windows (.DMP) dengan WinDbg</h2>
+  <p class="sec-desc">Ketika Windows mengalami Blue Screen, sistem menyimpan rekam memori saat crash terjadi ke folder <code>C:\Windows\Minidump\</code>. Ini adalah bukti paling akurat untuk menemukan pelaku penyebab crash.</p>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Mengambil File Dump dari Sistem Korban</h4>
+        <p>Akses folder <code>C:\Windows\Minidump\</code>. Cari file dengan ekstensi <code>.dmp</code> terbaru (misal: <code>081826-14520-01.dmp</code>). Salin file tersebut ke Desktop atau flashdisk teknisi.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Membuka Minidump di Software WinDbg</h4>
+        <p>Buka <b>WinDbg (Windows Debugger)</b> sebagai Administrator &rarr; tekan <code>Ctrl + D</code> &rarr; pilih file .dmp yang telah disalin tadi.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Menjalankan Analisis Otomatis (<code>!analyze -v</code>)</h4>
+        <p>Pada baris perintah debugger di bagian bawah, klik tautan <b>!analyze -v</b> atau ketik perintah tersebut dan tekan Enter. WinDbg akan mencocokkan simbol Microsoft dan membedah stack trace kernel.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Membaca Baris Modul Penyebab Utama</h4>
+        <p>Cari baris: <b>MODULE_NAME</b>, <b>IMAGE_NAME</b>, dan <b>PROCESS_NAME</b>. Jika tertulis <code>nvlddmkm.sys</code> &rarr; Driver GPU NVIDIA. Jika tertulis <code>rtwlane.sys</code> &rarr; Driver Realtek WiFi. Jika tertulis <code>ntoskrnl.exe</code> dengan MEMORY_MANAGEMENT &rarr; Kerusakan fisik modul RAM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-8: Lembar Analisis Investigasi Troubleshooting Kompleks</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA INVESTIGATOR / KELOMPOK:</label><input type="text" id="l8_nama" class="custom-input" placeholder="Nama lengkap..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NOMOR KASUS YANG DITANGANI:</label><input type="text" id="l8_case" class="custom-input" placeholder="Contoh: Kasus #3 (BSOD Acak Kernel)"></div>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. DESKRIPSI GEJALA AWAL & HASIL BACAAN LOG (Event Viewer / Minidump / Visual):</label>
+    <textarea class="custom-textarea" id="l8_gejala" rows="4" placeholder="Gejala: PC mengalami BSOD dengan kode 0x000000D1 saat menjalankan software editing video. Minidump menunjukkan MODULE_NAME: nvlddmkm.sys..."></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. TAHAPAN ISOLASI MASALAH 4 LAYER (Langkah yang dilakukan per layer):</label>
+    <textarea class="custom-textarea" id="l8_isolasi" rows="4" placeholder="Layer 1: Pengecekan suhu GPU (normal 62°C) dan tegangan 12V PSU (12.05V normal)&#10;Layer 2: BIOS sudah versi terbaru&#10;Layer 3: Terdeteksi versi driver GPU korup pasca Windows Update otomatis&#10;Layer 4: Software editing video berfungsi normal setelah Safe Mode"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. TINDAKAN PERBAIKAN (SOLUSI EKSEKUSI):</label>
+    <textarea class="custom-textarea" id="l8_solusi" rows="3" placeholder="1. Masuk Safe Mode Windows&#10;2. Jalankan Display Driver Uninstaller (DDU) untuk clean wipe driver lama&#10;3. Instal driver Studio WHQL versi 560.xx&#10;4. Uji stress test FurMark 15 menit tanpa crash"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. VERIFIKASI AKHIR & REKOMENDASI PREVENTIF:</label>
+    <textarea class="custom-textarea" id="l8_verif" rows="3" placeholder="Sistem diuji dengan render video 4K dan FurMark selama 30 menit — stabilitas 100%. Rekomendasi: Nonaktifkan auto-update driver GPU lewat Windows Update via Group Policy."></textarea>
+  </div>
+
+  <button type="button" class="btn-action" onclick="printLKPD8()">&#128438; Preview &amp; Cetak Berita Acara Kasus Troubleshooting</button>
+</div>
+<script>
+function printLKPD8(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>Laporan Kasus Troubleshooting</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LAPORAN INVESTIGASI TROUBLESHOOTING KOMPLEKS</h3><h4>SMK DIPONEGORO TUMPANG &middot; Kelas X TKJ</h4><hr></center>');
+  ['nama','case','gejala','isolasi','solusi','verif'].forEach(id=>{
+    const el=document.getElementById('l8_'+id);
+    const labels={nama:'Nama Investigator',case:'Nomor Kasus',gejala:'A. Gejala & Log',isolasi:'B. Tahapan Isolasi 4 Layer',solusi:'C. Tindakan Solusi',verif:'D. Verifikasi & Rekomendasi'};
+    if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  });
+  w.document.write('<br><p>Tanda Tangan Guru Penguji: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Pada analisis minidump WinDbg, jika baris IMAGE_NAME menyebutkan 'nvlddmkm.sys', komponen mana yang paling utama dicurigai bermasalah?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">A. Driver kartu suara Realtek High Definition Audio</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">B. Driver grafis NVIDIA GeForce (Display Driver Subsystem)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">C. Controller penyimpanan SATA AHCI</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'nvlddmkm.sys adalah file modul inti kernel display driver NVIDIA GeForce. Crash pada file ini menunjukkan adanya bug driver, korupsi instalasi driver, atau ketidakstabilan hardware GPU (overheating/overclock).')">D. Keyboard dan touchpad driver</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa perbedaan utama gejala restart mendadak akibat kegagalan Power Supply (PSU) dibanding crash akibat Driver/OS?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">A. Kegagalan PSU selalu menampilkan layar biru BSOD dengan teks error</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">B. Kegagalan PSU mematikan PC seketika seperti dicabut kabel listrik (tanpa BSOD dan tanpa log BugCheck), sedangkan crash driver biasanya memunculkan BSOD dan menulis minidump</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">C. Kegagalan PSU hanya terjadi saat booting awal di menu BIOS</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Saat PSU mengalami over-current (OCP) atau drop voltase drastis, daya listrik terputus instan dalam hitungan milidetik. Sistem tidak memiliki sisa daya untuk menulis crash dump ke disk, sehingga PC mati seketika tanpa layar BSOD. Di Event Viewer tercatat Event ID 41 dengan BugcheckCode 0.')">D. Tidak ada perbedaan gejala antara keduanya</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Mengapa membersihkan driver display menggunakan DDU (Display Driver Uninstaller) di Safe Mode jauh lebih efektif daripada uninstall biasa via Control Panel?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">A. Karena DDU secara otomatis meng-upgrade VGA ke seri terbaru</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">B. Karena DDU menghapus seluruh file library, entri registry, cache shader, dan sisa konfigurasi driver lama yang biasanya terkunci oleh Windows saat mode normal</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">C. Karena DDU memperbaiki kerusakan fisik pada chip solder GPU</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Uninstall standar sering meninggalkan file .dll dan registry keys di system32 yang terkunci oleh proses background Windows. DDU berjalan di Safe Mode saat driver tidak dimuat ke memori, membersihkan seluruh sisa file hingga bersih total tanpa konflik.')">D. Karena DDU menonaktifkan kartu grafis secara permanen</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa tindakan pertama yang wajib dilakukan saat PC menampilkan kode BSOD 'WHEA_UNCORRECTABLE_ERROR'?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">A. Langsung menginstal ulang seluruh sistem operasi</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">B. Masuk BIOS untuk memulihkan pengaturan ke 'Load Optimized Defaults' guna membatalkan overclocking/undervolting dan memeriksa suhu hardware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">C. Memformat seluruh drive data D:</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'WHEA (Windows Hardware Error Architecture) dipicu oleh kesalahan fatal hardware/CPU. Mengembalikan BIOS ke default membatalkan voltase instabil atau frekuensi overclock yang menjadi pemicu utama WHEA error sebelum mencurigai kerusakan fisik permanen.')">D. Mengganti monitor dengan resolusi lebih rendah</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Kerangka Investigasi Berlapis</b></td><td>Menebak acak tanpa alur kerja logis</td><td>Mengenal 4 layer namun salah menentukan layer prioritas investigasi</td><td>Isolasi masalah sistematis dari Layer 1 hingga Layer 4 terstruktur</td><td>Isolasi sempurna + dokumentasi flowchart decision tree yang logis dan presisi</td></tr>
+    <tr><td><b>Analisis Minidump &amp; Log</b></td><td>Tidak mampu membuka atau membaca log</td><td>Membuka Event Viewer namun tidak bisa membaca stop code dump</td><td>Menganalisis minidump WinDbg dan menemukan modul penyebab spesifik</td><td>Analisis mendalam stack trace + korelasi telemetri HWiNFO dengan crash dump</td></tr>
+    <tr><td><b>Eksekusi Solusi &amp; Verifikasi</b></td><td>Solusi gagal dan merusak konfigurasi lain</td><td>Solusi berhasil sementara namun masalah berulang saat load test</td><td>Solusi tepat sasaran dan terverifikasi stabil dengan stress test 15 menit</td><td>Solusi tuntas + pengujian stres beban penuh 30 menit + formulasi langkah preventif</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

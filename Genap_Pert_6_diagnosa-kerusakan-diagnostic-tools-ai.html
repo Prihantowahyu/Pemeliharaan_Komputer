@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagnosis Kerusakan dengan Software Diagnostic Tools &amp; Fitur AI &mdash; Bengkel Hardware TKJ</title>
+<title>Diagnosa Kerusakan dengan Software Diagnostic Tools &amp; Teknologi AI Prediktif &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,143 +248,314 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 2 &middot; HARI 1 &middot; 9 JP</div>
-    <h1>Diagnosis Kerusakan dengan Software Diagnostic Tools &amp; Fitur AI</h1>
-    <p class="subtitle">Monitoring suhu dan clock sensor (HWiNFO64), pengujian stabilitas hardware (Prime95, FurMark, MemTest86), pemanfaatan fitur diagnosa prediktif berbasis AI pada software modern, dan interpretasi laporan log.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Diagnostic Tools & AI Monitoring</div><div class="chip"><b>Metode:</b> Stress Test & Telemetri Sensor</div><div class="chip"><b>KKTP:</b> Jalankan Min. 2 Tools & Analisis Tepat</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Mandiri</div></div>
+    <div class="eyebrow">BLOK 2 &middot; HARI 1 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Diagnosa Kerusakan dengan Software Diagnostic Tools &amp; Teknologi AI Prediktif</h1>
+    <p class="subtitle">Penguasaan 6 software diagnostic profesional (HWiNFO64, Prime95, FurMark, MemTest86, CrystalDiskInfo, OCCT), interpretasi data telemetri sensor real-time, prosedur stress test terstandar industri, serta pemanfaatan AI diagnostik untuk prediksi kegagalan hardware sebelum terjadi kerusakan fatal.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi, Stress Testing, Analisis Telemetri</div><div class="chip"><b>KKTP:</b> Jalankan 2+ Diagnostic Tools & Analisis Tepat</div><div class="chip"><b>Profil Pelajar:</b> Bernalar Kritis, Mandiri</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>LIVE DIAGNOSTIC TELEMETRY &amp; AI PREDICTIVE ASSISTANT</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; LIVE SENSOR TELEMETRY DASHBOARD &amp; AI PREDICTIVE FAILURE ENGINE</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin-bottom:16px;">
-      <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:12px;">
-        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">CPU PACKAGE TEMP</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--cyan);" id="liveCpuTemp">58 &deg;C</div>
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+      <div style="background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">CPU PACKAGE</div>
+        <div style="font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--cyan);" id="d6cpu">58°C</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--emerald);" id="d6cpuStatus">Normal</div>
       </div>
-      <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:12px;">
-        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">GPU HOTSPOT TEMP</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--emerald);" id="liveGpuTemp">64 &deg;C</div>
+      <div style="background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">GPU HOTSPOT</div>
+        <div style="font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--cyan);" id="d6gpu">64°C</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--emerald);" id="d6gpuStatus">Normal</div>
       </div>
-      <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:12px;">
-        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">12V PSU RAIL VOLTAGE</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--cyan-soft);" id="livePsuVolt">12.08 V</div>
+      <div style="background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">12V RAIL (PSU)</div>
+        <div style="font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--cyan);" id="d6psu">12.08V</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--emerald);">±5% Tolerance</div>
       </div>
-      <div style="background:rgba(3,7,18,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:12px;">
-        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">RAM MEMORY ERRORS</div>
-        <div style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:var(--emerald);" id="liveRamErrors">0 Errors</div>
+      <div style="background:rgba(3,7,18,0.7);border:1px solid var(--panel-border);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">RAM ERRORS</div>
+        <div style="font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--emerald);" id="d6ram">0</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--emerald);" id="d6ramStatus">MemTest Pass</div>
       </div>
     </div>
-    
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-      <button type="button" class="btn-action" onclick="simulateStress('normal')">Kondisi Normal</button>
-      <button type="button" class="btn-action" style="background:linear-gradient(135deg, #f59e0b, #ef4444);" onclick="simulateStress('thermal')">Simulasi Thermal Throttling</button>
-      <button type="button" class="btn-action" style="background:linear-gradient(135deg, #ef4444, #8b5cf6);" onclick="simulateStress('mem_error')">Simulasi RAM Memory Corrupt</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+      <button type="button" class="btn-action" onclick="sim6('normal')">&#10003; Kondisi Normal</button>
+      <button type="button" class="btn-action" style="background:linear-gradient(135deg,#f59e0b,#ef4444);" onclick="sim6('thermal')">Simulasi Thermal Throttling</button>
+      <button type="button" class="btn-action" style="background:linear-gradient(135deg,#ef4444,#7c3aed);" onclick="sim6('mem')">Simulasi RAM Error</button>
+      <button type="button" class="btn-action" style="background:linear-gradient(135deg,#dc2626,#7f1d1d);" onclick="sim6('psu')">Simulasi PSU Failure</button>
     </div>
-
-    <div id="aiPredictionBox" style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.35); border-radius:var(--radius-sm); padding:14px;">
-      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:#c4b5fd; margin-bottom:4px;">
-        &#9889; AI PREDICTIVE DIAGNOSTIC ENGINE:
-      </div>
-      <div id="aiPredictionText" style="font-size:13px; color:#e2e8f0;">
-        Kondisi sistem stabil. Nilai deviasi tegangan rail 12V berada dalam batas toleransi standar ATX (&plusmn;5%). Pola suhu linier tanpa indikasi throttling.
-      </div>
+    <div id="d6ai" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.35);border-radius:var(--radius-sm);padding:14px;">
+      <div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px;">&#9889; AI PREDICTIVE DIAGNOSTIC ENGINE:</div>
+      <div id="d6aiText" style="font-size:13px;color:#e2e8f0;">Sistem dalam kondisi stabil. Tegangan rail 12V dalam toleransi ATX spec (±5%). Suhu CPU dan GPU dalam batas normal operasi. Tidak terdeteksi anomali prediktif pada 6 jam ke depan.</div>
     </div>
   </div>
 </div>
 <script>
-function simulateStress(mode) {
-  const cpu = document.getElementById('liveCpuTemp');
-  const gpu = document.getElementById('liveGpuTemp');
-  const volt = document.getElementById('livePsuVolt');
-  const ram = document.getElementById('liveRamErrors');
-  const aiText = document.getElementById('aiPredictionText');
-
-  if (mode === 'thermal') {
-    cpu.textContent = '96 °C (PROCHOT)';
-    cpu.style.color = 'var(--red)';
-    gpu.textContent = '89 °C';
-    gpu.style.color = 'var(--red)';
-    volt.textContent = '11.94 V';
-    ram.textContent = '0 Errors';
-    aiText.innerHTML = '<b style="color:#fca5a5;">PERINGATAN KRITIS:</b> Terdeteksi thermal throttling agresif pada core CPU. Clock frekuensi dipaksa turun ke 1.8 GHz. Rekomendasi AI: Periksa mounting heatsink cooler, ganti pasta termal kering, dan bersihkan debu kipas.';
-  } else if (mode === 'mem_error') {
-    cpu.textContent = '62 °C';
-    cpu.style.color = 'var(--cyan)';
-    gpu.textContent = '65 °C';
-    gpu.style.color = 'var(--emerald)';
-    volt.textContent = '12.04 V';
-    ram.textContent = '48 Errors (Pass 1)';
-    ram.style.color = 'var(--red)';
-    aiText.innerHTML = '<b style="color:#fca5a5;">ANOMALI MEMORI DETECTED:</b> MemTest86 mendeteksi bit flip pada alamat memory 0x3F4A8000. Rekomendasi AI: Bersihkan pin emas RAM dengan penghapus karet, nonaktifkan profil XMP, atau uji coba keping RAM satu per satu untuk isolasi modul rusak.';
-  } else {
-    cpu.textContent = '58 °C';
-    cpu.style.color = 'var(--cyan)';
-    gpu.textContent = '64 °C';
-    gpu.style.color = 'var(--emerald)';
-    volt.textContent = '12.08 V';
-    ram.textContent = '0 Errors';
-    ram.style.color = 'var(--emerald)';
-    aiText.textContent = 'Kondisi sistem stabil. Nilai deviasi tegangan rail 12V berada dalam batas toleransi standar ATX (±5%). Pola suhu linier tanpa indikasi throttling.';
+function sim6(mode){
+  const cpu=document.getElementById('d6cpu'),gpu=document.getElementById('d6gpu'),psu=document.getElementById('d6psu'),ram=document.getElementById('d6ram');
+  const cpuS=document.getElementById('d6cpuStatus'),gpuS=document.getElementById('d6gpuStatus'),ramS=document.getElementById('d6ramStatus');
+  const ai=document.getElementById('d6aiText');
+  if(mode==='normal'){
+    cpu.textContent='58°C';cpu.style.color='var(--cyan)';cpuS.textContent='Normal';cpuS.style.color='var(--emerald)';
+    gpu.textContent='64°C';gpu.style.color='var(--cyan)';gpuS.textContent='Normal';gpuS.style.color='var(--emerald)';
+    psu.textContent='12.08V';psu.style.color='var(--cyan)';
+    ram.textContent='0';ram.style.color='var(--emerald)';ramS.textContent='MemTest Pass';ramS.style.color='var(--emerald)';
+    ai.textContent='Sistem dalam kondisi stabil. Tegangan rail 12V dalam toleransi ATX spec (±5%). Suhu CPU dan GPU dalam batas normal operasi. Tidak terdeteksi anomali prediktif pada 6 jam ke depan.';
+  }else if(mode==='thermal'){
+    cpu.textContent='96°C';cpu.style.color='var(--red)';cpuS.textContent='THROTTLING!';cpuS.style.color='var(--red)';
+    gpu.textContent='91°C';gpu.style.color='var(--red)';gpuS.textContent='NEAR LIMIT';gpuS.style.color='var(--red)';
+    ai.innerHTML='<b style="color:#fca5a5;">PERINGATAN KRITIS — THERMAL THROTTLING AKTIF:</b> CPU terdeteksi beroperasi di atas TjMax threshold (95°C). Frekuensi clock terpaksa diturunkan ke 1.8 GHz (dari 4.8 GHz nominal) untuk mencegah shutdown darurat. <b>Tindakan segera:</b> Bersihkan heatsink fan dari debu, ganti thermal paste yang telah mengering, verifikasi mounting pressure heatsink. ETA kegagalan sistem jika dibiarkan: &lt;48 jam.';
+  }else if(mode==='mem'){
+    ram.textContent='48';ram.style.color='var(--red)';ramS.textContent='FAIL Pass 1';ramS.style.color='var(--red)';
+    ai.innerHTML='<b style="color:#fca5a5;">ANOMALI MEMORI TERDETEKSI:</b> MemTest86 mendeteksi 48 bit error pada Pass 1 di alamat 0x3F4A8000. Pola error menunjukkan sel DRAM yang mengalami degenerasi muatan (charge leakage). <b>Tindakan:</b> Uji keping RAM satu per satu untuk isolasi modul rusak. Bersihkan pin emas dengan penghapus karet. Nonaktifkan profil XMP dan uji pada frekuensi JEDEC default.';
+  }else if(mode==='psu'){
+    psu.textContent='11.42V';psu.style.color='var(--red)';
+    cpu.textContent='variabel';cpu.style.color='var(--amber)';cpuS.textContent='Fluctuating';cpuS.style.color='var(--amber)';
+    ai.innerHTML='<b style="color:#fca5a5;">KEGAGALAN PSU PREDIKTIF:</b> Rail 12V menunjukkan drop signifikan ke 11.42V (deviasi -4.8%, mendekati batas -5% ATX spec). Ripple voltage terdeteksi tinggi pada rail ini. Pola ini mengindikasikan kapasitor PSU mulai mengalami degradasi (ESR tinggi). <b>Tindakan segera:</b> Uji PSU dengan PSU Tester multimeter. Ganti PSU dalam 7 hari untuk mencegah kerusakan komponen lain.';
   }
 }
 </script>
 
   </header>
 
-  
-<section id="diagnostic-tools">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. 5 Software Diagnostic Wajib Teknisi Komputer</h2>
-  <p class="sec-desc">Kombinasi software monitoring dan benchmarking untuk pengujian menyeluruh.</p>
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Teori Monitoring Hardware & Sensor Telemetri (90 Menit)</h4>
+            <p>Cara kerja sensor suhu termal, tegangan VRM, sensor RPM fan, dan monitoring konsumsi daya. Perbedaan suhu Package, Core, Distance to TjMax. Tegangan VCore normal vs indikasi masalah. Interpretasi clock frequency dan power limit throttling.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Demonstrasi & Penggunaan HWiNFO64 dan CrystalDiskInfo (90 Menit)</h4>
+            <p>Instalasi dan konfigurasi HWiNFO64 untuk monitoring real-time. Mengaktifkan gadget sensor overlay. Membaca data sensor CPU Package, GPU Hotspot, RAM voltage, 12V/5V/3.3V PSU. Monitoring S.M.A.R.T. lewat CrystalDiskInfo: health status, power on hours, total data written.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik Stress Testing: Prime95, FurMark & MemTest86 (90 Menit)</h4>
+            <p>Menjalankan Prime95 Small FFT (15 menit) sambil monitoring suhu CPU di HWiNFO64. Menjalankan FurMark GPU Burn-in Test (10 menit) dan mencatat suhu GPU hotspot & VRAM. Membuat bootable USB MemTest86 menggunakan Rufus, menjalankan minimal 1 pass pengujian RAM.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>AI Diagnostic Tools & Analisis Log Prediktif (90 Menit)</h4>
+            <p>Pemanfaatan Windows Reliability Monitor (perfmon /rel) untuk melihat histori crash dan error. Windows Event Viewer: filter Event ID 41 (Kernel-Power restart tidak terduga), Event ID 6008 (shutdown tidak normal). Pengantar AI diagnostics pada platform cloud dan enterprise.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Penyusunan Laporan Kesehatan Hardware & Evaluasi LKPD (45 Menit)</h4>
+            <p>Setiap kelompok menyusun laporan kesehatan hardware satu unit PC lab berdasarkan data stress test dan telemetri. Presentasi temuan dan rekomendasi perbaikan. Pengisian LKPD dan penilaian.</p>
+          </div>
+        </div>
+        </div>
+  </section>
 
-  <div class="grid-3">
+  <!-- CONTENT SECTIONS -->
+  
+<section id="hwinfo-guide">
+  <div class="sec-tag">Bagian A &middot; HWiNFO64</div>
+  <h2>A. Panduan Lengkap HWiNFO64: Membaca Telemetri Hardware</h2>
+  <p class="sec-desc">HWiNFO64 adalah software monitoring profesional gratis yang membaca lebih dari 500 parameter sensor dari CPU, GPU, motherboard, PSU, dan storage secara real-time.</p>
+  <div class="grid-2">
     <div class="card">
-      <h4>HWiNFO64 &middot; Sensor Telemetri</h4>
-      <p>Membaca sensor suhu CPU Package, GPU Hotspot, tegangan VRM, kecepatan putaran RPM fan, dan status S.M.A.R.T. secara real-time.</p>
+      <h4 style="color:var(--cyan);">Parameter CPU yang Wajib Dipantau</h4>
+      <ul>
+        <li><b>CPU Package Power:</b> Konsumsi daya total prosesor (Watt). Jika konsisten di atas TDP nominal, sistem tidak mampu mendinginkan dengan baik.</li>
+        <li><b>CPU Package Temp:</b> Suhu termal keseluruhan die CPU. Normal idle: 35-55°C. Batas aman saat load: 85°C. KRITIS: &gt;95°C.</li>
+        <li><b>CPU Core VID:</b> Tegangan yang dikirim ke core CPU. Nilai abnormal bisa indikasikan masalah BIOS atau OC instabil.</li>
+        <li><b>CPU Ratio (Multiplier):</b> Clock multiplier aktif. Jika saat load turun drastis (misal 45x &rarr; 18x), CPU sedang throttling karena panas atau power limit.</li>
+      </ul>
     </div>
     <div class="card">
-      <h4>Prime95 &middot; CPU Stress Test</h4>
-      <p>Pengujian kalkulasi algoritma FFT beban maksimal untuk memastikan stabilitas core CPU dan mendeteksi kesalahan perhitungan floating-point.</p>
-    </div>
-    <div class="card">
-      <h4>FurMark &middot; GPU Stress Test</h4>
-      <p>Uji render OpenGL intensif untuk mendeteksi artefak grafis, overheating VRAM, dan stabilitas modul regulator daya (VRM GPU).</p>
-    </div>
-    <div class="card">
-      <h4>MemTest86 &middot; RAM Tester</h4>
-      <p>Dijalankan via bootable USB tanpa OS untuk menguji integritas sel memori RAM dari data corruption dan bad memory addresses.</p>
-    </div>
-    <div class="card">
-      <h4>CrystalDiskInfo &middot; Health Storage</h4>
-      <p>Membaca parameter S.M.A.R.T., total jam pemakaian (Power On Hours), dan estimasi sisa usia media penyimpanan HDD/SSD.</p>
-    </div>
-    <div class="card">
-      <h4>Fitur Diagnostik AI Modern</h4>
-      <p>Analisis tren telemetri berbasis machine learning untuk memprediksi tanggal kegagalan disk sebelum terjadi kerusakan fatal.</p>
+      <h4 style="color:var(--amber);">Parameter GPU yang Wajib Dipantau</h4>
+      <ul>
+        <li><b>GPU Hotspot Temperature:</b> Suhu titik terpanas di die GPU. Lebih representatif dari GPU Temperature biasa. Batas: &lt;105°C.</li>
+        <li><b>GPU Memory Temperature:</b> Suhu VRAM. Jika di atas 90°C, VRAM dalam bahaya. Solusi: re-pad thermal VRAM.</li>
+        <li><b>GPU Power (W):</b> Konsumsi daya aktual GPU. Bandingkan dengan TGP resmi. Jika di bawah TGP, kemungkinan PSU tidak mampu mensuplai.</li>
+        <li><b>GPU Clock (MHz):</b> Frekuensi core aktual. Jika sering drop saat gaming, indikasi thermal throttling atau power throttling GPU.</li>
+      </ul>
     </div>
   </div>
 </section>
 
+<section id="stress-testing">
+  <div class="sec-tag">Bagian B &middot; Stress Testing</div>
+  <h2>B. Prosedur Stress Testing Hardware yang Terstandarisasi</h2>
+  <p class="sec-desc">Stress test memaksa hardware bekerja pada beban maksimal untuk menguji kestabilan sistem dalam kondisi ekstrem. Jika sistem crash, hang, atau artifak saat stress test, terdapat masalah yang perlu diperbaiki.</p>
+  <div class="grid-3">
+    <div class="card">
+      <h4 style="color:var(--cyan);">Prime95: CPU Stability Test</h4>
+      <p><b>Prosedur:</b> Pilih torture test type: <b>Small FFTs</b> (beban termal tertinggi untuk CPU, cocok untuk uji pendingin) atau <b>Blend</b> (kombinasi CPU + RAM). Jalankan selama 15-30 menit sambil memantau suhu di HWiNFO64.</p>
+      <p style="margin-top:6px;"><b>Interpretasi:</b> Worker error = ketidakstabilan CPU (tegangan OC terlalu rendah atau suhu terlalu tinggi). Sistem crash = masalah serius pada PSU atau RAM.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--amber);">FurMark: GPU Stress Test</h4>
+      <p><b>Prosedur:</b> Pilih resolusi 1920x1080, aktifkan Fullscreen, klik GPU Burn-in Test. Jalankan 10-15 menit. Pantau GPU Hotspot Temperature dan GPU Memory Temperature di HWiNFO64.</p>
+      <p style="margin-top:6px;"><b>Interpretasi:</b> Artifak layar (titik-titik, warna acak) = masalah VRAM atau GPU overheating. Crash = GPU tidak stabil pada beban penuh atau PSU kekurangan daya.</p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--emerald);">MemTest86: RAM Integrity Test</h4>
+      <p><b>Prosedur:</b> Buat bootable USB menggunakan Rufus + MemTest86 ISO. Boot dari USB. Test berjalan otomatis menggunakan 13 algoritma pengujian berbeda pada seluruh kapasitas RAM tanpa keterlibatan OS Windows.</p>
+      <p style="margin-top:6px;"><b>Interpretasi:</b> Error count 0 = RAM sempurna. Error muncul = RAM bermasalah. Uji keping per keping untuk isolasi modul yang rusak.</p>
+    </div>
+  </div>
+</section>
+
+<section id="event-viewer">
+  <div class="sec-tag">Bagian C &middot; Windows Logs</div>
+  <h2>C. Membaca Log Windows Event Viewer &amp; Reliability Monitor</h2>
+  <p class="sec-desc">Windows secara otomatis mencatat setiap event penting ke dalam log sistem. Log ini adalah "black box recorder" komputer yang sangat membantu diagnosis masalah intermittent.</p>
+  <div class="step-list">
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuka Reliability Monitor (Grafis)</h4>
+      <p>Tekan <code>Win + R</code> &rarr; ketik <code>perfmon /rel</code>. Reliability Monitor menampilkan grafik stabilitas sistem (Stability Index 0-10) secara historis. Titik merah menandai hari di mana terjadi crash atau error kritis. Klik titik merah untuk melihat detail insiden.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Filter Event ID Kritis di Event Viewer</h4>
+      <p>Buka <b>Event Viewer (eventvwr)</b> &rarr; <b>Windows Logs &rarr; System</b>. Filter Log: Level = Critical &amp; Error. Event ID penting: <b>41</b> (Kernel-Power: sistem restart tiba-tiba tanpa shutdown bersih — indikasi hardware atau driver crash), <b>6008</b> (shutdown tidak terduga sebelumnya), <b>1001</b> (BugCheck: BSOD dengan stop code).</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Analisis Minidump dari BSOD</h4>
+      <p>File crash dump disimpan di <code>C:\Windows\Minidump\</code>. Analisis menggunakan <b>WinDbg</b> atau online tool <b>https://WinDbg.info</b>. Minidump biasanya menyebutkan driver atau modul yang menyebabkan crash (contoh: <code>nvlddmkm.sys</code> = driver NVIDIA, <code>ntfs.sys</code> = masalah file sistem).</p></div></div>
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-6: Laporan Kesehatan Hardware &amp; Hasil Stress Test</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA / KELOMPOK:</label><input type="text" id="l6_nama" class="custom-input" placeholder="Nama..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NO. PC LAB YANG DIUJI:</label><input type="text" id="l6_pc" class="custom-input" placeholder="LAB-TKJ-PC..."></div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. DATA SENSOR HWiNFO64 (suhu idle & saat load stress test):</label>
+    <textarea class="custom-textarea" id="l6_sensor" rows="5" placeholder="CPU Package Temp IDLE: __ °C | Saat Prime95 (15 menit): __ °C&#10;CPU Max Turbo Clock IDLE: __ MHz | Saat load: __ MHz (throttling? Ya/Tidak)&#10;GPU Hotspot IDLE: __ °C | Saat FurMark: __ °C&#10;12V Rail Voltage: __ V | Deviasi dari nominal: __ %&#10;Apakah terjadi throttling? (Ya/Tidak) Kapan?"></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. HASIL MEMTEST86 (minimal selesai 1 pass):</label>
+    <textarea class="custom-textarea" id="l6_mem" rows="3" placeholder="Versi MemTest86: X.X | RAM yang diuji: X GB&#10;Jumlah Pass selesai: X pass | Durasi pengujian: XX menit&#10;Total Error Ditemukan: X errors (0 = Normal, >0 = Bermasalah)"></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. TEMUAN EVENT VIEWER (Event ID kritis dalam 7 hari terakhir):</label>
+    <textarea class="custom-textarea" id="l6_event" rows="3" placeholder="Event ID 41 ditemukan: X kali (tanggal: ...) | Event ID 6008: X kali&#10;Deskripsi singkat error terbaru yang ditemukan..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. REKOMENDASI TEKNIS BERDASARKAN DATA STRESS TEST:</label>
+    <textarea class="custom-textarea" id="l6_rec" rows="3" placeholder="Berdasarkan data stress test, kondisi sistem... Komponen yang perlu perhatian: ... Tindakan yang direkomendasikan dalam 30 hari ke depan: ..."></textarea>
+  </div>
+  <button type="button" class="btn-action" onclick="printL6()">&#128438; Preview &amp; Cetak Laporan Stress Test</button>
+</div>
+<script>
+function printL6(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>LKPD Stress Test</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LKPD-6: LAPORAN KESEHATAN HARDWARE & STRESS TEST</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  ['nama','pc','sensor','mem','event','rec'].forEach(id=>{
+    const el=document.getElementById('l6_'+id);
+    const labels={nama:'Nama',pc:'No PC',sensor:'Data Sensor HWiNFO64',mem:'Hasil MemTest86',event:'Event Viewer',rec:'Rekomendasi'};
+    if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/
+/g,'<br>')+'</p><hr>');
+  });
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa yang dimaksud 'Distance to TjMax' dalam monitoring HWiNFO64 dan mengapa nilainya semakin kecil itu berbahaya?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">A. Jarak fisik antara CPU dan heatsink dalam milimeter</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">B. Perbedaan antara suhu maksimum aman CPU (TjMax) dan suhu aktual saat ini — nilai kecil berarti CPU hampir mencapai batas termalnya dan akan throttling</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">C. Persentase performa CPU yang tersisa sebelum overclocking berhenti</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'TjMax adalah suhu maksimum yang diizinkan sebelum proteksi thermal throttling aktif (biasanya 100-105°C). Distance to TjMax = TjMax - Suhu Aktual. Nilai 40°C = aman. Nilai 5°C = CPU hampir throttling. Nilai 0 = throttling aktif, CPU menurunkan clock untuk mendinginkan diri.')">D. Jarak antara CPU socket dan slot RAM dalam centimeter</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Mengapa Prime95 dengan mode 'Small FFTs' menghasilkan suhu CPU lebih tinggi dibanding mode 'Blend'?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">A. Karena Small FFTs menggunakan lebih banyak kapasitas RAM</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">B. Karena Small FFTs memaksimalkan aktivitas FPU (Floating Point Unit) dalam cache L1/L2 CPU tanpa banyak akses memori, menghasilkan panas paling tinggi per watt dengan cepat — ideal untuk menguji sistem pendingin</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">C. Karena Small FFTs lebih banyak menggunakan GPU dalam proses kalkulasinya</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Small FFTs memfokuskan kalkulasi pada L1/L2 cache CPU yang sangat cepat, memaksa FPU bekerja 100% dengan turnaround data sangat cepat. Ini menghasilkan power density tertinggi pada die CPU, sehingga suhu naik lebih cepat dari mode lain. Digunakan khusus untuk menguji kemampuan sistem pendingin.')">D. Karena Small FFTs menonaktifkan power saving feature CPU</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Event ID 41 (Kernel-Power) di Windows Event Viewer mengindikasikan apa?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">A. Update Windows berhasil diinstal</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">B. Sistem mengalami restart atau shutdown mendadak tanpa proses shutdown bersih — kemungkinan crash hardware (PSU, RAM, thermal), bukan software</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">C. Sistem baru pertama kali dinyalakan setelah pemasangan OS baru</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Event ID 41 Kernel-Power dicatat Windows ketika sistem melakukan restart tanpa melalui proses shutdown normal (ungraceful shutdown). Ini bisa disebabkan: power failure, overcurrent shutdown PSU, kernel panic/BSOD, atau thermal emergency shutdown. Sangat penting dalam diagnosis sistem yang sering restart tiba-tiba.')">D. Driver perangkat keras berhasil diperbarui secara otomatis</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Penggunaan HWiNFO64</b></td><td>Tidak dapat menginstal atau membaca data HWiNFO64</td><td>Dapat melihat data namun tidak mampu mengidentifikasi nilai abnormal</td><td>Membaca dan menginterpretasi minimal 5 parameter sensor dengan benar</td><td>Analisis komprehensif termasuk identifikasi throttling, voltage anomaly, dan prediksi masalah</td></tr>
+    <tr><td><b>Menjalankan Stress Test</b></td><td>Tidak dapat menjalankan Prime95 atau FurMark</td><td>Dapat menjalankan namun tidak memantau suhu secara bersamaan</td><td>Prime95 + FurMark berjalan dengan monitoring suhu real-time dan data didokumentasikan</td><td>Stress test lengkap + MemTest86 + analisis perbandingan dengan spec resmi + laporan tertulis</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

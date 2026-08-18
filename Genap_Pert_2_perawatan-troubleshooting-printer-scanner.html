@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perawatan & Troubleshooting Printer / Scanner &mdash; Bengkel Hardware TKJ</title>
+<title>Perawatan &amp; Troubleshooting Printer / Scanner Jaringan &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,141 +248,404 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 1 &middot; HARI 2 &middot; 9 JP</div>
-    <h1>Perawatan & Troubleshooting Printer / Scanner</h1>
-    <p class="subtitle">Instalasi driver printer & scanner, SOP perawatan berkala inkjet & laser (head cleaning, nozzle check, penggantian toner), perbaikan paper jam, reset waste ink pad, dan konfigurasi sharing printer LAN.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Periferal Komputer</div><div class="chip"><b>Metode:</b> Praktik Servis & Jaringan</div><div class="chip"><b>KKTP:</b> Servis Rutin & 1 Kasus Troubleshooting</div><div class="chip"><b>Profil:</b> Mandiri, Gotong Royong</div></div>
+    <div class="eyebrow">BLOK 1 &middot; HARI 2 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Perawatan &amp; Troubleshooting Printer / Scanner Jaringan</h1>
+    <p class="subtitle">Panduan teknis komprehensif perawatan rutin printer inkjet (EcoTank) dan laserjet, prosedur pembersihan print head nozzle, penanganan paper jam dan pickup roller, reset waste ink pad counter, konfigurasi sharing printer dalam jaringan LAN/WiFi, serta diagnosis kesalahan berdasarkan kode error dan pola lampu kedip.</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi, Praktik Servis, Konfigurasi Jaringan</div><div class="chip"><b>KKTP:</b> Servis Rutin & 1 Kasus Troubleshooting Berhasil</div><div class="chip"><b>Profil Pelajar:</b> Mandiri, Gotong Royong</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>PRINTER DIAGNOSTIC &amp; BLINKING ERROR DECODER</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; PRINTER BLINKING ERROR DECODER &amp; DIAGNOSIS GUIDE</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:16px;">
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:16px;">
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">TIPE MASALAH PRINTER:</label>
-        <select id="printerIssue" class="custom-select" onchange="runPrinterDiag()">
-          <option value="paper_jam">Kertas Macet / Paper Jam (Roller Menarik Miring)</option>
-          <option value="streak">Hasil Cetak Bergaris / Warna Putus-Putus</option>
-          <option value="waste_ink">Lampu Tombol Power &amp; Resume Berkedip Bergantian (Blinking Error)</option>
-          <option value="offline">Status Printer 'Offline' / Gagal Print Lewat LAN</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">MERK PRINTER:</label>
+        <select id="prBrand" class="custom-select" onchange="runPrDiag()">
+          <option value="epson" selected>Epson (L3150, L3210, L360, dll)</option>
+          <option value="canon">Canon (G2010, MG2570, IP2870, dll)</option>
+          <option value="hp">HP (DeskJet 2135, 2335, dll)</option>
         </select>
       </div>
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">JENIS PRINTER:</label>
-        <select id="printerType" class="custom-select" onchange="runPrinterDiag()">
-          <option value="inkjet" selected>Inkjet / EcoTank (Tinta Cair)</option>
-          <option value="laser">LaserJet Monokrom / Warna (Toner Serbuk)</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">GEJALA KERUSAKAN:</label>
+        <select id="prIssue" class="custom-select" onchange="runPrDiag()">
+          <option value="blinking" selected>Lampu Power &amp; Resume Berkedip Bergantian (Blink Error)</option>
+          <option value="streak">Hasil Cetak Bergaris / Warna Putus atau Tidak Merata</option>
+          <option value="jam">Kertas Tidak Mau Masuk / Paper Jam Berulang</option>
+          <option value="offline">Printer Status Offline / Gagal Cetak dari Jaringan LAN</option>
+          <option value="no_color">Satu Warna Tidak Keluar (Misal Warna Merah Tidak Ada)</option>
         </select>
       </div>
     </div>
-    <div id="printerDiagResult" style="background:rgba(3,7,18,0.75); border:1px solid var(--cyan); border-radius:var(--radius-sm); padding:16px;">
-      <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); font-weight:700; margin-bottom:4px;">DIAGNOSA &amp; LANGKAH REKOMENDASI TEKNISI:</div>
-      <div style="font-size:14px; color:#f8fafc; font-weight:600; margin-bottom:6px;" id="diagTitle">Pembersihan Jalur Kertas &amp; Rubber Pickup Roller</div>
-      <p style="font-size:13px; color:var(--text-sub); line-height:1.55;" id="diagDesc">Tarik kertas yang tersangkut searah jalur keluar kertas (JANGAN ditarik paksa dari belakang karena dapat merusak gir feed). Bersihkan pickup roller karet dengan kain microfiber yang sedikit dibasahi alkohol isopropil untuk menghilangkan debu kertas yang licin.</p>
+    <div id="prDiagBox" style="background:rgba(3,7,18,0.75);border:1px solid rgba(0,240,255,0.35);border-radius:var(--radius-md);padding:18px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);font-weight:700;margin-bottom:6px;" id="prDiagCode">ERROR: E08 / 5B00 — Waste Ink Pad Counter Overflow</div>
+      <div style="font-size:14px;color:#fff;font-weight:600;margin-bottom:8px;" id="prDiagTitle">Bantalan Penampung Tinta Buangan (Waste Ink Pad) Penuh</div>
+      <p style="font-size:13px;color:var(--text-sub);line-height:1.6;" id="prDiagDesc">Counter digital penampung tinta buangan telah mencapai 100%. Solusi: (1) Cuci atau ganti blotter pad yang sudah jenuh tinta di bagian bawah printer. (2) Reset counter digital menggunakan Epson Adjustment Tool / Service Tool versi khusus merk. Counter yang tidak direset akan membuat printer tetap blink meskipun pad sudah dibersihkan.</p>
+      <div style="margin-top:12px;padding:10px;background:rgba(245,158,11,0.1);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--amber);font-weight:700;margin-bottom:4px;">TOOLS YANG DIPERLUKAN:</div>
+        <div id="prDiagTools" style="font-size:12.5px;color:#fef3c7;">Epson Adjustment Program (versi khusus model), kain microfiber, cairan alcohol isopropil</div>
+      </div>
     </div>
   </div>
 </div>
 <script>
-function runPrinterDiag() {
-  const issue = document.getElementById('printerIssue').value;
-  const title = document.getElementById('diagTitle');
-  const desc = document.getElementById('diagDesc');
-
-  if (issue === 'paper_jam') {
-    title.textContent = 'Pembersihan Jalur Kertas & Rubber Pickup Roller';
-    desc.textContent = 'Tarik kertas searah alur keluar. Periksa adanya benda asing (steples, sobekan kertas) pada sensor ASF. Bersihkan karet penarik (pickup roller) dari debu menggunakan cairan pembersih karet agar cengkeraman kertas kembali optimal.';
-  } else if (issue === 'streak') {
-    title.textContent = 'Nozzle Check & Head Cleaning / Deep Cleaning';
-    desc.textContent = 'Jalankan Nozzle Check Pattern dari driver. Lakukan Head Cleaning 1-2 kali. Jika masih putus-putus, lakukan Power Ink Flushing atau rendam head nozzle pada cairan head cleaner khusus (ultrasonic cleaner untuk sumbatan tinta kering).';
-  } else if (issue === 'waste_ink') {
-    title.textContent = 'Blinking Waste Ink Pad Counter Overflow (E08 / 5B00)';
-    desc.textContent = 'Bantalan busa penampung tinta buangan telah mencapai batas maksimal (100%). Ganti atau cuci busa waste ink pad di bagian belakang printer, lalu lakukan reset counter digital menggunakan software Adjustment Tool / Service Tool khusus merk printer (Epson/Canon).';
-  } else if (issue === 'offline') {
-    title.textContent = 'Troubleshooting Print Spooler & Network Sharing';
-    desc.textContent = 'Buka services.msc di Windows, restart service "Print Spooler". Cek IP address printer di jaringan LAN. Pastikan port TCP/IP 9100 (RAW) atau 515 (LPR) tidak diblokir oleh Windows Firewall pada PC host.';
+function runPrDiag() {
+  const brand = document.getElementById('prBrand').value;
+  const issue = document.getElementById('prIssue').value;
+  const code = document.getElementById('prDiagCode');
+  const title = document.getElementById('prDiagTitle');
+  const desc = document.getElementById('prDiagDesc');
+  const tools = document.getElementById('prDiagTools');
+  
+  if(issue==='blinking') {
+    code.textContent = brand==='epson'?'ERROR: E08 / 5B00 — Waste Ink Counter':brand==='canon'?'ERROR: P07 / 1700 — Absorber Full':'ERROR: OXC4EB827F — Printer Jam atau Cartridge';
+    title.textContent = 'Bantalan Penampung Tinta Buangan Penuh (Absorber Full)';
+    desc.textContent = 'Counter digital pad penampung tinta buangan telah mencapai 100%. (1) Bongkar printer, cuci atau ganti blotter pad. (2) Reset counter menggunakan Adjustment Tool versi khusus. Counter yang tidak di-reset akan tetap memblokir printer meskipun pad sudah bersih.';
+    tools.textContent = brand==='epson'?'Epson Adjustment Program + kain microfiber + alkohol isopropil':brand==='canon'?'Canon Service Tool v5.XXX + kain microfiber':'HP Support Tool + pengecekan cartridge';
+  } else if(issue==='streak') {
+    code.textContent = 'GEJALA: Print Head Nozzle Tersumbat / Cartridge Hampir Habis';
+    title.textContent = 'Sumbatan Tinta Kering pada Lubang Nozzle Print Head';
+    desc.textContent = 'Jalankan Nozzle Check Pattern dari driver printer. Jika ada garis putus, lakukan Head Cleaning 1-2x. Jika masih buruk, lakukan Power Cleaning atau Deep Cleaning. Jika tidak membaik setelah 3x cleaning, rendam head nozzle dalam cairan head cleaner khusus menggunakan metode perendaman selama 30-60 menit.';
+    tools.textContent = 'Driver printer (Printer Properties > Maintenance), cairan head cleaner khusus, spet suntik, kain lint-free';
+  } else if(issue==='jam') {
+    code.textContent = 'GEJALA: Paper Jam / Roller Pickup Aus atau Kotor';
+    title.textContent = 'Karet Pickup Roller Aus atau Kertas Tidak Tepat Masuk ASF';
+    desc.textContent = 'Keluarkan kertas yang tersangkut SEARAH jalur keluar (jangan menarik ke belakang). Periksa sensor kertas (paper sensor) dari debu. Bersihkan karet penarik (pickup roller) dengan kain microfiber dibasahi sedikit air atau rubber cleaner. Pastikan kertas tidak lembap, tidak melengkung, dan sesuai kapasitas tray.';
+    tools.textContent = 'Kain microfiber, cairan pembersih karet (rubber revitalizer), kertas HVS standar 80gsm';
+  } else if(issue==='offline') {
+    code.textContent = 'STATUS: Printer Offline — Print Spooler Error atau IP Conflict';
+    title.textContent = 'Konflik IP Printer, Port Salah, atau Print Spooler Crash';
+    desc.textContent = 'Langkah 1: Buka services.msc, restart service "Print Spooler". Langkah 2: Periksa IP address printer (melalui cetak Self-Test Page). Langkah 3: Hapus printer dari Devices and Printers, tambahkan ulang via "Add a Printer > Add a local printer > Create new port (TCP/IP)" dan masukkan IP printer. Langkah 4: Cek Windows Firewall tidak memblokir port 9100.';
+    tools.textContent = 'services.msc, Control Panel > Devices and Printers, IP address printer dari Self-Test Page';
+  } else if(issue==='no_color') {
+    code.textContent = 'GEJALA: Satu Warna Hilang — Tinta Habis atau Saluran Damper Tersumbat';
+    title.textContent = 'Satu Warna Tidak Keluar Karena Gelembung Udara di Selang Damper';
+    desc.textContent = 'Cek level tinta pada tangki. Jika tinta masih ada tetapi warna tidak keluar, kemungkinan ada gelembung udara di selang damper antara tangki dan head. Lakukan Power Cleaning dari driver. Jika printer sistem tank, periksa apakah tutup tangki tinta sudah terpasang rapat (tangki harus kedap udara) untuk menjaga tekanan aliran tinta.';
+    tools.textContent = 'Driver printer > Deep/Power Cleaning, syringe untuk prime ulang damper bila perlu';
   }
 }
 </script>
 
   </header>
 
-  
-<section id="perawatan-rutin">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. SOP Perawatan Rutin Printer &amp; Scanner</h2>
-  <p class="sec-desc">Pemeliharaan berkala mencegah keausan mekanik dan menjaga kualitas cetak resolusi tinggi.</p>
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Teori Teknologi Cetak Inkjet vs Laser & Arsitektur Printer (90 Menit)</h4>
+            <p>Prinsip kerja head piezoelectric vs thermal bubble, pembentukan titik tinta (dot-matrix vs vector), mekanisme fuser laserjet, komponen mekanik (pickup roller, paper guide, encoder strip, CR motor, LF motor).</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Prosedur Perawatan Berkala & Pembersihan Head Nozzle (90 Menit)</h4>
+            <p>Nozzle check pattern interpretation, prosedur head cleaning standar & deep cleaning, pembersihan encoder strip, pelumasan carriage rod, cara bersihkan karet pickup roller, dan penggantian waste ink pad.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik Diagnosis & Troubleshooting Kasus (90 Menit)</h4>
+            <p>Siswa diberikan printer dengan kasus bermasalah: paper jam, hasil cetak bergaris, status offline. Siswa mendiagnosis menggunakan metode eliminasi dan memperbaiki sesuai SOP servis. Pengisian blotter pad dan reset waste ink counter menggunakan Adjustment Tool.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Konfigurasi Sharing Printer LAN & WiFi Printing (90 Menit)</h4>
+            <p>Prosedur file and printer sharing Windows, pengaturan port TCP/IP 9100 pada Devices and Printers, koneksi dari PC klien via \\IP_HOST, konfigurasi printer sharing melalui router WiFi (AirPrint/Mopria), troubleshooting Print Spooler service.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Evaluasi, Laporan LKPD & Refleksi Pembelajaran (45 Menit)</h4>
+            <p>Presentasi laporan diagnosis dan hasil perbaikan per kelompok. Penilaian kecepatan dan ketepatan troubleshooting. Pengisian LKPD digital dan refleksi kendala yang dialami.</p>
+          </div>
+        </div>
+        </div>
+  </section>
 
+  <!-- CONTENT SECTIONS -->
+  
+<section id="teori-inkjet">
+  <div class="sec-tag">Bagian A &middot; Teknologi Cetak</div>
+  <h2>A. Cara Kerja Printer Inkjet (EcoTank) &amp; Laser</h2>
+  <p class="sec-desc">Memahami mekanisme internal printer adalah fondasi penting untuk diagnosa yang akurat dan perawatan yang tepat sasaran.</p>
   <div class="grid-2">
     <div class="card">
-      <h4>Perawatan Printer Inkjet / EcoTank</h4>
-      <ul>
-        <li><b>Pemeriksaan Tinta:</b> Jangan biarkan tangki tinta di bawah batas garis minimum agar udara tidak masuk ke selang damper.</li>
-        <li><b>Perawatan Nozzle Head:</b> Cetak dokumen warna minimal seminggu sekali untuk mencegah tinta piezo/thermal mengering.</li>
-        <li><b>Pembersihan Timing Strip:</b> Bersihkan pita film transparan (encoder strip) dari cipratan tinta menggunakan cotton bud kering.</li>
-        <li><b>Pelumasan Carriage Rod:</b> Beri grease silikon sintetis tipis pada besi rel penggeser cartridge head.</li>
-      </ul>
+      <h4 style="color:var(--cyan);">Printer Inkjet: Dua Teknologi Print Head</h4>
+      <p><b>1. Thermal Bubble (Canon, HP):</b> Tinta dipanaskan oleh resistor mikro hingga membentuk gelembung uap yang mendorong tinta keluar dari nozzle. Kelemahan: print head cepat aus karena panas berulang.</p>
+      <p style="margin-top:8px;"><b>2. Piezoelectric (Epson):</b> Kristal piezo bergetar berdasarkan tegangan listrik, mendorong tinta keluar dengan presisi sangat tinggi. Keunggulan: tahan lama dan presisi titik tinta lebih akurat.</p>
+      <div class="callout" style="margin-top:10px;">Printer EcoTank menggunakan sistem tangki tinta terbuka (refillable tank) yang jauh lebih ekonomis dibanding cartridge konvensional.</div>
     </div>
     <div class="card">
-      <h4>Perawatan Printer Laser &amp; Scanner Flatbed</h4>
+      <h4 style="color:var(--amber);">Printer Laser: Proses Elektrofotografi</h4>
       <ul>
-        <li><b>Perawatan Drum OPC:</b> Hindari menyentuh tabung drum hijau/biru dengan jari dan lindungi dari paparan sinar matahari langsung.</li>
-        <li><b>Pembersihan Kaca Scanner:</b> Bersihkan kaca flatbed scanner dengan cairan pembersih kaca dan lap microfiber agar hasil scan bebas noda garis hitam.</li>
-        <li><b>Fuser Unit:</b> Periksa pemanas fuser sleeve dan pressure roller dari residu serbuk toner yang menempel.</li>
-        <li><b>Corona Wire:</b> Bersihkan kawat korona penarik muatan elektrostatik secara berkala.</li>
+        <li><b>Charging:</b> Corona wire memberi muatan negatif merata pada drum OPC.</li>
+        <li><b>Exposing:</b> Laser beam menghilangkan muatan di area yang akan dicetak, membentuk gambar laten.</li>
+        <li><b>Developing:</b> Toner (serbuk) menempel hanya pada area yang terkena laser.</li>
+        <li><b>Transferring:</b> Transfer belt memindahkan toner dari drum ke kertas.</li>
+        <li><b>Fusing:</b> Fuser unit (rolller pemanas) melebur toner ke kertas dengan panas 180-200&deg;C.</li>
+        <li><b>Cleaning:</b> Blade membersihkan sisa toner dari drum.</li>
       </ul>
     </div>
   </div>
 </section>
 
-<section id="sharing-lan">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. Konfigurasi Sharing Printer &amp; Scanner dalam Jaringan LAN</h2>
-  <p class="sec-desc">Memungkinkan satu printer digunakan bersama oleh puluhan PC dalam satu laboratorium sekolah / kantor.</p>
-
+<section id="sop-perawatan">
+  <div class="sec-tag">Bagian B &middot; SOP Perawatan</div>
+  <h2>B. SOP Perawatan Berkala Printer &amp; Scanner (Checklist Bulanan)</h2>
+  <p class="sec-desc">Program perawatan preventif terstruktur mencegah kerusakan fatal dan memperpanjang usia pakai printer hingga 3-5 tahun.</p>
+  
   <div class="step-list">
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>Aktivasi Fitur File and Printer Sharing di PC Host</h4>
-        <p>Buka <i>Network and Sharing Center &rarr; Advanced sharing settings</i>, aktifkan <b>Turn on file and printer sharing</b> pada profil Private Network.</p>
+        <h4>Cetak Nozzle Check Pattern &amp; Evaluasi Hasilnya</h4>
+        <p>Akses <b>Properties Printer &rarr; Maintenance &rarr; Nozzle Check</b>. Cetak pola pengujian. Evaluasi hasilnya: jika ada garis terputus pada pola, lakukan Head Cleaning. Jika 100% solid tanpa putus, printer dalam kondisi sehat. Dokumentasikan hasil nozzle check per bulan.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>Sharing Device dari Control Panel</h4>
-        <p>Buka <i>Devices and Printers</i>, klik kanan printer &rarr; <i>Printer Properties</i> &rarr; tab <b>Sharing</b> &rarr; centang <b>Share this printer</b> dan beri nama share (mis. <code>LAB_PRINTER_EPSON</code>).</p>
+        <h4>Pembersihan Encoder Strip (Pita Film Transparan)</h4>
+        <p>Encoder strip adalah pita plastik transparan tipis yang digunakan sensor carriage untuk menentukan posisi horizontal head. Cipratan tinta pada pita ini menyebabkan head salah posisi dan hasil cetak miring. Bersihkan dengan cotton bud <b>kering</b> (jangan basah) dengan gerakan dari kiri ke kanan secara perlahan.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Pelumasan Carriage Rod (Rel Penggeser Head)</h4>
+        <p>Besi chrome rod tempat kepala cetak bergerak memerlukan pelumasan tipis setiap 6 bulan. Gunakan pelumas <b>grease silikon sintetis</b> (bukan oli mesin biasa) yang diaplikasikan tipis merata dengan kain bersih. Pelumas berlebih justru akan menumpuk debu dan memperlambat motor.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Pembersihan Pickup Roller (Karet Penarik Kertas)</h4>
+        <p>Karet pickup roller yang aus atau berdebu menyebabkan kertas tidak masuk atau miring (paper skew). Bersihkan permukaan karet dengan kain microfiber dibasahi <b>air bersih</b> (jangan alkohol berkonsentrasi tinggi karena merusak karet). Bila sudah halus licin dan tidak bisa diperbaiki, roller harus diganti.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Pemeriksaan &amp; Penggantian Waste Ink Pad (Blotter Pad)</h4>
+        <p>Waste ink pad adalah busa penyerap tinta buangan proses cleaning. Pad yang jenuh tidak bisa menyerap tinta lagi dan akan bocor di bagian bawah printer. Bongkar casing bawah printer, ambil pad yang sudah hitam jenuh, cuci dengan air hangat atau ganti dengan pad baru, kemudian <b>wajib reset counter</b> menggunakan software Adjustment Tool.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Kalibrasi Kertas &amp; Alignment Print Head</h4>
+        <p>Jalankan <b>Print Head Alignment</b> dari driver printer untuk memastikan tiga warna tinta (Cyan, Magenta, Yellow) tepat tumpang-tindih dan tidak ada offset warna. Terutama penting setelah head cleaning intensif atau setelah printer pernah terjatuh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="lan-sharing">
+  <div class="sec-tag">Bagian C &middot; Jaringan Printer</div>
+  <h2>C. Konfigurasi Sharing Printer Laboratorium dalam Jaringan LAN</h2>
+  <p class="sec-desc">Satu printer dapat digunakan bersama oleh seluruh komputer dalam laboratorium sekolah menggunakan fitur Windows Printer Sharing.</p>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Aktivasi File &amp; Printer Sharing di PC Host</h4>
+        <p>Buka <b>Control Panel &rarr; Network and Sharing Center &rarr; Change advanced sharing settings</b>. Pada profil <b>Private</b>, aktifkan <b>"Turn on file and printer sharing"</b>. Pastikan <b>"Turn off password protected sharing"</b> juga diaktifkan agar klien tidak perlu login.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Share Printer dari Devices and Printers</h4>
+        <p>Buka <b>Settings &rarr; Bluetooth & devices &rarr; Printers & scanners</b>. Pilih printer &rarr; <b>Printer properties &rarr; tab Sharing</b>. Centang <b>"Share this printer"</b> dan masukkan nama share yang mudah diingat (contoh: <code>PRINTER-LAB1</code>). Klik OK.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
         <h4>Koneksi dari PC Klien (Siswa)</h4>
-        <p>Pada PC klien, tekan <code>Win + R</code> &rarr; ketik <code>\\IP_PC_HOST</code> (mis. <code>\\192.168.1.100</code>) &rarr; klik kanan printer yang muncul &rarr; pilih <b>Connect</b> untuk instalasi driver otomatis.</p>
+        <p>Pada PC klien, tekan <code>Win + R</code> &rarr; ketik <code>\\[IP_PC_HOST]</code> contoh: <code>\\192.168.1.100</code> &rarr; Enter. Daftar printer yang dibagikan akan muncul. Klik kanan printer &rarr; <b>Connect</b>. Windows akan menginstal driver secara otomatis dari PC host.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-badge"></div>
+      <div class="step-body">
+        <h4>Troubleshooting: Printer Shared Tidak Terdeteksi Klien</h4>
+        <p>Jika printer tidak muncul: (1) Pastikan kedua PC di jaringan yang sama (subnet). (2) Cek Windows Firewall host tidak memblokir SMB (port 445) &mdash; tambahkan exception. (3) Restart service <b>Print Spooler</b> dan <b>Server</b> di services.msc pada PC host. (4) Nonaktifkan sementara antivirus di PC host untuk pengujian.</p>
       </div>
     </div>
   </div>
 </section>
 
 
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-2: Diagnosa &amp; Laporan Servis Printer</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA SISWA / KELOMPOK:</label>
+    <input type="text" id="l2_nama" class="custom-input" placeholder="Nama lengkap..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">MERK &amp; MODEL PRINTER YANG DISERVISI:</label>
+    <input type="text" id="l2_printer" class="custom-input" placeholder="Contoh: Epson L3150 EcoTank"></div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. GEJALA KERUSAKAN YANG DIAMATI (deskripsikan secara detail):</label>
+    <textarea class="custom-textarea" id="l2_gejala" rows="3" placeholder="Jelaskan gejala yang terlihat/terdengar: contoh 'Lampu power berkedip 5x dan lampu resume berkedip 4x bergantian secara terus-menerus'..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. HIPOTESIS AWAL PENYEBAB MASALAH:</label>
+    <textarea class="custom-textarea" id="l2_hipotesis" rows="2" placeholder="Berdasarkan gejala, dugaan sementara penyebab masalah adalah..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. LANGKAH DIAGNOSA DAN TINDAKAN PERBAIKAN (step by step):</label>
+    <textarea class="custom-textarea" id="l2_langkah" rows="5" placeholder="Langkah 1: Cek level tinta...&#10;Langkah 2: Jalankan Nozzle Check Print...&#10;Langkah 3: Lakukan Head Cleaning dari driver...&#10;dst."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. HASIL AKHIR &amp; STATUS PRINTER SETELAH PERBAIKAN:</label>
+    <select id="l2_status" class="custom-select">
+      <option value="">-- Pilih Status Akhir --</option>
+      <option>BERHASIL: Printer berfungsi normal setelah perbaikan</option>
+      <option>SEBAGIAN: Masalah berkurang tetapi belum 100% normal</option>
+      <option>PERLU PENGGANTIAN SPARE PART: Kerusakan memerlukan spare part baru</option>
+    </select>
+  </div>
+  <button type="button" class="btn-action" onclick="printLKPD2()">&#128438; Preview &amp; Cetak Laporan Servis</button>
+</div>
+<script>
+function printLKPD2(){
+  const w=window.open('','_blank');
+  const nama=document.getElementById('l2_nama').value||'—';
+  const printer=document.getElementById('l2_printer').value||'—';
+  const gejala=document.getElementById('l2_gejala').value||'—';
+  const hipotesis=document.getElementById('l2_hipotesis').value||'—';
+  const langkah=document.getElementById('l2_langkah').value||'—';
+  const status=document.getElementById('l2_status').value||'—';
+  w.document.write('<html><head><title>Laporan Servis Printer</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LAPORAN SERVIS PRINTER — LKPD 2</h3><h4>SMK DIPONEGORO TUMPANG &middot; Kelas X TKJ</h4><hr></center>');
+  w.document.write('<p><b>Teknisi:</b> '+nama+'</p><p><b>Printer:</b> '+printer+'</p><p><b>Tanggal:</b> '+new Date().toLocaleDateString('id-ID')+'</p><hr>');
+  w.document.write('<p><b>A. Gejala:</b><br>'+gejala.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<p><b>B. Hipotesis:</b><br>'+hipotesis.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<p><b>C. Langkah Perbaikan:</b><br>'+langkah.replace(/
+/g,'<br>')+'</p>');
+  w.document.write('<p><b>D. Status Akhir:</b> '+status+'</p>');
+  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa perbedaan mendasar teknologi print head Thermal Bubble (Canon/HP) vs Piezoelectric (Epson)?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">A. Thermal menggunakan laser untuk mencetak, Piezoelectric menggunakan tinta</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">B. Thermal menggunakan panas resistor untuk mendorong tinta, Piezoelectric menggunakan getaran kristal listrik</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">C. Thermal lebih mahal dan tahan lama, Piezoelectric lebih murah</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Thermal Bubble menggunakan resistor yang dipanaskan cepat untuk menciptakan gelembung uap yang mendorong tinta. Piezoelectric menggunakan kristal yang berubah bentuk karena tegangan listrik, mendorong tinta dengan presisi lebih tinggi dan tanpa panas, sehingga nozzle lebih awet.')">D. Keduanya menggunakan teknologi yang identik dengan nama berbeda</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa yang WAJIB dilakukan setelah mengganti atau membersihkan waste ink pad pada printer Epson?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">A. Mencetak 50 halaman test page untuk memanaskan sistem</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">B. Melakukan factory reset dari menu printer langsung</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">C. Reset counter waste ink digital menggunakan Epson Adjustment Tool / Service Program</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Counter waste ink adalah hitungan digital terpisah dari kondisi fisik pad. Sekalipun pad sudah diganti/dicuci, counter tetap menunjukkan 100% dan printer akan terus blink. Harus di-reset menggunakan software khusus (Adjustment Program) agar counter kembali ke 0%.')">D. Mengganti selang damper secara bersamaan</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Komponen printer apa yang berfungsi memberi tahu posisi horizontal head print berdasarkan pembacaan optik?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">A. Pickup Roller — menarik kertas masuk tray</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">B. Encoder Strip (Timing Belt Film) — pita transparan dengan garis kode</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">C. Fuser Unit — melebur toner ke kertas</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Encoder strip adalah pita plastik transparan tipis dengan kode garis yang dibaca sensor optik pada carriage head. Berdasarkan bacaan ini, sistem mengetahui tepat di mana posisi head berada. Cipratan tinta pada pita ini menyebabkan head salah posisi dan cetakan miring atau ganda.')">D. CR Motor (Carriage Motor) — menggerakkan head kiri-kanan</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa perintah yang diketik di Run Dialog (Win+R) untuk mengakses daftar printer yang dishare dari PC lain di jaringan?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">A. ipconfig /renew</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">B. netstat -an</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">C. \\[IP_ADDRESS_PC_HOST] contoh: \\192.168.1.100</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Dengan mengetikkan \\IP_ADDRESS di Run Dialog atau Windows Explorer, sistem akan mengakses shared resources dari komputer tersebut termasuk folder dan printer yang dishare. Dari sana klien bisa klik kanan printer dan pilih Connect untuk memasang driver otomatis.')">D. ping 192.168.1.1</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum Berkembang (1-40)</th><th>Mulai Berkembang (41-70)</th><th>Berkembang Sesuai (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Identifikasi Gejala &amp; Diagnosa</b></td>
+    <td>Tidak dapat mengidentifikasi gejala dari tampilan dan suara printer</td>
+    <td>Dapat menyebut gejala namun belum bisa menentukan komponen penyebab</td>
+    <td>Diagnosa tepat berdasarkan gejala dengan metode eliminasi</td>
+    <td>Diagnosa sistematis lengkap termasuk akar penyebab dan pencegahan berulang</td></tr>
+    <tr><td><b>Prosedur Perawatan Rutin</b></td>
+    <td>Tidak dapat melakukan head cleaning atau nozzle check</td>
+    <td>Menjalankan head cleaning namun tidak bisa menginterpretasi nozzle check pattern</td>
+    <td>Perawatan rutin lengkap: nozzle check, head cleaning, encoder strip, pickup roller</td>
+    <td>Perawatan menyeluruh plus reset waste ink counter dan laporan bulanan lengkap</td></tr>
+    <tr><td><b>Sharing Printer LAN</b></td>
+    <td>Tidak dapat mengkonfigurasi sharing printer</td>
+    <td>Sharing diaktifkan namun klien tidak bisa terkoneksi</td>
+    <td>Sharing printer berhasil dan minimal 2 PC klien berhasil mencetak</td>
+    <td>Sharing berhasil penuh plus troubleshooting Print Spooler dan Firewall exception</td></tr>
+  </tbody>
+</table>
+
+  </section>
+
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proyek Akhir: Perawatan &amp; Perbaikan Unit Komputer Sekolah &mdash; Bengkel Hardware TKJ</title>
+<title>Proyek Akhir: Perawatan &amp; Perbaikan Unit Komputer Sekolah &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,74 +248,90 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 2 &middot; HARI 4 &middot; 9 JP</div>
+    <div class="eyebrow">BLOK 2 &middot; HARI 4 &middot; 9 JP &middot; SEMESTER GENAP</div>
     <h1>Proyek Akhir: Perawatan &amp; Perbaikan Unit Komputer Sekolah</h1>
-    <p class="subtitle">Penerapan seluruh kompetensi teknisi dalam servis nyata di laboratorium sekolah: audit inventaris, pembersihan total (deep cleaning), repasting, tune-up OS, pengujian kestabilan, dan penyusunan Berita Acara Servis.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Proyek Nyata Laboratorium</div><div class="chip"><b>Metode:</b> Kerja Tim Kolaboratif</div><div class="chip"><b>KKTP:</b> Servis Min. 2 Unit PC Normal & Terdata</div><div class="chip"><b>Profil:</b> Gotong Royong, Kreatif, Mandiri</div></div>
+    <p class="subtitle">Penerapan seluruh kompetensi teknisi komputer dalam proyek nyata servis laboratorium sekolah: audit inventaris hardware/software, pembongkaran & deep cleaning fisik, pemeliharaan termal pasta pendingin, manajemen kabel casing, tune-up & update sistem operasi, pengujian kestabilan beban penuh, serta penyusunan Berita Acara Serah Terima (BAST).</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Project-Based Learning (PjBL), Kolaborasi Tim, Servis Lapangan</div><div class="chip"><b>KKTP:</b> Servis 2 Unit PC Sekolah Tuntas & Terverifikasi</div><div class="chip"><b>Profil Pelajar:</b> Gotong Royong, Mandiri, Kreatif, Bernalar Kritis</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>GENERATOR BERITA ACARA SERVIS &amp; AUDIT PC LAB SEKOLAH</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; DIGITAL LAB PC SERVICE LOG SHEET &amp; BAST GENERATOR</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:14px;">
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">NOMOR UNIT PC:</label>
-        <input type="text" id="pcNumber" class="custom-input" value="LAB-TKJ-PC04">
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NOMOR INVENTARIS PC:</label>
+        <input type="text" id="bast_pc" class="custom-input" value="LAB-TKJ-PC-07">
       </div>
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">NAMA TEKNISI (KELOMPOK):</label>
-        <input type="text" id="techGroup" class="custom-input" value="Kelompok 2 (Ahmad, Budi, Siti)">
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">TIM TEKNISI SISWA:</label>
+        <input type="text" id="bast_tech" class="custom-input" value="Kelompok 3 (Rizky, Dewi, Farhan)">
       </div>
       <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">JENIS TINDAKAN:</label>
-        <select id="actionType" class="custom-select">
-          <option>Deep Cleaning + Repaste + Windows Tune-Up</option>
-          <option>Upgrade SSD NVMe + Instalasi Ulang OS</option>
-          <option>Penggantian PSU + Kabel Management</option>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">SUHU CPU SEBELUM &rarr; SESUDAH:</label>
+        <input type="text" id="bast_temp" class="custom-input" value="78°C → 52°C (-26°C)">
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">STATUS HASIL STRESS TEST:</label>
+        <select id="bast_status" class="custom-select">
+          <option value="PASS" selected>PASS — 100% Stabil &amp; Lolos Uji Beban</option>
+          <option value="NEED_PART">PERLU SPARE PART — Kipas / PSU Aus</option>
         </select>
       </div>
     </div>
-    <button type="button" class="btn-action" onclick="generateReport()">Cetak Preview Berita Acara Servis</button>
-    
-    <div id="reportPreviewBox" style="display:none; margin-top:16px; background:#fff; color:#030712; border-radius:var(--radius-sm); padding:20px; font-family:var(--font-mono); font-size:12px; line-height:1.6; border:2px solid #000;">
-      <div style="text-align:center; font-weight:800; font-size:14px; border-bottom:2px solid #000; padding-bottom:6px; margin-bottom:10px;">
-        BERITA ACARA SERVIS &amp; PEMELIHARAAN UNIT KOMPUTER SEKOLAH<br>
-        <span style="font-size:11px; font-weight:400;">SMK DIPONEGORO TUMPANG &middot; JURUSAN TEKNIK KOMPUTER &amp; JARINGAN</span>
+    <button type="button" class="btn-action" onclick="generateBastLive()">&#128438; Generate &amp; Pratinjau Berita Acara Servis</button>
+
+    <div id="bastPreviewArea" style="display:none;margin-top:20px;background:#ffffff;color:#0f172a;border-radius:var(--radius-md);padding:24px;font-family:var(--font-mono);font-size:12px;line-height:1.65;border:2px solid #000;">
+      <div style="text-align:center;font-weight:800;font-size:14px;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
+        BERITA ACARA SERAH TERIMA PEMELIHARAAN UNIT KOMPUTER LABORATORIUM<br>
+        <span style="font-size:11px;font-weight:600;">SMK DIPONEGORO TUMPANG &middot; TEKNIK KOMPUTER &amp; JARINGAN</span>
       </div>
-      <div id="reportContent"></div>
+      <div id="bastLiveContent"></div>
     </div>
   </div>
 </div>
 <script>
-function generateReport() {
-  const pc = document.getElementById('pcNumber').value;
-  const tech = document.getElementById('techGroup').value;
-  const act = document.getElementById('actionType').value;
-  const box = document.getElementById('reportPreviewBox');
-  const content = document.getElementById('reportContent');
+function generateBastLive() {
+  const pc = document.getElementById('bast_pc').value;
+  const tech = document.getElementById('bast_tech').value;
+  const temp = document.getElementById('bast_temp').value;
+  const st = document.getElementById('bast_status').value;
+  const box = document.getElementById('bastPreviewArea');
+  const content = document.getElementById('bastLiveContent');
+
+  const today = new Date().toLocaleDateString('id-ID', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
 
   content.innerHTML = `
-    <b>ID Perangkat:</b> ${pc}<br>
-    <b>Tim Teknisi:</b> ${tech}<br>
-    <b>Tindakan Perbaikan:</b> ${act}<br>
-    <b>Status Akhir:</b> BERFUNGSI NORMAL & PASS DIAGNOSTIC TEST<br>
-    <b>Tanggal Pengerjaan:</b> ${new Date().toLocaleDateString('id-ID', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}<br>
-    <div style="margin-top:16px; display:flex; justify-content:space-between;">
-      <div>Mengetahui,<br>Guru Pembimbing TKJ<br><br><br><b>Wahyu Prihanto</b></div>
-      <div>Teknisi Pelaksana,<br>Ketua Kelompok<br><br><br><b>(.......................)</b></div>
+    <table style="width:100%;font-size:12px;margin-bottom:12px;">
+      <tr><td style="width:180px;"><b>Nomor ID Perangkat:</b></td><td>${pc}</td></tr>
+      <tr><td><b>Tim Teknisi Pelaksana:</b></td><td>${tech}</td></tr>
+      <tr><td><b>Tanggal Pengerjaan:</b></td><td>${today}</td></tr>
+      <tr><td><b>Efisiensi Termal (Suhu):</b></td><td>${temp}</td></tr>
+      <tr><td><b>Status Pengujian Stres:</b></td><td><b style="color:${st==='PASS'?'#16a34a':'#dc2626'};">${st}</b></td></tr>
+    </table>
+    <div style="margin-bottom:10px;"><b>Daftar Pekerjaan yang Telah Diselesaikan:</b></div>
+    <ul style="padding-left:20px;margin-bottom:16px;">
+      <li>Pembersihan debu komprehensif (heatsink, fan, slot ekspansi, power supply)</li>
+      <li>Penggantian thermal paste CPU (Arctic MX-4 konduktivitas tinggi)</li>
+      <li>Cable management perapian jalur kabel casing & pengikatan cable ties</li>
+      <li>Tune-up OS Windows, pembersihan file temporary, dan update driver</li>
+      <li>Stress testing stabilitas 20 menit (Prime95 + FurMark) tanpa crash</li>
+    </ul>
+    <div style="margin-top:20px;display:flex;justify-content:space-between;padding-top:10px;">
+      <div>Mengetahui,<br>Kepala Laboratorium TKJ<br><br><br><br><b>Wahyu Prihanto</b><br>NIP. -</div>
+      <div>Teknisi Pelaksana,<br>Ketua Tim Siswa<br><br><br><br><b>(................................)</b><br>NISN. -</div>
     </div>
   `;
   box.style.display = 'block';
@@ -327,64 +340,242 @@ function generateReport() {
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Audit Awal, Inventarisasi & Baseline Health Check (90 Menit)</h4>
+            <p>Penerimaan unit PC lab yang ditugaskan. Pendataan spesifikasi CPU, RAM, Storage, PSU. Pengecekan S.M.A.R.T disk, suhu idle awal, dan pencatatan riwayat keluhan pengguna lab pada lembar audit.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Pembongkaran Total, Deep Cleaning & Thermal Repaste (90 Menit)</h4>
+            <p>Pembongkaran unit PC sesuai SOP K3. Pembersihan debu heatsink fan, sirip pendingin, slot PCIe, dan power supply menggunakan blower angin antistatis. Pembersihan sisa pasta termal lama dan pengolesan thermal paste baru berkonduktivitas tinggi.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Perakitan Ulang, Cable Management & OS Maintenance (90 Menit)</h4>
+            <p>Penataan kabel power PSU di balik tray casing menggunakan cable ties untuk memaksimalkan airflow. Pemasangan kembali komponen. Booting sistem, pembersihan temporary files, disk cleanup, update driver terbaru, dan patch security OS.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Stress Testing Stabilitas & Pengujian Fungsional Menyeluruh (90 Menit)</h4>
+            <p>Uji stabilitas sistem 20 menit menggunakan Prime95 + FurMark secara bersamaan. Verifikasi port USB, audio jack depan/belakang, LAN network transfer, dan display multi-monitor. Pemasangan stiker label tanggal servis pada casing.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Penyusunan Berita Acara Servis (BAST) & Presentasi Proyek (45 Menit)</h4>
+            <p>Setiap tim teknisi menyusun dokumen resmi Berita Acara Servis, mempresentasikan komparasi suhu/performa sebelum vs sesudah, dan menyerahkan unit siap pakai kepada Kepala Laboratorium.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="sop-servis-lab">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. 6 Tahapan Standar Servis Komputer Laboratorium</h2>
-  <p class="sec-desc">SOP pelaksanaan proyek nyata pemeliharaan unit komputer sekolah.</p>
+<section id="sop-servis">
+  <div class="sec-tag">Bagian A &middot; Standar Operasional</div>
+  <h2>A. 6 Tahapan Standar Servis PC Laboratorium Sekolah</h2>
+  <p class="sec-desc">Pelaksanaan proyek nyata melatih kepatuhan teknisi terhadap prosedur operasional baku (SOP) yang digunakan di industri service center komputer.</p>
 
   <div class="step-list">
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>1. Audit &amp; Logging Awal (Pre-Inspection)</h4>
-        <p>Catat spesifikasi hardware, cek kesehatan HDD/SSD S.M.A.R.T, rekam suhu idle CPU/GPU, dan catat keluhan pengguna.</p>
+        <h4>1. Audit &amp; Pra-Inspeksi (Pre-Inspection Logging)</h4>
+        <p>Periksa kondisi fisik luar, kelengkapan kabel, port USB, monitor. Catat data S.M.A.R.T storage, rekam suhu idle CPU/GPU awal, dan periksa apakah ada keluhan lagging atau crash dari pengguna sebelumnya.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>2. Deep Hardware Cleaning</h4>
-        <p>Bongkar unit PC, bersihkan debu kipas, heatsink, slot PCIe, dan power supply menggunakan blower angin / kuas antistatis.</p>
+        <h4>2. Pembongkaran &amp; Deep Hardware Cleaning</h4>
+        <p>Bongkar unit PC di meja kerja antistatis. Gunakan blower angin dan kuas halus berbulu antistatis untuk membersihkan debu pada kipas CPU, sirip heatsink aluminium/tembaga, rongga kipas PSU, dan slot PCIe.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>3. Thermal Maintenance &amp; Cable Routing</h4>
-        <p>Bersihkan sisa pasta termal lama dengan alkohol isopropil 99%, oleskan thermal paste baru, tata kabel PSU dengan cable ties rapi.</p>
+        <h4>3. Pemeliharaan Termal &amp; Pelumasan Kipas</h4>
+        <p>Bersihkan kerak pasta termal lama dari die CPU dan baseplate cooler menggunakan alkohol isopropil 99%. Aplikasikan thermal paste baru dengan metode Pea/Dot. Beri pelumas tetes bearing sintetis jika kipas berisik.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>4. OS Tune-up &amp; Driver Update</h4>
-        <p>Hapus file temporary (<code>%temp%</code>), jalankan Disk Cleanup, update driver LAN/VGA/Audio, dan pasang patch keamanan.</p>
+        <h4>4. Cable Management &amp; Optimasi Airflow</h4>
+        <p>Rapikan kabel power 24-pin, 8-pin CPU, PCIe, dan SATA di belakang tray motherboard. Ikatkan menggunakan cable ties rapi agar jalur aliran udara dari kipas depan ke belakang tidak terhalang gumpalan kabel.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>5. Stress Test &amp; Stability Verification</h4>
-        <p>Jalankan uji beban Prime95/FurMark selama 15 menit untuk memastikan suhu di bawah 75&deg;C dan tidak terjadi crash/BSOD.</p>
+        <h4>5. Software Tune-Up, Driver Update &amp; Security Patch</h4>
+        <p>Nyalakan PC, bersihkan cache temporary (<code>%temp%</code> dan <code>prefetch</code>), jalankan Disk Cleanup, perbarui driver yang tertunda di Device Manager, dan pastikan Windows Security berstatus hijau/aktif.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-badge"></div>
       <div class="step-body">
-        <h4>6. Penempelan Label Servis &amp; Berita Acara</h4>
-        <p>Tempel stiker log pemeliharaan pada casing PC dan serahkan Berita Acara Servis kepada kepala laboratorium.</p>
+        <h4>6. Verifikasi Beban Penuh &amp; Pelabelan Unit</h4>
+        <p>Jalankan stress test kombinasi selama minimal 15-20 menit. Pastikan suhu maksimal &lt;75°C. Tempel stiker label log servis pada panel samping casing dan terbitkan Berita Acara Serah Terima (BAST).</p>
       </div>
     </div>
   </div>
 </section>
 
+<section id="airflow-mgmt">
+  <div class="sec-tag">Bagian B &middot; Manajemen Airflow</div>
+  <h2>B. Prinsip Tekanan Udara Casing PC: Positive vs Negative Pressure</h2>
+  <p class="sec-desc">Pengaturan arah kipas intake dan exhaust menentukan akumulasi debu dan efisiensi pelepasan panas di dalam casing komputer laboratorium.</p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--cyan);">
+      <h4 style="color:var(--cyan);">Positive Air Pressure (Rekomendasi Utama Lab)</h4>
+      <p><b>Kondisi:</b> Volume udara masuk (Intake) lebih besar daripada volume udara keluar (Exhaust).</p>
+      <ul>
+        <li><b>Keunggulan:</b> Udara bersih masuk hanya melalui filter debu depan. Udara keluar didorong melalui celah-celah kecil casing, mencegah debu liar masuk dari celah tanpa filter.</li>
+        <li><b>Konfigurasi:</b> 2-3 Kipas Intake di depan + 1 Kipas Exhaust di belakang.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4 style="color:var(--amber);">Negative Air Pressure (Rentan Debu)</h4>
+      <p><b>Kondisi:</b> Volume udara keluar (Exhaust) lebih besar daripada volume udara masuk (Intake).</p>
+      <ul>
+        <li><b>Kelemahan:</b> Casing mengalami efek vakum sebagian yang menyedot udara kotor beserta debu dari seluruh celah baut, lubang PCIe, dan port yang tidak memiliki filter.</li>
+        <li><b>Dampak:</b> Casing cepat berdebu tebal dalam waktu 1-2 bulan.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-9: Lembar Kerja Proyek Servis PC Laboratorium Sekolah</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA TIM TEKNISI:</label><input type="text" id="l9_nama" class="custom-input" placeholder="Nama anggota kelompok..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">KODE UNIT PC LAB:</label><input type="text" id="l9_pc" class="custom-input" placeholder="Contoh: LAB-PC-03"></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">LOKASI MEJA LAB:</label><input type="text" id="l9_loc" class="custom-input" placeholder="Baris 2 Meja 3"></div>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. TABEL REKAP SPESIFIKASI & KONDISI AWAL (PRE-INSPECTION):</label>
+    <textarea class="custom-textarea" id="l9_pre" rows="4" placeholder="CPU: Intel Core i5-6500 | RAM: 8GB DDR4 | Storage: HDD 500GB (Health S.M.A.R.T: 98% Good)&#10;Kondisi Fisik Awal: Debu tebal pada sirip heatsink CPU, kipas belakang macet, kabel berantakan.&#10;Suhu CPU Idle Awal: 76°C | Suhu saat beban: 94°C (Throttling)"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. LOG TINDAKAN PERBAIKAN & PERAWATAN YANG DILAKUKAN:</label>
+    <textarea class="custom-textarea" id="l9_act" rows="4" placeholder="1. Deep cleaning blower seluruh motherboard, PSU, dan sirip heatsink&#10;2. Penggantian pasta termal CPU dengan Arctic MX-4&#10;3. Pelumasan bearing kipas exhaust belakang dengan pelumas sintetis&#10;4. Re-routing kabel PSU dan pengikatan 8 titik cable ties&#10;5. Disk cleanup dan penghapusan 4.2 GB file temporary"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. DATA PENGUJIAN AKHIR (POST-MAINTENANCE BENCHMARK):</label>
+    <textarea class="custom-textarea" id="l9_post" rows="3" placeholder="Suhu CPU Idle Akhir: 48°C (Turun 28°C) | Suhu Maksimal Stress Test 20 Menit: 68°C&#10;Kestabilan Sistem: 100% lolos uji beban tanpa crash/restart&#10;Port Testing: 6 Port USB OK, Front Audio OK, Gigabit LAN OK"></textarea>
+  </div>
+
+  <button type="button" class="btn-action" onclick="printLKPD9()">&#128438; Preview &amp; Cetak Laporan Proyek Servis PC</button>
+</div>
+<script>
+function printLKPD9(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>Laporan Proyek Servis PC Lab</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LAPORAN HASIL PROYEK SERVIS PC LAB SEKOLAH</h3><h4>SMK DIPONEGORO TUMPANG &middot; LKPD 9</h4><hr></center>');
+  ['nama','pc','loc','pre','act','post'].forEach(id=>{
+    const el=document.getElementById('l9_'+id);
+    const labels={nama:'Tim Teknisi',pc:'Kode PC',loc:'Lokasi Meja',pre:'A. Pre-Inspection',act:'B. Log Tindakan Servis',post:'C. Data Pengujian Akhir'};
+    if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  });
+  w.document.write('<br><p>Tanda Tangan Guru Pembimbing: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Mengapa konfigurasi 'Positive Air Pressure' sangat direkomendasikan untuk komputer laboratorium sekolah?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">A. Karena membuat kipas casing berputar tanpa menggunakan daya listrik</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">B. Karena udara masuk hanya melalui filter debu depan dan udara berlebih didorong keluar lewat celah casing, meminimalkan debu liar masuk dari celah tanpa filter</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">C. Karena menghasilkan suara kipas yang lebih hening</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Positive pressure membuat tekanan udara di dalam casing sedikit lebih tinggi daripada udara luar ruangan. Udara akan terus mengalir keluar dari setiap celah kecil casing, sehingga debu tidak dapat menyelinap masuk dari celah-celah tersebut. Debu hanya tersaring pada intake filter depan yang mudah dibersihkan.')">D. Karena menurunkan suhu pendingin hingga di bawah 0 derajat Celcius</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Apa dampak utama jika kabel power di dalam casing dibiarkan berantakan dan menutupi area tengah motherboard?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">A. Mengakibatkan harddisk otomatis terformat</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">B. Mengganggu alur sirkulasi udara (airflow disruption) dari kipas depan ke belakang, menciptakan kantong udara panas (hot spot), dan meningkatkan suhu komponen</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">C. Mengubah tegangan listrik 12V menjadi 5V secara acak</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Gumpalan kabel yang menghalangi jalur udara menciptakan hambatan aerodinamis. Udara dingin dari kipas intake depan tidak dapat mencapai heatsink CPU/GPU secara langsung, sehingga kipas harus berputar lebih kencang dan suhu komponen meningkat 5-10°C lebih panas.')">D. Memperlambat kecepatan download internet</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Cairan apa yang paling aman dan tepat digunakan untuk membersihkan sisa pasta termal kering pada prosesor?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">A. Air sabun cuci piring</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">B. Alkohol Isopropil berkadar kemurnian tinggi 90-99% (IPA)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">C. Minyak kayu putih atau minyak tanah</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Alkohol Isopropil 90-99% (IPA) memiliki sifat melarutkan silikon pasta termal dengan sangat cepat tanpa meninggalkan residu konduktif dan menguap dalam hitungan detik tanpa meninggalkan kelembapan pada PCB prosesor.')">D. Thinner cat besi</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum (1-40)</th><th>Mulai (41-70)</th><th>Berkembang (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Audit &amp; Diagnosa Awal</b></td><td>Tidak mencatat spesifikasi dan suhu awal</td><td>Mencatat spesifikasi namun mengabaikan kesehatan S.M.A.R.T dan suhu</td><td>Audit lengkap: spesifikasi, S.M.A.R.T disk, suhu idle dan load awal</td><td>Audit komprehensif + analisis keluhan historis + rencana kerja tertulis terinci</td></tr>
+    <tr><td><b>Eksekusi Servis Fisik &amp; K3</b></td><td>Merusak klip casing, pasta blepotan, kabel semrawut</td><td>Pembersihan bersih namun pasta termal kurang tepat dan kabel belum rapi</td><td>Deep cleaning bersih + repasting tepat + cable management rapi dengan cable ties</td><td>Servis fisik sempurna berstandar industri + airflow positive pressure optimal</td></tr>
+    <tr><td><b>Verifikasi Stres &amp; BAST</b></td><td>Tidak melakukan stress test dan tidak membuat laporan</td><td>Stress test singkat tanpa data perbandingan suhu sebelum-sesudah</td><td>Stress test 20 menit lolos + suhu turun terukur + BAST terisi lengkap</td><td>Kompilasi BAST profesional siap serah terima + presentasi komparasi performa memukau</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>

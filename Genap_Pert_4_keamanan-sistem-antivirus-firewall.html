@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Keamanan Sistem: Antivirus, Firewall &amp; Update Sistem &mdash; Bengkel Hardware TKJ</title>
+<title>Keamanan Sistem Operasi: Antivirus, Firewall &amp; Patch Management &mdash; Modul Ajar 9 JP TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-void: #030712;
@@ -41,103 +41,91 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html {
-    background: var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    scroll-behavior: smooth;
-  }
-
+  html { background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); scroll-behavior: smooth; }
   body {
     background:
-      radial-gradient(1000px 500px at 80% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
-      radial-gradient(800px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(139, 92, 246, 0.07), transparent 60%),
       var(--bg-void);
-    color: var(--text-main);
-    font-family: var(--font-body);
-    line-height: 1.65;
-    padding-bottom: 80px;
+    color: var(--text-main); font-family: var(--font-body); line-height: 1.68; padding-bottom: 90px;
   }
-
   a { color: var(--cyan-soft); text-decoration: none; }
   a:hover { color: var(--cyan); text-decoration: underline; }
-  
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
   /* Topbar */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(3, 7, 18, 0.85);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--panel-border);
   }
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px; max-width: 980px; margin: 0 auto;
+    padding: 12px 24px; max-width: 1000px; margin: 0 auto;
   }
   .brand-back {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-mono); font-size: 12px; color: var(--cyan);
     font-weight: 700; background: rgba(0, 240, 255, 0.08);
-    padding: 6px 12px; border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    transition: all 0.2s ease;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 240, 255, 0.25); transition: all 0.2s ease;
   }
   .brand-back:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan-glow);
-    text-decoration: none;
-    transform: translateX(-2px);
+    background: rgba(0, 240, 255, 0.2); border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow); text-decoration: none; transform: translateX(-2px);
   }
   .jp-indicator { display: flex; align-items: center; gap: 8px; }
   .jp-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
-  .jp-bar { display: flex; gap: 3px; }
-  .jp-seg { width: 10px; height: 6px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); }
+  .jp-bar { display: flex; gap: 4px; }
+  .jp-seg { width: 12px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
   .jp-seg.on { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* Hero Section */
-  header.hero { padding: 48px 0 28px; }
+  /* Hero */
+  header.hero { padding: 44px 0 28px; }
   .eyebrow {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
     background: rgba(0, 240, 255, 0.1); padding: 4px 12px; border-radius: 100px;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   h1 {
     font-family: var(--font-heading); font-weight: 800;
-    font-size: clamp(26px, 4vw, 40px); line-height: 1.18; letter-spacing: -0.02em;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.2; letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 740px; margin-top: 14px; line-height: 1.6; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .subtitle { color: var(--text-sub); font-size: 15px; max-width: 780px; margin-top: 12px; line-height: 1.6; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-main);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main);
     background: var(--panel); border: 1px solid var(--panel-border);
     border-radius: 100px; padding: 6px 14px; display: flex; align-items: center; gap: 6px;
   }
   .chip b { color: var(--cyan-soft); font-weight: 600; }
 
-  /* Signature Interactive Hero Widget */
-  .hero-widget-box {
-    margin-top: 36px; background: var(--panel); border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg); overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 240, 255, 0.15);
+  /* Timeline 9 JP Section */
+  .timeline { position: relative; margin-top: 14px; }
+  .tl-item { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 0; position: relative; }
+  .tl-item:not(:last-child)::after {
+    content: ""; position: absolute; left: 40px; top: 48px; bottom: -4px; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--violet));
   }
-  .widget-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px; background: var(--panel-alt); border-bottom: 1px solid var(--panel-border);
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-sub);
+  .tl-jp {
+    font-family: var(--font-mono); font-size: 11.5px; color: #030712; background: var(--cyan);
+    border-radius: var(--radius-sm); height: 34px; width: 80px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; z-index: 1;
+    box-shadow: 0 0 12px var(--cyan-glow);
   }
-  .widget-dots { display: flex; gap: 6px; }
-  .widget-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
-  .widget-body { padding: 24px; }
+  .tl-content {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 14px 18px;
+  }
+  .tl-content h4 { font-family: var(--font-heading); font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .tl-content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.55; }
 
-  /* Content Sections */
-  section { padding: 48px 0; border-top: 1px solid var(--panel-border); }
+  /* Section Styling */
+  section { padding: 44px 0; border-top: 1px solid var(--panel-border); }
   .sec-tag {
     font-family: var(--font-mono); font-size: 11px; font-weight: 700;
     color: var(--cyan); text-transform: uppercase; letter-spacing: 1.5px;
@@ -145,12 +133,12 @@
   }
   .sec-tag::before { content: ""; width: 16px; height: 2px; background: var(--cyan); }
   h2 {
-    font-family: var(--font-heading); font-size: clamp(20px, 2.6vw, 28px);
-    font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: #fff;
+    font-family: var(--font-heading); font-size: clamp(20px, 2.5vw, 27px);
+    font-weight: 700; margin-bottom: 8px; color: #fff; letter-spacing: -0.01em;
   }
-  .sec-desc { color: var(--text-sub); max-width: 720px; margin-bottom: 24px; font-size: 14.5px; }
+  .sec-desc { color: var(--text-sub); max-width: 760px; margin-bottom: 24px; font-size: 14.5px; }
 
-  /* Cards Grid */
+  /* Grids & Cards */
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
   
@@ -160,24 +148,23 @@
   }
   .card:hover {
     border-color: var(--cyan-soft); background: var(--panel-alt);
-    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2); transform: translateY(-2px);
   }
-  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16.5px; color: #fff; margin-bottom: 10px; }
+  .card h3, .card h4 { font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 8px; }
   .card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
   .card ul, .card ol { padding-left: 18px; font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
   .card li { margin-bottom: 6px; }
   .card li b { color: var(--text-main); }
 
-  /* Step by step numbered list */
-  .step-list { counter-reset: stp; margin-top: 16px; }
+  /* Steps list */
+  .step-list { counter-reset: stp; margin-top: 14px; }
   .step-item {
-    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    display: grid; grid-template-columns: 38px 1fr; gap: 16px;
     padding: 16px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
   }
   .step-item:last-child { border-bottom: none; }
   .step-badge {
-    counter-increment: stp; font-family: var(--font-mono); font-weight: 700;
+    counter-increment: stp; font-family: var(--font-mono); font-weight: 800;
     font-size: 13px; width: 38px; height: 38px; border-radius: 10px;
     background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex; align-items: center; justify-content: center; color: var(--cyan);
@@ -185,6 +172,21 @@
   .step-badge::before { content: counter(stp, decimal-leading-zero); }
   .step-body h4 { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 4px; }
   .step-body p { font-size: 13.5px; color: var(--text-sub); }
+
+  /* Table styling */
+  .tech-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); overflow: hidden; font-size: 13px;
+  }
+  .tech-table th {
+    background: var(--panel-alt); color: var(--cyan); font-family: var(--font-heading);
+    font-weight: 700; text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--panel-border);
+  }
+  .tech-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-sub);
+  }
+  .tech-table tr:hover td { background: rgba(255, 255, 255, 0.02); color: var(--text-main); }
 
   /* Interactive Elements */
   .btn-action {
@@ -196,20 +198,20 @@
   }
   .btn-action:hover { filter: brightness(1.15); transform: translateY(-1px); }
   
-  .custom-input, select.custom-select {
+  .custom-input, select.custom-select, textarea.custom-textarea {
     width: 100%; background: rgba(3, 7, 18, 0.8); border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
     font-size: 13px; color: var(--text-main); outline: none; transition: border-color 0.2s;
   }
-  .custom-input:focus, select.custom-select:focus {
+  .custom-input:focus, select.custom-select:focus, textarea.custom-textarea:focus {
     border-color: var(--cyan); box-shadow: 0 0 12px var(--cyan-glow);
   }
 
-  /* Callout & Tips */
+  /* Callouts */
   .callout {
     background: rgba(0, 240, 255, 0.06); border-left: 3px solid var(--cyan);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px;
-    margin: 18px 0; font-size: 13.5px; color: #cbd5e1;
+    margin: 16px 0; font-size: 13.5px; color: #cbd5e1;
   }
   .callout.amber {
     background: rgba(245, 158, 11, 0.08); border-left-color: var(--amber); color: #fef3c7;
@@ -218,12 +220,7 @@
     background: rgba(16, 185, 129, 0.08); border-left-color: var(--emerald); color: #d1fae5;
   }
 
-  /* Mini Quiz / Self-Check */
-  .quiz-box {
-    background: var(--panel); border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-  }
-  .quiz-q { font-family: var(--font-heading); font-size: 15.5px; color: #fff; margin-bottom: 14px; }
+  /* Quiz options */
   .quiz-opt {
     display: flex; align-items: center; gap: 10px; padding: 10px 14px;
     background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -251,157 +248,348 @@
       PORTAL UTAMA
     </a>
     <div class="jp-indicator">
-      <span class="jp-label">ALOKASI WAKTU:</span>
+      <span class="jp-label">ALOKASI WAKTU LENGKAP:</span>
       <div class="jp-bar"><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div><div class="jp-seg on"></div></div>
-      <span class="jp-label"><b>9 JP</b></span>
+      <span class="jp-label"><b>9 JP (405 Menit)</b></span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="eyebrow">BLOK 1 &middot; HARI 4 &middot; 9 JP</div>
-    <h1>Keamanan Sistem: Antivirus, Firewall &amp; Update Sistem</h1>
-    <p class="subtitle">Konfigurasi antivirus dan perlindungan real-time, pengaturan Windows Defender Firewall (Inbound & Outbound Rules), manajemen patch update OS, proteksi malware/ransomware, serta edukasi keamanan cyber.</p>
-    <div class="meta-row"><div class="chip"><b>Fokus:</b> Cyber Security & OS Hardening</div><div class="chip"><b>Metode:</b> Praktik Konfigurasi & Lab</div><div class="chip"><b>KKTP:</b> Konfigurasi Firewall & Antivirus Terverifikasi</div><div class="chip"><b>Profil:</b> Bernalar Kritis, Mandiri</div></div>
+    <div class="eyebrow">BLOK 1 &middot; HARI 4 &middot; 9 JP &middot; SEMESTER GENAP</div>
+    <h1>Keamanan Sistem Operasi: Antivirus, Firewall &amp; Patch Management</h1>
+    <p class="subtitle">Panduan komprehensif hardening sistem operasi Windows: konfigurasi Windows Defender dan antivirus pihak ketiga, pembuatan aturan Inbound/Outbound Firewall tingkat lanjut, manajemen patch dan update keamanan sistem operasi, perlindungan dari ransomware dan malware, serta edukasi keamanan siber (social engineering awareness).</p>
+    <div class="meta-row"><div class="chip"><b>Mata Pelajaran:</b> Pemeliharaan Komputer & Jaringan</div><div class="chip"><b>Kelas:</b> X TKJ</div><div class="chip"><b>Alokasi:</b> 9 JP (405 Menit)</div><div class="chip"><b>Metode:</b> Demonstrasi, Praktik Konfigurasi, Studi Kasus Keamanan</div><div class="chip"><b>KKTP:</b> Konfigurasi Firewall & Antivirus Terverifikasi</div><div class="chip"><b>Profil Pelajar:</b> Bernalar Kritis, Mandiri, Bertanggung Jawab</div></div>
 
-    <!-- Signature Interactive Hero Widget -->
+    <!-- Interactive Hero Widget -->
     
-<div class="hero-widget-box">
-  <div class="widget-head">
-    <span>INTERACTIVE FIREWALL INBOUND/OUTBOUND RULE TESTER</span>
-    <div class="widget-dots"><span></span><span></span><span></span></div>
+<div style="margin-top:36px;background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 20px 50px -20px rgba(0,240,255,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--panel-alt);border-bottom:1px solid var(--panel-border);font-family:var(--font-mono);font-size:12px;color:var(--text-sub);">
+    <span>&#9889; INTERACTIVE FIREWALL PORT INSPECTOR &amp; RISK ANALYZER</span>
+    <div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span><span style="width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;"></span></div>
   </div>
-  <div class="widget-body">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:16px;">
-      <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PILIH PORT JARINGAN:</label>
-        <select id="fwPort" class="custom-select" onchange="runFwTest()">
-          <option value="80">Port 80 (HTTP Web Unsecured)</option>
-          <option value="443" selected>Port 443 (HTTPS Web Secured)</option>
-          <option value="445">Port 445 (SMB File Sharing / Vektor WannaCry)</option>
-          <option value="3389">Port 3389 (RDP - Remote Desktop Protocol)</option>
-          <option value="21">Port 21 (FTP File Transfer)</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-family:var(--font-mono); font-size:11px; color:var(--text-sub); display:block; margin-bottom:6px;">PROFIL JARINGAN (NETWORK PROFILE):</label>
-        <select id="fwProfile" class="custom-select" onchange="runFwTest()">
-          <option value="public" selected>Public Network (WiFi Cafe / Sekolah)</option>
-          <option value="private">Private Network (Jaringan Rumah / Lab Terpercaya)</option>
-        </select>
-      </div>
+  <div style="padding:24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">PORT JARINGAN YANG DIANALISIS:</label>
+      <select id="fwPort" class="custom-select" onchange="runFW()">
+        <option value="80">Port 80 — HTTP (Web Tidak Terenkripsi)</option>
+        <option value="443" selected>Port 443 — HTTPS (Web Terenkripsi TLS)</option>
+        <option value="445">Port 445 — SMB (File Sharing Windows)</option>
+        <option value="3389">Port 3389 — RDP (Remote Desktop Protocol)</option>
+        <option value="21">Port 21 — FTP (File Transfer Tidak Aman)</option>
+        <option value="23">Port 23 — Telnet (Remote CLI Tidak Terenkripsi)</option>
+        <option value="1433">Port 1433 — MSSQL Server Database</option>
+      </select></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">LOKASI JARINGAN (PROFIL):</label>
+      <select id="fwProfile" class="custom-select" onchange="runFW()">
+        <option value="public" selected>Public Network (WiFi Sekolah/Cafe)</option>
+        <option value="private">Private Network (Rumah/Lab Terpercaya)</option>
+        <option value="domain">Domain Network (Kantor/Enterprise)</option>
+      </select></div>
+      <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:6px;">JENIS ATURAN YANG DIBUAT:</label>
+      <select id="fwRuleType" class="custom-select" onchange="runFW()">
+        <option value="inbound" selected>Inbound Rule (Trafik Masuk ke PC)</option>
+        <option value="outbound">Outbound Rule (Trafik Keluar dari PC)</option>
+      </select></div>
     </div>
-    <div style="background:rgba(3,7,18,0.75); border:1px solid var(--panel-border); border-radius:var(--radius-sm); padding:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-      <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">STATUS ATURAN FIREWALL:</div>
-        <div style="font-family:var(--font-heading); font-size:20px; font-weight:800; color:var(--emerald);" id="fwStatusResult">ALLOW (Trafik Diizinkan Aman)</div>
+    <div id="fwResultBox" style="background:rgba(3,7,18,0.75);border:1px solid rgba(16,185,129,0.4);border-radius:var(--radius-md);padding:18px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:14px;">
+        <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">STATUS REKOMENDASI:</div>
+        <div style="font-family:var(--font-heading);font-size:18px;font-weight:800;color:var(--emerald);" id="fwStatus">ALLOW (Aman)</div></div>
+        <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">TINGKAT RISIKO:</div>
+        <div style="font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--cyan);" id="fwRisk">RENDAH</div></div>
+        <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">VEKTOR SERANGAN UMUM:</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-sub);" id="fwVector">Man-in-the-Middle (jika HTTP)</div></div>
       </div>
-      <div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">TINGKAT RISIKO KEAMANAN:</div>
-        <div style="font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--cyan);" id="fwRiskResult">Rendah (Enkripsi TLS/SSL)</div>
+      <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);margin-bottom:4px;">PERINTAH POWERSHELL UNTUK MEMBUAT RULE INI:</div>
+        <code style="font-family:var(--font-mono);font-size:12px;color:#a5f3fc;" id="fwCmdPreview">New-NetFirewallRule -DisplayName "ALLOW_HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow</code>
       </div>
     </div>
   </div>
 </div>
 <script>
-function runFwTest() {
-  const port = document.getElementById('fwPort').value;
-  const profile = document.getElementById('fwProfile').value;
-  const statusEl = document.getElementById('fwStatusResult');
-  const riskEl = document.getElementById('fwRiskResult');
-
-  if (port === '445') {
-    statusEl.textContent = 'BLOCK INBOUND (Wajib Diblokir di Public)';
-    statusEl.style.color = 'var(--red)';
-    riskEl.textContent = 'KRITIS! Vektor Utama Penyebaran Ransomware EternalBlue';
-    riskEl.style.color = 'var(--red)';
-  } else if (port === '3389') {
-    if (profile === 'public') {
-      statusEl.textContent = 'BLOCK (Koneksi RDP Diblokir Otomatis)';
-      statusEl.style.color = 'var(--amber)';
-      riskEl.textContent = 'Tinggi: Mencegah Serangan Brute Force RDP';
-      riskEl.style.color = 'var(--amber)';
-    } else {
-      statusEl.textContent = 'ALLOW DENGAN OTENTIKASI NLA';
-      statusEl.style.color = 'var(--cyan)';
-      riskEl.textContent = 'Sedang: Hanya Izinkan Komputer Terdaftar';
-      riskEl.style.color = 'var(--cyan)';
-    }
-  } else if (port === '80') {
-    statusEl.textContent = 'ALLOW (Peringatan: Trafik Plain Text)';
-    statusEl.style.color = 'var(--amber)';
-    riskEl.textContent = 'Sedang: Rentan Man-in-the-Middle Attack';
-    riskEl.style.color = 'var(--amber)';
-  } else {
-    statusEl.textContent = 'ALLOW (Trafik Diizinkan Aman)';
-    statusEl.style.color = 'var(--emerald)';
-    riskEl.textContent = 'Rendah (Trafik Terenkripsi Standar)';
-    riskEl.style.color = 'var(--cyan)';
-  }
+function runFW(){
+  const port=document.getElementById('fwPort').value;
+  const profile=document.getElementById('fwProfile').value;
+  const rtype=document.getElementById('fwRuleType').value;
+  const st=document.getElementById('fwStatus');
+  const risk=document.getElementById('fwRisk');
+  const vec=document.getElementById('fwVector');
+  const cmd=document.getElementById('fwCmdPreview');
+  const box=document.getElementById('fwResultBox');
+  
+  let portName={'80':'HTTP','443':'HTTPS','445':'SMB','3389':'RDP','21':'FTP','23':'Telnet','1433':'MSSQL'}[port];
+  let action='ALLOW';let riskLevel='RENDAH';let riskCol='var(--emerald)';let border='rgba(16,185,129,0.4)';let vector='';
+  
+  if(port==='445'){action='BLOCK (Wajib Diblokir)';riskLevel='KRITIS';riskCol='var(--red)';border='rgba(239,68,68,0.5)';vector='Ransomware (WannaCry/EternalBlue), Lateral Movement';}
+  else if(port==='3389'&&profile==='public'){action='BLOCK (Risiko Tinggi)';riskLevel='TINGGI';riskCol='var(--amber)';border='rgba(245,158,11,0.5)';vector='Brute Force Password, Remote Access Exploit';}
+  else if(port==='23'){action='BLOCK (Tidak Aman)';riskLevel='TINGGI';riskCol='var(--amber)';border='rgba(245,158,11,0.5)';vector='Clear-text eavesdropping, Session Hijacking';}
+  else if(port==='21'){action='GUNAKAN SFTP (Port 22)';riskLevel='SEDANG';riskCol='var(--amber)';border='rgba(245,158,11,0.5)';vector='Credential sniffing (username/password plain text)';}
+  else if(port==='80'){action='ALLOW (Perhatikan)';riskLevel='SEDANG';riskCol='var(--amber)';border='rgba(245,158,11,0.4)';vector='Man-in-the-Middle, HTTP downgrade attack';}
+  else{action='ALLOW (Aman)';riskLevel='RENDAH';riskCol='var(--emerald)';border='rgba(16,185,129,0.4)';vector='Terenkripsi TLS — risiko minimal';}
+  
+  st.textContent=action;st.style.color=riskCol;
+  risk.textContent=riskLevel;risk.style.color=riskCol;
+  vec.textContent=vector||'—';
+  box.style.borderColor=border;
+  
+  const dir=rtype==='inbound'?'Inbound':'Outbound';
+  const act2=action.startsWith('BLOCK')?'Block':'Allow';
+  cmd.textContent=`New-NetFirewallRule -DisplayName "${act2}_${portName}" -Direction ${dir} -Protocol TCP -LocalPort ${port} -Action ${act2} -Profile ${profile.charAt(0).toUpperCase()+profile.slice(1)}`;
 }
 </script>
 
   </header>
 
+  <!-- TIMELINE PEMBELAJARAN 9 JP -->
+  <section id="timeline-9jp">
+    <div class="sec-tag">Struktur Pembelajaran</div>
+    <h2>Alur Skenario Pembelajaran 9 Jam Pelajaran (9 JP)</h2>
+    <p class="sec-desc">Struktur komprehensif membagi 9 JP menjadi 5 fase terukur: Teori &amp; Analisis, Demonstrasi &amp; Observasi, Praktik Terbimbing, Kasus Industri, dan Evaluasi Laporan.</p>
+    <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-jp">JP 1-2</div>
+          <div class="tl-content">
+            <h4>Teori Ancaman Siber Modern & Arsitektur Keamanan Windows (90 Menit)</h4>
+            <p>Jenis malware: virus, worm, trojan, ransomware, spyware, adware, rootkit. Cara kerja enkripsi ransomware (AES-256 + RSA). Arsitektur pertahanan berlapis Windows: DEP, ASLR, SmartScreen, Secure Boot, TPM 2.0, Windows Hello.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 3-4</div>
+          <div class="tl-content">
+            <h4>Konfigurasi Windows Defender & Antivirus Lanjutan (90 Menit)</h4>
+            <p>Aktivasi dan verifikasi komponen Windows Security (Real-time, Cloud-delivered, Tamper Protection). Exclusion paths yang aman. Scan on-demand vs scheduled. Pengaturan Controlled Folder Access (proteksi ransomware). Review quarantine. Perbandingan dengan antivirus pihak ketiga.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 5-6</div>
+          <div class="tl-content">
+            <h4>Praktik Konfigurasi Windows Firewall with Advanced Security (90 Menit)</h4>
+            <p>Membuka wf.msc. Pembuatan Inbound Rule untuk memblokir port berbahaya (445-SMB, 3389-RDP di Public). Pembuatan Outbound Rule untuk membatasi program tidak dikenal. Pengaturan Connection Security Rules. Ekspor/impor kebijakan firewall (.wfw file). Verifikasi dengan netstat.</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 7-8</div>
+          <div class="tl-content">
+            <h4>Manajemen Patch, Update & Group Policy Security (90 Menit)</h4>
+            <p>Konfigurasi Windows Update Policy (gpedit.msc). Pemeriksaan update manual vs otomatis. Identifikasi CVE (Common Vulnerabilities and Exposures) berbahaya. Nonaktifkan fitur berbahaya: AutoRun USB (gpedit), RDP jika tidak diperlukan, SMBv1. Penerapan Local Security Policy (secpol.msc).</p>
+          </div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-jp">JP 9</div>
+          <div class="tl-content">
+            <h4>Studi Kasus, Simulasi Insiden Keamanan & Evaluasi LKPD (45 Menit)</h4>
+            <p>Analisis studi kasus: PC sekolah terinfeksi virus shortcut USB. Siswa melakukan langkah mitigasi: scan antivirus, pemeriksaan startup (msconfig), penghapusan entri registry malware, dan pembuatan laporan insiden keamanan.</p>
+          </div>
+        </div>
+        </div>
+  </section>
+
+  <!-- CONTENT SECTIONS -->
   
-<section id="firewall-guide">
-  <div class="sec-tag">Bagian 1</div>
-  <h2>1. Konfigurasi Windows Defender Firewall with Advanced Security</h2>
-  <p class="sec-desc">Firewall bertindak sebagai gerbang filter pelindung yang memeriksa setiap paket data masuk (Inbound) dan keluar (Outbound).</p>
-
-  <div class="step-list">
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Membuka Konsol Manajemen Firewall Tingkat Lanjut</h4>
-        <p>Tekan <code>Win + R</code> &rarr; ketik <code>wf.msc</code> &rarr; tekan Enter untuk membuka konsol <i>Windows Defender Firewall with Advanced Security</i>.</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Membuat Inbound Rule Baru untuk Blokir Port Berbahaya</h4>
-        <p>Klik <b>Inbound Rules</b> &rarr; pilih <b>New Rule...</b> &rarr; pilih jenis <b>Port</b> &rarr; pilih protokol <b>TCP</b> &rarr; masukkan port spesifik (mis. <code>445, 139</code>) &rarr; pilih aksi <b>Block the connection</b> &rarr; centang semua profil (Domain, Private, Public) &rarr; beri nama rule (mis. <code>BLOKIR_SMB_MALWARE</code>).</p>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-badge"></div>
-      <div class="step-body">
-        <h4>Verifikasi Status Proteksi Real-Time Antivirus</h4>
-        <p>Buka <i>Windows Security</i> &rarr; <i>Virus &amp; threat protection</i> &rarr; pastikan <b>Real-time protection</b>, <b>Cloud-delivered protection</b>, dan <b>Tamper Protection</b> berstatus ON.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="cyber-hygiene">
-  <div class="sec-tag">Bagian 2</div>
-  <h2>2. Cyber Hygiene &amp; Mitigasi Serangan Social Engineering</h2>
-  <p class="sec-desc">Pertahanan terkuat dimulai dari kesadaran pengguna (User Awareness).</p>
-
+<section id="jenis-ancaman">
+  <div class="sec-tag">Bagian A &middot; Ancaman Siber</div>
+  <h2>A. Peta Ancaman Siber Modern pada Sistem Komputer</h2>
+  <p class="sec-desc">Memahami anatomi serangan adalah langkah pertama pertahanan yang efektif. Seorang teknisi TKJ harus mampu mengenali dan menangani insiden siber di lingkungan sekolah/kantor.</p>
   <div class="grid-3">
     <div class="card">
-      <h4>A. Proteksi Phishing</h4>
-      <p>Jangan mengklik tautan mencurigakan atau mengunduh file lampiran dari pengirim tidak dikenal (mis. file berekstensi <code>.exe</code>, <code>.vbs</code>, atau <code>.iso</code> berkedok tagihan/invoice).</p>
+      <h4 style="color:var(--red);">Ransomware (Ancaman #1)</h4>
+      <p>Malware paling destruktif. Mengenkripsi seluruh file dokumen, foto, dan database menggunakan algoritma AES-256 + RSA-2048. Korban diminta membayar tebusan (ransom) dalam cryptocurrency untuk mendapat kunci dekripsi.</p>
+      <ul style="margin-top:8px;">
+        <li><b>Penyebaran:</b> Email phishing, exploit SMBv1 (WannaCry), RDP brute force</li>
+        <li><b>Pencegahan:</b> Backup 3-2-1, patch OS, Controlled Folder Access aktif</li>
+      </ul>
     </div>
     <div class="card">
-      <h4>B. Nonaktifkan USB Auto-Run</h4>
-      <p>Blokir fitur AutoPlay/AutoRun melalui Group Policy (<code>gpedit.msc</code>) agar virus USB shortcut tidak dapat mengeksekusi script secara otomatis saat flashdisk dicolokkan.</p>
+      <h4 style="color:var(--amber);">Virus Shortcut USB</h4>
+      <p>Jenis malware yang paling umum di lingkungan sekolah. Virus menyembunyikan semua folder asli dan menggantinya dengan shortcut .lnk yang menjalankan script berbahaya saat diklik. Menyebar via flashdisk.</p>
+      <ul style="margin-top:8px;">
+        <li><b>Pencegahan:</b> Nonaktifkan AutoPlay/AutoRun via Group Policy</li>
+        <li><b>Pemulihan:</b> attrib -h -r -s /s /d F:\ di CMD untuk mengembalikan folder tersembunyi</li>
+      </ul>
     </div>
     <div class="card">
-      <h4>C. Manajemen Patch Update</h4>
-      <p>Jalankan Windows Update rutin untuk menutup celah kerentanan (CVE) pada kernel sistem operasi dan browser.</p>
+      <h4 style="color:var(--violet);">Phishing &amp; Social Engineering</h4>
+      <p>Serangan yang memanipulasi psikologi manusia, bukan eksploitasi teknis. Email/pesan palsu yang menyamar sebagai bank, instansi pemerintah, atau perusahaan terpercaya untuk mencuri kredensial login.</p>
+      <ul style="margin-top:8px;">
+        <li><b>Ciri-ciri:</b> Domain pengirim tidak resmi, urgensi palsu, link mencurigakan</li>
+        <li><b>Pencegahan:</b> Verifikasi manual, jangan klik link sembarangan</li>
+      </ul>
     </div>
   </div>
 </section>
 
+<section id="firewall-config">
+  <div class="sec-tag">Bagian B &middot; Konfigurasi Firewall</div>
+  <h2>B. Panduan Lengkap Konfigurasi Windows Firewall with Advanced Security</h2>
+  <p class="sec-desc">Windows Firewall with Advanced Security (wf.msc) menyediakan kontrol granular atas trafik jaringan yang jauh lebih detail dibandingkan Control Panel biasa.</p>
+  <div class="step-list">
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuka Konsol Firewall Lanjutan</h4>
+      <p>Tekan <code>Win + R</code> &rarr; ketik <code>wf.msc</code> &rarr; Enter. Panel kiri menampilkan: Inbound Rules, Outbound Rules, Connection Security Rules, dan Monitoring. Profil aktif (Domain/Private/Public) ditampilkan di panel tengah.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuat Inbound Rule: Blokir Port SMB 445</h4>
+      <p>Klik <b>Inbound Rules &rarr; New Rule</b>. Pilih Type: <b>Port</b>. Protokol: <b>TCP</b>. Specific local ports: <b>445</b>. Action: <b>Block the connection</b>. Profile: centang <b>Domain, Private, dan Public</b>. Name: <code>BLOKIR-SMB-445-AntiRansomware</code>. Klik Finish. Rule aktif langsung tanpa restart.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Membuat Inbound Rule: Izinkan Program Spesifik</h4>
+      <p>Untuk mengizinkan program spesifik (bukan berdasarkan port), pilih Type: <b>Program</b>. Browse ke lokasi executable (<code>%ProgramFiles%\aplikasi.exe</code>). Action: <b>Allow the connection</b>. Ini lebih aman daripada membuka port secara permanen.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Verifikasi Aturan Firewall dengan Netstat</h4>
+      <p>Buka CMD &rarr; jalankan <code>netstat -an | findstr LISTEN</code> untuk melihat port yang sedang mendengarkan (listening). Pastikan port berbahaya (445, 23, 3389 jika tidak digunakan) tidak muncul dalam status LISTENING.</p></div></div>
+    <div class="step-item"><div class="step-badge"></div>
+      <div class="step-body"><h4>Ekspor Kebijakan Firewall sebagai File Cadangan</h4>
+      <p>Di konsol wf.msc, klik kanan <b>Windows Defender Firewall with Advanced Security</b> di panel kiri &rarr; pilih <b>Export Policy</b>. Simpan file <code>.wfw</code>. File ini bisa diimpor ke PC lain untuk menerapkan kebijakan yang sama secara massal (berguna untuk lab sekolah).</p></div></div>
+  </div>
+</section>
+
+<section id="patch-management">
+  <div class="sec-tag">Bagian C &middot; Patch Management</div>
+  <h2>C. Manajemen Patch Keamanan &amp; Hardening OS Windows</h2>
+  <p class="sec-desc">Patch update bukan sekadar pembaruan fitur — setiap update keamanan menutup celah (CVE) yang bisa dieksploitasi peretas. PC yang tidak diupdate adalah target empuk.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="color:var(--cyan);">Langkah Hardening Windows via Group Policy (gpedit.msc)</h4>
+      <ul>
+        <li><b>Nonaktifkan AutoRun USB:</b> Computer Configuration &rarr; Administrative Templates &rarr; Windows Components &rarr; AutoPlay Policies &rarr; <b>Disable Autoplay: All Drives</b></li>
+        <li><b>Nonaktifkan SMBv1:</b> Jalankan PowerShell Admin: <code>Set-SmbServerConfiguration -EnableSMB1Protocol $false</code></li>
+        <li><b>Batasi akses RDP:</b> System Properties &rarr; Remote &rarr; hanya izinkan pengguna tertentu</li>
+        <li><b>Aktifkan Audit Log:</b> Local Security Policy &rarr; Audit Policy &rarr; aktifkan Audit logon events</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--emerald);">Controlled Folder Access (Proteksi Ransomware)</h4>
+      <p>Fitur eksklusif Windows 10/11 yang mencegah program tidak dikenal mengakses atau memodifikasi file di folder yang dilindungi (Documents, Desktop, Pictures, dll).</p>
+      <p style="margin-top:8px;">Cara aktifkan: <b>Windows Security &rarr; Virus &amp; threat protection &rarr; Manage ransomware protection &rarr; Controlled folder access: ON</b></p>
+      <p style="margin-top:8px;">Tambahkan folder penting sekolah ke daftar protected folders untuk perlindungan ekstra.</p>
+    </div>
+  </div>
+
+  <div class="callout emerald" style="margin-top:16px;">
+    <b>&#10003; Checklist Minimum Security Hardening untuk PC Lab Sekolah:</b><br>
+    &#9744; Windows Defender Real-time Protection: ON | &#9744; Firewall aktif untuk semua profil | &#9744; AutoPlay/AutoRun: Dinonaktifkan via GPO | &#9744; SMBv1: Dinonaktifkan | &#9744; Windows Update: Otomatis aktif | &#9744; Controlled Folder Access: ON | &#9744; User Account Control (UAC): Level Maksimal
+  </div>
+</section>
+
+
+  <!-- LKPD PRAKTIK DIGITAL -->
+  <section id="lkpd-praktik">
+    <div class="sec-tag">Lembar Kerja Siswa</div>
+    <h2>Lembar Kerja Peserta Didik (LKPD) Praktik Digital</h2>
+    <p class="sec-desc">Siswa mengisi data hasil praktik, analisa pembacaan alat/software, dan kesimpulan teknis langsung di bawah ini untuk dicetak/diserahkan.</p>
+    
+<div style="background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius-lg);padding:28px;">
+  <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;">LKPD-4: Konfigurasi Keamanan &amp; Laporan Insiden</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:20px;">Kelas X TKJ &middot; SMK Diponegoro Tumpang &middot; Semester Genap</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NAMA / KELOMPOK:</label><input type="text" id="l4_nama" class="custom-input" placeholder="Nama..."></div>
+    <div><label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">NOMOR PC LAB YANG DIKONFIGURASI:</label><input type="text" id="l4_pc" class="custom-input" placeholder="Contoh: LAB-TKJ-PC08"></div>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">A. DAFTAR ATURAN FIREWALL YANG DIBUAT (nama rule, port, aksi):</label>
+    <textarea class="custom-textarea" id="l4_fw" rows="4" placeholder="1. Rule: BLOKIR-SMB-445 | Port: 445 TCP | Aksi: Block | Profil: All&#10;2. Rule: BLOKIR-TELNET-23 | Port: 23 TCP | Aksi: Block | Profil: Public&#10;3. Rule: ALLOW-HTTPS-443 | Port: 443 TCP | Aksi: Allow | Profil: All&#10;..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">B. STATUS KOMPONEN WINDOWS SECURITY SETELAH KONFIGURASI:</label>
+    <textarea class="custom-textarea" id="l4_wsec" rows="3" placeholder="Real-time Protection: ON/OFF&#10;Cloud-delivered Protection: ON/OFF&#10;Tamper Protection: ON/OFF&#10;Controlled Folder Access: ON/OFF (Folder yang dilindungi: ...)"></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">C. STUDI KASUS - LANGKAH MITIGASI VIRUS USB SHORTCUT:</label>
+    <textarea class="custom-textarea" id="l4_case" rows="4" placeholder="Gejala yang ditemukan: Semua folder di flashdisk berubah menjadi shortcut .lnk&#10;Langkah 1: Scan antivirus full scan pada drive flashdisk...&#10;Langkah 2: Buka CMD sebagai Administrator, ketik: attrib -h -r -s /s /d F:\&#10;Langkah 3: Hapus semua file shortcut .lnk yang tersisa..."></textarea>
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--text-sub);display:block;margin-bottom:4px;">D. KESIMPULAN: ANALISIS TINGKAT KEAMANAN PC LAB SEBELUM DAN SESUDAH HARDENING:</label>
+    <textarea class="custom-textarea" id="l4_kesim" rows="3" placeholder="Sebelum konfigurasi, PC lab rentan terhadap... Setelah hardening, ancaman yang berhasil dimitigasi adalah... Rekomendasi tambahan untuk meningkatkan keamanan laboratorium adalah..."></textarea>
+  </div>
+  <button type="button" class="btn-action" onclick="printL4()">&#128438; Preview &amp; Cetak Laporan Keamanan</button>
+</div>
+<script>
+function printL4(){
+  const w=window.open('','_blank');
+  w.document.write('<html><head><title>LKPD Keamanan Sistem</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LKPD-4: KONFIGURASI KEAMANAN SISTEM</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  ['nama','pc','fw','wsec','case','kesim'].forEach(id=>{
+    const el=document.getElementById('l4_'+id);
+    const label={nama:'Nama',pc:'No. PC',fw:'Aturan Firewall',wsec:'Windows Security',case:'Kasus USB',kesim:'Kesimpulan'}[id];
+    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||'—').replace(/
+/g,'<br>')+'</p><hr>');
+  });
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.print();
+}
+</script>
+
+  </section>
+
+  <!-- BANK SOAL ASESMEN FORMATIF -->
+  <section id="asesmen-quiz">
+    <div class="sec-tag">Evaluasi Mandiri</div>
+    <h2>Asesmen Formatif &amp; Uji Pemahaman Siswa</h2>
+    <p class="sec-desc">Uji pemahaman konsep teknis dan diagnosa kasus. Klik pada salah satu opsi jawaban untuk melihat hasil validasi seketika.</p>
+    <div class="quiz-list">
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 1: Apa yang dimaksud dengan 'Controlled Folder Access' dan apa fungsi utamanya?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">A. Fitur backup otomatis file ke cloud setiap jam</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">B. Fitur Windows Security yang mencegah program tidak dikenali memodifikasi file di folder yang dilindungi, sebagai proteksi khusus anti-ransomware</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">C. Pengaturan hak akses folder untuk pengguna berbeda dalam satu komputer</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Controlled Folder Access adalah fitur Windows Defender yang secara aktif mencegah ransomware dan program jahat mengakses atau mengubah file di folder sensitif seperti Documents dan Desktop. Program yang tidak terdaftar dalam whitelist akan diblokir secara otomatis.')">D. Fitur enkripsi file secara otomatis menggunakan BitLocker</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 2: Port 445 (SMB) pada Windows wajib diblokir melalui Firewall karena alasan keamanan utama apa?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">A. Port 445 menggunakan bandwidth terlalu besar dan memperlambat jaringan</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">B. Port 445 adalah jalur utama penyebaran ransomware WannaCry (EternalBlue exploit) dan lateral movement serangan siber antar komputer dalam jaringan</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">C. Port 445 sudah tidak digunakan dan menyebabkan konflik dengan protokol baru</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Eksploit EternalBlue (NSA-leaked) menarget kerentanan SMBv1 pada port 445. Ransomware WannaCry (2017) menginfeksi lebih dari 200.000 sistem di 150 negara dengan menyebar melalui port ini tanpa interaksi pengguna. Memblokir dan menonaktifkan SMBv1 adalah pencegahan fundamental.')">D. Port 445 hanya untuk printer jaringan dan tidak relevan untuk komputer biasa</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 3: Perintah CMD apa yang digunakan untuk mengembalikan folder tersembunyi pada flashdisk yang terinfeksi virus shortcut?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">A. ipconfig /flushdns</div><div class="quiz-opt" onclick="checkQuiz(this, true, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">B. attrib -h -r -s /s /d F:\ (F: adalah drive letter flashdisk)</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">C. sfc /scannow</div><div class="quiz-opt" onclick="checkQuiz(this, false, 'Perintah 'attrib' digunakan untuk mengubah atribut file. Parameter -h (unhide), -r (hapus read-only), -s (hapus system attribute), /s (rekursif ke subfolder), /d (juga terapkan ke folder). Ini mengembalikan folder yang disembunyikan oleh virus tanpa menghapus data.')">D. chkdsk F: /f /r</div>
+        </div>
+        
+        <div class="quiz-card" style="background:rgba(15,23,42,0.7); border:1px solid var(--panel-border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+          <div style="font-family:var(--font-heading); font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Soal 4: Apa perintah PowerShell yang digunakan untuk menonaktifkan SMBv1 pada Windows Server/Workstation?</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">A. Disable-SMBv1 -Force</div><div class="quiz-opt" onclick="checkQuiz(this, true, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">B. Set-SmbServerConfiguration -EnableSMB1Protocol $false</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">C. netsh firewall set service SMBv1 disable</div><div class="quiz-opt" onclick="checkQuiz(this, false, ''Set-SmbServerConfiguration' adalah cmdlet resmi Windows PowerShell untuk mengonfigurasi server SMB. Parameter '-EnableSMB1Protocol $false' menonaktifkan protokol SMBv1 yang sudah usang dan berbahaya. Harus dijalankan di PowerShell dengan hak Administrator.')">D. Remove-WindowsFeature FS-SMB1</div>
+        </div>
+        </div>
+  </section>
+
+  <!-- RUBRIK PENILAIAN GURU -->
+  <section id="rubrik-penilaian">
+    <div class="sec-tag">Standar Penilaian</div>
+    <h2>Rubrik Penilaian Kinerja Praktik (KKTP)</h2>
+    <p class="sec-desc">Kriteria Ketercapaian Tujuan Pembelajaran standar industri untuk penilaian unjuk kerja siswa.</p>
+    
+<table class="tech-table">
+  <thead><tr><th>Aspek KKTP</th><th>Belum Berkembang (1-40)</th><th>Mulai Berkembang (41-70)</th><th>Berkembang Sesuai (71-85)</th><th>Mahir (86-100)</th></tr></thead>
+  <tbody>
+    <tr><td><b>Konfigurasi Windows Defender</b></td><td>Tidak dapat mengakses atau mengonfigurasi Windows Security</td><td>Dapat mengakses namun hanya mengaktifkan proteksi dasar</td><td>Konfigurasi lengkap termasuk Controlled Folder Access dan Tamper Protection aktif</td><td>Konfigurasi lengkap + exclusion paths tepat + verifikasi log quarantine</td></tr>
+    <tr><td><b>Pembuatan Aturan Firewall</b></td><td>Tidak dapat membuat aturan baru di wf.msc</td><td>Dapat membuat rule dasar namun konfigurasi port/profile salah</td><td>Minimal 3 Inbound Rules tepat (blokir 445, 23, buka 443) + verifikasi netstat</td><td>Inbound + Outbound rules lengkap + ekspor kebijakan .wfw + dokumentasi PowerShell command</td></tr>
+    <tr><td><b>Penanganan Kasus Keamanan</b></td><td>Tidak dapat mengidentifikasi atau menangani insiden virus USB</td><td>Dapat menjalankan antivirus scan namun tidak bisa recovery folder tersembunyi</td><td>Scan antivirus + recovery folder dengan perintah attrib berhasil</td><td>Penanganan sempurna + laporan insiden tertulis + rekomendasi pencegahan berulang</td></tr>
+  </tbody>
+</table>
+
+  </section>
 
   <footer class="mod-footer">
     <div><b>SMK DIPONEGORO TUMPANG</b> &middot; Pemeliharaan Komputer &amp; Jaringan (Kelas X TKJ)</div>
-    <div>Disusun oleh <b>Wahyu Prihanto</b> &middot; Semester Genap</div>
+    <div>Disusun Lengkap oleh <b>Wahyu Prihanto</b> &middot; Semester Genap (9 JP)</div>
   </footer>
 </div>
+
+<script>
+function checkQuiz(elem, isCorrect, expl) {
+  const parent = elem.parentElement;
+  parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('correct', 'wrong'));
+  if (isCorrect) {
+    elem.classList.add('correct');
+    alert('✓ JAWABAN BENAR!\n\n' + expl);
+  } else {
+    elem.classList.add('wrong');
+    alert('✕ JAWABAN KURANG TEPAT!\n\n' + expl);
+  }
+}
+</script>
 
 </body>
 </html>
