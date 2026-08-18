@@ -2532,12 +2532,154 @@
     color: #64748b;
   }
 
-  html.light-mode .pin-input-wrap input {
-    background: #f8fafc;
-    border-color: #93c5fd;
-    color: #1d4ed8;
+  /* ==========================================================
+     COMPANION TOOLS STYLES (CERTIFICATE & BEEP MODALS)
+     ========================================================== */
+  .progress-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
   }
-</style>
+  .btn-hud-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    color: #c4b5fd;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .btn-hud-tool:hover {
+    background: rgba(139, 92, 246, 0.3);
+    border-color: var(--violet);
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(139, 92, 246, 0.35);
+    transform: translateY(-1px);
+  }
+  .btn-hud-tool.cert {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #fcd34d;
+  }
+  .btn-hud-tool.cert:hover {
+    background: rgba(245, 158, 11, 0.3);
+    border-color: var(--amber);
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+    color: #fff;
+  }
+
+  html.light-mode .btn-hud-tool {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #475569;
+  }
+  html.light-mode .btn-hud-tool:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  }
+  html.light-mode .btn-hud-tool.cert {
+    background: #fef3c7;
+    border-color: #fde68a;
+    color: #b45309;
+  }
+  html.light-mode .btn-hud-tool.cert:hover {
+    background: #fde68a;
+    color: #92400e;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+  }
+
+  /* Large Companion Modal Layout */
+  .large-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: rgba(3, 7, 18, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+    overflow-y: auto;
+  }
+  .large-modal-card {
+    max-width: 820px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 14, 29, 0.98));
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: var(--radius-xl);
+    padding: 28px 32px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.15);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  html.light-mode .large-modal-card {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.2);
+  }
+
+  /* Beep items list */
+  .beep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .beep-card {
+    background: rgba(13, 22, 44, 0.6);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+  html.light-mode .beep-card {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+  }
+  .beep-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+  }
+  .beep-btn-play {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #00f0ff, #38bdf8);
+    color: #030712;
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .beep-btn-play:hover {
+    filter: brightness(1.15);
+    transform: scale(1.02);
+  }
+  html.light-mode .beep-btn-play {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #ffffff;
+  }
+
 </head>
 <body>
 
@@ -2573,26 +2715,195 @@
   </div>
 </div>
 
-<!-- ADMIN PIN MODAL -->
+<!-- ADMIN PIN MODAL & TEACHER EXPORT -->
 <div id="adminPinModal" class="admin-modal-overlay" style="display:none;" onclick="handleModalBackdrop(event)">
-  <div class="admin-modal-card">
+  <div class="admin-modal-card" style="max-width: 520px;">
     <div class="admin-modal-header">
-      <h3><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Panel Keamanan Guru</h3>
+      <h3><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Panel Keamanan &amp; Rekap Guru</h3>
       <button type="button" class="btn-close-modal" onclick="closePinModal()">&#10005;</button>
     </div>
-    <p class="admin-modal-sub" id="adminModalSubText">Masukkan PIN Guru untuk mengaktifkan atau menonaktifkan Mode Ujian.</p>
+    <p class="admin-modal-sub" id="adminModalSubText">Masukkan PIN Guru untuk mengelola Mode Ujian dan mengunduh rekap nilai CBT siswa.</p>
     
     <div class="pin-input-wrap">
       <input type="password" id="inputGuruPin" maxlength="8" placeholder="Masukkan PIN Guru" autocomplete="off">
     </div>
     <div id="pinErrorMsg" class="pin-error-text" style="display:none;">PIN salah! Silakan coba lagi.</div>
 
-    <div class="admin-modal-actions">
+    <div class="admin-modal-actions" style="margin-bottom: 14px;">
       <button type="button" id="btnToggleExam" class="btn-admin-submit" onclick="submitExamToggle()">
         Kunci / Buka Mode Ujian
       </button>
     </div>
-    <div class="pin-hint">Pintasan: <b>Ctrl+Shift+L</b> / Ketuk Logo <b>5x</b></div>
+
+    <!-- Teacher CBT Submissions Management -->
+    <div id="adminCbtSection" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">📊 REKAP PENILAIAN CBT SISWA:</div>
+      <div id="cbtSubmissionsCountText" style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 10px;">Memuat riwayat ujian siswa...</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="btn-admin-submit" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 12px; padding: 8px 14px;" onclick="exportCbtSubmissionsCsv()">
+          📥 Unduh Rekap Nilai (.CSV / Excel)
+        </button>
+        <button type="button" class="btn-admin-submit" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #fca5a5; font-size: 12px; padding: 8px 14px;" onclick="clearCbtSubmissions()">
+          🗑️ Reset Data
+        </button>
+      </div>
+    </div>
+
+    <div class="pin-hint" style="margin-top: 12px;">Pintasan: <b>Ctrl+Shift+L</b> / Ketuk Logo <b>5x</b></div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 1: E-SERTIFIKAT KELULUSAN DIGITAL
+     ========================================================== -->
+<div id="certModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeCertModal()">
+  <div class="large-modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          🏆 Generator E-Sertifikat Kelulusan
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Terbitkan sertifikat kompetensi resmi setelah menyelesaikan materi pembelajaran.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeCertModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Student Input Form -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+      <div>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">NAMA LENGKAP SISWA:</label>
+        <input type="text" id="certInputName" class="search-input" style="padding: 9px 12px;" placeholder="Contoh: Ahmad Rizky Pratama" value="Peserta Didik TKJ" oninput="renderCertificateCanvas()">
+      </div>
+      <div>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">KELAS / NISN:</label>
+        <input type="text" id="certInputClass" class="search-input" style="padding: 9px 12px;" placeholder="Contoh: X TKJ 1 / 008123456" value="Kelas X TKJ" oninput="renderCertificateCanvas()">
+      </div>
+      <div>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px;">SEMESTER KOMPETENSI:</label>
+        <select id="certSelectSemester" class="search-input" style="padding: 9px 12px;" onchange="renderCertificateCanvas()">
+          <option value="ganjil">Semester Ganjil (Perakitan &amp; Perawatan Komputer)</option>
+          <option value="genap">Semester Genap (Pemeliharaan Lanjutan &amp; UKK)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Certificate Live Canvas Preview -->
+    <div style="background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 18px; position: relative;">
+      <canvas id="certCanvas" width="1280" height="720" style="width: 100%; height: auto; display: block;"></canvas>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);">
+        Format: <b>HD 1280x720 PNG (High Print Quality)</b>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn-launch" style="padding: 10px 18px; font-size: 13px;" onclick="downloadCertificatePng()">
+          📥 Unduh E-Sertifikat (PNG)
+        </button>
+        <button type="button" class="btn-companion" style="padding: 10px 16px; font-size: 13px;" onclick="printCertificateDirect()">
+          🖨️ Cetak / PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 2: LAB KODE BEEP BIOS & DIAGNOSTIK
+     ========================================================== -->
+<div id="beepModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeBeepModal()">
+  <div class="large-modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div>
+        <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800;">
+          🔊 Simulator Kode Beep BIOS &amp; Diagnostik Kerusakan
+        </h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">Dengarkan simulasi frekuensi suara speaker motherboard (POST Audio) dan pelajari prosedur perbaikannya.</p>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeBeepModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Beep Sound Items Grid -->
+    <div class="beep-grid">
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #10b981; font-size: 14px;">1 Beep Pendek</b>
+            <span class="badge badge-type">NORMAL / POST OK</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">Semua subsistem (CPU, RAM, VGA) berfungsi normal. Komputer siap boot ke OS.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playBeepSequence([ {duration: 0.15, pause: 0} ])">
+          ▶️ Putar Suara Beep
+        </button>
+      </div>
+
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #ef4444; font-size: 14px;">1 Panjang, 2 Pendek</b>
+            <span class="badge" style="background: rgba(239,68,68,0.15); color: #ef4444;">VGA / GPU ERROR</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">Kerusakan pada kartu grafis / GPU tidak terpasang rapat di slot PCIe.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playBeepSequence([ {duration: 0.6, pause: 0.15}, {duration: 0.15, pause: 0.15}, {duration: 0.15, pause: 0} ])">
+          ▶️ Putar Suara Beep
+        </button>
+      </div>
+
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #f59e0b; font-size: 14px;">1 Panjang, 3 Pendek</b>
+            <span class="badge badge-jp">VRAM / DISPLAY</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">Memori VGA atau controller display tidak terdeteksi oleh BIOS.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playBeepSequence([ {duration: 0.6, pause: 0.15}, {duration: 0.15, pause: 0.12}, {duration: 0.15, pause: 0.12}, {duration: 0.15, pause: 0} ])">
+          ▶️ Putar Suara Beep
+        </button>
+      </div>
+
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #ec4899; font-size: 14px;">Beep Pendek Berulang</b>
+            <span class="badge" style="background: rgba(236,72,153,0.15); color: #ec4899;">RAM / PSU FAILURE</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">RAM kotor / korosi pada pin emas, atau voltase motherboard drop.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playBeepSequence([ {duration: 0.12, pause: 0.1}, {duration: 0.12, pause: 0.1}, {duration: 0.12, pause: 0.1}, {duration: 0.12, pause: 0.1}, {duration: 0.12, pause: 0} ])">
+          ▶️ Putar Suara Beep
+        </button>
+      </div>
+
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #8b5cf6; font-size: 14px;">Beep Panjang Berulang</b>
+            <span class="badge badge-blok2">NO DRAM DETECTED</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">Modul RAM tidak terpasang sama sekali atau slot RAM mati.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playBeepSequence([ {duration: 0.7, pause: 0.25}, {duration: 0.7, pause: 0.25}, {duration: 0.7, pause: 0} ])">
+          ▶️ Putar Suara Beep
+        </button>
+      </div>
+
+      <div class="beep-card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <b style="font-family: var(--font-heading); color: #ef4444; font-size: 14px;">Beep Sirine Ambulans</b>
+            <span class="badge" style="background: rgba(239,68,68,0.2); color: #ef4444;">CPU OVERHEAT / FAN MACET</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">Suhu prosesor melewati batas kritis (&gt;90°C) atau kabel fan CPU lepas.</p>
+        </div>
+        <button type="button" class="beep-btn-play" onclick="playSirenBeep()">
+          ▶️ Putar Suara Sirine
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2687,6 +2998,16 @@
       </div>
       <div class="progress-bar-track">
         <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+      
+      <!-- Companion Quick Tools in Progress HUD -->
+      <div class="progress-actions-row">
+        <button type="button" class="btn-hud-tool cert" onclick="openCertModal()">
+          🏆 Klaim E-Sertifikat Digital
+        </button>
+        <button type="button" class="btn-hud-tool" onclick="openBeepModal()">
+          🔊 Lab Suara Beep BIOS
+        </button>
       </div>
     </div>
 
@@ -4089,29 +4410,328 @@
   applyLockdownUI();
 
   /* ==========================================================
-     THEME TOGGLE (LIGHT / DARK MODE)
+     WEB AUDIO API: BIOS BEEP CODE SYNTHESIZER
      ========================================================== */
-  (function initTheme() {
-    // Default: light mode ('light'). Fallback to dark only if user previously set it.
-    const saved = localStorage.getItem('bh_theme_mode');
-    const theme = saved || 'light';
-    if (theme === 'light') {
-      document.documentElement.classList.add('light-mode');
-    } else {
-      document.documentElement.classList.remove('light-mode');
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
     }
-  })();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
 
-  function toggleTheme() {
-    const html = document.documentElement;
-    const isLight = html.classList.toggle('light-mode');
-    localStorage.setItem('bh_theme_mode', isLight ? 'light' : 'dark');
+  function playTone(freq, durationSec, startDelaySec = 0) {
+    const ctx = getAudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
 
-    // Update canvas particle colors
-    if (typeof initCanvas === 'function') {
-      // canvas re-renders on next frame automatically
+    osc.type = 'square'; // Authentic Motherboard Buzzer Square Wave
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + startDelaySec);
+
+    gain.gain.setValueAtTime(0.2, ctx.currentTime + startDelaySec);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startDelaySec + durationSec);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(ctx.currentTime + startDelaySec);
+    osc.stop(ctx.currentTime + startDelaySec + durationSec);
+  }
+
+  function playBeepSequence(sequence) {
+    let currentDelay = 0;
+    sequence.forEach(item => {
+      playTone(880, item.duration, currentDelay); // 880Hz Standard BIOS Pitch
+      currentDelay += item.duration + item.pause;
+    });
+  }
+
+  function playSirenBeep() {
+    const ctx = getAudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sawtooth';
+    const now = ctx.currentTime;
+    // Modulate between 700Hz and 1200Hz
+    osc.frequency.setValueAtTime(700, now);
+    osc.frequency.linearRampToValueAtTime(1200, now + 0.25);
+    osc.frequency.linearRampToValueAtTime(700, now + 0.5);
+    osc.frequency.linearRampToValueAtTime(1200, now + 0.75);
+    osc.frequency.linearRampToValueAtTime(700, now + 1.0);
+
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 1.1);
+  }
+
+  function openBeepModal() {
+    const modal = document.getElementById('beepModal');
+    if (modal) modal.style.display = 'flex';
+  }
+  function closeBeepModal() {
+    const modal = document.getElementById('beepModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  /* ==========================================================
+     HTML5 CANVAS: E-SERTIFIKAT KELULUSAN GENERATOR
+     ========================================================== */
+  function openCertModal() {
+    const modal = document.getElementById('certModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      setTimeout(renderCertificateCanvas, 100);
     }
   }
+
+  function closeCertModal() {
+    const modal = document.getElementById('certModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function renderCertificateCanvas() {
+    const canvas = document.getElementById('certCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const studentName = (document.getElementById('certInputName')?.value || 'Peserta Didik TKJ').trim();
+    const studentClass = (document.getElementById('certInputClass')?.value || 'Kelas X TKJ').trim();
+    const sem = document.getElementById('certSelectSemester')?.value || 'ganjil';
+    const semTitle = sem === 'ganjil' ? 'SEMESTER GANJIL (PERAKITAN & PERAWATAN SISTEM)' : 'SEMESTER GENAP (PEMELIHARAAN LANJUTAN & UKK)';
+
+    // Background Parchment / Modern Tech Gradient
+    const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+    bgGrad.addColorStop(0, '#ffffff');
+    bgGrad.addColorStop(1, '#f1f5f9');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Decorative Guilloche Border
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 14;
+    ctx.strokeRect(20, 20, w - 40, h - 40);
+
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(30, 30, w - 60, h - 60);
+
+    // Corner Ornaments
+    ctx.fillStyle = '#2563eb';
+    ctx.fillRect(16, 16, 32, 32);
+    ctx.fillRect(w - 48, 16, 32, 32);
+    ctx.fillRect(16, h - 48, 32, 32);
+    ctx.fillRect(w - 48, h - 48, 32, 32);
+
+    // Header Title
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#64748b';
+    ctx.font = '700 16px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('SMK PUSAT KEUNGGULAN / TEACHING FACTORY &bull; TEKNIK KOMPUTER DAN JARINGAN', w / 2, 85);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = '900 36px "Space Grotesk", sans-serif';
+    ctx.fillText('SERTIFIKAT KOMPETENSI KEAHLIAN', w / 2, 135);
+
+    ctx.fillStyle = '#2563eb';
+    ctx.font = '700 15px "JetBrains Mono", monospace';
+    ctx.fillText('NOMOR SERTIFIKAT: TKJ-CERT/' + new Date().getFullYear() + '/' + Math.floor(100000 + Math.random() * 900000), w / 2, 170);
+
+    // "Diberikan Kepada"
+    ctx.fillStyle = '#475569';
+    ctx.font = '500 17px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Diberikan dengan penuh apresiasi kepada peserta didik:', w / 2, 230);
+
+    // Student Name
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '800 40px "Space Grotesk", sans-serif';
+    ctx.fillText(studentName.toUpperCase(), w / 2, 290);
+
+    // Underline for name
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(w / 2 - 250, 310);
+    ctx.lineTo(w / 2 + 250, 310);
+    ctx.stroke();
+
+    // Class / NISN
+    ctx.fillStyle = '#64748b';
+    ctx.font = '600 18px "JetBrains Mono", monospace';
+    ctx.fillText(studentClass, w / 2, 345);
+
+    // Certificate Statement
+    ctx.fillStyle = '#334155';
+    ctx.font = '500 16px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Telah berhasil menyelesaikan seluruh modul pembelajaran, ujian integritas CBT, dan uji praktik mandiri pada:', w / 2, 400);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = '800 20px "Space Grotesk", sans-serif';
+    ctx.fillText(semTitle, w / 2, 435);
+
+    ctx.fillStyle = '#059669';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText('STATUS: KOMPETEN / LULUS DENGAN PREDIKAT MAHIR', w / 2, 475);
+
+    // Gold Security Seal Graphic
+    ctx.save();
+    ctx.translate(w / 2, 570);
+    ctx.fillStyle = '#d97706';
+    ctx.beginPath();
+    ctx.arc(0, 0, 48, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 12px "Space Grotesk", sans-serif';
+    ctx.fillText('VERIFIED', 0, -4);
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.fillText('OFFICIAL', 0, 12);
+    ctx.restore();
+
+    // Left Signature: Kepala Kompetensi Keahlian
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#64748b';
+    ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Verifikasi Sistem:', 90, 560);
+    ctx.fillStyle = '#0f172a';
+    ctx.font = '700 16px "Space Grotesk", sans-serif';
+    ctx.fillText('Bengkel Hardware Portal', 90, 595);
+    ctx.fillStyle = '#2563eb';
+    ctx.font = '600 13px "JetBrains Mono", monospace';
+    ctx.fillText('Integrity Hash: 100% OK', 90, 620);
+
+    // Right Signature: Guru Pengampu
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#64748b';
+    ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Malang, ' + new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }), w - 90, 540);
+    ctx.fillText('Guru Pengampu TKJ,', w - 90, 560);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = '800 18px "Space Grotesk", sans-serif';
+    ctx.fillText('Wahyu Prihanto', w - 90, 620);
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(w - 260, 628);
+    ctx.lineTo(w - 90, 628);
+    ctx.stroke();
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = '600 12px "JetBrains Mono", monospace';
+    ctx.fillText('NIP / ID Guru Kejuruan TKJ', w - 90, 648);
+  }
+
+  function downloadCertificatePng() {
+    const canvas = document.getElementById('certCanvas');
+    if (!canvas) return;
+    const name = (document.getElementById('certInputName')?.value || 'Peserta_Didik').replace(/[^a-zA-Z0-9]/g, '_');
+    const link = document.createElement('a');
+    link.download = `Sertifikat_TKJ_${name}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+  }
+
+  function printCertificateDirect() {
+    const canvas = document.getElementById('certCanvas');
+    if (!canvas) return;
+    const imgData = canvas.toDataURL('image/png');
+    const printWin = window.open('', '_blank');
+    printWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Cetak Sertifikat Kompetensi TKJ</title>
+        <style>
+          @page { size: landscape; margin: 0; }
+          body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; background: #fff; }
+          img { width: 100%; max-height: 100vh; object-fit: contain; }
+        </style>
+      </head>
+      <body>
+        <img src="${imgData}" onload="window.print();window.close();">
+      </body>
+      </html>
+    `);
+    printWin.document.close();
+  }
+
+  /* ==========================================================
+     TEACHER CBT SUBMISSIONS CSV EXPORT
+     ========================================================== */
+  function updateTeacherCbtCount() {
+    const countEl = document.getElementById('cbtSubmissionsCountText');
+    if (!countEl) return;
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_cbt_all_submissions')) || [];
+      countEl.innerHTML = `Tercatat <b>${records.length}</b> hasil ujian CBT siswa di perangkat ini.`;
+    } catch(e) {
+      countEl.textContent = 'Belum ada data CBT tersimpan.';
+    }
+  }
+
+  function exportCbtSubmissionsCsv() {
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_cbt_all_submissions')) || [];
+      if (records.length === 0) {
+        alert('Belum ada data ujian CBT siswa yang tersimpan.');
+        return;
+      }
+
+      let csv = 'No,Tanggal,Nama Siswa,Materi Ujian,Skor Akhir,Predikat,Benar,Total Soal,Pelanggaran,Token Integritas\n';
+      records.forEach((r, idx) => {
+        const row = [
+          idx + 1,
+          `"${r.formattedDate || r.timestamp}"`,
+          `"${r.studentName.replace(/"/g, '""')}"`,
+          `"${r.moduleTitle.replace(/"/g, '""')}"`,
+          r.finalScore,
+          `"${r.grade}"`,
+          r.correct,
+          r.total,
+          r.violations,
+          `"${r.token}"`
+        ];
+        csv += row.join(',') + '\n';
+      });
+
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Rekap_Nilai_CBT_TKJ_${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+    } catch(err) {
+      alert('Gagal mengekspor data: ' + err.message);
+    }
+  }
+
+  function clearCbtSubmissions() {
+    const confirmClear = confirm('Apakah Anda yakin ingin menghapus seluruh riwayat rekap nilai CBT di perangkat ini?');
+    if (confirmClear) {
+      localStorage.removeItem('bh_cbt_all_submissions');
+      updateTeacherCbtCount();
+      alert('✓ Seluruh data riwayat CBT berhasil dikosongkan.');
+    }
+  }
+
+  // Hook into modal open to update count
+  const origOpenPinModal = openPinModal;
+  openPinModal = function() {
+    origOpenPinModal();
+    updateTeacherCbtCount();
+  };
+
 
   </script>
 

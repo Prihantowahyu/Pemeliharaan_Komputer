@@ -474,6 +474,28 @@
       const token = generateIntegrityToken(examMetadata.studentName, finalScore, violationCount);
       const integrityStatus = violationCount === 0 ? "100% JUJUR (Nol Pelanggaran)" : `${violationCount}x Pelanggaran Tercatat (Penalti -${penalty} Poin)`;
 
+      // Auto-save submission for Teacher Export Panel
+      try {
+        const historyKey = 'bh_cbt_all_submissions';
+        const existing = JSON.parse(localStorage.getItem(historyKey)) || [];
+        existing.push({
+          timestamp: new Date().toISOString(),
+          formattedDate: new Date().toLocaleString('id-ID'),
+          studentName: examMetadata.studentName || 'Peserta Didik',
+          moduleTitle: examMetadata.title || 'Modul Pembelajaran',
+          rawScore: rawScore,
+          finalScore: finalScore,
+          grade: grade,
+          violations: violationCount,
+          token: token,
+          correct: correctCount,
+          total: totalQuestions
+        });
+        localStorage.setItem(historyKey, JSON.stringify(existing));
+      } catch (err) {
+        console.warn('[CBT] Could not save submission to history:', err);
+      }
+
       // Render Result Card
       const resBox = document.getElementById('cbtResultBox');
       resBox.style.display = 'block';
