@@ -322,9 +322,16 @@
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.1;
+    color: var(--text-main);
   }
   .brand-info h2 span {
     background: linear-gradient(90deg, var(--cyan), #93c5fd, var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  html.light-mode .brand-info h2 span {
+    background: linear-gradient(90deg, #0284c7, #3b82f6, #7c3aed);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -402,6 +409,10 @@
     color: var(--cyan);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
     padding-left: 10px;
+    transition: color 0.4s ease;
+  }
+  html.light-mode .clock-digital {
+    border-left-color: rgba(14, 165, 233, 0.3);
   }
 
   /* Hero Title & Info */
@@ -413,6 +424,13 @@
     letter-spacing: -0.02em;
     margin-bottom: 12px;
     background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background 0.5s ease;
+  }
+  html.light-mode .hero-main-title {
+    background: linear-gradient(135deg, #0f172a 20%, #1e40af 60%, #0284c7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -512,6 +530,10 @@
     gap: 8px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    transition: color 0.4s ease;
+  }
+  html.light-mode .progress-title {
+    color: var(--violet);
   }
   .progress-stats {
     font-family: var(--font-mono);
@@ -526,6 +548,10 @@
     border-radius: 100px;
     overflow: hidden;
     position: relative;
+    transition: background 0.5s ease;
+  }
+  html.light-mode .progress-bar-track {
+    background: rgba(14, 165, 233, 0.12);
   }
   .progress-bar-fill {
     height: 100%;
@@ -545,6 +571,10 @@
     gap: 16px;
     padding-top: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
+    transition: border-color 0.5s ease;
+  }
+  html.light-mode .hero-bottom-deck {
+    border-top-color: rgba(14, 165, 233, 0.15);
   }
 
   /* Futuristic Semester Tab Switcher */
@@ -588,6 +618,9 @@
   }
   .sem-btn.active {
     color: #030712;
+  }
+  html.light-mode .sem-btn.active {
+    color: #ffffff;
   }
   .sem-btn:not(.active):hover {
     color: var(--cyan);
@@ -646,7 +679,7 @@
     transition: all 0.2s ease;
   }
   .pengampu-wa:hover {
-    color: #fff;
+    color: var(--text-main);
     text-shadow: 0 0 8px var(--emerald);
   }
 
@@ -720,6 +753,11 @@
     padding: 2px 6px;
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+  html.light-mode .search-shortcut {
+    background: rgba(14, 165, 233, 0.08);
+    border-color: rgba(14, 165, 233, 0.2);
   }
 
   .filter-pills {
@@ -802,6 +840,7 @@
     border-bottom: 1px solid rgba(56, 189, 248, 0.15);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     backdrop-filter: blur(8px);
+    transition: background 0.5s ease;
   }
   .block-header.alt .block-header-inner {
     background: linear-gradient(90deg, rgba(168, 85, 247, 0.18) 0%, rgba(13, 22, 44, 0.7) 100%);
@@ -871,15 +910,28 @@
     z-index: 2;
     transition: all 0.3s ease;
   }
+  html.light-mode .node-pin {
+    background: #ffffff;
+    box-shadow: 0 0 14px var(--cyan-glow), 0 2px 8px rgba(14, 165, 233, 0.2);
+  }
   .module-node.alt .node-pin {
     border-color: var(--violet);
     color: #c4b5fd;
     box-shadow: 0 0 18px var(--violet-glow), inset 0 0 10px rgba(139, 92, 246, 0.2);
   }
+  html.light-mode .module-node.alt .node-pin {
+    background: #ffffff;
+    color: var(--violet);
+    box-shadow: 0 0 14px var(--violet-glow), 0 2px 8px rgba(124, 58, 237, 0.15);
+  }
   .module-node.completed .node-pin {
     border-color: var(--emerald);
     color: var(--emerald);
     box-shadow: 0 0 18px var(--emerald-glow), inset 0 0 10px rgba(16, 185, 129, 0.25);
+  }
+  html.light-mode .module-node.completed .node-pin {
+    background: #f0fdf4;
+    box-shadow: 0 0 14px var(--emerald-glow), 0 2px 8px rgba(5, 150, 105, 0.15);
   }
   .module-node:hover .node-pin {
     transform: scale(1.12);
@@ -1025,6 +1077,10 @@
     place-content: center;
     transition: all 0.2s ease;
   }
+  html.light-mode .check-completed input {
+    border-color: rgba(14, 165, 233, 0.35);
+    background: rgba(240, 247, 255, 0.7);
+  }
   .check-completed input:checked {
     background: var(--emerald);
     border-color: var(--emerald);
@@ -1034,7 +1090,7 @@
     content: "&#10003;";
     font-size: 11px;
     font-weight: 800;
-    color: #030712;
+    color: #ffffff;
   }
 
   /* Card Content */
@@ -1197,7 +1253,7 @@
     font-family: var(--font-heading);
     font-size: 28px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text-main);
     margin-bottom: 10px;
   }
   .genap-hero-card p {
@@ -1241,7 +1297,7 @@
   }
   .genap-card-locked p {
     font-size: 12.5px;
-    color: var(--text-muted);
+    color: var(--text-sub);
     line-height: 1.5;
   }
 
