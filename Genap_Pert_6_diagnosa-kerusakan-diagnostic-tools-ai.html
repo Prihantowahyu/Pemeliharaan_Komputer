@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -472,16 +473,35 @@ function sim6(mode){
   <button type="button" class="btn-action" onclick="printL6()">&#128438; Preview &amp; Cetak Laporan Stress Test</button>
 </div>
 <script>
-function printL6(){
-  const w=window.open('','_blank');
+function printL6() {
+  const w = window.open('', '_blank');
   w.document.write('<html><head><title>LKPD Stress Test</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-6: LAPORAN KESEHATAN HARDWARE & STRESS TEST</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
-  ['nama','pc','sensor','mem','event','rec'].forEach(id=>{
-    const el=document.getElementById('l6_'+id);
-    const labels={nama:'Nama',pc:'No PC',sensor:'Data Sensor HWiNFO64',mem:'Hasil MemTest86',event:'Event Viewer',rec:'Rekomendasi'};
-    if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  ['nama','pc','sensor','mem','event','rec'].forEach(id => {
+    const el = document.getElementById('l6_' + id);
+    const labels = {nama:'Nama',pc:'No PC',sensor:'Data Sensor HWiNFO64',mem:'Hasil MemTest86',event:'Event Viewer',rec:'Rekomendasi'};
+    if (el) w.document.write('<p><b>' + labels[id] + ':</b><br>' + (el.value || '—').replace(/\n/g,'<br>') + '</p><hr>');
   });
   w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -536,5 +556,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

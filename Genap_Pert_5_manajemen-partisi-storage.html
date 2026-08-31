@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -504,16 +505,35 @@ function createPart(id,bg,text,w,col){
   <button type="button" class="btn-action" onclick="printL5()">&#128438; Preview &amp; Cetak Laporan Partisi &amp; S.M.A.R.T.</button>
 </div>
 <script>
-function printL5(){
-  const w=window.open('','_blank');
+function printL5() {
+  const w = window.open('', '_blank');
   w.document.write('<html><head><title>LKPD Partisi & SMART</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-5: MANAJEMEN PARTISI & ANALISIS S.M.A.R.T.</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
-  const fields=[['nama','Nama'],['pc','No. PC'],['scheme','Skema Partisi'],['before','Partisi Sebelum'],['cmd','Perintah Diskpart'],['smart','Data S.M.A.R.T.'],['interpret','Interpretasi & Rekomendasi']];
-  fields.forEach(([id,label])=>{
-    const el=document.getElementById('l5_'+id);
-    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||el.options?.[el.selectedIndex]?.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  const fields = [['nama','Nama'],['pc','No. PC'],['scheme','Skema Partisi'],['before','Partisi Sebelum'],['cmd','Perintah Diskpart'],['smart','Data S.M.A.R.T.'],['interpret','Interpretasi & Rekomendasi']];
+  fields.forEach(([id,label]) => {
+    const el = document.getElementById('l5_' + id);
+    if (el) w.document.write('<p><b>' + label + ':</b><br>' + (el.value || el.options?.[el.selectedIndex]?.value || '—').replace(/\n/g,'<br>') + '</p><hr>');
   });
   w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -569,5 +589,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

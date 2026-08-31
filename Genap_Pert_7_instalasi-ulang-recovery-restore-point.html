@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -457,18 +458,37 @@ function runRecov(){
   <button type="button" class="btn-action" onclick="printL7()">&#128438; Preview &amp; Cetak Laporan Instalasi</button>
 </div>
 <script>
-function printL7(){
-  const w=window.open('','_blank');
-  const checks=['Windows Update','Chipset Driver','LAN/WiFi Driver','VGA Driver','Audio Driver','Device Manager OK','Antivirus Aktif','Restore Point'];
-  const chkHtml=checks.map((c,i)=>`${document.getElementById('c'+(i+1)).checked?'[✓]':'[ ]'} ${c}`).join('<br>');
+function printL7() {
+  const w = window.open('', '_blank');
+  const checks = ['Windows Update','Chipset Driver','LAN/WiFi Driver','VGA Driver','Audio Driver','Device Manager OK','Antivirus Aktif','Restore Point'];
+  const chkHtml = checks.map((c,i) => `${document.getElementById('c'+(i+1))?.checked ? '[✓]' : '[ ]'} ${c}`).join('<br>');
   w.document.write('<html><head><title>LKPD Instalasi OS</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-7: LAPORAN INSTALASI OS & RECOVERY</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
-  w.document.write('<p><b>Nama:</b> '+(document.getElementById('l7_nama').value||'—')+'</p>');
-  w.document.write('<p><b>OS Terinstal:</b> '+(document.getElementById('l7_os').value||'—')+'</p><hr>');
-  w.document.write('<p><b>Checklist Pasca Instalasi:</b><br>'+chkHtml+'</p><hr>');
-  w.document.write('<p><b>Kendala & Solusi:</b><br>'+(document.getElementById('l7_kendala').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
-  w.document.write('<p><b>Restore Point:</b><br>'+(document.getElementById('l7_rp').value||'—').replace(/\n/g,'<br>')+'</p>');
+  w.document.write('<p><b>Nama:</b> ' + (document.getElementById('l7_nama')?.value || '—') + '</p>');
+  w.document.write('<p><b>OS Terinstal:</b> ' + (document.getElementById('l7_os')?.value || '—') + '</p><hr>');
+  w.document.write('<p><b>Checklist Pasca Instalasi:</b><br>' + chkHtml + '</p><hr>');
+  w.document.write('<p><b>Kendala & Solusi:</b><br>' + (document.getElementById('l7_kendala')?.value || '—').replace(/\n/g,'<br>') + '</p><hr>');
+  w.document.write('<p><b>Restore Point:</b><br>' + (document.getElementById('l7_rp')?.value || '—').replace(/\n/g,'<br>') + '</p>');
   w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -524,5 +544,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

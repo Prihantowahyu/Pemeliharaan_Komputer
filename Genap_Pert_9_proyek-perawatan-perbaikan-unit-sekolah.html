@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -526,16 +527,35 @@ function generateBastLive() {
   <button type="button" class="btn-action" onclick="printLKPD9()">&#128438; Preview &amp; Cetak Laporan Proyek Servis PC</button>
 </div>
 <script>
-function printLKPD9(){
-  const w=window.open('','_blank');
+function printLKPD9() {
+  const w = window.open('', '_blank');
   w.document.write('<html><head><title>Laporan Proyek Servis PC Lab</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LAPORAN HASIL PROYEK SERVIS PC LAB SEKOLAH</h3><h4>SMK DIPONEGORO TUMPANG &middot; LKPD 9</h4><hr></center>');
-  ['nama','pc','loc','pre','act','post'].forEach(id=>{
-    const el=document.getElementById('l9_'+id);
-    const labels={nama:'Tim Teknisi',pc:'Kode PC',loc:'Lokasi Meja',pre:'A. Pre-Inspection',act:'B. Log Tindakan Servis',post:'C. Data Pengujian Akhir'};
-    if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
+  ['nama','pc','loc','pre','act','post'].forEach(id => {
+    const el = document.getElementById('l9_' + id);
+    const labels = {nama:'Tim Teknisi',pc:'Kode PC',loc:'Lokasi Meja',pre:'A. Pre-Inspection',act:'B. Log Tindakan Servis',post:'C. Data Pengujian Akhir'};
+    if (el) w.document.write('<p><b>' + labels[id] + ':</b><br>' + (el.value || '—').replace(/\n/g,'<br>') + '</p><hr>');
   });
   w.document.write('<br><p>Tanda Tangan Guru Pembimbing: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -591,5 +611,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

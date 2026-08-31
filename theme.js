@@ -41,23 +41,37 @@
       document.body.classList.add('light-mode');
     }
 
-    // Auto-inject Theme Toggle button to .hud-inner, .topbar-inner, or topbar
-    const headerContainer = document.querySelector('.hud-inner, .topbar-inner, .topbar, .top-hud');
-    if (headerContainer && !document.querySelector('.btn-theme-switcher')) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn-theme-switcher';
-      btn.onclick = window.togglePortalTheme;
-      btn.innerHTML = isLightCurrent ? '☀️ Mode Terang' : '🌙 Mode Gelap';
-      btn.style.marginLeft = 'auto';
-      btn.style.marginRight = '8px';
+    // Auto-inject Theme Toggle button & Home Portal button to .hud-inner, .topbar-inner, or header
+    const headerContainer = document.querySelector('.hud-inner, .topbar-inner, .topbar, .top-hud, header.hero');
+    if (headerContainer) {
+      const isIndexPage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || !window.location.pathname.includes('.html');
       
-      // Insert before last action button if available
-      const lastChild = headerContainer.lastElementChild;
-      if (lastChild) {
-        headerContainer.insertBefore(btn, lastChild);
-      } else {
-        headerContainer.appendChild(btn);
+      // 1. Inject Home Button on sub-modules if not already present
+      if (!isIndexPage && !document.querySelector('.btn-home-nav')) {
+        const homeBtn = document.createElement('a');
+        homeBtn.href = './index.html';
+        homeBtn.className = 'btn-home-nav';
+        homeBtn.innerHTML = '🏠 <span>Beranda</span>';
+        homeBtn.setAttribute('title', 'Kembali ke Beranda Portal Pembelajaran');
+        headerContainer.insertBefore(homeBtn, headerContainer.firstChild);
+      }
+
+      // 2. Inject Theme Toggle Button if not already present
+      if (!document.querySelector('.btn-theme-switcher')) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-theme-switcher';
+        btn.onclick = window.togglePortalTheme;
+        btn.innerHTML = isLightCurrent ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+        btn.style.marginLeft = 'auto';
+        btn.style.marginRight = '8px';
+        
+        const lastChild = headerContainer.lastElementChild;
+        if (lastChild) {
+          headerContainer.insertBefore(btn, lastChild);
+        } else {
+          headerContainer.appendChild(btn);
+        }
       }
     }
     updateButtons(isLightCurrent);

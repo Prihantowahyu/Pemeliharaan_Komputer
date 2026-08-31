@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -513,16 +514,35 @@ function calcLaptop(){
   <button type="button" class="btn-action" onclick="printL3()">&#128438; Preview &amp; Cetak Laporan Servis Laptop</button>
 </div>
 <script>
-function printL3(){
-  const w=window.open('','_blank');
-  const data={nama:document.getElementById('l3_nama').value||'—',model:document.getElementById('l3_model').value||'—',tb:document.getElementById('l3_temp_before').value||'—',ta:document.getElementById('l3_temp_after').value||'—',bh:document.getElementById('l3_bhealth').value||'—',cond:document.getElementById('l3_kondisi').value||'—',act:document.getElementById('l3_tindakan').value||'—',conc:document.getElementById('l3_kesimpulan').value||'—'};
-  w.document.write('<html><head><title>Laporan Servis Laptop</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
-  w.document.write('<center><h3>LAPORAN SERVIS LAPTOP — LKPD 3</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
-  w.document.write('<p><b>Nama:</b> '+data.nama+'</p><p><b>Model Laptop:</b> '+data.model+'</p><p><b>Tanggal:</b> '+new Date().toLocaleDateString('id-ID')+'</p><p><b>Suhu CPU:</b> Sebelum '+data.tb+' → Setelah '+data.ta+'</p><p><b>Battery Health:</b> '+data.bh+'</p><hr>');
-  w.document.write('<p><b>Kondisi Fisik:</b><br>'+data.cond.replace(/\n/g,'<br>')+'</p>');
-  w.document.write('<p><b>Tindakan:</b><br>'+data.act.replace(/\n/g,'<br>')+'</p>');
-  w.document.write('<p><b>Kesimpulan:</b><br>'+data.conc.replace(/\n/g,'<br>')+'</p>');
+function printLKPD3() {
+  const w = window.open('', '_blank');
+  w.document.write('<html><head><title>Laporan Perawatan Laptop</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LAPORAN PERAWATAN LAPTOP & MOBILE — LKPD 3</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  ['nama','unit','temp_pre','temp_post','rep','res'].forEach(id => {
+    const el = document.getElementById('l3_' + id);
+    const labels = {nama:'Nama',unit:'Unit Laptop',temp_pre:'Suhu Idle Awal',temp_post:'Suhu Setelah Repaste',rep:'Tindakan Pembersihan',res:'Hasil Akhir'};
+    if (el) w.document.write('<p><b>' + labels[id] + ':</b> ' + (el.value || '—') + '</p>');
+  });
   w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -578,5 +598,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

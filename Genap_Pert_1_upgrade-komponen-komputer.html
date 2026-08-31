@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -623,12 +624,12 @@ function resetBenchmark() {
 </div>
 <script>
 function printLKPD1() {
-  const nama = document.getElementById('lkpd_nama').value || '(belum diisi)';
-  const unit = document.getElementById('lkpd_unit').value || '(belum diisi)';
-  const spec = document.getElementById('lkpd_spec').value || '(belum diisi)';
-  const upgrade = document.getElementById('lkpd_upgrade').value || '(belum diisi)';
-  const kendala = document.getElementById('lkpd_kendala').value || '(belum diisi)';
-  const kesimpulan = document.getElementById('lkpd_kesimpulan').value || '(belum diisi)';
+  const nama = document.getElementById('lkpd_nama')?.value || '(belum diisi)';
+  const unit = document.getElementById('lkpd_unit')?.value || '(belum diisi)';
+  const spec = document.getElementById('lkpd_spec')?.value || '(belum diisi)';
+  const upgrade = document.getElementById('lkpd_upgrade')?.value || '(belum diisi)';
+  const kendala = document.getElementById('lkpd_kendala')?.value || '(belum diisi)';
+  const kesimpulan = document.getElementById('lkpd_kesimpulan')?.value || '(belum diisi)';
   const w = window.open('', '_blank');
   w.document.write('<html><head><title>LKPD Upgrade Komputer</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LEMBAR KERJA PESERTA DIDIK</h3><h4>Upgrade Komponen Komputer — SMK DIPONEGORO TUMPANG</h4><hr></center>');
@@ -637,8 +638,13 @@ function printLKPD1() {
   w.document.write('<p><b>B. Komponen Upgrade:</b><br>'+upgrade.replace(/\n/g,'<br>')+'</p><hr>');
   w.document.write('<p><b>C. Kendala &amp; Solusi:</b><br>'+kendala.replace(/\n/g,'<br>')+'</p><hr>');
   w.document.write('<p><b>D. Kesimpulan Teknis:</b><br>'+kesimpulan.replace(/\n/g,'<br>')+'</p>');
-  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p>');
-  w.document.write('</body></html>');
+  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+<script src="theme.js?v=28"></script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();

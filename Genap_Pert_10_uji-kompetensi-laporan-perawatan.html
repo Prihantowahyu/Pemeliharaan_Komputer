@@ -234,6 +234,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a href="./index.html" class="btn-home-nav" title="Kembali ke Beranda Portal">🏠 <span>Beranda</span></a>
     <a href="./index.html#genap" class="brand-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       PORTAL UTAMA
@@ -525,16 +526,31 @@ function calcUkkScoreLive() {
   <button type="button" class="btn-action" onclick="printLKPD10()">&#128438; Preview &amp; Cetak Sertifikat Evaluasi Portofolio</button>
 </div>
 <script>
-function printLKPD10(){
-  const w=window.open('','_blank');
-  w.document.write('<html><head><title>Sertifikat Evaluasi Portofolio TKJ</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
-  w.document.write('<center><h3>LEMBAR EVALUASI PORTOFOLIO & KESIAPAN PKL</h3><h4>SMK DIPONEGORO TUMPANG &middot; KELAS X TKJ</h4><hr></center>');
-  w.document.write('<p><b>Nama Siswa:</b> '+(document.getElementById('l10_nama').value||'—')+'</p>');
-  w.document.write('<p><b>NISN / Meja:</b> '+(document.getElementById('l10_nisn').value||'—')+'</p><hr>');
-  w.document.write('<p><b>A. Rekapitulasi Capaian 180 JP:</b><br>'+(document.getElementById('l10_rekap').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
-  w.document.write('<p><b>B. Refleksi Diri Siswa:</b><br>'+(document.getElementById('l10_refleksi').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
-  w.document.write('<p><b>C. Status Kesiapan PKL:</b> '+(document.getElementById('l10_ready').value)+'</p>');
-  w.document.write('<br><br><div style="display:flex;justify-content:space-between;"><div>Siswa Yang Dinilai,<br><br><br><br><b>(....................)</b></div><div>Guru Pembimbing TKJ,<br><br><br><br><b>Wahyu Prihanto</b></div></div></body></html>');
+function printLKPD10() {
+  const w = window.open('', '_blank');
+  w.document.write('<html><head><title>Laporan Uji Kompetensi Akhir</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<center><h3>LEMBAR LAPORAN UJI KOMPETENSI AKHIR (UKK TKJ)</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
+  ['nama','nis','unit','k3','assy','os','ts','score'].forEach(id => {
+    const el = document.getElementById('l10_' + id);
+    const labels = {nama:'Nama Asesi',nis:'NIS/NISN',unit:'Kode Unit Kerja',k3:'Nilai K3',assy:'Nilai Perakitan',os:'Nilai Sistem Operasi',ts:'Nilai Troubleshooting',score:'Nilai Akhir'};
+    if (el) w.document.write('<p><b>' + labels[id] + ':</b> ' + (el.value || '—') + '</p>');
+  });
+  w.document.write('<br><p>Tanda Tangan Asesor Penguji: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
+  w.document.close();
+  w.print();
+}
+</script>
+</body></html>');
   w.document.close();
   w.print();
   w.print();
@@ -590,5 +606,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</body></html>'); w.document.close(); w.print();</body>
+</body></html>'); w.document.close(); w.print();<script src="theme.js?v=28"></script>
+</body>
 </html>

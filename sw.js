@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v30-zero-bugs-audit-clean';
+const CACHE_NAME = 'bengkel-hw-pwa-v31-ui-ux-unified-navigation';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
