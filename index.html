@@ -4028,9 +4028,12 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     <!-- Security & Teacher PIN Banner -->
     <div style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <div style="font-size: 13px; color: var(--text-sub);">
-        🔑 <b>PIN Buka Kunci Siswa Terkunci:</b> <code style="background: rgba(16,185,129,0.2); color: #10b981; font-size: 14px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">230587</code> &nbsp;|&nbsp; Guru Pengampu: <b>Wahyu Prihanto</b>
+        🛡️ <b>Panel Pengawas CBT Terverifikasi</b> &nbsp;|&nbsp; Guru Pengampu: <b>Wahyu Prihanto</b>
       </div>
-      <div style="display: flex; gap: 8px;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="btn-companion" style="padding: 7px 12px; font-size: 12px; color: var(--cyan); border-color: rgba(0,240,255,0.35);" onclick="changeTeacherPin()">
+          🔑 Ganti PIN Guru
+        </button>
         <button type="button" class="btn-launch" style="padding: 7px 14px; font-size: 12px; background: linear-gradient(135deg, #10b981, #00f0ff);" onclick="exportCbtSubmissionsCsv()">
           📥 Ekspor ke Excel (CSV)
         </button>
@@ -6560,8 +6563,28 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   const STORAGE_LOCK_KEY = 'bh_exam_lockdown_state';
 
   function getGuruPin() {
-    localStorage.removeItem(STORAGE_PIN_KEY); // Force reset to new PIN
     return localStorage.getItem(STORAGE_PIN_KEY) || DEFAULT_PIN;
+  }
+
+  function changeTeacherPin() {
+    const oldPin = prompt('Masukkan PIN Guru Lama:');
+    if (!oldPin) return;
+    if (oldPin.trim() !== getGuruPin()) {
+      alert('✕ PIN Lama Salah!');
+      return;
+    }
+    const newPin = prompt('Masukkan 6-Digit PIN Baru yang Diinginkan:');
+    if (!newPin || newPin.trim().length < 4) {
+      alert('✕ PIN Baru minimal 4 karakter/digit!');
+      return;
+    }
+    const confirmPin = prompt('Konfirmasi PIN Baru Sekali Lagi:');
+    if (newPin.trim() !== (confirmPin || '').trim()) {
+      alert('✕ Konfirmasi PIN Baru tidak cocok!');
+      return;
+    }
+    localStorage.setItem(STORAGE_PIN_KEY, newPin.trim());
+    alert('✓ PIN Pengawas Guru Berhasil Diperbarui! Simpan PIN baru ini dengan aman.');
   }
 
   function isExamLocked() {
@@ -7125,6 +7148,12 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   }
 
   function openAdminModal() {
+    const entered = prompt('🔒 OTORISASI GURU: Masukkan PIN Pengawas untuk Membuka Panel Rekap Nilai:');
+    if (!entered) return;
+    if (entered.trim() !== getGuruPin()) {
+      alert('✕ Akses Ditolak: PIN Pengawas Salah!');
+      return;
+    }
     const modal = document.getElementById('adminModal');
     if (!modal) return;
     modal.style.display = 'flex';

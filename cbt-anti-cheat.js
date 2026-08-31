@@ -7,7 +7,9 @@
 (function(window) {
   'use strict';
 
-  const TEACHER_PIN = "230587";
+  function getTeacherPin() {
+    return localStorage.getItem('bh_guru_security_pin') || "230587";
+  }
   let examTimer = null;
   let timeRemaining = 0; // in seconds
   let activeQuestions = [];
@@ -189,7 +191,7 @@
 
   window.teacherUnlockExam = function() {
     const pin = document.getElementById('teacherUnlockPinInput').value;
-    if (pin === TEACHER_PIN) {
+    if (pin === getTeacherPin()) {
       const lock = document.getElementById('cbtLockScreen');
       if (lock) lock.classList.remove('active');
       document.getElementById('teacherUnlockPinInput').value = '';
