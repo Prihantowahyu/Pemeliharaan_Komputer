@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v37-compact-card-redesign';
+const CACHE_NAME = 'bengkel-hw-pwa-v38-fix-svg-button-size';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [

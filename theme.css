@@ -519,9 +519,30 @@ html, body {
   overflow-x: hidden;
 }
 
-img, svg, canvas, iframe {
+img, canvas, iframe {
   max-width: 100%;
   height: auto;
+}
+
+/* SVG: max-width aman, tapi jangan override height bawaan elemen */
+svg {
+  max-width: 100%;
+}
+
+/* Pastikan SVG ikon di dalam tombol & link tidak membesar */
+button svg,
+a svg,
+label svg,
+.btn-launch svg,
+.btn-companion svg,
+.btn-panel-guru svg,
+.nav-icon-btn svg,
+.card-title-icon svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* 2. Responsive Tables (Touch Horizontal Scroll) */
