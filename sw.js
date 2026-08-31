@@ -1,9 +1,10 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v24-full-20-server-modules-deep-pedagogy';
+const CACHE_NAME = 'bengkel-hw-pwa-v25-panduan-guru-byod-mobile-lab';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './Panduan_Guru_Praktik_Server_HP_Android.html',
   './manifest.json',
   './icon.svg',
   './icon-192.png',

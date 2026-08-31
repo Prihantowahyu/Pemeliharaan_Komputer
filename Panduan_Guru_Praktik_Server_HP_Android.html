@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Guru: Setup Lab Server Terpusat & Praktik via Smartphone — TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#030712;--panel:rgba(11,22,44,.85);--border:rgba(16,185,129,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(16,185,129,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11.5px;font-weight:700;color:var(--em);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--em);box-shadow:0 0 8px var(--em)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.95),rgba(7,14,30,.9));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(16,185,129,.12);border:1px solid var(--em);color:var(--em);margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,var(--em) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--em);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  code{background:rgba(16,185,129,.15);color:#6ee7b7;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--em);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.2);color:var(--em);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:14px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--em);color:#030712;font-weight:800;box-shadow:0 0 16px rgba(16,185,129,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="top-hud">
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Panduan Khusus Guru TKJ — Solusi Lab Komputer Terbatas</div>
+    <a href="index.html" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Kembali ke Portal</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">🛠 STANDARD OPERATING PROCEDURE (SOP) GURU</div>
+    <h1>Panduan Praktik Server Tanpa Laboratorium PC Lengkap</h1>
+    <p style="color:var(--t2);max-width:840px;font-size:15px">Petunjuk teknis resmi bagi Guru TKJ untuk menjalankan praktik 20 modul <em>Infrastruktur Server</em> dan <em>Pemeliharaan Jaringan</em> secara lancar dengan rasio 1 PC Server Guru melayani 36 Siswa serentak melalui Smartphone Android (BYOD) via WiFi lokal tanpa kuota internet.</p>
+  </section>
+
+  <!-- SKEMA TOPOLOGI -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Skema Topologi Lab "1 Server Guru &rarr; 36 Smartphone Siswa"</h2>
+    <div class="cb">
+<pre style="color:#67e8f9;">=============================================================================
+             ARSITEKTUR TERMINAL SERVER MULTI-USER LAB TKJ
+=============================================================================
+  [ PC Server Guru di Depan Kelas ]
+  • OS: Ubuntu Server 22.04 / Debian 12 (CLI)
+  • IP Statis: 192.168.10.1
+  • Menjalankan 36 Akun User Mandiri (siswa01 s.d. siswa36)
+           │
+           │ (Kabel LAN UTP Cat6)
+           ▼
+  [ Router Access Point WiFi Lab Sekolah ]
+  • SSID: LAB-TKJ-SERVER (Tanpa perlu koneksi internet luar)
+  • DHCP Pool: 192.168.10.100 - 192.168.10.200
+           │
+   ┌───────┼───────────────────────┬───────────────────────┐
+   │ (WiFi)│ (WiFi)                │ (WiFi)                │ (WiFi)
+   ▼       ▼                       ▼                       ▼
+[ HP Siswa 1 ]                  [ HP Siswa 2 ]          [ HP Siswa 36 ]
+User: siswa01                   User: siswa02           User: siswa36
+App: JuiceSSH / Termux          App: JuiceSSH           App: JuiceSSH
+=============================================================================</pre>
+    </div>
+    <div class="tip-box ok">
+      <strong>✅ Keunggulan Metode Ini:</strong>
+      <ul class="materi" style="margin-top:6px">
+        <li><strong>Biaya Rp 0:</strong> Tidak perlu membeli komputer atau laptop baru untuk siswa.</li>
+        <li><strong>100% Offline:</strong> Berjalan lancar di jaringan WiFi lokal lab meskipun sekolah tidak punya kuota internet.</li>
+        <li><strong>Semua Siswa Terlibat Aktif:</strong> Setiap anak memiliki sesi terminal pribadi di HP masing-masing (tidak ada yang hanya menonton).</li>
+        <li><strong>Resource Sangat Ringan:</strong> 36 sesi SSH teks simultan hanya memakan RAM server sekitar <strong>~180 MB</strong>!</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SKRIP OTOMATISASI UNTUK GURU -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Skrip Otomatisasi 1-Klik untuk Guru (Pembuat 36 Akun Siswa)</h2>
+    <p style="color:var(--t2);font-size:14px">Guru cukup menyalin dan menjalankan satu blok skrip di bawah ini pada PC Server Guru. Skrip ini akan otomatis membuat 36 akun siswa (<code>siswa01</code> s.d. <code>siswa36</code>) dengan password default <code>tkj123</code> dan folder home yang terisolasi aman:</p>
+    
+    <div class="cb">
+<pre><span style="color:#64748b;"># Jalankan skrip ini sekali di terminal Server Guru:</span>
+sudo bash -c 'cat &lt;&lt; "EOF" &gt; /usr/local/bin/setup_lab_siswa.sh
+#!/bin/bash
+echo "=== MEMULAI SETUP 36 AKUN SISWA LAB TKJ ==="
+groupadd -f siswa_lab
+
+for i in $(seq -w 1 36); do
+    USERNAME="siswa$i"
+    PASSWORD="tkj$i"
+    
+    if id "$USERNAME" &>/dev/null; then
+        echo "[-] User $USERNAME sudah ada."
+    else
+        useradd -m -s /bin/bash -g siswa_lab "$USERNAME"
+        echo "$USERNAME:$PASSWORD" | chpasswd
+        echo "[+] Berhasil membuat: $USERNAME (Password: $PASSWORD)"
+    fi
+done
+
+echo "=== MEMASANG HAK AKSES PERMISSION ISOLASI ==="
+chmod 711 /home/*
+echo "=== SELESAI! 36 AKUN SIAP DIGUNAKAN SISWA ==="
+EOF
+chmod +x /usr/local/bin/setup_lab_siswa.sh
+/usr/local/bin/setup_lab_siswa.sh'</pre>
+    </div>
+  </section>
+
+  <!-- PANDUAN SISWA -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">3</span> Panduan Langkah demi Langkah untuk Siswa (Di Tampilkan di Proyektor)</h2>
+
+    <div class="step-row">
+      <span class="step-num">1</span>
+      <div>
+        <strong>Sambungkan HP ke WiFi Lab:</strong>
+        <p style="color:var(--t2);font-size:13.5px">Buka pengaturan WiFi di HP &rarr; Hubungkan ke SSID <code>LAB-TKJ-SERVER</code> (Password: <code>tkjbisa123</code>).</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <span class="step-num">2</span>
+      <div>
+        <strong>Buka Aplikasi JuiceSSH di HP Android (atau Termux / Termius di iPhone):</strong>
+        <p style="color:var(--t2);font-size:13.5px">Aplikasi gratis di Google Play Store (ukuran hanya ~12 MB).</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <span class="step-num">3</span>
+      <div>
+        <strong>Buat Koneksi SSH Baru:</strong>
+        <table class="tc" style="margin-top:8px">
+          <tr><th>Parameter</th><th>Nilai yang Diisi Siswa</th></tr>
+          <tr><td><strong>Nickname</strong></td><td>Server Lab TKJ</td></tr>
+          <tr><td><strong>Type</strong></td><td>SSH</td></tr>
+          <tr><td><strong>Address (Host)</strong></td><td><code>192.168.10.1</code></td></tr>
+          <tr><td><strong>Port</strong></td><td><code>22</code></td></tr>
+          <tr><td><strong>Identity (User)</strong></td><td><code>siswa01</code> (sesuai nomor absen masing-masing)</td></tr>
+          <tr><td><strong>Password</strong></td><td><code>tkj01</code> (sesuai nomor absen)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <span class="step-num">4</span>
+      <div>
+        <strong>Klik 'Connect' &rarr; Terminal Linux Aktif di Layar HP!</strong>
+        <p style="color:var(--t2);font-size:13.5px">Siswa akan disambut dengan prompt bash: <code>siswa01@server:~$</code> dan langsung bisa mengetik seluruh modul praktikum 1 s.d. 20!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGI ROTASI PC LAB -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">4</span> Strategi Hybrid (Jika Ada Sebagian PC Lab Tersedia)</h2>
+    <div class="two-col">
+      <div class="comp-card" style="border-color:rgba(0,240,255,.3)">
+        <h5 style="color:var(--cyan)">🖥️ Kelompok di PC Lab (Core Testing)</h5>
+        <ul class="materi">
+          <li>Bertindak sebagai <strong>Server Target & Load Stressor</strong></li>
+          <li>Menjalankan browser client untuk menguji tampilan web</li>
+          <li>Memantau grafik utilisasi CPU via <code>htop</code> di monitor besar</li>
+        </ul>
+      </div>
+      <div class="comp-card" style="border-color:rgba(16,185,129,.3)">
+        <h5 style="color:var(--em)">📱 Kelompok di HP (Remote SysAdmin)</h5>
+        <ul class="materi">
+          <li>Bertindak sebagai <strong>Remote Administrator</strong></li>
+          <li>Mengonfigurasi file Virtual Host, DNS BIND9, dan database via SSH</li>
+          <li>Mengerjakan CBT dan membaca modul PWA di browser HP</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-deck">
+    <a href="index.html#server" class="btn se">← Dashboard Server XII</a>
+    <a href="Server_Pert_1_konsep-dasar-server-datacenter.html" class="btn pr">Mulai Mengajar Pertemuan 1 →</a>
+  </div>
+</main>
+</body>
+</html>
