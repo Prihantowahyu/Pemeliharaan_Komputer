@@ -4014,11 +4014,18 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
     <!-- Hero Bottom Deck -->
     <div class="hero-bottom-deck">
-      <!-- Semester Switcher -->
-      <div class="sem-switch-deck" role="tablist">
-        <span class="sem-tab-pill" id="semTabPill"></span>
-        <button type="button" class="sem-btn active" id="btnGanjil" onclick="setSemester('ganjil')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Semester Ganjil</button>
-        <button type="button" class="sem-btn" id="btnGenap" onclick="setSemester('genap')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Semester Genap</button>
+      <!-- Semester & Subject Switcher (X & XII) -->
+      <div class="sem-switch-deck" role="tablist" style="width: 100%; max-width: 580px;">
+        <span class="sem-tab-pill" id="semTabPill" style="width: calc(33.333% - 3px);"></span>
+        <button type="button" class="sem-btn active" id="btnGanjil" style="flex:1; justify-content:center;" onclick="setSemester('ganjil')">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Ganjil (X)
+        </button>
+        <button type="button" class="sem-btn" id="btnGenap" style="flex:1; justify-content:center;" onclick="setSemester('genap')">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Genap (X)
+        </button>
+        <button type="button" class="sem-btn" id="btnServer" style="flex:1.2; justify-content:center;" onclick="setSemester('server')">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg> Server (XII)
+        </button>
       </div>
 
       <!-- Guru Pengampu -->
@@ -4839,6 +4846,369 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
   </div>
 
+  <!-- ==========================================================
+       INFRASTRUKTUR SERVER XII TIMELINE (10 PERTEMUAN GANJIL)
+       ========================================================== -->
+  <div class="timeline-container" id="timelineServer" style="display:none;">
+
+    <!-- ===================== BLOK 1 SERVER ===================== -->
+    <div class="block-header" data-block="server_blok1">
+      <div class="block-header-inner">
+        <div class="block-title-group">
+          <span class="block-tag" style="background:rgba(0,240,255,0.2);color:var(--cyan);border-color:var(--cyan);">BLOK 1 · KELAS XII</span>
+          <div>
+            <div class="block-heading">Dasar Infrastruktur Server &amp; Layanan Jaringan</div>
+            <div class="block-meta">Pertemuan 1&ndash;5 (Hari 1&ndash;5) &middot; Data Center, Linux, User, DHCP &amp; DNS BIND9 (45 JP)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 1 -->
+    <div class="module-node" id="server-node-1" data-block="server_blok1" data-type="teori server" data-title="Konsep Dasar Infrastruktur Server Data Center fisik virtual cloud tier rack ups pdu">
+      <div class="node-pin" style="border-color:var(--cyan);color:var(--cyan);">01</div>
+      <div class="module-card" style="border-left:3px solid var(--cyan);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(0,240,255,0.15);color:var(--cyan);">Blok 1 &middot; Pertemuan 1</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Data Center</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(1, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--cyan);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          </span>
+          Konsep Dasar Infrastruktur Server &amp; Data Center
+        </h3>
+        <p class="card-desc">
+          Arsitektur server (Bare metal, VM, Cloud), komponen fisik data center (Rack 42U, PDU, Cooling, Online UPS), dan standar keandalan Tier 1 s.d Tier 4.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_1_konsep-dasar-server-datacenter.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Data Center
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 2 -->
+    <div class="module-node" id="server-node-2" data-block="server_blok1" data-type="praktik server" data-title="Instalasi Sistem Operasi Linux Server Ubuntu Debian netplan static ip hostname lvm">
+      <div class="node-pin" style="border-color:var(--emerald);color:var(--emerald);">02</div>
+      <div class="module-card" style="border-left:3px solid var(--emerald);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);">Blok 1 &middot; Pertemuan 2</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Instalasi OS</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(2, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--emerald);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+          </span>
+          Instalasi OS Linux Server &amp; Konfigurasi IP
+        </h3>
+        <p class="card-desc">
+          Instalasi Ubuntu Server / Debian, partisi LVM, pengaturan Static IP Address via Netplan YAML, hostname permanen, dan update repositori paket APT.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_2_instalasi-linux-server.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Instalasi Server
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 3 -->
+    <div class="module-node" id="server-node-3" data-block="server_blok1" data-type="praktik server" data-title="Manajemen User Group Permission Linux chmod chown sudo least privilege">
+      <div class="node-pin" style="border-color:var(--violet);color:var(--violet);">03</div>
+      <div class="module-card" style="border-left:3px solid var(--violet);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(139,92,246,0.15);color:#c4b5fd;">Blok 1 &middot; Pertemuan 3</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Security &amp; Auth</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(3, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--violet);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </span>
+          Manajemen User, Group &amp; Permission Linux
+        </h3>
+        <p class="card-desc">
+          Perintah useradd, usermod, groupadd, skema oktal hak akses (chmod 755/644, chown), hak administratif sudo, dan penerapan prinsip Least Privilege.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_3_manajemen-user-permission.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul User &amp; Permission
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 4 -->
+    <div class="module-node" id="server-node-4" data-block="server_blok1" data-type="praktik server" data-title="Konfigurasi DHCP Server DORA isc-dhcp-server scope lease reservation mac binding">
+      <div class="node-pin" style="border-color:var(--amber);color:var(--amber);">04</div>
+      <div class="module-card" style="border-left:3px solid var(--amber);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(245,158,11,0.15);color:var(--amber);">Blok 1 &middot; Pertemuan 4</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">IP Automation</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(4, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--amber);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </span>
+          Konfigurasi DHCP Server Linux (ISC-DHCP)
+        </h3>
+        <p class="card-desc">
+          Alokasi IP otomatis 4 tahap DORA, konfigurasi dhcpd.conf (Scope, Gateway, DNS), pengaturan Lease Time, dan Fixed MAC IP Reservation untuk printer/server.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_4_konfigurasi-dhcp-server.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul DHCP Server
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 5 -->
+    <div class="module-node" id="server-node-5" data-block="server_blok1" data-type="praktik server" data-title="Konfigurasi DNS Server BIND9 forward reverse zone nslookup dig record">
+      <div class="node-pin" style="border-color:var(--cyan);color:var(--cyan);">05</div>
+      <div class="module-card" style="border-left:3px solid var(--cyan);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(0,240,255,0.15);color:var(--cyan);">Blok 1 &middot; Pertemuan 5</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Name Resolution</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(5, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--cyan);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </span>
+          Konfigurasi DNS Server BIND9
+        </h3>
+        <p class="card-desc">
+          Resolusi nama domain lokal (Forward &amp; Reverse Lookup Zone), manajemen resource record (A, CNAME, PTR, SOA), dan pengujian query DNS dengan nslookup &amp; dig.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_5_konfigurasi-dns-server-bind9.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul DNS BIND9
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== BLOK 2 SERVER ===================== -->
+    <div class="block-header" data-block="server_blok2">
+      <div class="block-header-inner">
+        <div class="block-title-group">
+          <span class="block-tag" style="background:rgba(16,185,129,0.2);color:var(--emerald);border-color:var(--emerald);">BLOK 2 · KELAS XII</span>
+          <div>
+            <div class="block-heading">Layanan Aplikasi, File Sharing &amp; Monitoring Server</div>
+            <div class="block-meta">Pertemuan 6&ndash;10 (Hari 6&ndash;10) &middot; Web, FTP, Mail Postfix, Samba/NFS &amp; Troubleshooting (45 JP)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 6 -->
+    <div class="module-node" id="server-node-6" data-block="server_blok2" data-type="praktik server" data-title="Konfigurasi Web Server Apache Nginx virtual host document root a2ensite">
+      <div class="node-pin" style="border-color:var(--emerald);color:var(--emerald);">06</div>
+      <div class="module-card" style="border-left:3px solid var(--emerald);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);">Blok 2 &middot; Pertemuan 6</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Web Service</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(6, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--emerald);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </span>
+          Konfigurasi Web Server (Apache &amp; Nginx)
+        </h3>
+        <p class="card-desc">
+          Instalasi web server, struktur direktori DocumentRoot, implementasi Virtual Host multi-domain dalam satu IP, dan penyesuaian hak akses direktori www-data.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_6_konfigurasi-web-server-apache-nginx.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Web Server
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 7 -->
+    <div class="module-node" id="server-node-7" data-block="server_blok2" data-type="praktik server" data-title="Konfigurasi FTP Server vsftpd chroot jail port 21 filezilla upload download">
+      <div class="node-pin" style="border-color:var(--violet);color:var(--violet);">07</div>
+      <div class="module-card" style="border-left:3px solid var(--violet);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(139,92,246,0.15);color:#c4b5fd;">Blok 2 &middot; Pertemuan 7</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">File Transfer</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(7, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--violet);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </span>
+          Konfigurasi FTP Server (vsftpd)
+        </h3>
+        <p class="card-desc">
+          Instalasi VSFTPD, isolasi keamanan Chroot Jail user, pengaturan port pasif FTP, dan pengujian transfer file (Upload/Download) menggunakan client FileZilla.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_7_konfigurasi-ftp-server-vsftpd.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul FTP Server
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 8 -->
+    <div class="module-node" id="server-node-8" data-block="server_blok2" data-type="praktik server" data-title="Konfigurasi Mail Server Dasar Postfix SMTP Dovecot IMAP POP3 maildir">
+      <div class="node-pin" style="border-color:var(--cyan);color:var(--cyan);">08</div>
+      <div class="module-card" style="border-left:3px solid var(--cyan);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(0,240,255,0.15);color:var(--cyan);">Blok 2 &middot; Pertemuan 8</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Mail Service</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(8, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--cyan);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </span>
+          Konfigurasi Mail Server Dasar (Postfix &amp; Dovecot)
+        </h3>
+        <p class="card-desc">
+          Peran MTA (Postfix SMTP), MDA (Dovecot IMAP/POP3), pembuatan mailbox user internal, dan pengujian kirim/terima pesan email antar-akun lokal.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_8_konfigurasi-mail-server-postfix.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Mail Server
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 9 -->
+    <div class="module-node" id="server-node-9" data-block="server_blok2" data-type="praktik server" data-title="Konfigurasi File Sharing Server Samba Windows NFS Linux smbpasswd">
+      <div class="node-pin" style="border-color:var(--emerald);color:var(--emerald);">09</div>
+      <div class="module-card" style="border-left:3px solid var(--emerald);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);">Blok 2 &middot; Pertemuan 9</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Storage Sharing</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(9, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--emerald);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </span>
+          Konfigurasi File Sharing Server (Samba &amp; NFS)
+        </h3>
+        <p class="card-desc">
+          Penyimpanan terpusat cross-platform: Samba SMB/CIFS untuk client Windows Explorer dan Network File System (NFS) untuk koneksi cepat client Linux.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul File Sharing
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER PERTEMUAN 10 -->
+    <div class="module-node" id="server-node-10" data-block="server_blok2" data-type="praktik server" data-title="Monitoring Troubleshooting Server htop journalctl systemctl zabbix grafana port ss">
+      <div class="node-pin" style="border-color:#ef4444;color:#ef4444;">10</div>
+      <div class="module-card" style="border-left:3px solid #ef4444;">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(239,68,68,0.15);color:#fca5a5;">Blok 2 &middot; Pertemuan 10</span>
+            <span class="badge badge-jp">9 JP &middot; Evaluasi</span>
+            <span class="badge badge-type">Monitoring &amp; Audit</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServer(10, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:#ef4444;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+          </span>
+          Monitoring Kinerja &amp; Troubleshooting Layanan Server
+        </h3>
+        <p class="card-desc">
+          Monitoring CPU/RAM (htop), analisis log layanan real-time (journalctl, syslog), pemecahan kasus gangguan server, dan pengenalan dashboard Grafana/Zabbix.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Pert_10_monitoring-troubleshooting-server.html" style="background:linear-gradient(135deg, #00f0ff, #ef4444);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Monitoring &amp; Log
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- FOOTER -->
   <footer class="app-footer">
     <div class="footer-left">
@@ -4986,26 +5356,44 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   updateClock();
 
   /* ==========================================================
-     SEMESTER SWITCHER & CONFIGURATION
+     SEMESTER & COURSE SWITCHER CONFIGURATION (X & XII)
      ========================================================== */
   let activeSemester = 'ganjil';
   const TOTAL_MODULES_GANJIL = 11;
   const TOTAL_MODULES_GENAP = 10;
+  const TOTAL_MODULES_SERVER = 10;
   const STORAGE_KEY_GANJIL = 'bh_tkj_completed_modules';
   const STORAGE_KEY_GENAP = 'bh_tkj_genap_completed_modules';
+  const STORAGE_KEY_SERVER = 'bh_tkj_server_completed_modules';
 
   function setSemester(sem) {
     activeSemester = sem;
     const isGanjil = sem === 'ganjil';
+    const isGenap = sem === 'genap';
+    const isServer = sem === 'server';
     
     // Update active tab styling
-    document.getElementById('btnGanjil').classList.toggle('active', isGanjil);
-    document.getElementById('btnGenap').classList.toggle('active', !isGanjil);
-    document.getElementById('semTabPill').style.transform = isGanjil ? 'translateX(0)' : 'translateX(100%)';
+    const btnG = document.getElementById('btnGanjil');
+    const btnGe = document.getElementById('btnGenap');
+    const btnS = document.getElementById('btnServer');
+    if (btnG) btnG.classList.toggle('active', isGanjil);
+    if (btnGe) btnGe.classList.toggle('active', isGenap);
+    if (btnS) btnS.classList.toggle('active', isServer);
+
+    const pill = document.getElementById('semTabPill');
+    if (pill) {
+      if (isGanjil) pill.style.transform = 'translateX(0)';
+      else if (isGenap) pill.style.transform = 'translateX(100%)';
+      else if (isServer) pill.style.transform = 'translateX(200%)';
+    }
 
     // Show/hide timelines
-    document.getElementById('timelineGanjil').style.display = isGanjil ? 'block' : 'none';
-    document.getElementById('timelineGenap').style.display = isGanjil ? 'none' : 'block';
+    const tlG = document.getElementById('timelineGanjil');
+    const tlGe = document.getElementById('timelineGenap');
+    const tlS = document.getElementById('timelineServer');
+    if (tlG) tlG.style.display = isGanjil ? 'block' : 'none';
+    if (tlGe) tlGe.style.display = isGenap ? 'block' : 'none';
+    if (tlS) tlS.style.display = isServer ? 'block' : 'none';
 
     // Headings and Descriptions
     const mainHeading = document.getElementById('pageMainHeading');
@@ -5022,13 +5410,20 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       if (metricAlokasi) metricAlokasi.textContent = '99 JP Total';
       if (metricFokus) metricFokus.textContent = 'Fondasi & Perawatan';
       if (searchInput) searchInput.placeholder = 'Cari materi Ganjil (SOP, BIOS, Driver, Troubleshooting, dll)...';
-    } else {
+    } else if (isGenap) {
       mainHeading.innerHTML = 'Pemeliharaan Lanjutan, Perbaikan &amp; Uji Kompetensi';
       mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas X TKJ</strong>. Terbagi menjadi <strong>Blok 1 (Hari 1&ndash;5: Upgrade, Periferal, Laptop, Keamanan, Partisi)</strong> dan <strong>Blok 2 (Hari 6&ndash;10: Diagnostic Tools, Recovery, Kasus Kompleks, Proyek Servis Lab, Uji Kompetensi)</strong>.';
       if (metricModul) metricModul.textContent = '10 Pertemuan';
       if (metricAlokasi) metricAlokasi.textContent = '90 JP Total';
       if (metricFokus) metricFokus.textContent = 'Lanjutan & Ujikom';
       if (searchInput) searchInput.placeholder = 'Cari materi Genap (Upgrade, Laptop, Printer, AI Tools, Ujikom, dll)...';
+    } else if (isServer) {
+      mainHeading.innerHTML = 'Infrastruktur Server &amp; Layanan Jaringan-Aplikasi';
+      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Ganjil Kelas XII TKJ</strong> (Sistem Blok: 2 Blok &times; 5 Hari &times; 9 JP = <strong>90 JP Total</strong>). Mempelajari arsitektur data center, Linux server, manajemen user &amp; permission, DHCP, DNS BIND9, Web Server Apache/Nginx, FTP, Mail Postfix, Samba/NFS, hingga monitoring &amp; troubleshooting server.';
+      if (metricModul) metricModul.textContent = '10 Pertemuan';
+      if (metricAlokasi) metricAlokasi.textContent = '90 JP Total';
+      if (metricFokus) metricFokus.textContent = 'Linux & Layanan Server';
+      if (searchInput) searchInput.placeholder = 'Cari materi Server (Data Center, Linux, DHCP, DNS, Web, Mail, Samba, htop, dll)...';
     }
 
     // Render Filter Pills
@@ -5042,7 +5437,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
     // Update URL hash without scroll jump
     if (history.replaceState) {
-      history.replaceState(null, null, isGanjil ? '#ganjil' : '#genap');
+      history.replaceState(null, null, isGanjil ? '#ganjil' : (isGenap ? '#genap' : '#server'));
     }
   }
 
@@ -5058,12 +5453,20 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik</button>
         <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
       `;
-    } else {
+    } else if (activeSemester === 'genap') {
       container.innerHTML = `
         <button type="button" class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">Semua (10)</button>
         <button type="button" class="filter-btn ${currentFilter === 'genap_blok1' ? 'active' : ''}" onclick="setFilter('genap_blok1', this)">Blok 1 (Lanjutan)</button>
         <button type="button" class="filter-btn ${currentFilter === 'genap_blok2' ? 'active' : ''}" onclick="setFilter('genap_blok2', this)">Blok 2 (Diagnostik & UKK)</button>
         <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik & Proyek</button>
+        <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
+      `;
+    } else if (activeSemester === 'server') {
+      container.innerHTML = `
+        <button type="button" class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">Semua (10)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'server_blok1' ? 'active' : ''}" onclick="setFilter('server_blok1', this)">Blok 1 (Dasar & Jaringan)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'server_blok2' ? 'active' : ''}" onclick="setFilter('server_blok2', this)">Blok 2 (Layanan & Monitoring)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik Server</button>
         <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
       `;
     }
@@ -5072,8 +5475,11 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   /* ==========================================================
      STUDENT PROGRESS TRACKER (LOCALSTORAGE)
      ========================================================== */
-  function getCompletedList(isGenap = false) {
-    const key = isGenap ? STORAGE_KEY_GENAP : STORAGE_KEY_GANJIL;
+  function getCompletedList(target = 'ganjil') {
+    let key = STORAGE_KEY_GANJIL;
+    if (target === 'genap' || target === true) key = STORAGE_KEY_GENAP;
+    else if (target === 'server') key = STORAGE_KEY_SERVER;
+
     try {
       return JSON.parse(localStorage.getItem(key)) || [];
     } catch(e) {
@@ -5081,30 +5487,42 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
   }
 
-  function saveCompletedList(list, isGenap = false) {
-    const key = isGenap ? STORAGE_KEY_GENAP : STORAGE_KEY_GANJIL;
+  function saveCompletedList(list, target = 'ganjil') {
+    let key = STORAGE_KEY_GANJIL;
+    if (target === 'genap' || target === true) key = STORAGE_KEY_GENAP;
+    else if (target === 'server') key = STORAGE_KEY_SERVER;
     localStorage.setItem(key, JSON.stringify(list));
   }
 
   function updateProgressUI() {
-    const isGenap = activeSemester === 'genap';
-    const total = isGenap ? TOTAL_MODULES_GENAP : TOTAL_MODULES_GANJIL;
-    const list = getCompletedList(isGenap);
+    let total = TOTAL_MODULES_GANJIL;
+    let list = getCompletedList('ganjil');
+    let title = 'Progres Belajar Mandiri &middot; Semester Ganjil (Kelas X)';
+
+    if (activeSemester === 'genap') {
+      total = TOTAL_MODULES_GENAP;
+      list = getCompletedList('genap');
+      title = 'Progres Belajar Mandiri &middot; Semester Genap (Kelas X)';
+    } else if (activeSemester === 'server') {
+      total = TOTAL_MODULES_SERVER;
+      list = getCompletedList('server');
+      title = 'Progres Belajar Mandiri &middot; Infrastruktur Server (Kelas XII)';
+    }
+
     const count = list.length;
     const percent = Math.round((count / total) * 100);
 
     const titleEl = document.getElementById('progressTitleText');
-    if (titleEl) {
-      titleEl.innerHTML = isGenap 
-        ? 'Progres Belajar Mandiri &middot; Semester Genap' 
-        : 'Progres Belajar Mandiri &middot; Semester Ganjil';
-    }
+    if (titleEl) titleEl.innerHTML = title;
 
-    document.getElementById('progressText').textContent = `${count} / ${total} Selesai (${percent}%)`;
-    document.getElementById('progressBarFill').style.width = `${percent}%`;
+    const progText = document.getElementById('progressText');
+    if (progText) progText.textContent = `${count} / ${total} Selesai (${percent}%)`;
+    
+    const progFill = document.getElementById('progressBarFill');
+    if (progFill) progFill.style.width = `${percent}%`;
 
     // Apply visual states to Ganjil modules
-    const ganjilList = getCompletedList(false);
+    const ganjilList = getCompletedList('ganjil');
     for (let i = 1; i <= TOTAL_MODULES_GANJIL; i++) {
       const node = document.getElementById(`node-${i}`);
       if (node) {
@@ -5116,7 +5534,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
 
     // Apply visual states to Genap modules
-    const genapList = getCompletedList(true);
+    const genapList = getCompletedList('genap');
     for (let i = 1; i <= TOTAL_MODULES_GENAP; i++) {
       const node = document.getElementById(`genap-node-${i}`);
       if (node) {
@@ -5126,27 +5544,50 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         if (checkbox) checkbox.checked = isDone;
       }
     }
+
+    // Apply visual states to Server XII modules
+    const serverList = getCompletedList('server');
+    for (let i = 1; i <= TOTAL_MODULES_SERVER; i++) {
+      const node = document.getElementById(`server-node-${i}`);
+      if (node) {
+        const isDone = serverList.includes(i);
+        node.classList.toggle('completed', isDone);
+        const checkbox = node.querySelector('.check-completed input');
+        if (checkbox) checkbox.checked = isDone;
+      }
+    }
   }
 
   function toggleComplete(moduleId, isChecked) {
-    let list = getCompletedList(false);
+    let list = getCompletedList('ganjil');
     if (isChecked) {
       if (!list.includes(moduleId)) list.push(moduleId);
     } else {
       list = list.filter(id => id !== moduleId);
     }
-    saveCompletedList(list, false);
+    saveCompletedList(list, 'ganjil');
     updateProgressUI();
   }
 
   function toggleCompleteGenap(moduleId, isChecked) {
-    let list = getCompletedList(true);
+    let list = getCompletedList('genap');
     if (isChecked) {
       if (!list.includes(moduleId)) list.push(moduleId);
     } else {
       list = list.filter(id => id !== moduleId);
     }
-    saveCompletedList(list, true);
+    saveCompletedList(list, 'genap');
+    updateProgressUI();
+  }
+
+  function toggleCompleteServer(moduleId, isChecked) {
+    let list = getCompletedList('server');
+    if (isChecked) {
+      if (!list.includes(moduleId)) list.push(moduleId);
+    } else {
+      list = list.filter(id => id !== moduleId);
+    }
+    saveCompletedList(list, 'server');
     updateProgressUI();
   }
 
@@ -5164,13 +5605,15 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
   function filterCards() {
     const query = (document.getElementById('searchModul').value || '').toLowerCase().trim();
-    const isGenap = activeSemester === 'genap';
-    const targetTimeline = isGenap ? document.getElementById('timelineGenap') : document.getElementById('timelineGanjil');
+    let targetTimeline = document.getElementById('timelineGanjil');
+    if (activeSemester === 'genap') targetTimeline = document.getElementById('timelineGenap');
+    else if (activeSemester === 'server') targetTimeline = document.getElementById('timelineServer');
+
     if (!targetTimeline) return;
 
     const nodes = targetTimeline.querySelectorAll('.module-node');
     const blockHeaders = targetTimeline.querySelectorAll('.block-header');
-    const completedList = getCompletedList(isGenap);
+    const completedList = getCompletedList(activeSemester);
     let visibleCount = 0;
 
     nodes.forEach(node => {
@@ -5179,7 +5622,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       const block = node.getAttribute('data-block') || '';
       const type = (node.getAttribute('data-type') || '').toLowerCase();
       
-      const rawId = isGenap ? node.id.replace('genap-node-', '') : node.id.replace('node-', '');
+      const rawId = node.id.replace('server-node-', '').replace('genap-node-', '').replace('node-', '');
       const id = parseInt(rawId);
       const isCompleted = completedList.includes(id);
 
@@ -5192,7 +5635,9 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       else if (currentFilter === 'blok2') matchesFilter = block === 'blok2';
       else if (currentFilter === 'genap_blok1') matchesFilter = block === 'genap_blok1';
       else if (currentFilter === 'genap_blok2') matchesFilter = block === 'genap_blok2';
-      else if (currentFilter === 'praktik') matchesFilter = type.includes('praktik') || type.includes('simulasi') || type.includes('upgrade') || type.includes('proyek');
+      else if (currentFilter === 'server_blok1') matchesFilter = block === 'server_blok1';
+      else if (currentFilter === 'server_blok2') matchesFilter = block === 'server_blok2';
+      else if (currentFilter === 'praktik') matchesFilter = type.includes('praktik') || type.includes('simulasi') || type.includes('upgrade') || type.includes('proyek') || type.includes('server');
       else if (currentFilter === 'completed') matchesFilter = isCompleted;
 
       if (matchesSearch && matchesFilter) {
@@ -5221,24 +5666,20 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
   });
 
-  // Handle URL Hash on load
-  window.addEventListener('DOMContentLoaded', () => {
+  // Handle URL Hash on load & hashchange
+  function applyUrlHash() {
     const hash = (window.location.hash || '').toLowerCase();
     if (hash === '#genap' || hash === '#semester-genap') {
       setSemester('genap');
+    } else if (hash === '#server' || hash === '#infrastruktur-server' || hash === '#kelas-xii') {
+      setSemester('server');
     } else {
       setSemester('ganjil');
     }
-  });
+  }
 
-  window.addEventListener('hashchange', () => {
-    const hash = (window.location.hash || '').toLowerCase();
-    if (hash === '#genap' || hash === '#semester-genap') {
-      if (activeSemester !== 'genap') setSemester('genap');
-    } else if (hash === '#ganjil' || hash === '#semester-ganjil') {
-      if (activeSemester !== 'ganjil') setSemester('ganjil');
-    }
-  });
+  window.addEventListener('DOMContentLoaded', applyUrlHash);
+  window.addEventListener('hashchange', applyUrlHash);
 
   /* ==========================================================
      SERVICE WORKER & PWA INSTALL LOGIC

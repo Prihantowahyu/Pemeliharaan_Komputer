@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 4: Konfigurasi DHCP Server Linux — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(0, 240, 255, 0.2);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(245, 158, 11, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(245, 158, 11, 0.1); border: 1px solid var(--amber); color: #fde68a; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--amber) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--amber); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 10px 0; }
+  .dora-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .dora-card { background: #081428; border: 1px solid #1c3558; padding: 14px; border-radius: 8px; }
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 4)</span></div>
+    <div><a href="index.html" style="color:var(--cyan);font-family:var(--font-mono);font-size:11.5px;text-decoration:none;">🏠 Dashboard Portal</a></div>
+  </div>
+</header>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 1 HARI KE-4</div>
+    <h1>Konfigurasi Layanan DHCP Server di Linux</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:720px;">Memahami cara kerja proses DORA, instalasi paket ISC-DHCP-Server, pengaturan Scope & Lease Time, Fixed MAC Reservation, dan pengujian client.</p>
+  </section>
+
+  <!-- SECTION 1: Konsep & Proses DORA -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Cara Kerja Protokol DHCP (Proses 4 Tahap DORA)</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">DHCP (Dynamic Host Configuration Protocol) bertugas memberikan alamat IP, subnet mask, gateway, dan DNS secara otomatis kepada client.</p>
+    
+    <div class="dora-grid">
+      <div class="dora-card">
+        <div style="font-family:var(--font-mono);font-weight:700;color:var(--cyan);">1. Discover (Client)</div>
+        <p style="font-size:12px;color:var(--text-sub);margin-top:4px;">Client menyiarkan (*broadcast*) pesan mencari DHCP server yang aktif.</p>
+      </div>
+      <div class="dora-card">
+        <div style="font-family:var(--font-mono);font-weight:700;color:var(--emerald);">2. Offer (Server)</div>
+        <p style="font-size:12px;color:var(--text-sub);margin-top:4px;">Server menawarkan alokasi IP, subnet, gateway & durasi sewa (*lease*).</p>
+      </div>
+      <div class="dora-card">
+        <div style="font-family:var(--font-mono);font-weight:700;color:var(--amber);">3. Request (Client)</div>
+        <p style="font-size:12px;color:var(--text-sub);margin-top:4px;">Client menyetujui tawaran IP dan mengirim permintaan resmi peminjaman.</p>
+      </div>
+      <div class="dora-card">
+        <div style="font-family:var(--font-mono);font-weight:700;color:#c4b5fd;">4. Acknowledge (Server)</div>
+        <p style="font-size:12px;color:var(--text-sub);margin-top:4px;">Server mengonfirmasi peminjaman IP & mencatatnya ke database lease.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Konfigurasi dhcpd.conf -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Instalasi & Konfigurasi Paket isc-dhcp-server</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Edit file <code>/etc/dhcp/dhcpd.conf</code> untuk menentukan subnet IP range (Scope) yang akan dibagikan:</p>
+
+    <div class="code-block">
+      <span style="color:#64748b;"># 1. Instal paket isc-dhcp-server</span><br>
+      <span style="color:#38bdf8;">sudo apt install -y isc-dhcp-server</span><br><br>
+      <span style="color:#64748b;"># 2. Tentukan interface jaringan di /etc/default/isc-dhcp-server</span><br>
+      <span style="color:#38bdf8;">INTERFACESv4="ens33"</span><br><br>
+      <span style="color:#64748b;"># 3. Konfigurasi Scope di /etc/dhcp/dhcpd.conf</span><br>
+<pre style="color:#67e8f9;margin-top:6px;">subnet 192.168.10.0 netmask 255.255.255.0 {
+  range 192.168.10.50 192.168.10.150;
+  option routers 192.168.10.1;
+  option domain-name-servers 192.168.10.1, 8.8.8.8;
+  default-lease-time 7200;       # 2 Jam
+  max-lease-time 86400;          # 24 Jam
+}</pre>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Static MAC Reservation -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> IP Reservation (Fixed MAC Binding)</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Untuk perangkat khusus seperti Printer Jaringan atau Access Point, buat reservasi IP berdasarkan MAC Address:</p>
+
+    <div class="code-block">
+<pre style="color:#fde68a;">host printer-lab-tkj {
+  hardware ethernet 00:11:22:33:44:55;
+  fixed-address 192.168.10.200;
+}</pre>
+      <span style="color:#64748b;"># Restart layanan & cek status</span><br>
+      <span style="color:#38bdf8;">sudo systemctl restart isc-dhcp-server</span><br>
+      <span style="color:#38bdf8;">sudo systemctl status isc-dhcp-server</span>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CBT Quiz -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <div class="footer-deck">
+    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn-nav-bottom secondary">← Pertemuan 3: User & Permission</a>
+    <a href="Server_Pert_5_konfigurasi-dns-server-bind9.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 5: DNS Server BIND9 →</a>
+  </div>
+</main>
+
+<script src="cbt-anti-cheat.js"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi: Konfigurasi DHCP Server & DORA Process',
+      subject: 'Infrastruktur Server — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Urutan 4 fase jabat tangan (handshake) yang benar dalam proses peminjaman IP pada DHCP adalah?",
+          options: [
+            "Discover -> Offer -> Request -> Acknowledge (DORA)",
+            "Request -> Offer -> Discover -> Accept",
+            "Demand -> Order -> Receive -> Allocate",
+            "Ping -> Connect -> Authorize -> Bind"
+          ],
+          correctIndex: 0,
+          explanation: "Proses DORA: Discover (Client cari server) -> Offer (Server tawarkan IP) -> Request (Client setuju) -> Acknowledge (Server ikat sewa)."
+        },
+        {
+          question: "Parameter dalam dhcpd.conf yang menentukan rentang batas awal hingga akhir IP yang dapat dibagikan otomatis ke client adalah?",
+          options: ["subnet", "range 192.168.10.50 192.168.10.150;", "option routers", "default-lease-time"],
+          correctIndex: 1,
+          explanation: "Keyword 'range [ip_awal] [ip_akhir];' menentukan IP pool / scope yang disewakan ke client."
+        },
+        {
+          question: "Fitur yang digunakan untuk memastikan sebuah perangkat (misal Printer/Server) selalu mendapatkan alamat IP yang persis sama berdasarkan alamat fisik kartu jaringannya disebut?",
+          options: ["Default Gateway", "IP Reservation / Static MAC Binding (fixed-address)", "IP Subnetting", "DNS Forwarder"],
+          correctIndex: 1,
+          explanation: "Fixed address yang dipetakan ke hardware ethernet (MAC Address) menjamin perangkat selalu memperoleh IP khusus yang sama."
+        }
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>

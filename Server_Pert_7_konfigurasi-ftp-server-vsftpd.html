@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 7: Konfigurasi FTP Server (vsftpd) — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(0, 240, 255, 0.2);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--violet); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--violet) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 10px 0; }
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 2 / Pert. 7)</span></div>
+    <div><a href="index.html" style="color:var(--cyan);font-family:var(--font-mono);font-size:11.5px;text-decoration:none;">🏠 Dashboard Portal</a></div>
+  </div>
+</header>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 2 HARI KE-2</div>
+    <h1>Konfigurasi FTP Server (vsftpd & Chroot Jail)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:720px;">Mengatur layanan transfer file berkecepatan tinggi menggunakan VSFTPD, isolasi keamanan Chroot Jail user, dan pengujian upload/download dengan client FileZilla.</p>
+  </section>
+
+  <!-- SECTION 1: Konsep FTP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Cara Kerja FTP (Port 21 Command & Port 20 Data)</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">FTP (File Transfer Protocol) menggunakan 2 saluran koneksi terpisah:</p>
+    <ul style="padding-left:20px;font-size:13.5px;color:var(--text-sub);line-height:1.7;margin-top:8px;">
+      <li><strong>Port 21 (Command Channel):</strong> Mengirim perintah navigasi, otentikasi login, dan kontrol sesi.</li>
+      <li><strong>Port 20 (Data Channel):</strong> Mentransfer aliran data file (upload/download file besar).</li>
+    </ul>
+  </section>
+
+  <!-- SECTION 2: Konfigurasi vsftpd.conf -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Aman /etc/vsftpd.conf</h2>
+    <div class="code-block">
+      <span style="color:#64748b;"># 1. Instal vsftpd</span><br>
+      <span style="color:#38bdf8;">sudo apt install -y vsftpd</span><br><br>
+      <span style="color:#64748b;"># 2. Pengaturan keamanan di /etc/vsftpd.conf</span><br>
+<pre style="color:#67e8f9;">anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+local_umask=022
+pasv_min_port=40000
+pasv_max_port=40100</pre>
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+      <span style="color:#64748b;"># Restart layanan vsftpd</span><br>
+      <span style="color:#38bdf8;">sudo systemctl restart vsftpd</span><br>
+      <span style="color:#38bdf8;">sudo systemctl status vsftpd</span>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CBT Quiz -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <div class="footer-deck">
+    <a href="Server_Pert_6_konfigurasi-web-server-apache-nginx.html" class="btn-nav-bottom secondary">← Pertemuan 6: Web Server</a>
+    <a href="Server_Pert_8_konfigurasi-mail-server-postfix.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 8: Mail Server →</a>
+  </div>
+</main>
+
+<script src="cbt-anti-cheat.js"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi: Konfigurasi FTP Server & Chroot Jail',
+      subject: 'Infrastruktur Server — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Fitur keamanan 'chroot_local_user=YES' pada vsftpd berfungsi untuk?",
+          options: [
+            "Mengunci user agar hanya bisa mengakses folder home miliknya sendiri dan tidak bisa menjelajah ke file sistem root (/) lain",
+            "Mengizinkan login tanpa password",
+            "Membatasi kecepatan download",
+            "Menonaktifkan firewall"
+          ],
+          correctIndex: 0,
+          explanation: "Chroot Jail membatasi lingkungan navigasi user hanya di dalam direktori home mereka, mencegah mereka melihat file konfigurasi sensitif Linux."
+        },
+        {
+          question: "Aplikasi GUI client populer yang digunakan pada komputer teknisi/client untuk transfer file via protokol FTP/SFTP adalah?",
+          options: ["FileZilla Client", "Wireshark", "Putty", "VLC"],
+          correctIndex: 0,
+          explanation: "FileZilla adalah software FTP client gratis dan open-source paling banyak digunakan untuk transfer file multi-protokol."
+        }
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>

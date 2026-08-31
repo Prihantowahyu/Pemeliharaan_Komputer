@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 1: Konsep Dasar Infrastruktur Server & Data Center — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+  :root {
+    --bg-void: #030712;
+    --bg-surface: #070e1e;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-card: #0d1b36;
+    --panel-border: rgba(0, 240, 255, 0.2);
+    --panel-bright: rgba(0, 240, 255, 0.45);
+    
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --cyan-soft: #38bdf8;
+    --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.35);
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.35);
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image: 
+      radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%),
+      radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.08), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.06), transparent 45%);
+    background-attachment: fixed;
+  }
+
+  /* Grid Overlay Background */
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image: 
+      linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .content-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* Top Navigation & Sticky Progress Bar */
+  .top-hud {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--emerald)); width: 0%; transition: width 0.3s ease; }
+  
+  .top-hud-inner {
+    max-width: 1040px; margin: 0 auto;
+    padding: 10px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px;
+  }
+  .hud-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .hud-badge span.pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+
+  .hud-actions { display: flex; gap: 8px; align-items: center; }
+  .btn-nav-top {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+    padding: 6px 14px; border-radius: var(--radius-sm);
+    background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border);
+    color: var(--text-sub); text-decoration: none; transition: 0.2s;
+  }
+  .btn-nav-top:hover { color: var(--cyan); border-color: var(--cyan); }
+
+  /* Hero Section */
+  .hero-card {
+    margin: 32px 0 28px;
+    background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    box-shadow: 0 20px 50px -15px rgba(0, 240, 255, 0.15);
+    position: relative; overflow: hidden;
+  }
+  .hero-card::before {
+    content: "DATA CENTER";
+    position: absolute; right: -20px; bottom: -30px;
+    font-family: var(--font-heading); font-size: 90px; font-weight: 900;
+    color: rgba(255, 255, 255, 0.02); pointer-events: none;
+  }
+  .tag-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 100px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan);
+    margin-bottom: 14px;
+  }
+  .hero-card h1 {
+    font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800; line-height: 1.25; margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 40%, var(--cyan-soft) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-card p.lead {
+    font-size: 15px; color: var(--text-sub); max-width: 720px; line-height: 1.6;
+  }
+
+  /* Info Strip Grid */
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin: 24px 0 32px;
+  }
+  .meta-box {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    transition: 0.2s;
+  }
+  .meta-box:hover { border-color: var(--cyan); transform: translateY(-2px); }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 15px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  /* Content Cards */
+  .section-card {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(12px);
+  }
+  .section-title {
+    font-family: var(--font-heading); font-size: 20px; font-weight: 700;
+    color: var(--text-main); display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .section-title span.num {
+    display: inline-flex; width: 28px; height: 28px; border-radius: 8px;
+    background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono);
+    font-size: 13px; font-weight: 800; align-items: center; justify-content: center;
+  }
+
+  /* Server Types Comparator Grid */
+  .types-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px; margin-top: 16px;
+  }
+  .type-card {
+    background: var(--panel-card);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    transition: 0.3s;
+    position: relative;
+  }
+  .type-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 10px 30px -10px var(--cyan-glow);
+    transform: translateY(-3px);
+  }
+  .type-badge {
+    display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .badge-phys { background: rgba(56, 189, 248, 0.15); color: var(--cyan-soft); border: 1px solid var(--cyan-soft); }
+  .badge-virt { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border: 1px solid var(--violet); }
+  .badge-cloud { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid var(--emerald); }
+
+  .type-card h3 { font-family: var(--font-heading); font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .type-card p { font-size: 13px; color: var(--text-sub); line-height: 1.55; }
+  .type-card ul { margin-top: 12px; padding-left: 18px; font-size: 12.5px; color: var(--text-sub); }
+  .type-card li { margin-bottom: 6px; }
+
+  /* Interactive Data Center Rack Explorer */
+  .rack-explorer {
+    display: grid; grid-template-columns: 280px 1fr;
+    gap: 20px; margin-top: 16px;
+    background: #060c18; border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding: 20px;
+  }
+  @media(max-width: 768px) {
+    .rack-explorer { grid-template-columns: 1fr; }
+  }
+  .rack-chassis {
+    background: #0a1426; border: 2px solid #1e3a68;
+    border-radius: 8px; padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .rack-unit {
+    background: #102140; border: 1px solid #23487c;
+    border-radius: 6px; padding: 10px;
+    cursor: pointer; transition: 0.2s;
+    font-family: var(--font-mono); font-size: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .rack-unit:hover, .rack-unit.active {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  }
+  .rack-unit .led {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--emerald);
+    box-shadow: 0 0 6px var(--emerald);
+  }
+  .rack-details-pane {
+    background: #091324; border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px; padding: 20px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .rack-details-pane h4 {
+    font-family: var(--font-heading); font-size: 18px; color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .rack-details-pane p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
+  .rack-spec-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--violet);
+    background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet);
+    padding: 3px 8px; border-radius: 4px; margin-top: 12px; align-self: flex-start;
+  }
+
+  /* Data Center Tier Table */
+  .tier-table-wrap { overflow-x: auto; margin-top: 14px; }
+  .tier-table {
+    width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;
+  }
+  .tier-table th {
+    background: #0d1b36; color: var(--cyan); font-family: var(--font-mono);
+    font-size: 11.5px; padding: 12px 16px; border-bottom: 2px solid var(--panel-border);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .tier-table td {
+    padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-sub); vertical-align: middle;
+  }
+  .tier-table tr:hover td { background: rgba(0, 240, 255, 0.04); color: var(--text-main); }
+  .tier-table td.highlight { font-family: var(--font-mono); font-weight: 700; color: var(--emerald); }
+
+  /* Interactive Terminal Simulator Box */
+  .terminal-box {
+    background: #050a12; border: 1px solid #1c3558;
+    border-radius: 8px; overflow: hidden; margin-top: 16px;
+    font-family: var(--font-mono);
+  }
+  .terminal-bar {
+    background: #0c182c; border-bottom: 1px solid #1c3558;
+    padding: 8px 14px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .term-dots { display: flex; gap: 6px; }
+  .term-dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-dots span:nth-child(1) { background: #ff5f56; }
+  .term-dots span:nth-child(2) { background: #ffbd2e; }
+  .term-dots span:nth-child(3) { background: #27c93f; }
+  .term-title { font-size: 11px; color: var(--text-muted); }
+  .terminal-body { padding: 16px; font-size: 12.5px; color: #a5f3fc; line-height: 1.7; }
+  .terminal-body .cmd { color: #38bdf8; font-weight: 700; }
+  .terminal-body .out { color: #cbd5e1; }
+  .terminal-body .comment { color: #64748b; }
+
+  /* Footer & Navigation Deck */
+  .footer-deck {
+    margin-top: 40px; padding: 20px 24px;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: var(--radius-md);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+  }
+  .btn-nav-bottom {
+    font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
+    padding: 8px 18px; border-radius: var(--radius-sm);
+    text-decoration: none; transition: 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-nav-bottom.primary {
+    background: var(--cyan); color: var(--bg-void);
+    box-shadow: 0 0 16px var(--cyan-glow);
+  }
+  .btn-nav-bottom.primary:hover { background: #fff; box-shadow: 0 0 24px var(--cyan); }
+  .btn-nav-bottom.secondary {
+    background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border);
+    color: var(--text-sub);
+  }
+  .btn-nav-bottom.secondary:hover { color: var(--cyan); border-color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- Top Navigation HUD -->
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge">
+      <span class="pulse-dot"></span>
+      <span>Infrastruktur Server XII TKJ — Blok 1 (Hari 1)</span>
+    </div>
+    <div class="hud-actions">
+      <a href="index.html" class="btn-nav-top">🏠 Dashboard Portal</a>
+    </div>
+  </div>
+</header>
+
+<main class="content-wrap">
+
+  <!-- Hero Module Header -->
+  <section class="hero-card">
+    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 1 HARI KE-1</div>
+    <h1>Konsep Dasar Infrastruktur Server & Data Center</h1>
+    <p class="lead">Memahami arsitektur server, perbedaan server fisik, virtualisasi, dan cloud computing, serta komponen vital standar Tier pada Data Center modern.</p>
+  </section>
+
+  <!-- Meta Info Strip -->
+  <div class="meta-grid">
+    <div class="meta-box">
+      <div class="k">Capaian Pembelajaran</div>
+      <div class="v">Arsitektur & Peran Server TI</div>
+    </div>
+    <div class="meta-box">
+      <div class="k">Alokasi Waktu</div>
+      <div class="v">9 Jam Pelajaran (9 JP)</div>
+    </div>
+    <div class="meta-box">
+      <div class="k">Model Belajar</div>
+      <div class="v">Teori, Simulasi Rack & CBT</div>
+    </div>
+    <div class="meta-box">
+      <div class="k">Profil Pancasila</div>
+      <div class="v">Bernalar Kritis, Mandiri</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Pengertian & Jenis Server -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Pengertian & Tipe Arsitektur Server</h2>
+    <p style="color: var(--text-sub); font-size: 14.5px;">
+      <strong>Server</strong> adalah sistem komputer khusus yang memiliki spesifikasi tinggi, keandalan tinggi (24/7 uptime), dan bertugas melayani permintaan (request) dari komputer <em>client</em> dalam suatu jaringan lokal maupun internet.
+    </p>
+
+    <div class="types-grid">
+      <!-- Fisik -->
+      <div class="type-card">
+        <span class="type-badge badge-phys">Hardware Dedicated</span>
+        <h3>1. Server Fisik (Bare Metal)</h3>
+        <p>Unit server fisik berbentuk Rackmount / Tower / Blade yang berjalan langsung di atas hardware tanpa lapisan virtualisasi.</p>
+        <ul>
+          <li><strong>Kelebihan:</strong> Performa maksimal, latency paling rendah, akses penuh ke hardware.</li>
+          <li><strong>Kekurangan:</strong> Biaya awal mahal, sulit di-scale cepat, utilisasi CPU sering mubazir.</li>
+        </ul>
+      </div>
+
+      <!-- Virtual -->
+      <div class="type-card">
+        <span class="type-badge badge-virt">Hypervisor / VM</span>
+        <h3>2. Server Virtual (Virtual Machine)</h3>
+        <p>Server logis yang berjalan di atas Hypervisor (Proxmox, VMware ESXi, KVM) membagi 1 server fisik menjadi banyak VM mandiri.</p>
+        <ul>
+          <li><strong>Kelebihan:</strong> Efisiensi biaya tinggi, snapshot & backup mudah, isolasi aman.</li>
+          <li><strong>Kekurangan:</strong> Memiliki overhead performa kecil dari layer hypervisor.</li>
+        </ul>
+      </div>
+
+      <!-- Cloud -->
+      <div class="type-card">
+        <span class="type-badge badge-cloud">Cloud Computing</span>
+        <h3>3. Cloud Server (IaaS / PaaS)</h3>
+        <p>Infrastruktur komputasi server elastis yang disediakan oleh cloud provider (AWS, Google Cloud, Azure, DigitalOcean).</p>
+        <ul>
+          <li><strong>Kelebihan:</strong> Bayar sesuai pemakaian (Pay-as-you-go), uptime tinggi, deploy instan.</li>
+          <li><strong>Kekurangan:</strong> Bergantung koneksi internet, biaya jangka panjang bisa tinggi jika tidak dikelola.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Komponen Fisik Data Center & Rack Explorer -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Komponen Vital Data Center & Server Rack</h2>
+    <p style="color: var(--text-sub); font-size: 14.5px;">
+      Data Center adalah fasilitas fisik terpusat yang dirancang untuk menampung ratusan hingga ribuan server, sistem penyimpanan data (SAN/NAS), dan perangkat jaringan pendukung.
+    </p>
+
+    <!-- Interactive Rack Explorer -->
+    <div class="rack-explorer">
+      <div class="rack-chassis">
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--cyan); text-align: center; margin-bottom: 4px;">— SERVER RACK 42U —</div>
+        <div class="rack-unit active" onclick="showRackDetail('patch')">
+          <span>01. Patch Panel 24-Port</span><span class="led"></span>
+        </div>
+        <div class="rack-unit" onclick="showRackDetail('switch')">
+          <span>02. Core Switch 10Gbps</span><span class="led"></span>
+        </div>
+        <div class="rack-unit" onclick="showRackDetail('server')">
+          <span>03. 2U Rack Server (2x Xeon)</span><span class="led"></span>
+        </div>
+        <div class="rack-unit" onclick="showRackDetail('storage')">
+          <span>04. SAN Storage Array (NVMe)</span><span class="led"></span>
+        </div>
+        <div class="rack-unit" onclick="showRackDetail('pdu')">
+          <span>05. Managed PDU (Listrik)</span><span class="led"></span>
+        </div>
+        <div class="rack-unit" onclick="showRackDetail('ups')">
+          <span>06. Online Rack UPS 6000VA</span><span class="led"></span>
+        </div>
+      </div>
+
+      <div class="rack-details-pane" id="rackDetailsBox">
+        <h4 id="rackDetailTitle">Patch Panel 24-Port</h4>
+        <p id="rackDetailDesc">Titik terminasi kabel UTP Cat6/Cat6a dari seluruh workstation dan server room untuk manajemen kabel yang rapi dan terorganisir.</p>
+        <div class="rack-spec-tag" id="rackDetailSpec">Standar: 19 Inch Rackmount · RJ-45 Cat6a</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Standar Keandalan Data Center (Tier 1 - Tier 4) -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Standar Keandalan Tier Data Center (Uptime Institute)</h2>
+    <p style="color: var(--text-sub); font-size: 14.5px;">
+      Standar Tier mengukur seberapa andal (*resilient*) sebuah data center dalam menjaga server tetap beroperasi tanpa henti:
+    </p>
+
+    <div class="tier-table-wrap">
+      <table class="tier-table">
+        <thead>
+          <tr>
+            <th>Tier Level</th>
+            <th>Ketersediaan (Uptime)</th>
+            <th>Maks Downtime / Tahun</th>
+            <th>Redundansi Komponen</th>
+            <th>Karakteristik Utama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#fff;">Tier 1</strong> (Basic)</td>
+            <td class="highlight">99.671%</td>
+            <td>~28.8 Jam</td>
+            <td>N (Non-redundant)</td>
+            <td>Jalur tunggal listrik & pendingin, mati saat maintenance.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff;">Tier 2</strong> (Redundant)</td>
+            <td class="highlight">99.741%</td>
+            <td>~22.0 Jam</td>
+            <td>N + 1 (Sebagian)</td>
+            <td>Memiliki genset cadangan & UPS tambahan.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff;">Tier 3</strong> (Concurrently Maintainable)</td>
+            <td class="highlight">99.982%</td>
+            <td>~1.6 Jam</td>
+            <td>N + 1 (Penuh)</td>
+            <td>Bisa maintenance tanpa mematikan server sama sekali.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff;">Tier 4</strong> (Fault Tolerant)</td>
+            <td class="highlight">99.995%</td>
+            <td>~26.3 Menit</td>
+            <td>2(N + 1) (Dual Active)</td>
+            <td>Tahan terhadap segala kegagalan komponen fisik & bencana.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Terminal Command Quick Preview -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Quick Peek: Terminal Linux Server</h2>
+    <p style="color: var(--text-sub); font-size: 14.5px;">
+      Sebagai persiapan untuk Pertemuan 2 (Instalasi Linux Server), berikut contoh perintah dasar untuk memeriksa identitas dan resource server di terminal:
+    </p>
+
+    <div class="terminal-box">
+      <div class="terminal-bar">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <div class="term-title">sysadmin@srv-datacenter-01:~</div>
+        <div style="font-size: 10.5px; color: var(--emerald);">● Connected (SSH)</div>
+      </div>
+      <div class="terminal-body">
+        <span class="comment"># 1. Cek spesifikasi CPU & core server</span><br>
+        <span class="cmd">sysadmin@srv-datacenter-01:~$</span> lscpu | grep "Model name\|CPU(s):"<br>
+        <span class="out">CPU(s):                   32<br>Model name:               Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz</span><br><br>
+        
+        <span class="comment"># 2. Cek kapasitas RAM yang tersedia</span><br>
+        <span class="cmd">sysadmin@srv-datacenter-01:~$</span> free -h<br>
+        <span class="out">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;used&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buff/cache<br>Mem:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;62Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;54Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1Gi</span><br><br>
+
+        <span class="comment"># 3. Cek uptime & rata-rata beban server</span><br>
+        <span class="cmd">sysadmin@srv-datacenter-01:~$</span> uptime<br>
+        <span class="out">&nbsp;10:28:40 up 142 days, 4:12, 1 user, load average: 0.12, 0.08, 0.05</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Kuis Interaktif CBT -->
+  <section class="section-card" id="cbtSection">
+    <h2 class="section-title"><span class="num">5</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <!-- Navigation Deck -->
+  <div class="footer-deck">
+    <a href="index.html" class="btn-nav-bottom secondary">
+      🏠 Kembali ke Dashboard Portal
+    </a>
+    <a href="Server_Pert_2_instalasi-linux-server.html" class="btn-nav-bottom primary">
+      Lanjut ke Pertemuan 2: Instalasi Linux Server →
+    </a>
+  </div>
+
+</main>
+
+<script src="cbt-anti-cheat.js"></script>
+<script>
+// Rack explorer data
+const rackData = {
+  patch: {
+    title: "Patch Panel 24-Port Cat6a",
+    desc: "Titik terminasi kabel jaringan dari seluruh server dan perangkat. Berfungsi mencegah kerusakan port switch akibat sering cabut-pasang kabel.",
+    spec: "Standar: 19 Inch 1U · 24 RJ-45 Ports · Gold Plated"
+  },
+  switch: {
+    title: "Core Switch Managed 10Gbps SFP+",
+    desc: "Jantung lalu lintas data di dalam rack server. Menghubungkan setiap server dengan bandwidth tinggi serta mendukung VLAN dan Link Aggregation (LACP).",
+    spec: "Kecepatan: 48-Port 1G + 4-Port 10G SFP+ · L3 Managed"
+  },
+  server: {
+    title: "2U Rack Server (Dual Xeon Enterprise)",
+    desc: "Unit komputasi utama yang menjalankan sistem operasi Linux Server dan hypervisor untuk menjalankan aplikasi database, web server, dan sistem sekolah.",
+    spec: "Dual Intel Xeon Gold · 64GB ECC RAM · Redundant Hot-Swap PSU"
+  },
+  storage: {
+    title: "SAN Storage Array (NVMe / SAS SSD)",
+    desc: "Perangkat penyimpanan terpusat berkecepatan tinggi dengan proteksi RAID untuk memastikan data tidak hilang meskipun salah satu disk rusak.",
+    spec: "Kapasitas: 24 Bay NVMe · Hardware RAID 10 · Dual Controller"
+  },
+  pdu: {
+    title: "Power Distribution Unit (Managed PDU)",
+    desc: "Colokan listrik pintar khusus rack server yang dapat memantau konsumsi daya per soket secara real-time dan mencegah korsleting listrik.",
+    spec: "Kapasitas: 32A 230V · Remote IP Metering & Surge Protection"
+  },
+  ups: {
+    title: "Online Double-Conversion Rack UPS 6000VA",
+    desc: "Penyedia daya cadangan darurat berbasis baterai yang memasok listrik instan (0 ms transfer time) saat listrik PLN padam sebelum genset menyala.",
+    spec: "Daya: 6000VA / 5400W · Pure Sinewave · Hot-Swap Battery"
+  }
+};
+
+function showRackDetail(key) {
+  document.querySelectorAll('.rack-unit').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const d = rackData[key];
+  if(d) {
+    document.getElementById('rackDetailTitle').textContent = d.title;
+    document.getElementById('rackDetailDesc').textContent = d.desc;
+    document.getElementById('rackDetailSpec').textContent = d.spec;
+  }
+}
+
+// Scroll Progress Tracker
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  const pct = (s / h) * 100;
+  document.getElementById('pFill').style.width = pct + '%';
+});
+
+// Initialize CBT Engine
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi: Konsep Dasar Infrastruktur Server & Data Center',
+      subject: 'Infrastruktur Server — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Komponen fisik di dalam Data Center yang berfungsi sebagai penyedia daya listrik darurat dengan waktu jeda 0 ms saat listrik PLN padam adalah?",
+          options: ["PDU (Power Distribution Unit)", "Online UPS (Uninterruptible Power Supply)", "Genset Diesel", "Core Switch"],
+          correctIndex: 1,
+          explanation: "Online Double-Conversion UPS menyuplai listrik tanpa jeda (0 ms transfer time) dari baterai cadangan saat sumber listrik utama padam."
+        },
+        {
+          question: "Standar Data Center Tier 3 menurut Uptime Institute memiliki tingkat ketersediaan (uptime) minimal sebesar?",
+          options: ["99.671%", "99.741%", "99.982% (Downtime maks ~1.6 jam/tahun)", "95.000%"],
+          correctIndex: 2,
+          explanation: "Tier 3 memiliki uptime 99.982% dan bersifat Concurrently Maintainable (dapat dirawat tanpa mematikan layanan server)."
+        },
+        {
+          question: "Karakteristik utama dari server tipe Bare Metal (Dedicated Server Fisik) dibandingkan Virtual Machine adalah?",
+          options: [
+            "Berjalan di atas software Hypervisor",
+            "Hardware digunakan langsung 100% tanpa lapisan virtualisasi, memberikan performa & latency terbaik",
+            "Dapat di-scale instan dalam hitungan detik",
+            "Hanya bisa diakses lewat browser"
+          ],
+          correctIndex: 1,
+          explanation: "Bare metal adalah server fisik murni tanpa perantara hypervisor sehingga menghasilkan performa komputasi tertinggi."
+        },
+        {
+          question: "Model komputasi awan di mana pengguna menyewa mesin server virtual, storage, dan konfigurasi jaringan secara elastis disebut model?",
+          options: ["SaaS (Software as a Service)", "IaaS (Infrastructure as a Service)", "PaaS (Platform as a Service)", "DaaS (Desktop as a Service)"],
+          correctIndex: 1,
+          explanation: "IaaS (Infrastructure as a Service) menyediakan infrastruktur server virtual dan storage yang dapat dikonfigurasi bebas oleh pengguna."
+        },
+        {
+          question: "Perangkat yang berfungsi sebagai titik pusat penataan dan terminasi kabel UTP dari server dan workstation pada rack adalah?",
+          options: ["Patch Panel", "PDU", "KVM Switch", "San Storage"],
+          correctIndex: 0,
+          explanation: "Patch Panel digunakan untuk terminasi dan manajemen kabel jaringan agar rapi, aman, dan mudah di-troubleshoot."
+        }
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>

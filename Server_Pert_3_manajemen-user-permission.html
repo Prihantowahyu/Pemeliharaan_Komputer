@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 3: Manajemen User, Group & Permission Linux Server — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-card: #0d1b36;
+    --panel-border: rgba(0, 240, 255, 0.2);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--violet); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--violet) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 10px 0; }
+  .perm-calc { background: #081224; border: 1px solid #1c3558; border-radius: 8px; padding: 20px; margin-top: 14px; }
+  .perm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+  @media(max-width:600px){ .perm-grid { grid-template-columns: 1fr; } }
+  .perm-box { background: #0e1c36; border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 6px; }
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 3)</span></div>
+    <div><a href="index.html" style="color:var(--cyan);font-family:var(--font-mono);font-size:11.5px;text-decoration:none;">🏠 Dashboard Portal</a></div>
+  </div>
+</header>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 1 HARI KE-3</div>
+    <h1>Manajemen User, Group & Hak Akses (Permission) di Linux Server</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:720px;">Mengelola otentikasi user & group, kontrol hak akses file/direktori dengan skema oktal (chmod/chown), hak administratif sudo, dan penerapan prinsip Least Privilege.</p>
+  </section>
+
+  <!-- SECTION 1: Manajemen User & Group -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Perintah Manajemen User & Group</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Di sistem Linux multi-user, setiap layanan dan pengguna harus memiliki identitas terpisah demi keamanan sistem:</p>
+    
+    <div class="code-block">
+      <span style="color:#64748b;"># 1. Membuat group baru untuk tim web admin</span><br>
+      <span style="color:#38bdf8;">sudo groupadd webdev</span><br><br>
+      <span style="color:#64748b;"># 2. Membuat user baru dengan direktori home & shell bash</span><br>
+      <span style="color:#38bdf8;">sudo useradd -m -s /bin/bash -g webdev ahmad</span><br>
+      <span style="color:#38bdf8;">sudo passwd ahmad</span><br><br>
+      <span style="color:#64748b;"># 3. Menambahkan user ke group sudo (hak admin)</span><br>
+      <span style="color:#38bdf8;">sudo usermod -aG sudo ahmad</span>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Linux Permission & Ownership (chmod / chown) -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Hak Akses File & Direktori (rwx & Nilai Oktal)</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Setiap file memiliki 3 level hak akses: <strong>User (Owner)</strong>, <strong>Group</strong>, dan <strong>Others</strong>.</p>
+    
+    <div class="perm-calc">
+      <h4 style="color:var(--cyan);margin-bottom:8px;font-family:var(--font-heading);">Tabel Nilai Bobot Oktal Permission</h4>
+      <div class="perm-grid">
+        <div class="perm-box">
+          <div style="color:var(--emerald);font-weight:700;font-family:var(--font-mono);">r (Read) = Nilai 4</div>
+          <div style="font-size:12px;color:var(--text-sub);margin-top:4px;">Izin membaca isi file atau melihat daftar isi folder.</div>
+        </div>
+        <div class="perm-box">
+          <div style="color:var(--amber);font-weight:700;font-family:var(--font-mono);">w (Write) = Nilai 2</div>
+          <div style="font-size:12px;color:var(--text-sub);margin-top:4px;">Izin mengedit, membuat, dan menghapus file/folder.</div>
+        </div>
+        <div class="perm-box">
+          <div style="color:#c4b5fd;font-weight:700;font-family:var(--font-mono);">x (Execute) = Nilai 1</div>
+          <div style="font-size:12px;color:var(--text-sub);margin-top:4px;">Izin menjalankan skrip/program atau masuk ke folder.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;background:#050c18;padding:12px;border-radius:6px;font-family:var(--font-mono);font-size:12.5px;">
+        <span style="color:var(--cyan);">Contoh 'chmod 755 /var/www/html':</span><br>
+        • Owner = 7 (4+2+1 = rwx : baca, tulis, eksekusi)<br>
+        • Group = 5 (4+0+1 = r-x : baca & eksekusi)<br>
+        • Others = 5 (4+0+1 = r-x : baca & eksekusi)
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:14px;">
+      <span style="color:#64748b;"># Mengubah kepemilikan user & group file (chown)</span><br>
+      <span style="color:#38bdf8;">sudo chown -R ahmad:webdev /var/www/html</span><br>
+      <span style="color:#38bdf8;">sudo chmod -R 755 /var/www/html</span>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Prinsip Least Privilege -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Prinsip Least Privilege (Keamanan Server)</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">
+      <strong>Prinsip Least Privilege (PoLP)</strong> menyatakan bahwa setiap user, program, atau layanan server hanya boleh diberikan hak akses minimum yang mutlak dibutuhkan untuk menjalankan tugasnya.
+    </p>
+    <ul style="margin-top:10px;padding-left:20px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+      <li>❌ <strong>Hindari:</strong> Login langsung sebagai user <code>root</code> via SSH (nonaktifkan <code>PermitRootLogin</code> di sshd_config).</li>
+      <li>❌ <strong>Hindari:</strong> Memberi permission <code>chmod 777</code> pada folder publik web.</li>
+      <li>✅ <strong>Gunakan:</strong> User biasa dengan perintah <code>sudo</code> spesifik yang tercatat di audit log (<code>/var/log/auth.log</code>).</li>
+    </ul>
+  </section>
+
+  <!-- SECTION 4: CBT Quiz -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <div class="footer-deck">
+    <a href="Server_Pert_2_instalasi-linux-server.html" class="btn-nav-bottom secondary">← Pertemuan 2: Instalasi Linux</a>
+    <a href="Server_Pert_4_konfigurasi-dhcp-server.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 4: DHCP Server →</a>
+  </div>
+</main>
+
+<script src="cbt-anti-cheat.js"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi: Manajemen User, Group & Permission Linux',
+      subject: 'Infrastruktur Server — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Kombinasi nilai oktal untuk hak akses file yang memberikan izin 'Read & Write' kepada Owner, dan hanya 'Read' kepada Group serta Others adalah?",
+          options: ["644 (4+2=6, 4, 4)", "755", "700", "777"],
+          correctIndex: 0,
+          explanation: "Nilai 644 berarti Owner=rw- (4+2=6), Group=r-- (4), Others=r-- (4)."
+        },
+        {
+          question: "Perintah CLI untuk mengganti pemilik (owner) dan grup sebuah file atau direktori sekaligus adalah?",
+          options: ["chmod", "chown user:group nama_file", "groupadd", "usermod"],
+          correctIndex: 1,
+          explanation: "'chown user:group file' mengubah user owner sekaligus group owner dari target file/folder."
+        },
+        {
+          question: "Mengapa memberikan hak akses 'chmod 777' pada direktori web server sangat berbahaya dan dilarang?",
+          options: [
+            "Membuat website menjadi lambat",
+            "Siapapun (Others/penyerang) dapat mengunggah, mengedit, atau menghapus file skrip berbahaya di server",
+            "Menghabiskan kapasitas RAM server",
+            "Mematikan koneksi internet server"
+          ],
+          correctIndex: 1,
+          explanation: "Permission 777 mengizinkan semua pihak (termasuk user publik) menulis file ke dalam sistem (rawan Web Shell / Defacement)."
+        },
+        {
+          question: "File sistem Linux yang menyimpan informasi hash password terenkripsi dari seluruh user terdaftar adalah?",
+          options: ["/etc/passwd", "/etc/shadow", "/etc/hosts", "/etc/group"],
+          correctIndex: 1,
+          explanation: "File /etc/shadow menyimpan hash password terenkripsi dengan proteksi ketat (hanya bisa dibaca oleh root)."
+        }
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v19-full-offline';
+const CACHE_NAME = 'bengkel-hw-pwa-v20-server-xii-full-offline';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
@@ -13,7 +13,7 @@ const ASSETS_TO_CACHE = [
   './LKPD_BIOS_UEFI.pdf',
   './LKPD_BIOS_UEFI.docx',
 
-  // Modul Semester Ganjil
+  // Modul Pemeliharaan Komputer Kelas X (Semester Ganjil)
   './pert_1_Materi_K3_Prosedur_Kerja_Interaktif.html',
   './Pert_2_materi-hardware-komputer.html',
   './Pert_2_simulasi-casing-pc.html',
@@ -30,7 +30,7 @@ const ASSETS_TO_CACHE = [
   './Pert_10_materi-perawatan-berkala.html',
   './Pert_11_materi-backup-restore.html',
 
-  // Modul Semester Genap
+  // Modul Pemeliharaan Komputer Kelas X (Semester Genap)
   './Genap_Pert_1_upgrade-komponen-komputer.html',
   './Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html',
   './Genap_Pert_3_perawatan-laptop-perangkat-mobile.html',
@@ -41,6 +41,18 @@ const ASSETS_TO_CACHE = [
   './Genap_Pert_8_studi-kasus-troubleshooting-kompleks.html',
   './Genap_Pert_9_proyek-perawatan-perbaikan-unit-sekolah.html',
   './Genap_Pert_10_uji-kompetensi-laporan-perawatan.html',
+
+  // Modul Infrastruktur Server Kelas XII (Semester Ganjil — 10 Pertemuan)
+  './Server_Pert_1_konsep-dasar-server-datacenter.html',
+  './Server_Pert_2_instalasi-linux-server.html',
+  './Server_Pert_3_manajemen-user-permission.html',
+  './Server_Pert_4_konfigurasi-dhcp-server.html',
+  './Server_Pert_5_konfigurasi-dns-server-bind9.html',
+  './Server_Pert_6_konfigurasi-web-server-apache-nginx.html',
+  './Server_Pert_7_konfigurasi-ftp-server-vsftpd.html',
+  './Server_Pert_8_konfigurasi-mail-server-postfix.html',
+  './Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html',
+  './Server_Pert_10_monitoring-troubleshooting-server.html',
 
   // Infografis Materi (JPG Cepat + PNG HD)
   './assets/infografis/infografis-bios-materi.jpg',
@@ -58,7 +70,7 @@ self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
-      console.log('[PWA-SW] Mengunduh seluruh materi untuk akses offline...');
+      console.log('[PWA-SW] Mengunduh seluruh materi (Kelas X & XII) untuk akses offline...');
       for (const asset of ASSETS_TO_CACHE) {
         try {
           await cache.add(asset);
@@ -66,12 +78,12 @@ self.addEventListener('install', event => {
           console.warn('[PWA-SW] Gagal cache:', asset, err);
         }
       }
-      console.log('[PWA-SW] Semua materi berhasil tersimpan untuk akses offline!');
+      console.log('[PWA-SW] Seluruh modul & infografis tersimpan offline!');
     })
   );
 });
 
-// 2. ACTIVATE EVENT: Bersihkan cache versi lama & langsung ambil kontrol client
+// 2. ACTIVATE EVENT: Bersihkan cache versi lama
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keyList => {
@@ -91,7 +103,6 @@ self.addEventListener('fetch', event => {
 
   const url = new URL(event.request.url);
 
-  // Penanganan request lokal / same-origin
   if (url.origin === location.origin) {
     event.respondWith(
       caches.match(event.request, { ignoreSearch: true }).then(cachedResponse => {
@@ -111,7 +122,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Penanganan resource pihak ketiga (Google Fonts, CDN, dsb)
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       if (cachedResponse) return cachedResponse;
@@ -121,9 +131,7 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
         }
         return networkResponse;
-      }).catch(() => {
-        return null;
-      });
+      }).catch(() => null);
     })
   );
 });
