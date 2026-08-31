@@ -4060,7 +4060,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         Panel Guru
       </button>
       <div class="footer-badge">
-        BENGKEL HARDWARE &middot; EDISI FUTURISTIK
+        KURIKULUM MERDEKA &middot; FASE F TKJ
       </div>
     </div>
   </footer>
@@ -4068,66 +4068,6 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 </div>
 
 <script>
-  /* ==========================================================
-     INTERACTIVE CANVAS BACKGROUND (Optional / Null Checked)
-     ========================================================== */
-  const canvas = document.getElementById('cyberCanvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 120 };
-
-    function resizeCanvas() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.8;
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.speedY = (Math.random() - 0.5) * 0.6;
-        this.color = Math.random() > 0.5 ? '#00f0ff' : '#8b5cf6';
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > width) this.speedX *= -1;
-        if (this.y < 0 || this.y > height) this.speedY *= -1;
-      }
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function initParticles() {
-      particles = [];
-      const count = Math.min(Math.floor((width * height) / 14000), 80);
-      for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
-    }
-    initParticles();
-
-    function animateCanvas() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateCanvas);
-    }
-    animateCanvas();
-  }
-
   /* ==========================================================
      DIGITAL CLOCK (Optional)
      ========================================================== */
