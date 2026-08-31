@@ -502,17 +502,16 @@ function runFW(){
 <script>
 function printL4(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>LKPD Keamanan Sistem</title><link rel="stylesheet" href="theme.css?v=28">
-</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Keamanan Sistem</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-4: KONFIGURASI KEAMANAN SISTEM</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
   ['nama','pc','fw','wsec','case','kesim'].forEach(id=>{
     const el=document.getElementById('l4_'+id);
     const label={nama:'Nama',pc:'No. PC',fw:'Aturan Firewall',wsec:'Windows Security',case:'Kasus USB',kesim:'Kesimpulan'}[id];
-    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||'—').replace(/
-/g,'<br>')+'</p><hr>');
+    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js?v=28"></script>
-</body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
   w.print();
 }
 </script>
@@ -566,6 +565,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js?v=28"></script>
-</body>
+</body></html>'); w.document.close(); w.print();</body>
 </html>

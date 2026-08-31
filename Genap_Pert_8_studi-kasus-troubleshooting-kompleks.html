@@ -524,16 +524,16 @@ function runCaseStudy() {
 <script>
 function printLKPD8(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>Laporan Kasus Troubleshooting</title><link rel="stylesheet" href="theme.css?v=28">
-</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>Laporan Kasus Troubleshooting</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LAPORAN INVESTIGASI TROUBLESHOOTING KOMPLEKS</h3><h4>SMK DIPONEGORO TUMPANG &middot; Kelas X TKJ</h4><hr></center>');
   ['nama','case','gejala','isolasi','solusi','verif'].forEach(id=>{
     const el=document.getElementById('l8_'+id);
     const labels={nama:'Nama Investigator',case:'Nomor Kasus',gejala:'A. Gejala & Log',isolasi:'B. Tahapan Isolasi 4 Layer',solusi:'C. Tindakan Solusi',verif:'D. Verifikasi & Rekomendasi'};
     if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru Penguji: ___________________</p><script src="theme.js?v=28"></script>
-</body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru Penguji: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
   w.print();
 }
 </script>
@@ -587,6 +587,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js?v=28"></script>
-</body>
+</body></html>'); w.document.close(); w.print();</body>
 </html>

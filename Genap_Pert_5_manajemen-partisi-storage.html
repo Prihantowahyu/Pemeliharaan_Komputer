@@ -309,25 +309,11 @@ function runDiskSim(){
     pD.style.width='47%';
     const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.1)','Unallocated (106GB)','20%','var(--text-muted)');
     pU.style.width='20%';
-    cmd.textContent='diskpart
-list disk
-select disk 0
-list partition
-select partition 2
-shrink desired=108544 minimum=51200
-
-// Hasil: 106 GB Unallocated Space tersedia';
+    cmd.textContent = 'diskpart\nlist disk\nselect disk 0\nlist partition\nselect partition 2\nshrink desired=108544 minimum=51200\n\n// Hasil: 106 GB Unallocated Space tersedia';
   }else if(op==='extend'){
     pD.style.width='67%';pD.textContent='D: Data (342GB)';
     const pU=document.getElementById('pNew');if(pU)pU.style.width='0';
-    cmd.textContent='diskpart
-list disk
-select disk 0
-list partition
-select partition 3
-extend
-
-// Partisi D: diperluas menggunakan seluruh Unallocated Space';
+    cmd.textContent = 'diskpart\nlist disk\nselect disk 0\nlist partition\nselect partition 3\nextend\n\n// Partisi D: diperluas menggunakan seluruh Unallocated Space';
   }else if(op==='new'){
     const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.1)','Unallocated','20%','var(--text-muted)');
     pU.style.width='20%';pU.textContent='Unallocated';
@@ -346,25 +332,12 @@ active
     pD.style.width='0';pD.textContent='';
     const pU=document.getElementById('pNew')||createPart('pNew','rgba(255,255,255,0.06)','Unallocated (240GB)','47%','var(--text-muted)');
     pU.style.width='47%';pU.textContent='Unallocated (240GB)';
-    cmd.textContent='PERINGATAN! Perintah ini menghapus semua data pada partisi secara permanen!
-
-diskpart
-list disk
-select disk 0
-list partition
-select partition 3
-delete partition override';
+    cmd.textContent = 'PERINGATAN! Perintah ini menghapus semua data pada partisi secara permanen!\n\ndiskpart\nlist disk\nselect disk 0\nlist partition\nselect partition 3\ndelete partition override';
   }else{
     pC.style.width='50%';pC.textContent='C: Windows (256 GB)';
     pD.style.width='47%';pD.textContent='D: Data (240 GB)';
     ['pNew','pE'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width='0';});
-    cmd.textContent='diskpart
-list disk
-select disk 0
-list partition
-detail disk
-
-// Tampilan partisi dikembalikan ke kondisi awal (2 partisi)';
+    cmd.textContent = 'diskpart\nlist disk\nselect disk 0\nlist partition\ndetail disk\n\n// Tampilan partisi dikembalikan ke kondisi awal (2 partisi)';
   }
 }
 function createPart(id,bg,text,w,col){
@@ -533,17 +506,16 @@ function createPart(id,bg,text,w,col){
 <script>
 function printL5(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>LKPD Partisi & SMART</title><link rel="stylesheet" href="theme.css?v=28">
-</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Partisi & SMART</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-5: MANAJEMEN PARTISI & ANALISIS S.M.A.R.T.</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
   const fields=[['nama','Nama'],['pc','No. PC'],['scheme','Skema Partisi'],['before','Partisi Sebelum'],['cmd','Perintah Diskpart'],['smart','Data S.M.A.R.T.'],['interpret','Interpretasi & Rekomendasi']];
   fields.forEach(([id,label])=>{
     const el=document.getElementById('l5_'+id);
-    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||el.options?.[el.selectedIndex]?.value||'—').replace(/
-/g,'<br>')+'</p><hr>');
+    if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||el.options?.[el.selectedIndex]?.value||'—').replace(/\n/g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js?v=28"></script>
-</body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.close();
+  w.print();
   w.print();
 }
 </script>
@@ -597,6 +569,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js?v=28"></script>
-</body>
+</body></html>'); w.document.close(); w.print();</body>
 </html>

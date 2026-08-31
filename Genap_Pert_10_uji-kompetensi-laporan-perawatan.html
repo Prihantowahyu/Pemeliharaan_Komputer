@@ -527,16 +527,16 @@ function calcUkkScoreLive() {
 <script>
 function printLKPD10(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>Sertifikat Evaluasi Portofolio TKJ</title><link rel="stylesheet" href="theme.css?v=28">
-</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>Sertifikat Evaluasi Portofolio TKJ</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LEMBAR EVALUASI PORTOFOLIO & KESIAPAN PKL</h3><h4>SMK DIPONEGORO TUMPANG &middot; KELAS X TKJ</h4><hr></center>');
   w.document.write('<p><b>Nama Siswa:</b> '+(document.getElementById('l10_nama').value||'—')+'</p>');
   w.document.write('<p><b>NISN / Meja:</b> '+(document.getElementById('l10_nisn').value||'—')+'</p><hr>');
   w.document.write('<p><b>A. Rekapitulasi Capaian 180 JP:</b><br>'+(document.getElementById('l10_rekap').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
   w.document.write('<p><b>B. Refleksi Diri Siswa:</b><br>'+(document.getElementById('l10_refleksi').value||'—').replace(/\n/g,'<br>')+'</p><hr>');
   w.document.write('<p><b>C. Status Kesiapan PKL:</b> '+(document.getElementById('l10_ready').value)+'</p>');
-  w.document.write('<br><br><div style="display:flex;justify-content:space-between;"><div>Siswa Yang Dinilai,<br><br><br><br><b>(....................)</b></div><div>Guru Pembimbing TKJ,<br><br><br><br><b>Wahyu Prihanto</b></div></div><script src="theme.js?v=28"></script>
-</body></html>');
+  w.document.write('<br><br><div style="display:flex;justify-content:space-between;"><div>Siswa Yang Dinilai,<br><br><br><br><b>(....................)</b></div><div>Guru Pembimbing TKJ,<br><br><br><br><b>Wahyu Prihanto</b></div></div></body></html>');
+  w.document.close();
+  w.print();
   w.print();
 }
 </script>
@@ -590,6 +590,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js?v=28"></script>
-</body>
+</body></html>'); w.document.close(); w.print();</body>
 </html>

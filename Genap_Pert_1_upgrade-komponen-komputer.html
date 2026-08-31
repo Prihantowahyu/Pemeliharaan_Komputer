@@ -630,8 +630,7 @@ function printLKPD1() {
   const kendala = document.getElementById('lkpd_kendala').value || '(belum diisi)';
   const kesimpulan = document.getElementById('lkpd_kesimpulan').value || '(belum diisi)';
   const w = window.open('', '_blank');
-  w.document.write('<html><head><title>LKPD Upgrade Komputer</title><link rel="stylesheet" href="theme.css?v=28">
-</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Upgrade Komputer</title><link rel="stylesheet" href="theme.css?v=28"></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LEMBAR KERJA PESERTA DIDIK</h3><h4>Upgrade Komponen Komputer — SMK DIPONEGORO TUMPANG</h4><hr></center>');
   w.document.write('<p><b>Nama / Kelompok:</b> '+nama+'</p><p><b>Nomor Unit PC:</b> '+unit+'</p><p><b>Tanggal Praktik:</b> '+new Date().toLocaleDateString('id-ID')+'</p><hr>');
   w.document.write('<p><b>A. Spesifikasi Sistem Awal:</b><br>'+spec.replace(/\n/g,'<br>')+'</p><hr>');
@@ -639,8 +638,9 @@ function printLKPD1() {
   w.document.write('<p><b>C. Kendala &amp; Solusi:</b><br>'+kendala.replace(/\n/g,'<br>')+'</p><hr>');
   w.document.write('<p><b>D. Kesimpulan Teknis:</b><br>'+kesimpulan.replace(/\n/g,'<br>')+'</p>');
   w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p>');
-  w.document.write('<script src="theme.js?v=28"></script>
-</body></html>');
+  w.document.write('</body></html>');
+  w.document.close();
+  w.print();
   w.print();
 }
 </script>
@@ -727,6 +727,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js?v=28"></script>
-</body>
+</body></html>'); w.document.close(); w.print();</body>
 </html>
