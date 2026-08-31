@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v34-security-pin-protected';
+const CACHE_NAME = 'bengkel-hw-pwa-v35-modern-web-portal-redesign';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
