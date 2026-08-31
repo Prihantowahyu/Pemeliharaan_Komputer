@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v27-crystal-clear-light-theme';
+const CACHE_NAME = 'bengkel-hw-pwa-v28-crystal-clear-light-theme-full-contrast';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [

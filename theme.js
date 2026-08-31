@@ -41,9 +41,9 @@
       document.body.classList.add('light-mode');
     }
 
-    // Auto-inject Theme Toggle button to .hud-inner or header if not already present
-    const hudInner = document.querySelector('.hud-inner');
-    if (hudInner && !document.querySelector('.btn-theme-switcher')) {
+    // Auto-inject Theme Toggle button to .hud-inner, .topbar-inner, or topbar
+    const headerContainer = document.querySelector('.hud-inner, .topbar-inner, .topbar, .top-hud');
+    if (headerContainer && !document.querySelector('.btn-theme-switcher')) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'btn-theme-switcher';
@@ -52,12 +52,12 @@
       btn.style.marginLeft = 'auto';
       btn.style.marginRight = '8px';
       
-      // Insert before last action button
-      const lastChild = hudInner.lastElementChild;
+      // Insert before last action button if available
+      const lastChild = headerContainer.lastElementChild;
       if (lastChild) {
-        hudInner.insertBefore(btn, lastChild);
+        headerContainer.insertBefore(btn, lastChild);
       } else {
-        hudInner.appendChild(btn);
+        headerContainer.appendChild(btn);
       }
     }
     updateButtons(isLightCurrent);

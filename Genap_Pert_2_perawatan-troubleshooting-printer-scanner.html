@@ -228,7 +228,7 @@
     font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
   }
 </style>
-<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="theme.css?v=28">
 </head>
 <body>
 
@@ -544,7 +544,7 @@ function printLKPD2(){
   const hipotesis=document.getElementById('l2_hipotesis').value||'—';
   const langkah=document.getElementById('l2_langkah').value||'—';
   const status=document.getElementById('l2_status').value||'—';
-  w.document.write('<html><head><title>Laporan Servis Printer</title><link rel="stylesheet" href="theme.css">
+  w.document.write('<html><head><title>Laporan Servis Printer</title><link rel="stylesheet" href="theme.css?v=28">
 </head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LAPORAN SERVIS PRINTER — LKPD 2</h3><h4>SMK DIPONEGORO TUMPANG &middot; Kelas X TKJ</h4><hr></center>');
   w.document.write('<p><b>Teknisi:</b> '+nama+'</p><p><b>Printer:</b> '+printer+'</p><p><b>Tanggal:</b> '+new Date().toLocaleDateString('id-ID')+'</p><hr>');
@@ -555,7 +555,7 @@ function printLKPD2(){
   w.document.write('<p><b>C. Langkah Perbaikan:</b><br>'+langkah.replace(/
 /g,'<br>')+'</p>');
   w.document.write('<p><b>D. Status Akhir:</b> '+status+'</p>');
-  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js"></script>
+  w.document.write('<br><br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js?v=28"></script>
 </body></html>');
   w.print();
 }
@@ -622,6 +622,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="theme.js"></script>
+<script src="theme.js?v=28"></script>
 </body>
 </html>

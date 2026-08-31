@@ -55,8 +55,12 @@ html.light-mode, body.light-mode {
   background-attachment: fixed !important;
 }
 
-/* ── 2. GENERAL ELEMENTS ── */
-html.light-mode h1, html.light-mode h2, html.light-mode h3, html.light-mode h4, html.light-mode h5 {
+/* ── 2. GENERAL TYPOGRAPHY ── */
+html.light-mode h1, 
+html.light-mode h2, 
+html.light-mode h3, 
+html.light-mode h4, 
+html.light-mode h5 {
   color: #0f172a !important;
   font-weight: 800 !important;
 }
@@ -67,11 +71,15 @@ html.light-mode h1 {
   -webkit-text-fill-color: transparent !important;
 }
 
-html.light-mode p, html.light-mode li {
-  color: #334155 !important;
+html.light-mode p, 
+html.light-mode li, 
+html.light-mode span:not(.badge):not(.pill):not(.btn-launch):not(.btn-pr):not(.dot) {
+  color: #334155;
 }
 
-html.light-mode .subtitle, html.light-mode .sec-desc, html.light-mode .hero-desc {
+html.light-mode .subtitle, 
+html.light-mode .sec-desc, 
+html.light-mode .hero-desc {
   color: #475569 !important;
 }
 
@@ -80,14 +88,22 @@ html.light-mode .grid-bg {
 }
 
 /* ── 3. TOPBAR & HEADERS ── */
-html.light-mode .topbar, html.light-mode .top-hud, html.light-mode header.top-hud {
+html.light-mode .topbar, 
+html.light-mode .top-hud, 
+html.light-mode header.top-hud {
   background: rgba(255, 255, 255, 0.96) !important;
   border-bottom: 1px solid #e2e8f0 !important;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
   backdrop-filter: blur(14px) !important;
 }
 
-html.light-mode .brand, html.light-mode .hud-badge {
+html.light-mode .topbar-inner,
+html.light-mode .hud-inner {
+  color: #0f172a !important;
+}
+
+html.light-mode .brand, 
+html.light-mode .hud-badge {
   color: #0f172a !important;
   font-weight: 700 !important;
 }
@@ -99,7 +115,8 @@ html.light-mode .jp-seg.on {
   background: #2563eb !important;
 }
 
-html.light-mode header.hero, html.light-mode .hero {
+html.light-mode header.hero, 
+html.light-mode .hero {
   background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
   border: 1px solid #cbd5e1 !important;
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05) !important;
@@ -216,10 +233,17 @@ html.light-mode .sec-label::before {
   background: #2563eb !important;
 }
 
-html.light-mode .sc {
+html.light-mode .sc,
+html.light-mode .info-card, 
+html.light-mode .card, 
+html.light-mode .comp-card,
+html.light-mode .dcard,
+html.light-mode .rubrik-card,
+html.light-mode .tl-content,
+html.light-mode .fig {
   background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
 }
 
 html.light-mode .st {
@@ -227,19 +251,84 @@ html.light-mode .st {
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
-html.light-mode .info-card, html.light-mode .card, html.light-mode .comp-card {
-  background: #ffffff !important;
-  border: 1px solid #cbd5e1 !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
-}
-
-html.light-mode .info-card h3, html.light-mode .card h3, html.light-mode .comp-card h5 {
+html.light-mode .info-card h3, 
+html.light-mode .card h3, 
+html.light-mode .comp-card h5,
+html.light-mode .dcard h4,
+html.light-mode .tl-content h4,
+html.light-mode .step-body h4 {
   color: #0f172a !important;
   font-weight: 800 !important;
 }
 
-html.light-mode .info-card p, html.light-mode .info-card ol, html.light-mode .info-card li {
+html.light-mode .info-card p, 
+html.light-mode .info-card ol, 
+html.light-mode .info-card li,
+html.light-mode .dcard p,
+html.light-mode .dcard ul,
+html.light-mode .dcard li,
+html.light-mode .tl-content p,
+html.light-mode .step-body p,
+html.light-mode .d-body {
   color: #334155 !important;
+}
+
+html.light-mode .dcard ul b {
+  color: #0f172a !important;
+}
+
+html.light-mode .dcard-icon {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+html.light-mode .tl-jp {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+html.light-mode .step-num {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #2563eb !important;
+  font-weight: 800 !important;
+}
+
+html.light-mode .step {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html.light-mode details {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+html.light-mode summary {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+html.light-mode .kktp-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%) !important;
+  border: 1px solid #bfdbfe !important;
+  color: #1e293b !important;
+}
+html.light-mode .kktp-box .lbl {
+  color: #2563eb !important;
+  font-weight: 800 !important;
+}
+
+html.light-mode .pancasila-tag {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light-mode .fig-cap {
+  background: #f8fafc !important;
+  border-top: 1px solid #cbd5e1 !important;
+  color: #475569 !important;
 }
 
 /* ── 7. FASE BOXES (ACCORDION & ROADMAP) ── */
@@ -275,9 +364,11 @@ html.light-mode .fase-box.break-box { background: #f8fafc !important; border-col
 
 /* ── 8. CODE BLOCKS & TERMINALS ── */
 /* Keep code blocks crisp dark slate so syntax colors pop with high contrast */
-html.light-mode .cb, html.light-mode pre, html.light-mode .code-block {
+html.light-mode .cb, 
+html.light-mode pre, 
+html.light-mode .code-block {
   background: #0f172a !important;
-  border-color: #1e293b !important;
+  border: 1px solid #1e293b !important;
   color: #f8fafc !important;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1) !important;
   border-radius: 10px !important;
@@ -290,25 +381,30 @@ html.light-mode code {
 }
 
 /* ── 9. TABLES & DATA ── */
-html.light-mode .tc, html.light-mode table {
+html.light-mode .tc, 
+html.light-mode table,
+html.light-mode .table-wrap {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
 }
 
-html.light-mode .tc th, html.light-mode th {
+html.light-mode .tc th, 
+html.light-mode th {
   background: #f1f5f9 !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
   font-weight: 800 !important;
 }
 
-html.light-mode .tc td, html.light-mode td {
+html.light-mode .tc td, 
+html.light-mode td {
   background: #ffffff !important;
   color: #334155 !important;
   border-color: #e2e8f0 !important;
 }
 
-html.light-mode .tc tr:nth-child(even) td, html.light-mode tr:nth-child(even) td {
+html.light-mode .tc tr:nth-child(even) td, 
+html.light-mode tr:nth-child(even) td {
   background: #f8fafc !important;
 }
 
