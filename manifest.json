@@ -1,7 +1,7 @@
 {
-  "name": "Bengkel Hardware — Portal Belajar TKJ",
-  "short_name": "Bengkel Hardware",
-  "description": "Portal Modul Pembelajaran Interaktif Pemeliharaan Komputer & Jaringan Kelas X TKJ",
+  "name": "Bengkel Hardware & Infrastruktur Server TKJ",
+  "short_name": "BengkelTKJ",
+  "description": "Portal Modul Pembelajaran Interaktif Pemeliharaan Komputer (Kelas XI) & Infrastruktur Server (Kelas XII) TKJ",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

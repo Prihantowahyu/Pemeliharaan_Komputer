@@ -13,7 +13,7 @@ const ASSETS_TO_CACHE = [
   './LKPD_BIOS_UEFI.pdf',
   './LKPD_BIOS_UEFI.docx',
 
-  // Modul Pemeliharaan Komputer Kelas X (Semester Ganjil)
+  // Modul Pemeliharaan Komputer Kelas XI (Semester Ganjil)
   './pert_1_Materi_K3_Prosedur_Kerja_Interaktif.html',
   './Pert_2_materi-hardware-komputer.html',
   './Pert_2_simulasi-casing-pc.html',
@@ -30,7 +30,7 @@ const ASSETS_TO_CACHE = [
   './Pert_10_materi-perawatan-berkala.html',
   './Pert_11_materi-backup-restore.html',
 
-  // Modul Pemeliharaan Komputer Kelas X (Semester Genap)
+  // Modul Pemeliharaan Komputer Kelas XI (Semester Genap)
   './Genap_Pert_1_upgrade-komponen-komputer.html',
   './Genap_Pert_2_perawatan-troubleshooting-printer-scanner.html',
   './Genap_Pert_3_perawatan-laptop-perangkat-mobile.html',
