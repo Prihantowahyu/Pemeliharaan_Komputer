@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v39-stylish-teacher-panel-button';
+const CACHE_NAME = 'bengkel-hw-pwa-v40-spacious-clean-card-layout';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
