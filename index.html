@@ -4047,6 +4047,58 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 </div>
 
 <!-- ==========================================================
+     MODAL 15: GENERATOR STIKER QR CODE MEJA LAB & BYOD
+     ========================================================== -->
+<div id="inventoryLabelModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeInventoryLabelModal()">
+  <div class="large-modal-card" style="max-width: 900px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #38bdf8, #818cf8); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #030712; font-weight: 800;">🏷️</div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800; margin: 0;">
+            Generator Stiker QR Code Meja Lab &amp; BYOD
+          </h3>
+          <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">
+            Cetak stiker barcode / QR Code siap tempel di setiap meja lab komputer siswa.
+          </p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeInventoryLabelModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Configuration Bar -->
+    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end;">
+      <div>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NAMA RUANG LAB:</label>
+        <input type="text" id="labelLabName" class="custom-input" value="LAB KOMPUTER &amp; JARINGAN (TKJ)" style="width: 100%; font-size: 12px; padding: 8px 10px;">
+      </div>
+      <div>
+        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">JUMLAH MEJA SISWA:</label>
+        <select id="labelTotalStations" class="custom-select" style="width: 100%; font-size: 12px; padding: 8px 10px;" onchange="renderQrStickersPreview()">
+          <option value="36" selected>36 Meja (1 Kelas Penuh)</option>
+          <option value="40">40 Meja</option>
+          <option value="30">30 Meja</option>
+          <option value="24">24 Meja</option>
+          <option value="18">18 Meja</option>
+        </select>
+      </div>
+      <div>
+        <button type="button" class="btn-launch" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #10b981, #00f0ff); padding: 9px 16px;" onclick="printQrStickersDirect()">
+          🖨️ Cetak Lembar Stiker A4
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Preview Grid -->
+    <div style="background: rgba(15,23,42,0.8); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; max-height: 420px; overflow-y: auto;">
+      <div id="qrStickersPreviewContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
      FLOATING AI BOT QUICK TRIGGER BUTTON
      ========================================================== -->
 <button type="button" id="btnFloatingAi" class="btn-floating-ai" onclick="openAiBotModal()" title="Tanya AI Teknisi TKJ (Offline 24/7)">
@@ -7058,6 +7110,122 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     } catch(err) {
       alert('Gagal mengekspor data: ' + err.message);
     }
+  }
+
+  /* ==========================================================
+     MODAL 15: GENERATOR STIKER QR CODE MEJA LAB & BYOD
+     ========================================================== */
+  function openInventoryLabelModal() {
+    const m = document.getElementById('inventoryLabelModal');
+    if (m) {
+      m.style.display = 'flex';
+      renderQrStickersPreview();
+    }
+  }
+
+  function closeInventoryLabelModal() {
+    const m = document.getElementById('inventoryLabelModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function renderQrStickersPreview() {
+    const container = document.getElementById('qrStickersPreviewContainer');
+    if (!container) return;
+    const labName = (document.getElementById('labelLabName')?.value || 'LAB KOMPUTER & JARINGAN').trim();
+    const total = parseInt(document.getElementById('labelTotalStations')?.value || 36);
+    const portalUrl = 'https://prihantowahyu.github.io/Pemeliharaan_Komputer/';
+
+    let html = '';
+    for (let i = 1; i <= Math.min(total, 6); i++) {
+      const numStr = String(i).padStart(2, '0');
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(portalUrl)}`;
+      html += `
+        <div style="background: #ffffff; color: #0f172a; border: 2px dashed #94a3b8; border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+          <div style="font-family: var(--font-mono); font-size: 9px; font-weight: 800; color: #2563eb; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 6px;">
+            SMK DIPONEGORO TUMPANG
+          </div>
+          <div style="font-family: var(--font-heading); font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            MEJA SISWA — PC #${numStr}
+          </div>
+          <div style="display: flex; justify-content: center; margin-bottom: 6px;">
+            <img src="${qrUrl}" alt="QR PC ${numStr}" style="width: 84px; height: 84px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 3px; background: #fff;" onerror="this.src='data:image/svg+xml,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'84\\' height=\\'84\\' viewBox=\\'0 0 24 24\\'><rect width=\\'24\\' height=\\'24\\' fill=\\'%230284c7\\'/><text x=\\'50%\\' y=\\'55%\\' font-size=\\'7\\' text-anchor=\\'middle\\' fill=\\'white\\'>SCAN QR</text></svg>'">
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 8.5px; color: #475569; line-height: 1.3;">
+            Scan via HP untuk buka <b>Modul &amp; Praktik Server</b>
+          </div>
+        </div>
+      `;
+    }
+    html += `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 10px; color: var(--text-muted); font-size: 12px; font-family: var(--font-mono);">
+        ... dan ${total - Math.min(total, 6)} stiker lainnya akan dicetak rapi pada lembar A4.
+      </div>
+    `;
+    container.innerHTML = html;
+  }
+
+  function printQrStickersDirect() {
+    const labName = (document.getElementById('labelLabName')?.value || 'LAB KOMPUTER & JARINGAN').trim();
+    const total = parseInt(document.getElementById('labelTotalStations')?.value || 36);
+    const portalUrl = 'https://prihantowahyu.github.io/Pemeliharaan_Komputer/';
+
+    let cardsHtml = '';
+    for (let i = 1; i <= total; i++) {
+      const numStr = String(i).padStart(2, '0');
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(portalUrl)}`;
+      cardsHtml += `
+        <div class="sticker-card">
+          <div class="header">SMK DIPONEGORO TUMPANG &bull; ${labName}</div>
+          <div class="station-id">STASIUN MEJA: PC #${numStr}</div>
+          <div class="qr-wrap">
+            <img src="${qrUrl}" alt="QR PC ${numStr}">
+          </div>
+          <div class="footer-inst">Pindai kamera HP / JuiceSSH untuk akses modul &amp; praktik</div>
+          <div class="url-text">prihantowahyu.github.io/Pemeliharaan_Komputer</div>
+        </div>
+      `;
+    }
+
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
+      <!DOCTYPE html>
+      <html lang="id">
+      <head>
+        <meta charset="UTF-8">
+        <title>Stiker QR Code Meja Lab TKJ — ${labName}</title>
+        <style>
+          @page { size: A4; margin: 10mm; }
+          body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff; color: #000; }
+          .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6mm;
+          }
+          .sticker-card {
+            border: 1.5px dashed #475569;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            page-break-inside: avoid;
+            background: #fff;
+          }
+          .header { font-size: 8.5px; font-weight: bold; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 6px; text-transform: uppercase; }
+          .station-id { font-size: 13px; font-weight: 900; color: #0f172a; margin-bottom: 6px; }
+          .qr-wrap img { width: 90px; height: 90px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px; }
+          .footer-inst { font-size: 8.5px; color: #334155; margin-top: 6px; font-weight: bold; }
+          .url-text { font-size: 7.5px; color: #64748b; font-family: monospace; margin-top: 2px; }
+        </style>
+      </head>
+      <body>
+        <div class="grid-container">
+          ${cardsHtml}
+        </div>
+      </body>
+      </html>
+    `);
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 400);
   }
 
   /* ==========================================================
