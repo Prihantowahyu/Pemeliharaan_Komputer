@@ -228,6 +228,7 @@
     font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
   }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -473,7 +474,8 @@ function sim6(mode){
 <script>
 function printL6(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>LKPD Stress Test</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Stress Test</title><link rel="stylesheet" href="theme.css">
+</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-6: LAPORAN KESEHATAN HARDWARE & STRESS TEST</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
   ['nama','pc','sensor','mem','event','rec'].forEach(id=>{
     const el=document.getElementById('l6_'+id);
@@ -481,7 +483,8 @@ function printL6(){
     if(el) w.document.write('<p><b>'+labels[id]+':</b><br>'+(el.value||'—').replace(/
 /g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js"></script>
+</body></html>');
   w.print();
 }
 </script>
@@ -534,5 +537,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script src="theme.js"></script>
 </body>
 </html>

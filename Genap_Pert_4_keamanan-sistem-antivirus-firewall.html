@@ -228,6 +228,7 @@
     font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
   }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -501,7 +502,8 @@ function runFW(){
 <script>
 function printL4(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>LKPD Keamanan Sistem</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Keamanan Sistem</title><link rel="stylesheet" href="theme.css">
+</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-4: KONFIGURASI KEAMANAN SISTEM</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
   ['nama','pc','fw','wsec','case','kesim'].forEach(id=>{
     const el=document.getElementById('l4_'+id);
@@ -509,7 +511,8 @@ function printL4(){
     if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||'—').replace(/
 /g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js"></script>
+</body></html>');
   w.print();
 }
 </script>
@@ -563,5 +566,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script src="theme.js"></script>
 </body>
 </html>

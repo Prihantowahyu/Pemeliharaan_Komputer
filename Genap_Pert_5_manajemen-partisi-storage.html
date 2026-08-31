@@ -228,6 +228,7 @@
     font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
   }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -532,7 +533,8 @@ function createPart(id,bg,text,w,col){
 <script>
 function printL5(){
   const w=window.open('','_blank');
-  w.document.write('<html><head><title>LKPD Partisi & SMART</title></head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
+  w.document.write('<html><head><title>LKPD Partisi & SMART</title><link rel="stylesheet" href="theme.css">
+</head><body style="font-family:Arial;max-width:800px;margin:30px auto;font-size:13px;line-height:1.6;">');
   w.document.write('<center><h3>LKPD-5: MANAJEMEN PARTISI & ANALISIS S.M.A.R.T.</h3><h4>SMK DIPONEGORO TUMPANG</h4><hr></center>');
   const fields=[['nama','Nama'],['pc','No. PC'],['scheme','Skema Partisi'],['before','Partisi Sebelum'],['cmd','Perintah Diskpart'],['smart','Data S.M.A.R.T.'],['interpret','Interpretasi & Rekomendasi']];
   fields.forEach(([id,label])=>{
@@ -540,7 +542,8 @@ function printL5(){
     if(el) w.document.write('<p><b>'+label+':</b><br>'+(el.value||el.options?.[el.selectedIndex]?.value||'—').replace(/
 /g,'<br>')+'</p><hr>');
   });
-  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p></body></html>');
+  w.document.write('<br><p>Tanda Tangan Guru: ___________________</p><script src="theme.js"></script>
+</body></html>');
   w.print();
 }
 </script>
@@ -594,5 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script src="theme.js"></script>
 </body>
 </html>

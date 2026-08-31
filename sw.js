@@ -1,10 +1,12 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v25-panduan-guru-byod-mobile-lab';
+const CACHE_NAME = 'bengkel-hw-pwa-v26-light-dark-theme-engine';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './Panduan_Guru_Praktik_Server_HP_Android.html',
+  './theme.css',
+  './theme.js',
   './manifest.json',
   './icon.svg',
   './icon-192.png',
