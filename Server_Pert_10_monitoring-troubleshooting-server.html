@@ -12,45 +12,60 @@
   :root {
     --bg-void: #030712;
     --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(0, 240, 255, 0.2);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
+    --panel-border: rgba(239, 68, 68, 0.25);
+    --cyan: #00f0ff; --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981; --violet: #8b5cf6; --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc; --text-sub: #94a3b8; --text-muted: #64748b;
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
+    --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(239, 68, 68, 0.08), transparent 40%);
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); line-height: 1.6;
+    background-image: radial-gradient(circle at 0% 0%, rgba(239, 68, 68, 0.1), transparent 40%), radial-gradient(circle at 100% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
   }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(239, 68, 68, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(239, 68, 68, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
   .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald), #ef4444); width: 0%; transition: width 0.3s ease; }
+
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--danger), var(--amber), var(--cyan)); width: 0%; transition: width 0.3s ease; }
   .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 10px 0; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #fca5a5; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 8px var(--danger); animation: blink 1.2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9), rgba(7, 14, 30, 0.85)); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.12); border: 1px solid var(--danger); color: #fca5a5; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(22px, 4vw, 34px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #fca5a5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--danger); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; white-space: pre-wrap; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .table-custom th { background: #09152b; color: #fca5a5; font-family: var(--font-mono); font-size: 12px; }
+
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  .btn-nav { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav.primary { background: var(--cyan); color: #030712; box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav.secondary { background: rgba(13,27,54,0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  .finish-badge { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(0, 240, 255, 0.08)); border: 1px solid var(--emerald); border-radius: var(--radius-md); padding: 16px 20px; margin: 24px 0; }
+  .finish-badge .icon { font-size: 28px; }
+  .finish-badge .txt h3 { font-family: var(--font-heading); font-size: 16px; color: #6ee7b7; }
+  .finish-badge .txt p { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -58,68 +73,111 @@
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
-    <div class="hud-badge"><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 5 / Pert. 10)</span></div>
-    <div><a href="index.html" style="color:var(--cyan);font-family:var(--font-mono);font-size:11.5px;text-decoration:none;">🏠 Dashboard Portal</a></div>
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 5 / FINAL)</span></div>
+    <a href="index.html#server" class="btn-nav secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 2 HARI KE-5 (FINAL GANJIL)</div>
-    <h1>Monitoring Kinerja & Troubleshooting Layanan Server</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:720px;">Menggunakan utilitas pemantauan real-time (htop, journalctl, Zabbix/Grafana), menganalisis log error layanan (systemctl), dan menyelesaikan skenario gangguan server secara sistematis.</p>
+    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 2 HARI KE-5 (PERTEMUAN FINAL)</div>
+    <h1>Monitoring & Troubleshooting Server Enterprise (htop, journalctl, ss, df)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:760px;">Memantau kesehatan sistem server secara real-time menggunakan tool CLI bawaan Linux, menganalisis log sistem dengan journalctl, dan mendiagnosis serta memecahkan masalah layanan yang gagal secara sistematis.</p>
   </section>
 
-  <!-- SECTION 1: Perintah Monitoring CLI -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">Monitoring KPI & Metrik</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">htop / df / ss / free</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Log Analysis journalctl</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Kasus Troubleshoot & CBT</div></div>
+  </div>
+
+  <!-- SECTION 1: KPI Monitoring -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Utilitas Monitoring Performa Linux CLI</h2>
-    <div class="code-block">
-      <span style="color:#64748b;"># 1. Monitoring interaktif CPU, Memory & Process</span><br>
-      <span style="color:#38bdf8;">htop</span><br><br>
-      <span style="color:#64748b;"># 2. Cek penggunaan kapasitas penyimpanan (Disk Space)</span><br>
-      <span style="color:#38bdf8;">df -h</span><br><br>
-      <span style="color:#64748b;"># 3. Cek port yang sedang listening (aktif) dan prosesnya</span><br>
-      <span style="color:#38bdf8;">sudo ss -tulpn</span>
-    </div>
+    <h2 class="section-title"><span class="num">1</span> KPI (Key Performance Indicator) Monitoring Server</h2>
+    <table class="table-custom">
+      <tr><th>Metrik KPI</th><th>Ambang Batas Kritis</th><th>Tool CLI Monitoring</th><th>Dampak jika Terlampaui</th></tr>
+      <tr><td><strong>CPU Utilization</strong></td><td>> 85% sustained (> 5 menit)</td><td><code>htop</code>, <code>top</code>, <code>mpstat</code></td><td>Layanan lambat, response time tinggi, antrian proses</td></tr>
+      <tr><td><strong>RAM / Memory</strong></td><td>> 90% terpakai + swap aktif</td><td><code>free -h</code>, <code>vmstat</code></td><td>OOM Killer aktif, proses di-kill secara paksa</td></tr>
+      <tr><td><strong>Disk Space</strong></td><td>> 80% penuh (/var, /home)</td><td><code>df -h</code>, <code>du -sh *</code></td><td>Log tidak bisa ditulis, layanan database crash</td></tr>
+      <tr><td><strong>Open Port / Socket</strong></td><td>Port tak dikenal LISTEN</td><td><code>ss -tulnp</code>, <code>netstat</code></td><td>Potensi backdoor atau misconfiguration keamanan</td></tr>
+      <tr><td><strong>Uptime / Load Average</strong></td><td>Load avg > jumlah CPU core</td><td><code>uptime</code>, <code>w</code></td><td>Sistem overloaded, perlu scaling atau optimasi</td></tr>
+    </table>
   </section>
 
-  <!-- SECTION 2: Analisis Log & Troubleshooting -->
+  <!-- SECTION 2: Perintah CLI Monitoring -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Analisis Log Error Layanan (systemctl & journalctl)</h2>
-    <div class="code-block">
-      <span style="color:#64748b;"># 1. Memeriksa status dan pesan error layanan yang gagal start</span><br>
-      <span style="color:#38bdf8;">sudo systemctl status apache2</span><br><br>
-      <span style="color:#64748b;"># 2. Membaca log real-time layanan spesifik (Live stream)</span><br>
-      <span style="color:#38bdf8;">sudo journalctl -u bind9 -f</span><br><br>
-      <span style="color:#64748b;"># 3. Memeriksa riwayat percobaan login mencurigakan (Keamanan)</span><br>
-      <span style="color:#38bdf8;">sudo tail -f /var/log/auth.log</span>
-    </div>
+    <h2 class="section-title"><span class="num">2</span> Toolkit CLI Monitoring Server Enterprise</h2>
+    <div class="code-block"><span style="color:#64748b;"># ───── CPU & PROSES ─────</span>
+htop                           <span style="color:#64748b;"># Interactive process viewer (color-coded)</span>
+ps aux --sort=-%cpu | head -10 <span style="color:#64748b;"># Top 10 proses terpakai CPU terbanyak</span>
+
+<span style="color:#64748b;"># ───── MEMORI ─────</span>
+free -h                        <span style="color:#64748b;"># Tampil RAM & Swap dalam human-readable format</span>
+vmstat 1 5                     <span style="color:#64748b;"># Statistik virtual memory setiap 1 detik, 5 kali</span>
+
+<span style="color:#64748b;"># ───── DISK ─────</span>
+df -h                          <span style="color:#64748b;"># Penggunaan disk semua partisi</span>
+du -sh /var/log/*              <span style="color:#64748b;"># Ukuran setiap file/folder di /var/log</span>
+iostat -xz 1                   <span style="color:#64748b;"># I/O statistics per disk device</span>
+
+<span style="color:#64748b;"># ───── JARINGAN & PORT ─────</span>
+ss -tulnp                      <span style="color:#64748b;"># Semua socket TCP/UDP yang LISTEN beserta PID</span>
+ip -s link                     <span style="color:#64748b;"># Statistik paket per network interface</span></div>
   </section>
 
-  <!-- SECTION 3: Dashboard Enterprise -->
+  <!-- SECTION 3: journalctl Log Analysis -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Pengenalan Dashboard Monitoring Enterprise</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:10px;">
-      <div style="background:#09152b;border:1px solid #1c3558;padding:16px;border-radius:8px;">
-        <h4 style="color:var(--cyan);font-family:var(--font-heading);">Grafana + Prometheus</h4>
-        <p style="font-size:13px;color:var(--text-sub);margin-top:4px;">Visualisasi metrik berbasis grafik modern dan time-series data dengan visualisasi yang sangat menarik dan alerting via Telegram/Discord.</p>
-      </div>
-      <div style="background:#09152b;border:1px solid #1c3558;padding:16px;border-radius:8px;">
-        <h4 style="color:#ef4444;font-family:var(--font-heading);">Zabbix Enterprise</h4>
-        <p style="font-size:13px;color:var(--text-sub);margin-top:4px;">Platform monitoring all-in-one kelas enterprise untuk memantau ribuan server, switch, router, dan database secara tersentralisasi dengan agent ringan.</p>
-      </div>
-    </div>
+    <h2 class="section-title"><span class="num">3</span> Analisis Log dengan journalctl & Syslog</h2>
+    <div class="code-block"><span style="color:#64748b;"># Lihat semua log sistem sejak boot ini</span>
+sudo journalctl -b
+
+<span style="color:#64748b;"># Filter log satu layanan spesifik (misal: apache2)</span>
+sudo journalctl -u apache2.service -f
+
+<span style="color:#64748b;"># Tampil log 1 jam terakhir semua layanan</span>
+sudo journalctl --since "1 hour ago"
+
+<span style="color:#64748b;"># Filter berdasarkan tingkat severity (err, warning, crit)</span>
+sudo journalctl -p err -b
+
+<span style="color:#64748b;"># Log autentikasi (SSH, sudo, login gagal)</span>
+sudo tail -f /var/log/auth.log | grep "Failed"
+
+<span style="color:#64748b;"># Log kernel (dmesg — error hardware, driver)</span>
+dmesg | grep -E "error|fail|warn" -i</div>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- SECTION 4: LKPD Praktik Troubleshooting -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Akhir Semester Ganjil (9 JP)</h2>
+    <h2 class="section-title"><span class="num">4</span> Lembar Kerja Troubleshooting Sistematis (Job Sheet 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Skenario Masalah</th><th>Langkah Diagnosis</th><th>Solusi yang Diterapkan</th></tr>
+      <tr><td>Web server tidak bisa diakses (curl timeout)</td><td><code>systemctl status apache2</code> → <code>journalctl -u apache2 -b</code></td><td>Cek port binding conflict: <code>ss -tulnp | grep 80</code>, restart layanan</td></tr>
+      <tr><td>Disk /var penuh (100%)</td><td><code>df -h</code> → <code>du -sh /var/log/*</code></td><td><code>journalctl --vacuum-time=7d</code> untuk rotasi log lama</td></tr>
+      <tr><td>SSH login ditolak "Permission denied"</td><td><code>grep "Failed" /var/log/auth.log</code></td><td>Cek <code>/etc/ssh/sshd_config</code>: <code>PasswordAuthentication</code>, restart sshd</td></tr>
+      <tr><td>DNS query tidak dijawab</td><td><code>systemctl status bind9</code> → <code>named-checkconf</code></td><td>Perbaiki sintaks named.conf, reload: <code>rndc reload</code></td></tr>
+    </table>
+  </section>
+
+  <!-- SECTION 5: CBT Quiz -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Uji Kompetensi & Asesmen Mandiri — Sesi Final</h2>
     <div id="cbtAppArea"></div>
   </section>
 
+  <!-- FINISH BADGE -->
+  <div class="finish-badge">
+    <div class="icon">🏆</div>
+    <div class="txt">
+      <h3>Selamat! Anda Telah Menyelesaikan Seluruh Kurikulum Infrastruktur Server Kelas XII TKJ</h3>
+      <p>10 Pertemuan × 9 JP = 90 Jam Pelajaran. Anda kini menguasai fondasi Linux Server Administration, Layanan Jaringan Enterprise, dan Troubleshooting Sistematis.</p>
+    </div>
+  </div>
+
   <div class="footer-deck">
-    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn-nav-bottom secondary">← Pertemuan 9: File Sharing</a>
-    <a href="index.html" class="btn-nav-bottom primary">🏠 Selesai — Kembali ke Dashboard Portal</a>
+    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn-nav secondary">← Pertemuan 9: File Sharing</a>
+    <a href="index.html#server" class="btn-nav primary">🏁 Kembali ke Dashboard Server XII</a>
   </div>
 </main>
 
@@ -127,29 +185,43 @@
 <script>
 window.addEventListener('scroll', () => {
   const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+  document.getElementById('pFill').style.width = ((window.scrollY / h) * 100) + '%';
 });
-
 document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Monitoring & Troubleshooting Server',
+      title: 'Kuis Evaluasi Final: Monitoring & Troubleshooting Server',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Perintah CLI Linux modern untuk melihat log sistem dan pesan error layanan secara real-time (mengikuti log baru) adalah?",
-          options: ["sudo journalctl -u <nama_service> -f", "ls -la", "ping -t", "cat /dev/null"],
+          question: "Perintah Linux yang paling tepat untuk menampilkan SEMUA port TCP/UDP yang sedang dalam status LISTEN beserta nama proses (PID) yang memilikinya adalah?",
+          options: ["ss -tulnp", "ps aux", "netstat -r", "ifconfig -a"],
           correctIndex: 0,
-          explanation: "'journalctl -u service -f' menampilkan log systemd dan parameter '-f' (follow) menampilkan log baru secara live."
+          explanation: "'ss -tulnp' menampilkan socket statistik: -t (TCP), -u (UDP), -l (LISTEN saja), -n (angka bukan nama), -p (nama proses/PID). Merupakan pengganti modern dari netstat."
         },
         {
-          question: "Perintah yang tepat untuk memeriksa port TCP/UDP apa saja yang sedang dalam status LISTENING di server Linux adalah?",
-          options: ["sudo ss -tulpn (atau netstat -tulpn)", "df -h", "free -m", "uptime"],
+          question: "Apa yang dimaksud dengan 'Load Average' pada output perintah 'uptime' dan kapan dapat dianggap kritis?",
+          options: [
+            "Rata-rata jumlah proses dalam antrian run queue per 1/5/15 menit; kritis jika melebihi jumlah CPU core yang tersedia",
+            "Rata-rata penggunaan bandwidth jaringan",
+            "Jumlah user yang sedang login ke sistem",
+            "Persentase penggunaan RAM dalam 15 menit terakhir"
+          ],
           correctIndex: 0,
-          explanation: "'ss -tulpn' menampilkan socket TCP/UDP, listening port, proses PID, dan nama program yang menggunakan port tersebut."
+          explanation: "Load Average 1.0 pada sistem single-core berarti CPU digunakan penuh. Pada sistem 4-core, Load Average 4.0 berarti utilisasi 100%. Nilai di atas jumlah core berarti ada antrian proses yang menunggu."
+        },
+        {
+          question: "Perintah journalctl yang benar untuk melihat log error dan critical dari boot saat ini pada layanan nginx secara real-time?",
+          options: [
+            "sudo journalctl -u nginx.service -p err -f",
+            "sudo cat /var/log/nginx/error.log",
+            "sudo service nginx logs --live",
+            "sudo dmesg | grep nginx"
+          ],
+          correctIndex: 0,
+          explanation: "'-u nginx.service' filter unit layanan, '-p err' filter severity error ke atas (err, crit, alert, emerg), '-f' mode follow/tail real-time. Ini adalah kombinasi paling efisien untuk diagnosa layanan."
         }
       ]
     });

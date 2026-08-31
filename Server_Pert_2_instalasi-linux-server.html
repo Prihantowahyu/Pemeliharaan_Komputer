@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 2: Instalasi Linux Server & Konfigurasi Awal — Kelas XII TKJ</title>
+<title>Pertemuan 2: Instalasi OS Linux Server & Konfigurasi IP — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -20,6 +20,7 @@
     --emerald: #10b981;
     --violet: #8b5cf6;
     --amber: #f59e0b;
+    --danger: #ef4444;
     --text-main: #f8fafc;
     --text-sub: #94a3b8;
     --text-muted: #64748b;
@@ -34,33 +35,39 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.08), transparent 40%);
+    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
   }
   .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
   .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  
   .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
   .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); width: 0%; transition: width 0.3s ease; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
   .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
   .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
+
   .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: var(--emerald); margin-bottom: 14px; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: #6ee7b7; margin-bottom: 14px; }
   .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--emerald) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
   .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
   .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  .terminal-box { background: #050a12; border: 1px solid #1c3558; border-radius: 8px; overflow: hidden; margin-top: 14px; font-family: var(--font-mono); }
-  .terminal-bar { background: #0c182c; border-bottom: 1px solid #1c3558; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; }
-  .term-dots { display: flex; gap: 6px; }
-  .term-dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-  .term-dots span:nth-child(1) { background: #ff5f56; }
-  .term-dots span:nth-child(2) { background: #ffbd2e; }
-  .term-dots span:nth-child(3) { background: #27c93f; }
-  .terminal-body { padding: 16px; font-size: 12.5px; color: #a5f3fc; line-height: 1.7; }
-  .cmd { color: #38bdf8; font-weight: 700; }
-  .out { color: #cbd5e1; }
-  .comment { color: #64748b; }
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 10px 0; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; }
+  .code-block pre { margin: 0; }
+  
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
+  
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
   .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
@@ -69,60 +76,63 @@
 </head>
 <body>
 <div class="grid-bg"></div>
+
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
-    <div class="hud-badge"><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 2)</span></div>
-    <div><a href="index.html" style="color:var(--cyan);font-family:var(--font-mono);font-size:11.5px;text-decoration:none;">🏠 Dashboard Portal</a></div>
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 2)</span></div>
+    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL AJAR 9 JP · BLOK 1 HARI KE-2</div>
-    <h1>Instalasi Sistem Operasi Linux Server & Konfigurasi Awal</h1>
-    <p class="lead">Panduan komprehensif instalasi Ubuntu Server / Debian, skema partisi LVM, pengaturan Static IP dengan Netplan, dan manajemen repositori paket APT.</p>
+    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 1 HARI KE-2</div>
+    <h1>Instalasi OS Linux Server, LVM & Konfigurasi Static IP Netplan</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:760px;line-height:1.6;">Panduan komprehensif instalasi Linux Server enterprise (Ubuntu/Debian), teknik partisi Logical Volume Manager (LVM), penetapan Static IP Address modern melalui Netplan YAML, konfigurasi Hostname permanen, serta manajemen repositori APT.</p>
   </section>
 
-  <!-- SECTION 1: Pemilihan Distro & Partisi -->
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">Teori & Skema LVM</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">Instalasi Server CLI</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Netplan & Repositori</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Troubleshoot & CBT</div></div>
+  </div>
+
+  <!-- SECTION 1: Konsep & Skema Partisi LVM -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Pemilihan Distro Server & Skema Partisi</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Di lingkungan enterprise dan data center, <strong>Ubuntu Server LTS</strong> dan <strong>Debian Stable</strong> adalah dua distro Linux paling populer karena kestabilan kernel, dukungan jangka panjang (5 tahun), dan ekosistem repositori yang luas.</p>
+    <h2 class="section-title"><span class="num">1</span> Konsep & Skema Partisi Enterprise: LVM vs Standar</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Pada server produksi, partisi standar (MBR/GPT statis) dihindari karena tidak fleksibel saat kapasitas disk penuh. <strong>Logical Volume Manager (LVM)</strong> menambahkan lapisan abstraksi di atas storage fisik:</p>
     
-    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;">
-      <div style="background:#09152b;border:1px solid #1c3558;border-radius:8px;padding:16px;">
-        <h4 style="color:var(--cyan);margin-bottom:6px;font-family:var(--font-heading);">Skema Partisi Standar Server</h4>
-        <ul style="padding-left:18px;font-size:13px;color:var(--text-sub);">
-          <li><code>/boot/efi</code> (FAT32 ~512MB) — Bootloader UEFI</li>
-          <li><code>/</code> (Root ext4 ~40GB+) — Sistem operasi dasar</li>
-          <li><code>/var</code> (ext4 ~50GB+) — Log dan database</li>
-          <li><code>swap</code> (2GB–4GB) — Virtual memory darurat</li>
-        </ul>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px;">
+      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
+        <div style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);">1. PV (Physical Volume)</div>
+        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Disk fisik mentah (seperti <code>/dev/sda</code> atau <code>/dev/nvme0n1</code>) yang diinisialisasi untuk LVM.</div>
       </div>
-      <div style="background:#09152b;border:1px solid #1c3558;border-radius:8px;padding:16px;">
-        <h4 style="color:var(--emerald);margin-bottom:6px;font-family:var(--font-heading);">Keuntungan Menggunakan LVM</h4>
-        <p style="font-size:13px;color:var(--text-sub);"><strong>LVM (Logical Volume Manager)</strong> memungkinkan perluasan kapasitas partisi secara dinamis (*online resize*) tanpa perlu memformat atau mematikan server saat disk penuh.</p>
+      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
+        <div style="color:var(--emerald);font-weight:700;font-family:var(--font-mono);">2. VG (Volume Group)</div>
+        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Kumpulan gabungan dari satu atau beberapa PV menjadi satu storage pool raksasa.</div>
+      </div>
+      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
+        <div style="color:var(--amber);font-weight:700;font-family:var(--font-mono);">3. LV (Logical Volume)</div>
+        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Partisi virtual (seperti <code>/dev/ubuntu-vg/ubuntu-lv</code>) yang dapat diperbesar atau diperkecil secara live tanpa reboot.</div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: Konfigurasi Static IP (Netplan) -->
+  <!-- SECTION 2: Konfigurasi Jaringan Netplan -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi Hostname & Static IP (Netplan YAML)</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Server wajib memiliki <strong>Alamat IP Statis (Static IP)</strong> agar client dan router selalu dapat menemukan layanan tanpa berubah-ubah.</p>
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Static IP via Netplan YAML</h2>
+    <p style="color:var(--text-sub);font-size:14.5px;">Ubuntu Server menggunakan Netplan berbasis format YAML yang sensitif terhadap indentasi spasi (dilarang menggunakan TAB). Konfigurasi terletak di <code>/etc/netplan/01-netcfg.yaml</code> atau <code>/etc/netplan/50-cloud-init.yaml</code>:</p>
 
-    <div class="terminal-box">
-      <div class="terminal-bar">
-        <div class="term-dots"><span></span><span></span><span></span></div>
-        <div class="term-title">File: /etc/netplan/00-installer-config.yaml</div>
-        <div style="color:var(--amber);font-size:11px;">YAML Config</div>
-      </div>
-      <div class="terminal-body">
-<pre style="color:#67e8f9;font-family:var(--font-mono);font-size:12px;">network:
+    <div class="code-block">
+      <span style="color:#64748b;"># File: /etc/netplan/00-installer-config.yaml</span><br>
+<pre style="color:#67e8f9;">network:
   version: 2
   renderer: networkd
   ethernets:
-    ens33:
+    enp0s3:
       dhcp4: no
       addresses:
         - 192.168.10.1/24
@@ -130,38 +140,52 @@
         - to: default
           via: 192.168.10.254
       nameservers:
-        addresses: [8.8.8.8, 1.1.1.1]</pre>
-      </div>
+        addresses:
+          - 192.168.10.1
+          - 8.8.8.8
+          - 1.1.1.1
+        search:
+          - smk.lan</pre>
     </div>
 
-    <div style="margin-top:14px;">
-      <p style="font-size:13px;color:var(--text-sub);margin-bottom:6px;">Terapkan konfigurasi Netplan dan ganti Hostname server:</p>
-      <div class="code-block">
-        <span style="color:#38bdf8;">sudo hostnamectl set-hostname srv-tkj-utama</span><br>
-        <span style="color:#38bdf8;">sudo netplan apply</span><br>
-        <span style="color:#38bdf8;">ip a show ens33</span>
-      </div>
+    <div class="code-block" style="margin-top:10px;">
+      <span style="color:#64748b;"># Perintah menerapkan dan menguji konfigurasi Netplan</span><br>
+      <span style="color:#38bdf8;">sudo netplan generate</span><br>
+      <span style="color:#38bdf8;">sudo netplan apply</span><br>
+      <span style="color:#38bdf8;">ip addr show enp0s3</span><br>
+      <span style="color:#38bdf8;">ip route</span>
     </div>
   </section>
 
-  <!-- SECTION 3: Update & Repositori APT -->
+  <!-- SECTION 3: Hostname & Repositori APT -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Manajemen Repositori Paket (APT)</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Setelah jaringan online, langkah penting pertama adalah memperbarui indeks paket dan kernel keamanan server:</p>
-
+    <h2 class="section-title"><span class="num">3</span> Hostname Server & Update Repositori APT</h2>
     <div class="code-block">
-      <span class="comment"># 1. Update daftar paket terbaru dari server cermin (mirror)</span><br>
-      <span style="color:#38bdf8;">sudo apt update</span><br><br>
-      <span class="comment"># 2. Upgrade semua paket yang memiliki versi patch keamanan terbaru</span><br>
-      <span style="color:#38bdf8;">sudo apt upgrade -y</span><br><br>
-      <span class="comment"># 3. Instal paket utilitas dasar sysadmin</span><br>
-      <span style="color:#38bdf8;">sudo apt install -y curl wget git net-tools htop ufw</span>
+      <span style="color:#64748b;"># 1. Mengubah Hostname Permanen</span><br>
+      <span style="color:#38bdf8;">sudo hostnamectl set-hostname server-tkj.smk.lan</span><br>
+      <span style="color:#38bdf8;">hostnamectl status</span><br><br>
+      <span style="color:#64748b;"># 2. Update Repositori Lokal Indonesia (Kambing / Datautama / Telkom)</span><br>
+      <span style="color:#38bdf8;">sudo apt update &amp;&amp; sudo apt upgrade -y</span><br>
+      <span style="color:#38bdf8;">sudo apt install -y curl wget git net-tools htop</span>
     </div>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- SECTION 4: LKPD Praktik 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <h2 class="section-title"><span class="num">4</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Parameter Lab</th><th>Nilai Konfigurasi Praktik</th></tr>
+      <tr><td>Hostname Server</td><td><code>srv-tkj-[NomorAbsen].smk.lan</code></td></tr>
+      <tr><td>Interface Jaringan</td><td><code>enp0s3</code> (Host-Only / Internal Network)</td></tr>
+      <tr><td>Static IP Server</td><td><code>192.168.10.[NomorAbsen]/24</code></td></tr>
+      <tr><td>Gateway</td><td><code>192.168.10.254</code></td></tr>
+      <tr><td>DNS Server</td><td><code>192.168.10.1, 8.8.8.8</code></td></tr>
+    </table>
+  </section>
+
+  <!-- SECTION 5: CBT Quiz -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
@@ -183,33 +207,32 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Instalasi Linux Server & Konfigurasi Netplan',
+      title: 'Kuis Evaluasi: Instalasi Linux Server & Netplan',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Format file konfigurasi jaringan yang digunakan oleh utilitas Netplan pada Ubuntu Server modern adalah?",
-          options: [".conf (INI format)", ".yaml (YAML Ain't Markup Language)", ".json", ".xml"],
-          correctIndex: 1,
-          explanation: "Netplan menggunakan sintaks YAML dengan aturan indentasi spasi yang ketat."
-        },
-        {
-          question: "Perintah CLI untuk menerapkan dan mengaktifkan perubahan konfigurasi Netplan secara langsung adalah?",
-          options: ["sudo netplan apply", "sudo netplan restart", "systemctl reload network", "service networking start"],
+          question: "Mengapa pada file konfigurasi Netplan (/etc/netplan/*.yaml) dilarang menggunakan karakter Tab?",
+          options: [
+            "Karena parser format YAML hanya memvalidasi indentasi berbasis karakter spasi (space-delimited)",
+            "Karena Tab merusak kernel Linux",
+            "Karena kartu jaringan tidak mengenali Tab",
+            "Karena file Netplan hanya boleh 1 baris"
+          ],
           correctIndex: 0,
-          explanation: "Perintah 'sudo netplan apply' membaca konfigurasi YAML dan merefresh backend networkd/NetworkManager."
+          explanation: "Spesifikasi format YAML mewajibkan penggunaan spasi murni (2 spasi per level) dan akan gagal dieksekusi jika terdapat karakter Tab."
         },
         {
-          question: "Fitur pada Linux yang memungkinkan administrator menambah atau memperluas ukuran partisi disk secara fleksibel tanpa mematikan server disebut?",
-          options: ["FAT32 Table", "LVM (Logical Volume Manager)", "MBR Master Boot", "BIOS Utility"],
-          correctIndex: 1,
-          explanation: "LVM mengabstraksi disk fisik menjadi Volume Group dan Logical Volume yang ukurannya bisa diubah dinamis."
+          question: "Komponen pada Logical Volume Manager (LVM) yang berperan menggabungkan beberapa partisi fisik menjadi satu pool penyimpanan besar disebut?",
+          options: ["Volume Group (VG)", "Physical Volume (PV)", "Logical Volume (LV)", "File System (EXT4)"],
+          correctIndex: 0,
+          explanation: "Volume Group (VG) mengagregasikan kapasitas storage dari beberapa Physical Volume (PV)."
         },
         {
-          question: "Perintah yang tepat untuk mengubah nama hostname server secara permanen di Linux adalah?",
-          options: ["sudo change-name <nama>", "sudo hostnamectl set-hostname <nama>", "sudo echo <nama> > /dev/null", "sudo ip name <nama>"],
-          correctIndex: 1,
-          explanation: "'hostnamectl set-hostname <nama>' memperbarui hostname sistem dan file /etc/hostname secara permanen."
+          question: "Perintah CLI untuk menerapkan perubahan konfigurasi IP Address baru pada Netplan adalah?",
+          options: ["sudo netplan apply", "sudo ifconfig up", "sudo service network restart", "sudo netplan cancel"],
+          correctIndex: 0,
+          explanation: "'sudo netplan apply' menerapkan konfigurasi YAML ke backend renderer (systemd-networkd)."
         }
       ]
     });

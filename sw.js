@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v20-server-xii-full-offline';
+const CACHE_NAME = 'bengkel-hw-pwa-v21-server-xii-9jp-complete';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
