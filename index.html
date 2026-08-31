@@ -6792,8 +6792,11 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         ? ganjilCompleted.includes(mod.idx) 
         : genapCompleted.includes(mod.idx);
 
-      // Find highest CBT score for this module if any
-      const matchingCbt = cbtSubmissions.filter(c => c.moduleTitle && c.moduleTitle.toLowerCase().includes(mod.title.toLowerCase()));
+      // Find highest CBT score for this module — prioritize cbtKey exact match, fallback to title substring
+      const matchingCbt = cbtSubmissions.filter(c => {
+        if (c.cbtKey && mod.id) return c.cbtKey === mod.id;
+        return c.moduleTitle && c.moduleTitle.toLowerCase().includes(mod.title.toLowerCase());
+      });
       let score = null;
       if (matchingCbt.length > 0) {
         score = Math.max(...matchingCbt.map(c => Number(c.finalScore) || 0));

@@ -510,6 +510,7 @@
           formattedDate: new Date().toLocaleString('id-ID'),
           studentName: examMetadata.studentName || 'Peserta Didik',
           moduleTitle: examMetadata.title || 'Modul Pembelajaran',
+          cbtKey: examMetadata.cbtKey || null,
           rawScore: rawScore,
           finalScore: finalScore,
           grade: grade,

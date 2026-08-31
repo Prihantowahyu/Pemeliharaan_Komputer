@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v32-cbt-scroll-mobile-responsive';
+const CACHE_NAME = 'bengkel-hw-pwa-v33-esertifikat-cbtkey-linked';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
