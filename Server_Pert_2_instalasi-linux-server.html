@@ -121,7 +121,7 @@
       <div class="fase-header" onclick="toggleFase(this)">
         <div class="fase-num">2</div>
         <div class="fase-title-wrap">
-          <div class="fase-title">Teori LVM (Logical Volume Manager): PV &rarr; VG &rarr; LV</div>
+          <div class="fase-title">Teori LVM (Logical Volume Manager): PV → VG → LV</div>
           <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
         </div>
         <span class="fase-chevron">▼</span>
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(window.CBTEngine){
     window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: Instalasi Linux & LVM',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
     questions:[
-      {question:"Urutan hierarki pembuatan storage pada Logical Volume Manager (LVM) dari tingkat fisik ke tingkat partisi logis adalah?",options:["Physical Volume (PV) &rarr; Volume Group (VG) &rarr; Logical Volume (LV)","Logical Volume &rarr; Volume Group &rarr; Physical Volume","Harddisk &rarr; BIOS &rarr; Windows","Ext4 &rarr; Swap &rarr; Fat32"],correctIndex:0,explanation:"PV dibentuk dari partisi/disk mentah, digabungkan ke pool VG, lalu dipotong menjadi partisi fleksibel LV."},
+      {question:"Urutan hierarki pembuatan storage pada Logical Volume Manager (LVM) dari tingkat fisik ke tingkat partisi logis adalah?",options:["Physical Volume (PV) → Volume Group (VG) → Logical Volume (LV)","Logical Volume → Volume Group → Physical Volume","Harddisk → BIOS → Windows","Ext4 → Swap → Fat32"],correctIndex:0,explanation:"PV dibentuk dari partisi/disk mentah, digabungkan ke pool VG, lalu dipotong menjadi partisi fleksibel LV."},
       {question:"Perintah untuk memperluas ukuran sistem file ext4 setelah Logical Volume diperbesar dengan lvextend adalah?",options:["resize2fs /dev/vg_name/lv_name","mkfs.ext4 /dev/vg_name/lv_name","format c:","fdisk -l"],correctIndex:0,explanation:"resize2fs digunakan untuk memperluas filesystem ext4 secara online mengikuti ukuran baru LV."},
       {question:"Aturan sintaks paling krusial saat mengedit file konfigurasi jaringan Netplan (.yaml) pada Ubuntu Server adalah?",options:["Dilarang menggunakan tombol TAB dan wajib menggunakan spasi murni yang konsisten untuk setiap level indentasi","Wajib diakhiri dengan titik koma (;)","Huruf harus kapital semua","File harus dienkripsi dengan password"],correctIndex:0,explanation:"YAML parser sangat sensitif terhadap karakter whitespace; penggunaan TAB akan menyebabkan Netplan error parsing."},
       {question:"Perintah untuk menerapkan konfigurasi jaringan baru setelah mengedit file Netplan YAML adalah?",options:["sudo netplan apply","sudo service network start","ipconfig /renew","reboot -f"],correctIndex:0,explanation:"sudo netplan apply memvalidasi dan langsung menerapkan konfigurasi YAML ke network daemon."}

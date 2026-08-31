@@ -126,7 +126,7 @@
       <div class="fase-body open">
         <table class="tc">
           <tr><th>Algoritma</th><th>Cara Kerja Distribusi</th><th>Skenario Ideal</th></tr>
-          <tr><td><strong>Round Robin</strong></td><td>Membagikan request bergantian berurutan: Server 1 &rarr; Server 2 &rarr; Server 1 &rarr; ...</td><td>Spesifikasi hardware seluruh backend sama persis</td></tr>
+          <tr><td><strong>Round Robin</strong></td><td>Membagikan request bergantian berurutan: Server 1 → Server 2 → Server 1 → ...</td><td>Spesifikasi hardware seluruh backend sama persis</td></tr>
           <tr><td><strong>Least Connections</strong></td><td>Mengarahkan request ke server yang memiliki antrean koneksi aktif paling sedikit</td><td>Request dengan durasi proses lama (Upload video/laporan)</td></tr>
           <tr><td><strong>IP Hash</strong></td><td>IP client dihitung hash-nya untuk selalu diarahkan ke server backend yang sama (Session Sticky)</td><td>Aplikasi web lama tanpa shared session Redis</td></tr>
         </table>
@@ -195,7 +195,7 @@
 sudo systemctl status haproxy</pre></div></div></div>
 
         <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Uji pembagian beban via browser / curl berulang kali:</strong><div class="cb"><pre>for i in {1..6}; do curl -s http://192.168.10.10 | grep "Server Node"; done
-<span style="color:#10b981"># Output bergantian: Node 1 &rarr; Node 2 &rarr; Node 1 &rarr; Node 2</span></pre></div></div></div>
+<span style="color:#10b981"># Output bergantian: Node 1 → Node 2 → Node 1 → Node 2</span></pre></div></div></div>
       </div>
     </div>
 

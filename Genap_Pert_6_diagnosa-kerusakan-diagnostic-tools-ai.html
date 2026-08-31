@@ -384,7 +384,7 @@ function sim6(mode){
         <li><b>CPU Package Power:</b> Konsumsi daya total prosesor (Watt). Jika konsisten di atas TDP nominal, sistem tidak mampu mendinginkan dengan baik.</li>
         <li><b>CPU Package Temp:</b> Suhu termal keseluruhan die CPU. Normal idle: 35-55°C. Batas aman saat load: 85°C. KRITIS: &gt;95°C.</li>
         <li><b>CPU Core VID:</b> Tegangan yang dikirim ke core CPU. Nilai abnormal bisa indikasikan masalah BIOS atau OC instabil.</li>
-        <li><b>CPU Ratio (Multiplier):</b> Clock multiplier aktif. Jika saat load turun drastis (misal 45x &rarr; 18x), CPU sedang throttling karena panas atau power limit.</li>
+        <li><b>CPU Ratio (Multiplier):</b> Clock multiplier aktif. Jika saat load turun drastis (misal 45x → 18x), CPU sedang throttling karena panas atau power limit.</li>
       </ul>
     </div>
     <div class="card">
@@ -429,10 +429,10 @@ function sim6(mode){
   <div class="step-list">
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Membuka Reliability Monitor (Grafis)</h4>
-      <p>Tekan <code>Win + R</code> &rarr; ketik <code>perfmon /rel</code>. Reliability Monitor menampilkan grafik stabilitas sistem (Stability Index 0-10) secara historis. Titik merah menandai hari di mana terjadi crash atau error kritis. Klik titik merah untuk melihat detail insiden.</p></div></div>
+      <p>Tekan <code>Win + R</code> → ketik <code>perfmon /rel</code>. Reliability Monitor menampilkan grafik stabilitas sistem (Stability Index 0-10) secara historis. Titik merah menandai hari di mana terjadi crash atau error kritis. Klik titik merah untuk melihat detail insiden.</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Filter Event ID Kritis di Event Viewer</h4>
-      <p>Buka <b>Event Viewer (eventvwr)</b> &rarr; <b>Windows Logs &rarr; System</b>. Filter Log: Level = Critical &amp; Error. Event ID penting: <b>41</b> (Kernel-Power: sistem restart tiba-tiba tanpa shutdown bersih — indikasi hardware atau driver crash), <b>6008</b> (shutdown tidak terduga sebelumnya), <b>1001</b> (BugCheck: BSOD dengan stop code).</p></div></div>
+      <p>Buka <b>Event Viewer (eventvwr)</b> → <b>Windows Logs → System</b>. Filter Log: Level = Critical &amp; Error. Event ID penting: <b>41</b> (Kernel-Power: sistem restart tiba-tiba tanpa shutdown bersih — indikasi hardware atau driver crash), <b>6008</b> (shutdown tidak terduga sebelumnya), <b>1001</b> (BugCheck: BSOD dengan stop code).</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Analisis Minidump dari BSOD</h4>
       <p>File crash dump disimpan di <code>C:\Windows\Minidump\</code>. Analisis menggunakan <b>WinDbg</b> atau online tool <b>https://WinDbg.info</b>. Minidump biasanya menyebutkan driver atau modul yang menyebabkan crash (contoh: <code>nvlddmkm.sys</code> = driver NVIDIA, <code>ntfs.sys</code> = masalah file sistem).</p></div></div>

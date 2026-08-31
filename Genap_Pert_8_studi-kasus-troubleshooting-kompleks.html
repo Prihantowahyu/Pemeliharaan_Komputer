@@ -308,7 +308,7 @@ function runCaseStudy() {
     header.textContent = 'BUKTI ANALISIS MINIDUMP: Machine Check Exception (MCE)';
     title.textContent = 'Kegagalan Hardware Fatal (CPU Undervoltage / Overheating / Motherboard VRM)';
     body.textContent = 'Windows Hardware Error Architecture (WHEA) mendeteksi kesalahan komputasi fatal pada core prosesor atau bus PCIe. Sering dipicu oleh overclocking tidak stabil, pasta termal mengering (TjMax tercapai), atau drop tegangan VCore.';
-    fix.innerHTML = '1. Masuk BIOS &rarr; Load Optimized Defaults (batalkan semua overclock/undervolt). 2. Periksa suhu CPU di HWiNFO (repaste jika >85°C). 3. Update mikrokode BIOS ke versi terbaru. 4. Uji stabilitas dengan Prime95 Small FFTs.';
+    fix.innerHTML = '1. Masuk BIOS → Load Optimized Defaults (batalkan semua overclock/undervolt). 2. Periksa suhu CPU di HWiNFO (repaste jika >85°C). 3. Update mikrokode BIOS ke versi terbaru. 4. Uji stabilitas dengan Prime95 Small FFTs.';
   } else if (val === 'bsod_mem') {
     layer.textContent = 'Layer 1 & 3: RAM Module & Memory Controller';
     layer.style.color = 'var(--amber)';
@@ -324,7 +324,7 @@ function runCaseStudy() {
     header.textContent = 'BUKTI ANALISIS: Storage Driver Unloaded / BCD Broken';
     title.textContent = 'Ketidaksesuaian Mode SATA/NVMe Controller atau BCD Pointer Hilang';
     body.textContent = 'Windows gagal menginisialisasi driver storage controller saat boot sequence. Sering terjadi setelah perubahan mode BIOS (RAID/VMD vs AHCI) atau partisi boot EFI terformat/rusak.';
-    fix.innerHTML = '1. Masuk BIOS &rarr; pastikan SATA/VMD Controller Mode sesuai dengan saat OS diinstal (AHCI/NVMe). 2. Boot dari USB WinRE &rarr; Command Prompt. 3. Jalankan bootrec /fixboot dan bootrec /rebuildbcd. 4. Jalankan chkdsk C: /f untuk cek bad sector.';
+    fix.innerHTML = '1. Masuk BIOS → pastikan SATA/VMD Controller Mode sesuai dengan saat OS diinstal (AHCI/NVMe). 2. Boot dari USB WinRE → Command Prompt. 3. Jalankan bootrec /fixboot dan bootrec /rebuildbcd. 4. Jalankan chkdsk C: /f untuk cek bad sector.';
   } else if (val === 'case_artifact') {
     layer.textContent = 'Layer 1: GPU VRAM / Chip BGA Soldering';
     layer.style.color = 'var(--amber)';
@@ -463,7 +463,7 @@ function runCaseStudy() {
       <div class="step-badge"></div>
       <div class="step-body">
         <h4>Membuka Minidump di Software WinDbg</h4>
-        <p>Buka <b>WinDbg (Windows Debugger)</b> sebagai Administrator &rarr; tekan <code>Ctrl + D</code> &rarr; pilih file .dmp yang telah disalin tadi.</p>
+        <p>Buka <b>WinDbg (Windows Debugger)</b> sebagai Administrator → tekan <code>Ctrl + D</code> → pilih file .dmp yang telah disalin tadi.</p>
       </div>
     </div>
     <div class="step-item">
@@ -477,7 +477,7 @@ function runCaseStudy() {
       <div class="step-badge"></div>
       <div class="step-body">
         <h4>Membaca Baris Modul Penyebab Utama</h4>
-        <p>Cari baris: <b>MODULE_NAME</b>, <b>IMAGE_NAME</b>, dan <b>PROCESS_NAME</b>. Jika tertulis <code>nvlddmkm.sys</code> &rarr; Driver GPU NVIDIA. Jika tertulis <code>rtwlane.sys</code> &rarr; Driver Realtek WiFi. Jika tertulis <code>ntoskrnl.exe</code> dengan MEMORY_MANAGEMENT &rarr; Kerusakan fisik modul RAM.</p>
+        <p>Cari baris: <b>MODULE_NAME</b>, <b>IMAGE_NAME</b>, dan <b>PROCESS_NAME</b>. Jika tertulis <code>nvlddmkm.sys</code> → Driver GPU NVIDIA. Jika tertulis <code>rtwlane.sys</code> → Driver Realtek WiFi. Jika tertulis <code>ntoskrnl.exe</code> dengan MEMORY_MANAGEMENT → Kerusakan fisik modul RAM.</p>
       </div>
     </div>
   </div>

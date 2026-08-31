@@ -111,10 +111,10 @@
       <div class="fase-body open">
         <table class="tc">
           <tr><th>Fase</th><th>Tipe Pesan</th><th>Arah Komunikasi</th><th>Deskripsi Paket</th></tr>
-          <tr><td><strong>D</strong>iscover</td><td>DHCPDISCOVER (Broadcast)</td><td>Client &rarr; <code>255.255.255.255:67</code></td><td>Client baru mencari keberadaan DHCP Server di LAN.</td></tr>
-          <tr><td><strong>O</strong>ffer</td><td>DHCPOFFER (Unicast/Broadcast)</td><td>Server &rarr; Client</td><td>Server menawarkan kandidat IP Address, Subnet Mask, dan Lease Time.</td></tr>
-          <tr><td><strong>R</strong>equest</td><td>DHCPREQUEST (Broadcast)</td><td>Client &rarr; Server</td><td>Client menyetujui tawaran IP tersebut secara resmi.</td></tr>
-          <tr><td><strong>A</strong>CK</td><td>DHCPACK (Unicast)</td><td>Server &rarr; Client</td><td>Server mengonfirmasi izin pemakaian IP dan mengirimkan Gateway & DNS.</td></tr>
+          <tr><td><strong>D</strong>iscover</td><td>DHCPDISCOVER (Broadcast)</td><td>Client → <code>255.255.255.255:67</code></td><td>Client baru mencari keberadaan DHCP Server di LAN.</td></tr>
+          <tr><td><strong>O</strong>ffer</td><td>DHCPOFFER (Unicast/Broadcast)</td><td>Server → Client</td><td>Server menawarkan kandidat IP Address, Subnet Mask, dan Lease Time.</td></tr>
+          <tr><td><strong>R</strong>equest</td><td>DHCPREQUEST (Broadcast)</td><td>Client → Server</td><td>Client menyetujui tawaran IP tersebut secara resmi.</td></tr>
+          <tr><td><strong>A</strong>CK</td><td>DHCPACK (Unicast)</td><td>Server → Client</td><td>Server mengonfirmasi izin pemakaian IP dan mengirimkan Gateway & DNS.</td></tr>
         </table>
       </div>
     </div>
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(window.CBTEngine){
     window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: DHCP Server & Reservation',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
     questions:[
-      {question:"Urutan 4 tahapan komunikasi protokol DHCP (DORA) yang benar saat klien meminta alamat IP adalah?",options:["Discover &rarr; Offer &rarr; Request &rarr; Acknowledgment","Request &rarr; Offer &rarr; Discover &rarr; Acknowledgment","Acknowledgment &rarr; Request &rarr; Offer &rarr; Discover","Ping &rarr; ARP &rarr; DNS &rarr; DHCP"],correctIndex:0,explanation:"DORA: DHCPDISCOVER (broadcast), DHCPOFFER (tawaran IP), DHCPREQUEST (permintaan resmi), DHCPACK (konfirmasi final)."},
+      {question:"Urutan 4 tahapan komunikasi protokol DHCP (DORA) yang benar saat klien meminta alamat IP adalah?",options:["Discover → Offer → Request → Acknowledgment","Request → Offer → Discover → Acknowledgment","Acknowledgment → Request → Offer → Discover","Ping → ARP → DNS → DHCP"],correctIndex:0,explanation:"DORA: DHCPDISCOVER (broadcast), DHCPOFFER (tawaran IP), DHCPREQUEST (permintaan resmi), DHCPACK (konfirmasi final)."},
       {question:"Port UDP yang digunakan oleh DHCP Server untuk mendengarkan (listening) request dari client adalah?",options:["Port 67 UDP (Server) dan Port 68 UDP (Client)","Port 80 TCP","Port 53 UDP","Port 22 TCP"],correctIndex:0,explanation:"DHCP Server beroperasi pada UDP Port 67 sedangkan Client menerima balasan pada UDP Port 68."},
       {question:"Fungsi klausa 'fixed-address' yang dipasangkan dengan 'hardware ethernet' pada dhcpd.conf adalah?",options:["Memberikan pemesanan IP statis permanen ke perangkat tertentu berdasarkan alamat fisik MAC Address kartu jaringannya","Memblokir akses internet perangkat","Menghapus history sewa IP","Mengubah MAC Address secara acak"],correctIndex:0,explanation:"Fixed address reservation menjamin perangkat yang sama selalu menerima IP yang sama persis."},
       {question:"File log yang mencatat seluruh daftar peminjaman IP, hostname client, dan durasi sewa aktif pada isc-dhcp-server adalah?",options:["/var/lib/dhcp/dhcpd.leases","/var/log/apache2/error.log","/etc/resolv.conf","/etc/fstab"],correctIndex:0,explanation:"dhcpd.leases adalah database dinamis yang mencatat riwayat kontrak sewa IP klien."}

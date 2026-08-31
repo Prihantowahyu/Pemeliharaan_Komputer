@@ -423,19 +423,19 @@ function runFW(){
   <div class="step-list">
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Membuka Konsol Firewall Lanjutan</h4>
-      <p>Tekan <code>Win + R</code> &rarr; ketik <code>wf.msc</code> &rarr; Enter. Panel kiri menampilkan: Inbound Rules, Outbound Rules, Connection Security Rules, dan Monitoring. Profil aktif (Domain/Private/Public) ditampilkan di panel tengah.</p></div></div>
+      <p>Tekan <code>Win + R</code> → ketik <code>wf.msc</code> → Enter. Panel kiri menampilkan: Inbound Rules, Outbound Rules, Connection Security Rules, dan Monitoring. Profil aktif (Domain/Private/Public) ditampilkan di panel tengah.</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Membuat Inbound Rule: Blokir Port SMB 445</h4>
-      <p>Klik <b>Inbound Rules &rarr; New Rule</b>. Pilih Type: <b>Port</b>. Protokol: <b>TCP</b>. Specific local ports: <b>445</b>. Action: <b>Block the connection</b>. Profile: centang <b>Domain, Private, dan Public</b>. Name: <code>BLOKIR-SMB-445-AntiRansomware</code>. Klik Finish. Rule aktif langsung tanpa restart.</p></div></div>
+      <p>Klik <b>Inbound Rules → New Rule</b>. Pilih Type: <b>Port</b>. Protokol: <b>TCP</b>. Specific local ports: <b>445</b>. Action: <b>Block the connection</b>. Profile: centang <b>Domain, Private, dan Public</b>. Name: <code>BLOKIR-SMB-445-AntiRansomware</code>. Klik Finish. Rule aktif langsung tanpa restart.</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Membuat Inbound Rule: Izinkan Program Spesifik</h4>
       <p>Untuk mengizinkan program spesifik (bukan berdasarkan port), pilih Type: <b>Program</b>. Browse ke lokasi executable (<code>%ProgramFiles%\aplikasi.exe</code>). Action: <b>Allow the connection</b>. Ini lebih aman daripada membuka port secara permanen.</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Verifikasi Aturan Firewall dengan Netstat</h4>
-      <p>Buka CMD &rarr; jalankan <code>netstat -an | findstr LISTEN</code> untuk melihat port yang sedang mendengarkan (listening). Pastikan port berbahaya (445, 23, 3389 jika tidak digunakan) tidak muncul dalam status LISTENING.</p></div></div>
+      <p>Buka CMD → jalankan <code>netstat -an | findstr LISTEN</code> untuk melihat port yang sedang mendengarkan (listening). Pastikan port berbahaya (445, 23, 3389 jika tidak digunakan) tidak muncul dalam status LISTENING.</p></div></div>
     <div class="step-item"><div class="step-badge"></div>
       <div class="step-body"><h4>Ekspor Kebijakan Firewall sebagai File Cadangan</h4>
-      <p>Di konsol wf.msc, klik kanan <b>Windows Defender Firewall with Advanced Security</b> di panel kiri &rarr; pilih <b>Export Policy</b>. Simpan file <code>.wfw</code>. File ini bisa diimpor ke PC lain untuk menerapkan kebijakan yang sama secara massal (berguna untuk lab sekolah).</p></div></div>
+      <p>Di konsol wf.msc, klik kanan <b>Windows Defender Firewall with Advanced Security</b> di panel kiri → pilih <b>Export Policy</b>. Simpan file <code>.wfw</code>. File ini bisa diimpor ke PC lain untuk menerapkan kebijakan yang sama secara massal (berguna untuk lab sekolah).</p></div></div>
   </div>
 </section>
 
@@ -447,16 +447,16 @@ function runFW(){
     <div class="card">
       <h4 style="color:var(--cyan);">Langkah Hardening Windows via Group Policy (gpedit.msc)</h4>
       <ul>
-        <li><b>Nonaktifkan AutoRun USB:</b> Computer Configuration &rarr; Administrative Templates &rarr; Windows Components &rarr; AutoPlay Policies &rarr; <b>Disable Autoplay: All Drives</b></li>
+        <li><b>Nonaktifkan AutoRun USB:</b> Computer Configuration → Administrative Templates → Windows Components → AutoPlay Policies → <b>Disable Autoplay: All Drives</b></li>
         <li><b>Nonaktifkan SMBv1:</b> Jalankan PowerShell Admin: <code>Set-SmbServerConfiguration -EnableSMB1Protocol $false</code></li>
-        <li><b>Batasi akses RDP:</b> System Properties &rarr; Remote &rarr; hanya izinkan pengguna tertentu</li>
-        <li><b>Aktifkan Audit Log:</b> Local Security Policy &rarr; Audit Policy &rarr; aktifkan Audit logon events</li>
+        <li><b>Batasi akses RDP:</b> System Properties → Remote → hanya izinkan pengguna tertentu</li>
+        <li><b>Aktifkan Audit Log:</b> Local Security Policy → Audit Policy → aktifkan Audit logon events</li>
       </ul>
     </div>
     <div class="card">
       <h4 style="color:var(--emerald);">Controlled Folder Access (Proteksi Ransomware)</h4>
       <p>Fitur eksklusif Windows 10/11 yang mencegah program tidak dikenal mengakses atau memodifikasi file di folder yang dilindungi (Documents, Desktop, Pictures, dll).</p>
-      <p style="margin-top:8px;">Cara aktifkan: <b>Windows Security &rarr; Virus &amp; threat protection &rarr; Manage ransomware protection &rarr; Controlled folder access: ON</b></p>
+      <p style="margin-top:8px;">Cara aktifkan: <b>Windows Security → Virus &amp; threat protection → Manage ransomware protection → Controlled folder access: ON</b></p>
       <p style="margin-top:8px;">Tambahkan folder penting sekolah ke daftar protected folders untuk perlindungan ekstra.</p>
     </div>
   </div>
