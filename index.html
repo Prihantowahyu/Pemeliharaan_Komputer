@@ -800,56 +800,62 @@
     color: var(--text-muted);
   }
 
-  /* Module Node & Card */
+  /* ============================================================
+     MODULE CARD — Clean Horizontal LMS Layout
+     ============================================================ */
   .module-node {
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease;
   }
-  .node-pin {
-    display: none; /* Removed arcade pin circle */
-  }
+  .node-pin { display: none; }
 
   .module-card {
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    padding: 18px 22px;
+    border-radius: 12px;
+    padding: 14px 18px;
     box-shadow: var(--shadow-sm);
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 16px;
+    row-gap: 6px;
+    align-items: start;
   }
   .module-card:hover {
     border-color: var(--border-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
+    transform: translateY(-1px);
   }
 
+  /* Top bar spans full width */
   .card-top-bar {
+    grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
   .card-tags {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     flex-wrap: wrap;
   }
 
+  /* Badges */
   .badge {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 2px 7px;
+    border-radius: 5px;
     background: var(--bg-subtle);
     border: 1px solid var(--border-subtle);
     color: var(--text-muted);
+    white-space: nowrap;
   }
   .badge-blok {
     background: var(--indigo-subtle);
@@ -862,105 +868,129 @@
     border-color: rgba(16, 185, 129, 0.25);
   }
   .badge-type {
-    background: var(--bg-subtle);
-    color: var(--text-sub);
+    background: rgba(148, 163, 184, 0.1);
+    color: var(--text-muted);
   }
 
+  /* Checkbox selesai */
   .check-completed {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11.5px;
-    font-weight: 700;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--text-muted);
     cursor: pointer;
     user-select: none;
+    flex-shrink: 0;
   }
   .check-completed input[type="checkbox"] {
     accent-color: var(--emerald);
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     cursor: pointer;
   }
 
+  /* Title — left column, row 2 */
   .card-title {
+    grid-column: 1;
     font-family: var(--font-heading);
-    font-size: 16px;
+    font-size: 14.5px;
     font-weight: 800;
     color: var(--text-main);
     line-height: 1.35;
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 7px;
+    margin: 0;
   }
   .card-title-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 5px;
     background: var(--primary-glow);
     color: var(--primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-top: 1px;
   }
+  .card-title-icon svg { width: 12px; height: 12px; }
 
+  /* Desc — left column, row 3 */
   .card-desc {
-    font-size: 13px;
+    grid-column: 1;
+    font-size: 12px;
     color: var(--text-sub);
-    line-height: 1.6;
+    line-height: 1.55;
+    margin: 0;
   }
 
+  /* Actions — right column, rows 2-3, vertically centered */
   .card-actions-row {
+    grid-column: 2;
+    grid-row: 2 / 4;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 4px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
   }
 
+  /* Launch Button — compact pill */
   .btn-launch {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 20px;
     background: linear-gradient(135deg, var(--primary), var(--indigo));
-    color: #ffffff;
-    font-size: 12.5px;
+    color: #fff;
+    font-size: 11.5px;
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    transition: all 0.18s ease;
     border: none;
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 8px rgba(99,102,241,0.25);
+    letter-spacing: 0.01em;
+  }
+  .btn-launch svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
   }
   .btn-launch:hover {
-    filter: brightness(1.1);
+    filter: brightness(1.12);
+    box-shadow: 0 4px 14px rgba(99,102,241,0.4);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
   }
 
+  /* Companion button */
   .btn-companion {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 13px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-subtle);
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: transparent;
     border: 1px solid var(--border-subtle);
-    color: var(--text-sub);
-    font-size: 12px;
+    color: var(--text-muted);
+    font-size: 11px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    transition: all 0.18s ease;
     cursor: pointer;
   }
+  .btn-companion svg { width: 11px; height: 11px; }
   .btn-companion:hover {
-    background: var(--bg-card-hover);
+    background: var(--bg-subtle);
     border-color: var(--border-hover);
     color: var(--text-main);
-    transform: translateY(-1px);
   }
 
   /* ==========================================================
@@ -1197,6 +1227,23 @@
     .search-wrapper { width: 100%; }
     .search-shortcut { display: none; }
     .nav-status-pill { display: none; }
+    /* Card mobile: switch back to single column */
+    .module-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      row-gap: 8px;
+    }
+    .card-top-bar { grid-column: 1; }
+    .card-title   { grid-column: 1; }
+    .card-desc    { grid-column: 1; }
+    .card-actions-row {
+      grid-column: 1;
+      grid-row: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
   @media (max-width: 480px) {
@@ -1204,8 +1251,8 @@
     .brand-info p { display: none; }
     .portal-hero { padding: 16px 14px; }
     .metrics-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-    .card-actions-row { flex-direction: column; align-items: stretch; }
-    .btn-launch, .btn-companion { justify-content: center; width: 100%; }
+    .card-actions-row { justify-content: stretch; }
+    .btn-launch, .btn-companion { justify-content: center; flex: 1; min-width: 120px; border-radius: 10px; }
     .btn-floating-ai span { display: none; }
     .btn-floating-ai { padding: 12px; }
   }

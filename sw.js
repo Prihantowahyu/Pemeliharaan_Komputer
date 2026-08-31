@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v36-clean-footer-portal';
+const CACHE_NAME = 'bengkel-hw-pwa-v37-compact-card-redesign';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
