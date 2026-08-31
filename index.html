@@ -3975,8 +3975,69 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px;" onclick="closeToolsHubModal(); openCheatsheetModal();">
           📑 <b>Cheatsheet &amp; Pinout</b>
         </button>
+        <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px; background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #10b981;" onclick="closeToolsHubModal(); openAdminModal();">
+          📊 <b>Panel Guru &amp; Rekap Nilai CBT</b>
+        </button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 14: PANEL GURU & REKAPITULASI NILAI CBT SISWA
+     ========================================================== -->
+<div id="adminModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeAdminModal()">
+  <div class="large-modal-card" style="max-width: 960px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #00f0ff); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #030712; font-weight: 800;">👨‍🏫</div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800; margin: 0;">
+            Panel Pengawas Guru &amp; Rekapitulasi Nilai CBT
+          </h3>
+          <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;" id="cbtSubmissionsCountText">
+            Memuat data hasil ujian CBT siswa...
+          </p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closeAdminModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Security & Teacher PIN Banner -->
+    <div style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="font-size: 13px; color: var(--text-sub);">
+        🔑 <b>PIN Buka Kunci Siswa Terkunci:</b> <code style="background: rgba(16,185,129,0.2); color: #10b981; font-size: 14px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">230587</code> &nbsp;|&nbsp; Guru Pengampu: <b>Wahyu Prihanto</b>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button type="button" class="btn-launch" style="padding: 7px 14px; font-size: 12px; background: linear-gradient(135deg, #10b981, #00f0ff);" onclick="exportCbtSubmissionsCsv()">
+          📥 Ekspor ke Excel (CSV)
+        </button>
+        <button type="button" class="btn-companion" style="padding: 7px 12px; font-size: 12px; color: #ef4444; border-color: rgba(239,68,68,0.3);" onclick="clearCbtSubmissions()">
+          🗑️ Kosongkan Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Submissions Table -->
+    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; overflow-x: auto; max-height: 420px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--cyan); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;">
+            <th style="padding: 10px 8px;">No</th>
+            <th style="padding: 10px 8px;">Waktu</th>
+            <th style="padding: 10px 8px;">Nama Siswa</th>
+            <th style="padding: 10px 8px;">Materi / Modul</th>
+            <th style="padding: 10px 8px; text-align: center;">Skor</th>
+            <th style="padding: 10px 8px; text-align: center;">Predikat</th>
+            <th style="padding: 10px 8px; text-align: center;">Pelanggaran</th>
+            <th style="padding: 10px 8px;">Token</th>
+          </tr>
+        </thead>
+        <tbody id="cbtSubmissionsTableBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -6909,6 +6970,59 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
   }
 
+  function openAdminModal() {
+    const modal = document.getElementById('adminModal');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    updateTeacherCbtCount();
+    renderAdminCbtTable();
+  }
+
+  function closeAdminModal() {
+    const modal = document.getElementById('adminModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function renderAdminCbtTable() {
+    const tbody = document.getElementById('cbtSubmissionsTableBody');
+    if (!tbody) return;
+    try {
+      const records = JSON.parse(localStorage.getItem('bh_cbt_all_submissions')) || [];
+      if (records.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center; padding:28px 10px; color:var(--text-muted);">
+              Belum ada riwayat pengerjaan CBT di perangkat ini. Hasil pengerjaan siswa akan otomatis muncul di sini.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      records.slice().reverse().forEach((r, idx) => {
+        const isPassed = Number(r.finalScore) >= 75;
+        const scoreColor = isPassed ? '#10b981' : '#ef4444';
+        const violationColor = r.violations === 0 ? '#10b981' : '#ef4444';
+        html += `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding:10px 8px; font-family:var(--font-mono); color:var(--text-muted);">${records.length - idx}</td>
+            <td style="padding:10px 8px; font-size:11.5px; color:var(--text-sub);">${r.formattedDate || new Date(r.timestamp).toLocaleString('id-ID')}</td>
+            <td style="padding:10px 8px; font-weight:700; color:var(--text-main);">${r.studentName}</td>
+            <td style="padding:10px 8px; color:var(--text-sub);">${r.moduleTitle}</td>
+            <td style="padding:10px 8px; text-align:center; font-family:var(--font-mono); font-weight:800; color:${scoreColor};">${r.finalScore}</td>
+            <td style="padding:10px 8px; text-align:center; font-size:11px; color:${scoreColor}; font-weight:700;">${r.grade}</td>
+            <td style="padding:10px 8px; text-align:center; font-family:var(--font-mono); font-weight:700; color:${violationColor};">${r.violations === 0 ? '0 (Jujur)' : r.violations + 'x'}</td>
+            <td style="padding:10px 8px; font-family:var(--font-mono); font-size:11px; color:var(--cyan);">${r.token}</td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    } catch(err) {
+      tbody.innerHTML = `<tr><td colspan="8" style="color:#ef4444; padding:12px;">Gagal memuat data: ${err.message}</td></tr>`;
+    }
+  }
+
   function exportCbtSubmissionsCsv() {
     try {
       const records = JSON.parse(localStorage.getItem('bh_cbt_all_submissions')) || [];
@@ -6922,8 +7036,8 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         const row = [
           idx + 1,
           `"${r.formattedDate || r.timestamp}"`,
-          `"${r.studentName.replace(/"/g, '""')}"`,
-          `"${r.moduleTitle.replace(/"/g, '""')}"`,
+          `"${(r.studentName || 'Peserta').replace(/"/g, '""')}"`,
+          `"${(r.moduleTitle || 'Materi').replace(/"/g, '""')}"`,
           r.finalScore,
           `"${r.grade}"`,
           r.correct,
