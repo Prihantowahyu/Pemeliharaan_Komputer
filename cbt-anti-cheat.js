@@ -362,7 +362,12 @@
       this.updateTimerDisplay();
 
       // Show Overlay First
-      document.getElementById('cbtModalOverlay').classList.add('active');
+      const overlayEl = document.getElementById('cbtModalOverlay');
+      if (overlayEl) {
+        overlayEl.classList.add('active');
+        overlayEl.scrollTop = 0;
+      }
+      document.body.style.overflow = 'hidden';
       isExamActive = true;
 
       // Request Fullscreen (Graceful on mobile & iOS)
@@ -465,6 +470,7 @@
 
       // Hide modal
       document.getElementById('cbtModalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
 
       // Calculate Score
       this.evaluateScore();

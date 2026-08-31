@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v31-ui-ux-unified-navigation';
+const CACHE_NAME = 'bengkel-hw-pwa-v32-cbt-scroll-mobile-responsive';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [

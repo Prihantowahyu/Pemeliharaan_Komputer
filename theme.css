@@ -507,3 +507,139 @@ html.light-mode .btn-home-nav:hover {
   border-color: #93c5fd !important;
   color: #1e40af !important;
 }
+
+/* ==========================================================================
+   UNIVERSAL MOBILE RESPONSIVE ENGINE (FOR ALL 46+ MODULES & CBT EXAMS)
+   Memastikan kenyamanan navigasi & materi di HP (320px - 640px)
+   ========================================================================== */
+
+/* 1. Global Viewport & Container Constraint */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img, svg, canvas, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 2. Responsive Tables (Touch Horizontal Scroll) */
+.tech-table,
+.tool-table,
+.tbl-wrap table,
+.tc,
+table {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: pan-x pan-y !important;
+  white-space: normal;
+}
+
+/* 3. Mobile Breakpoint Optimizations (<= 640px) */
+@media (max-width: 640px) {
+  /* Container & Wrappers */
+  .wrap, .container, .main-wrap, .app-wrap {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Topbar Navigation Bar */
+  .topbar-inner, .hud-inner, header.top-hud, .topbar {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+
+  .jp-indicator .jp-label:first-child {
+    display: none !important;
+  }
+
+  .brand-back {
+    font-size: 11px !important;
+    padding: 5px 9px !important;
+  }
+
+  .btn-home-nav, .btn-theme-switcher {
+    font-size: 10.5px !important;
+    padding: 4px 9px !important;
+    margin-right: 4px !important;
+  }
+
+  /* Grids & Cards */
+  .grid-2, .grid-3, .grid-4,
+  .card-grid, .fase-grid, .rubrik-grid, .dgrid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .card, .sc, .info-card, .comp-card, .dcard, .doc-card, .rubrik-card {
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Step Lists & Timelines */
+  .step-item {
+    grid-template-columns: 32px 1fr !important;
+    gap: 10px !important;
+  }
+
+  .step-badge {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
+
+  .timeline .tl-item {
+    grid-template-columns: 65px 1fr !important;
+    gap: 10px !important;
+  }
+
+  .tl-jp {
+    width: 65px !important;
+    height: 30px !important;
+    font-size: 10px !important;
+  }
+
+  /* Custom Input & Buttons */
+  .btn-action, .btn.pr, .btn.se {
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+  }
+
+  .custom-input, select.custom-select, textarea.custom-textarea {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+  }
+
+  /* Hero & Headings */
+  header.hero {
+    padding: 24px 0 16px !important;
+  }
+
+  h1 {
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+  }
+
+  h2 {
+    font-size: 17px !important;
+  }
+
+  .subtitle, .sec-desc, .hero-desc {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Footer */
+  footer.mod-footer, footer.app-footer {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 18px 12px !important;
+  }
+}
+
