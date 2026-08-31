@@ -3,253 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 4: Redundant Storage Management (Software RAID mdadm & LVM) — Kelas XII TKJ</title>
+<title>Genap Pert 4: Redundant Storage Management (Software RAID mdadm) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(16, 185, 129, 0.25);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --emerald-glow: rgba(16, 185, 129, 0.35);
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: #6ee7b7; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--emerald) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(245,158,11,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(245,158,11,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--am),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--am);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--am);box-shadow:0 0 8px var(--am)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(245,158,11,.12);border:1px solid var(--am);color:var(--am);margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,var(--am) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--am);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f2 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f3{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f3 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f4{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f4 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f5{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f5 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(245,158,11,.15);color:#fde68a;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--am);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(245,158,11,.2);color:var(--am);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 1 (Hari 4 / Pert. 4)</span></div>
-    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 4 (Pert. 4)</div>
+    <a href="index.html#server-genap" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 1 HARI KE-4 · SEMESTER GENAP</div>
-    <h1>Redundant Storage Management (Software RAID 0, 1, 5, 10 & Hot Spare Rebuild)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan industri membangun subsistem penyimpanan data redundan tanpa single point of failure: Membedah arsitektur RAID Level 0 (Striping), RAID 1 (Mirroring), RAID 5 (Distributed Parity), dan RAID 10 (Striped Mirror), implementasi Software RAID Linux via <code>mdadm</code>, alokasi Hot-Spare Drive otomatis, simulasi kegagalan disk fisik dan rekonstruksi data online (Array Rebuild), serta integrasi LVM.</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 1 HARI KE-4 · SEMESTER GENAP</div>
+    <h1>Redundant Storage Management: Software RAID (0/1/5/10) via mdadm</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Mencegah kehilangan data akibat kerusakan mekanis hard disk fisik: komparasi arsitektur RAID (Striping, Mirroring, Parity), implementasi Software RAID menggunakan utilitas <code>mdadm</code>, monitoring status array di <code>/proc/mdstat</code>, otomatisasi Hot-Spare Drive, serta simulasi pemulihan disk rusak (Degraded Array Recovery).</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">RAID Levels Theory</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">mdadm CLI Setup</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Hot-Spare & Parity</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Disk Failure</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Degraded Array Recovery</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Konsep Hardware Redundancy</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">RAID 0, 1, 5, 10 Math</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">mdadm Architecture</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Job Sheet RAID 5 Array</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Disk Failure & Hot-Spare</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Risiko Kerusakan Hard Disk Mekis/SSD</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Apersepsi: Mengapa server data center tidak boleh hanya mengandalkan 1 unit hard disk? Guru memaparkan statistik kegagalan drive (AFR - Annualized Failure Rate) dan pentingnya toleransi kesalahan (Fault Tolerance) menggunakan RAID.</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan & Apersepsi — Semua Hard Disk Pasti Akan Rusak!</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Komparasi Teknis RAID 0, 1, 5, 6, dan 10</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Perhitungan matematis kapasitas efektif: RAID 0 (100% kapasitas, 0% toleransi), RAID 1 (50% kapasitas, toleransi 1 disk mati), RAID 5 ((N-1) kapasitas, toleransi 1 disk mati dengan kalkulasi XOR Parity), dan RAID 10 (kecepatan striping + keandalan mirroring ganda).</p>
+      <div class="fase-body open">
+        <p style="color:var(--t2);font-size:14px">Hard disk mekanis (HDD) dan chip SSD memiliki masa pakai terbatas (MTBF). Pada server produksi, kita tidak boleh menunggu disk rusak baru panik. <strong>RAID (Redundant Array of Independent Disks)</strong> menggabungkan beberapa disk fisik menjadi satu drive logis dengan toleransi kegagalan (Fault Tolerance).</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Bedah Utilitas mdadm & Konsep Hot-Spare</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Pembedahan parameter CLI: <code>mdadm --create /dev/md0 --level=5 --raid-devices=3 --spare-devices=1 /dev/sdb /dev/sdc /dev/sdd /dev/sde</code> dan pemantauan status array di <code>/proc/mdstat</code>.</p>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Matriks Komparasi Level RAID (0, 1, 5, 10)</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Persiapan menambahkan 4 virtual hard disk (masing-masing 5GB) pada VM siswa.</p>
+      <div class="fase-body open">
+        <table class="tc">
+          <tr><th>Level RAID</th><th>Metode Data</th><th>Minimal Disk</th><th>Kapasitas Efektif</th><th>Toleransi Kerusakan</th></tr>
+          <tr><td><strong>RAID 0</strong></td><td>Striping (Pecah Data)</td><td>2 Disk</td><td>100% (N Disk)</td><td><strong>0 Disk (Jika 1 rusak, SEMUA data hilang!)</strong></td></tr>
+          <tr><td><strong>RAID 1</strong></td><td>Mirroring (Salinan Ganda)</td><td>2 Disk</td><td>50% (1/2 Total)</td><td>1 Disk rusak, data tetap 100% aman</td></tr>
+          <tr><td><strong>RAID 5</strong></td><td>Block Striping + Distributed Parity</td><td><strong>3 Disk</strong></td><td><strong>(N - 1) Disk</strong></td><td>1 Disk rusak dari total array, rebuild otomatis</td></tr>
+          <tr><td><strong>RAID 10</strong></td><td>Kombinasi RAID 1 + RAID 0</td><td>4 Disk</td><td>50% (1/2 Total)</td><td>1 Disk rusak per sub-mirror array</td></tr>
+        </table>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Simulasi Disk Crash & Hot-Rebuild</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet Genap 4</strong>: (1) Buat array RAID 5 dari 3 disk aktif + 1 hot-spare, (2) Format ext4 dan mount ke <code>/data/secure_storage</code>, (3) Salin 1000 file dokumen ke dalamnya, (4) Simulasikan disk rusak: <code>sudo mdadm /dev/md0 --fail /dev/sdb</code>, (5) Pantau proses otomatis hot-spare <code>/dev/sde</code> mengambil alih dan melakukan <strong>rebuild parity</strong> secara online tanpa ada data yang hilang!</p>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Arsitektur Linux Software RAID: Perintah mdadm & /proc/mdstat</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting Array Degraded)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Siswa menangani kondisi array <code>[UU_] (Degraded)</code>, melepas hard disk rusak dengan <code>--remove</code>, dan memasang hard disk pengganti baru dengan <code>--add</code>.</p>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Di Linux, array RAID dikelola oleh modul kernel <strong>Multiple Devices (md)</strong> yang dikenali sebagai device <code>/dev/md0</code>.</p>
+        <div class="cb"><pre><span style="color:#64748b;"># Memeriksa status kesehatan RAID secara real-time:</span>
+cat /proc/mdstat</pre></div>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live rebuild oleh guru, dan pengantar materi Backup & Disaster Recovery.</p>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Persiapan 3 Virtual Disk Tambahan</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
       </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Persiapan penambahan 3 virtual disk 5GB (/dev/sdb, /dev/sdc, /dev/sdd) di VM.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Membangun RAID 5 Array + Hot Spare (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Install utilitas mdadm:</strong><div class="cb"><pre>sudo apt update && sudo apt install -y mdadm</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Buat Array RAID 5 (3 Active Disk + 1 Hot Spare):</strong><div class="cb"><pre>sudo mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd --spare-devices=1 /dev/sde</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Format dan Mount RAID Array:</strong><div class="cb"><pre>sudo mkfs.ext4 /dev/md0
+sudo mkdir -p /mnt/raid_storage
+sudo mount /dev/md0 /mnt/raid_storage</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">4</span><div style="color:var(--t2);font-size:14px"><strong>Simpan konfigurasi permanen agar tidak hilang saat reboot:</strong><div class="cb"><pre>sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+sudo update-initramfs -u</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Simulasi Kerusakan Disk (Fault Injection) & Automatic Rebuild</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Siswa mensimulasikan salah satu hard disk rusak secara tiba-tiba, dan menyaksikan Hot Spare mengambil alih otomatis:</p>
+        <div class="cb"><pre><span style="color:#64748b;"># 1. Tandai disk /dev/sdb sebagai 'FAILED' secara sengaja:</span>
+sudo mdadm --manage /dev/md0 --fail /dev/sdb
+
+<span style="color:#64748b;"># 2. Pantau proses Rebuilding otomatis ke Hot Spare (/dev/sde):</span>
+watch -n 1 cat /proc/mdstat
+
+<span style="color:#64748b;"># 3. Lepas disk rusak dan masukkan disk baru:</span>
+sudo mdadm --manage /dev/md0 --remove /dev/sdb
+sudo mdadm --manage /dev/md0 --add /dev/sdf</pre></div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi CBT & Refleksi Pembelajaran RAID Storage</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Selesaikan evaluasi pemahaman Software RAID di bawah ini.</p></div>
     </div>
   </section>
 
-  <!-- BAGIAN 2: MATERI TEORI RAID MDADM -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Perbandingan Arsitektur RAID & Perintah CLI mdadm</h2>
-    <table class="table-custom">
-      <tr><th>Level RAID</th><th>Min. Disk</th><th>Kapasitas Efektif</th><th>Toleransi Kerusakan Disk</th><th>Throughput Baca/Tulis</th></tr>
-      <tr><td><strong>RAID 0</strong></td><td>2 Disk</td><td>100% (Total Semua Disk)</td><td><strong>0 Disk (1 disk mati, SEMUA data hilang)</strong></td><td>Sangat Cepat / Sangat Cepat</td></tr>
-      <tr><td><strong>RAID 1</strong></td><td>2 Disk</td><td>50% (Ukuran 1 Disk)</td><td>1 Disk Mati (Mirroring 100%)</td><td>Cepat / Standar</td></tr>
-      <tr><td><strong>RAID 5</strong></td><td>3 Disk</td><td>(N - 1) &times; Kapasitas</td><td>1 Disk Mati (Parity XOR didistribusikan)</td><td>Sangat Cepat / Sedang (Hitung Parity)</td></tr>
-      <tr><td><strong>RAID 10</strong></td><td>4 Disk</td><td>50% &times; Total Disk</td><td>1 Disk per Mirror Pair</td><td>Sangat Cepat / Sangat Cepat</td></tr>
-    </table>
-
-    <div class="code-block" style="margin-top:16px;">
-<span style="color:#64748b;"># 1. Membuat Array RAID 5 dengan 3 Disk Aktif + 1 Disk Hot-Spare</span>
-<span style="color:#38bdf8;">sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 --spare-devices=1 /dev/sdb /dev/sdc /dev/sdd /dev/sde</span>
-
-<span style="color:#64748b;"># 2. Menyimpan Konfigurasi agar Persisten Pasca Reboot</span>
-<span style="color:#38bdf8;">sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf</span>
-<span style="color:#38bdf8;">sudo update-initramfs -u</span>
-
-<span style="color:#64748b;"># 3. Simulasi Kerusakan Hard Disk Fisik (Fault Injection)</span>
-<span style="color:#ef4444;">sudo mdadm /dev/md0 --fail /dev/sdb</span>
-<span style="color:#38bdf8;">cat /proc/mdstat</span> <span style="color:#64748b;"># Mengamati hot spare /dev/sde langsung rebuild menggantikan /dev/sdb!</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Tahap</th><th>Perintah Eksekusi</th><th>Target Output & Kriteria Sukses</th></tr>
-      <tr><td><strong>1. Cek Disk Baru</strong></td><td><code>lsblk</code></td><td>Terdeteksi 4 disk kosong: <code>sdb</code>, <code>sdc</code>, <code>sdd</code>, <code>sde</code>.</td></tr>
-      <tr><td><strong>2. Cek Detail Array</strong></td><td><code>sudo mdadm --detail /dev/md0</code></td><td>State: <code>clean</code>, Active Devices: <code>3</code>, Spare Devices: <code>1</code>.</td></tr>
-      <tr><td><strong>3. Format & Mount</strong></td><td><code>sudo mkfs.ext4 /dev/md0 &amp;&amp; sudo mount /dev/md0 /data/raid5</code></td><td>Mount point <code>/data/raid5</code> siap digunakan dengan performa tinggi.</td></tr>
-      <tr><td><strong>4. Ganti Disk Baru</strong></td><td><code>sudo mdadm /dev/md0 --remove /dev/sdb</code><br><code>sudo mdadm /dev/md0 --add /dev/sdf</code></td><td>Hard disk baru <code>sdf</code> otomatis menjadi status Spare baru.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: State [UU_] Degraded Array</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># KASUS: cat /proc/mdstat menampilkan "md0 : active raid5 sdd[2] sdc[1] [3/2] [UU_]"</span>
-<span style="color:#fde68a;"># Analisis: Tanda '_' menunjukkan ada 1 drive yang hilang/mati. Array masih bisa melayani baca-tulis karena kalkulasi parity, tetapi toleransi kesalahan tersisa 0! Segera pasang disk pengganti sebelum drive lain rusak!</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Genap_Pert_3_remote-access-ssh-rdp.html" class="btn-nav-bottom secondary">← Pertemuan 3: Remote Access SSH</a>
-    <a href="Server_Genap_Pert_5_backup-disaster-recovery.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 5: Backup & Disaster Recovery (RTO/RPO) →</a>
+    <a href="Server_Genap_Pert_3_remote-access-ssh-rdp.html" class="btn se">← Genap Pert. 3: SSH Hardening</a>
+    <a href="Server_Genap_Pert_5_backup-disaster-recovery.html" class="btn pr">Lanjut ke Genap Pert. 5: Backup & DR →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: RAID Storage & mdadm',
-      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Jika sebuah server mengonfigurasi 4 unit hard disk masing-masing berkapasitas 2 Terabyte menggunakan konfigurasi RAID 5, berapakah total kapasitas penyimpanan bersih yang dapat digunakan?",
-          options: ["6 Terabyte (Rumus: (N-1) × Kapasitas = (4-1) × 2TB)", "8 Terabyte", "2 Terabyte", "4 Terabyte"],
-          correctIndex: 0,
-          explanation: "RAID 5 mengalokasikan ekuivalen kapasitas 1 hard disk untuk menyimpan bit Parity yang didistribusikan merata di seluruh drive, sehingga (4-1) x 2TB = 6TB."
-        },
-        {
-          question: "Peran utama dari drive berstatus 'Hot-Spare' pada subsistem storage server adalah?",
-          options: [
-            "Hard disk cadangan yang selalu siaga dalam kondisi menyala (standby) dan secara otomatis langsung mengambil alih proses rebuild data saat salah satu hard disk utama rusak",
-            "Hard disk yang digunakan khusus menyimpan lagu MP3",
-            "Hard disk yang suhunya selalu panas",
-            "Hard disk yang hanya berfungsi saat server dimatikan"
-          ],
-          correctIndex: 0,
-          explanation: "Hot-Spare memangkas 'Mean Time to Repair (MTTR)' karena rekonstruksi data parity dimulai seketika tanpa harus menunggu teknisi datang mengganti disk fisik."
-        },
-        {
-          question: "Mengapa konfigurasi RAID 0 (Striping) DILARANG KERAS digunakan untuk server data penting di dunia industri?",
-          options: [
-            "Karena RAID 0 tidak memiliki toleransi kesalahan sama sekali; jika satu saja hard disk mengalami kerusakan fisik, SELURUH data pada semua disk akan hilang total",
-            "Karena RAID 0 kecepatan baca tulisnya sangat lambat",
-            "Karena RAID 0 membutuhkan lisensi berbayar",
-            "Karena RAID 0 tidak kompatibel dengan kabel SATA"
-          ],
-          correctIndex: 0,
-          explanation: "RAID 0 memecah blok data separuh ke disk A dan separuh ke disk B tanpa duplikasi/parity, menjadikannya pilihan berisiko fatal untuk data penting."
-        },
-        {
-          question: "Perintah utilitas Linux yang digunakan untuk memantau status kesehatan dan proses persentase rebuild RAID array secara live adalah?",
-          options: ["cat /proc/mdstat", "ip a", "fdisk -l", "chmod 777 /dev/md0"],
-          correctIndex: 0,
-          explanation: "'/proc/mdstat' adalah file virtual kernel Linux yang menyajikan status real-time seluruh software RAID array (status disk, speed, persentase recovery)."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: Software RAID Storage',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Level RAID yang menggunakan metode Distributed Parity dan membutuhkan minimal 3 buah hard disk fisik adalah?",options:["RAID 5","RAID 0","RAID 1","RAID 2"],correctIndex:0,explanation:"RAID 5 membagi data dan bit paritas secara merata ke minimal 3 disk."},
+      {question:"Jika Anda memiliki 4 buah hard disk dengan kapasitas masing-masing 1 TB yang digabungkan ke dalam konfigurasi RAID 5, berapakah total kapasitas penyimpanan efektif yang dapat digunakan?",options:["3 TB (Rumus: (N - 1) x Kapasitas Disk)","4 TB","2 TB","1 TB"],correctIndex:0,explanation:"Kapasitas efektif RAID 5 adalah (N-1) karena setara 1 disk dialokasikan untuk data paritas redundansi."},
+      {question:"Peran dari hard disk yang dikonfigurasikan sebagai 'Hot Spare' di dalam array RAID server adalah?",options:["Hard disk cadangan yang dalam kondisi siaga (standby), yang akan otomatis aktif dan mengambil alih proses rebuild data saat salah satu disk utama mengalami kerusakan mekanis","Hard disk untuk menyimpan game","Hard disk yang dipanaskan","Hard disk yang tidak dialiri listrik"],correctIndex:0,explanation:"Hot-Spare adalah disk standby yang secara otomatis menggantikan disk yang drop dari array."},
+      {question:"File sistem semu (pseudo-filesystem) pada kernel Linux yang digunakan untuk memantau status kesehatan dan proses sinkronisasi RAID secara langsung adalah?",options:["/proc/mdstat","/var/log/syslog","/etc/fstab","/dev/null"],correctIndex:0,explanation:"/proc/mdstat menyajikan metrik aktif seluruh device RAID md yang terdaftar di kernel Linux."}
+    ]});
   }
 });
 </script>

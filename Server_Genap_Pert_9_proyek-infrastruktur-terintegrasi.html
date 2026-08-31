@@ -3,269 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 9: Proyek Akhir — Rancang Bangun Infrastruktur Server Enterprise Terintegrasi — Kelas XII TKJ</title>
+<title>Genap Pert 9: Proyek Integrasi Infrastruktur Server Enterprise 3-Tier — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(0, 240, 255, 0.25);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(0, 240, 255, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(139,92,246,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(139,92,246,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--vi),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:#c4b5fd;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--vi);box-shadow:0 0 8px var(--vi)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(139,92,246,.12);border:1px solid var(--vi);color:#c4b5fd;margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,#c4b5fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--vi);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f2 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f3{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f3 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f4{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f4 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f5{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f5 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(139,92,246,.15);color:#c4b5fd;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:#c4b5fd;font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(139,92,246,.2);color:#c4b5fd;font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 2 (Hari 4 / CAPSTONE PROJECT)</span></div>
-    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Genap — Blok 2 Hari 4 (Pert. 9)</div>
+    <a href="index.html#server-genap" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ CAPSTONE PROJECT 9 JP (405 MENIT) · BLOK 2 HARI KE-4 · SEMESTER GENAP</div>
-    <h1>Proyek Akhir Terpadu: Rancang Bangun Infrastruktur Server Enterprise 3-Tier</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Integrasi puncak seluruh kompetensi keahlian: Merancang topologi 3-Tier Enterprise terpadu (Presentation Layer: DNS BIND9 & Nginx HTTPS SSL; Application Layer: Apache2 PHP-FPM; Data Layer: MySQL RDBMS & Samba Storage), implementasi segmentasi VLAN & Firewall UFW terisolasi, otomatisasi backup harian rsync, serta penyusunan buku panduan teknis operasional (Standard Operating Procedure).</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 2 HARI KE-4 · SEMESTER GENAP</div>
+    <h1>Proyek Integrasi Infrastruktur Server 3-Tier (Load Balancer &rarr; Web &rarr; DB)</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Integrasi menyeluruh seluruh keahlian semester ganjil & genap ke dalam topologi industri 3-Tier Enterprise: Tier 1 (DNS BIND9 & HAProxy Load Balancer), Tier 2 (Cluster Web Nginx PHP-FPM dengan SSL/TLS), Tier 3 (Dedicated Database MariaDB Server terisolasi), audit keamanan firewall antar-tier, dan pengujian performa Apache Benchmark (ab load stress).</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">3-Tier Blueprint Brief</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">VLAN & Network Design</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Service Interconnect</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Hands-on Capstone Build</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">End-to-End Stress Test</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & SOP Defense</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Arsitektur 3-Tier Enterprise</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Topologi IP & Firewall Matrix</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">Penyusunan Plan Deployment</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Job Sheet Integrasi 3-Tier</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Stress Testing ApacheBench</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Pembagian Blueprint Proyek Enterprise</span> <span style="font-size:12px;color:var(--cyan);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Guru memberikan berkas studi kasus: <em>"Membangun Infrastruktur Digital Terpadu SMK Negeri 1 Indonesia"</em>. Siswa dibagi dalam tim beranggotakan 2 orang (Lead SysAdmin & Security Engineer) dan mempelajari matriks pengalamatan IP serta diagram alir data.</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan — Anatomi Topologi Arsitektur 3-Tier Enterprise</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Perancangan Arsitektur 3-Tier & Firewall Segmentasi</span> <span style="font-size:12px;color:var(--cyan);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Membedah pemisahan lapisan keamanan: Web Server diizinkan diakses publik (Port 80/443), sedangkan Database Server MySQL dan File Sharing Samba HANYA boleh diakses oleh internal Web Server (Dilarang terekspos langsung ke publik!).</p>
+      <div class="fase-body open">
+        <div class="cb">
+<pre style="color:#67e8f9;">[ KLIEN INTERNET / SISWA ]
+            │ (Query DNS: smk.lan -> 192.168.10.10)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│ TIER 1: GATEWAY & LOAD BALANCER (192.168.10.10)          │
+│ • BIND9 DNS Server + SSL Termination + HAProxy           │
+└────────────────────────────┬─────────────────────────────┘
+                             │ (Distribusi Trafik HTTP Port 80)
+              ┌──────────────┴──────────────┐
+              ▼                             ▼
+┌───────────────────────────┐ ┌───────────────────────────┐
+│ TIER 2: WEB NODE 1        │ │ TIER 2: WEB NODE 2        │
+│ IP: 192.168.10.11         │ │ IP: 192.168.10.12         │
+│ • Nginx + PHP-FPM Engine  │ │ • Nginx + PHP-FPM Engine  │
+└─────────────┬─────────────┘ └─────────────┬─────────────┘
+              │                             │
+              └──────────────┬──────────────┘
+                             │ (Query SQL TCP Port 3306)
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│ TIER 3: DATABASE BACKEND TERISOLASI (192.168.10.20)      │
+│ • MariaDB Server (Hanya diizinkan diakses dari Tier 2)   │
+└──────────────────────────────────────────────────────────┘</pre>
+        </div>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Strategi Integrasi Antar-Layanan (Cross-Service Pipeline)</span> <span style="font-size:12px;color:var(--cyan);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Menghubungkan rantai layanan: DNS BIND9 &rarr; Reverse Proxy Nginx SSL &rarr; Apache Web App &rarr; MariaDB DB via User Grants &rarr; Samba Shared Folder &rarr; Cron Backup rsync.</p>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Matriks Keamanan Firewall Antar-Tier</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Koordinasi pembagian tugas konfigurasi di dalam tim.</p>
+      <div class="fase-body open">
+        <table class="tc">
+          <tr><th>Node Server</th><th>IP Address</th><th>Port yang Dibuka</th><th>Sumber Akses yang Diizinkan</th></tr>
+          <tr><td><strong>Tier 1 (LB & DNS)</strong></td><td><code>192.168.10.10</code></td><td>53 (DNS), 80/443 (Web), 2222 (SSH)</td><td>Seluruh Klien LAN Lab</td></tr>
+          <tr><td><strong>Tier 2 (Web Node 1 & 2)</strong></td><td><code>192.168.10.11</code> & <code>.12</code></td><td>80 (HTTP Internal), 2222 (SSH)</td><td><strong>HANYA dari IP Tier 1 (192.168.10.10)</strong></td></tr>
+          <tr><td><strong>Tier 3 (Database)</strong></td><td><code>192.168.10.20</code></td><td>3306 (MySQL), 2222 (SSH)</td><td><strong>HANYA dari IP Web Nodes (192.168.10.11 & .12)</strong></td></tr>
+        </table>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Eksekusi Capstone Project 3-Tier</span> <span style="font-size:12px;color:var(--cyan);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet Genap 9</strong>: Membangun ekosistem server lengkap dari nol: (1) DNS Master <code>smk.lan</code>, (2) Web Portal Sekolah HTTPS 443, (3) Database Nilai Siswa terhubung skrip PHP, (4) Shared Folder Samba untuk guru, (5) Hardening UFW, (6) Skrip otomatis backup berkas & database setiap malam.</p>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Standard Operating Procedure (SOP) Deployment Terpadu</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Pengujian End-to-End & Audit Beban (Load Testing)</span> <span style="font-size:12px;color:var(--cyan);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Guru dan kelompok lain menguji ketahanan sistem tim: Mengakses website dari browser client, menguji form input database, mengecek validitas enkripsi SSL, dan melakukan audit keamanan port terbuka via <code>nmap</code>.</p>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Urutan eksekusi: <strong>Database Server terlebih dahulu &rarr; Web Nodes &rarr; Load Balancer & DNS di akhir</strong>.</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi CBT & Presentasi Laporan Teknis</span> <span style="font-size:12px;color:var(--cyan);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT 30 menit, penyerahan berkas portofolio topologi tim, dan persiapan menuju Simulasi UKK Final di Pertemuan 10.</p>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Persiapan 4 Node VM Terhubung</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
       </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Pengecekan koneksi ping antar 4 Virtual Machine.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Integrasi 4-Node Cluster Enterprise (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Di Tier 3 (192.168.10.20): Siapkan Database & User Cluster:</strong><div class="cb"><pre>sudo mariadb -u root
+CREATE DATABASE db_portal;
+CREATE USER 'web_user'@'192.168.10.%' IDENTIFIED BY 'Pass3Tier123!';
+GRANT ALL ON db_portal.* TO 'web_user'@'192.168.10.%';
+FLUSH PRIVILEGES;</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Di Tier 2 (Web 1 & Web 2): Buat Aplikasi PHP yang mengkoneksi ke Tier 3:</strong><div class="cb"><pre>&lt;?php
+$conn = new mysqli("192.168.10.20", "web_user", "Pass3Tier123!", "db_portal");
+if ($conn-&gt;connect_error) { die("DB Gagal: " . $conn-&gt;connect_error); }
+echo "&lt;h1&gt;Aplikasi Terintegrasi 3-Tier!&lt;/h1&gt;&lt;p&gt;Dilayani oleh: " . gethostname() . "&lt;/p&gt;";
+?&gt;</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Di Tier 1 (192.168.10.10): Arahkan HAProxy ke Web 1 & Web 2:</strong><div class="cb"><pre>sudo nano /etc/haproxy/haproxy.cfg
+<span style="color:#94a3b8"># Set backend ke 192.168.10.11:80 dan 192.168.10.12:80</span>
+sudo systemctl restart haproxy</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Load Stress Testing Menggunakan ApacheBench (ab CLI)</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Siswa menguji ketahanan cluster dengan menembakkan 5.000 request simultan (100 concurrency):</p>
+        <div class="cb"><pre>ab -n 5000 -c 100 http://portal.smk.lan/
+<span style="color:#10b981"># Analisis: Failed requests harus 0% dan Requests per second (RPS) > 800 req/sec!</span></pre></div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi CBT & Refleksi Proyek 3-Tier</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Selesaikan evaluasi pemahaman Arsitektur 3-Tier di bawah ini.</p></div>
     </div>
   </section>
 
-  <!-- BAGIAN 2: MATERI TEORI BLUEPRINT 3-TIER -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Blueprint Arsitektur Enterprise 3-Tier Terpadu</h2>
-    <div class="code-block">
-<pre style="color:#67e8f9;">=============================================================================
-                          TOPOLOGI 3-TIER ENTERPRISE
-=============================================================================
-  [ CLIENT LAPTOP / HP ] (IP DHCP: 192.168.10.100 - 200)
-             │
-             ▼ Query DNS: portal.smk.lan
-  [ TIER 1: PRESENTATION & SECURITY LAYER ]
-  ├─ DNS Master BIND9 (Port 53 UDP/TCP)
-  ├─ Reverse Proxy Nginx + SSL TLS 1.3 (Port 443 HTTPS & Port 80 Redirect)
-  └─ Firewall UFW (Default Deny Incoming Policy)
-             │
-             ▼ FastCGI / Proxy Pass (Internal Private Network)
-  [ TIER 2: APPLICATION & COMPUTE LAYER ]
-  ├─ Apache2 Web Server + PHP 8.1-FPM (Port 8080)
-  ├─ SSH Hardening + Fail2ban (Port 2222 / Keypair Ed25519)
-  └─ File Storage Sharing Samba & NFS (Port 445 / 2049)
-             │
-             ▼ SQL TCP Queries (Port 3306 - Terisolasi Hanya untuk Web Server)
-  [ TIER 3: DATA & PERSISTENCE LAYER ]
-  ├─ MariaDB Database Server (InnoDB Engine + ACID Compliance)
-  ├─ RAID 5 Storage Array with Hot-Spare Rebuild (mdadm)
-  └─ Backup Otomatis Harian (rsync + Crontab 3-2-1 Strategy)
-=============================================================================</pre>
-    </div>
-  </section>
-
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Komponen Uji</th><th>Prosedur Verifikasi Integrasi</th><th>Standar Keberhasilan Proyek</th></tr>
-      <tr><td><strong>DNS Resolution</strong></td><td><code>dig @192.168.10.10 portal.smk.lan +short</code></td><td>Menjawab IP <code>192.168.10.10</code> secara konsisten.</td></tr>
-      <tr><td><strong>HTTPS Security</strong></td><td>Buka <code>http://portal.smk.lan</code> di browser client</td><td>Otomatis redirect 301 ke HTTPS dengan enkripsi TLS 1.3.</td></tr>
-      <tr><td><strong>DB Transaction</strong></td><td>Input data siswa baru via form web PHP</td><td>Data berhasil tersimpan ke tabel MariaDB di backend.</td></tr>
-      <tr><td><strong>File Collaboration</strong></td><td>Buka <code>\\portal.smk.lan\Shared_TKJ</code> di Windows</td><td>Guru dapat login dan menyimpan berkas tugas siswa.</td></tr>
-      <tr><td><strong>Port Isolation</strong></td><td>Scan port dari luar: <code>nmap -sS 192.168.10.10</code></td><td>Port 3306 (DB) dan 2049 (NFS) tertutup rapi dari publik.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Deadlock Resolusi DNS Lokal</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># KASUS: Web server tidak bisa menghubungi database menggunakan hostname (db.smk.lan)</span>
-<span style="color:#fde68a;"># Penyebab: /etc/resolv.conf di server masih mengarah ke 127.0.0.53 (systemd-resolved) bukan ke IP BIND9 DNS lokal (192.168.10.10).</span>
-<span style="color:#a7f3d0;"># Solusi: Edit file Netplan YAML pada baris 'nameservers: addresses: [192.168.10.10, 8.8.8.8]' lalu jalankan 'sudo netplan apply'.</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Genap_Pert_8_cloud-computing-dasar.html" class="btn-nav-bottom secondary">← Pertemuan 8: Cloud Computing Dasar</a>
-    <a href="Server_Genap_Pert_10_simulasi-uji-kompetensi.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 10: Simulasi UKK & Portofolio Akhir →</a>
+    <a href="Server_Genap_Pert_8_cloud-computing-dasar.html" class="btn se">← Genap Pert. 8: Cloud Computing</a>
+    <a href="Server_Genap_Pert_10_simulasi-uji-kompetensi.html" class="btn pr">Lanjut ke Genap Pert. 10: Simulasi UKK Kejuruan →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: Proyek Infrastruktur Terintegrasi',
-      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Mengapa pada arsitektur 3-Tier Enterprise, server database (Tier 3) DILARANG KERAS dihubungkan langsung ke alamat IP publik?",
-          options: [
-            "Demi keamanan data sensitif agar database tidak bisa diserang secara langsung dari internet; database hanya boleh diakses melalui jaringan privat oleh server aplikasi (Tier 2)",
-            "Karena database tidak membutuhkan listrik",
-            "Karena kabel data database berbeda dengan kabel internet",
-            "Agar siswa tidak bisa bermain game online"
-          ],
-          correctIndex: 0,
-          explanation: "Pemisahan zona jaringan (Network Segmentation) adalah pilar keamanan arsitektur pertahanan berlapis (Defense-in-Depth)."
-        },
-        {
-          question: "Dalam proyek integrasi, jika browser menampilkan '500 Internal Server Error' saat mengakses halaman web PHP yang terhubung ke database, langkah pertama diagnosa SysAdmin adalah?",
-          options: [
-            "Mengecek berkas log error web server (/var/log/apache2/error.log atau /var/log/nginx/error.log) untuk melihat detail kegagalan koneksi database/kredensial",
-            "Membuang hard disk server ke tempat sampah",
-            "Mengganti seluruh kabel switch jaringan",
-            "Menginstal ulang sistem operasi Linux dari awal"
-          ],
-          correctIndex: 0,
-          explanation: "Analisis log error adalah prosedur diagnosa ilmiah tercepat untuk menemukan baris kode PHP atau parameter kredensial DB yang salah."
-        },
-        {
-          question: "Tujuan utama penyusunan dokumen Standard Operating Procedure (SOP) Teknis setelah proyek infrastruktur selesai dibangun adalah?",
-          options: [
-            "Sebagai panduan baku operasional, pemeliharaan rutin, dan langkah penanganan bencana bagi tim IT berikutnya",
-            "Sebagai pajangan di dinding kantor",
-            "Untuk menaikkan kecepatan download server",
-            "Agar server tidak perlu dihidupkan"
-          ],
-          correctIndex: 0,
-          explanation: "Dokumentasi teknis & SOP menjamin keberlanjutan operasional (Maintainability) saat terjadi pergantian personil administrator."
-        },
-        {
-          question: "Urutan pengujian verifikasi (Testing Sequence) yang paling logis pada integrasi sistem server multi-layanan adalah?",
-          options: [
-            "Cek Layer Fisik/IP &rarr; Cek Resolusi DNS &rarr; Cek Koneksi DB Lokal &rarr; Cek Virtual Host Web &rarr; Cek Enkripsi SSL HTTPS &rarr; Cek Firewall Rule",
-            "Cek Web HTTPS &rarr; Cabut kabel listrik &rarr; Cek DNS",
-            "Cek Database &rarr; Hapus partisi &rarr; Cek IP",
-            "Cek Samba &rarr; Matikan server &rarr; Cek DNS"
-          ],
-          correctIndex: 0,
-          explanation: "Pengujian dilakukan secara berjenjang dari lapisan pondasi (Network & DNS) naik ke lapisan aplikasi dan lapisan keamanan."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: Proyek Infrastruktur 3-Tier',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Pada arsitektur sistem aplikasi 3-Tier (Three-Tier Architecture), komponen yang berada pada 'Tier 3' (Data Tier) adalah?",options:["Database Server (MariaDB / PostgreSQL) yang terisolasi dari akses publik langsung","Load Balancer HAProxy","Browser pengguna","Web Server Nginx"],correctIndex:0,explanation:"Tier 1 = Presentation (LB), Tier 2 = Application/Logic (Web Nodes), Tier 3 = Data Persistence (Database)."},
+      {question:"Mengapa port Database (Port 3306) pada arsitektur 3-Tier DILARANG keras dibuka ke jaringan publik/internet luas?",options:["Demi keamanan data kredensial; Database hanya boleh diakses secara internal oleh IP Web Application Server (Tier 2)","Agar kabel LAN tidak panas","Supaya database tidak penuh","Karena port 3306 hanya untuk Windows"],correctIndex:0,explanation:"Isolasi database mencegah serangan direct SQL injection dan brute-force dari internet luas."},
+      {question:"Perintah utilitas benchmarking Linux untuk mensimulasikan beban ribuan kunjungan web secara simultan adalah?",options:["ab (ApacheBench) atau wrk","ping -t","traceroute","format c:"],correctIndex:0,explanation:"ApacheBench (ab) digunakan untuk stress test kapasitas throughput RPS server web."},
+      {question:"Keuntungan arsitektur 3-Tier dibandingkan model Monolithic All-in-One (Web + DB di 1 server) adalah?",options:["Tiap layer dapat di-scale secara independen, keamanan database lebih terjamin, dan kegagalan web server tidak langsung merusak integritas database","Biaya listrik gratis","Tidak butuh teknisi","Loading web 1000x lebih cepat"],correctIndex:0,explanation:"Modularitas 3-tier memungkinkan skalabilitas terpisah dan isolasi perimeter keamanan bertingkat."}
+    ]});
   }
 });
 </script>

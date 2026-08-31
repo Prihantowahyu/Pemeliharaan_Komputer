@@ -3,267 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 2: Instalasi Linux Server, LVM & Konfigurasi Jaringan Netplan — Kelas XII TKJ</title>
+<title>Pertemuan 2: Instalasi Linux Server & Manajemen Storage LVM — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(0, 240, 255, 0.2);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: #6ee7b7; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--emerald) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(6,182,212,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(6,182,212,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(16,185,129,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--vi));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(6,182,212,.12);border:1px solid var(--cyan);color:var(--cyan);margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--cyan);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f2 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f3{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f3 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f4{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f4 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f5{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f5 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(0,240,255,.15);color:var(--cyan);font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--cyan);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(0,240,255,.2);color:var(--cyan);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 2 / Pert. 2)</span></div>
-    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Ganjil — Blok 1 Hari 2 (Pert. 2)</div>
+    <a href="index.html#server" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 1 HARI KE-2</div>
-    <h1>Instalasi Linux Server, Manajemen Storage LVM & Konfigurasi Jaringan Netplan</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan terstruktur menginstal Ubuntu Server 22.04 LTS / Debian 12 secara headless (CLI-only), arsitektur penyimpanan fleksibel LVM (Physical Volume, Volume Group, Logical Volume), penamaan hostname FQDN, konfigurasi IP statis modern menggunakan sintaks YAML Netplan, serta optimasi repository package APT.</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 1 HARI KE-2 · KELAS XII TKJ</div>
+    <h1>Instalasi Linux Server, Manajemen Storage LVM & Konfigurasi Netplan YAML</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Penguasaan instalasi sistem operasi server berbasis teks (CLI): pembagian partisi dinamis Logical Volume Manager (PV, VG, LV), konfigurasi jaringan modern Netplan YAML, penamaan Fully Qualified Domain Name (FQDN), repositori APT lokal, dan ekspansi kapasitas storage tanpa downtime.</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">K3 & Partisi Schema</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Arsitektur LVM Storage</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Netplan YAML & Interface</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Hands-on Lab Install & IP</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot YAML & APT</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Kenapa Server Tanpa GUI?</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Arsitektur LVM (PV-VG-LV)</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">Netplan YAML & FQDN</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Job Sheet Install & LVM</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Live Volume Extension</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Persiapan Media Instalasi</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Guru mendemonstrasikan verifikasi integritas SHA256 checksum file ISO Ubuntu Server 22.04 LTS. Siswa memeriksa alokasi virtual hard disk (30 GB) di workstation/VirtualBox masing-masing dan menetapkan skema partisi server.</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan — Mengapa Linux Server Berbasis Teks (CLI)?</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Pendalaman Teori LVM (Logical Volume Manager)</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Pembedahan hierarki LVM: Physical Volume (PV) &rarr; Volume Group (VG) &rarr; Logical Volume (LV). Guru menjelaskan mengapa partisi statis tradisional (MBR/GPT kaku) sangat dihindari di server produksi karena tidak bisa di-resize saat disk penuh tanpa downtime.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Bedah Sintaks YAML Netplan & Penamaan FQDN</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Analisis file konfigurasi <code>/etc/netplan/01-netcfg.yaml</code>. Memahami aturan wajib indentasi spasi 2-karakter (pantangan tombol TAB di YAML), deklarasi gateway4/routes, DNS nameservers, dan pengujian aman dengan <code>netplan try</code>.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Refreshment</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Istirahat sejenak dan review parameter IP lab yang diberikan guru.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri Terbimbing</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet 2</strong> secara individu/berpasangan: (1) Menjalankan proses instalasi Ubuntu Server, (2) Partisi LVM kustom: <code>/boot</code> (1GB ext4), <code>vg_server/lv_root</code> (15GB), <code>vg_server/lv_var</code> (10GB), (3) Set Hostname <code>server1.smk.lan</code>, (4) Konfigurasi IP Statis Netplan <code>192.168.10.10/24</code>, dan (5) Uji koneksi internet gateway.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting Lab)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Siswa menyelesaikan 2 skenario error yang disimulasikan: Error "Invalid YAML syntax due to TAB indentation" saat netplan apply, dan kegagalan APT update akibat DNS salah arah.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Asesmen CBT & Refleksi Kompetensi 9 JP</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT Anti-Cheat, checklist unjuk kerja LVM & Netplan oleh guru, serta penutupan sesi.</p>
+      <div class="fase-body open">
+        <ul class="materi">
+          <li><strong>Efisiensi Resource:</strong> Mode CLI hanya memakan RAM ~150MB, sedangkan GUI memakan ~2GB RAM.</li>
+          <li><strong>Stabilitas & Keamanan:</strong> Tanpa antarmuka grafis, celah keamanan X11/Wayland tidak ada dan server dapat uptime bertahun-tahun.</li>
+        </ul>
       </div>
     </div>
-  </section>
 
-  <!-- BAGIAN 2: TEORI LVM & NETPLAN -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Anatomi Teknis LVM & Konfigurasi Netplan YAML</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># 1. HIERARKI PERINTAH LVM CLI</span>
-<span style="color:#38bdf8;">sudo pvcreate /dev/sda3</span>                <span style="color:#64748b;"># Inisialisasi Physical Volume</span>
-<span style="color:#38bdf8;">sudo vgcreate vg_system /dev/sda3</span>      <span style="color:#64748b;"># Buat Volume Group penampung</span>
-<span style="color:#38bdf8;">sudo lvcreate -L 15G -n lv_root vg_system</span>  <span style="color:#64748b;"># Buat Logical Volume root (/)</span>
-<span style="color:#38bdf8;">sudo lvcreate -L 10G -n lv_var vg_system</span>   <span style="color:#64748b;"># Buat Logical Volume data (/var)</span>
-
-<span style="color:#64748b;"># 2. CARA RESIZE / EXPAND DISK SECARA LIVE TANPA RESTART SERVER</span>
-<span style="color:#38bdf8;">sudo lvextend -L +5G /dev/vg_system/lv_var</span>
-<span style="color:#38bdf8;">sudo resize2fs /dev/vg_system/lv_var</span>   <span style="color:#64748b;"># Perluas filesystem ext4 secara online</span>
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Teori LVM (Logical Volume Manager): PV &rarr; VG &rarr; LV</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body open">
+        <div class="cb">
+<pre style="color:#67e8f9;">[ Physical Hard Disk 1: /dev/sdb ]   [ Physical Hard Disk 2: /dev/sdc ]
+               │                                      │
+               ▼                                      ▼
+[ Physical Volume (PV): pvcreate ]     [ Physical Volume (PV): pvcreate ]
+               └──────────────────┬───────────────────┘
+                                  ▼
+             [ Volume Group (VG): vgcreate vg_storage ]
+                                  │
+               ┌──────────────────┴──────────────────┐
+               ▼                                     ▼
+[ Logical Volume 1: lv_web (50GB) ]   [ Logical Volume 2: lv_db (100GB) ]
+               │                                     │
+               ▼                                     ▼
+     Format File System (ext4)             Format File System (ext4)
+               │                                     │
+               ▼                                     ▼
+     Mount Point: /var/www                 Mount Point: /var/lib/mysql</pre>
+        </div>
+      </div>
     </div>
 
-    <div class="code-block" style="margin-top:14px;">
-<span style="color:#64748b;"># File: /etc/netplan/00-installer-config.yaml (WAJIB GUNAKAN SPASI, DILARANG TAB!)</span>
-<pre style="color:#a7f3d0;">network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    ens33:
-      dhcp4: no
-      addresses:
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Konfigurasi Jaringan Modern Netplan YAML (/etc/netplan/)</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box warn">
+          <strong>⚠️ Aturan Wajib YAML:</strong> DILARANG menggunakan tombol TAB! Gunakan spasi murni (2 spasi per level indentasi).
+        </div>
+        <div class="cb">
+<pre><span style="color:#64748b;"># File: /etc/netplan/01-netcfg.yaml</span>
+<span style="color:#fde68a;">network:</span>
+  <span style="color:#fde68a;">version:</span> 2
+  <span style="color:#fde68a;">renderer:</span> networkd
+  <span style="color:#fde68a;">ethernets:</span>
+    <span style="color:#fde68a;">ens33:</span>
+      <span style="color:#fde68a;">dhcp4:</span> no
+      <span style="color:#fde68a;">addresses:</span>
         - 192.168.10.10/24
-      routes:
+      <span style="color:#fde68a;">routes:</span>
         - to: default
           via: 192.168.10.1
-      nameservers:
-        addresses:
-          - 192.168.10.1
-          - 8.8.8.8
-        search:
-          - smk.lan</pre>
+      <span style="color:#fde68a;">nameservers:</span>
+        <span style="color:#fde68a;">addresses:</span> [192.168.10.10, 8.8.8.8]</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Persiapan Virtual Disk Tambahan</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Persiapan penambahan hard disk virtual kedua 20GB di VirtualBox/VMware.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Alokasi LVM & Netplan Apply (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Cek daftar disk fisik terdeteksi:</strong><div class="cb"><pre>lsblk</pre></div></div></div>
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Buat Physical Volume (PV):</strong><div class="cb"><pre>sudo pvcreate /dev/sdb</pre></div></div></div>
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Buat Volume Group (VG):</strong><div class="cb"><pre>sudo vgcreate vg_data /dev/sdb</pre></div></div></div>
+        <div class="step-row"><span class="step-num">4</span><div style="color:var(--t2);font-size:14px"><strong>Buat Logical Volume (LV) sebesar 10GB:</strong><div class="cb"><pre>sudo lvcreate -L 10G -n lv_web vg_data
+sudo mkfs.ext4 /dev/vg_data/lv_web
+sudo mkdir -p /var/www
+sudo mount /dev/vg_data/lv_web /var/www</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Live Dynamic Expansion — Tambah Kapasitas Tanpa Restart</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Menambah kapasitas <code>/var/www</code> sebanyak 5GB secara online saat server sedang melayani web:</p>
+        <div class="cb"><pre>sudo lvextend -L +5G /dev/vg_data/lv_web
+sudo resize2fs /dev/vg_data/lv_web
+df -h | grep /var/www</pre></div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi CBT & Refleksi Pembelajaran Hari 2</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Selesaikan evaluasi pemahaman LVM dan Netplan di bawah ini.</p></div>
     </div>
   </section>
 
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Tahap</th><th>Perintah Eksekusi / Konfigurasi</th><th>Kriteria Keberhasilan & Validasi</th></tr>
-      <tr><td><strong>1. Hostname</strong></td><td><code>sudo hostnamectl set-hostname server1.smk.lan</code></td><td>Terminal menampilkan <code>user@server1:~$</code> setelah relogin.</td></tr>
-      <tr><td><strong>2. Cek Partisi</strong></td><td><code>lsblk -f</code> dan <code>df -hT</code></td><td>Mount point <code>/</code> dan <code>/var</code> terikat pada device LVM <code>/dev/mapper/vg_system-*</code>.</td></tr>
-      <tr><td><strong>3. Validasi IP</strong></td><td><code>sudo netplan generate &amp;&amp; sudo netplan apply</code></td><td><code>ip a show ens33</code> menampilkan IP <code>192.168.10.10/24</code> dan status UP.</td></tr>
-      <tr><td><strong>4. Uji Gateway</strong></td><td><code>ping -c 3 192.168.10.1</code></td><td>0% packet loss ke gateway router laboratorium.</td></tr>
-      <tr><td><strong>5. Uji DNS</strong></td><td><code>resolvectl status</code> atau <code>ping -c 3 google.com</code></td><td>Nama domain berhasil ter-resolve menjadi IP publik.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Troubleshooting: Mengatasi Kesalahan Umum Instalasi & YAML</h2>
-    <table class="table-custom">
-      <tr><th>Gejala Kesalahan</th><th>Penyebab Utama</th><th>Tindakan Diagnostik & Solusi</th></tr>
-      <tr><td><code>Invalid YAML at // line 7 column 6: found character that cannot start any token (\t)</code></td><td>Terdapat karakter <strong>TAB</strong> di dalam file konfigurasi Netplan.</td><td>Ganti semua TAB dengan 2 atau 4 spasi. Gunakan perintah <code>cat -A /etc/netplan/*.yaml</code> untuk mendeteksi tanda <code>^I</code> (simbol tab tersembunyi).</td></tr>
-      <tr><td><code>Could not get lock /var/lib/dpkg/lock-frontend</code></td><td>Ada proses apt lain yang sedang berjalan di latar belakang (unattended-upgrades).</td><td>Cek proses: <code>ps aux | grep apt</code>. Tunggu proses selesai atau jalankan <code>sudo systemctl stop unattended-upgrades</code>.</td></tr>
-      <tr><td>Interface tidak mendapat IP setelah <code>netplan apply</code></td><td>Nama interface salah (misal: menuliskan <code>eth0</code> padahal OS mengenali <code>enp0s3</code> atau <code>ens33</code>).</td><td>Ketik <code>ip link</code> untuk melihat nama interface fisik yang terdeteksi oleh kernel Linux.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_1_konsep-dasar-server-datacenter.html" class="btn-nav-bottom secondary">← Pertemuan 1: Konsep Datacenter</a>
-    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 3: Manajemen User, Group & Permission →</a>
+    <a href="Server_Pert_1_konsep-dasar-server-datacenter.html" class="btn se">← Pert. 1: Konsep Datacenter</a>
+    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn pr">Lanjut ke Pert. 3: User & Permission →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: Instalasi Linux Server & Netplan',
-      subject: 'Infrastruktur Server — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Mengapa Logical Volume Manager (LVM) menjadi standar partisi wajib pada Linux Server dibandingkan partisi biasa?",
-          options: [
-            "Karena LVM memungkinkan penambahan kapasitas partisi/filesystem secara dinamis (live resize) saat disk penuh tanpa harus mematikan server",
-            "Karena LVM membuat internet server menjadi dua kali lebih cepat",
-            "Karena LVM hanya bisa membaca file berformat MP3",
-            "Karena partisi biasa tidak mendukung instalasi sistem operasi 64-bit"
-          ],
-          correctIndex: 0,
-          explanation: "LVM mengabstraksi hard drive fisik menjadi Volume Group, sehingga Logical Volume dapat diperbesar kapan saja dengan 'lvextend' dan 'resize2fs' secara online."
-        },
-        {
-          question: "Aturan format penulisan yang paling ketat dan mutlak pada file konfigurasi jaringan Netplan (.yaml) di Linux Ubuntu adalah?",
-          options: [
-            "Hanya boleh menggunakan SPASI untuk indentasi struktur hierarki (Dilarang keras menggunakan tombol TAB)",
-            "Wajib menggunakan huruf kapital semua",
-            "Setiap baris wajib diakhiri tanda titik koma (;)",
-            "Tidak boleh menuliskan alamat IP Address"
-          ],
-          correctIndex: 0,
-          explanation: "Parser YAML menganggap karakter TAB sebagai error sintaks fatal. Netplan mengharuskan indentasi konsisten (biasanya 2 spasi per level hierarki)."
-        },
-        {
-          question: "Perintah resmi yang digunakan untuk menguji konfigurasi Netplan baru dengan batas waktu revert otomatis jika koneksi remote terputus adalah?",
-          options: ["sudo netplan try", "sudo netplan apply", "sudo ifconfig up", "sudo reboot -f"],
-          correctIndex: 0,
-          explanation: "'netplan try' menerapkan konfigurasi sementara selama 120 detik. Jika administrator tidak menekan ENTER untuk konfirmasi, konfigurasi otomatis dikembalikan ke awal demi mencegah admin terkunci dari remote SSH."
-        },
-        {
-          question: "Perintah untuk memperluas filesystem ext4 agar mengenali tambahan kapasitas setelah melakukan 'lvextend' adalah?",
-          options: ["sudo resize2fs /dev/vg_system/lv_root", "sudo fdisk /dev/sda", "sudo mkfs.ext4 -f", "sudo format C:"],
-          correctIndex: 0,
-          explanation: "'resize2fs' memperbesar ukuran alokasi blok filesystem ext4 di atas logical volume LVM yang telah diperluas sebelumnya."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: Instalasi Linux & LVM',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Urutan hierarki pembuatan storage pada Logical Volume Manager (LVM) dari tingkat fisik ke tingkat partisi logis adalah?",options:["Physical Volume (PV) &rarr; Volume Group (VG) &rarr; Logical Volume (LV)","Logical Volume &rarr; Volume Group &rarr; Physical Volume","Harddisk &rarr; BIOS &rarr; Windows","Ext4 &rarr; Swap &rarr; Fat32"],correctIndex:0,explanation:"PV dibentuk dari partisi/disk mentah, digabungkan ke pool VG, lalu dipotong menjadi partisi fleksibel LV."},
+      {question:"Perintah untuk memperluas ukuran sistem file ext4 setelah Logical Volume diperbesar dengan lvextend adalah?",options:["resize2fs /dev/vg_name/lv_name","mkfs.ext4 /dev/vg_name/lv_name","format c:","fdisk -l"],correctIndex:0,explanation:"resize2fs digunakan untuk memperluas filesystem ext4 secara online mengikuti ukuran baru LV."},
+      {question:"Aturan sintaks paling krusial saat mengedit file konfigurasi jaringan Netplan (.yaml) pada Ubuntu Server adalah?",options:["Dilarang menggunakan tombol TAB dan wajib menggunakan spasi murni yang konsisten untuk setiap level indentasi","Wajib diakhiri dengan titik koma (;)","Huruf harus kapital semua","File harus dienkripsi dengan password"],correctIndex:0,explanation:"YAML parser sangat sensitif terhadap karakter whitespace; penggunaan TAB akan menyebabkan Netplan error parsing."},
+      {question:"Perintah untuk menerapkan konfigurasi jaringan baru setelah mengedit file Netplan YAML adalah?",options:["sudo netplan apply","sudo service network start","ipconfig /renew","reboot -f"],correctIndex:0,explanation:"sudo netplan apply memvalidasi dan langsung menerapkan konfigurasi YAML ke network daemon."}
+    ]});
   }
 });
 </script>

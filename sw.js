@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v23-infrastruktur-9jp-complete';
+const CACHE_NAME = 'bengkel-hw-pwa-v24-full-20-server-modules-deep-pedagogy';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [

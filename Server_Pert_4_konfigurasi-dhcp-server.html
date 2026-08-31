@@ -9,264 +9,247 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-card: #0d1b36;
-    --panel-border: rgba(0, 240, 255, 0.2);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(139, 92, 246, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #c4b5fd; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(139,92,246,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(139,92,246,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--vi),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:#c4b5fd;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--vi);box-shadow:0 0 8px var(--vi)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(139,92,246,.12);border:1px solid var(--vi);color:#c4b5fd;margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,#c4b5fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--vi);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f2 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f3{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f3 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f4{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f4 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f5{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f5 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(139,92,246,.15);color:#c4b5fd;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:#c4b5fd;font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(139,92,246,.2);color:#c4b5fd;font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 4 / Pert. 4)</span></div>
-    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Ganjil — Blok 1 Hari 4 (Pert. 4)</div>
+    <a href="index.html#server" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 1 HARI KE-4</div>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 1 HARI KE-4 · KELAS XII TKJ</div>
     <h1>Konfigurasi DHCP Server (isc-dhcp-server) & Fixed MAC Address Reservation</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan komprehensif mengotomatisasi pengalamatan IP di jaringan enterprise: Membedah siklus 4-fase DORA (Discover, Offer, Request, Acknowledgment), instalasi dan konfigurasi <code>isc-dhcp-server</code> di Linux, penentuan rentang IP pool dinamis, penyewaan parameter jaringan (Router, DNS, Lease Time), pemesanan IP statis permanen berbasis MAC Address, serta analisis berkas riwayat penyewaan <code>dhcpd.leases</code>.</p>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Otomatisasi pengalamatan IP skala enterprise: siklus 4-fase DORA (Discover, Offer, Request, ACK via UDP 67/68), instalasi <code>isc-dhcp-server</code> di Linux, penentuan rentang IP pool dinamis, penyewaan parameter jaringan (Router, DNS, Lease Time), pemesanan IP statis berbasis MAC Address, serta audit riwayat sewa <code>dhcpd.leases</code>.</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">DORA Cycle Theory</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Anatomi dhcpd.conf</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">MAC Host Reservation</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab Multi-Client</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Rogue DHCP & Conflicts</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">DORA Cycle Theory</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Anatomi dhcpd.conf</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">MAC Host Reservation</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Job Sheet Lab Multi-Client</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Rogue DHCP & Conflicts</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Analogi Protokol DORA</span> <span style="font-size:12px;color:var(--violet);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Apersepsi: Mengapa 500 komputer di laboratorium sekolah tidak mungkin dikonfigurasi IP secara manual satu per satu? Guru mendemonstrasikan proses 4-Fase DORA menggunakan diagram alur komunikasi paket UDP Port 67 (Server) dan Port 68 (Client).</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan & Apersepsi — Siklus 4-Fase DORA (UDP Port 67 & 68)</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Bedah File Konfigurasi /etc/dhcp/dhcpd.conf</span> <span style="font-size:12px;color:var(--violet);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Pembedahan blok deklarasi subnet: <code>range</code>, <code>option routers</code> (default gateway), <code>option domain-name-servers</code> (DNS Server), <code>default-lease-time</code> (durasi sewa IP dalam detik), serta binding interface di <code>/etc/default/isc-dhcp-server</code>.</p>
+      <div class="fase-body open">
+        <table class="tc">
+          <tr><th>Fase</th><th>Tipe Pesan</th><th>Arah Komunikasi</th><th>Deskripsi Paket</th></tr>
+          <tr><td><strong>D</strong>iscover</td><td>DHCPDISCOVER (Broadcast)</td><td>Client &rarr; <code>255.255.255.255:67</code></td><td>Client baru mencari keberadaan DHCP Server di LAN.</td></tr>
+          <tr><td><strong>O</strong>ffer</td><td>DHCPOFFER (Unicast/Broadcast)</td><td>Server &rarr; Client</td><td>Server menawarkan kandidat IP Address, Subnet Mask, dan Lease Time.</td></tr>
+          <tr><td><strong>R</strong>equest</td><td>DHCPREQUEST (Broadcast)</td><td>Client &rarr; Server</td><td>Client menyetujui tawaran IP tersebut secara resmi.</td></tr>
+          <tr><td><strong>A</strong>CK</td><td>DHCPACK (Unicast)</td><td>Server &rarr; Client</td><td>Server mengonfirmasi izin pemakaian IP dan mengirimkan Gateway & DNS.</td></tr>
+        </table>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Konsep Fixed Address (MAC Reservation)</span> <span style="font-size:12px;color:var(--violet);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Membahas skenario khusus perangkat jaringan (Printer Jaringan, Kamera CCTV, Server Database) yang membutuhkan IP tetap namun tetap terpusat di server DHCP menggunakan klausa <code>hardware ethernet [MAC]</code> dan <code>fixed-address [IP]</code>.</p>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Bedah File Konfigurasi /etc/dhcp/dhcpd.conf & Binding Interface</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Siswa mencatat MAC Address kartu jaringan laptop/PC client masing-masing.</p>
+      <div class="fase-body open">
+        <div class="cb">
+<pre><span style="color:#64748b;"># 1. Deklarasi Subnet Dinamis</span>
+<span style="color:#fde68a;">subnet 192.168.10.0 netmask 255.255.255.0 {</span>
+    <span style="color:#fde68a;">range</span> 192.168.10.100 192.168.10.200;
+    <span style="color:#fde68a;">option routers</span> 192.168.10.1;
+    <span style="color:#fde68a;">option domain-name-servers</span> 192.168.10.10, 8.8.8.8;
+    <span style="color:#fde68a;">option domain-name</span> "smk.lan";
+    <span style="color:#fde68a;">default-lease-time</span> 86400;   <span style="color:#64748b;"># 24 Jam (detik)</span>
+    <span style="color:#fde68a;">max-lease-time</span> 172800;      <span style="color:#64748b;"># 48 Jam</span>
+<span style="color:#fde68a;">}</span></pre>
+        </div>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Lab DHCP Enterprise</span> <span style="font-size:12px;color:var(--violet);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet 4</strong>: (1) Install paket <code>isc-dhcp-server</code> di server, (2) Konfigurasi pool <code>192.168.10.100</code> s.d. <code>192.168.10.200</code>, (3) Reservasi IP khusus <code>192.168.10.50</code> untuk printer lab, (4) Menguji client Windows/Linux meminta IP (<code>dhclient -v</code> atau <code>ipconfig /renew</code>), (5) Menganalisis berkas log <code>/var/lib/dhcp/dhcpd.leases</code>.</p>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Konsep Fixed Address (Reservasi IP Permanen Berbasis MAC)</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Skenario Troubleshooting: Rogue DHCP & IP Pool Exhaustion</span> <span style="font-size:12px;color:var(--violet);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Simulasi bahaya <em>Rogue DHCP Server</em> (router liar yang membagikan IP gateway palsu untuk sniffing traffic / Man-in-the-Middle) dan penanganannya menggunakan fitur DHCP Snooping pada switch managed.</p>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Untuk perangkat infrastruktur seperti Printer Jaringan atau Kamera CCTV yang IP-nya tidak boleh berganti-ganti:</p>
+        <div class="cb">
+<pre><span style="color:#fde68a;">host PRINTER_LAB_TKJ {</span>
+    <span style="color:#fde68a;">hardware ethernet</span> 00:1A:2B:3C:4D:5E;
+    <span style="color:#fde68a;">fixed-address</span> 192.168.10.50;
+<span style="color:#fde68a;">}</span></pre>
+        </div>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--violet);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT 30 menit, pengujian live IP lease client oleh guru, dan pengantar materi DNS Server BIND9 untuk pertemuan ke-5.</p>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Pencatatan MAC Address Laptop</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
       </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Siswa mencatat MAC Address interface WiFi/Ethernet laptop masing-masing.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Deploy isc-dhcp-server (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Install daemon DHCP Server:</strong><div class="cb"><pre>sudo apt update && sudo apt install -y isc-dhcp-server</pre></div></div></div>
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Tentukan Interface listening di /etc/default/isc-dhcp-server:</strong><div class="cb"><pre>INTERFACESv4="ens33"</pre></div></div></div>
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Uji sintaks dan jalankan service:</strong><div class="cb"><pre>sudo dhcpd -t -cf /etc/dhcp/dhcpd.conf
+sudo systemctl restart isc-dhcp-server
+sudo systemctl status isc-dhcp-server</pre></div></div></div>
+        <div class="step-row"><span class="step-num">4</span><div style="color:var(--t2);font-size:14px"><strong>Minta IP baru dari client Linux:</strong><div class="cb"><pre>sudo dhclient -r ens33 && sudo dhclient -v ens33</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Troubleshooting: Interface Mismatch & Rogue DHCP</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box danger">
+          <strong>⚠️ Error Umum:</strong> <code>No subnet declaration for ens33</code> terjadi karena alamat IP statis pada kartu jaringan server tidak satu network dengan deklarasi subnet di <code>dhcpd.conf</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi CBT & Refleksi Pembelajaran Hari 4</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Selesaikan evaluasi pemahaman DHCP Server di bawah ini.</p></div>
     </div>
   </section>
 
-  <!-- BAGIAN 2: MATERI TEORI DORA & DHCPD.CONF -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Anatomi 4-Fase DORA & File Konfigurasi dhcpd.conf</h2>
-    <table class="table-custom">
-      <tr><th>Fase</th><th>Tipe Paket</th><th>Arah Komunikasi</th><th>Tujuan & Deskripsi Paket</th></tr>
-      <tr><td><strong>1. Discover</strong></td><td>DHCPDISCOVER (Broadcast)</td><td>Client &rarr; <code>255.255.255.255:67</code></td><td>Client baru terhubung mencari apakah ada DHCP Server aktif di jaringan LAN.</td></tr>
-      <tr><td><strong>2. Offer</strong></td><td>DHCPOFFER (Unicast/Broadcast)</td><td>Server &rarr; Client</td><td>DHCP Server menawarkan kandidat IP Address, Subnet Mask, dan durasi sewa ke client.</td></tr>
-      <tr><td><strong>3. Request</strong></td><td>DHCPREQUEST (Broadcast)</td><td>Client &rarr; Server</td><td>Client menyetujui tawaran IP tersebut dan meminta izin resmi pemakaian ke server.</td></tr>
-      <tr><td><strong>4. Acknowledgment</strong></td><td>DHCPACK (Unicast)</td><td>Server &rarr; Client</td><td>Server mengonfirmasi legalitas IP, mengirim DNS/Gateway, dan mencatatnya ke <code>dhcpd.leases</code>.</td></tr>
-    </table>
-
-    <div class="code-block" style="margin-top:16px;">
-<span style="color:#64748b;"># File: /etc/dhcp/dhcpd.conf — Konfigurasi Subnet & Reservation</span>
-<pre style="color:#67e8f9;">subnet 192.168.10.0 netmask 255.255.255.0 {
-    range 192.168.10.100 192.168.10.200;       <span style="color:#64748b;"># Pool Dinamis untuk Client Umum</span>
-    option routers 192.168.10.1;               <span style="color:#64748b;"># Default Gateway</span>
-    option domain-name-servers 192.168.10.1, 8.8.8.8;
-    option domain-name "smk.lan";
-    default-lease-time 86400;                  <span style="color:#64748b;"># 24 Jam (detik)</span>
-    max-lease-time 172800;                     <span style="color:#64748b;"># 48 Jam</span>
-}
-
-<span style="color:#fde68a;"># Reservasi IP Khusus Printer Jaringan (Fixed IP Berbasis MAC)</span>
-host PRINTER_LAB_TKJ {
-    hardware ethernet 00:1A:2B:3C:4D:5E;
-    fixed-address 192.168.10.50;
-}</pre>
-    </div>
-  </section>
-
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Langkah</th><th>Perintah Eksekusi / Konfigurasi</th><th>Kriteria Keberhasilan & Validasi</th></tr>
-      <tr><td><strong>1. Binding NIC</strong></td><td>Edit <code>/etc/default/isc-dhcp-server</code>: <code>INTERFACESv4="ens33"</code></td><td>Layanan tahu interface mana yang menerima traffic DHCP broadcast.</td></tr>
-      <tr><td><strong>2. Uji Sintaks</strong></td><td><code>sudo dhcpd -t -cf /etc/dhcp/dhcpd.conf</code></td><td>Tidak ada pesan error sintaks atau tanda kurung kurawal yang hilang.</td></tr>
-      <tr><td><strong>3. Restart Service</strong></td><td><code>sudo systemctl restart isc-dhcp-server</code></td><td><code>systemctl status isc-dhcp-server</code> berstatus <strong>active (running)</strong>.</td></tr>
-      <tr><td><strong>4. Uji Client Linux</strong></td><td><code>sudo dhclient -r ens33 &amp;&amp; sudo dhclient -v ens33</code></td><td>Client menampilkan log DHCPDISCOVER &rarr; DHCPOFFER &rarr; DHCPACK.</td></tr>
-      <tr><td><strong>5. Cek File Lease</strong></td><td><code>cat /var/lib/dhcp/dhcpd.leases</code></td><td>Tercatat riwayat IP, MAC address client, hostname, dan batas waktu sewa.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Interface Mismatch & DHCP Exhaustion</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># KASUS 1: Service isc-dhcp-server Gagal Start (Job for isc-dhcp-server.service failed)</span>
-<span style="color:#38bdf8;"># Diagnosa: sudo journalctl -u isc-dhcp-server -e</span>
-<span style="color:#ef4444;"># Pesan Error: "No subnet declaration for ens33 (192.168.1.10). Please write a subnet declaration..."</span>
-<span style="color:#a7f3d0;"># Analisis: IP static pada interface server berada di subnet 192.168.1.0/24, tetapi file dhcpd.conf mendeklarasikan subnet 192.168.10.0/24. Subnet kartu jaringan WAJIB sama dengan subnet yang dideklarasikan!</span>
-
-<span style="color:#64748b;"># KASUS 2: Melihat port listening DHCP Server</span>
-<span style="color:#38bdf8;">sudo ss -ulpn | grep :67</span>
-<span style="color:#a7f3d0;">UNCONN 0 0 0.0.0.0:67 0.0.0.0:* users:(("dhcpd",pid=1420,fd=7))</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn-nav-bottom secondary">← Pertemuan 3: User & Permission</a>
-    <a href="Server_Pert_5_konfigurasi-dns-server-bind9.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 5: Konfigurasi DNS Server BIND9 →</a>
+    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn se">← Pert. 3: User & Permission</a>
+    <a href="Server_Pert_5_konfigurasi-dns-server-bind9.html" class="btn pr">Lanjut ke Pert. 5: DNS BIND9 →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: Konfigurasi DHCP Server & DORA',
-      subject: 'Infrastruktur Server — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Urutan 4-fase pertukaran paket yang benar saat komputer client meminta alamat IP secara otomatis ke DHCP Server adalah?",
-          options: [
-            "DHCPDISCOVER &rarr; DHCPOFFER &rarr; DHCPREQUEST &rarr; DHCPACK (DORA)",
-            "DHCPOFFER &rarr; DHCPDISCOVER &rarr; DHCPACK &rarr; DHCPREQUEST",
-            "DHCPREQUEST &rarr; DHCPACK &rarr; DHCPOFFER &rarr; DHCPDISCOVER",
-            "DHCPACK &rarr; DHCPNAK &rarr; DHCPINFORM &rarr; DHCPRELEASE"
-          ],
-          correctIndex: 0,
-          explanation: "Siklus DORA: Client mencari server (Discover), Server menawarkan IP (Offer), Client menyetujui tawaran (Request), Server mengonfirmasi dan mengikat sewa IP (Acknowledge)."
-        },
-        {
-          question: "Port UDP standar yang digunakan oleh protokol DHCP untuk mendengarkan (listening) request di sisi SERVER adalah?",
-          options: ["Port UDP 67", "Port UDP 68", "Port TCP 80", "Port TCP 53"],
-          correctIndex: 0,
-          explanation: "DHCP Server mendengarkan paket masuk di port UDP 67, sedangkan komputer client menerima paket DHCP di port UDP 68."
-        },
-        {
-          question: "Fitur 'MAC Address Reservation' (Fixed Address) pada DHCP Server sangat dibutuhkan untuk perangkat berikut KECUALI?",
-          options: [
-            "Smartphone tamu (Guest Wi-Fi) yang hanya berkunjung 1 jam ke sekolah",
-            "Printer Jaringan kantor yang diakses oleh puluhan komputer",
-            "Kamera CCTV IP yang dimonitor oleh server NVR secara statis",
-            "Server Database yang memerlukan IP Address permanen tidak berubah-ubah"
-          ],
-          correctIndex: 0,
-          explanation: "Smartphone tamu cukup menggunakan IP pool dinamis biasa dengan lease time pendek. Perangkat infrastruktur tetap seperti printer dan CCTV yang membutuhkan fixed IP reservation."
-        },
-        {
-          question: "Apa penyebab utama layanan isc-dhcp-server gagal start dengan error 'No subnet declaration for interface'?",
-          options: [
-            "Alamat IP statis pada kartu jaringan (NIC) server tidak berada dalam satu subnet yang dideklarasikan pada file dhcpd.conf",
-            "Kabel LAN client terputus",
-            "Kapasitas hard disk server terlalu besar",
-            "Komputer client belum dihidupkan"
-          ],
-          correctIndex: 0,
-          explanation: "DHCP daemon menolak start jika tidak menemukan blok deklarasi subnet yang cocok secara matematis dengan IP Address yang terpasang di interface fisik server."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: DHCP Server & Reservation',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Urutan 4 tahapan komunikasi protokol DHCP (DORA) yang benar saat klien meminta alamat IP adalah?",options:["Discover &rarr; Offer &rarr; Request &rarr; Acknowledgment","Request &rarr; Offer &rarr; Discover &rarr; Acknowledgment","Acknowledgment &rarr; Request &rarr; Offer &rarr; Discover","Ping &rarr; ARP &rarr; DNS &rarr; DHCP"],correctIndex:0,explanation:"DORA: DHCPDISCOVER (broadcast), DHCPOFFER (tawaran IP), DHCPREQUEST (permintaan resmi), DHCPACK (konfirmasi final)."},
+      {question:"Port UDP yang digunakan oleh DHCP Server untuk mendengarkan (listening) request dari client adalah?",options:["Port 67 UDP (Server) dan Port 68 UDP (Client)","Port 80 TCP","Port 53 UDP","Port 22 TCP"],correctIndex:0,explanation:"DHCP Server beroperasi pada UDP Port 67 sedangkan Client menerima balasan pada UDP Port 68."},
+      {question:"Fungsi klausa 'fixed-address' yang dipasangkan dengan 'hardware ethernet' pada dhcpd.conf adalah?",options:["Memberikan pemesanan IP statis permanen ke perangkat tertentu berdasarkan alamat fisik MAC Address kartu jaringannya","Memblokir akses internet perangkat","Menghapus history sewa IP","Mengubah MAC Address secara acak"],correctIndex:0,explanation:"Fixed address reservation menjamin perangkat yang sama selalu menerima IP yang sama persis."},
+      {question:"File log yang mencatat seluruh daftar peminjaman IP, hostname client, dan durasi sewa aktif pada isc-dhcp-server adalah?",options:["/var/lib/dhcp/dhcpd.leases","/var/log/apache2/error.log","/etc/resolv.conf","/etc/fstab"],correctIndex:0,explanation:"dhcpd.leases adalah database dinamis yang mencatat riwayat kontrak sewa IP klien."}
+    ]});
   }
 });
 </script>

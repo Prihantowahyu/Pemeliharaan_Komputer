@@ -3,251 +3,318 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 9: Konfigurasi File Sharing Server (Samba SMB/CIFS & NFS) — Kelas XII TKJ</title>
+<title>Pertemuan 9: Network File Sharing Server (Samba SMB & NFS) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(16, 185, 129, 0.25);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --emerald-glow: rgba(16, 185, 129, 0.35);
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: #6ee7b7; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--emerald) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(16,185,129,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(16,185,129,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--em),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--em);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--em);box-shadow:0 0 8px var(--em)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(16,185,129,.12);border:1px solid var(--em);color:var(--em);margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,var(--em) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--em);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f2 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f3{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f3 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f4{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f4 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f5{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f5 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(16,185,129,.15);color:#6ee7b7;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--em);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.2);color:var(--em);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 4 / Pert. 9)</span></div>
-    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Ganjil — Blok 2 Hari 4 (Pert. 9)</div>
+    <a href="index.html#server" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 2 HARI KE-4</div>
-    <h1>Konfigurasi Network Storage & File Sharing Server (Samba SMB/CIFS & NFS)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan integrasi penyimpanan terpusat lintas platform: Membedah protokol Samba SMB/CIFS (Port 445) untuk kompatibilitas client Windows Explorer dan Network File System (NFSv4 Port 2049) untuk throughput tinggi client Linux, konfigurasi hak akses user via <code>smbpasswd</code>, parameter share <code>/etc/samba/smb.conf</code> & <code>/etc/exports</code>, serta teknik automounting drive jaringan.</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 2 HARI KE-4 · KELAS XII TKJ</div>
+    <h1>Network File Sharing Enterprise: Samba (SMB/CIFS) & Network File System (NFS)</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Membangun penyimpanan terpusat lintas sistem operasi: interoperabilitas Linux-to-Windows menggunakan Samba (SMB Port 445), Linux-to-Linux performa tinggi menggunakan NFSv4 (Port 2049), hierarki hak akses ganda (Linux POSIX vs Share Permissions), hingga pemetaan Network Map Drive pada sistem klien.</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Samba vs NFS Theory</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Samba smb.conf & Auth</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">NFS Exports & Mount</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab Map Drive</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Permission</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Konsep File Sharing Terpusat</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Samba SMB vs Linux NFS</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">smb.conf & /etc/exports</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Job Sheet Map Drive Lab</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Two-Tier Permissions Fix</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Komparasi Penyimpanan Jaringan (NAS/SAN)</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Apersepsi: Mengapa kantor sekolah membutuhkan shared drive terpusat (Network Attached Storage) daripada flashdisk yang rentan virus? Guru membandingkan protokol Samba (Windows & Mac) dengan NFS (Linux-to-Linux high performance).</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan & Apersepsi — Mengapa Penyimpanan Terpusat?</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Konfigurasi Samba Server (/etc/samba/smb.conf) & smbpasswd</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Pembedahan parameter share: <code>[Data_Sekolah]</code>, <code>path = /shared/data</code>, <code>browseable = yes</code>, <code>read only = no</code>, <code>valid users = @guru</code>, <code>create mask = 0660</code>, <code>directory mask = 0770</code>, serta pembuatan password Samba via <code>smbpasswd -a [user]</code>.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Konfigurasi NFS Server (/etc/exports) & Opsi Mount</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Pembedahan opsi ekspor NFS: <code>rw</code> (Read/Write), <code>sync</code> (sinkronisasi data langsung ke storage sebelum konfirmasi ACK), <code>no_subtree_check</code>, dan <code>no_root_squash</code>. Konfigurasi client automount di <code>/etc/fstab</code>.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Persiapan client Windows Explorer dan client terminal Linux di meja siswa.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Map Network Drive & NFS Share</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet 9</strong>: (1) Install paket <code>samba nfs-kernel-server</code>, (2) Buat 2 share: Share Publik Read-Only dan Share Privat Guru Read-Write, (3) Di client Windows: Map Network Drive <code>\\192.168.10.10\Data_Sekolah</code> dengan login kredensial, (4) Di client Linux: <code>mount -t nfs 192.168.10.10:/mnt/nfs_share /mnt/local</code>, (5) Uji coba copy file 500MB.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting SMB Logon & NFS Root Squash)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Siswa mendiagnosis error: <code>NT_STATUS_LOGON_FAILURE</code> (password Linux belum disinkronkan ke smbpasswd), dan error "Permission Denied" saat user Linux mencoba menulis ke mount point NFS.</p>
-      </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live file sharing oleh guru, dan pengantar materi Monitoring & Audit Server.</p>
+      <div class="fase-body open">
+        <h4 class="sub">🎯 Masalah Nyata di Lingkungan Kerja</h4>
+        <p style="color:var(--t2);font-size:14px">Bayangkan 40 guru di sekolah harus mengumpulkan nilai rapor siswa menggunakan flashdisk secara manual. Risikonya: penyebaran virus, duplikasi data berantakan, dan risiko flashdisk hilang. Solusinya adalah <strong>Network File Server Terpusat</strong>.</p>
+        <div class="tip-box info">
+          Dengan Network File Sharing, folder bersama di server Linux dapat muncul sebagai <strong>Local Drive (Z:)</strong> di Windows Explorer setiap laptop guru atau di-mount langsung ke sistem Linux client!
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- BAGIAN 2: MATERI TEORI SAMBA & NFS -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi Lengkap Samba & NFS Server</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># 1. /etc/samba/smb.conf — Tambahkan di baris paling bawah</span>
-<pre style="color:#67e8f9;">[Shared_TKJ]
-    comment = Folder Berkas Bersama Guru dan Siswa TKJ
-    path = /data/samba_share
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Teori Komparasi: Samba (SMB/CIFS) vs NFSv4</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body open">
+        <div class="two-col">
+          <div class="comp-card" style="border-color:rgba(0,240,255,.3)">
+            <h5 style="color:var(--cyan)">Samba Server (SMB / CIFS)</h5>
+            <ul class="materi">
+              <li>Protokol: <strong>Server Message Block (SMB v2/v3)</strong></li>
+              <li>Port: <strong>TCP 445</strong> (Microsoft-DS) & NetBIOS UDP 137/138, TCP 139</li>
+              <li>Kelebihan: Kompatibilitas 100% dengan Windows, MacOS, Android, Linux</li>
+              <li>Autentikasi: Password database mandiri via <code>smbpasswd</code></li>
+            </ul>
+          </div>
+          <div class="comp-card" style="border-color:rgba(16,185,129,.3)">
+            <h5 style="color:var(--em)">NFS (Network File System v4)</h5>
+            <ul class="materi">
+              <li>Protokol: <strong>NFSv4</strong> (RFC 7530)</li>
+              <li>Port: <strong>TCP 2049</strong></li>
+              <li>Kelebihan: Latensi sangat rendah, throughput tinggi antar sesama Linux/Unix</li>
+              <li>Autentikasi: Berbasis Subnet IP Client & UID/GID mapping</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Bedah File Konfigurasi /etc/samba/smb.conf & /etc/exports</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <h4 class="sub">📄 Konfigurasi Share Samba (/etc/samba/smb.conf)</h4>
+        <div class="cb">
+<pre><span style="color:#64748b;"># Share 1: Folder Publik (Semua orang boleh membaca tanpa password)</span>
+<span style="color:#fde68a;">[Publik_Materi]</span>
+    path = /srv/samba/publik
+    browseable = yes
+    read only = yes
+    guest ok = yes
+
+<span style="color:#64748b;"># Share 2: Folder Khusus Guru (Wajib Login & Boleh Menulis)</span>
+<span style="color:#fde68a;">[Dokumen_Guru]</span>
+    path = /srv/samba/guru
     browseable = yes
     read only = no
-    guest ok = no
-    valid users = @tkj_group
-    create mask = 0664
-    directory mask = 0775
-    force group = tkj_group</pre>
+    valid users = @guru_group, pak_wahyu
+    create mask = 0660
+    directory mask = 0770</pre>
+        </div>
+
+        <h4 class="sub">📄 Konfigurasi NFS Export (/etc/exports)</h4>
+        <div class="cb">
+<pre><span style="color:#64748b;"># Format: [Folder_Lokal] [IP_Client_Diizinkan](Parameter)</span>
+/srv/nfs/data_cluster   192.168.10.0/24(rw,sync,no_subtree_check,no_root_squash)</pre>
+        </div>
+      </div>
     </div>
 
-    <div class="code-block" style="margin-top:14px;">
-<span style="color:#64748b;"># 2. /etc/exports — NFS Server Configuration</span>
-<pre style="color:#a7f3d0;"># Format: [Folder_Path] [Subnet_Client](Opsi_Izin)
-/data/nfs_share 192.168.10.0/24(rw,sync,no_subtree_check,no_root_squash)</pre>
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Persiapan Windows Client Map Drive</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Persiapan laptop siswa dihubungkan ke WiFi lab.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Deploy Samba & Map Network Drive (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box ok"><strong>🎯 Target:</strong> Folder <code>\\192.168.10.10\Dokumen_Guru</code> dapat dimount di laptop Windows sebagai Drive Z: dengan autentikasi user Samba.</div>
+
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Install Samba & NFS Server:</strong><div class="cb"><pre>sudo apt update && sudo apt install -y samba smbclient nfs-kernel-server</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Buat folder penyimpanan fisik di Linux:</strong><div class="cb"><pre>sudo mkdir -p /srv/samba/publik /srv/samba/guru /srv/nfs/data_cluster
+sudo chmod -R 777 /srv/samba/publik</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Buat group dan user Samba:</strong><div class="cb"><pre>sudo groupadd guru_group
+sudo useradd -M -s /usr/sbin/nologin pak_wahyu
+sudo usermod -aG guru_group pak_wahyu
+sudo smbpasswd -a pak_wahyu   <span style="color:#94a3b8"># Set password khusus Samba</span></pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">4</span><div style="color:var(--t2);font-size:14px"><strong>Atur Linux File Ownership:</strong><div class="cb"><pre>sudo chown -R root:guru_group /srv/samba/guru
+sudo chmod -R 2770 /srv/samba/guru   <span style="color:#94a3b8"># 2=SGID bit agar file baru otomatis grup sama</span></pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">5</span><div style="color:var(--t2);font-size:14px"><strong>Uji sintaks smb.conf & restart service:</strong><div class="cb"><pre>testparm -s
+sudo systemctl restart smbd nmbd nfs-kernel-server
+sudo ufw allow samba
+sudo ufw allow from 192.168.10.0/24 to any port nfs</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">6</span><div style="color:var(--t2);font-size:14px"><strong>Uji dari Laptop Windows (File Explorer):</strong>
+          <ul class="materi" style="margin-top:8px">
+            <li>Tekan <code>Win + R</code> → ketik <code>\\192.168.10.10</code> → Enter</li>
+            <li>Muncul folder <code>Publik_Materi</code> dan <code>Dokumen_Guru</code></li>
+            <li>Klik kanan <code>Dokumen_Guru</code> → <strong>Map network drive...</strong> → Pilih Drive <code>Z:</code></li>
+            <li>Masukkan user: <code>pak_wahyu</code> dan password Samba</li>
+            <li>Coba buat file teks baru <code>tugas_tkj.docx</code> di dalam Drive Z:</li>
+          </ul>
+        </div></div>
+
+        <div class="step-row"><span class="step-num">7</span><div style="color:var(--t2);font-size:14px"><strong>Uji Mount NFS dari Client Linux:</strong><div class="cb"><pre>sudo apt install nfs-common
+sudo mkdir -p /mnt/cluster_storage
+sudo mount -t nfs 192.168.10.10:/srv/nfs/data_cluster /mnt/cluster_storage
+df -h | grep nfs</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Troubleshooting: Dua Lapisan Izin (Two-Tier Permissions Conflict)</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box danger">
+          <strong>⚠️ Masalah Klasik Samba:</strong> Di file <code>smb.conf</code> disetel <code>read only = no</code> (Share Permission Boleh Tulis), TETAPI di sistem file Linux foldernya berstatus <code>chmod 555</code> (Hanya Baca). Akibatnya: Client Windows mendapat error <strong>"Access Denied / Permission Denied"</strong> saat menyimpan file!
+        </div>
+        <table class="tc">
+          <tr><th>Lapisan Izin</th><th>Lokasi Konfigurasi</th><th>Solusi Jika Konflik</th></tr>
+          <tr><td><strong>Tier 1: Share Permission</strong></td><td>File <code>/etc/samba/smb.conf</code> (<code>writable = yes</code>)</td><td>Buka akses tulis di deklarasi blok share</td></tr>
+          <tr><td><strong>Tier 2: Linux File Permission</strong></td><td>Sistem file Linux (<code>chmod</code> & <code>chown</code>)</td><td>Eksekusi: <code>sudo chmod -R 775 /srv/samba/guru</code></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi CBT & Sidang Unjuk Kerja Praktik</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <table class="tc">
+          <tr><th>Kriteria Unjuk Kerja</th><th>Metode Verifikasi Guru</th><th>Bobot Skor</th></tr>
+          <tr><td>Layanan Samba smbd listening di Port 445</td><td><code>ss -tulnp | grep :445</code></td><td>25 Poin</td></tr>
+          <tr><td>User Samba terautentikasi via database smbpasswd</td><td>Login via Map Drive Windows</td><td>25 Poin</td></tr>
+          <tr><td>Izin tulis dan baca berfungsi sesuai hak grup</td><td>Uji simpan file & hapus file di client</td><td>30 Poin</td></tr>
+          <tr><td>NFS Mount berhasil pada Linux Client</td><td>Output <code>df -h</code> di sisi klien</td><td>20 Poin</td></tr>
+        </table>
+      </div>
     </div>
   </section>
 
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Langkah</th><th>Perintah Eksekusi / Konfigurasi</th><th>Target Output & Kriteria Sukses</th></tr>
-      <tr><td><strong>1. Setup Password SMB</strong></td><td><code>sudo smbpasswd -a budi_tkj</code></td><td>User memiliki kredensial independen untuk otentikasi Windows Explorer.</td></tr>
-      <tr><td><strong>2. Cek Sintaks Samba</strong></td><td><code>testparm</code></td><td>Output: <code>Loaded services file OK</code>.</td></tr>
-      <tr><td><strong>3. Ekspor NFS</strong></td><td><code>sudo exportfs -rav</code></td><td>Output: <code>exporting 192.168.10.0/24:/data/nfs_share</code>.</td></tr>
-      <tr><td><strong>4. Akses dari Windows</strong></td><td>Ketik di Win+R: <code>\\192.168.10.10\Shared_TKJ</code></td><td>Folder jaringan terbuka dan file dapat di-drag & drop langsung.</td></tr>
-      <tr><td><strong>5. Mount dari Linux</strong></td><td><code>sudo mount -t nfs 192.168.10.10:/data/nfs_share /mnt/nfs</code></td><td>Output <code>df -h</code> menampilkan filesystem <code>192.168.10.10:/...</code> ter-mount.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Permission Denied pada Level Linux vs Samba</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># ATURAN PERMISSION FILE SHARING DUA LAPIS (TWO-TIER PERMISSION):</span>
-1. Layer 1 (Samba/NFS Layer): Direktif 'read only = no' atau 'rw' di smb.conf/exports.
-2. Layer 2 (Linux OS Permission Layer): Direktori fisik di server WAJIB memiliki hak tulis (chown/chmod) bagi user bersangkutan.
-<span style="color:#38bdf8;">sudo chown -R root:tkj_group /data/samba_share</span>
-<span style="color:#38bdf8;">sudo chmod -R 2775 /data/samba_share</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_8_konfigurasi-mail-server-postfix.html" class="btn-nav-bottom secondary">← Pertemuan 8: Mail Server</a>
-    <a href="Server_Pert_10_monitoring-troubleshooting-server.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 10: Monitoring Kinerja & Audit Server →</a>
+    <a href="Server_Pert_8_konfigurasi-mail-server-postfix.html" class="btn se">← Pert. 8: Mail Server Postfix</a>
+    <a href="Server_Pert_10_monitoring-troubleshooting-server.html" class="btn pr">Lanjut ke Pert. 10: Monitoring & Troubleshooting Server →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: File Sharing Samba & NFS',
-      subject: 'Infrastruktur Server — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Perintah resmi yang digunakan untuk membuat dan mengaktifkan password autentikasi bagi user Samba adalah?",
-          options: ["sudo smbpasswd -a [username]", "sudo passwd [username]", "sudo useradd -s [username]", "sudo chmod smb [username]"],
-          correctIndex: 0,
-          explanation: "Samba menggunakan database hash password sendiri (passdb.tdb). 'smbpasswd -a' mengikat user Linux lokal ke dalam sistem autentikasi Samba."
-        },
-        {
-          question: "Port TCP standar yang digunakan oleh protokol SMB/CIFS modern (Samba Direct Hosting) untuk transfer file adalah?",
-          options: ["Port TCP 445", "Port TCP 80", "Port TCP 21", "Port UDP 53"],
-          correctIndex: 0,
-          explanation: "Port 445 digunakan untuk SMB over TCP/IP langsung tanpa memerlukan lapisan lawas NetBIOS."
-        },
-        {
-          question: "Keunggulan Network File System (NFS) dibandingkan Samba dalam arsitektur server Linux-to-Linux adalah?",
-          options: [
-            "Throughput transfer data lebih tinggi dan overhead CPU lebih rendah karena beroperasi langsung pada tingkat kernel sistem operasi Linux",
-            "NFS hanya bisa dibuka di smartphone Android",
-            "NFS tidak membutuhkan jaringan LAN",
-            "NFS secara otomatis mengubah format file video"
-          ],
-          correctIndex: 0,
-          explanation: "NFS (Network File System) dioptimalkan secara native di kernel Linux, menjadikannya pilihan utama untuk cluster compute, web farm storage, dan database storage."
-        },
-        {
-          question: "Perintah utilitas Samba yang digunakan untuk memverifikasi ada tidaknya kesalahan sintaks pada file /etc/samba/smb.conf adalah?",
-          options: ["testparm", "named-checkconf", "apache2ctl configtest", "netplan try"],
-          correctIndex: 0,
-          explanation: "'testparm' memeriksa seluruh baris konfigurasi smb.conf dan menampilkan ringkasan share aktif sebelum daemon smbd di-reload."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: File Sharing Samba & NFS',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Perintah utilitas Linux yang digunakan untuk menambahkan dan mengatur password user khusus pada database Samba Server adalah?",options:["sudo smbpasswd -a [nama_user]","sudo passwd [nama_user]","sudo useradd -s [nama_user]","sudo chmod samba [nama_user]"],correctIndex:0,explanation:"Samba menggunakan database password terenkripsi sendiri (passdb.tdb) yang dikelola melalui utilitas smbpasswd."},
+      {question:"Mengapa pengguna Windows tetap mengalami 'Access is Denied' saat membuat file di folder Samba, padahal di smb.conf sudah disetel 'read only = no'?",options:["Karena hak akses kepemilikan file sistem Linux (POSIX Permissions / chmod / chown) pada folder fisik tersebut belum mengizinkan izin tulis bagi user/grup terkait (Konflik Two-Tier Permissions)","Karena kabel LAN terbalik","Karena Windows tidak mendukung Linux","Karena monitor komputer mati"],correctIndex:0,explanation:"Keamanan Samba bersifat Two-Tier (2 Lapisan): Izin Share di smb.conf DAN Izin File di Linux. Keduanya WAJIB sama-sama mengizinkan hak tulis."},
+      {question:"Port standar protokol TCP yang digunakan oleh Samba SMBv2/v3 modern tanpa NetBIOS adalah?",options:["Port 445 (Microsoft-DS)","Port 80","Port 21","Port 25"],correctIndex:0,explanation:"Port 445 TCP adalah port standar direct SMB hosting di atas TCP/IP modern."},
+      {question:"File konfigurasi utama pada Linux untuk menentukan folder mana saja yang diizinkan untuk dibagikan (di-export) melalui protokol Network File System (NFS) adalah?",options:["/etc/exports","/etc/samba/smb.conf","/etc/fstab","/etc/resolv.conf"],correctIndex:0,explanation:"File /etc/exports adalah tabel daftar direktori lokal yang di-share oleh daemon nfs-kernel-server ke subnet jaringan tertentu."}
+    ]});
   }
 });
 </script>

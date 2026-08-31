@@ -3,257 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 10: Monitoring Kinerja, Analisis Log & Troubleshooting Server — Kelas XII TKJ</title>
+<title>Pertemuan 10: Monitoring & Troubleshooting Linux Server — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(239, 68, 68, 0.25);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --danger-glow: rgba(239, 68, 68, 0.35);
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(239, 68, 68, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--danger), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #fca5a5; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 8px var(--danger); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: #fca5a5; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #fca5a5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--danger); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: #fca5a5; font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(239, 68, 68, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 8px var(--danger); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #fca5a5; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(239,68,68,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(239,68,68,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--red);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(239,68,68,.12);border:1px solid var(--red);color:#fca5a5;margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,#fca5a5 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--red);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f2 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f3{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f3 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f4{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f4 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f5{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f5 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(239,68,68,.15);color:#fca5a5;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--red);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(239,68,68,.2);color:var(--red);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 5 / FINAL EVALUASI)</span></div>
-    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Ganjil — FINAL BLOK 2 (Pert. 10)</div>
+    <a href="index.html#server" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 2 HARI KE-5 · SESI FINAL EVALUASI</div>
-    <h1>Monitoring Kinerja Sistem, Analisis Log Real-Time & Troubleshooting Layanan Server</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan audit dan pemecahan masalah operasional server enterprise: Memahami metrik vital CPU Load Average (1/5/15m), utilitas memori RAM & Swap, I/O Wait disk bottleneck, perintah monitoring interaktif (<code>htop</code>, <code>iostat</code>, <code>vmstat</code>, <code>ss -tulnp</code>), analisis log tersentralisasi <code>systemd-journald</code> & <code>rsyslog</code>, simulasi beban kerja ekstrem (<em>Stress Testing</em> via <code>stress-ng</code>), serta pengenalan dashboard Grafana & Zabbix.</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 2 HARI KE-5 · EVALUASI AKHIR GANJIL</div>
+    <h1>Monitoring Kinerja, Analisis Berkas Log & Troubleshooting Sistem Server</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Menjaga keandalan (High Availability) infrastruktur server 24/7: membedah metrik Load Average (1m, 5m, 15m), utilitas real-time (<code>htop</code>, <code>iostat</code>, <code>vmstat</code>, <code>ss</code>), audit berkas log sistem via <code>journalctl</code>, simulasi beban kerja (Stress Testing via <code>stress-ng</code>), hingga penyelamatan crash akibat Linux Kernel OOM Killer.</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">KPI & Metrics Theory</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">CLI Monitoring Tools</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Journalctl & Syslog</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Stress Testing</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Kasus Nyata</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Akhir</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Konsep Server Health</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Metrik Load Average & OOM</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">Anatomi Systemd Journal Log</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Stress Test & Profiling Lab</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Deadlock & Zombie Process Fix</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT Akhir Semester Ganjil</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pendahuluan & Konsep SLA (Service Level Agreement)</span> <span style="font-size:12px;color:var(--danger);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Apersepsi: Mengapa tim IT Operations (SysAdmin) wajib memonitor server sebelum pengguna mengeluh? Memahami parameter SLA 99.9% uptime, arti metrik Load Average 1.0 vs 4.0 pada CPU 4-core, dan bahaya Swap thrashing.</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Pembelajaran 9 JP — Klik Fase untuk Materi Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Pendahuluan & Apersepsi — Mengapa Server Harus Dimonitor 24/7?</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Utilitas Monitoring CLI Esensial (htop, vmstat, iostat, ss)</span> <span style="font-size:12px;color:var(--danger);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Demonstrasi praktis membaca output: (1) <code>htop</code> untuk mengidentifikasi proses rakus CPU/Memory, (2) <code>vmstat 1 5</code> untuk mengecek antrian proses (r) dan memory swap (si/so), (3) <code>iostat -xz 1</code> untuk memeriksa %util hard disk, (4) <code>ss -tulnp</code> untuk melihat port listening dan daemon pemiliknya.</p>
+      <div class="fase-body open">
+        <h4 class="sub">🎯 Studi Kasus Kegagalan Layanan</h4>
+        <p style="color:var(--t2);font-size:14px">Saat ujian CBT serentak diikuti 1.000 siswa, server tiba-tiba hang (tidak merespons). Apakah penyebabnya CPU 100%, RAM habis, atau antrean I/O Hard Disk macet? SysAdmin harus mampu mendiagnosis akar masalah dalam hitungan detik menggunakan perangkat monitoring CLI.</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Analisis Berkas Log Sistem & journalctl Filtering</span> <span style="font-size:12px;color:var(--danger);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Pembedahan filter log canggih: <code>journalctl -u [service] -e -f</code> (follow live output), <code>journalctl -p err..emerg</code> (hanya tampilkan pesan error kritis), serta lokasi berkas log standar di <code>/var/log/auth.log</code>, <code>/var/log/syslog</code>, dan <code>/var/log/nginx/</code>.</p>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Teori Metrik: Load Average, CPU States & Linux OOM Killer</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Persiapan skrip stress test beban kerja CPU dan memori.</p>
+      <div class="fase-body open">
+        <h4 class="sub">📊 Membaca Angka Load Average (1m, 5m, 15m)</h4>
+        <div class="tip-box info">
+          Load Average adalah jumlah proses yang sedang berjalan atau menunggu giliran CPU (Runnable state) dan I/O disk (Uninterruptible sleep state).
+          <br><strong>Aturan Emas:</strong> Jika server memiliki <strong>4 Core CPU</strong>:
+          <ul class="materi" style="margin-top:6px">
+            <li>Load Average = <strong>2.00</strong> &rarr; CPU terpakai 50% (Sangat Sehat)</li>
+            <li>Load Average = <strong>4.00</strong> &rarr; CPU terpakai 100% (Kapasitas Maksimal)</li>
+            <li>Load Average = <strong>8.00</strong> &rarr; Server overload 200% (Ada 4 proses antre macet!)</li>
+          </ul>
+        </div>
+
+        <h4 class="sub">💀 Linux Kernel Out-Of-Memory (OOM) Killer</h4>
+        <p style="color:var(--t2);font-size:14px">Saat RAM fisik dan SWAP habis total (0 bytes available), kernel Linux akan mengaktifkan mekanisme proteksi <strong>OOM Killer</strong> untuk membunuh proses dengan skor <code>oom_score</code> tertinggi secara paksa (biasanya MySQL atau Apache) agar sistem operasi induk tidak panik/crash!</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Simulasi Stress Testing & Audit</span> <span style="font-size:12px;color:var(--danger);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet 10</strong>: (1) Install <code>htop sysstat stress-ng</code>, (2) Menjalankan stress test 100% CPU 4-worker selama 60 detik (<code>stress-ng --cpu 4 --timeout 60s</code>), (3) Mengamati perubahan Load Average di htop, (4) Mengaudit seluruh port terbuka di server (<code>ss -tulnp</code>), (5) Menyusun dokumen audit kesehatan server lengkap dengan rekomendasi tuning.</p>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Manajemen Log Terpusat: systemd-journald & /var/log/</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Skenario Troubleshooting: OOM Killer & Zombie Process</span> <span style="font-size:12px;color:var(--danger);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Siswa mendiagnosis kasus: Linux Kernel Out-Of-Memory (OOM) Killer yang mematikan service database spontan akibat RAM habis, serta cara menemukan dan mengeliminasi proses Zombie/Defunct.</p>
+      <div class="fase-body">
+        <table class="tc">
+          <tr><th>Perintah Journalctl</th><th>Fungsi Analisis Diagnostik</th></tr>
+          <tr><td><code>sudo journalctl -u apache2 -f</code></td><td>Memantau log service Apache secara live real-time saat ada pengunjung</td></tr>
+          <tr><td><code>sudo journalctl -p err -b</code></td><td>Menampilkan semua pesan error kritis sejak booting terakhir</td></tr>
+          <tr><td><code>sudo journalctl --since "10 minutes ago"</code></td><td>Melihat log yang terjadi dalam 10 menit terakhir saja</td></tr>
+          <tr><td><code>sudo dmesg -T | grep -i oom</code></td><td>Mencari jejak pembunuhan proses oleh Kernel OOM Killer dengan timestamp</td></tr>
+        </table>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi Akhir CBT & Refleksi 1 Semester Ganjil</span> <span style="font-size:12px;color:var(--danger);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori komprehensif CBT 30 menit, checklist pengujian audit oleh guru, serta penutupan pembelajaran Semester Ganjil Kelas XII TKJ.</p>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Persiapan Utilitas Stress Lab</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Persiapan instalasi stress-ng dan htop.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Praktikum Mandiri — Simulasi Beban Kerja Ekstrem (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box ok"><strong>🎯 Target:</strong> Siswa menginjeksikan beban CPU/RAM via <code>stress-ng</code>, memantau dampaknya di <code>htop</code>, dan mematikan proses nakal secara aman.</div>
+
+        <div class="step-row"><span class="step-num">1</span><div style="color:var(--t2);font-size:14px"><strong>Install tools pemantauan performa:</strong><div class="cb"><pre>sudo apt update && sudo apt install -y htop sysstat iotop stress-ng</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">2</span><div style="color:var(--t2);font-size:14px"><strong>Buka 2 Terminal Berdampingan (Terminal 1 = Monitor, Terminal 2 = Attacker):</strong><div class="cb"><pre><span style="color:#94a3b8"># Di Terminal 1: Jalankan htop interaktif</span>
+htop</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">3</span><div style="color:var(--t2);font-size:14px"><strong>Di Terminal 2: Simulasikan beban 100% CPU selama 60 detik:</strong><div class="cb"><pre>stress-ng --cpu 2 --timeout 60s --metrics-brief</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">4</span><div style="color:var(--t2);font-size:14px"><strong>Amati grafik CPU di Terminal 1 berubah merah pekat (100% usage)!</strong></div></div>
+
+        <div class="step-row"><span class="step-num">5</span><div style="color:var(--t2);font-size:14px"><strong>Simulasikan beban RAM mendekati limit (Memory Leak):</strong><div class="cb"><pre>stress-ng --vm 2 --vm-bytes 1G --timeout 45s</pre></div></div></div>
+
+        <div class="step-row"><span class="step-num">6</span><div style="color:var(--t2);font-size:14px"><strong>Membunuh proses yang hang menggunakan sinyal terminasi:</strong><div class="cb"><pre><span style="color:#94a3b8"># 1. Sinyal Halus (Graceful Shutdown)</span>
+sudo kill -15 [PID_Proses]
+
+<span style="color:#94a3b8"># 2. Sinyal Paksa Keras (Jika tidak merespons)</span>
+sudo kill -9 [PID_Proses]</pre></div></div></div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Skenario Troubleshooting: Zombie Process & Disk I/O Bottleneck</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <table class="tc">
+          <tr><th>Status Proses</th><th>Kode di htop</th><th>Solusi SysAdmin</th></tr>
+          <tr><td><strong>Running / Runnable</strong></td><td><code>R</code></td><td>Normal sedang dieksekusi CPU.</td></tr>
+          <tr><td><strong>Uninterruptible Sleep (I/O Wait)</strong></td><td><code>D</code></td><td>Menunggu hard disk lambat. Periksa kesehatan storage dengan <code>sudo iostat -xz 1</code>.</td></tr>
+          <tr><td><strong>Zombie / Defunct</strong></td><td><code>Z</code></td><td>Proses anak sudah mati tapi parent belum membaca exit code-nya. Cari parent PID: <code>ps -o ppid= -p [PID_Zombie]</code> lalu restart proses parent.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Evaluasi Akhir Semester Ganjil & CBT Komprehensif</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Selamat! Anda telah menyelesaikan seluruh 10 Modul Pembelajaran Semester Ganjil Kelas XII TKJ. Silakan selesaikan CBT 4 soal di bawah ini.</p>
       </div>
     </div>
   </section>
 
-  <!-- BAGIAN 2: MATERI TEORI MONITORING CLI -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Perintah CLI Monitoring Kinerja & Analisis Log</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># 1. Monitoring Socket & Port Listening Aktif (Pengganti netstat)</span>
-<span style="color:#38bdf8;">sudo ss -tulnp</span>
-<span style="color:#64748b;"># -t: TCP, -u: UDP, -l: Listening, -n: Numeric IP:Port, -p: Process Name & PID</span>
-
-<span style="color:#64748b;"># 2. Monitoring Penggunaan I/O Disk Secara Real-Time</span>
-<span style="color:#38bdf8;">iostat -xz 1 5</span>
-<span style="color:#64748b;"># Perhatikan kolom '%util': jika mendekati 100%, disk mengalami bottleneck parah!</span>
-
-<span style="color:#64748b;"># 3. Analisis Log Layanan Spesifik (Contoh: Web Server Apache)</span>
-<span style="color:#38bdf8;">sudo journalctl -u apache2 -n 50 --no-pager</span>
-
-<span style="color:#64748b;"># 4. Stress Test Beban Kerja CPU & Memori</span>
-<span style="color:#38bdf8;">stress-ng --cpu 2 --vm 1 --vm-bytes 512M --timeout 30s --metrics-brief</span>
-    </div>
-  </section>
-
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>Komponen Audit</th><th>Perintah Eksekusi</th><th>Kriteria Standar Sehat (Baseline)</th></tr>
-      <tr><td><strong>CPU Load Average</strong></td><td><code>uptime</code> atau <code>htop</code></td><td>Nilai Load Average &le; jumlah core vCPU server.</td></tr>
-      <tr><td><strong>Konsumsi RAM</strong></td><td><code>free -h</code></td><td>RAM terpakai &lt; 85% dan penggunaan Swap mendekati 0 MB.</td></tr>
-      <tr><td><strong>Port Terbuka Sah</strong></td><td><code>sudo ss -tulnp</code></td><td>Hanya port resmi yang aktif: 22 (SSH), 53 (DNS), 80 (HTTP), 445 (Samba).</td></tr>
-      <tr><td><strong>Log Bebas Error</strong></td><td><code>sudo journalctl -p err -b</code></td><td>Tidak ditemukan log 'Emergency' atau 'Critical' pada boot berjalan.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: TROUBLESHOOTING -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Kernel OOM Killer & High I/O Wait</h2>
-    <div class="code-block">
-<span style="color:#64748b;"># KASUS: Service MySQL tiba-tiba mati sendiri tanpa ada yang mematikan</span>
-<span style="color:#fde68a;"># Diagnosa via dmesg / journalctl:</span>
-<span style="color:#38bdf8;">sudo dmesg -T | grep -i "oom-killer"</span>
-<span style="color:#ef4444;"># Output: "Out of memory: Killed process 3421 (mysqld) total-vm:2048500kB, anon-rss:980200kB"</span>
-<span style="color:#a7f3d0;"># Solusi: Naikkan kapasitas RAM, optimasi parameter innodb_buffer_pool_size MySQL, atau aktifkan file Swap 2GB:</span>
-sudo fallocate -l 2G /swapfile &amp;&amp; sudo chmod 600 /swapfile &amp;&amp; sudo mkswap /swapfile &amp;&amp; sudo swapon /swapfile
-    </div>
-  </section>
-
-  <!-- BAGIAN 5: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn-nav-bottom secondary">← Pertemuan 9: File Sharing Server</a>
-    <a href="index.html#server-genap" class="btn-nav-bottom primary">Lanjut ke Semester Genap XII (Virtualisasi & Proyek UKK) →</a>
+    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn se">← Pert. 9: File Sharing Samba & NFS</a>
+    <a href="index.html#server-genap" class="btn pr">Lanjut ke Semester Genap XII: Virtualisasi & Cloud →</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi 9 JP: Monitoring & Troubleshooting Server',
-      subject: 'Infrastruktur Server — Kelas XII TKJ',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Arti dari angka 'Load Average: 2.50, 1.80, 0.90' pada server yang memiliki prosesor 2-Core (2 vCPU) adalah?",
-          options: [
-            "Dalam 1 menit terakhir terjadi kelebihan beban (overload) antrian proses 25% di atas kapasitas maksimal 2-core CPU",
-            "Suhu CPU adalah 2.5 derajat Celcius",
-            "Ada 2.5 orang yang sedang login",
-            "Kapasitas hard disk tersisa 2.5 Gigabyte"
-          ],
-          correctIndex: 0,
-          explanation: "Pada server 2-core, Load Average 2.00 berarti CPU terpakai 100% tepat. Nilai 2.50 berarti beban kerja melampaui kapasitas sebesar 25% sehingga proses harus mengantri."
-        },
-        {
-          question: "Perintah modern Linux yang digunakan untuk memeriksa seluruh port TCP/UDP yang sedang listening beserta nama proses dan PID pemiliknya adalah?",
-          options: ["sudo ss -tulnp", "sudo ip a", "sudo chmod -R 777", "sudo ping localhost"],
-          correctIndex: 0,
-          explanation: "'ss' (Socket Statistics) adalah pengganti netstat yang lebih cepat dan efisien di kernel Linux modern."
-        },
-        {
-          question: "Mekanisme proteksi Linux Kernel 'OOM Killer' (Out-Of-Memory Killer) diaktifkan secara otomatis ketika?",
-          options: [
-            "RAM fisik dan ruang Swap habis sepenuhnya, sehingga kernel terpaksa membunuh proses rakus memori untuk mencegah kernel panic / total system freeze",
-            "Server terserang virus ransomware",
-            "Koneksi internet terputus",
-            "Suhu server terlalu dingin"
-          ],
-          correctIndex: 0,
-          explanation: "OOM Killer adalah perlindungan darurat kernel Linux untuk mengorbankan aplikasi dengan skor badness tertinggi saat sistem kehabisan memori."
-        },
-        {
-          question: "Perintah journalctl yang digunakan untuk memantau aliran log layanan secara live real-time saat pengujian berlangsung adalah?",
-          options: [
-            "sudo journalctl -u [service] -f",
-            "sudo journalctl --delete-all",
-            "sudo cat /etc/hosts",
-            "sudo reboot"
-          ],
-          correctIndex: 0,
-          explanation: "Opsi '-f' (follow) menampilkan baris log baru seketika saat event terjadi di server (mirip dengan 'tail -f')."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis 9 JP: Monitoring & Troubleshooting Server',subject:'Infrastruktur Server — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Pada output perintah 'top' atau 'uptime', arti dari 3 angka Load Average (contoh: 0.50, 1.20, 2.80) secara berurutan adalah?",options:["Rata-rata beban sistem dalam rentang waktu 1 menit terakhir, 5 menit terakhir, dan 15 menit terakhir","Persentase sisa baterai server","Jumlah pengguna yang logout","Kecepatan kipas processor"],correctIndex:0,explanation:"Tiga angka tersebut mewakili rata-rata jumlah proses antre dalam interval 1, 5, dan 15 menit."},
+      {question:"Perintah utilitas Linux yang paling efektif untuk memantau aktivitas proses dan port jaringan secara real-time adalah?",options:["htop (untuk proses) dan ss -tulnp (untuk listening port)","notepad dan calc","ls dan cd","ping 127.0.0.1"],correctIndex:0,explanation:"htop menyajikan UI proses interaktif sedangkan ss -tulnp menampilkan port TCP/UDP yang aktif listening beserta PID aplikasinya."},
+      {question:"Apa fungsi dari mekanisme Linux Kernel OOM (Out-Of-Memory) Killer?",options:["Membunuh proses pemakan RAM terbesar secara otomatis saat memori fisik RAM dan SWAP benar-benar habis, demi menjaga agar kernel Linux tidak panik/crash total","Menghapus virus windows","Mematikan layar monitor saat tidak digunakan","Mempercepat booting bios"],correctIndex:0,explanation:"OOM Killer adalah mekanisme pertahanan terakhir kernel Linux untuk mengorbankan proses dengan oom_score tertinggi agar server tidak mati total saat kehabisan RAM."},
+      {question:"Sinyal terminasi 'kill -9 [PID]' memiliki arti?",options:["SIGKILL — Mematikan proses secara paksa seketika di level kernel tanpa memberikan kesempatan proses tersebut menyimpan data sementara","SIGTERM — Meminta proses berhenti secara sopan (graceful)","Merestart komputer","Menunda eksekusi proses"],correctIndex:0,explanation:"kill -9 (SIGKILL) tidak dapat ditangkap atau diabaikan oleh proses dan langsung menghentikan proses saat itu juga."}
+    ]});
   }
 });
 </script>

@@ -3,243 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 10: Simulasi Uji Kompetensi Keahlian (UKK) & Portofolio — Kelas XII TKJ</title>
+<title>Genap Pert 10: Simulasi Uji Kompetensi Keahlian (UKK) & Sidang Akhir — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-  :root {
-    --bg-void: #030712;
-    --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(16, 185, 129, 0.25);
-    --cyan: #00f0ff;
-    --cyan-glow: rgba(0, 240, 255, 0.35);
-    --emerald: #10b981;
-    --emerald-glow: rgba(16, 185, 129, 0.35);
-    --violet: #8b5cf6;
-    --amber: #f59e0b;
-    --danger: #ef4444;
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --text-muted: #64748b;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
-    background-attachment: fixed;
-  }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
-  
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald); color: #6ee7b7; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--emerald) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
-  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
-  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
-
-  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
-  
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
-  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
-
-  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
-  .alur-step { position: relative; margin-bottom: 22px; }
-  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
-  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
-  .alur-step p { font-size: 13px; color: var(--text-sub); }
-
-  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  :root{--bg:#030712;--panel:rgba(11,22,44,.8);--border:rgba(239,68,68,.25);--cyan:#00f0ff;--em:#10b981;--vi:#8b5cf6;--am:#f59e0b;--red:#ef4444;--t1:#f8fafc;--t2:#94a3b8;--t3:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r1:8px;--r2:14px;--r3:20px}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.7;background-image:radial-gradient(circle at 10% 0%,rgba(239,68,68,.08),transparent 40%),radial-gradient(circle at 90% 30%,rgba(0,240,255,.06),transparent 40%);background-attachment:fixed}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 20px 100px}
+  .top-hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .prog-line{height:3px;background:rgba(255,255,255,.06)}.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--cyan));width:0%;transition:width .3s}
+  .hud-inner{max-width:1060px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+  .hud-badge{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--red);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+  .hero{margin:32px 0 28px;background:linear-gradient(135deg,rgba(13,27,54,.9),rgba(7,14,30,.85));border:1px solid var(--border);border-radius:var(--r3);padding:36px 32px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(239,68,68,.12);border:1px solid var(--red);color:#fca5a5;margin-bottom:14px}
+  h1{font-family:var(--fh);font-size:clamp(22px,3.5vw,34px);font-weight:800;line-height:1.25;margin-bottom:12px;background:linear-gradient(135deg,#fff 40%,#fca5a5 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .meta-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0 28px}
+  .mb{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:14px 16px}
+  .mb .k{font-family:var(--fm);font-size:10px;color:var(--t3);text-transform:uppercase}.mb .v{font-family:var(--fh);font-size:14px;font-weight:700;margin-top:4px}
+  .sc{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r3);padding:30px;margin-bottom:28px;backdrop-filter:blur(12px)}
+  .st{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sn{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--red);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+  .fase-box{border-radius:var(--r2);margin-bottom:18px;overflow:hidden}
+  .fase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .fase-num{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:14px;font-weight:800;flex-shrink:0}
+  .fase-title-wrap{flex:1}.fase-title{font-family:var(--fh);font-size:15px;font-weight:700}.fase-time{font-family:var(--fm);font-size:11px;opacity:.7;margin-top:2px}
+  .fase-chevron{font-size:14px;transition:transform .3s}
+  .fase-body{padding:0 20px 20px;display:none}.fase-body.open{display:block}
+  .fase-box.f1{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25)}.fase-box.f1 .fase-num{background:rgba(6,182,212,.2);color:var(--cyan)}
+  .fase-box.f2{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}.fase-box.f2 .fase-num{background:rgba(239,68,68,.2);color:var(--red)}
+  .fase-box.f3{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25)}.fase-box.f3 .fase-num{background:rgba(245,158,11,.2);color:var(--am)}
+  .fase-box.f4{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}.fase-box.f4 .fase-num{background:rgba(16,185,129,.2);color:var(--em)}
+  .fase-box.f5{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}.fase-box.f5 .fase-num{background:rgba(139,92,246,.2);color:var(--vi)}
+  .fase-box.f6{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25)}.fase-box.f6 .fase-num{background:rgba(99,102,241,.2);color:#818cf8}
+  .fase-box.break-box{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12)}.fase-box.break-box .fase-num{background:rgba(255,255,255,.08);color:var(--t3)}
+  code{background:rgba(239,68,68,.15);color:#fca5a5;font-family:var(--fm);padding:1px 6px;border-radius:4px;font-size:88%}
+  .cb{background:#050d1c;border:1px solid #1a3358;border-radius:var(--r1);padding:16px 18px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:14px 0;line-height:1.65}
+  .cb pre{white-space:pre;margin:0}
+  .tc{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .tc th,.tc td{padding:11px 14px;border:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  .tc th{background:#091628;color:var(--red);font-family:var(--fm);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tc tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip-box{padding:14px 18px;border-radius:var(--r1);margin:14px 0;font-size:13.5px;line-height:1.6}
+  .tip-box.info{background:rgba(6,182,212,.08);border-left:3px solid var(--cyan);color:var(--t2)}
+  .tip-box.warn{background:rgba(245,158,11,.08);border-left:3px solid var(--am);color:var(--t2)}
+  .tip-box.danger{background:rgba(239,68,68,.08);border-left:3px solid var(--red);color:var(--t2)}
+  .tip-box.ok{background:rgba(16,185,129,.08);border-left:3px solid var(--em);color:var(--t2)}
+  .materi{padding-left:20px;margin:12px 0}.materi li{margin-bottom:7px;font-size:14px;color:var(--t2)}
+  h4.sub{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin:18px 0 8px}
+  .step-num{display:inline-flex;width:24px;height:24px;border-radius:6px;background:rgba(239,68,68,.2);color:var(--red);font-family:var(--fm);font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex-shrink:0}
+  .step-row{display:flex;align-items:flex-start;margin-bottom:12px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .comp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:16px}
+  .comp-card h5{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-deck{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:var(--r1);text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+  .btn.pr{background:var(--cyan);color:#030712;box-shadow:0 0 16px rgba(0,240,255,.35)}
+  .btn.se{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--t2)}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-
 <header class="top-hud">
-  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
-  <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — FINAL UKK (Hari 5 / EVALUASI AKHIR)</span></div>
-    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+  <div class="hud-inner">
+    <div class="hud-badge"><span class="dot"></span>Server XII Genap — FINAL KELULUSAN (Pert. 10)</div>
+    <a href="index.html#server-genap" class="btn se" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a>
   </div>
 </header>
 
-<main class="content-wrap">
-  <section class="hero-card">
-    <div class="tag-pill">⚡ ASESMEN FINAL 9 JP (405 MENIT) · BLOK 2 HARI KE-5 · KELAS XII TKJ</div>
-    <h1>Simulasi Uji Kompetensi Keahlian (UKK) BNSP & Uji Sertifikasi Portofolio</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Uji kelayakan kompetensi keahlian standar Badan Nasional Sertifikasi Profesi (BNSP) & Kementerian Pendidikan: Pengujian mandiri unjuk kerja berdurasi 150 menit tanpa bantuan internet luar, penyelesaian skenario gangguan acak (<em>Fault Injection Troubleshooting Challenge</em>), verifikasi matriks rubrik penilaian (0 - 100 Poin), serta sidang verifikasi portofolio teknis kelulusan.</p>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ MODUL 9 JP (405 MENIT) · BLOK 2 HARI KE-5 · EVALUASI UKK AKHIR KELAS XII</div>
+    <h1>Simulasi Uji Kompetensi Keahlian (UKK) Mandiri & Sidang Proyek Server</h1>
+    <p style="color:var(--t2);max-width:820px;font-size:15px">Puncak evaluasi sertifikasi keahlian Teknik Komputer & Jaringan: pengerjaan paket soal UKK Resmi Nasional secara mandiri berdurasi 9 JP penuh, rubrik penilaian unjuk kerja penguji eksternal (BNSP/DUDI), presentasi laporan teknis arsitektur server, dan pengujian audit langsung (Live Verification Test).</p>
   </section>
 
-  <!-- ALOKASI WAKTU 9 JP -->
-  <div class="meta-grid">
-    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Briefing Standar BNSP</div></div>
-    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Verifikasi Soal Praktik</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Persiapan Server Bersih</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Real-Time UKK Hands-On</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Penguji Fault Challenge</div></div>
-    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Sidang Portofolio</div></div>
+  <div class="meta-g">
+    <div class="mb"><div class="k">Fase 1 — 08.00 (30m)</div><div class="v">Briefing & Verifikasi Alat</div></div>
+    <div class="mb"><div class="k">Fase 2 — 08.30 (60m)</div><div class="v">Bedah Rubrik BNSP UKK</div></div>
+    <div class="mb"><div class="k">Fase 3 — 09.30 (60m)</div><div class="v">Tahap 1: Core Networking</div></div>
+    <div class="mb"><div class="k">Istirahat — 10.30 (15m)</div><div class="v">Break</div></div>
+    <div class="mb"><div class="k">Fase 4 — 10.45 (150m)</div><div class="v">Tahap 2: Web, Mail & DB</div></div>
+    <div class="mb"><div class="k">Fase 5 — 13.15 (60m)</div><div class="v">Sidang Verifikasi Penguji</div></div>
+    <div class="mb"><div class="k">Fase 6 — 14.15 (45m)</div><div class="v">CBT Komprehensif Kelulusan</div></div>
   </div>
 
-  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Uji Tatap Muka UKK (9 JP / 405 Menit)</h2>
-    <div class="timeline-alur">
-      <div class="alur-step">
-        <h4><span>Fase 1: Pembukaan Resmi & Briefing Standar Asesmen BNSP</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
-        <p>Penguji eksternal dan guru membacakan pakta integritas kejujuran asesmen, rubrik penilaian KKTP (Kriteria Ketercapaian Tujuan Pembelajaran), dan pembagian nomor workstation lab siswa.</p>
+  <section class="sc">
+    <h2 class="st"><span class="sn">1</span> Alur Ujian UKK 9 JP — Klik Fase untuk Petunjuk Lengkap</h2>
+
+    <!-- FASE 1 -->
+    <div class="fase-box f1">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">1</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 1: Pengarahan Penguji & Cek Fisik Hardware / VM</div>
+          <div class="fase-time">⏱ 08.00 – 08.30 · 30 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 2: Pembacaan Lembar Soal & Parameter Teknis UKK</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
-        <p>Siswa membedah skenario tugas: Membangun server serbaguna mandiri dalam waktu 150 menit: DNS BIND9, Web HTTPS Nginx, Database MariaDB, dan Firewall UFW dengan toleransi downtime 0%.</p>
+      <div class="fase-body open">
+        <p style="color:var(--t2);font-size:14px">Pemeriksaan integritas ruang uji: setiap siswa wajib menggunakan instalasi Linux Server baru yang bersih (Clean Install tanpa konfigurasi bawaan).</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 3: Reset Lingkungan Lab ke Clean State (Fresh Boot)</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
-        <p>Seluruh workstation di-reset ke status instalasi OS murni tanpa konfigurasi tersimpan sebelumnya. Siswa menyiapkan editor teks (nano/vim) dan utilitas CLI.</p>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase-box f2">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">2</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 2: Standar Kompetensi & Rubrik Penilaian Penguji Eksternal (BNSP)</div>
+          <div class="fase-time">⏱ 08.30 – 09.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Istirahat Lab / Persiapan Mental</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
-        <p>Penyegaran sebelum timer ujian praktikum 150 menit dimulai serentak.</p>
+      <div class="fase-body open">
+        <table class="tc">
+          <tr><th>Elemen Kompetensi UKK</th><th>Indikator Keberhasilan Mutlak</th><th>Skor Bobot</th></tr>
+          <tr><td>1. Konfigurasi Jaringan & DNS</td><td>IP Statis Netplan + BIND9 Forward & Reverse berfungsi sempurna</td><td>20 Poin</td></tr>
+          <tr><td>2. Layanan Web & SSL</td><td>Virtual Host Apache/Nginx + HTTPS Port 443 + PHP-FPM</td><td>25 Poin</td></tr>
+          <tr><td>3. Layanan Database & Storage</td><td>MariaDB Remote User + Samba / NFS Share terproteksi izin</td><td>20 Poin</td></tr>
+          <tr><td>4. Keamanan & Backup</td><td>Firewall UFW Default Deny + SSH Key + Auto Backup Script</td><td>20 Poin</td></tr>
+          <tr><td>5. Laporan & Tanya Jawab Penguji</td><td>Kemampuan mendiagnosa error saat diinjeksi fault oleh penguji</td><td>15 Poin</td></tr>
+        </table>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 4: Pelaksanaan Uji Mandiri Unjuk Kerja Real-Time (150 Menit)</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
-        <p>Siswa mengerjakan <strong>Job Sheet UKK Final</strong> secara independen tanpa komunikasi antar-peserta: Menyusun seluruh rantai layanan server dari nol hingga siap diakses di portofolio.</p>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase-box f3">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">3</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 3: Pengerjaan Sesi 1 — Core Infrastructure (Netplan, DNS, DHCP)</div>
+          <div class="fase-time">⏱ 09.30 – 10.30 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 5: Uji Petik Gangguan (Fault Injection oleh Penguji)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
-        <p>Penguji menginjeksikan 1 kerusakan sistem acak di server siswa (misal: mematikan service, merusak 1 baris config, atau memblokir port via firewall). Siswa wajib mendiagnosa dan memperbaiki kerusakan dalam waktu maksimal 15 menit!</p>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Siswa menyelesaikan pembagian IP statis, zona BIND9 <code>ukk-[nama].smk.lan</code>, dan pool DHCP klien.</p>
       </div>
-      <div class="alur-step">
-        <h4><span>Fase 6: Evaluasi Teori CBT, Sidang Hasil & Penyerahan Portofolio</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
-        <p>Pengerjaan evaluasi teori CBT Final 30 menit, sidang pleno penetapan predikat KOMPETEN / BELUM KOMPETEN, dan penutupan seluruh kurikulum Kelas XII TKJ.</p>
+    </div>
+
+    <!-- BREAK -->
+    <div class="fase-box break-box">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num" style="font-size:18px">☕</div>
+        <div class="fase-title-wrap"><div class="fase-title" style="color:var(--t3)">Istirahat & Pengecekan Progress Sesi 1</div><div class="fase-time">10.30 – 10.45 · 15 Menit</div></div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body"><p style="color:var(--t2);font-size:14px">Penguji memberikan paraf checklist untuk Sesi 1.</p></div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase-box f4">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">4</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 4: Pengerjaan Sesi 2 — Web, SSL, Database, Samba & UFW (150 Menit)</div>
+          <div class="fase-time">⏱ 10.45 – 13.15 · 150 Menit (3,5 JP)</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <div class="tip-box ok"><strong>🎯 Target Sesi 2:</strong> Seluruh modul layanan produksi tuntas dikonfigurasi, diaktifkan di systemd, dan firewall UFW diaktifkan.</div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="fase-box f5">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">5</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 5: Sidang Verifikasi Langsung oleh Penguji (Live Fault Injection)</div>
+          <div class="fase-time">⏱ 13.15 – 14.15 · 60 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Penguji menguji akses via browser klien, mematikan salah satu port untuk melihat kemampuan troubleshooting siswa, dan memeriksa log audit.</p>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase-box f6">
+      <div class="fase-header" onclick="toggleFase(this)">
+        <div class="fase-num">6</div>
+        <div class="fase-title-wrap">
+          <div class="fase-title">Fase 6: Evaluasi Teori Akhir CBT & Penyerahan Hasil Kelulusan</div>
+          <div class="fase-time">⏱ 14.15 – 15.00 · 45 Menit</div>
+        </div>
+        <span class="fase-chevron">▼</span>
+      </div>
+      <div class="fase-body">
+        <p style="color:var(--t2);font-size:14px">Selamat atas perjuangan belajar Anda selama 1 tahun penuh di Kelas XII TKJ! Selesaikan kuis kelulusan akhir di bawah ini.</p>
       </div>
     </div>
   </section>
 
-  <!-- BAGIAN 2: MATRIKS PENILAIAN BNSP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Matriks Rubrik Penilaian Asesmen UKK (Skor 0 - 100)</h2>
-    <table class="table-custom">
-      <tr><th>Komponen Uji Kompetensi</th><th>Bobot</th><th>Indikator Ketercapaian Maksimal</th></tr>
-      <tr><td><strong>1. Konfigurasi Jaringan & Hostname</strong></td><td>10 Poin</td><td>Netplan YAML valid, IP Statis aktif, DNS resolver berfungsi, FQDN sesuai ketentuan.</td></tr>
-      <tr><td><strong>2. DNS Server BIND9 Master</strong></td><td>20 Poin</td><td>Zona Forward & Reverse resolve sempurna via <code>dig</code>, sintaks valid <code>named-checkzone OK</code>.</td></tr>
-      <tr><td><strong>3. Web Server & SSL/TLS Enkripsi</strong></td><td>20 Poin</td><td>Virtual Host HTTPS Port 443 aktif dengan sertifikat X.509, redirect 301 otomatis dari port 80.</td></tr>
-      <tr><td><strong>4. Database Server & User Grants</strong></td><td>20 Poin</td><td>MariaDB aktif, remote connection bind-address 0.0.0.0, user privileges terisolasi rapi.</td></tr>
-      <tr><td><strong>5. Firewall Hardening & Security</strong></td><td>15 Poin</td><td>UFW Default Deny Incoming aktif, hanya port resmi yang listening, SSH keypair terpasang.</td></tr>
-      <tr><td><strong>6. Ketahanan Troubleshooting Kasus</strong></td><td>15 Poin</td><td>Mampu mengatasi fault injection penguji dalam waktu &lt; 15 menit menggunakan analisis log.</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM UKK -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Asesmen Mandiri UKK (Job Sheet 9 JP)</h2>
-    <table class="table-custom">
-      <tr><th>No</th><th>Item Pengujian Penguji</th><th>Perintah Verifikasi</th><th>Status Validasi</th></tr>
-      <tr><td>1</td><td>Pengujian Resolusi DNS Domain</td><td><code>dig @127.0.0.1 ukk.smk.lan +short</code></td><td>[ &nbsp; ] Lolos / [ &nbsp; ] Gagal</td></tr>
-      <tr><td>2</td><td>Pengujian Web HTTPS Enkripsi</td><td><code>curl -Ik https://ukk.smk.lan</code> &rarr; HTTP/1.1 200 OK</td><td>[ &nbsp; ] Lolos / [ &nbsp; ] Gagal</td></tr>
-      <tr><td>3</td><td>Pengujian Query SQL Terisolasi</td><td><code>mysql -u user_ukk -p -h 127.0.0.1 db_ukk -e "SHOW TABLES;"</code></td><td>[ &nbsp; ] Lolos / [ &nbsp; ] Gagal</td></tr>
-      <tr><td>4</td><td>Pengujian Kebijakan Firewall UFW</td><td><code>sudo ufw status | grep "DENY"</code></td><td>[ &nbsp; ] Lolos / [ &nbsp; ] Gagal</td></tr>
-    </table>
-  </section>
-
-  <!-- BAGIAN 4: CBT QUIZ -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Asesmen Teori Final Komprehensif (CBT Anti-Cheat 9 JP)</h2>
+  <!-- CBT -->
+  <section class="sc">
+    <h2 class="st"><span class="sn">2</span> Asesmen Formatif CBT Anti-Cheat (30 Menit)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html" class="btn-nav-bottom secondary">← Pertemuan 9: Proyek Capstone</a>
-    <a href="index.html" class="btn-nav-bottom primary">🎓 Kembali ke Dashboard Utama Pembelajaran →</a>
+    <a href="Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html" class="btn se">← Genap Pert. 9: Proyek 3-Tier</a>
+    <a href="index.html" class="btn pr">🏆 Selesai — Kembali ke Portal Utama</a>
   </div>
 </main>
 
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const s = window.scrollY;
-  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.CBTEngine) {
-    window.CBTEngine.init({
-      containerId: 'cbtAppArea',
-      title: 'Ujian Evaluasi Final CBT: Infrastruktur Server XII TKJ',
-      subject: 'Infrastruktur Server — Sertifikasi Keahlian',
-      durationMinutes: 30,
-      questions: [
-        {
-          question: "Langkah penanganan insiden (Incident Response) pertama yang paling tepat saat server produksi dilaporkan lambat merespons request adalah?",
-          options: [
-            "Memeriksa utilisasi CPU, Memori RAM, dan I/O Wait menggunakan perintah 'top'/'htop' serta meninjau log error terbaru",
-            "Langsung mematikan paksa tombol power server",
-            "Menghapus seluruh file konfigurasi /etc",
-            "Mengganti hard disk tanpa melakukan backup"
-          ],
-          correctIndex: 0,
-          explanation: "Mendiagnosis secara sistematis melalui metrik resource dan berkas log logis adalah prosedur standar SysAdmin profesional sebelum melakukan tindakan perbaikan."
-        },
-        {
-          question: "Kombinasi layanan yang menghasilkan sistem web aman dan berkeandalan tinggi pada standar UKK TKJ adalah?",
-          options: [
-            "DNS BIND9 + Nginx Reverse Proxy HTTPS TLS 1.3 + MariaDB Database Terisolasi + UFW Default Deny",
-            "Windows XP + Telnet Cleartext + HTTP Port 80 tanpa firewall",
-            "Server tanpa password root dan tanpa DNS",
-            "Flashdisk tanpa hard disk"
-          ],
-          correctIndex: 0,
-          explanation: "Kombinasi ini memenuhi seluruh pilar CIA Triad (Confidentiality, Integrity, Availability) standar industri."
-        },
-        {
-          question: "Mengapa port sensitif seperti SSH (22) dan Database (3306) wajib dilindungi oleh Firewall dan dilarang terekspos langsung ke IP publik terbuka?",
-          options: [
-            "Untuk mencegah serangan botnet otomatis (Brute-Force Scanning, SQL Injection langsung, dan Zero-Day Exploit)",
-            "Agar server tidak kehabisan kuota internet",
-            "Agar CPU tidak berputar terlalu cepat",
-            "Karena port tersebut hanya boleh digunakan di hari libur"
-          ],
-          correctIndex: 0,
-          explanation: "Membatasi port administratif hanya untuk VPN atau subnet terpercaya memangkas 99% celah eksploitasi serangan siber dari internet publik."
-        },
-        {
-          question: "Predikat 'KOMPETEN' pada Uji Kompetensi Keahlian (UKK) diberikan kepada peserta didik yang?",
-          options: [
-            "Memenuhi seluruh kriteria unjuk kerja teknis, mematuhi standar K3LH, dan mampu menyelesaikan skenario troubleshooting secara mandiri",
-            "Hadir di lab tetapi tidak mengerjakan tugas",
-            "Menyalin pekerjaan teman sekelas",
-            "Hanya menghafal materi tanpa praktik"
-          ],
-          correctIndex: 0,
-          explanation: "Sertifikasi keahlian BNSP/SMK berbasis unjuk kerja nyata (Performance-Based Assessment) yang membuktikan kesiapan kerja di dunia industri IT."
-        }
-      ]
-    });
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pFill').style.width=((window.scrollY/h)*100)+'%'});
+function toggleFase(header){const body=header.nextElementSibling;const chevron=header.querySelector('.fase-chevron');const isOpen=body.classList.contains('open');body.classList.toggle('open',!isOpen);chevron.style.transform=isOpen?'rotate(0)':'rotate(-90deg)'}
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine){
+    window.CBTEngine.init({containerId:'cbtAppArea',title:'Kuis Evaluasi Akhir: Uji Kompetensi Keahlian (UKK)',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,
+    questions:[
+      {question:"Urutan langkah pemecahan masalah (Troubleshooting Methodology) yang paling tepat saat sebuah layanan server web tidak bisa diakses adalah?",options:["Cek status service (systemctl status) &rarr; Cek listening port (ss -tulnp) &rarr; Cek log error (/var/log/...) &rarr; Cek aturan firewall (ufw status) &rarr; Perbaiki konfigurasi","Langsung instal ulang OS","Mematikan paksa server dari tombol power","Mengganti hard disk baru"],correctIndex:0,explanation:"Metodologi terstruktur menghemat waktu dan mengidentifikasi akar masalah secara akurat."},
+      {question:"Perintah 'systemctl enable --now [nama_service]' memiliki fungsi ganda yaitu?",options:["Mendaftarkan service agar otomatis menyala saat server booting DAN langsung menyalakan service tersebut saat itu juga","Menghapus service dari Linux","Menghentikan service selamanya","Membuat backup service"],correctIndex:0,explanation:"--now mengeksekusi aksi start seketika selain menambahkan symlink systemd autostart."},
+      {question:"Mengapa seorang administrator server WAJIB membuat dokumentasi topologi IP, port matrix, dan log perubahan (Change Log)?",options:["Agar saat terjadi insiden bencana atau pergantian tim teknisi, sistem dapat dipelihara dan dipulihkan dengan cepat sesuai blueprint standar","Agar mendapat pujian dari kepala sekolah","Supaya harddisk tidak penuh","Karena diwajibkan oleh Microsoft"],correctIndex:0,explanation:"Dokumentasi arsitektur dan change log adalah pilar tata kelola TI dan disaster recovery."},
+      {question:"Kriteria utama sebuah infrastruktur server dikatakan 'Production Ready' adalah?",options:["Memiliki redundansi storage (RAID), terproteksi firewall ketat, backup terjadwal otomatis, dan lulus stress test tanpa memory leak","Komputernya berwarna hitam","Menggunakan monitor lengkung 4K","Diletakkan di ruangan ber-AC tanpa password"],correctIndex:0,explanation:"Production Ready mencakup aspek High Availability, Keamanan, Backup Disaster Recovery, dan Stabilitas Beban."}
+    ]});
   }
 });
 </script>
