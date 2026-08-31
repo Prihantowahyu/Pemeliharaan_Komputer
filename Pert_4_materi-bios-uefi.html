@@ -689,26 +689,87 @@ document.addEventListener('keydown', (e)=>{
 renderTab('main', 0);
 </script>
 <!-- ===== INFOGRAFIS BIOS ===== -->
-<div style="max-width:1080px;margin:24px auto;padding:0 16px 32px;">
+<div style="max-width:1080px;margin:24px auto;padding:0 16px 20px;">
   <div style="border:2px solid var(--border);border-radius:6px;overflow:hidden;background:var(--navy-panel);box-shadow:0 0 0 1px #000;">
-    <div style="background:linear-gradient(180deg,#193768,#0f2145);border-bottom:2px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:18px;">🗺️</span>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--text-dim);text-transform:uppercase;">Infografis Materi</div>
-        <div style="font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:15px;margin-top:2px;color:var(--cyan);">Ringkasan Visual — BIOS / Basic Input Output System</div>
+    <div style="background:linear-gradient(180deg,#193768,#0f2145);border-bottom:2px solid var(--border);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:18px;">🗺️</span>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--text-dim);text-transform:uppercase;">Infografis Materi</div>
+          <div style="font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:15px;margin-top:2px;color:var(--cyan);">Ringkasan Visual — BIOS / Basic Input Output System</div>
+        </div>
       </div>
+      <a href="assets/infografis/infografis-bios-materi.png" download="Infografis-BIOS-TKJ.png" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(94,230,242,0.12);border:1px solid var(--cyan);color:var(--cyan);border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;font-weight:600;transition:0.2s;" onmouseover="this.style.background='var(--cyan)';this.style.color='#0a1830'" onmouseout="this.style.background='rgba(94,230,242,0.12)';this.style.color='var(--cyan)'">
+        ⬇ Unduh HD (PNG)
+      </a>
     </div>
-    <div style="padding:20px;">
-      <img src="assets/infografis/infografis-bios-materi.png"
-           alt="Infografis Materi BIOS Basic Input Output System"
-           style="width:100%;border-radius:4px;border:1px solid var(--border);display:block;transition:transform .3s ease,box-shadow .3s ease;"
-           onmouseover="this.style.transform='scale(1.005)';this.style.boxShadow='0 8px 32px rgba(94,230,242,0.2)'"
-           onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
-           loading="lazy">
-      <p style="margin-top:8px;font-size:11.5px;color:var(--text-dim);text-align:center;font-family:'IBM Plex Mono',monospace;">Ringkasan visual: cara kerja BIOS, jenis BIOS, tugas BIOS, cara masuk setup, dan tips penting</p>
+    <div style="padding:20px;text-align:center;">
+      <div style="position:relative;display:inline-block;width:100%;cursor:zoom-in;" onclick="openLightbox('assets/infografis/infografis-bios-materi.jpg', 'Infografis Materi BIOS')">
+        <img src="assets/infografis/infografis-bios-materi.jpg"
+             alt="Infografis Materi BIOS Basic Input Output System"
+             style="width:100%;border-radius:4px;border:1px solid var(--border);display:block;transition:transform .3s ease,box-shadow .3s ease;"
+             onmouseover="this.style.transform='scale(1.005)';this.style.boxShadow='0 8px 32px rgba(94,230,242,0.25)'"
+             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
+             loading="lazy">
+        <span style="position:absolute;bottom:12px;right:12px;background:rgba(10,24,48,0.85);backdrop-filter:blur(6px);color:var(--cyan);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:11px;font-family:'IBM Plex Mono',monospace;">🔍 Klik untuk Perbesar</span>
+      </div>
+      <p style="margin-top:10px;font-size:11.5px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">Ringkasan visual: cara kerja BIOS, jenis BIOS, tugas BIOS, cara masuk setup, dan tips penting</p>
     </div>
   </div>
 </div>
+
+<!-- ===== NAVIGASI ANTAR MODUL ===== -->
+<div style="max-width:1080px;margin:10px auto 40px;padding:0 16px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--navy-panel);border:1px solid var(--border);border-radius:6px;padding:14px 20px;">
+    <a href="Pert_3_bongkar-pasang-komputer.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;transition:0.2s;" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text-dim)'">
+      ← Pertemuan 3: Bongkar Pasang
+    </a>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--navy-panel-alt);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--cyan)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">
+      🏠 Dashboard Utama
+    </a>
+    <a href="Pert_5_Materi_Ajar_Instalasi_Sistem_Operasi.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-decoration:none;transition:0.2s;" onmouseover="this.style.textShadow='0 0 10px var(--cyan)'" onmouseout="this.style.textShadow='none'">
+      Pertemuan 5: Instalasi OS →
+    </a>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX MODAL UNIVERSAL ===== -->
+<div id="lightboxModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(5,12,24,0.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;" onclick="closeLightbox(event)">
+  <div style="position:relative;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;align-items:center;">
+    <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:10px;color:#fff;">
+      <span id="lightboxCaption" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--cyan);"></span>
+      <button onclick="closeLightboxDirect()" style="background:rgba(255,255,255,0.1);border:1px solid var(--border);color:#fff;font-size:16px;padding:4px 12px;border-radius:4px;cursor:pointer;font-family:'IBM Plex Mono',monospace;">✕ Tutup (ESC)</button>
+    </div>
+    <img id="lightboxImg" src="" alt="Zoom Infografis" style="max-width:100%;max-height:84vh;border-radius:8px;border:2px solid var(--cyan);box-shadow:0 0 40px rgba(94,230,242,0.35);object-fit:contain;" onclick="event.stopPropagation()">
+  </div>
+</div>
+
+<script>
+function openLightbox(src, caption){
+  const modal = document.getElementById('lightboxModal');
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCaption');
+  img.src = src;
+  cap.textContent = caption || 'Detail Infografis';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e){
+  if(e.target.id === 'lightboxModal'){
+    closeLightboxDirect();
+  }
+}
+function closeLightboxDirect(){
+  const modal = document.getElementById('lightboxModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closeLightboxDirect();
+  }
+});
+</script>
 
 </body>
 </html>

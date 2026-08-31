@@ -285,25 +285,90 @@
   <!-- ===== INFOGRAFIS RUFUS ===== -->
   <div style="margin:28px 0 0;">
     <div style="background:var(--pad);border:1px solid #1c4a37;border-radius:8px;overflow:hidden;">
-      <div style="padding:14px 20px;border-bottom:1px solid #1c4a37;display:flex;align-items:center;gap:8px;">
-        <span style="font-size:16px;">🗺️</span>
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--led);text-transform:uppercase;">Infografis Materi</div>
-          <div style="font-weight:700;font-size:14px;margin-top:1px;font-family:'Space Grotesk',sans-serif;">Panduan Visual — Instalasi OS Menggunakan Rufus</div>
+      <div style="padding:14px 20px;border-bottom:1px solid #1c4a37;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">🗺️</span>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--led);text-transform:uppercase;">Infografis Materi</div>
+            <div style="font-weight:700;font-size:14px;margin-top:1px;font-family:'Space Grotesk',sans-serif;">Panduan Visual — Instalasi OS Menggunakan Rufus</div>
+          </div>
         </div>
+        <a href="assets/infografis/infografis-instalasi-rufus.png" download="Infografis-Rufus-TKJ.png" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(79,216,196,0.12);border:1px solid var(--led);color:var(--led);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;font-weight:600;transition:0.2s;" onmouseover="this.style.background='var(--led)';this.style.color='#050c09'" onmouseout="this.style.background='rgba(79,216,196,0.12)';this.style.color='var(--led)'">
+          ⬇ Unduh HD (PNG)
+        </a>
       </div>
-      <div style="padding:20px;">
-        <img src="assets/infografis/infografis-instalasi-rufus.png"
-             alt="Infografis Instalasi Sistem Operasi Menggunakan Rufus"
-             style="width:100%;border-radius:6px;border:1px solid #1c4a37;display:block;transition:transform .3s ease,box-shadow .3s ease;"
-             onmouseover="this.style.transform='scale(1.01)';this.style.boxShadow='0 8px 32px rgba(79,216,196,0.2)'"
-             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
-             loading="lazy">
-        <p style="margin-top:8px;font-size:11.5px;color:var(--silk-dim);text-align:center;font-family:'JetBrains Mono',monospace;">Ringkasan visual: persiapan, membuat bootable USB dengan Rufus, dan proses instalasi OS</p>
+      <div style="padding:20px;text-align:center;">
+        <div style="position:relative;cursor:zoom-in;" onclick="openLightbox('assets/infografis/infografis-instalasi-rufus.jpg', 'Infografis Instalasi OS Menggunakan Rufus')">
+          <img src="assets/infografis/infografis-instalasi-rufus.jpg"
+               alt="Infografis Instalasi Sistem Operasi Menggunakan Rufus"
+               style="width:100%;border-radius:6px;border:1px solid #1c4a37;display:block;transition:transform .3s ease,box-shadow .3s ease;"
+               onmouseover="this.style.transform='scale(1.005)';this.style.boxShadow='0 8px 32px rgba(79,216,196,0.25)'"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
+               loading="lazy">
+          <span style="position:absolute;bottom:10px;right:10px;background:rgba(5,12,9,0.85);backdrop-filter:blur(6px);color:var(--led);border:1px solid #1c4a37;border-radius:4px;padding:4px 10px;font-size:11px;font-family:'JetBrains Mono',monospace;">🔍 Klik untuk Perbesar</span>
+        </div>
+        <p style="margin-top:10px;font-size:11.5px;color:var(--silk-dim);text-align:center;font-family:'JetBrains Mono',monospace;">Ringkasan visual: persiapan, membuat bootable USB dengan Rufus, dan proses instalasi OS</p>
       </div>
     </div>
   </div>
 
+  <!-- ===== NAVIGASI ANTAR MODUL ===== -->
+  <div style="margin:20px 0 0;padding:14px 20px;background:var(--pad);border:1px solid #1c4a37;border-radius:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <a href="Pert_5_Materi_Ajar_Instalasi_Sistem_Operasi.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--silk-dim);font-family:'JetBrains Mono',monospace;font-size:11.5px;text-decoration:none;transition:0.2s;" onmouseover="this.style.color='var(--led)'" onmouseout="this.style.color='var(--silk-dim)'">
+      ← Kembali ke Pertemuan 5 (Instalasi OS)
+    </a>
+    <div style="display:flex;gap:8px;">
+      <a href="pert_5a_panduan-instalasi-windows11.html" style="display:inline-flex;align-items:center;padding:5px 12px;background:var(--panel);border:1px solid #1c4a37;border-radius:4px;color:var(--silk);font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--led)';this.style.color='var(--led)'" onmouseout="this.style.borderColor='#1c4a37';this.style.color='var(--silk)'">
+        🪟 Panduan Windows 11
+      </a>
+      <a href="index.html" style="display:inline-flex;align-items:center;padding:5px 12px;background:var(--panel);border:1px solid #1c4a37;border-radius:4px;color:var(--silk);font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--led)';this.style.color='var(--led)'" onmouseout="this.style.borderColor='#1c4a37';this.style.color='var(--silk)'">
+        🏠 Dashboard
+      </a>
+    </div>
+    <a href="Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--led);font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;text-decoration:none;transition:0.2s;" onmouseover="this.style.textShadow='0 0 10px var(--led)'" onmouseout="this.style.textShadow='none'">
+      Pertemuan 6: Bootable USB →
+    </a>
+  </div>
+
 </div>
+
+<!-- ===== LIGHTBOX MODAL UNIVERSAL ===== -->
+<div id="lightboxModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(5,12,9,0.94);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;" onclick="closeLightbox(event)">
+  <div style="position:relative;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;align-items:center;">
+    <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:10px;color:#fff;">
+      <span id="lightboxCaption" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--led);"></span>
+      <button onclick="closeLightboxDirect()" style="background:rgba(255,255,255,0.1);border:1px solid #1c4a37;color:#fff;font-size:15px;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;">✕ Tutup (ESC)</button>
+    </div>
+    <img id="lightboxImg" src="" alt="Zoom Infografis" style="max-width:100%;max-height:84vh;border-radius:8px;border:2px solid var(--led);box-shadow:0 0 40px rgba(79,216,196,0.3);object-fit:contain;" onclick="event.stopPropagation()">
+  </div>
+</div>
+
+<script>
+function openLightbox(src, caption){
+  const modal = document.getElementById('lightboxModal');
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCaption');
+  img.src = src;
+  cap.textContent = caption || 'Detail Infografis';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e){
+  if(e.target.id === 'lightboxModal'){
+    closeLightboxDirect();
+  }
+}
+function closeLightboxDirect(){
+  const modal = document.getElementById('lightboxModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closeLightboxDirect();
+  }
+});
+</script>
+
 </body>
 </html>

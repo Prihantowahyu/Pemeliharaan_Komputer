@@ -706,39 +706,84 @@
 <!-- ===== SEKSI INFOGRAFIS ===== -->
 <section style="max-width:960px;margin:48px auto 0;padding:0 24px 16px;">
   <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);">
-    <div style="padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;">
-      <span style="font-size:18px;">🗺️</span>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;">Infografis Materi</div>
-        <div style="font-weight:700;font-size:15px;margin-top:2px;">Ringkasan Visual — Instalasi Sistem Operasi</div>
+    <div style="padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:18px;">🗺️</span>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;">Infografis Materi</div>
+          <div style="font-weight:700;font-size:15px;margin-top:2px;">Ringkasan Visual — Instalasi Sistem Operasi</div>
+        </div>
       </div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--win);background:var(--win-dim);padding:4px 10px;border-radius:4px;border:1px solid rgba(79,195,247,0.3);">
+        🔍 Klik gambar untuk memperbesar (HD)
+      </span>
     </div>
-    <div style="padding:24px;display:flex;flex-direction:column;gap:24px;">
+    <div style="padding:24px;display:flex;flex-direction:column;gap:30px;">
       <!-- Infografis 1: Langkah-langkah Instalasi OS -->
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--win);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">▸ Infografis 1 — Langkah-Langkah Instalasi Sistem Operasi</div>
-        <img src="assets/infografis/infografis-instalasi-os-langkah.png"
-             alt="Infografis Langkah-Langkah Instalasi Sistem Operasi"
-             style="width:100%;border-radius:8px;border:1px solid var(--line);display:block;transition:transform .3s ease,box-shadow .3s ease;"
-             onmouseover="this.style.transform='scale(1.01)';this.style.boxShadow='0 8px 32px rgba(79,195,247,0.15)'"
-             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
-             loading="lazy">
-        <p style="margin-top:8px;font-size:12px;color:var(--muted);text-align:center;">Panduan 11 langkah instalasi OS beserta jenis-jenis sistem operasi yang dapat diinstall</p>
+      <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--win);font-weight:700;letter-spacing:.05em;text-transform:uppercase;">▸ Infografis 1 — Langkah-Langkah Instalasi Sistem Operasi</div>
+          <a href="assets/infografis/infografis-instalasi-os-langkah.png" download="Infografis-Instalasi-OS-Langkah.png" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(79,195,247,0.12);border:1px solid var(--win);color:var(--win);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;font-weight:600;transition:0.2s;" onmouseover="this.style.background='var(--win)';this.style.color='#0D1117'" onmouseout="this.style.background='rgba(79,195,247,0.12)';this.style.color='var(--win)'">
+            ⬇ Unduh HD (PNG)
+          </a>
+        </div>
+        <div style="position:relative;cursor:zoom-in;" onclick="openLightbox('assets/infografis/infografis-instalasi-os-langkah.jpg', 'Infografis 1 — Langkah-Langkah Instalasi OS')">
+          <img src="assets/infografis/infografis-instalasi-os-langkah.jpg"
+               alt="Infografis Langkah-Langkah Instalasi Sistem Operasi"
+               style="width:100%;border-radius:6px;border:1px solid var(--line);display:block;transition:transform .3s ease,box-shadow .3s ease;"
+               onmouseover="this.style.transform='scale(1.005)';this.style.boxShadow='0 8px 32px rgba(79,195,247,0.2)'"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
+               loading="lazy">
+          <span style="position:absolute;bottom:10px;right:10px;background:rgba(13,17,23,0.85);backdrop-filter:blur(6px);color:var(--win);border:1px solid var(--line);border-radius:4px;padding:4px 10px;font-size:11px;font-family:'JetBrains Mono',monospace;">🔍 Klik untuk Perbesar</span>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:var(--muted);text-align:center;">Panduan 11 langkah instalasi OS beserta jenis-jenis sistem operasi yang dapat diinstall</p>
       </div>
+
       <!-- Infografis 2: Sebelum, Saat & Setelah Instalasi -->
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--linux);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">▸ Infografis 2 — Sebelum, Saat & Setelah Instalasi</div>
-        <img src="assets/infografis/infografis-instalasi-sebelum-saat-setelah.png"
-             alt="Infografis Sebelum Saat dan Setelah Instalasi Sistem Operasi"
-             style="width:100%;border-radius:8px;border:1px solid var(--line);display:block;transition:transform .3s ease,box-shadow .3s ease;"
-             onmouseover="this.style.transform='scale(1.01)';this.style.boxShadow='0 8px 32px rgba(245,166,35,0.15)'"
-             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
-             loading="lazy">
-        <p style="margin-top:8px;font-size:12px;color:var(--muted);text-align:center;">Panduan lengkap: persiapan sebelum instalasi, proses saat instalasi, dan langkah optimasi setelah instalasi</p>
+      <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--linux);font-weight:700;letter-spacing:.05em;text-transform:uppercase;">▸ Infografis 2 — Sebelum, Saat & Setelah Instalasi</div>
+          <a href="assets/infografis/infografis-instalasi-sebelum-saat-setelah.png" download="Infografis-Sebelum-Saat-Setelah-Instalasi.png" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(245,166,35,0.12);border:1px solid var(--linux);color:var(--linux);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;font-weight:600;transition:0.2s;" onmouseover="this.style.background='var(--linux)';this.style.color='#0D1117'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--linux)'">
+            ⬇ Unduh HD (PNG)
+          </a>
+        </div>
+        <div style="position:relative;cursor:zoom-in;" onclick="openLightbox('assets/infografis/infografis-instalasi-sebelum-saat-setelah.jpg', 'Infografis 2 — Sebelum, Saat & Setelah Instalasi')">
+          <img src="assets/infografis/infografis-instalasi-sebelum-saat-setelah.jpg"
+               alt="Infografis Sebelum Saat dan Setelah Instalasi Sistem Operasi"
+               style="width:100%;border-radius:6px;border:1px solid var(--line);display:block;transition:transform .3s ease,box-shadow .3s ease;"
+               onmouseover="this.style.transform='scale(1.005)';this.style.boxShadow='0 8px 32px rgba(245,166,35,0.2)'"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'"
+               loading="lazy">
+          <span style="position:absolute;bottom:10px;right:10px;background:rgba(13,17,23,0.85);backdrop-filter:blur(6px);color:var(--linux);border:1px solid var(--line);border-radius:4px;padding:4px 10px;font-size:11px;font-family:'JetBrains Mono',monospace;">🔍 Klik untuk Perbesar</span>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:var(--muted);text-align:center;">Panduan lengkap: persiapan sebelum instalasi, proses saat instalasi, dan langkah optimasi setelah instalasi</p>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ===== NAVIGASI ANTAR MODUL ===== -->
+<div style="max-width:960px;margin:20px auto 30px;padding:0 24px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;">
+    <a href="Pert_4_materi-bios-uefi.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;text-decoration:none;transition:0.2s;" onmouseover="this.style.color='var(--win)'" onmouseout="this.style.color='var(--muted)'">
+      ← Pertemuan 4: BIOS/UEFI
+    </a>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="pert_5b_panduan-rufus.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11.5px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--win)';this.style.color='var(--win)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--text)'">
+        ⚡ Panduan Rufus
+      </a>
+      <a href="pert_5a_panduan-instalasi-windows11.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11.5px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--win)';this.style.color='var(--win)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--text)'">
+        🪟 Panduan Win 11
+      </a>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11.5px;text-decoration:none;transition:0.2s;" onmouseover="this.style.borderColor='var(--win)';this.style.color='var(--win)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--text)'">
+        🏠 Dashboard
+      </a>
+    </div>
+    <a href="Pert_6_Materi_Bootable_USB_Ubuntu_Windows.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--win);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;transition:0.2s;" onmouseover="this.style.textShadow='0 0 10px var(--win)'" onmouseout="this.style.textShadow='none'">
+      Pertemuan 6: Bootable USB →
+    </a>
+  </div>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -747,7 +792,43 @@
   </div>
 </footer>
 
+<!-- ===== LIGHTBOX MODAL UNIVERSAL ===== -->
+<div id="lightboxModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(13,17,23,0.94);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;" onclick="closeLightbox(event)">
+  <div style="position:relative;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;align-items:center;">
+    <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:10px;color:#fff;">
+      <span id="lightboxCaption" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--win);"></span>
+      <button onclick="closeLightboxDirect()" style="background:rgba(255,255,255,0.1);border:1px solid var(--line);color:#fff;font-size:15px;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;">✕ Tutup (ESC)</button>
+    </div>
+    <img id="lightboxImg" src="" alt="Zoom Infografis" style="max-width:100%;max-height:84vh;border-radius:8px;border:2px solid var(--win);box-shadow:0 0 40px rgba(79,195,247,0.3);object-fit:contain;" onclick="event.stopPropagation()">
+  </div>
+</div>
+
 <script>
+function openLightbox(src, caption){
+  const modal = document.getElementById('lightboxModal');
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCaption');
+  img.src = src;
+  cap.textContent = caption || 'Detail Infografis';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e){
+  if(e.target.id === 'lightboxModal'){
+    closeLightboxDirect();
+  }
+}
+function closeLightboxDirect(){
+  const modal = document.getElementById('lightboxModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closeLightboxDirect();
+  }
+});
+
   const buttons = document.querySelectorAll('.step-btn');
   const sections = Array.from(buttons).map(b => document.getElementById(b.dataset.target));
   const fill = document.getElementById('progressFill');
