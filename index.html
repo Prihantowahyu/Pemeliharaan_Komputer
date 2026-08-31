@@ -1542,6 +1542,10 @@
       gap: 12px;
       padding-top: 14px;
     }
+    #semAndTeacherRow {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
     .sem-switch-deck { width: 100%; }
     .sem-btn { flex: 1; justify-content: center; font-size: 12px; padding: 9px 12px; }
     .pengampu-hud { width: 100%; justify-content: flex-start; }
@@ -4152,25 +4156,25 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <div class="progress-bar-fill" id="progressBarFill"></div>
       </div>
       
-      <!-- Clean, Streamlined Action Hub in Progress Box -->
-      <div class="progress-actions-row" style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button type="button" class="btn-hud-tool cert" style="flex: 1; min-width: 180px; justify-content: center;" onclick="openCertModal()" title="Terbitkan E-Sertifikat Resmi">
+      <!-- Clean, Streamlined Action Hub in Progress Box (4 Balanced Columns) -->
+      <div class="progress-actions-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 14px;">
+        <button type="button" class="btn-hud-tool cert" style="width: 100%; justify-content: center;" onclick="openCertModal()" title="Terbitkan E-Sertifikat Resmi">
           🏆 E-Sertifikat Digital (KKM 75)
         </button>
-        <button type="button" class="btn-hud-tool" style="flex: 1; min-width: 180px; justify-content: center;" onclick="openPortfolioModal()" title="Generator Portofolio Keahlian Siswa Siap PKL">
+        <button type="button" class="btn-hud-tool" style="width: 100%; justify-content: center;" onclick="openPortfolioModal()" title="Generator Portofolio Keahlian Siswa Siap PKL">
           🎓 Portofolio PKL Industri
         </button>
-        <button type="button" class="btn-hud-tool" style="flex: 1.2; min-width: 220px; justify-content: center; background: rgba(0,240,255,0.12); border-color: rgba(0,240,255,0.4); color: var(--cyan);" onclick="openToolsHubModal()" title="Buka 9 Alat, Simulator &amp; Diagnosa Lengkap">
-          🛠️ Kotak Alat &amp; Fitur Lab (9 Fitur) ▾
+        <button type="button" class="btn-hud-tool" style="width: 100%; justify-content: center; background: rgba(0,240,255,0.12); border-color: rgba(0,240,255,0.4); color: var(--cyan);" onclick="openToolsHubModal()" title="Buka 9 Alat, Simulator &amp; Diagnosa Lengkap">
+          🛠️ Kotak Alat (9 Fitur) ▾
         </button>
-        <a href="./Panduan_Guru_Praktik_Server_HP_Android.html" class="btn-hud-tool" style="flex: 1.1; min-width: 210px; justify-content: center; background: rgba(16,185,129,0.14); border-color: var(--emerald); color: var(--emerald); text-decoration: none; font-weight: 700;" title="Panduan Khusus Guru: Praktik Server via HP Android (Solusi PC Terbatas)">
-          📱 Panduan Praktik via HP ➔
+        <a href="./Panduan_Guru_Praktik_Server_HP_Android.html" class="btn-hud-tool" style="width: 100%; justify-content: center; background: rgba(16,185,129,0.14); border-color: var(--emerald); color: var(--emerald); text-decoration: none; font-weight: 700;" title="Panduan Khusus Guru: Praktik Server via HP Android (Solusi PC Terbatas)">
+          📱 Praktik via HP ➔
         </a>
       </div>
     </div>
 
     <!-- Hero Bottom Deck -->
-    <div class="hero-bottom-deck" style="flex-direction: column; align-items: stretch; gap: 0;">
+    <div class="hero-bottom-deck" style="flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px;">
 
       <!-- 2-Level Navigator -->
       <div class="nav-two-level" id="navTwoLevel">
@@ -4198,21 +4202,19 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
           </button>
         </div>
 
-        <!-- LEVEL 2: Pilih Semester (rendered by JS) -->
-        <div id="semesterRowWrapper"></div>
-      </div>
-
-      <!-- Guru Pengampu -->
-      <div style="display:flex; justify-content:flex-end; margin-top:14px;">
-        <div class="pengampu-hud">
-          <div class="pengampu-badge">WP</div>
-          <div class="pengampu-meta">
-            <div class="role">Guru Pengampu TKJ</div>
-            <div class="name">Wahyu Prihanto</div>
-            <a class="pengampu-wa" href="https://wa.me/6287775600462" target="_blank" rel="noopener">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              0877-7560-0462
-            </a>
+        <!-- LEVEL 2: Pilih Semester & Guru Pengampu (Side-by-Side Unified Row) -->
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; margin-top: 10px;" id="semAndTeacherRow">
+          <div id="semesterRowWrapper"></div>
+          <div class="pengampu-hud" style="margin: 0;">
+            <div class="pengampu-badge">WP</div>
+            <div class="pengampu-meta">
+              <div class="role">Guru Pengampu TKJ</div>
+              <div class="name">Wahyu Prihanto</div>
+              <a class="pengampu-wa" href="https://wa.me/6287775600462" target="_blank" rel="noopener">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                0877-7560-0462
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -5936,7 +5938,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
     if (subj === 'xi') {
       wrapper.innerHTML = `
-        <div class="sem-row" style="margin-top:8px;">
+        <div class="sem-row">
           <span class="sem-row-label">Semester:</span>
           <div class="sem-switch-deck" role="tablist">
             <span class="sem-tab-pill xi-pill" id="semTabPill"></span>
@@ -5952,7 +5954,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         </div>`;
     } else {
       wrapper.innerHTML = `
-        <div class="sem-row" style="margin-top:8px;">
+        <div class="sem-row">
           <span class="sem-row-label">Semester:</span>
           <div class="sem-switch-deck" role="tablist">
             <span class="sem-tab-pill xii-pill" id="semTabPill"></span>
