@@ -606,54 +606,147 @@
     border-top-color: rgba(14, 165, 233, 0.15);
   }
 
-  /* Futuristic Semester Tab Switcher */
+  /* ====================================================
+     2-LEVEL SUBJECT + SEMESTER NAVIGATOR
+     ==================================================== */
+  .nav-two-level {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Level 1: Subject cards (XI vs XII) */
+  .subject-deck {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .subject-card {
+    position: relative;
+    background: rgba(13, 22, 44, 0.7);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.28s cubic-bezier(0.34, 1.2, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 13px;
+  }
+  .subject-card.xi::before  { background: linear-gradient(135deg, rgba(0,240,255,0.12), rgba(139,92,246,0.08)); }
+  .subject-card.xii::before { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(245,158,11,0.08)); }
+  .subject-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.25); }
+  .subject-card.xi:hover  { border-color: rgba(0,240,255,0.45); box-shadow: 0 6px 24px rgba(0,240,255,0.15); }
+  .subject-card.xii:hover { border-color: rgba(16,185,129,0.45); box-shadow: 0 6px 24px rgba(16,185,129,0.15); }
+  .subject-card.active { transform: translateY(-1px); }
+  .subject-card.xi.active  { border-color: var(--cyan); box-shadow: 0 0 22px rgba(0,240,255,0.3); background: rgba(0,240,255,0.08); }
+  .subject-card.xii.active { border-color: var(--emerald); box-shadow: 0 0 22px rgba(16,185,129,0.3); background: rgba(16,185,129,0.08); }
+  .subject-card.active::before { opacity: 1; }
+  .subject-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .subject-card.xi  .subject-icon { background: rgba(0,240,255,0.15); }
+  .subject-card.xii .subject-icon { background: rgba(16,185,129,0.15); }
+  .subject-info { position: relative; z-index: 1; min-width: 0; }
+  .subject-kelas {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+  .subject-card.xi  .subject-kelas { color: var(--cyan); }
+  .subject-card.xii .subject-kelas { color: var(--emerald); }
+  .subject-name {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .subject-badge {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .subject-card.xi  .subject-badge { background: rgba(0,240,255,0.15); color: var(--cyan); border: 1px solid rgba(0,240,255,0.3); }
+  .subject-card.xii .subject-badge { background: rgba(16,185,129,0.15); color: var(--emerald); border: 1px solid rgba(16,185,129,0.3); }
+
+  /* Level 2: Semester toggle (appears after subject selected) */
+  .sem-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: semRowSlide 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  @keyframes semRowSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .sem-row-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
   .sem-switch-deck {
     position: relative;
     display: inline-flex;
     background: rgba(3, 7, 18, 0.8);
     border: 1px solid var(--panel-border);
-    padding: 4px;
-    border-radius: 14px;
+    padding: 3px;
+    border-radius: 12px;
+    flex: 1;
   }
   .sem-tab-pill {
     position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 4px;
-    width: calc(50% - 4px);
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
-    border-radius: 10px;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 0 20px var(--cyan-glow);
+    top: 3px; bottom: 3px; left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 9px;
+    transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 1;
   }
+  .sem-tab-pill.xi-pill  { background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%); box-shadow: 0 0 16px var(--cyan-glow); }
+  .sem-tab-pill.xii-pill { background: linear-gradient(135deg, var(--emerald) 0%, #0ea5e9 100%); box-shadow: 0 0 16px rgba(16,185,129,0.4); }
   .sem-btn {
-    position: relative;
-    z-index: 2;
-    background: transparent;
-    border: none;
+    position: relative; z-index: 2;
+    background: transparent; border: none;
     color: var(--text-muted);
     font-family: var(--font-heading);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    padding: 10px 22px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: color 0.3s ease;
+    font-size: 13px; font-weight: 700;
+    padding: 9px 0;
+    border-radius: 9px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; flex: 1;
+    transition: color 0.25s ease;
   }
-  .sem-btn.active {
-    color: #030712;
-  }
-  html.light-mode .sem-btn.active {
-    color: #ffffff;
-  }
-  .sem-btn:not(.active):hover {
-    color: var(--cyan);
-  }
+  .sem-btn.active { color: #030712; }
+  html.light-mode .sem-btn.active { color: #ffffff; }
+  .sem-btn:not(.active):hover { color: var(--cyan); }
 
   /* Pengampu Profile Card */
   .pengampu-hud {
@@ -4013,34 +4106,50 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     </div>
 
     <!-- Hero Bottom Deck -->
-    <div class="hero-bottom-deck">
-      <!-- Semester & Subject Switcher (XI & XII) -->
-      <div class="sem-switch-deck" role="tablist" style="width: 100%; max-width: 680px;">
-        <span class="sem-tab-pill" id="semTabPill" style="width: calc(25% - 3px);"></span>
-        <button type="button" class="sem-btn active" id="btnGanjil" style="flex:1; justify-content:center;" onclick="setSemester('ganjil')">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Ganjil (XI)
-        </button>
-        <button type="button" class="sem-btn" id="btnGenap" style="flex:1; justify-content:center;" onclick="setSemester('genap')">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Genap (XI)
-        </button>
-        <button type="button" class="sem-btn" id="btnServer" style="flex:1; justify-content:center;" onclick="setSemester('server')">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg> Server (XII)
-        </button>
-        <button type="button" class="sem-btn" id="btnServerGenap" style="flex:1; justify-content:center;" onclick="setSemester('server-genap')">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><path d="M6 6h.01M6 18h.01"></path><path d="M20 18l-4-4-4 4"></path></svg> Genap (XII)
-        </button>
+    <div class="hero-bottom-deck" style="flex-direction: column; align-items: stretch; gap: 0;">
+
+      <!-- 2-Level Navigator -->
+      <div class="nav-two-level" id="navTwoLevel">
+
+        <!-- LEVEL 1: Pilih Mata Pelajaran -->
+        <div style="font-family: var(--font-mono); font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">📚 Pilih Mata Pelajaran</div>
+        <div class="subject-deck">
+          <!-- XI: Pemeliharaan Komputer -->
+          <button type="button" class="subject-card xi active" id="subjectXI" onclick="selectSubject('xi')">
+            <div class="subject-icon">💻</div>
+            <div class="subject-info">
+              <div class="subject-kelas">Kelas XI TKJ</div>
+              <div class="subject-name">Pemeliharaan Komputer</div>
+            </div>
+            <span class="subject-badge">21 Pert.</span>
+          </button>
+          <!-- XII: Infrastruktur Server -->
+          <button type="button" class="subject-card xii" id="subjectXII" onclick="selectSubject('xii')">
+            <div class="subject-icon">🖧</div>
+            <div class="subject-info">
+              <div class="subject-kelas">Kelas XII TKJ</div>
+              <div class="subject-name">Infrastruktur Server</div>
+            </div>
+            <span class="subject-badge">20 Pert.</span>
+          </button>
+        </div>
+
+        <!-- LEVEL 2: Pilih Semester (rendered by JS) -->
+        <div id="semesterRowWrapper"></div>
       </div>
 
       <!-- Guru Pengampu -->
-      <div class="pengampu-hud">
-        <div class="pengampu-badge">WP</div>
-        <div class="pengampu-meta">
-          <div class="role">Guru Pengampu TKJ</div>
-          <div class="name">Wahyu Prihanto</div>
-          <a class="pengampu-wa" href="https://wa.me/6287775600462" target="_blank" rel="noopener">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            0877-7560-0462
-          </a>
+      <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+        <div class="pengampu-hud">
+          <div class="pengampu-badge">WP</div>
+          <div class="pengampu-meta">
+            <div class="role">Guru Pengampu TKJ</div>
+            <div class="name">Wahyu Prihanto</div>
+            <a class="pengampu-wa" href="https://wa.me/6287775600462" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              0877-7560-0462
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -5736,44 +5845,103 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   const STORAGE_KEY_SERVER = 'bh_tkj_server_completed_modules';
   const STORAGE_KEY_SERVER_GENAP = 'bh_tkj_server_genap_completed_modules';
 
+  /* ====================================================
+     2-LEVEL NAVIGATION: Subject → Semester
+     ==================================================== */
+  let activeSubject = 'xi'; // 'xi' | 'xii'
+
+  function selectSubject(subj) {
+    activeSubject = subj;
+    // Update subject card styles
+    const cardXI  = document.getElementById('subjectXI');
+    const cardXII = document.getElementById('subjectXII');
+    if (cardXI)  cardXI.classList.toggle('active', subj === 'xi');
+    if (cardXII) cardXII.classList.toggle('active', subj === 'xii');
+
+    // Render semester row
+    renderSemesterRow(subj);
+
+    // Auto-pick first semester of selected subject
+    const defaultSem = subj === 'xi' ? 'ganjil' : 'server';
+    setSemester(defaultSem);
+  }
+
+  function renderSemesterRow(subj) {
+    const wrapper = document.getElementById('semesterRowWrapper');
+    if (!wrapper) return;
+
+    if (subj === 'xi') {
+      wrapper.innerHTML = `
+        <div class="sem-row" style="margin-top:8px;">
+          <span class="sem-row-label">Semester:</span>
+          <div class="sem-switch-deck" role="tablist">
+            <span class="sem-tab-pill xi-pill" id="semTabPill"></span>
+            <button type="button" class="sem-btn active" id="btnGanjil" onclick="setSemester('ganjil')">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              Ganjil — XI
+            </button>
+            <button type="button" class="sem-btn" id="btnGenap" onclick="setSemester('genap')">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              Genap — XI
+            </button>
+          </div>
+        </div>`;
+    } else {
+      wrapper.innerHTML = `
+        <div class="sem-row" style="margin-top:8px;">
+          <span class="sem-row-label">Semester:</span>
+          <div class="sem-switch-deck" role="tablist">
+            <span class="sem-tab-pill xii-pill" id="semTabPill"></span>
+            <button type="button" class="sem-btn active" id="btnServer" onclick="setSemester('server')">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              Ganjil — XII
+            </button>
+            <button type="button" class="sem-btn" id="btnServerGenap" onclick="setSemester('server-genap')">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><path d="M6 6h.01M6 18h.01"></path><path d="M20 18l-4-4-4 4"></path></svg>
+              Genap — XII
+            </button>
+          </div>
+        </div>`;
+    }
+  }
+
   function setSemester(sem) {
     activeSemester = sem;
     const isGanjil = sem === 'ganjil';
     const isGenap = sem === 'genap';
     const isServer = sem === 'server';
     const isServerGenap = sem === 'server-genap';
-    
-    // Update active tab styling
-    const btnG = document.getElementById('btnGanjil');
-    const btnGe = document.getElementById('btnGenap');
-    const btnS = document.getElementById('btnServer');
-    const btnSG = document.getElementById('btnServerGenap');
-    if (btnG) btnG.classList.toggle('active', isGanjil);
-    if (btnGe) btnGe.classList.toggle('active', isGenap);
-    if (btnS) btnS.classList.toggle('active', isServer);
-    if (btnSG) btnSG.classList.toggle('active', isServerGenap);
 
+    // Update active tab pill position in semester toggle
     const pill = document.getElementById('semTabPill');
     if (pill) {
-      if (isGanjil) pill.style.transform = 'translateX(0)';
-      else if (isGenap) pill.style.transform = 'translateX(100%)';
-      else if (isServer) pill.style.transform = 'translateX(200%)';
-      else if (isServerGenap) pill.style.transform = 'translateX(300%)';
+      if (isGanjil || isServer)    pill.style.transform = 'translateX(0)';
+      else                          pill.style.transform = 'translateX(100%)';
     }
 
+    // Update sem-btn active class
+    const btnG  = document.getElementById('btnGanjil');
+    const btnGe = document.getElementById('btnGenap');
+    const btnS  = document.getElementById('btnServer');
+    const btnSG = document.getElementById('btnServerGenap');
+    if (btnG)  btnG.classList.toggle('active', isGanjil);
+    if (btnGe) btnGe.classList.toggle('active', isGenap);
+    if (btnS)  btnS.classList.toggle('active', isServer);
+    if (btnSG) btnSG.classList.toggle('active', isServerGenap);
+
     // Show/hide timelines
-    const tlG = document.getElementById('timelineGanjil');
+    const tlG  = document.getElementById('timelineGanjil');
     const tlGe = document.getElementById('timelineGenap');
-    const tlS = document.getElementById('timelineServer');
+    const tlS  = document.getElementById('timelineServer');
     const tlSG = document.getElementById('timelineServerGenap');
-    if (tlG) tlG.style.display = isGanjil ? 'block' : 'none';
-    if (tlGe) tlGe.style.display = isGenap ? 'block' : 'none';
-    if (tlS) tlS.style.display = isServer ? 'block' : 'none';
+    if (tlG)  tlG.style.display  = isGanjil      ? 'block' : 'none';
+    if (tlGe) tlGe.style.display = isGenap       ? 'block' : 'none';
+    if (tlS)  tlS.style.display  = isServer      ? 'block' : 'none';
     if (tlSG) tlSG.style.display = isServerGenap ? 'block' : 'none';
 
     // Headings and Descriptions
     const mainHeading = document.getElementById('pageMainHeading');
-    const mainDesc = document.getElementById('pageMainDesc');
+    const mainDesc    = document.getElementById('pageMainDesc');
     const metricModul = document.getElementById('metricTotalModulText');
     const metricAlokasi = document.getElementById('metricAlokasiText');
     const metricFokus = document.getElementById('metricFokusText');
@@ -5811,13 +5979,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
     // Render Filter Pills
     renderFilterPills();
-
     // Update Progress UI
     updateProgressUI();
-
     // Run Filter
     filterCards();
-
     // Update URL hash without scroll jump
     if (history.replaceState) {
       history.replaceState(null, null, isGanjil ? '#ganjil' : (isGenap ? '#genap' : (isServer ? '#server' : '#server-genap')));
@@ -6092,15 +6257,29 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   // Handle URL Hash on load & hashchange
   function applyUrlHash() {
     const hash = (window.location.hash || '').toLowerCase();
+    let sem, subj;
     if (hash === '#genap' || hash === '#semester-genap') {
-      setSemester('genap');
+      sem = 'genap'; subj = 'xi';
     } else if (hash === '#server' || hash === '#infrastruktur-server' || hash === '#kelas-xii') {
-      setSemester('server');
+      sem = 'server'; subj = 'xii';
     } else if (hash === '#server-genap' || hash === '#genap-xii') {
-      setSemester('server-genap');
+      sem = 'server-genap'; subj = 'xii';
     } else {
-      setSemester('ganjil');
+      sem = 'ganjil'; subj = 'xi';
     }
+
+    // Sync subject card highlight
+    activeSubject = subj;
+    const cardXI  = document.getElementById('subjectXI');
+    const cardXII = document.getElementById('subjectXII');
+    if (cardXI)  cardXI.classList.toggle('active', subj === 'xi');
+    if (cardXII) cardXII.classList.toggle('active', subj === 'xii');
+
+    // Render the semester row for the selected subject
+    renderSemesterRow(subj);
+
+    // Then switch to the actual semester
+    setSemester(sem);
   }
 
   window.addEventListener('DOMContentLoaded', applyUrlHash);
