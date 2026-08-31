@@ -278,3 +278,51 @@
     padding: 20px;
   }
 }
+
+/* ==========================================================
+   MOBILE SMARTPHONE RESPONSIVE OPTIMIZATIONS
+   ========================================================== */
+@media (max-width: 640px) {
+  .cbt-modal-overlay {
+    padding: 8px !important;
+  }
+  .cbt-exam-box {
+    border-radius: 14px !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .cbt-exam-topbar {
+    padding: 12px 14px !important;
+    gap: 8px !important;
+  }
+  .cbt-exam-body {
+    padding: 14px !important;
+  }
+  .cbt-timer {
+    font-size: 18px !important;
+    padding: 4px 10px !important;
+  }
+  .cbt-q-card {
+    padding: 14px !important;
+    margin-bottom: 16px !important;
+  }
+  .cbt-q-text {
+    font-size: 14px !important;
+  }
+  .cbt-option {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+  .cbt-warning-popup {
+    padding: 20px 16px !important;
+    width: 94% !important;
+  }
+}
+
+/* Disable Mobile Text Selection / Callout inside Exam */
+.cbt-exam-box, .cbt-modal-overlay {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+

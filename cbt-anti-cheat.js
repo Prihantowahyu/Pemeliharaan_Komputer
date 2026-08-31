@@ -40,6 +40,9 @@
     return 'TKJ-' + Math.abs(hash).toString(16).toUpperCase();
   }
 
+  const isMobileDevice = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window);
+  let isFullscreenSupportedAndActive = false;
+
   // Anti-Cheat: Event Listeners
   function enableProtectionListeners() {
     document.addEventListener('contextmenu', blockEvent);
@@ -48,6 +51,7 @@
     document.addEventListener('paste', blockEvent);
     window.addEventListener('keydown', handleKeyGuard);
     window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('pagehide', handlePageHide);
     document.addEventListener('visibilitychange', handleVisibilityChange);
     document.addEventListener('fullscreenchange', handleFullscreenChange);
   }
@@ -59,6 +63,7 @@
     document.removeEventListener('paste', blockEvent);
     window.removeEventListener('keydown', handleKeyGuard);
     window.removeEventListener('blur', handleWindowBlur);
+    window.removeEventListener('pagehide', handlePageHide);
     document.removeEventListener('visibilitychange', handleVisibilityChange);
     document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }
@@ -88,26 +93,35 @@
   function handleWindowBlur() {
     if (!isExamActive || Date.now() < gracePeriodUntil) return;
     
-    // Only record if document is truly hidden / blurred to another window
+    // On mobile, blur can happen during touch interaction or keyboard popup; verify document visibility
     setTimeout(() => {
-      if (isExamActive && (document.hidden || !document.hasFocus()) && Date.now() >= gracePeriodUntil) {
-        recordViolation("Meninggalkan jendela ujian (Alt+Tab / Split Screen / Membuka App Lain)");
+      if (isExamActive && Date.now() >= gracePeriodUntil) {
+        if (document.hidden || (document.visibilityState && document.visibilityState === 'hidden')) {
+          recordViolation("Meninggalkan jendela ujian / Membuka aplikasi lain (WhatsApp/Browser lain)");
+        } else if (!isMobileDevice && !document.hasFocus()) {
+          recordViolation("Meninggalkan jendela ujian (Alt+Tab / Membuka jendela lain)");
+        }
       }
-    }, 300);
+    }, 400);
   }
 
   function handleVisibilityChange() {
     if (!isExamActive || Date.now() < gracePeriodUntil) return;
 
-    if (document.hidden) {
-      recordViolation("Berpindah tab browser atau meminimalkan browser");
+    if (document.hidden || document.visibilityState === 'hidden') {
+      recordViolation("Berpindah tab browser, membuka aplikasi lain, atau meminimalkan ujian");
     }
+  }
+
+  function handlePageHide() {
+    if (!isExamActive || Date.now() < gracePeriodUntil) return;
+    recordViolation("Meninggalkan aplikasi / browser di latar belakang");
   }
 
   function handleFullscreenChange() {
     if (!isExamActive || Date.now() < gracePeriodUntil) return;
 
-    if (!document.fullscreenElement) {
+    if (isFullscreenSupportedAndActive && !document.fullscreenElement) {
       recordViolation("Keluar dari Mode Fullscreen Layar Penuh");
     }
   }
@@ -351,10 +365,17 @@
       document.getElementById('cbtModalOverlay').classList.add('active');
       isExamActive = true;
 
-      // Request Fullscreen
+      // Request Fullscreen (Graceful on mobile & iOS)
+      isFullscreenSupportedAndActive = false;
       const docEl = document.documentElement;
       if (docEl.requestFullscreen) {
-        docEl.requestFullscreen().catch(() => {});
+        docEl.requestFullscreen().then(() => {
+          isFullscreenSupportedAndActive = true;
+        }).catch(() => {
+          isFullscreenSupportedAndActive = false;
+        });
+      } else if (docEl.webkitRequestFullscreen) {
+        try { docEl.webkitRequestFullscreen(); } catch (e) {}
       }
 
       enableProtectionListeners();
