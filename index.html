@@ -4015,16 +4015,19 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     <!-- Hero Bottom Deck -->
     <div class="hero-bottom-deck">
       <!-- Semester & Subject Switcher (XI & XII) -->
-      <div class="sem-switch-deck" role="tablist" style="width: 100%; max-width: 580px;">
-        <span class="sem-tab-pill" id="semTabPill" style="width: calc(33.333% - 3px);"></span>
+      <div class="sem-switch-deck" role="tablist" style="width: 100%; max-width: 680px;">
+        <span class="sem-tab-pill" id="semTabPill" style="width: calc(25% - 3px);"></span>
         <button type="button" class="sem-btn active" id="btnGanjil" style="flex:1; justify-content:center;" onclick="setSemester('ganjil')">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Ganjil (XI)
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Ganjil (XI)
         </button>
         <button type="button" class="sem-btn" id="btnGenap" style="flex:1; justify-content:center;" onclick="setSemester('genap')">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Genap (XI)
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Genap (XI)
         </button>
-        <button type="button" class="sem-btn" id="btnServer" style="flex:1.2; justify-content:center;" onclick="setSemester('server')">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg> Server (XII)
+        <button type="button" class="sem-btn" id="btnServer" style="flex:1; justify-content:center;" onclick="setSemester('server')">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg> Server (XII)
+        </button>
+        <button type="button" class="sem-btn" id="btnServerGenap" style="flex:1; justify-content:center;" onclick="setSemester('server-genap')">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><path d="M6 6h.01M6 18h.01"></path><path d="M20 18l-4-4-4 4"></path></svg> Genap (XII)
         </button>
       </div>
 
@@ -5209,6 +5212,371 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
   </div>
 
+  <!-- ==========================================================
+       SERVER GENAP (KELAS XII) TIMELINE
+       ========================================================== -->
+  <div class="timeline-container" id="timelineServerGenap" style="display:none;">
+
+    <!-- ===================== BLOK 1 ===================== -->
+    <div class="block-header" data-block="server_genap_blok1">
+      <div class="block-header-inner" style="border-left: 3px solid var(--violet); background: rgba(139, 92, 246, 0.08);">
+        <div class="block-title-group">
+          <span class="block-tag" style="background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.4); color: #c4b5fd;">BLOK 1 &middot; GENAP XII</span>
+          <div>
+            <div class="block-heading" style="color: #c4b5fd;">Virtualisasi, Database, Remote Access, RAID &amp; Backup</div>
+            <div class="block-sub">5 Hari &times; 9 JP (45 JP) &middot; Fondasi Virtualisasi &amp; Penyimpanan Enterprise</div>
+          </div>
+        </div>
+        <div class="block-progress-pill" style="color: #c4b5fd; border-color: rgba(139, 92, 246, 0.3);">HARI 1&ndash;5 (45 JP)</div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 1 -->
+    <div class="module-node" id="server-genap-node-1" data-block="server_genap_blok1" data-type="praktik server" data-title="Virtualisasi Server VirtualBox Proxmox Hypervisor Tipe 1 Tipe 2 VM">
+      <div class="node-pin" style="border-color:var(--violet);color:var(--violet);">01</div>
+      <div class="module-card" style="border-left:3px solid var(--violet);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(139,92,246,0.15);color:#c4b5fd;">Blok 1 &middot; Pertemuan 1</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Virtualisasi</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(1, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--violet);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          </span>
+          Virtualisasi Server (VirtualBox &amp; Proxmox)
+        </h3>
+        <p class="card-desc">
+          Konsep virtualisasi, perbedaan Hypervisor Tipe 1 dan 2, instalasi &amp; konfigurasi VirtualBox/Proxmox, serta manajemen resource VM (CPU, RAM, Storage).
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_1_virtualisasi-server.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Virtualisasi
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 2 -->
+    <div class="module-node" id="server-genap-node-2" data-block="server_genap_blok1" data-type="praktik server" data-title="Instalasi Konfigurasi Database Server MySQL MariaDB PostgreSQL SQL user privilege">
+      <div class="node-pin" style="border-color:var(--emerald);color:var(--emerald);">02</div>
+      <div class="module-card" style="border-left:3px solid var(--emerald);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);">Blok 1 &middot; Pertemuan 2</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Database RDBMS</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(2, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--emerald);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+          </span>
+          Database Server (MySQL / PostgreSQL)
+        </h3>
+        <p class="card-desc">
+          Instalasi database server MySQL/MariaDB, pembuatan database/tabel, manajemen user privileges terpisah, dan pengujian koneksi dari client tools.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_2_database-server-mysql-postgresql.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Database
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 3 -->
+    <div class="module-node" id="server-genap-node-3" data-block="server_genap_blok1" data-type="praktik server" data-title="Konfigurasi Remote Access Server SSH Key Auth Hardening fail2ban RDP GUI">
+      <div class="node-pin" style="border-color:var(--amber);color:var(--amber);">03</div>
+      <div class="module-card" style="border-left:3px solid var(--amber);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(245,158,11,0.15);color:var(--amber);">Blok 1 &middot; Pertemuan 3</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Remote Access</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(3, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--amber);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </span>
+          Remote Access Server (SSH &amp; Remote Desktop)
+        </h3>
+        <p class="card-desc">
+          Konfigurasi SSH server aman, autentikasi berbasis key RSA 4096-bit, pembatasan akses port/user, proteksi fail2ban dari brute-force, serta remote desktop GUI (xRDP).
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_3_remote-access-ssh-rdp.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Remote Access
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 4 -->
+    <div class="module-node" id="server-genap-node-4" data-block="server_genap_blok1" data-type="praktik server" data-title="RAID Manajemen Storage Server mdadm LVM Level 0 1 5 10 disk failure">
+      <div class="node-pin" style="border-color:#ef4444;color:#ef4444;">04</div>
+      <div class="module-card" style="border-left:3px solid #ef4444;">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(239,68,68,0.15);color:#fca5a5;">Blok 1 &middot; Pertemuan 4</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Storage Redundancy</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(4, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:#ef4444;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12H2M12 2v20"></path></svg>
+          </span>
+          RAID &amp; Manajemen Storage Server
+        </h3>
+        <p class="card-desc">
+          Konsep level RAID (0, 1, 5, 10), konfigurasi Software RAID dengan mdadm, manajemen logical volume LVM, serta pengujian ketahanan data saat terjadi disk failure.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_4_raid-storage-server.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul RAID Storage
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 5 -->
+    <div class="module-node" id="server-genap-node-5" data-block="server_genap_blok1" data-type="praktik server" data-title="Backup Disaster Recovery Server rsync cron full incremental restore RPO RTO">
+      <div class="node-pin" style="border-color:var(--violet);color:var(--violet);">05</div>
+      <div class="module-card" style="border-left:3px solid var(--violet);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(139,92,246,0.15);color:#c4b5fd;">Blok 1 &middot; Pertemuan 5</span>
+            <span class="badge badge-jp">9 JP &middot; Review Blok 1</span>
+            <span class="badge badge-type">Disaster Recovery</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(5, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--violet);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+          </span>
+          Backup &amp; Disaster Recovery Server
+        </h3>
+        <p class="card-desc">
+          Strategi backup (Full, Incremental, Differential), otomatisasi dengan rsync dan cron job, prosedur restore data teruji, serta penyusunan SOP recovery bencana.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_5_backup-disaster-recovery.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Backup &amp; DR
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== BLOK 2 ===================== -->
+    <div class="block-header" data-block="server_genap_blok2">
+      <div class="block-header-inner" style="border-left: 3px solid var(--cyan); background: rgba(0, 240, 255, 0.08);">
+        <div class="block-title-group">
+          <span class="block-tag" style="background: rgba(0, 240, 255, 0.15); border-color: rgba(0, 240, 255, 0.4); color: var(--cyan);">BLOK 2 &middot; GENAP XII</span>
+          <div>
+            <div class="block-heading" style="color: var(--cyan);">Keamanan, Load Balancing, Cloud, Proyek Akhir &amp; UKK</div>
+            <div class="block-sub">5 Hari &times; 9 JP (45 JP) &middot; Integrasi Jaringan Enterprise, Cloud &amp; Asesmen UKK</div>
+          </div>
+        </div>
+        <div class="block-progress-pill" style="color: var(--cyan); border-color: rgba(0, 240, 255, 0.3);">HARI 6&ndash;10 (45 JP)</div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 6 -->
+    <div class="module-node" id="server-genap-node-6" data-block="server_genap_blok2" data-type="praktik server" data-title="Keamanan Server Firewall iptables ufw Hardening SSL TLS HTTPS Let's Encrypt">
+      <div class="node-pin" style="border-color:var(--cyan);color:var(--cyan);">06</div>
+      <div class="module-card" style="border-left:3px solid var(--cyan);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(0,240,255,0.15);color:var(--cyan);">Blok 2 &middot; Pertemuan 6</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Security &amp; SSL</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(6, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--cyan);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </span>
+          Keamanan Server: Firewall, Hardening &amp; SSL/TLS
+        </h3>
+        <p class="card-desc">
+          Konfigurasi firewall rules (ufw/iptables), server hardening (disable service tidak perlu, update rutin), sertifikat SSL/TLS, dan pemantauan anomali keamanan.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_6_keamanan-firewall-ssl-tls.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Keamanan
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 7 -->
+    <div class="module-node" id="server-genap-node-7" data-block="server_genap_blok2" data-type="praktik server" data-title="Load Balancing High Availability Dasar Nginx HAProxy failover active-passive">
+      <div class="node-pin" style="border-color:var(--emerald);color:var(--emerald);">07</div>
+      <div class="module-card" style="border-left:3px solid var(--emerald);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);">Blok 2 &middot; Pertemuan 7</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">High Availability</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(7, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--emerald);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </span>
+          Load Balancing &amp; High Availability Dasar
+        </h3>
+        <p class="card-desc">
+          Konsep load balancing &amp; HA, konfigurasi reverse proxy Nginx/HAProxy untuk 2 backend web server, serta pengujian distribusi trafik dan failover otomatis.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_7_load-balancing-high-availability.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Load Balancer
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 8 -->
+    <div class="module-node" id="server-genap-node-8" data-block="server_genap_blok2" data-type="praktik server" data-title="Pengenalan Cloud Computing Dasar IaaS PaaS SaaS VPS instance tier gratis">
+      <div class="node-pin" style="border-color:#38bdf8;color:#38bdf8;">08</div>
+      <div class="module-card" style="border-left:3px solid #38bdf8;">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;">Blok 2 &middot; Pertemuan 8</span>
+            <span class="badge badge-jp">9 JP</span>
+            <span class="badge badge-type">Cloud Services</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(8, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:#38bdf8;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+          </span>
+          Pengenalan Cloud Computing Dasar (IaaS, PaaS, SaaS)
+        </h3>
+        <p class="card-desc">
+          Model layanan cloud (IaaS/PaaS/SaaS), model deployment (Public/Private/Hybrid), pengenalan platform cloud populer, dan pembuatan instance VPS tier gratis.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_8_cloud-computing-dasar.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Cloud
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 9 -->
+    <div class="module-node" id="server-genap-node-9" data-block="server_genap_blok2" data-type="praktik server" data-title="Proyek Akhir Membangun Infrastruktur Server Terintegrasi DNS Web DB File Share">
+      <div class="node-pin" style="border-color:var(--amber);color:var(--amber);">09</div>
+      <div class="module-card" style="border-left:3px solid var(--amber);">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(245,158,11,0.15);color:var(--amber);">Blok 2 &middot; Pertemuan 9</span>
+            <span class="badge badge-jp">9 JP &middot; Proyek Terpadu</span>
+            <span class="badge badge-type">Capstone Project</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(9, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:var(--amber);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </span>
+          Proyek Akhir: Infrastruktur Server Terintegrasi
+        </h3>
+        <p class="card-desc">
+          Merancang topologi enterprise terpadu, implementasi minimal 3 layanan terintegrasi (DNS + Web HTTPS + DB + File Sharing), dan penyusunan dokumentasi teknis.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Proyek Akhir
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER GENAP PERTEMUAN 10 -->
+    <div class="module-node" id="server-genap-node-10" data-block="server_genap_blok2" data-type="praktik server" data-title="Simulasi Uji Kompetensi Keahlian UKK Dokumentasi Portofolio Server evaluasi">
+      <div class="node-pin" style="border-color:#10b981;color:#10b981;">10</div>
+      <div class="module-card" style="border-left:3px solid #10b981;">
+        <div class="card-top-bar">
+          <div class="card-tags">
+            <span class="badge" style="background:rgba(16,185,129,0.15);color:#6ee7b7;">Blok 2 &middot; Pertemuan 10</span>
+            <span class="badge badge-jp">9 JP &middot; FINAL UKK</span>
+            <span class="badge badge-type">Asesmen Komprehensif</span>
+          </div>
+          <label class="check-completed">
+            <input type="checkbox" onchange="toggleCompleteServerGenap(10, this.checked)">
+            <span>Selesai</span>
+          </label>
+        </div>
+        <h3 class="card-title">
+          <span class="card-title-icon" style="color:#10b981;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </span>
+          Simulasi Uji Kompetensi &amp; Dokumentasi Portofolio
+        </h3>
+        <p class="card-desc">
+          Simulasi unjuk kerja UKK mandiri (jaringan, aplikasi, keamanan), penyelesaian paket soal standar industri, kompilasi portofolio 1 tahun, serta evaluasi &amp; umpan balik.
+        </p>
+        <div class="card-actions-row">
+          <a class="btn-launch" href="./Server_Genap_Pert_10_simulasi-uji-kompetensi.html" style="background:linear-gradient(135deg, #10b981, #00f0ff);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Buka Modul Simulasi UKK Final
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- FOOTER -->
   <footer class="app-footer">
     <div class="footer-left">
@@ -5356,44 +5724,52 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   updateClock();
 
   /* ==========================================================
-     SEMESTER & COURSE SWITCHER CONFIGURATION (X & XII)
+     SEMESTER & COURSE SWITCHER CONFIGURATION (XI & XII)
      ========================================================== */
   let activeSemester = 'ganjil';
   const TOTAL_MODULES_GANJIL = 11;
   const TOTAL_MODULES_GENAP = 10;
   const TOTAL_MODULES_SERVER = 10;
+  const TOTAL_MODULES_SERVER_GENAP = 10;
   const STORAGE_KEY_GANJIL = 'bh_tkj_completed_modules';
   const STORAGE_KEY_GENAP = 'bh_tkj_genap_completed_modules';
   const STORAGE_KEY_SERVER = 'bh_tkj_server_completed_modules';
+  const STORAGE_KEY_SERVER_GENAP = 'bh_tkj_server_genap_completed_modules';
 
   function setSemester(sem) {
     activeSemester = sem;
     const isGanjil = sem === 'ganjil';
     const isGenap = sem === 'genap';
     const isServer = sem === 'server';
+    const isServerGenap = sem === 'server-genap';
     
     // Update active tab styling
     const btnG = document.getElementById('btnGanjil');
     const btnGe = document.getElementById('btnGenap');
     const btnS = document.getElementById('btnServer');
+    const btnSG = document.getElementById('btnServerGenap');
     if (btnG) btnG.classList.toggle('active', isGanjil);
     if (btnGe) btnGe.classList.toggle('active', isGenap);
     if (btnS) btnS.classList.toggle('active', isServer);
+    if (btnSG) btnSG.classList.toggle('active', isServerGenap);
 
     const pill = document.getElementById('semTabPill');
     if (pill) {
       if (isGanjil) pill.style.transform = 'translateX(0)';
       else if (isGenap) pill.style.transform = 'translateX(100%)';
       else if (isServer) pill.style.transform = 'translateX(200%)';
+      else if (isServerGenap) pill.style.transform = 'translateX(300%)';
     }
 
     // Show/hide timelines
     const tlG = document.getElementById('timelineGanjil');
     const tlGe = document.getElementById('timelineGenap');
     const tlS = document.getElementById('timelineServer');
+    const tlSG = document.getElementById('timelineServerGenap');
     if (tlG) tlG.style.display = isGanjil ? 'block' : 'none';
     if (tlGe) tlGe.style.display = isGenap ? 'block' : 'none';
     if (tlS) tlS.style.display = isServer ? 'block' : 'none';
+    if (tlSG) tlSG.style.display = isServerGenap ? 'block' : 'none';
 
     // Headings and Descriptions
     const mainHeading = document.getElementById('pageMainHeading');
@@ -5424,6 +5800,13 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       if (metricAlokasi) metricAlokasi.textContent = '90 JP Total';
       if (metricFokus) metricFokus.textContent = 'Linux & Layanan Server';
       if (searchInput) searchInput.placeholder = 'Cari materi Server (Data Center, Linux, DHCP, DNS, Web, Mail, Samba, htop, dll)...';
+    } else if (isServerGenap) {
+      mainHeading.innerHTML = 'Virtualisasi, Keamanan &amp; Proyek Infrastruktur Terintegrasi';
+      mainDesc.innerHTML = 'Silabus terstruktur <strong>Semester Genap Kelas XII TKJ</strong> (Sistem Blok: 2 Blok &times; 5 Hari &times; 9 JP = <strong>90 JP Total</strong>). Fokus pada Virtualisasi (VirtualBox/Proxmox), Database RDBMS, Remote Hardening SSH, RAID &amp; LVM, Backup DR, Firewall &amp; SSL/TLS, Load Balancing Nginx, Cloud Computing, Proyek Akhir Terintegrasi, hingga Simulasi Asesmen UKK.';
+      if (metricModul) metricModul.textContent = '10 Pertemuan';
+      if (metricAlokasi) metricAlokasi.textContent = '90 JP Total';
+      if (metricFokus) metricFokus.textContent = 'Virtualisasi & Proyek UKK';
+      if (searchInput) searchInput.placeholder = 'Cari materi Genap XII (Virtualisasi, Database, RAID, Backup, SSL, Load Balancer, Cloud, UKK, dll)...';
     }
 
     // Render Filter Pills
@@ -5437,7 +5820,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
     // Update URL hash without scroll jump
     if (history.replaceState) {
-      history.replaceState(null, null, isGanjil ? '#ganjil' : (isGenap ? '#genap' : '#server'));
+      history.replaceState(null, null, isGanjil ? '#ganjil' : (isGenap ? '#genap' : (isServer ? '#server' : '#server-genap')));
     }
   }
 
@@ -5469,6 +5852,14 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik Server</button>
         <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
       `;
+    } else if (activeSemester === 'server-genap') {
+      container.innerHTML = `
+        <button type="button" class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all', this)">Semua (10)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'server_genap_blok1' ? 'active' : ''}" onclick="setFilter('server_genap_blok1', this)">Blok 1 (Virtualisasi & Storage)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'server_genap_blok2' ? 'active' : ''}" onclick="setFilter('server_genap_blok2', this)">Blok 2 (Keamanan & UKK)</button>
+        <button type="button" class="filter-btn ${currentFilter === 'praktik' ? 'active' : ''}" onclick="setFilter('praktik', this)">Praktik & Proyek</button>
+        <button type="button" class="filter-btn ${currentFilter === 'completed' ? 'active' : ''}" onclick="setFilter('completed', this)">Tuntas</button>
+      `;
     }
   }
 
@@ -5479,6 +5870,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     let key = STORAGE_KEY_GANJIL;
     if (target === 'genap' || target === true) key = STORAGE_KEY_GENAP;
     else if (target === 'server') key = STORAGE_KEY_SERVER;
+    else if (target === 'server-genap') key = STORAGE_KEY_SERVER_GENAP;
 
     try {
       return JSON.parse(localStorage.getItem(key)) || [];
@@ -5491,6 +5883,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     let key = STORAGE_KEY_GANJIL;
     if (target === 'genap' || target === true) key = STORAGE_KEY_GENAP;
     else if (target === 'server') key = STORAGE_KEY_SERVER;
+    else if (target === 'server-genap') key = STORAGE_KEY_SERVER_GENAP;
     localStorage.setItem(key, JSON.stringify(list));
   }
 
@@ -5506,7 +5899,11 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     } else if (activeSemester === 'server') {
       total = TOTAL_MODULES_SERVER;
       list = getCompletedList('server');
-      title = 'Progres Belajar Mandiri &middot; Infrastruktur Server (Kelas XII)';
+      title = 'Progres Belajar Mandiri &middot; Infrastruktur Server (Kelas XII Ganjil)';
+    } else if (activeSemester === 'server-genap') {
+      total = TOTAL_MODULES_SERVER_GENAP;
+      list = getCompletedList('server-genap');
+      title = 'Progres Belajar Mandiri &middot; Infrastruktur Server Terintegrasi (Kelas XII Genap)';
     }
 
     const count = list.length;
@@ -5545,12 +5942,24 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       }
     }
 
-    // Apply visual states to Server XII modules
+    // Apply visual states to Server XII Ganjil modules
     const serverList = getCompletedList('server');
     for (let i = 1; i <= TOTAL_MODULES_SERVER; i++) {
       const node = document.getElementById(`server-node-${i}`);
       if (node) {
         const isDone = serverList.includes(i);
+        node.classList.toggle('completed', isDone);
+        const checkbox = node.querySelector('.check-completed input');
+        if (checkbox) checkbox.checked = isDone;
+      }
+    }
+
+    // Apply visual states to Server XII Genap modules
+    const serverGenapList = getCompletedList('server-genap');
+    for (let i = 1; i <= TOTAL_MODULES_SERVER_GENAP; i++) {
+      const node = document.getElementById(`server-genap-node-${i}`);
+      if (node) {
+        const isDone = serverGenapList.includes(i);
         node.classList.toggle('completed', isDone);
         const checkbox = node.querySelector('.check-completed input');
         if (checkbox) checkbox.checked = isDone;
@@ -5591,6 +6000,17 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     updateProgressUI();
   }
 
+  function toggleCompleteServerGenap(moduleId, isChecked) {
+    let list = getCompletedList('server-genap');
+    if (isChecked) {
+      if (!list.includes(moduleId)) list.push(moduleId);
+    } else {
+      list = list.filter(id => id !== moduleId);
+    }
+    saveCompletedList(list, 'server-genap');
+    updateProgressUI();
+  }
+
   /* ==========================================================
      SEARCH & FILTER LOGIC
      ========================================================== */
@@ -5608,6 +6028,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     let targetTimeline = document.getElementById('timelineGanjil');
     if (activeSemester === 'genap') targetTimeline = document.getElementById('timelineGenap');
     else if (activeSemester === 'server') targetTimeline = document.getElementById('timelineServer');
+    else if (activeSemester === 'server-genap') targetTimeline = document.getElementById('timelineServerGenap');
 
     if (!targetTimeline) return;
 
@@ -5622,7 +6043,7 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       const block = node.getAttribute('data-block') || '';
       const type = (node.getAttribute('data-type') || '').toLowerCase();
       
-      const rawId = node.id.replace('server-node-', '').replace('genap-node-', '').replace('node-', '');
+      const rawId = node.id.replace('server-genap-node-', '').replace('server-node-', '').replace('genap-node-', '').replace('node-', '');
       const id = parseInt(rawId);
       const isCompleted = completedList.includes(id);
 
@@ -5637,6 +6058,8 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       else if (currentFilter === 'genap_blok2') matchesFilter = block === 'genap_blok2';
       else if (currentFilter === 'server_blok1') matchesFilter = block === 'server_blok1';
       else if (currentFilter === 'server_blok2') matchesFilter = block === 'server_blok2';
+      else if (currentFilter === 'server_genap_blok1') matchesFilter = block === 'server_genap_blok1';
+      else if (currentFilter === 'server_genap_blok2') matchesFilter = block === 'server_genap_blok2';
       else if (currentFilter === 'praktik') matchesFilter = type.includes('praktik') || type.includes('simulasi') || type.includes('upgrade') || type.includes('proyek') || type.includes('server');
       else if (currentFilter === 'completed') matchesFilter = isCompleted;
 
@@ -5673,6 +6096,8 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       setSemester('genap');
     } else if (hash === '#server' || hash === '#infrastruktur-server' || hash === '#kelas-xii') {
       setSemester('server');
+    } else if (hash === '#server-genap' || hash === '#genap-xii') {
+      setSemester('server-genap');
     } else {
       setSemester('ganjil');
     }

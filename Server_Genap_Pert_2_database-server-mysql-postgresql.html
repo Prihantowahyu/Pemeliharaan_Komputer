@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genap Pert 2: Database Server MySQL & PostgreSQL — Kelas XII TKJ</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(16,185,129,0.28);--acc:#10b981;--acc2:#6ee7b7;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(16,185,129,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(99,102,241,0.07),transparent 45%);background-attachment:fixed}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(16,185,129,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(16,185,129,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
+.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
+.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(16,185,129,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
+.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
+.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
+.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
+.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
+.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
+.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
+.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
+.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
+.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="hud">
+  <div class="pbar"><div class="pfill" id="pf"></div></div>
+  <div class="hud-in">
+    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 2 / Pert. 2</div>
+    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 1 HARI KE-2 · SEMESTER GENAP</div>
+    <h1>Database Server — Instalasi & Konfigurasi MySQL / PostgreSQL</h1>
+    <p>Menginstal dan mengonfigurasi RDBMS enterprise (MySQL/MariaDB & PostgreSQL), membuat database, tabel, dan user dengan privilege terpisah, koneksi client jarak jauh, serta perintah query SQL dasar.</p>
+  </section>
+
+  <div class="mgrid">
+    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Konsep RDBMS & SQL</div></div>
+    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Install & Secure MySQL</div></div>
+    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Database, Tabel & User</div></div>
+    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Koneksi Client & CBT</div></div>
+  </div>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">1</span> Perbandingan MySQL vs PostgreSQL</h2>
+    <table class="tbl">
+      <tr><th>Aspek</th><th>MySQL / MariaDB</th><th>PostgreSQL</th></tr>
+      <tr><td>Tipe Database</td><td>Relasional — cocok untuk web app LAMP</td><td>Object-Relational — mendukung JSON, Array, tipe khusus</td></tr>
+      <tr><td>Performa READ</td><td>⚡ Sangat cepat untuk SELECT query sederhana</td><td>Lebih cepat untuk query JOIN kompleks & OLAP</td></tr>
+      <tr><td>Lisensi</td><td>GPL (Community) / Commercial (Enterprise)</td><td>PostgreSQL License (sepenuhnya open-source)</td></tr>
+      <tr><td>Default Port</td><td>3306</td><td>5432</td></tr>
+      <tr><td>Kasus Terbaik</td><td>WordPress, Prestashop, aplikasi web CRUD</td><td>Analitik data, GIS, aplikasi keuangan kompleks</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">2</span> Instalasi & Konfigurasi MySQL Server</h2>
+    <div class="code"><span style="color:#64748b"># 1. Instalasi MySQL Server</span>
+sudo apt update && sudo apt install mysql-server -y
+sudo systemctl enable --now mysql
+
+<span style="color:#64748b"># 2. Amankan instalasi (hapus user anonim, nonaktifkan root remote login)</span>
+sudo mysql_secure_installation
+
+<span style="color:#64748b"># 3. Login ke MySQL shell sebagai root</span>
+sudo mysql -u root -p
+
+<span style="color:#64748b"># ── Di dalam MySQL Shell ──</span>
+<span style="color:#fde68a">-- Buat database untuk aplikasi sekolah</span>
+CREATE DATABASE db_sekolah CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+<span style="color:#fde68a">-- Buat user khusus aplikasi (bukan root!)</span>
+CREATE USER 'app_user'@'192.168.10.%' IDENTIFIED BY 'P@ssw0rd!2026';
+
+<span style="color:#fde68a">-- Berikan hak akses hanya ke database tersebut</span>
+GRANT ALL PRIVILEGES ON db_sekolah.* TO 'app_user'@'192.168.10.%';
+FLUSH PRIVILEGES;
+SHOW GRANTS FOR 'app_user'@'192.168.10.%';</div>
+
+    <div class="code"><span style="color:#64748b"># Izinkan koneksi remote: edit bind-address di /etc/mysql/mysql.conf.d/mysqld.cnf</span>
+sudo sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo systemctl restart mysql
+
+<span style="color:#64748b"># Uji koneksi dari client (gunakan MySQL Workbench atau CLI)</span>
+mysql -h 192.168.10.1 -u app_user -p db_sekolah</div>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <table class="tbl">
+      <tr><th>Tugas SQL Praktikum</th><th>Perintah SQL</th><th>Hasil Diharapkan</th></tr>
+      <tr><td>Buat tabel siswa</td><td><code>CREATE TABLE siswa (id INT AUTO_INCREMENT PRIMARY KEY, nama VARCHAR(100), kelas VARCHAR(10));</code></td><td>Tabel "siswa" muncul di <code>SHOW TABLES;</code></td></tr>
+      <tr><td>Masukkan data (INSERT)</td><td><code>INSERT INTO siswa (nama, kelas) VALUES ('Budi', 'XII TKJ');</code></td><td>Row terbaca di <code>SELECT * FROM siswa;</code></td></tr>
+      <tr><td>Update & Delete</td><td><code>UPDATE siswa SET kelas='XII RPL' WHERE id=1;</code><br><code>DELETE FROM siswa WHERE id=1;</code></td><td>Data berubah/hilang sesuai query</td></tr>
+      <tr><td>Uji privilege user</td><td>Login sebagai <code>app_user</code>, coba <code>DROP DATABASE;</code></td><td>Error "Access denied" — privilege terbatas aman</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
+    <div id="cbtArea"></div>
+  </section>
+
+  <div class="foot">
+    <a href="Server_Genap_Pert_1_virtualisasi-server.html" class="btn s">← Pert 1: Virtualisasi</a>
+    <a href="Server_Genap_Pert_3_remote-access-ssh-rdp.html" class="btn p">Pert 3: Remote Access →</a>
+  </div>
+</main>
+<script src="cbt-anti-cheat.js"></script>
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Database Server MySQL & PostgreSQL',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
+    {question:'Perintah SQL yang digunakan untuk memberikan hak akses (privilege) semua operasi CRUD pada database tertentu kepada user tertentu adalah?',options:['GRANT ALL PRIVILEGES ON db_sekolah.* TO user@host;','ALLOW ALL ON db_sekolah FOR user;','SET PERMISSIONS db_sekolah TO user;','PERMIT ALL db_sekolah user;'],correctIndex:0,explanation:"'GRANT' adalah perintah DCL (Data Control Language) MySQL/PostgreSQL untuk memberikan izin. Syntax: GRANT [privileges] ON [database].[table] TO [user]@[host]; lalu diakhiri FLUSH PRIVILEGES;"},
+    {question:"Mengapa best practice keamanan mengharuskan pembuatan user database khusus per aplikasi (bukan menggunakan root) dengan privilege minimal?",options:['Jika aplikasi dibobol, attacker hanya mendapat akses terbatas ke database itu saja dan tidak bisa DROP DATABASE atau akses database lain','Karena MySQL tidak mendukung login root dari aplikasi','Karena user root tidak memiliki permission untuk query SELECT','Karena root hanya bisa digunakan di localhost'],correctIndex:0,explanation:"Prinsip Least Privilege: setiap komponen hanya diberi hak minimum yang dibutuhkan. Dengan user khusus, SQL Injection atau kompromi aplikasi tidak langsung memberikan akses penuh ke seluruh server database."},
+    {question:"Direktif yang harus diubah pada file konfigurasi mysqld.cnf agar MySQL Server menerima koneksi dari network (bukan hanya localhost) adalah?",options:['bind-address = 0.0.0.0','allow-remote = true','enable-tcp-listen = all','network-mode = public'],correctIndex:0,explanation:"'bind-address' menentukan interface IP yang di-listen MySQL. Nilai default '127.0.0.1' hanya menerima koneksi lokal. Mengubahnya ke '0.0.0.0' membuka semua interface, memungkinkan koneksi dari client di jaringan (pastikan firewall dikonfigurasi dengan tepat)."}
+  ]});
+});
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bengkel-hw-pwa-v21-server-xii-9jp-complete';
+const CACHE_NAME = 'bengkel-hw-pwa-v22-genap-xii-complete';
 
 // DAFTAR LENGKAP SEMUA FILE UNTUK AKSES FULL OFFLINE
 const ASSETS_TO_CACHE = [
@@ -53,6 +53,18 @@ const ASSETS_TO_CACHE = [
   './Server_Pert_8_konfigurasi-mail-server-postfix.html',
   './Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html',
   './Server_Pert_10_monitoring-troubleshooting-server.html',
+
+  // Modul Infrastruktur Server Terintegrasi Kelas XII (Semester Genap — 10 Pertemuan)
+  './Server_Genap_Pert_1_virtualisasi-server.html',
+  './Server_Genap_Pert_2_database-server-mysql-postgresql.html',
+  './Server_Genap_Pert_3_remote-access-ssh-rdp.html',
+  './Server_Genap_Pert_4_raid-storage-server.html',
+  './Server_Genap_Pert_5_backup-disaster-recovery.html',
+  './Server_Genap_Pert_6_keamanan-firewall-ssl-tls.html',
+  './Server_Genap_Pert_7_load-balancing-high-availability.html',
+  './Server_Genap_Pert_8_cloud-computing-dasar.html',
+  './Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html',
+  './Server_Genap_Pert_10_simulasi-uji-kompetensi.html',
 
   // Infografis Materi (JPG Cepat + PNG HD)
   './assets/infografis/infografis-bios-materi.jpg',

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genap Pert 8: Pengenalan Cloud Computing Dasar — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cbt-anti-cheat.css">
+<style>
+:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(56,189,248,0.28);--acc:#38bdf8;--acc2:#bae6fd;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(56,189,248,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(139,92,246,0.07),transparent 45%);background-attachment:fixed}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
+.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
+.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(56,189,248,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
+.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
+.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
+.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
+.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
+.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
+.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
+.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
+.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
+.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
+.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header class="hud">
+  <div class="pbar"><div class="pfill" id="pf"></div></div>
+  <div class="hud-in">
+    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 2 Hari 3 / Pert. 8</div>
+    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 2 HARI KE-3 · SEMESTER GENAP</div>
+    <h1>Pengenalan Cloud Computing Dasar (IaaS, PaaS, SaaS & VPS Tier Gratis)</h1>
+    <p>Memahami arsitektur komputasi awan, model layanan (IaaS, PaaS, SaaS), model deployment (Public, Private, Hybrid), pengenalan provider cloud (AWS, GCP, Azure, Oracle Cloud), serta praktik deployment instance Virtual Server (VPS) gratis.</p>
+  </section>
+
+  <div class="mgrid">
+    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">IaaS, PaaS & SaaS</div></div>
+    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Model Deployment Cloud</div></div>
+    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Deploy Instance VPS</div></div>
+    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">SSH Cloud & CBT</div></div>
+  </div>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">1</span> Taksonomi Model Layanan Cloud: IaaS vs PaaS vs SaaS</h2>
+    <table class="tbl">
+      <tr><th>Model Layanan</th><th>Tanggung Jawab Pengguna (Siswa/Admin)</th><th>Tanggung Jawab Cloud Provider</th><th>Contoh Nyata</th></tr>
+      <tr><td><strong>IaaS</strong> (Infrastructure as a Service)</td><td>OS, Runtime, Middleware, Aplikasi, Data</td><td>Hardware fisik, Jaringan, Virtualisasi, Datacenter</td><td>AWS EC2, Google Compute Engine, Linode/Akamai</td></tr>
+      <tr><td><strong>PaaS</strong> (Platform as a Service)</td><td>Aplikasi dan Data (Source code)</td><td>OS, Runtime, Patching, Scaling, Hardware</td><td>Heroku, Google App Engine, Vercel, Railway</td></tr>
+      <tr><td><strong>SaaS</strong> (Software as a Service)</td><td>Hanya menggunakan aplikasi dan pengaturan user</td><td>Semua lapisan infrastruktur hingga kode program</td><td>Google Workspace, Microsoft 365, Canva</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">2</span> Model Deployment Cloud & Provider Populer</h2>
+    <table class="tbl">
+      <tr><th>Deployment Model</th><th>Karakteristik</th><th>Kelebihan</th><th>Kekurangan</th></tr>
+      <tr><td><strong>Public Cloud</strong></td><td>Infrastruktur dibagi bersama (multi-tenant) di server vendor</td><td>Biaya fleksibel (pay-as-you-go), skalabilitas tak terbatas</td><td>Kontrol kepatuhan data terbatas</td></tr>
+      <tr><td><strong>Private Cloud</strong></td><td>Infrastruktur didedikasikan hanya untuk 1 organisasi (on-premise)</td><td>Keamanan maksimal, kontrol hardware penuh</td><td>Investasi modal (CapEx) awal sangat tinggi</td></tr>
+      <tr><td><strong>Hybrid Cloud</strong></td><td>Kombinasi Public Cloud + Private Cloud yang terhubung VPN/DirectConnect</td><td>Fleksibilitas: data rahasia di private, web publik di cloud</td><td>Kompleksitas konfigurasi dan integrasi jaringan</td></tr>
+    </table>
+
+    <div class="code" style="margin-top:14px"><span style="color:#64748b"># Contoh: Menghubungkan SSH ke Cloud VPS Instance (misal: AWS EC2 / Oracle Cloud)</span>
+<span style="color:#64748b"># 1. Atur izin akses Private Key file</span>
+chmod 400 my-cloud-key.pem
+
+<span style="color:#64748b"># 2. Login menggunakan Public IP dan Key</span>
+ssh -i my-cloud-key.pem ubuntu@203.0.113.45
+
+<span style="color:#64748b"># 3. Setup Cloud-Init / Script Otomatisasi Web Server</span>
+sudo apt update && sudo apt install nginx -y
+echo "<h1>Deployed on Cloud VPS Tier</h1>" | sudo tee /var/www/html/index.html</div>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <table class="tbl">
+      <tr><th>Tugas Praktikum</th><th>Aktivitas Siswa</th><th>Output Verifikasi</th></tr>
+      <tr><td>Analisis Kebutuhan Cloud</td><td>Memilih model layanan terbaik untuk 3 skenario studi kasus (Toko Online, Data Nilai Siswa, Email Kantor)</td><td>Lembar analisis berisi justifikasi pilihan IaaS/PaaS/SaaS</td></tr>
+      <tr><td>Pembuatan Keypair Cloud</td><td>Generate SSH Keypair (RSA 4096) khusus untuk otentikasi instance cloud</td><td>File .pem/.pub tersimpan dengan permission 400</td></tr>
+      <tr><td>Peluncuran VM di Cloud Simulator / Free Tier</td><td>Konfigurasi instance Ubuntu 22.04 LTS (1 vCPU, 1 GB RAM, Security Group Port 22 & 80)</td><td>Instance berstatus "Running" dengan Public IPv4</td></tr>
+      <tr><td>Deploy Web Page di Cloud</td><td>Install Nginx via SSH remote dan buat halaman landing page profil siswa</td><td>Halaman web dapat diakses via browser dari HP/Laptop menggunakan Public IP</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
+    <div id="cbtArea"></div>
+  </section>
+
+  <div class="foot">
+    <a href="Server_Genap_Pert_7_load-balancing-high-availability.html" class="btn s">← Pert 7: Load Balancing</a>
+    <a href="Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html" class="btn p">Pert 9: Proyek Akhir Terintegrasi →</a>
+  </div>
+</main>
+<script src="cbt-anti-cheat.js"></script>
+<script>
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
+document.addEventListener('DOMContentLoaded',()=>{
+  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Cloud Computing Dasar (IaaS, PaaS, SaaS)',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
+    {question:'Jika sebuah perusahaan menyewa VM dari penyedia cloud dan bertanggung jawab mengelola OS, database, serta aplikasi sendiri, model layanan tersebut adalah?',options:['IaaS (Infrastructure as a Service)','PaaS (Platform as a Service)','SaaS (Software as a Service)','BaaS (Backend as a Service)'],correctIndex:0,explanation:'IaaS memberikan kontrol penuh atas OS, software, dan konfigurasi jaringan di atas infrastruktur komputasi virtual yang disediakan penyedia cloud.'},
+    {question:'Dalam arsitektur Cloud Security Group / Firewall, apa fungsi aturan Inbound Rules port 80 dan 443?',options:['Mengizinkan pengunjung internet publik mengakses layanan website HTTP dan HTTPS yang berjalan di instance','Mengizinkan admin melakukan remote SSH','Menghubungkan database ke disk backup','Mengenkripsi file system internal server'],correctIndex:0,explanation:'Inbound rules mengatur lalu lintas masuk ke instance cloud. Port 80 (HTTP) dan 443 (HTTPS) dibuka untuk umum agar website dapat dikunjungi publik.'},
+    {question:'Model deployment cloud di mana sebuah instansi memadukan server lokal privat untuk data rahasia dengan cloud publik untuk website publik disebut?',options:['Hybrid Cloud','Public Cloud','Private Cloud','Community Cloud'],correctIndex:0,explanation:'Hybrid Cloud menggabungkan on-premise/private cloud dengan public cloud, memungkinkan orkestrasi beban kerja dan pembagian data sensitif dengan efisien.'}
+  ]});
+});
+</script>
+</body>
+</html>
