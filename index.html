@@ -1009,13 +1009,77 @@
     color: var(--text-muted);
     font-size: 12px;
   }
-  .footer-left strong {
+  .footer-left b {
     color: var(--text-main);
   }
-  .footer-right {
-    display: flex;
+
+  /* Premium Panel Guru Button */
+  .btn-panel-guru {
+    position: relative;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    padding: 9px 18px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
+    background-size: 200% 200%;
+    animation: guru-gradient-shift 4s ease infinite;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+  }
+  .btn-panel-guru::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .btn-panel-guru svg {
+    width: 15px !important;
+    height: 15px !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+  }
+  .btn-panel-guru:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .btn-panel-guru:active {
+    transform: translateY(0) scale(0.98);
+  }
+  @keyframes guru-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Footer Badge — subtle glassmorphism chip */
+  .footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: var(--indigo);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  html.light-mode .footer-badge {
+    background: rgba(99, 102, 241, 0.08);
+    color: #4f46e5;
   }
 
   /* Floating AI Helper Trigger */
@@ -4101,13 +4165,13 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       <b>SMK DIPONEGORO TUMPANG</b> &middot; Teknik Komputer &amp; Jaringan (TKJ)<br>
       Disusun secara interaktif oleh <b>Wahyu Prihanto</b> &middot; 0877-7560-0462
     </div>
-    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <button type="button" class="btn-panel-guru" onclick="openPinModal()" title="Panel Keamanan Guru / Mode Ujian">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        Panel Guru
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        🔐 Panel Guru
       </button>
       <div class="footer-badge">
-        KURIKULUM MERDEKA &middot; FASE F TKJ
+        📘 KURIKULUM MERDEKA &middot; FASE F TKJ
       </div>
     </div>
   </footer>
