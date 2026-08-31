@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 2: Instalasi OS Linux Server & Konfigurasi IP — Kelas XII TKJ</title>
+<title>Pertemuan 2: Instalasi Linux Server, LVM & Konfigurasi Jaringan Netplan — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -12,11 +12,9 @@
   :root {
     --bg-void: #030712;
     --panel: rgba(11, 22, 44, 0.75);
-    --panel-card: #0d1b36;
     --panel-border: rgba(0, 240, 255, 0.2);
     --cyan: #00f0ff;
     --cyan-glow: rgba(0, 240, 255, 0.35);
-    --cyan-soft: #38bdf8;
     --emerald: #10b981;
     --violet: #8b5cf6;
     --amber: #f59e0b;
@@ -35,16 +33,16 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
     background-attachment: fixed;
   }
   .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
   
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
   .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
   .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
   .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
 
@@ -61,13 +59,17 @@
   .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
   
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; }
-  .code-block pre { margin: 0; }
-  
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
-  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
-  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
   .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
@@ -80,118 +82,133 @@
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 2)</span></div>
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 2 / Pert. 2)</span></div>
     <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 1 HARI KE-2</div>
-    <h1>Instalasi OS Linux Server, LVM & Konfigurasi Static IP Netplan</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:760px;line-height:1.6;">Panduan komprehensif instalasi Linux Server enterprise (Ubuntu/Debian), teknik partisi Logical Volume Manager (LVM), penetapan Static IP Address modern melalui Netplan YAML, konfigurasi Hostname permanen, serta manajemen repositori APT.</p>
+    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 1 HARI KE-2</div>
+    <h1>Instalasi Linux Server, Manajemen Storage LVM & Konfigurasi Jaringan Netplan</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan terstruktur menginstal Ubuntu Server 22.04 LTS / Debian 12 secara headless (CLI-only), arsitektur penyimpanan fleksibel LVM (Physical Volume, Volume Group, Logical Volume), penamaan hostname FQDN, konfigurasi IP statis modern menggunakan sintaks YAML Netplan, serta optimasi repository package APT.</p>
   </section>
 
   <!-- ALOKASI WAKTU 9 JP -->
   <div class="meta-grid">
-    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">Teori & Skema LVM</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">Instalasi Server CLI</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Netplan & Repositori</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Troubleshoot & CBT</div></div>
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">K3 & Partisi Schema</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Arsitektur LVM Storage</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Netplan YAML & Interface</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Hands-on Lab Install & IP</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot YAML & APT</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- SECTION 1: Konsep & Skema Partisi LVM -->
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Konsep & Skema Partisi Enterprise: LVM vs Standar</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Pada server produksi, partisi standar (MBR/GPT statis) dihindari karena tidak fleksibel saat kapasitas disk penuh. <strong>Logical Volume Manager (LVM)</strong> menambahkan lapisan abstraksi di atas storage fisik:</p>
-    
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px;">
-      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
-        <div style="color:var(--cyan);font-weight:700;font-family:var(--font-mono);">1. PV (Physical Volume)</div>
-        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Disk fisik mentah (seperti <code>/dev/sda</code> atau <code>/dev/nvme0n1</code>) yang diinisialisasi untuk LVM.</div>
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Persiapan Media Instalasi</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Guru mendemonstrasikan verifikasi integritas SHA256 checksum file ISO Ubuntu Server 22.04 LTS. Siswa memeriksa alokasi virtual hard disk (30 GB) di workstation/VirtualBox masing-masing dan menetapkan skema partisi server.</p>
       </div>
-      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
-        <div style="color:var(--emerald);font-weight:700;font-family:var(--font-mono);">2. VG (Volume Group)</div>
-        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Kumpulan gabungan dari satu atau beberapa PV menjadi satu storage pool raksasa.</div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Pendalaman Teori LVM (Logical Volume Manager)</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan hierarki LVM: Physical Volume (PV) &rarr; Volume Group (VG) &rarr; Logical Volume (LV). Guru menjelaskan mengapa partisi statis tradisional (MBR/GPT kaku) sangat dihindari di server produksi karena tidak bisa di-resize saat disk penuh tanpa downtime.</p>
       </div>
-      <div style="background:#09152b;border:1px solid #1c3558;padding:14px;border-radius:8px;">
-        <div style="color:var(--amber);font-weight:700;font-family:var(--font-mono);">3. LV (Logical Volume)</div>
-        <div style="font-size:12.5px;color:var(--text-sub);margin-top:4px;">Partisi virtual (seperti <code>/dev/ubuntu-vg/ubuntu-lv</code>) yang dapat diperbesar atau diperkecil secara live tanpa reboot.</div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Bedah Sintaks YAML Netplan & Penamaan FQDN</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Analisis file konfigurasi <code>/etc/netplan/01-netcfg.yaml</code>. Memahami aturan wajib indentasi spasi 2-karakter (pantangan tombol TAB di YAML), deklarasi gateway4/routes, DNS nameservers, dan pengujian aman dengan <code>netplan try</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Refreshment</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Istirahat sejenak dan review parameter IP lab yang diberikan guru.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri Terbimbing</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet 2</strong> secara individu/berpasangan: (1) Menjalankan proses instalasi Ubuntu Server, (2) Partisi LVM kustom: <code>/boot</code> (1GB ext4), <code>vg_server/lv_root</code> (15GB), <code>vg_server/lv_var</code> (10GB), (3) Set Hostname <code>server1.smk.lan</code>, (4) Konfigurasi IP Statis Netplan <code>192.168.10.10/24</code>, dan (5) Uji koneksi internet gateway.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting Lab)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa menyelesaikan 2 skenario error yang disimulasikan: Error "Invalid YAML syntax due to TAB indentation" saat netplan apply, dan kegagalan APT update akibat DNS salah arah.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Asesmen CBT & Refleksi Kompetensi 9 JP</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT Anti-Cheat, checklist unjuk kerja LVM & Netplan oleh guru, serta penutupan sesi.</p>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: Konfigurasi Jaringan Netplan -->
+  <!-- BAGIAN 2: TEORI LVM & NETPLAN -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi Static IP via Netplan YAML</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Ubuntu Server menggunakan Netplan berbasis format YAML yang sensitif terhadap indentasi spasi (dilarang menggunakan TAB). Konfigurasi terletak di <code>/etc/netplan/01-netcfg.yaml</code> atau <code>/etc/netplan/50-cloud-init.yaml</code>:</p>
-
+    <h2 class="section-title"><span class="num">2</span> Anatomi Teknis LVM & Konfigurasi Netplan YAML</h2>
     <div class="code-block">
-      <span style="color:#64748b;"># File: /etc/netplan/00-installer-config.yaml</span><br>
-<pre style="color:#67e8f9;">network:
+<span style="color:#64748b;"># 1. HIERARKI PERINTAH LVM CLI</span>
+<span style="color:#38bdf8;">sudo pvcreate /dev/sda3</span>                <span style="color:#64748b;"># Inisialisasi Physical Volume</span>
+<span style="color:#38bdf8;">sudo vgcreate vg_system /dev/sda3</span>      <span style="color:#64748b;"># Buat Volume Group penampung</span>
+<span style="color:#38bdf8;">sudo lvcreate -L 15G -n lv_root vg_system</span>  <span style="color:#64748b;"># Buat Logical Volume root (/)</span>
+<span style="color:#38bdf8;">sudo lvcreate -L 10G -n lv_var vg_system</span>   <span style="color:#64748b;"># Buat Logical Volume data (/var)</span>
+
+<span style="color:#64748b;"># 2. CARA RESIZE / EXPAND DISK SECARA LIVE TANPA RESTART SERVER</span>
+<span style="color:#38bdf8;">sudo lvextend -L +5G /dev/vg_system/lv_var</span>
+<span style="color:#38bdf8;">sudo resize2fs /dev/vg_system/lv_var</span>   <span style="color:#64748b;"># Perluas filesystem ext4 secara online</span>
+    </div>
+
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># File: /etc/netplan/00-installer-config.yaml (WAJIB GUNAKAN SPASI, DILARANG TAB!)</span>
+<pre style="color:#a7f3d0;">network:
   version: 2
   renderer: networkd
   ethernets:
-    enp0s3:
+    ens33:
       dhcp4: no
       addresses:
-        - 192.168.10.1/24
+        - 192.168.10.10/24
       routes:
         - to: default
-          via: 192.168.10.254
+          via: 192.168.10.1
       nameservers:
         addresses:
           - 192.168.10.1
           - 8.8.8.8
-          - 1.1.1.1
         search:
           - smk.lan</pre>
     </div>
-
-    <div class="code-block" style="margin-top:10px;">
-      <span style="color:#64748b;"># Perintah menerapkan dan menguji konfigurasi Netplan</span><br>
-      <span style="color:#38bdf8;">sudo netplan generate</span><br>
-      <span style="color:#38bdf8;">sudo netplan apply</span><br>
-      <span style="color:#38bdf8;">ip addr show enp0s3</span><br>
-      <span style="color:#38bdf8;">ip route</span>
-    </div>
   </section>
 
-  <!-- SECTION 3: Hostname & Repositori APT -->
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Hostname Server & Update Repositori APT</h2>
-    <div class="code-block">
-      <span style="color:#64748b;"># 1. Mengubah Hostname Permanen</span><br>
-      <span style="color:#38bdf8;">sudo hostnamectl set-hostname server-tkj.smk.lan</span><br>
-      <span style="color:#38bdf8;">hostnamectl status</span><br><br>
-      <span style="color:#64748b;"># 2. Update Repositori Lokal Indonesia (Kambing / Datautama / Telkom)</span><br>
-      <span style="color:#38bdf8;">sudo apt update &amp;&amp; sudo apt upgrade -y</span><br>
-      <span style="color:#38bdf8;">sudo apt install -y curl wget git net-tools htop</span>
-    </div>
-  </section>
-
-  <!-- SECTION 4: LKPD Praktik 9 JP -->
-  <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
     <table class="table-custom">
-      <tr><th>Parameter Lab</th><th>Nilai Konfigurasi Praktik</th></tr>
-      <tr><td>Hostname Server</td><td><code>srv-tkj-[NomorAbsen].smk.lan</code></td></tr>
-      <tr><td>Interface Jaringan</td><td><code>enp0s3</code> (Host-Only / Internal Network)</td></tr>
-      <tr><td>Static IP Server</td><td><code>192.168.10.[NomorAbsen]/24</code></td></tr>
-      <tr><td>Gateway</td><td><code>192.168.10.254</code></td></tr>
-      <tr><td>DNS Server</td><td><code>192.168.10.1, 8.8.8.8</code></td></tr>
+      <tr><th>Tahap</th><th>Perintah Eksekusi / Konfigurasi</th><th>Kriteria Keberhasilan & Validasi</th></tr>
+      <tr><td><strong>1. Hostname</strong></td><td><code>sudo hostnamectl set-hostname server1.smk.lan</code></td><td>Terminal menampilkan <code>user@server1:~$</code> setelah relogin.</td></tr>
+      <tr><td><strong>2. Cek Partisi</strong></td><td><code>lsblk -f</code> dan <code>df -hT</code></td><td>Mount point <code>/</code> dan <code>/var</code> terikat pada device LVM <code>/dev/mapper/vg_system-*</code>.</td></tr>
+      <tr><td><strong>3. Validasi IP</strong></td><td><code>sudo netplan generate &amp;&amp; sudo netplan apply</code></td><td><code>ip a show ens33</code> menampilkan IP <code>192.168.10.10/24</code> dan status UP.</td></tr>
+      <tr><td><strong>4. Uji Gateway</strong></td><td><code>ping -c 3 192.168.10.1</code></td><td>0% packet loss ke gateway router laboratorium.</td></tr>
+      <tr><td><strong>5. Uji DNS</strong></td><td><code>resolvectl status</code> atau <code>ping -c 3 google.com</code></td><td>Nama domain berhasil ter-resolve menjadi IP publik.</td></tr>
     </table>
   </section>
 
-  <!-- SECTION 5: CBT Quiz -->
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">5</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <h2 class="section-title"><span class="num">4</span> Troubleshooting: Mengatasi Kesalahan Umum Instalasi & YAML</h2>
+    <table class="table-custom">
+      <tr><th>Gejala Kesalahan</th><th>Penyebab Utama</th><th>Tindakan Diagnostik & Solusi</th></tr>
+      <tr><td><code>Invalid YAML at // line 7 column 6: found character that cannot start any token (\t)</code></td><td>Terdapat karakter <strong>TAB</strong> di dalam file konfigurasi Netplan.</td><td>Ganti semua TAB dengan 2 atau 4 spasi. Gunakan perintah <code>cat -A /etc/netplan/*.yaml</code> untuk mendeteksi tanda <code>^I</code> (simbol tab tersembunyi).</td></tr>
+      <tr><td><code>Could not get lock /var/lib/dpkg/lock-frontend</code></td><td>Ada proses apt lain yang sedang berjalan di latar belakang (unattended-upgrades).</td><td>Cek proses: <code>ps aux | grep apt</code>. Tunggu proses selesai atau jalankan <code>sudo systemctl stop unattended-upgrades</code>.</td></tr>
+      <tr><td>Interface tidak mendapat IP setelah <code>netplan apply</code></td><td>Nama interface salah (misal: menuliskan <code>eth0</code> padahal OS mengenali <code>enp0s3</code> atau <code>ens33</code>).</td><td>Ketik <code>ip link</code> untuk melihat nama interface fisik yang terdeteksi oleh kernel Linux.</td></tr>
+    </table>
+  </section>
+
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_1_konsep-dasar-server-datacenter.html" class="btn-nav-bottom secondary">← Pertemuan 1: Data Center</a>
-    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 3: User & Permission →</a>
+    <a href="Server_Pert_1_konsep-dasar-server-datacenter.html" class="btn-nav-bottom secondary">← Pertemuan 1: Konsep Datacenter</a>
+    <a href="Server_Pert_3_manajemen-user-permission.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 3: Manajemen User, Group & Permission →</a>
   </div>
 </main>
 
@@ -207,32 +224,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Instalasi Linux Server & Netplan',
+      title: 'Kuis Evaluasi 9 JP: Instalasi Linux Server & Netplan',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Mengapa pada file konfigurasi Netplan (/etc/netplan/*.yaml) dilarang menggunakan karakter Tab?",
+          question: "Mengapa Logical Volume Manager (LVM) menjadi standar partisi wajib pada Linux Server dibandingkan partisi biasa?",
           options: [
-            "Karena parser format YAML hanya memvalidasi indentasi berbasis karakter spasi (space-delimited)",
-            "Karena Tab merusak kernel Linux",
-            "Karena kartu jaringan tidak mengenali Tab",
-            "Karena file Netplan hanya boleh 1 baris"
+            "Karena LVM memungkinkan penambahan kapasitas partisi/filesystem secara dinamis (live resize) saat disk penuh tanpa harus mematikan server",
+            "Karena LVM membuat internet server menjadi dua kali lebih cepat",
+            "Karena LVM hanya bisa membaca file berformat MP3",
+            "Karena partisi biasa tidak mendukung instalasi sistem operasi 64-bit"
           ],
           correctIndex: 0,
-          explanation: "Spesifikasi format YAML mewajibkan penggunaan spasi murni (2 spasi per level) dan akan gagal dieksekusi jika terdapat karakter Tab."
+          explanation: "LVM mengabstraksi hard drive fisik menjadi Volume Group, sehingga Logical Volume dapat diperbesar kapan saja dengan 'lvextend' dan 'resize2fs' secara online."
         },
         {
-          question: "Komponen pada Logical Volume Manager (LVM) yang berperan menggabungkan beberapa partisi fisik menjadi satu pool penyimpanan besar disebut?",
-          options: ["Volume Group (VG)", "Physical Volume (PV)", "Logical Volume (LV)", "File System (EXT4)"],
+          question: "Aturan format penulisan yang paling ketat dan mutlak pada file konfigurasi jaringan Netplan (.yaml) di Linux Ubuntu adalah?",
+          options: [
+            "Hanya boleh menggunakan SPASI untuk indentasi struktur hierarki (Dilarang keras menggunakan tombol TAB)",
+            "Wajib menggunakan huruf kapital semua",
+            "Setiap baris wajib diakhiri tanda titik koma (;)",
+            "Tidak boleh menuliskan alamat IP Address"
+          ],
           correctIndex: 0,
-          explanation: "Volume Group (VG) mengagregasikan kapasitas storage dari beberapa Physical Volume (PV)."
+          explanation: "Parser YAML menganggap karakter TAB sebagai error sintaks fatal. Netplan mengharuskan indentasi konsisten (biasanya 2 spasi per level hierarki)."
         },
         {
-          question: "Perintah CLI untuk menerapkan perubahan konfigurasi IP Address baru pada Netplan adalah?",
-          options: ["sudo netplan apply", "sudo ifconfig up", "sudo service network restart", "sudo netplan cancel"],
+          question: "Perintah resmi yang digunakan untuk menguji konfigurasi Netplan baru dengan batas waktu revert otomatis jika koneksi remote terputus adalah?",
+          options: ["sudo netplan try", "sudo netplan apply", "sudo ifconfig up", "sudo reboot -f"],
           correctIndex: 0,
-          explanation: "'sudo netplan apply' menerapkan konfigurasi YAML ke backend renderer (systemd-networkd)."
+          explanation: "'netplan try' menerapkan konfigurasi sementara selama 120 detik. Jika administrator tidak menekan ENTER untuk konfirmasi, konfigurasi otomatis dikembalikan ke awal demi mencegah admin terkunci dari remote SSH."
+        },
+        {
+          question: "Perintah untuk memperluas filesystem ext4 agar mengenali tambahan kapasitas setelah melakukan 'lvextend' adalah?",
+          options: ["sudo resize2fs /dev/vg_system/lv_root", "sudo fdisk /dev/sda", "sudo mkfs.ext4 -f", "sudo format C:"],
+          correctIndex: 0,
+          explanation: "'resize2fs' memperbesar ukuran alokasi blok filesystem ext4 di atas logical volume LVM yang telah diperluas sebelumnya."
         }
       ]
     });

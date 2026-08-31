@@ -3,128 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 5: Backup & Disaster Recovery Server — Kelas XII TKJ</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<title>Genap Pert 5: Backup & Disaster Recovery Automation (rsync, Cron & RTO/RPO) — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(139,92,246,0.28);--acc:#8b5cf6;--acc2:#c4b5fd;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(139,92,246,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(0,240,255,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(139,92,246,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(139,92,246,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(139,92,246,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(139, 92, 246, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.35);
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(139, 92, 246, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #c4b5fd; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 5 (Final Blok 1) / Pert. 5</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 1 (Hari 5 / FINAL BLOK 1)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 1 HARI KE-5 (FINAL BLOK 1) · SEMESTER GENAP</div>
-    <h1>Backup & Disaster Recovery Server (rsync, cron & Prosedur Restore)</h1>
-    <p>Menyusun strategi backup enterprise (Full, Incremental, Differential), implementasi otomatisasi backup dengan rsync + cron job, prosedur restore data terstruktur, serta menyusun dokumen disaster recovery sederhana.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 1 HARI KE-5 · PENUTUP BLOK 1</div>
+    <h1>Backup Otomatis & Disaster Recovery Plan (rsync, Cron, RTO/RPO & 3-2-1 Rule)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan penyelamatan kelangsungan bisnis (Business Continuity): Membedah aturan backup emas <strong>3-2-1 Backup Strategy</strong>, perumusan target pemulihan RTO (Recovery Time Objective) & RPO (Recovery Point Objective), komparasi tipe backup (Full vs Differential vs Incremental), otomatisasi sinkronisasi data jarak jauh menggunakan <code>rsync</code> via SSH, penjadwalan daemon <code>crontab</code>, serta simulasi pemulihan bencana (Disaster Recovery Drill).</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Strategi Backup</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">rsync & cron</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Restore & Verifikasi</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Dokumen DR & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">RTO & RPO Principles</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">rsync --delete Flags</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Crontab 5-Field Syntax</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Disaster Drill</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Cron PATH</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Blok 1</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Perbandingan Strategi Backup Enterprise</h2>
-    <table class="tbl">
-      <tr><th>Tipe Backup</th><th>Data yang Dicopy</th><th>Kecepatan Backup</th><th>Kecepatan Restore</th><th>Contoh Jadwal</th></tr>
-      <tr><td><strong>Full Backup</strong></td><td>Semua data (100%)</td><td>🐢 Lambat</td><td>⚡ Paling cepat (satu set)</td><td>Setiap Minggu (Sabtu malam)</td></tr>
-      <tr><td><strong>Incremental</strong></td><td>Perubahan sejak backup terakhir (apapun jenisnya)</td><td>⚡ Paling cepat</td><td>🐢 Lambat (restore rangkaian)</td><td>Setiap hari (Mon–Fri)</td></tr>
-      <tr><td><strong>Differential</strong></td><td>Perubahan sejak Full Backup terakhir</td><td>⚡ Cepat</td><td>Cepat (Full + 1 set diff)</td><td>Setiap hari (Mon–Fri)</td></tr>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Studi Kasus Ransomware / Kebakaran Datacenter</span> <span style="font-size:12px;color:var(--violet);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa RAID bukan pengganti Backup? Jika seorang admin tidak sengaja mengetik <code>rm -rf /</code>, RAID akan langsung menduplikasi penghapusan tersebut ke semua drive. Hanya sistem Backup terisolasi yang dapat menyelamatkan data.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Standar Industri Aturan 3-2-1 & Perumusan RTO/RPO</span> <span style="font-size:12px;color:var(--violet);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Analisis konsep 3-2-1: Menyimpan minimal <strong>3 salinan data</strong>, pada <strong>2 media penyimpanan berbeda</strong>, dengan <strong>1 salinan berada di lokasi offsite/cloud terpisah</strong>. Menghitung RTO (Berapa lama server boleh mati sebelum bangkit kembali) dan RPO (Berapa jam data yang boleh hilang).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Bedah Utilitas rsync & Sintaks 5-Bintang Penjadwalan Cron</span> <span style="font-size:12px;color:var(--violet);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Pembedahan flag rsync: <code>-avzP --delete -e 'ssh -p 2222'</code> (Archive mode, Verbose, Compress, Partial transfer, mirror exact sync). Membedah format crontab: <code>Menit Jam Tgl_Bulan Bulan Hari_Minggu /path/script.sh</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Penyegaran dan persiapan folder simulasi disaster recovery di server.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Skrip Bash Backup & Disaster Drill</span> <span style="font-size:12px;color:var(--violet);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 5</strong>: (1) Menulis skrip Bash <code>backup_otomatis.sh</code> yang melakukan dump DB MySQL dan kompresi tar.gz folder web, (2) Mengirimkan file backup ke remote backup server via <code>rsync</code>, (3) Menjadwalkan cron job setiap malam pukul 02:00, (4) Melakukan simulasi pemulihan total (Restore Drill) saat server utama dihapus habis.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Cron Job Gagal Menemukan Path CLI</span> <span style="font-size:12px;color:var(--violet);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa mendiagnosis kegagalan skrip otomatis saat dijalankan cron (disebabkan tidak menyertakan <code>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</code> atau menggunakan path relatif).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi Penuntasan Blok 1 Genap</span> <span style="font-size:12px;color:var(--violet);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian restore backup oleh guru, dan pemberian apresiasi penyelesaian 5 Modul Blok 1 Semester Genap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAGIAN 2: MATERI TEORI RSYNC & CRON -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Skrip Automasi Backup Bash & Format Penjadwalan Crontab</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># 1. /usr/local/bin/backup_server.sh — Skrip Bash Backup Harian</span>
+<pre style="color:#67e8f9;">#!/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+BACKUP_DIR="/backup/local"
+REMOTE_HOST="backupuser@192.168.10.200"
+
+mkdir -p ${BACKUP_DIR}
+
+# 1. Backup Database MySQL
+mysqldump -u root -p'PasswordDB123' --all-databases | gzip > ${BACKUP_DIR}/db_full_${TIMESTAMP}.sql.gz
+
+# 2. Sinkronisasi Data Web & Berkas ke Server Remote (3-2-1 Strategy)
+rsync -avzP --delete /var/www/html/ ${REMOTE_HOST}:/backup/storage/web_html/
+
+# 3. Hapus salinan lokal yang lebih tua dari 7 hari (Rotasi Penyimpanan)
+find ${BACKUP_DIR} -type f -name "*.sql.gz" -mtime +7 -exec rm -f {} \;</pre>
+    </div>
+
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 2. Format Crontab (crontab -e) — Jalankan Setiap Jam 02:00 Dini Hari</span>
+<pre style="color:#a7f3d0;"># ┌───────────── Menit (0 - 59)
+# │ ┌────────────── Jam (0 - 23)
+# │ │ ┌─────────────── Hari dari Bulan (1 - 31)
+# │ │ │ ┌──────────────── Bulan (1 - 12)
+# │ │ │ │ ┌───────────────── Hari dari Minggu (0 - 6, 0 = Minggu)
+# │ │ │ │ │
+  0 2 * * * /bin/bash /usr/local/bin/backup_server.sh >> /var/log/backup_cron.log 2>&1</pre>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Tahap</th><th>Perintah Eksekusi</th><th>Kriteria Validasi & Output</th></tr>
+      <tr><td><strong>1. Uji Skrip Manual</strong></td><td><code>sudo /bin/bash /usr/local/bin/backup_server.sh</code></td><td>File <code>.sql.gz</code> terbentuk dan rsync selesai tanpa error.</td></tr>
+      <tr><td><strong>2. Cek Log Cron</strong></td><td><code>cat /var/log/backup_cron.log</code></td><td>Log menampilkan progress transfer data dan exit code 0.</td></tr>
+      <tr><td><strong>3. Skenario Bencana</strong></td><td><code>sudo rm -rf /var/www/html/*</code></td><td>Website disimulasikan hilang / rusak.</td></tr>
+      <tr><td><strong>4. Eksekusi Restore</strong></td><td><code>rsync -avzP ${REMOTE_HOST}:/backup/storage/web_html/ /var/www/html/</code></td><td>Website pulih kembali normal dalam waktu &lt; 2 menit (RTO terpenuhi).</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Implementasi rsync + cron Otomatis</h2>
-    <div class="code"><span style="color:#64748b"># rsync — Sinkronisasi inkremental lokal</span>
-<span style="color:#64748b"># -a: archive mode (preserve permissions, timestamps), -v: verbose, -z: compress</span>
-rsync -avz --delete /var/www/html/ /mnt/backup/www/
-
-<span style="color:#64748b"># rsync ke remote server via SSH (backup offsite)</span>
-rsync -avz -e "ssh -p 2222 -i ~/.ssh/id_smk" /var/www/html/ backup@192.168.10.2:/backup/www/
-
-<span style="color:#64748b"># Backup database MySQL otomatis</span>
-mysqldump -u root -p'P@ssw0rd' --all-databases | gzip > /mnt/backup/db/all_db_$(date +%Y%m%d).sql.gz</div>
-
-    <div class="code"><span style="color:#64748b"># Cron Job — edit dengan: crontab -e</span>
-<span style="color:#64748b"># Format: menit jam hari bulan hari_minggu perintah</span>
-
-<span style="color:#fde68a"># Backup website setiap hari pukul 02:00 dini hari</span>
-0 2 * * * rsync -az --delete /var/www/html/ /mnt/backup/www/
-
-<span style="color:#fde68a"># Backup database setiap hari pukul 01:30</span>
-30 1 * * * mysqldump -u root -pP@ssw0rd --all-databases | gzip > /mnt/backup/db/db_$(date +\%Y\%m\%d).sql.gz
-
-<span style="color:#fde68a"># Hapus backup lebih dari 30 hari — jaga agar storage tidak penuh</span>
-0 3 * * 0 find /mnt/backup/ -name "*.sql.gz" -mtime +30 -delete</div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Cron Silent Failure</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: Skrip berjalan lancar saat diketik manual di terminal, tetapi gagal saat dijalankan otomatis oleh Cron</span>
+<span style="color:#fde68a;"># Penyebab: Lingkungan environment Cron memiliki variabel PATH sangat terbatas (/usr/bin:/bin) sehingga perintah seperti mysqldump atau rsync kustom tidak ditemukan.</span>
+<span style="color:#a7f3d0;"># Solusi Wajib: Selalu deklarasikan 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' di baris paling atas skrip bash Anda!</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Tugas Praktikum</th><th>Perintah / Prosedur</th><th>Verifikasi Keberhasilan</th></tr>
-      <tr><td>Full Backup website + DB</td><td>rsync /var/www + mysqldump ke /mnt/backup</td><td>File backup tersedia di folder tujuan dengan timestamp hari ini</td></tr>
-      <tr><td>Simulasi data hilang</td><td><code>rm -rf /var/www/html/*</code> — hapus semua file web</td><td>Browser menampilkan 404 / halaman kosong</td></tr>
-      <tr><td>Restore dari backup</td><td><code>rsync -az /mnt/backup/www/ /var/www/html/</code></td><td>Website kembali normal di browser dalam < 60 detik</td></tr>
-      <tr><td>Buat Dokumen DR</td><td>Catat RTO (target waktu recovery), RPO (target data loss maksimal), langkah-langkah restore</td><td>Dokumen DR minimal 1 halaman dengan prosedur restore jelas</td></tr>
-    </table>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
-  </section>
-
-  <div class="foot">
-    <a href="Server_Genap_Pert_4_raid-storage-server.html" class="btn s">← Pert 4: RAID & Storage</a>
-    <a href="Server_Genap_Pert_6_keamanan-firewall-ssl-tls.html" class="btn p">Lanjut ke Blok 2 (Pert 6: Keamanan) →</a>
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_4_raid-storage-server.html" class="btn-nav-bottom secondary">← Pertemuan 4: RAID Storage</a>
+    <a href="Server_Genap_Pert_6_keamanan-firewall-ssl-tls.html" class="btn-nav-bottom primary">Lanjut ke Blok 2: Pertemuan 6 (Firewall UFW & SSL/TLS) →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Backup & Disaster Recovery Server',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'RPO (Recovery Point Objective) dalam konteks disaster recovery didefinisikan sebagai?',options:['Jumlah data maksimal yang boleh hilang (diukur dalam waktu) — seberapa lama ke belakang backup terakhir harus ada','Waktu target pemulihan sistem kembali online setelah terjadi bencana','Jumlah server yang dibutuhkan untuk high availability','Frekuensi minimum testing prosedur disaster recovery'],correctIndex:0,explanation:'RPO menjawab: "Berapa banyak data yang boleh hilang?" Misalnya RPO 4 jam berarti backup harus tersedia maksimal setiap 4 jam. Berbeda dengan RTO (Recovery Time Objective) yang menjawab: "Berapa lama sistem boleh down?"'},
-    {question:'Opsi rsync "--delete" memiliki fungsi penting dalam skenario backup sinkronisasi, yaitu?',options:['Menghapus file di direktori tujuan yang tidak ada lagi di direktori sumber — menjaga agar backup benar-benar mencerminkan kondisi terkini sumber','Menghapus seluruh folder backup sebelum memulai transfer','Mengompres data sebelum transfer','Mengabaikan file yang sudah ter-backup sebelumnya'],correctIndex:0,explanation:'Tanpa --delete, file yang dihapus dari sumber akan tetap ada di backup (menumpuk). Dengan --delete, rsync memastikan backup adalah cerminan akurat dari sumber — namun hati-hati karena penghapusan tidak bisa di-undo.'},
-    {question:'Strategi backup Incremental menyimpan perubahan data sejak backup apa yang terakhir dilakukan?',options:['Sejak backup terakhir apapun jenisnya (Full atau Incremental sebelumnya) — menghasilkan rantai backup paling kecil per hari','Sejak Full Backup terakhir saja','Sejak awal sistem terpasang','Sejak hari Senin minggu berjalan'],correctIndex:0,explanation:'Incremental hanya menyimpan perubahan sejak backup TERAKHIR (apapun). Senin backup Full → Selasa hanya perubahan Sel → Rabu hanya perubahan Rab. Restore membutuhkan: Full + Sel + Rab. Bandingkan Differential yang selalu dari Full.'}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Backup & Disaster Recovery (rsync & Cron)',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Aturan emas strategi pencadangan data '3-2-1 Backup Rule' yang diakui secara global mewajibkan organisasi untuk?",
+          options: [
+            "Menyimpan minimal 3 salinan data, pada 2 jenis media penyimpanan berbeda, dengan 1 salinan disimpan di lokasi terpisah (Off-site / Cloud Storage)",
+            "Melakukan backup hanya 3 bulan sekali",
+            "Membeli 3 unit komputer laptop baru",
+            "Menghapus data setiap 21 hari"
+          ],
+          correctIndex: 0,
+          explanation: "Aturan 3-2-1 melindungi data dari segala ancaman: kerusakan drive lokal, pencurian fisik, maupun bencana alam gedung."
+        },
+        {
+          question: "Arti dari metrik 'Recovery Point Objective (RPO)' dalam perencanaan Disaster Recovery adalah?",
+          options: [
+            "Batas toleransi maksimal kehilangan data yang dapat diterima organisasi diukur dalam satuan waktu (misal: jika backup harian jam 00:00, maka RPO maksimal adalah 24 jam data)",
+            "Waktu yang dibutuhkan untuk merakit komputer baru",
+            "Biaya yang dikeluarkan untuk membeli genset",
+            "Jumlah siswa yang boleh mengakses internet"
+          ],
+          correctIndex: 0,
+          explanation: "RPO mengukur 'seberapa banyak data yang boleh hilang' jika server crash di tengah hari, sedangkan RTO mengukur 'berapa lama waktu sistem boleh mati'."
+        },
+        {
+          question: "Kelebihan utama utilitas 'rsync' dibandingkan perintah salin biasa (cp/scp) saat melakukan sinkronisasi data besar adalah?",
+          options: [
+            "rsync menggunakan algoritma 'Delta Transfer' yang hanya mentransfer blok bagian file yang mengalami perubahan saja, sehingga sangat menghemat bandwidth dan waktu",
+            "rsync secara otomatis menghapus virus komputer",
+            "rsync tidak membutuhkan jaringan internet",
+            "rsync mengubah semua video menjadi format MP4"
+          ],
+          correctIndex: 0,
+          explanation: "Algoritma Delta rsync membandingkan checksum file remote dan lokal, hanya mengirimkan bit perbedaan yang berubah."
+        },
+        {
+          question: "Ekspresi Crontab '30 2 * * 1' memiliki arti bahwa jadwal eksekusi otomatis akan dijalankan pada?",
+          options: [
+            "Pukul 02:30 dini hari setiap hari Senin",
+            "Pukul 01:30 setiap tanggal 2",
+            "Pukul 02:00 setiap tanggal 30",
+            "Setiap 30 menit sekali"
+          ],
+          correctIndex: 0,
+          explanation: "Format: Menit 30, Jam 2, Hari * (setiap hari), Bulan * (setiap bulan), Hari ke-1 (Senin)."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

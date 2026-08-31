@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 7: Konfigurasi FTP Server vsftpd — Kelas XII TKJ</title>
+<title>Pertemuan 7: Konfigurasi FTP Server Secure (vsftpd & Chroot Jail) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   :root {
     --bg-void: #030712;
     --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(245, 158, 11, 0.25);
+    --panel-border: rgba(139, 92, 246, 0.25);
     --cyan: #00f0ff;
     --cyan-glow: rgba(0, 240, 255, 0.35);
     --emerald: #10b981;
@@ -33,136 +33,174 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6;
-    background-image: radial-gradient(circle at 10% 0%, rgba(245, 158, 11, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.06), transparent 40%);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
     background-attachment: fixed;
   }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(245, 158, 11, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(245, 158, 11, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
-
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
   .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
 
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9), rgba(7, 14, 30, 0.85)); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; overflow: hidden; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(245, 158, 11, 0.12); border: 1px solid var(--amber); color: var(--amber); margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(22px, 4vw, 34px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--amber) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
   .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
   .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
   .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
 
-  .section-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--amber); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
 
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; white-space: pre-wrap; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
-  .table-custom th { background: #09152b; color: var(--amber); font-family: var(--font-mono); font-size: 12px; }
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(139, 92, 246, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #c4b5fd; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
 
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav.primary { background: var(--cyan); color: #030712; box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav.secondary { background: rgba(13,27,54,0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
+
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
     <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 2 / Pert. 7)</span></div>
-    <a href="index.html#server" class="btn-nav secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a>
+    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 2 HARI KE-2</div>
-    <h1>Konfigurasi FTP Server vsftpd (Chroot Jail & Upload/Download via FileZilla)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:760px;">Membangun layanan transfer file enterprise menggunakan vsftpd, implementasi Chroot Jail untuk keamanan direktori, serta pengujian upload/download menggunakan client FileZilla dan CLI ftp.</p>
+    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 2 HARI KE-2</div>
+    <h1>Konfigurasi File Transfer Protocol (FTP) Server dengan vsftpd & Chroot Jail</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan deployment layanan transfer data cepat dan aman: Membedah perbedaan mode FTP Active (Port 20/21) vs Passive (Rentang Port Pasif), instalasi <code>vsftpd</code> (Very Secure FTP Daemon), isolasi keamanan <em>Chroot Jail</em> (mengunci user di folder home agar tidak bisa menelusuri direktori root server), pembatasan user via <code>userlist</code>, serta pengujian transfer client FileZilla.</p>
   </section>
 
+  <!-- ALOKASI WAKTU 9 JP -->
   <div class="meta-grid">
-    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">FTP Port 20/21 & Mode</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">vsftpd.conf & Chroot</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">FileZilla & uji Transfer</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Anonymous vs Auth & CBT</div></div>
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">FTP Active vs Passive</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">vsftpd.conf Directives</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Chroot Jail Security</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab FileZilla</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot 500 OOPS</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- SECTION 1: Port FTP -->
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Arsitektur Port & Mode Koneksi FTP</h2>
-    <table class="table-custom">
-      <tr><th>Mode Koneksi</th><th>Port Control</th><th>Port Data</th><th>Keterangan NAT/Firewall</th></tr>
-      <tr><td><strong>Active Mode</strong></td><td>21 (Client→Server)</td><td>20 (Server→Client)</td><td>Bermasalah di balik NAT karena server memulai koneksi data ke client</td></tr>
-      <tr><td><strong>Passive Mode (PASV)</strong></td><td>21 (Client→Server)</td><td>Port Dinamis (Client→Server)</td><td>Aman untuk NAT; client yang memulai semua koneksi</td></tr>
-    </table>
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Cara Kerja Protokol FTP</span> <span style="font-size:12px;color:var(--violet);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa protokol FTP menggunakan 2 koneksi TCP terpisah (Port 21 untuk Command/Control dan Port 20/Pasif untuk Data Transfer)? Guru memaparkan mengapa FTP Mode Pasif wajib digunakan jika client berada di belakang router NAT/Firewall.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Bedah File Konfigurasi /etc/vsftpd.conf</span> <span style="font-size:12px;color:var(--violet);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Analisis direktif keamanan: <code>anonymous_enable=NO</code>, <code>local_enable=YES</code>, <code>write_enable=YES</code>, <code>chroot_local_user=YES</code>, <code>allow_writeable_chroot=YES</code>, serta penetapan rentang port pasif <code>pasv_min_port=10000</code> dan <code>pasv_max_port=10100</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Keamanan Chroot Jail & Daftar Userlist</span> <span style="font-size:12px;color:var(--violet);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Memahami konsep Chroot Jail: Mengubah persepsi root directory <code>/</code> bagi user yang login menjadi folder home miliknya sendiri (misal: <code>/home/siswa</code>). Membahas file <code>/etc/vsftpd.userlist</code> untuk kontrol akses whitelist.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan client software FileZilla di laptop/PC masing-masing siswa.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Setup Secure FTP & Upload Test</span> <span style="font-size:12px;color:var(--violet);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet 7</strong>: (1) Install <code>vsftpd</code>, (2) Konfigurasi chroot jail aman, (3) Buat user khusus FTP <code>guru_uploader</code> dan <code>siswa_repo</code>, (4) Sambungkan FileZilla Client dari laptop ke server IP <code>192.168.10.10:21</code>, (5) Uji coba upload file video 100MB dan download ulang, (6) Coba akses direktori <code>/etc/</code> (verifikasi chroot jail berhasil menolak navigasi keluar).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: 500 OOPS Writable Root & Firewall Block</span> <span style="font-size:12px;color:var(--violet);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa memecahkan error klasik vsftpd: <code>500 OOPS: vsftpd: refusing to run with writable root inside chroot()</code> dan kendala timeout saat transfer data akibat port pasif terblokir firewall UFW.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--violet);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live FileZilla oleh guru, dan pengantar materi Mail Server Postfix.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- SECTION 2: vsftpd.conf -->
+  <!-- BAGIAN 2: MATERI TEORI VSFTPD.CONF -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi File /etc/vsftpd.conf</h2>
-    <div class="code-block"><span style="color:#64748b;"># /etc/vsftpd.conf — Konfigurasi vsftpd enterprise</span>
-listen=YES
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Hardening /etc/vsftpd.conf</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># File: /etc/vsftpd.conf — Standar Keamanan Enterprise</span>
+<pre style="color:#67e8f9;">listen=YES
 listen_ipv6=NO
-anonymous_enable=NO
-local_enable=YES
-write_enable=YES
-local_umask=022
-dirmessage_enable=YES
-use_localtime=YES
-xferlog_enable=YES
-connect_from_port_20=YES
+anonymous_enable=NO                  <span style="color:#64748b;"># Blokir login anonim tanpa password</span>
+local_enable=YES                      <span style="color:#64748b;"># Izinkan login user lokal Linux</span>
+write_enable=YES                      <span style="color:#64748b;"># Izinkan upload & hapus file</span>
+local_umask=022                       <span style="color:#64748b;"># Izin file upload default 644 / folder 755</span>
 
-# Chroot Jail: Kurung user agar tidak bisa keluar dari home dir
+<span style="color:#fde68a;"># Isolasi Keamanan Chroot Jail</span>
 chroot_local_user=YES
-allow_writeable_chroot=YES
+allow_writeable_chroot=YES            <span style="color:#64748b;"># Mencegah error 500 OOPS writable root</span>
 
-# Passive Mode untuk firewall/NAT
+<span style="color:#a7f3d0;"># Rentang Port Mode Pasif untuk Menembus NAT/Firewall</span>
 pasv_enable=YES
-pasv_min_port=40000
-pasv_max_port=50000
-pasv_address=192.168.10.1
+pasv_min_port=10000
+pasv_max_port=10100
 
-# Batas Upload File
-local_max_rate=1048576</div>
-
-    <div class="code-block" style="margin-top:10px;"><span style="color:#64748b;"># Buat user FTP khusus untuk siswa</span>
-sudo adduser siswa_ftp
-sudo mkdir -p /home/siswa_ftp/upload
-sudo chown nobody:nogroup /home/siswa_ftp
-sudo chmod a-w /home/siswa_ftp
-sudo chown siswa_ftp:siswa_ftp /home/siswa_ftp/upload
-sudo systemctl restart vsftpd</div>
+<span style="color:#c4b5fd;"># Pembatasan Userlist Whitelist</span>
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO                      <span style="color:#64748b;"># Hanya user di file ini yang boleh login!</span></pre>
+    </div>
   </section>
 
-  <!-- SECTION 3: LKPD Praktik -->
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
     <table class="table-custom">
-      <tr><th>Langkah Praktikum</th><th>Perintah / Konfigurasi</th><th>Hasil Diharapkan</th></tr>
-      <tr><td>Uji Koneksi CLI</td><td><code>ftp 192.168.10.1</code> → login → <code>ls</code></td><td>Menampilkan isi direktori /home/siswa_ftp/upload</td></tr>
-      <tr><td>Upload File via CLI</td><td><code>put laporan.pdf</code></td><td>File terkirim sukses ke folder upload server</td></tr>
-      <tr><td>Test Chroot Jail</td><td>Coba <code>cd /etc</code> setelah login FTP</td><td>Respon "550 Failed to change directory" — aman!</td></tr>
-      <tr><td>Uji FileZilla Client</td><td>Host: <code>ftp://192.168.10.1</code>, Port: 21, Mode: PASV</td><td>Drag & drop file upload berhasil ke folder server</td></tr>
+      <tr><th>Langkah</th><th>Perintah Eksekusi / Konfigurasi</th><th>Target Output & Kriteria Sukses</th></tr>
+      <tr><td><strong>1. User Whitelist</strong></td><td><code>echo "guru_uploader" | sudo tee -a /etc/vsftpd.userlist</code></td><td>User <code>guru_uploader</code> terdaftar resmi dalam whitelist login.</td></tr>
+      <tr><td><strong>2. Firewall UFW</strong></td><td><code>sudo ufw allow 20:21/tcp &amp;&amp; sudo ufw allow 10000:10100/tcp</code></td><td>Port kontrol (21) dan port data pasif terbuka di firewall.</td></tr>
+      <tr><td><strong>3. Restart Service</strong></td><td><code>sudo systemctl restart vsftpd</code></td><td><code>systemctl status vsftpd</code> berstatus <strong>active (running)</strong>.</td></tr>
+      <tr><td><strong>4. Login FileZilla</strong></td><td>Host: <code>192.168.10.10</code>, Port: <code>21</code>, User: <code>guru_uploader</code></td><td>Status: <code>230 User logged in &middot; Directory listing of "/" successful</code>.</td></tr>
+      <tr><td><strong>5. Uji Jail</strong></td><td>Coba ketik <code>cd ..</code> atau klik folder root <code>/</code> di FileZilla</td><td>User tidak bisa naik ke level folder sistem (terkurung di home).</td></tr>
     </table>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Error 500 OOPS & Passive Timeout</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: 500 OOPS: vsftpd: refusing to run with writable root inside chroot()</span>
+<span style="color:#fde68a;"># Penyebab: Sejak vsftpd versi 2.3.5+, daemon menolak mengurung user jika folder home utama memiliki izin write (keamanan).</span>
+<span style="color:#a7f3d0;"># Solusi Terbaik: Tambahkan opsi berikut di /etc/vsftpd.conf:</span>
+allow_writeable_chroot=YES
+<span style="color:#38bdf8;">sudo systemctl restart vsftpd</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_6_konfigurasi-web-server-apache-nginx.html" class="btn-nav secondary">← Pertemuan 6: Web Server</a>
-    <a href="Server_Pert_8_konfigurasi-mail-server-postfix.html" class="btn-nav primary">Lanjut ke Pertemuan 8: Mail Server →</a>
+    <a href="Server_Pert_6_konfigurasi-web-server-apache-nginx.html" class="btn-nav-bottom secondary">← Pertemuan 6: Web Server</a>
+    <a href="Server_Pert_8_konfigurasi-mail-server-postfix.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 8: Konfigurasi Mail Server (Postfix & Dovecot) →</a>
   </div>
 </main>
 
@@ -170,33 +208,56 @@ sudo systemctl restart vsftpd</div>
 <script>
 window.addEventListener('scroll', () => {
   const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  document.getElementById('pFill').style.width = ((window.scrollY / h) * 100) + '%';
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Konfigurasi FTP Server vsftpd',
+      title: 'Kuis Evaluasi 9 JP: FTP Server vsftpd & Chroot Jail',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Fitur keamanan vsftpd yang berfungsi mengurung user FTP di dalam direktori home mereka sendiri sehingga tidak dapat menjelajahi direktori sistem lainnya disebut?",
-          options: ["Chroot Jail", "SELinux Policy", "iptables DROP", "PAM Authentication"],
+          question: "Mengapa FTP Mode Pasif (Passive Mode) sangat disukai dibandingkan Mode Aktif saat komputer client berada di belakang router NAT/Firewall?",
+          options: [
+            "Karena pada mode pasif, koneksi data diinisiasi oleh Client menuju Server pada rentang port acak yang sudah dibuka di firewall server",
+            "Karena mode pasif tidak membutuhkan password untuk login",
+            "Karena mode pasif membuat ukuran file menjadi lebih kecil",
+            "Karena mode pasif tidak menggunakan kartu jaringan"
+          ],
           correctIndex: 0,
-          explanation: "Chroot Jail mengubah 'root' filesystem yang tampak oleh user FTP hanya ke direktori home mereka, mencegah akses ke /etc, /var, dan folder sistem penting lainnya."
+          explanation: "Pada mode aktif, server mencoba membuka koneksi balik ke client (inbound ke client) yang hampir selalu diblokir oleh router NAT/Firewall client."
         },
         {
-          question: "Pada FTP Passive Mode (PASV), siapa yang menginisiasi koneksi data setelah handshake control di port 21?",
-          options: ["Client FTP memulai koneksi ke port dinamis yang diinformasikan server", "Server FTP memulai koneksi ke port 20 di sisi client", "Keduanya secara bersamaan", "Router/gateway NAT secara otomatis"],
+          question: "Fitur keamanan 'Chroot Jail' (chroot_local_user=YES) pada konfigurasi vsftpd berfungsi untuk?",
+          options: [
+            "Mengisolasi pengguna agar hanya dapat melihat dan mengakses direktori home miliknya sendiri (mencegah penelusuran ke folder /etc, /root, /var)",
+            "Menghapus file yang di-upload setelah 10 menit",
+            "Mengubah password user setiap hari",
+            "Mematikan server saat terjadi transfer file ilegal"
+          ],
           correctIndex: 0,
-          explanation: "Di Passive Mode, client memulai SEMUA koneksi (control + data) sehingga compatible dengan NAT dan firewall yang umumnya memblokir koneksi masuk dari luar."
+          explanation: "Chroot (Change Root) mengubah root direktori virtual bagi sesi FTP pengguna ke home foldernya, melindungi integritas seluruh berkas sistem operasi server."
         },
         {
-          question: "Direktif vsftpd.conf yang mengizinkan user lokal sistem operasi untuk login ke layanan FTP adalah?",
-          options: ["local_enable=YES", "anonymous_enable=YES", "guest_enable=YES", "pam_service_name=ftp"],
+          question: "Port TCP standar yang digunakan oleh protokol FTP untuk mendengarkan perintah kontrol login (Command Channel) adalah?",
+          options: ["Port TCP 21", "Port TCP 80", "Port TCP 25", "Port TCP 443"],
           correctIndex: 0,
-          explanation: "'local_enable=YES' memperbolehkan akun user sistem Linux (/etc/passwd) untuk autentikasi ke vsftpd menggunakan password sistem mereka."
+          explanation: "Port 21 digunakan untuk kanal perintah/kontrol (login, browsing nama folder), sedangkan transfer data aktual menggunakan port 20 (aktif) atau rentang pasif."
+        },
+        {
+          question: "Kombinasi direktif 'userlist_enable=YES' dan 'userlist_deny=NO' pada vsftpd.conf menghasilkan kebijakan akses berupa?",
+          options: [
+            "Whitelist: HANYA user yang namanya tertulis di dalam file vsftpd.userlist yang diizinkan untuk login ke server FTP",
+            "Blacklist: Semua user boleh login kecuali yang terdaftar di userlist",
+            "Semua orang boleh login tanpa autentikasi",
+            "User hanya boleh mendownload file, dilarang upload"
+          ],
+          correctIndex: 0,
+          explanation: "'userlist_deny=NO' mengubah daftar userlist menjadi whitelist (hanya nama yang tertera yang boleh masuk, yang lain langsung ditolak)."
         }
       ]
     });

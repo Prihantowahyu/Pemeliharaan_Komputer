@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 8: Konfigurasi Mail Server Postfix — Kelas XII TKJ</title>
+<title>Pertemuan 8: Konfigurasi Mail Server (Postfix MTA & Dovecot MDA) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -12,12 +12,13 @@
   :root {
     --bg-void: #030712;
     --panel: rgba(11, 22, 44, 0.75);
-    --panel-border: rgba(139, 92, 246, 0.25);
+    --panel-border: rgba(0, 240, 255, 0.25);
     --cyan: #00f0ff;
     --cyan-glow: rgba(0, 240, 255, 0.35);
     --emerald: #10b981;
     --violet: #8b5cf6;
     --amber: #f59e0b;
+    --danger: #ef4444;
     --text-main: #f8fafc;
     --text-sub: #94a3b8;
     --text-muted: #64748b;
@@ -31,126 +32,173 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body); line-height: 1.6;
-    background-image: radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.1), transparent 40%), radial-gradient(circle at 85% 25%, rgba(0, 240, 255, 0.06), transparent 40%);
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.08), transparent 40%);
     background-attachment: fixed;
   }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(139, 92, 246, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(139, 92, 246, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
-
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
   .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
-  .progress-line { height: 3px; background: rgba(255,255,255,0.06); }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--violet)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
 
-  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9), rgba(7, 14, 30, 0.85)); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; }
-  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.12); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
-  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(22px, 4vw, 34px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
   .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
-  .meta-box { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
   .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
   .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
 
-  .section-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
-  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
 
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; white-space: pre-wrap; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
-  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(0, 240, 255, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
 
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-  .btn-nav { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-  .btn-nav.primary { background: var(--cyan); color: #030712; box-shadow: 0 0 16px var(--cyan-glow); }
-  .btn-nav.secondary { background: rgba(13,27,54,0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
+
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
     <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 2 (Hari 3 / Pert. 8)</span></div>
-    <a href="index.html#server" class="btn-nav secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a>
+    <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 2 HARI KE-3</div>
-    <h1>Konfigurasi Mail Server Postfix + Dovecot (IMAP/POP3 & Maildir)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:760px;">Membangun sistem email enterprise internal menggunakan Postfix sebagai MTA (Mail Transfer Agent) dan Dovecot sebagai IMAP/POP3 mail retrieval agent, dengan format penyimpanan Maildir untuk skalabilitas tinggi.</p>
+    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 2 HARI KE-3</div>
+    <h1>Konfigurasi Mail Server Enterprise (Postfix SMTP & Dovecot IMAP/POP3)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan terpadu membangun server email mandiri: Membedah arsitektur MUA (Mail User Agent), MTA (Mail Transfer Agent - Postfix Port 25/587), dan MDA (Mail Delivery Agent - Dovecot Port 143/993), konfigurasi format mailbox modern <code>Maildir/</code> (satu file per pesan), integrasi antarmuka Webmail Roundcube, pengujian kirim/terima pesan lokal, serta proteksi Open Relay.</p>
   </section>
 
+  <!-- ALOKASI WAKTU 9 JP -->
   <div class="meta-grid">
-    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">MTA / MDA / MUA</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">Postfix main.cf</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Maildir & Dovecot</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Uji CLI & CBT</div></div>
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">MUA, MTA & MDA Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Postfix SMTP Config</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Dovecot IMAP & Maildir</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab Webmail</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Open Relay</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- SECTION 1: Arsitektur Email -->
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Arsitektur Komponen Sistem Email</h2>
-    <table class="table-custom">
-      <tr><th>Komponen</th><th>Singkatan & Peran</th><th>Software yang Digunakan</th><th>Protokol</th></tr>
-      <tr><td><strong>MTA</strong></td><td>Mail Transfer Agent — Antar-server relay email</td><td>Postfix, Sendmail, Exim</td><td>SMTP (Port 25, 587)</td></tr>
-      <tr><td><strong>MDA</strong></td><td>Mail Delivery Agent — Menyimpan email ke mailbox user</td><td>Procmail, Maildrop, Dovecot LDA</td><td>Internal delivery</td></tr>
-      <tr><td><strong>MUA</strong></td><td>Mail User Agent — Antarmuka baca tulis email end-user</td><td>Thunderbird, Roundcube, mutt</td><td>IMAP (143) / POP3 (110)</td></tr>
-    </table>
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Alur Pengiriman Surat Elektronik</span> <span style="font-size:12px;color:var(--cyan);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Bagaimana email dikirim dari <code>budi@smk.lan</code> ke <code>guru@smk.lan</code>? Guru menguraikan 3 aktor utama: MUA (Thunderbird/Webmail), MTA (Postfix - pengantar paket SMTP), dan MDA (Dovecot - kotak pos IMAP/POP3).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Konfigurasi Postfix MTA (/etc/postfix/main.cf)</span> <span style="font-size:12px;color:var(--cyan);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan parameter inti: <code>myhostname = mail.smk.lan</code>, <code>mydomain = smk.lan</code>, <code>myorigin = $mydomain</code>, <code>mydestination</code>, <code>mynetworks</code> (mencegah server disalahgunakan sebagai spambot / Open Relay), dan <code>home_mailbox = Maildir/</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Konfigurasi Dovecot MDA & Protokol IMAP vs POP3</span> <span style="font-size:12px;color:var(--cyan);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Memahami perbedaan IMAP (Port 143/993: pesan tersimpan sinkron di server) vs POP3 (Port 110/995: pesan diunduh lalu dihapus dari server). Konfigurasi <code>/etc/dovecot/conf.d/10-mail.conf</code> dan <code>10-auth.conf</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan akun user pengirim dan penerima email di server masing-masing.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Deploy Mail Server & Webmail</span> <span style="font-size:12px;color:var(--cyan);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet 8</strong>: (1) Install <code>postfix dovecot-imapd dovecot-pop3d</code>, (2) Konfigurasi Postfix & Dovecot dengan format Maildir, (3) Uji kirim email via Telnet/Netcat di port 25, (4) Install Webmail Roundcube di Apache (<code>http://mail.smk.lan/webmail</code>), (5) Kirim pesan email dari user <code>siswa1</code> ke <code>guru1</code> disertai lampiran file.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Relay Access Denied & Mail Delivery Failed</span> <span style="font-size:12px;color:var(--cyan);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Investigasi log sistem email di <code>/var/log/mail.log</code> saat terjadi penolakan relay, kegagalan autentikasi SASL, atau permission folder Maildir yang tidak terbaca oleh Dovecot.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--cyan);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian kirim/terima webmail oleh guru, dan pengantar materi File Sharing Samba & NFS.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- SECTION 2: Konfigurasi Postfix main.cf -->
+  <!-- BAGIAN 2: MATERI TEORI POSTFIX & DOVECOT -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi Postfix (/etc/postfix/main.cf)</h2>
-    <div class="code-block"><span style="color:#64748b;"># /etc/postfix/main.cf — Postfix MTA enterprise local</span>
-myhostname = mail.smk.lan
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Lengkap Postfix & Dovecot</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># 1. /etc/postfix/main.cf — MTA Configuration</span>
+<pre style="color:#67e8f9;">myhostname = mail.smk.lan
 mydomain = smk.lan
 myorigin = $mydomain
-inet_interfaces = all
-inet_protocols = ipv4
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
-mynetworks = 127.0.0.0/8, 192.168.10.0/24
+relayhost = 
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 192.168.10.0/24
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
 
-# Format penyimpanan email Maildir (satu file per pesan)
-home_mailbox = Maildir/
+<span style="color:#fde68a;"># Wajib gunakan Maildir (satu file per email, lebih tahan korupsi dibanding mbox)</span>
+home_mailbox = Maildir/</pre>
+    </div>
 
-# Ukuran mailbox max per user (bytes): 100 MB
-mailbox_size_limit = 104857600
-message_size_limit = 10485760</div>
-
-    <div class="code-block" style="margin-top:10px;"><span style="color:#64748b;"># Konfigurasi Dovecot untuk IMAP/POP3 (/etc/dovecot/dovecot.conf)</span>
-protocols = imap pop3
-mail_location = maildir:~/Maildir
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 2. /etc/dovecot/conf.d/10-mail.conf & 10-auth.conf — MDA Configuration</span>
+<pre style="color:#a7f3d0;">mail_location = maildir:~/Maildir
 disable_plaintext_auth = no
-auth_mechanisms = plain login</div>
+auth_mechanisms = plain login</pre>
+    </div>
   </section>
 
-  <!-- SECTION 3: LKPD Praktik -->
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
     <table class="table-custom">
-      <tr><th>Tugas Praktikum</th><th>Perintah / Tool</th><th>Hasil Verifikasi</th></tr>
-      <tr><td>Kirim email via CLI</td><td><code>echo "Halo Pak Guru" | mail -s "Test" guru@smk.lan</code></td><td>Email masuk di folder ~/Maildir/new/ milik user guru</td></tr>
-      <tr><td>Baca email di server</td><td><code>mutt -f ~/Maildir/</code> atau <code>ls ~/Maildir/new/</code></td><td>Pesan terlihat dengan Subject "Test"</td></tr>
-      <tr><td>Uji SMTP via Telnet</td><td><code>telnet 192.168.10.1 25</code> → EHLO smk.lan</td><td>Respon "250-mail.smk.lan" — SMTP server aktif</td></tr>
-      <tr><td>Konfigurasi Thunderbird</td><td>IMAP Port 143, SMTP Port 587 (STARTTLS)</td><td>Kotak masuk email tampil di Thunderbird MUA</td></tr>
+      <tr><th>Langkah</th><th>Perintah Eksekusi / Pengujian</th><th>Target Output & Kriteria Sukses</th></tr>
+      <tr><td><strong>1. Uji Telnet SMTP</strong></td><td><code>telnet 127.0.0.1 25</code></td><td>Status: <code>220 mail.smk.lan ESMTP Postfix</code>.</td></tr>
+      <tr><td><strong>2. Dialog SMTP Manual</strong></td><td><code>HELO smk.lan</code><br><code>MAIL FROM: &lt;siswa@smk.lan&gt;</code><br><code>RCPT TO: &lt;guru@smk.lan&gt;</code><br><code>DATA</code><br><code>Testing email server 9 JP.</code><br><code>.</code></td><td>Status: <code>250 2.0.0 Ok: queued as XXXXXXXX</code>.</td></tr>
+      <tr><td><strong>3. Cek Maildir</strong></td><td><code>ls -l /home/guru/Maildir/new/</code></td><td>File pesan baru tersimpan dalam format teks RFC 5322.</td></tr>
+      <tr><td><strong>4. Login Webmail</strong></td><td>Buka <code>http://mail.smk.lan/roundcube</code> di browser</td><td>User <code>guru</code> dapat membaca email dan membalasnya secara interaktif.</td></tr>
     </table>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Relay Access Denied & Mail Logs</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: 554 5.7.1 &lt;target@luar.com&gt;: Relay access denied</span>
+<span style="color:#fde68a;"># Penyebab: Postfix menolak meneruskan email ke domain luar karena IP client tidak terdaftar di 'mynetworks' dan belum melakukan autentikasi SASL (Fitur proteksi anti-spam Open Relay).</span>
+<span style="color:#a7f3d0;"># Diagnosa log real-time:</span>
+<span style="color:#38bdf8;">sudo tail -f /var/log/mail.log</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_7_konfigurasi-ftp-server-vsftpd.html" class="btn-nav secondary">← Pertemuan 7: FTP Server</a>
-    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn-nav primary">Lanjut ke Pertemuan 9: File Sharing →</a>
+    <a href="Server_Pert_7_konfigurasi-ftp-server-vsftpd.html" class="btn-nav-bottom secondary">← Pertemuan 7: FTP Server</a>
+    <a href="Server_Pert_9_konfigurasi-file-sharing-samba-nfs.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 9: File Sharing Server (Samba & NFS) →</a>
   </div>
 </main>
 
@@ -158,48 +206,56 @@ auth_mechanisms = plain login</div>
 <script>
 window.addEventListener('scroll', () => {
   const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  document.getElementById('pFill').style.width = ((window.scrollY / h) * 100) + '%';
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Konfigurasi Mail Server Postfix',
+      title: 'Kuis Evaluasi 9 JP: Mail Server Postfix & Dovecot',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Perbedaan mendasar antara protokol IMAP dan POP3 dalam konteks akses email dari Mail Server adalah?",
-          options: [
-            "IMAP menyimpan & sinkronisasi email di server (multi-device), POP3 mengunduh dan menghapus email dari server ke perangkat lokal",
-            "IMAP untuk mengirim, POP3 untuk menerima",
-            "IMAP menggunakan enkripsi SSL, POP3 tidak",
-            "POP3 lebih cepat karena tidak memerlukan autentikasi"
-          ],
+          question: "Dalam arsitektur sistem email, perangkat lunak yang bertugas sebagai Mail Transfer Agent (MTA) untuk mengirimkan surat antar-server via protokol SMTP adalah?",
+          options: ["Postfix / Exim / Sendmail", "Dovecot / Courier", "Thunderbird / Outlook", "Roundcube / Squirrelmail"],
           correctIndex: 0,
-          explanation: "IMAP (Port 143/993) sinkronisasi di server — cocok untuk multi-device. POP3 (Port 110/995) download & hapus dari server — cocok untuk single device."
+          explanation: "Postfix adalah MTA (pengirim surat via SMTP port 25/587). Dovecot adalah MDA (penampung & pembaca pesan IMAP/POP3), dan Thunderbird/Roundcube adalah MUA (klien pengguna)."
         },
         {
-          question: "Format penyimpanan email 'Maildir' lebih unggul dibanding format 'mbox' lama untuk server produksi karena?",
+          question: "Keunggulan utama format penyimpanan 'Maildir' dibandingkan format lawas 'mbox' pada server email adalah?",
           options: [
-            "Setiap email disimpan sebagai file terpisah sehingga korupsi satu email tidak merusak seluruh mailbox dan mudah di-backup",
-            "Maildir menggunakan database SQL untuk performa lebih cepat",
-            "Maildir tidak memerlukan perizinan file system",
-            "mbox lebih modern dan mendukung Unicode"
+            "Setiap email disimpan sebagai 1 file terpisah sehingga tidak rentan rusak (file lock corruption) saat ribuan email masuk secara bersamaan",
+            "Maildir otomatis menghapus email spam",
+            "Maildir membuat pengiriman email menjadi gratis",
+            "Maildir tidak membutuhkan hard disk"
           ],
           correctIndex: 0,
-          explanation: "Maildir (~/Maildir/new/, /cur/, /tmp/) menyimpan satu email per file, menghindari file locking pada mbox yang bisa berukuran gigabytes dan berbahaya jika korupsi."
+          explanation: "Pada mbox, seluruh email digabung menjadi 1 file raksasa sehingga rawan rusak saat locking. Maildir memisahkan setiap email ke folder cur, new, dan tmp secara aman."
         },
         {
-          question: "Direktif Postfix 'mynetworks' pada file main.cf berfungsi untuk?",
+          question: "Perbedaan mendasar antara protokol IMAP (Port 143/993) dan POP3 (Port 110/995) bagi pengguna email adalah?",
           options: [
-            "Mendefinisikan jaringan/subnet yang dipercaya sebagai pengirim email yang sah (relay host) tanpa perlu autentikasi",
-            "Membatasi jumlah koneksi SMTP bersamaan",
-            "Mengatur routing email ke MX record DNS",
-            "Menentukan alamat IP interface yang di-listen"
+            "IMAP menyinkronkan status email langsung di server (bisa dibuka dari banyak gadget bersamaan), sedangkan POP3 mengunduh email ke komputer lokal dan biasanya menghapusnya dari server",
+            "IMAP hanya untuk smartphone Android",
+            "POP3 memiliki kecepatan 10x lipat dari IMAP",
+            "IMAP tidak membutuhkan koneksi internet"
           ],
           correctIndex: 0,
-          explanation: "'mynetworks' mendefinisikan network lokal yang dipercaya. Host dalam range ini boleh relay email keluar melalui server Postfix tanpa SMTP AUTH."
+          explanation: "IMAP (Internet Message Access Protocol) adalah standar modern multi-device (status read/unread, folder sinkron di laptop dan HP sekaligus)."
+        },
+        {
+          question: "Apa bahaya terbesar jika konfigurasi Postfix membiarkan server berstatus 'Open Relay'?",
+          options: [
+            "Server dapat disalahgunakan oleh spammer di seluruh dunia untuk menyebarkan jutaan email spam ilegal sehingga IP server Anda masuk daftar hitam (Blacklist/DNSBL global)",
+            "Server akan mati secara permanen",
+            "Pengguna tidak bisa mengganti password",
+            "Hard disk server otomatis terformat"
+          ],
+          correctIndex: 0,
+          explanation: "Open Relay terjadi jika server mengizinkan sembarang IP asing mengirim email ke domain luar tanpa autentikasi, menyebabkan server menjadi relay spambot global."
         }
       ]
     });

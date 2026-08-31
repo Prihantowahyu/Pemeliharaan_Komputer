@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 5: Konfigurasi DNS Server BIND9 — Kelas XII TKJ</title>
+<title>Pertemuan 5: Konfigurasi DNS Server Master BIND9 (Forward & Reverse Zone) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -34,16 +34,16 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.08), transparent 40%);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.08), transparent 40%);
     background-attachment: fixed;
   }
   .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
   
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
   .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--violet)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
   .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
   .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
 
@@ -60,11 +60,17 @@
   .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
   
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
   .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
-  
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(0, 240, 255, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
   .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
@@ -77,45 +83,68 @@
 <header class="top-hud">
   <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
   <div class="top-hud-inner">
-    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 5 / Akhir Blok 1)</span></div>
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Infrastruktur Server XII TKJ — Blok 1 (Hari 5 / Pert. 5)</span></div>
     <div><a href="index.html#server" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Server</a></div>
   </div>
 </header>
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 1 HARI KE-5 (FINAL BLOK 1)</div>
-    <h1>Konfigurasi DNS Server BIND9 (Forward & Reverse Lookup Zone)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:760px;line-height:1.6;">Membangun Domain Name System (DNS) internal enterprise menggunakan BIND9, konfigurasi file zona pemetaan nama ke IP (Forward) dan IP ke nama (Reverse PTR), serta pengujian query record menggunakan dig dan nslookup.</p>
+    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 1 HARI KE-5 (FINAL BLOK 1)</div>
+    <h1>Konfigurasi Domain Name System (DNS) Server Master BIND9</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan industri membangun Name Server lokal: Membedah hierarki DNS (Root, TLD, SLD, Subdomain), instalasi package <code>bind9</code>, konfigurasi zona Forward (Domain &rarr; IP) & Reverse (IP &rarr; Domain PTR), DNS Resource Records (SOA, NS, A, CNAME, MX), Recursive Forwarders ke DNS Publik, validasi sintaks dengan <code>named-checkconf</code> / <code>named-checkzone</code>, serta pengujian query dengan <code>dig</code> dan <code>nslookup</code>.</p>
   </section>
 
   <!-- ALOKASI WAKTU 9 JP -->
   <div class="meta-grid">
-    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">Hierarki DNS & Record</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">BIND9 & named.conf</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Forward & Reverse Zone</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">Troubleshoot & CBT</div></div>
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">DNS Hierarchy Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">BIND9 named.conf.local</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Forward & Reverse Zone</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab Master DNS</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot & Dig Tools</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Blok 1</div></div>
   </div>
 
-  <!-- SECTION 1: Tipe Record DNS -->
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Anatomi Tipe DNS Resource Record</h2>
-    <table class="table-custom">
-      <tr><th>Tipe Record</th><th>Fungsi Utama</th><th>Contoh Format Baris Record</th></tr>
-      <tr><td><strong>SOA (Start of Authority)</strong></td><td>Informasi otoritas zona utama & serial serial number zone transfer</td><td><code>@ IN SOA ns.smk.lan. admin.smk.lan. (...)</code></td></tr>
-      <tr><td><strong>NS (Name Server)</strong></td><td>Menentukan server nama yang bertanggung jawab atas domain</td><td><code>@ IN NS ns.smk.lan.</code></td></tr>
-      <tr><td><strong>A (Address IPv4)</strong></td><td>Memetakan nama domain/subdomain ke alamat IPv4</td><td><code>server IN A 192.168.10.1</code></td></tr>
-      <tr><td><strong>CNAME (Canonical Name)</strong></td><td>Nama alias yang merujuk ke domain utama</td><td><code>www IN CNAME smk.lan.</code></td></tr>
-      <tr><td><strong>PTR (Pointer)</strong></td><td>Reverse DNS: Memetakan oktet IP ke nama domain</td><td><code>1 IN PTR smk.lan.</code></td></tr>
-      <tr><td><strong>MX (Mail Exchange)</strong></td><td>Mengarahkan email domain ke Mail Server prioritas</td><td><code>@ IN MX 10 mail.smk.lan.</code></td></tr>
-    </table>
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Analogi Buku Telepon Internet</span> <span style="font-size:12px;color:var(--cyan);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa manusia lebih mudah mengingat nama <code>google.com</code> daripada alamat IP <code>142.250.190.46</code>? Guru menjelaskan hierarki DNS global dari Root Server (.) &rarr; Top-Level Domain (.id, .com, .sch.id) &rarr; Second-Level Domain (smk.sch.id) &rarr; Host Record.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Arsitektur BIND9 & Jenis-Jenis DNS Resource Record</span> <span style="font-size:12px;color:var(--cyan);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan struktur direktori <code>/etc/bind/</code> (named.conf.options, named.conf.local). Eksplorasi makna record: SOA (Start of Authority + Serial Number format YYYYMMDDNN), NS (Name Server), A (IPv4 Address), CNAME (Alias), MX (Mail Exchange), dan PTR (Pointer IP ke Domain).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Bedah Konfigurasi Forward & Reverse Zone File</span> <span style="font-size:12px;color:var(--cyan);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Aturan krusial tanda <strong>TITIK di akhir nama domain FQDN</strong> (misal: <code>ns.smk.lan.</code>). Jika titik tertinggal, BIND9 otomatis menambahkan nama domain zona di belakangnya sehingga menjadi <code>ns.smk.lan.smk.lan.</code> (kesalahan paling fatal di dunia industri).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Penyegaran dan persiapan eksekusi lab DNS master.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Membangun Master DNS Sekolah</span> <span style="font-size:12px;color:var(--cyan);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet 5</strong>: (1) Install paket <code>bind9 bind9utils dnsutils</code>, (2) Deklarasikan zona forward <code>smk.lan</code> dan zona reverse <code>10.168.192.in-addr.arpa</code> di <code>named.conf.local</code>, (3) Buat file zona <code>db.smk.lan</code> dan <code>db.192</code>, (4) Validasi dengan <code>named-checkconf</code> dan <code>named-checkzone</code>, (5) Uji query DNS lokal dan internet forwarders.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Kasus Gangguan & Investigasi 'dig' / 'nslookup'</span> <span style="font-size:12px;color:var(--cyan);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa mendiagnosis 3 kesalahan: Service BIND9 failed akibat titik koma (;) hilang, query menghasilkan status <code>SERVFAIL</code>, dan PTR record tidak merespons (Reverse lookup gagal).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi Akhir Blok 1</span> <span style="font-size:12px;color:var(--cyan);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Evaluasi teori CBT 30 menit, checklist pengujian DNS resolution oleh guru, dan pemberian apresiasi penuntasan 5 Pertemuan Blok 1 Semester Ganjil.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- SECTION 2: Konfigurasi BIND9 -->
+  <!-- BAGIAN 2: MATERI TEORI BIND9 CONFIG -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Langkah Konfigurasi BIND9 Server</h2>
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Lengkap BIND9 Master DNS</h2>
     <div class="code-block">
-      <span style="color:#64748b;"># 1. Deklarasi Zona pada /etc/bind/named.conf.local</span><br>
+<span style="color:#64748b;"># 1. /etc/bind/named.conf.local — Deklarasi Zona</span>
 <pre style="color:#67e8f9;">zone "smk.lan" {
     type master;
     file "/etc/bind/db.smk.lan";
@@ -127,54 +156,84 @@ zone "10.168.192.in-addr.arpa" {
 };</pre>
     </div>
 
-    <div class="code-block" style="margin-top:10px;">
-      <span style="color:#64748b;"># 2. File Forward Zone: /etc/bind/db.smk.lan</span><br>
-<pre style="color:#fde68a;">$TTL    604800
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 2. /etc/bind/db.smk.lan — Forward Lookup Zone</span>
+<pre style="color:#a7f3d0;">$TTL    86400
 @       IN      SOA     ns.smk.lan. admin.smk.lan. (
-                              2026083101         ; Serial
-                                  604800         ; Refresh
-                                   86400         ; Retry
-                                 2419200         ; Expire
-                                  604800 )       ; Negative Cache TTL
-;
+                              2026083101 ; Serial (Format: YYYYMMDDNN)
+                                  604800 ; Refresh (1 Minggu)
+                                   86400 ; Retry (1 Hari)
+                                 2419200 ; Expire (4 Minggu)
+                                   86400 ) ; Negative Cache TTL
+
+; Name Server Record
 @       IN      NS      ns.smk.lan.
-@       IN      A       192.168.10.1
-ns      IN      A       192.168.10.1
-www     IN      CNAME   smk.lan.
-mail    IN      A       192.168.10.1
+
+; Address Records (A)
+ns      IN      A       192.168.10.10
+portal  IN      A       192.168.10.10
+mail    IN      A       192.168.10.10
+
+; Canonical Name (Alias)
+www     IN      CNAME   portal.smk.lan.
+ftp     IN      CNAME   portal.smk.lan.
+
+; Mail Exchanger Record
 @       IN      MX  10  mail.smk.lan.</pre>
     </div>
 
-    <div class="code-block" style="margin-top:10px;">
-      <span style="color:#64748b;"># 3. File Reverse Zone: /etc/bind/db.192</span><br>
-<pre style="color:#a7f3d0;">$TTL    604800
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 3. /etc/bind/db.192 — Reverse Lookup Zone (PTR Record)</span>
+<pre style="color:#fde68a;">$TTL    86400
 @       IN      SOA     ns.smk.lan. admin.smk.lan. (
-                              2026083101 604800 86400 2419200 604800 )
+                              2026083101 ; Serial
+                                  604800 ; Refresh
+                                   86400 ; Retry
+                                 2419200 ; Expire
+                                   86400 ) ; Negative Cache TTL
+
 @       IN      NS      ns.smk.lan.
-1       IN      PTR     smk.lan.</pre>
+
+; Pointer Record: 10 adalah oktet terakhir dari IP 192.168.10.10
+10      IN      PTR     portal.smk.lan.
+10      IN      PTR     ns.smk.lan.</pre>
     </div>
   </section>
 
-  <!-- SECTION 3: LKPD Praktik 9 JP -->
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
     <table class="table-custom">
-      <tr><th>Kueri Pengujian</th><th>Perintah Verifikasi CLI</th><th>Respon yang Diharapkan</th></tr>
-      <tr><td>Cek Sintaks Zona</td><td><code>sudo named-checkzone smk.lan /etc/bind/db.smk.lan</code></td><td><code>OK (serial 2026083101)</code></td></tr>
-      <tr><td>Forward Lookup</td><td><code>dig @127.0.0.1 smk.lan +short</code></td><td><code>192.168.10.1</code></td></tr>
-      <tr><td>Reverse Lookup</td><td><code>nslookup 192.168.10.1 127.0.0.1</code></td><td><code>name = smk.lan</code></td></tr>
+      <tr><th>Langkah</th><th>Perintah Validasi & Eksekusi</th><th>Kriteria Output Sukses</th></tr>
+      <tr><td><strong>1. Cek Sintaks</strong></td><td><code>sudo named-checkconf</code></td><td>Tidak menghasilkan output pesan error apapun (Clean).</td></tr>
+      <tr><td><strong>2. Cek Forward Zone</strong></td><td><code>sudo named-checkzone smk.lan /etc/bind/db.smk.lan</code></td><td>Output: <code>OK &middot; serial 2026083101</code>.</td></tr>
+      <tr><td><strong>3. Cek Reverse Zone</strong></td><td><code>sudo named-checkzone 10.168.192.in-addr.arpa /etc/bind/db.192</code></td><td>Output: <code>OK &middot; serial 2026083101</code>.</td></tr>
+      <tr><td><strong>4. Uji Forward (dig)</strong></td><td><code>dig @127.0.0.1 portal.smk.lan +short</code></td><td>Menjawab: <code>192.168.10.10</code>.</td></tr>
+      <tr><td><strong>5. Uji Reverse (nslookup)</strong></td><td><code>nslookup 192.168.10.10 127.0.0.1</code></td><td>Menjawab: <code>name = portal.smk.lan</code>.</td></tr>
     </table>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Serial Number & FQDN Trailing Dot</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># ATURAN EMAS TROUBLESHOOTING DNS:</span>
+1. Selalu tambahkan tanda TITIK (.) di akhir FQDN (contoh: ns.smk.lan.) di file zona.
+2. Setiap kali mengubah record IP, WAJIB menaikkan angka Serial Number di blok SOA (misal: 2026083101 &rarr; 2026083102) agar DNS cache dan slave server memperbarui datanya.
+3. Restart daemon dan pantau log sistem secara real-time:
+   <span style="color:#38bdf8;">sudo systemctl restart named &amp;&amp; sudo journalctl -u named -e</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
     <a href="Server_Pert_4_konfigurasi-dhcp-server.html" class="btn-nav-bottom secondary">← Pertemuan 4: DHCP Server</a>
-    <a href="Server_Pert_6_konfigurasi-web-server-apache-nginx.html" class="btn-nav-bottom primary">Lanjut ke Blok 2 (Pertemuan 6: Web Server) →</a>
+    <a href="Server_Pert_6_konfigurasi-web-server-apache-nginx.html" class="btn-nav-bottom primary">Lanjut ke Blok 2: Pertemuan 6 (Web Server Apache & Nginx) →</a>
   </div>
 </main>
 
@@ -190,32 +249,48 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Konfigurasi DNS Server BIND9',
+      title: 'Kuis Evaluasi 9 JP: Konfigurasi DNS Server BIND9',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Tanda titik (.) di akhir penulisan FQDN pada file zona DNS (misal: 'ns.smk.lan.') berfungsi untuk?",
+          question: "Tipe DNS Record yang digunakan untuk memetakan nama domain (FQDN) menjadi alamat IPv4 Address adalah?",
+          options: ["Record A (Address Record)", "Record PTR (Pointer)", "Record MX (Mail Exchange)", "Record TXT"],
+          correctIndex: 0,
+          explanation: "Record A memetakan hostname/domain ke IPv4 Address (misal: portal.smk.lan -> 192.168.10.10). Record AAAA untuk IPv6, dan PTR untuk kebalikannya (IP ke domain)."
+        },
+        {
+          question: "Mengapa penulisan FQDN di dalam file zona BIND9 (misal: ns.smk.lan.) WAJIB diakhiri tanda titik (.)?",
           options: [
-            "Menandakan bahwa nama domain bersifat absolut hingga ke Root Hint zone sehingga BIND tidak menambahkan origin domain ganda",
-            "Menghapus cache DNS",
-            "Menutup koneksi soket",
-            "Memberi hak akses root"
+            "Agar BIND9 mengetahui bahwa nama domain tersebut sudah absolut dan tidak menambahkan nama zona domain default secara otomatis di belakangnya",
+            "Karena titik adalah perintah untuk restart server",
+            "Sebagai tanda bahwa domain tersebut gratis",
+            "Karena tanpa titik koneksi internet akan terputus"
           ],
           correctIndex: 0,
-          explanation: "Titik di akhir (Trailing Dot) menegaskan FQDN absolut. Tanpa titik akhir, BIND akan menggabungkan domain origin menjadi 'ns.smk.lan.smk.lan'."
+          explanation: "Jika tanda titik dihilangkan, BIND9 menganggapnya sebagai relatif record dan menempelkan nama domain zona sehingga menghasilkan domain ganda seperti 'ns.smk.lan.smk.lan'."
         },
         {
-          question: "Zona pemetaan terbalik (Reverse DNS Lookup) untuk subnet IPv4 192.168.10.0/24 dideklarasikan dengan nama zona standar?",
-          options: ["10.168.192.in-addr.arpa", "192.168.10.reverse", "smk.lan.reverse", "ptr.192.168.10"],
+          question: "Perintah CLI utilitas bawaan BIND9 yang digunakan untuk memeriksa keabsahan sintaksis file zona sebelum merestart service adalah?",
+          options: [
+            "named-checkzone smk.lan /etc/bind/db.smk.lan",
+            "ping -t smk.lan",
+            "ipconfig /flushdns",
+            "chmod 777 /etc/bind"
+          ],
           correctIndex: 0,
-          explanation: "Reverse DNS membalik 3 oktet jaringan diikuti domain khusus '.in-addr.arpa'."
+          explanation: "'named-checkzone' memvalidasi format SOA, NS, A, CNAME, dan serial number pada file database zona untuk memastikan tidak ada error sebelum daemon di-reload."
         },
         {
-          question: "Perintah resmi BIND9 untuk memverifikasi ada tidaknya kesalahan ketik sintaks pada file named.conf adalah?",
-          options: ["sudo named-checkconf", "sudo test-dns", "sudo bind-verify", "sudo dns-doctor"],
+          question: "Fungsi utama dari zona Reverse DNS (Pointer / PTR Record) dalam infrastruktur jaringan enterprise adalah?",
+          options: [
+            "Menerjemahkan alamat IP Address kembali menjadi nama domain FQDN yang sah (misal: untuk verifikasi anti-spam email server)",
+            "Menghapus cache DNS di komputer client",
+            "Mengganti password administrator secara otomatis",
+            "Mempercepat kecepatan download file ISO"
+          ],
           correctIndex: 0,
-          explanation: "'named-checkconf' memeriksa file konfigurasi utama BIND9 secara komprehensif tanpa harus merestart layanan terlebih dahulu."
+          explanation: "Reverse DNS (in-addr.arpa) sangat penting untuk verifikasi identitas server pengirim email dan logging keamanan forensik."
         }
       ]
     });

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pertemuan 6: Konfigurasi Web Server (Apache & Nginx) — Kelas XII TKJ</title>
+<title>Pertemuan 6: Konfigurasi Web Server Apache2 & Nginx Multi-Virtual Host — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -12,11 +12,11 @@
   :root {
     --bg-void: #030712;
     --panel: rgba(11, 22, 44, 0.75);
-    --panel-card: #0d1b36;
-    --panel-border: rgba(0, 240, 255, 0.2);
+    --panel-border: rgba(16, 185, 129, 0.25);
     --cyan: #00f0ff;
     --cyan-glow: rgba(0, 240, 255, 0.35);
     --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.35);
     --violet: #8b5cf6;
     --amber: #f59e0b;
     --danger: #ef4444;
@@ -34,16 +34,16 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
-    line-height: 1.6; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(16, 185, 129, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
     background-attachment: fixed;
   }
-  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
-  .content-wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 20px 80px; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(16, 185, 129, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(16, 185, 129, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
   
-  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
   .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--emerald), var(--cyan)); width: 0%; transition: width 0.3s ease; }
-  .top-hud-inner { max-width: 1040px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
   .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald); letter-spacing: 0.08em; text-transform: uppercase; }
   .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
 
@@ -60,11 +60,17 @@
   .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--emerald); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
   
-  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 14px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; }
-  .table-custom { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
-  .table-custom th, .table-custom td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; }
-  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
-  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--emerald); font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(16, 185, 129, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #6ee7b7; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
   .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
   .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
@@ -84,83 +90,135 @@
 
 <main class="content-wrap">
   <section class="hero-card">
-    <div class="tag-pill">⚡ WORKSHOP INTENSIF 9 JP · BLOK 2 HARI KE-1</div>
-    <h1>Konfigurasi Web Server (Apache & Nginx Virtual Host Multi-Domain)</h1>
-    <p style="font-size:15px;color:var(--text-sub);max-width:760px;line-height:1.6;">Menyajikan aplikasi web berkinerja tinggi, konfigurasi Virtual Host multi-domain dalam satu IP Address fisik, optimasi izin direktori DocumentRoot www-data, serta integrasi PHP-FPM.</p>
+    <div class="tag-pill">⚡ MODUL PEMBELAJARAN 9 JP (405 MENIT) · BLOK 2 HARI KE-1</div>
+    <h1>Konfigurasi Web Server Apache2 & Nginx dengan Multi-Virtual Host</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan deployment web service produksi: Memahami perbedaan arsitektur Apache (Process-Driven / MPM Event) vs Nginx (Asynchronous Event-Driven), implementasi <em>Name-Based Virtual Hosting</em> untuk menjalankan banyak website mandiri dalam 1 server fisik, konfigurasi DocumentRoot, integrasi PHP-FPM FastCGI, penyesuaian hak akses direktori <code>www-data</code>, serta optimasi HTTP/2.</p>
   </section>
 
   <!-- ALOKASI WAKTU 9 JP -->
   <div class="meta-grid">
-    <div class="meta-box"><div class="k">Sesi 1 (2 JP)</div><div class="v">HTTP/HTTPS & VHost</div></div>
-    <div class="meta-box"><div class="k">Sesi 2 (2 JP)</div><div class="v">Apache vs Nginx</div></div>
-    <div class="meta-box"><div class="k">Sesi 3 (3 JP)</div><div class="v">Multi-Site & PHP</div></div>
-    <div class="meta-box"><div class="k">Sesi 4 (2 JP)</div><div class="v">SSL Preview & CBT</div></div>
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Apache vs Nginx Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Name-Based Virtual Host</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">PHP-FPM & Permissions</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab 2 Website</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot 403 & 502</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <!-- SECTION 1: Konsep Virtual Host -->
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">1</span> Konsep Name-Based Virtual Host</h2>
-    <p style="color:var(--text-sub);font-size:14.5px;">Name-based Virtual Host membaca HTTP header <code>Host: smk.lan</code> yang dikirim oleh browser client untuk mengarahkan request ke folder direktori yang tepat:</p>
-    
-    <div class="code-block">
-      <span style="color:#64748b;"># 1. Buat folder web root untuk 2 domain berbeda</span><br>
-      <span style="color:#38bdf8;">sudo mkdir -p /var/www/smk.lan/html</span><br>
-      <span style="color:#38bdf8;">sudo mkdir -p /var/www/portal.smk.lan/html</span><br>
-      <span style="color:#38bdf8;">sudo chown -R www-data:www-data /var/www/</span><br>
-      <span style="color:#38bdf8;">sudo chmod -R 755 /var/www/</span>
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Apersepsi Arsitektur Web</span> <span style="font-size:12px;color:var(--emerald);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Guru mendemonstrasikan bagaimana sebuah server web dapat melayani ratusan domain berbeda menggunakan 1 alamat IP yang sama melalui header <code>Host: portal.smk.lan</code> pada protokol HTTP/1.1 dan HTTP/2.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Komparasi Apache2 vs Nginx & PHP Processing Engine</span> <span style="font-size:12px;color:var(--emerald);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Membedah struktur direktori Apache di Debian/Ubuntu: <code>/etc/apache2/sites-available/</code> vs <code>sites-enabled/</code>, utilitas <code>a2ensite</code>, <code>a2dissite</code>, <code>a2enmod</code>, serta integrasi pemroses skrip PHP menggunakan modul PHP-FPM via socket UNIX.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Bedah Blok Konfigurasi Virtual Host & DocumentRoot</span> <span style="font-size:12px;color:var(--emerald);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Analisis direktif <code>&lt;VirtualHost *:80&gt;</code>, <code>ServerName</code>, <code>ServerAlias</code>, <code>DocumentRoot</code>, <code>ErrorLog</code>, dan <code>CustomLog</code> pada Apache, serta perbandingannya dengan blok <code>server { listen 80; server_name ...; }</code> pada Nginx.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan folder kerja website dan source code HTML/PHP di workstation siswa.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Deploy 2 Website Sekolah</span> <span style="font-size:12px;color:var(--emerald);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet 6</strong>: (1) Membuat direktori <code>/var/www/portal</code> dan <code>/var/www/elearning</code>, (2) Membuat 2 file VHost terpisah, (3) Mengaktifkan site dengan <code>a2ensite</code>, (4) Mengatur kepemilikan <code>chown -R www-data:www-data</code>, (5) Menguji akses kedua website via browser client menggunakan domain DNS lokal <code>portal.smk.lan</code> dan <code>elearning.smk.lan</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting 403 Forbidden & 502 Bad Gateway)</span> <span style="font-size:12px;color:var(--emerald);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa menganalisis error log web server di <code>/var/log/apache2/error.log</code> saat terjadi masalah permission direktori, file index yang hilang, atau kegagalan socket FastCGI PHP-FPM.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi Praktik</span> <span style="font-size:12px;color:var(--emerald);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live browser oleh guru, dan pengantar materi FTP Server vsftpd.</p>
+      </div>
     </div>
   </section>
 
-  <!-- SECTION 2: Konfigurasi Virtual Host Apache -->
+  <!-- BAGIAN 2: TEORI VHOST & CONFIG -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">2</span> Konfigurasi Apache Virtual Host (/etc/apache2/sites-available/)</h2>
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Lengkap Virtual Host Apache2 & Nginx</h2>
     <div class="code-block">
-      <span style="color:#64748b;"># File: /etc/apache2/sites-available/smk.lan.conf</span><br>
+<span style="color:#64748b;"># 1. /etc/apache2/sites-available/portal.conf — Apache2 Virtual Host</span>
 <pre style="color:#67e8f9;">&lt;VirtualHost *:80&gt;
-    ServerAdmin admin@smk.lan
-    ServerName smk.lan
-    ServerAlias www.smk.lan
-    DocumentRoot /var/www/smk.lan/html
+    ServerName portal.smk.lan
+    ServerAlias www.portal.smk.lan
+    ServerAdmin webmaster@smk.lan
+    DocumentRoot /var/www/portal
 
-    ErrorLog ${APACHE_LOG_DIR}/smk_error.log
-    CustomLog ${APACHE_LOG_DIR}/smk_access.log combined
-
-    &lt;Directory /var/www/smk.lan/html&gt;
+    &lt;Directory /var/www/portal&gt;
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
     &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/portal_error.log
+    CustomLog ${APACHE_LOG_DIR}/portal_access.log combined
 &lt;/VirtualHost&gt;</pre>
     </div>
 
-    <div class="code-block" style="margin-top:10px;">
-      <span style="color:#64748b;"># Aktifkan konfigurasi Virtual Host & Modul Rewrite</span><br>
-      <span style="color:#38bdf8;">sudo a2ensite smk.lan.conf</span><br>
-      <span style="color:#38bdf8;">sudo a2enmod rewrite</span><br>
-      <span style="color:#38bdf8;">sudo systemctl reload apache2</span>
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 2. /etc/nginx/sites-available/portal.conf — Nginx Server Block</span>
+<pre style="color:#a7f3d0;">server {
+    listen 80;
+    server_name portal.smk.lan www.portal.smk.lan;
+    root /var/www/portal;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+    }
+}</pre>
     </div>
   </section>
 
-  <!-- SECTION 3: LKPD Praktik 9 JP -->
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
     <table class="table-custom">
-      <tr><th>Nama Domain</th><th>DocumentRoot</th><th>Uji Browser Client</th></tr>
-      <tr><td><code>smk.lan</code></td><td><code>/var/www/smk.lan/html</code></td><td>Menampilkan portal utama sekolah</td></tr>
-      <tr><td><code>portal.smk.lan</code></td><td><code>/var/www/portal.smk.lan/html</code></td><td>Menampilkan dashboard aplikasi ujian CBT</td></tr>
-      <tr><td><code>Uji Error 404 / 403</code></td><td>File <code>.htaccess</code></td><td>Mencegah directory listing (Index of /)</td></tr>
+      <tr><th>Langkah</th><th>Perintah Eksekusi / Konfigurasi</th><th>Hasil Validasi yang Diharapkan</th></tr>
+      <tr><td><strong>1. Buat Direktori</strong></td><td><code>sudo mkdir -p /var/www/portal /var/www/elearning</code></td><td>Direktori web terpisah berhasil dibuat di bawah <code>/var/www/</code>.</td></tr>
+      <tr><td><strong>2. Atur Permission</strong></td><td><code>sudo chown -R www-data:www-data /var/www/*</code><br><code>sudo chmod -R 755 /var/www/*</code></td><td>User sistem web <code>www-data</code> memiliki hak baca dan eksekusi.</td></tr>
+      <tr><td><strong>3. Aktifkan Site</strong></td><td><code>sudo a2ensite portal.conf elearning.conf</code><br><code>sudo a2dissite 000-default.conf</code></td><td>Simlink terbentuk di folder <code>/etc/apache2/sites-enabled/</code>.</td></tr>
+      <tr><td><strong>4. Uji Sintaks</strong></td><td><code>sudo apache2ctl configtest</code> atau <code>sudo nginx -t</code></td><td>Output menghasilkan status <strong>Syntax OK</strong>.</td></tr>
+      <tr><td><strong>5. Uji Browser</strong></td><td>Buka <code>http://portal.smk.lan</code> dan <code>http://elearning.smk.lan</code></td><td>Browser client menampilkan konten website yang berbeda sesuai domain.</td></tr>
     </table>
   </section>
 
-  <!-- SECTION 4: CBT Quiz -->
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
   <section class="section-card">
-    <h2 class="section-title"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri (9 JP)</h2>
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Error 403 Forbidden & Directory Listing</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS 1: Error 403 Forbidden saat membuka domain website</span>
+<span style="color:#fde68a;"># Penyebab: Hak akses folder bukan 755 atau file index.html/index.php tidak ditemukan di DocumentRoot</span>
+<span style="color:#38bdf8;">sudo chown -R www-data:www-data /var/www/portal</span>
+<span style="color:#38bdf8;">sudo chmod 755 /var/www/portal</span>
+
+<span style="color:#64748b;"># KASUS 2: Menonaktifkan Directory Index Listing demi Keamanan Server</span>
+<span style="color:#fde68a;"># Bahaya: Jika index.html tidak ada, web server akan menampilkan daftar file direktori ke publik.</span>
+<span style="color:#a7f3d0;"># Solusi: Pasang opsi "-Indexes" di dalam tag &lt;Directory&gt; konfigurasi Apache.</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
     <div id="cbtAppArea"></div>
   </section>
 
   <div class="footer-deck">
-    <a href="Server_Pert_5_konfigurasi-dns-server-bind9.html" class="btn-nav-bottom secondary">← Pertemuan 5: DNS BIND9</a>
-    <a href="Server_Pert_7_konfigurasi-ftp-server-vsftpd.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 7: FTP Server →</a>
+    <a href="Server_Pert_5_konfigurasi-dns-server-bind9.html" class="btn-nav-bottom secondary">← Pertemuan 5: DNS Server BIND9</a>
+    <a href="Server_Pert_7_konfigurasi-ftp-server-vsftpd.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 7: Konfigurasi FTP Server (vsftpd) →</a>
   </div>
 </main>
 
@@ -176,32 +234,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.CBTEngine) {
     window.CBTEngine.init({
       containerId: 'cbtAppArea',
-      title: 'Kuis Evaluasi: Konfigurasi Web Server Apache & Nginx',
+      title: 'Kuis Evaluasi 9 JP: Web Server Apache2 & Nginx',
       subject: 'Infrastruktur Server — Kelas XII TKJ',
       durationMinutes: 30,
       questions: [
         {
-          question: "Direktif Apache yang berfungsi menentukan folder root penyimpanan file kode program website adalah?",
-          options: ["DocumentRoot", "ServerName", "DirectoryIndex", "Listen"],
-          correctIndex: 0,
-          explanation: "'DocumentRoot' memberitahukan Apache direktori file sistem tempat file index.html/php berada."
-        },
-        {
-          question: "Pengaturan 'Options -Indexes' pada konfigurasi web server bertujuan untuk aspek keamanan apa?",
+          question: "Konsep 'Name-Based Virtual Hosting' pada Web Server memungkinkan administrator untuk?",
           options: [
-            "Mencegah browser menampilkan daftar file folder sistem secara terbuka saat tidak ada file index.html",
-            "Membatasi jumlah user online",
-            "Mematikan fungsi PHP",
-            "Menonaktifkan firewall"
+            "Menjalankan banyak website dengan domain berbeda-beda pada satu server dan satu alamat IP publik yang sama",
+            "Mempercepat koneksi internet pelanggan",
+            "Menyimpan password user secara otomatis",
+            "Mengganti sistem operasi Linux menjadi Windows"
           ],
           correctIndex: 0,
-          explanation: "'-Indexes' menonaktifkan directory browsing yang berbahaya jika folder tidak memiliki file index bawaan."
+          explanation: "Web server membaca HTTP Request Header 'Host:' yang dikirim browser untuk menentukan Virtual Host dan DocumentRoot mana yang harus melayani konten."
         },
         {
-          question: "User dan group bawaan sistem operasi Linux yang menjadi pemilik proses layanan Apache web server adalah?",
-          options: ["www-data:www-data", "root:root", "apache:apache", "nginx:nginx"],
+          question: "User dan Group sistem default yang digunakan oleh web server Apache2 dan Nginx di sistem operasi Ubuntu/Debian adalah?",
+          options: ["www-data:www-data", "root:root", "admin:admin", "guest:users"],
           correctIndex: 0,
-          explanation: "Di Debian/Ubuntu, user 'www-data' adalah akun privilege rendah khusus untuk menjalankan worker web server secara aman."
+          explanation: "Menjalankan worker process web server di bawah user non-root 'www-data' adalah prinsip keamanan penting agar penyerang tidak langsung mendapatkan akses root jika web berhasil dibobol."
+        },
+        {
+          question: "Direktif 'Options -Indexes' pada konfigurasi direktori Apache berfungsi untuk?",
+          options: [
+            "Menonaktifkan tampilan daftar isi direktori (Directory Browsing) jika file index.html/index.php tidak ditemukan",
+            "Menghapus seluruh file website",
+            "Mematikan port 80",
+            "Mengaktifkan SSL HTTPS otomatis"
+          ],
+          correctIndex: 0,
+          explanation: "Tanda minus (-Indexes) mencegah pengunjung luar melihat struktur folder dan file sensitif server saat tidak ada file index."
+        },
+        {
+          question: "Perintah utilitas Apache di Ubuntu/Debian yang digunakan untuk mengaktifkan file konfigurasi virtual host adalah?",
+          options: ["sudo a2ensite portal.conf", "sudo a2enmod ssl", "sudo service web on", "sudo systemctl host enable"],
+          correctIndex: 0,
+          explanation: "'a2ensite' (Apache2 Enable Site) membuat symbolic link dari /etc/apache2/sites-available/ ke /etc/apache2/sites-enabled/."
         }
       ]
     });

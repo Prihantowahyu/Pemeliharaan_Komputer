@@ -3,129 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 1: Virtualisasi Server (VirtualBox & Proxmox) — Kelas XII TKJ</title>
+<title>Genap Pert 1: Virtualisasi Server & Hypervisor Management (Proxmox VE & VirtualBox) — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(99,102,241,0.28);--acc:#6366f1;--acc2:#a5b4fc;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--em:#10b981;--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(99,102,241,0.12),transparent 45%),radial-gradient(circle at 95% 30%,rgba(0,240,255,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(99,102,241,0.04) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(99,102,241,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#fff;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(139, 92, 246, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.35);
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(139, 92, 246, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #c4b5fd; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 1 / Pert. 1</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 1 (Hari 1 / Pert. 1)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 1 HARI KE-1 · SEMESTER GENAP</div>
-    <h1>Virtualisasi Server — Hypervisor, VirtualBox & Proxmox VE</h1>
-    <p>Memahami konsep virtualisasi server enterprise, perbedaan Hypervisor Tipe 1 (Bare-Metal) dan Tipe 2 (Hosted), instalasi dan konfigurasi VirtualBox/Proxmox, serta manajemen sumber daya Virtual Machine (CPU, RAM, Storage).</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 1 HARI KE-1 · SEMESTER GENAP</div>
+    <h1>Virtualisasi Server & Manajemen Hypervisor (Proxmox VE & VirtualBox)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan komprehensif menguasai teknologi virtualisasi enterprise: Membedah arsitektur Hypervisor Tipe 1 (Bare-Metal - Proxmox VE / KVM / ESXi) vs Tipe 2 (Hosted - VirtualBox / VMware Workstation), alokasi dinamis vCPU & RAM Ballooning, virtual switch & bridging networking, manajemen CLI headless (<code>VBoxManage</code> & <code>qm</code>), snapshot recovery, serta pembuatan template VM.</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Konsep & Hypervisor</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">VirtualBox vs Proxmox</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Buat & Kelola VM</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Resource & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Hypervisor T1 vs T2</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">KVM & Container (LXC)</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">CLI VBoxManage & qm</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab Multi-VM</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Nested VT-x</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Perbandingan Hypervisor Tipe 1 & Tipe 2</h2>
-    <table class="tbl">
-      <tr><th>Aspek</th><th>Tipe 1 — Bare-Metal (Proxmox VE)</th><th>Tipe 2 — Hosted (VirtualBox)</th></tr>
-      <tr><td>Instalasi</td><td>Langsung di hardware fisik, tanpa OS host</td><td>Di atas OS host (Windows/Linux/macOS)</td></tr>
-      <tr><td>Performa</td><td>⚡ Sangat tinggi — akses hardware langsung</td><td>Lebih rendah — melewati lapisan OS host</td></tr>
-      <tr><td>Contoh Produk</td><td>Proxmox VE, VMware ESXi, Microsoft Hyper-V</td><td>VirtualBox, VMware Workstation, QEMU</td></tr>
-      <tr><td>Kasus Penggunaan</td><td>Production server, datacenter enterprise</td><td>Lab, pengujian, pengembangan lokal</td></tr>
-      <tr><td>Manajemen</td><td>Web UI (port 8006) atau CLI</td><td>GUI desktop atau CLI VBoxManage</td></tr>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Efisiensi Server Konsolidasi</span> <span style="font-size:12px;color:var(--violet);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa perusahaan beralih dari 10 server fisik yang boros listrik menjadi 1 server fisik berdaya besar yang menjalankan 10 Virtual Machine? Guru memaparkan efisiensi konsolidasi server dan penghematan CapEx/OpEx.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Arsitektur Hypervisor Tipe 1 (Bare-Metal) vs Tipe 2 (Hosted)</span> <span style="font-size:12px;color:var(--violet);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Analisis komparatif: Hypervisor Tipe 1 (Proxmox VE/ESXi) berjalan langsung di atas hardware fisik tanpa OS perantara (kinerja mendekati native 98%), sedangkan Tipe 2 (VirtualBox) berjalan di atas OS host Windows/Linux.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Mode Jaringan Virtual (NAT, Bridged, Host-Only, Internal)</span> <span style="font-size:12px;color:var(--violet);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Membedah 4 mode jaringan VM: Kapan menggunakan <strong>Bridged Adapter</strong> agar VM mendapat IP langsung dari router lab seolah-olah PC fisik, dan kapan menggunakan <strong>Internal Network</strong> untuk mengisolasi cluster lab privat.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan BIOS komputer lab (memastikan opsi Intel VT-x / AMD-V aktif).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Deploy & Automasi VM CLI</span> <span style="font-size:12px;color:var(--violet);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 1</strong>: (1) Membuat 2 unit VM Linux Server via antarmuka CLI <code>VBoxManage</code> tanpa menyentuh mouse, (2) Konfigurasi 2 vCPU, 2048MB RAM, 20GB Dynamic VDI, (3) Pasang Bridged Adapter, (4) Buat Snapshot <em>"Clean-OS-State"</em>, (5) Uji coba restore snapshot dalam 5 detik saat OS disimulasikan rusak.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Kasus Gangguan (Troubleshooting Nested Virtualization & MAC Conflict)</span> <span style="font-size:12px;color:var(--violet);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa memecahkan error: "VT-x is not available in host", kendala kloning VM yang menghasilkan duplikasi MAC Address sama (IP conflict), serta alokasi RAM overcommitment.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--violet);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian VM CLI oleh guru, dan pengantar materi Database Server MySQL/PostgreSQL untuk pertemuan ke-2.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAGIAN 2: MATERI TEORI HYPERVISOR -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Perbandingan Arsitektur Hypervisor & Manajemen CLI</h2>
+    <table class="table-custom">
+      <tr><th>Kategori</th><th>Hypervisor Tipe 1 (Bare-Metal)</th><th>Hypervisor Tipe 2 (Hosted)</th></tr>
+      <tr><td><strong>Posisi Lapisan</strong></td><td>Langsung di atas Hardware (Proxmox VE / KVM / VMware ESXi)</td><td>Di atas Sistem Operasi Host (VirtualBox / VMware Workstation)</td></tr>
+      <tr><td><strong>Overhead Latensi</strong></td><td>Sangat Rendah (Near-Bare-Metal Throughput ~98%)</td><td>Tinggi (Terbebani oleh background process OS Host)</td></tr>
+      <tr><td><strong>Manajemen Jaringan</strong></td><td>Linux Bridge (<code>vmbr0</code>), Open vSwitch, VLAN tagging hardware</td><td>Virtual Adapter software emulated</td></tr>
+      <tr><td><strong>Kasus Penggunaan</strong></td><td>Data Center produksi, VPS provider, Cloud Computing</td><td>Pengujian lab pengembang, simulasi belajar siswa</td></tr>
+    </table>
+
+    <div class="code-block" style="margin-top:16px;">
+<span style="color:#64748b;"># Otomasi Pembuatan Virtual Machine via CLI Headless (VBoxManage)</span>
+<span style="color:#38bdf8;">VBoxManage createvm --name "Server-Web-Node1" --ostype "Ubuntu_64" --register</span>
+<span style="color:#38bdf8;">VBoxManage modifyvm "Server-Web-Node1" --cpus 2 --memory 2048 --vram 16 --nic1 bridged --bridgeadapter1 "eth0"</span>
+<span style="color:#38bdf8;">VBoxManage createmedium disk --filename "Server-Web-Node1.vdi" --size 20480 --format VDI</span>
+<span style="color:#38bdf8;">VBoxManage storagectl "Server-Web-Node1" --name "SATA Controller" --add sata --controller IntelAhci</span>
+<span style="color:#38bdf8;">VBoxManage storageattach "Server-Web-Node1" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "Server-Web-Node1.vdi"</span>
+<span style="color:#38bdf8;">VBoxManage startvm "Server-Web-Node1" --type headless</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Tahap Praktik</th><th>Perintah Eksekusi / Tindakan</th><th>Kriteria Validasi & Output</th></tr>
+      <tr><td><strong>1. Cek Dukungan VT-x</strong></td><td><code>egrep -c '(vmx|svm)' /proc/cpuinfo</code></td><td>Hasil > 0 (Hardware mendukung virtualisasi hardware).</td></tr>
+      <tr><td><strong>2. Buat Snapshot</strong></td><td><code>VBoxManage snapshot "Server-Web-Node1" take "Baseline-Fresh"</code></td><td>Snapshot tercatat di snapshot tree.</td></tr>
+      <tr><td><strong>3. Simulasi Rusak OS</strong></td><td>Di dalam VM jalankan: <code>sudo rm -rf /etc/network</code></td><td>Koneksi jaringan VM terputus total.</td></tr>
+      <tr><td><strong>4. Restore Snapshot</strong></td><td><code>VBoxManage snapshot "Server-Web-Node1" restore "Baseline-Fresh"</code></td><td>VM kembali sehat 100% dalam waktu &lt; 10 detik.</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Manajemen VM via CLI VBoxManage & Proxmox</h2>
-    <div class="code"><span style="color:#64748b"># VirtualBox: Daftar semua VM yang terdaftar</span>
-VBoxManage list vms
-
-<span style="color:#64748b"># Buat VM baru: Ubuntu Server 22.04, 2 CPU, 2GB RAM, 20GB Disk</span>
-VBoxManage createvm --name "UbuntuServer" --ostype Ubuntu_64 --register
-VBoxManage modifyvm "UbuntuServer" --cpus 2 --memory 2048 --vram 16
-VBoxManage createhd --filename "UbuntuServer.vdi" --size 20480
-VBoxManage storagectl "UbuntuServer" --name "SATA" --add sata
-VBoxManage storageattach "UbuntuServer" --storagectl "SATA" --port 0 --device 0 --type hdd --medium "UbuntuServer.vdi"
-
-<span style="color:#64748b"># Start/Stop/Suspend VM</span>
-VBoxManage startvm "UbuntuServer" --type headless
-VBoxManage controlvm "UbuntuServer" poweroff</div>
-
-    <div class="code"><span style="color:#64748b"># Proxmox VE: Manajemen VM via pvesh CLI (di host Proxmox)</span>
-pvesh get /nodes/pve/qemu               <span style="color:#64748b"># Daftar semua VM</span>
-qm start 100                            <span style="color:#64748b"># Start VM dengan ID 100</span>
-qm snapshot 100 snap-before-update      <span style="color:#64748b"># Buat snapshot VM sebelum update</span>
-qm rollback 100 snap-before-update      <span style="color:#64748b"># Rollback ke snapshot jika terjadi masalah</span></div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Duplikasi MAC Address saat Kloning</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: Dua VM hasil kloning berebut IP dan menyebabkan IP Conflict di LAN</span>
+<span style="color:#fde68a;"># Penyebab: Kloning VM tanpa meregenerasi MAC Address kartu jaringan virtual.</span>
+<span style="color:#a7f3d0;"># Solusi: Ubah MAC Address kartu jaringan VM baru secara acak:</span>
+<span style="color:#38bdf8;">VBoxManage modifyvm "Server-Web-Node2" --macaddress1 auto</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Tugas Praktikum</th><th>Langkah Konfigurasi</th><th>Kriteria Keberhasilan</th></tr>
-      <tr><td>Instalasi VirtualBox + Extension Pack</td><td>Download dari virtualbox.org, install extension pack untuk USB 3.0 & RDP</td><td>VirtualBox terbuka, versi tampil di About</td></tr>
-      <tr><td>Buat VM Ubuntu Server 22.04</td><td>2 vCPU, 2048 MB RAM, 20 GB VDI Dynamically Allocated, NIC: Bridged Adapter</td><td>VM boot dari ISO, proses instalasi berjalan</td></tr>
-      <tr><td>Konfigurasi Shared Folder</td><td>Settings → Shared Folders → tambah folder host, Auto-mount</td><td>Folder host muncul di <code>/media/sf_nama/</code> dalam VM</td></tr>
-      <tr><td>Buat Snapshot VM</td><td>Machine → Take Snapshot → nama "clean-install"</td><td>Snapshot tersimpan; restore kembali ke kondisi bersih</td></tr>
-    </table>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
-  </section>
-
-  <div class="foot">
-    <a href="index.html#server-genap" class="btn s">← Dashboard Genap XII</a>
-    <a href="Server_Genap_Pert_2_database-server-mysql-postgresql.html" class="btn p">Pertemuan 2: Database Server →</a>
+  <div class="footer-deck">
+    <a href="index.html#server-genap" class="btn-nav-bottom secondary">← Portal Genap XII</a>
+    <a href="Server_Genap_Pert_2_database-server-mysql-postgresql.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 2: Database Server (MySQL & PostgreSQL) →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Virtualisasi Server & Hypervisor',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'Perbedaan fundamental antara Hypervisor Tipe 1 dan Tipe 2 terletak pada?',options:['Tipe 1 berjalan langsung di hardware (bare-metal) tanpa OS host; Tipe 2 berjalan di atas OS host yang sudah terinstal','Tipe 1 hanya untuk Windows, Tipe 2 hanya untuk Linux','Tipe 2 memiliki performa lebih tinggi karena mengakses hardware langsung','Tipe 1 tidak mendukung multiple VM secara bersamaan'],correctIndex:0,explanation:'Hypervisor Tipe 1 (Proxmox, ESXi) berjalan langsung di atas hardware sehingga performa lebih baik. Tipe 2 (VirtualBox, VMware Workstation) memerlukan OS host sebagai perantara.'},
-    {question:'Fitur "Snapshot" pada VirtualBox/Proxmox berfungsi untuk?',options:['Menyimpan kondisi VM pada titik waktu tertentu sehingga bisa di-rollback jika terjadi kesalahan update atau konfigurasi','Mengambil screenshot tampilan layar VM','Menduplikasi VM ke host fisik lain','Mengoptimalkan penggunaan RAM VM secara otomatis'],correctIndex:0,explanation:'Snapshot membekukan state VM (RAM, disk, konfigurasi) sehingga administrator dapat dengan aman mencoba perubahan dan rollback ke titik snapshot jika terjadi kegagalan.'},
-    {question:'Dalam VirtualBox, mode jaringan "Bridged Adapter" memungkinkan VM untuk?',options:['Mendapatkan IP dari DHCP jaringan fisik yang sama dengan host, sehingga dapat diakses oleh perangkat lain di jaringan LAN','Hanya berkomunikasi dengan host saja tanpa akses jaringan luar','Berbagi IP Address yang sama dengan host fisik','Menggunakan NAT untuk menyembunyikan IP VM dari jaringan'],correctIndex:0,explanation:'Bridged Adapter menghubungkan NIC virtual VM langsung ke switch fisik, seolah VM adalah komputer fisik terpisah di jaringan. VM mendapat IP dari DHCP server jaringan dan dapat diping dari perangkat lain di LAN.'}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Virtualisasi Server & Hypervisor',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Perbedaan utama arsitektur Hypervisor Tipe 1 (Bare-Metal seperti Proxmox VE / KVM) dibandingkan Hypervisor Tipe 2 (Hosted seperti VirtualBox) adalah?",
+          options: [
+            "Hypervisor Tipe 1 berjalan langsung di atas perangkat keras fisik server tanpa sistem operasi perantara, menghasilkan performa mendekati native",
+            "Hypervisor Tipe 1 hanya bisa dijalankan di komputer laptop",
+            "Hypervisor Tipe 2 tidak memerlukan RAM",
+            "Hypervisor Tipe 1 tidak mendukung koneksi jaringan LAN"
+          ],
+          correctIndex: 0,
+          explanation: "Bare-metal hypervisor menghilangkan overhead latensi OS perantara sehingga sangat efisien untuk beban kerja produksi data center."
+        },
+        {
+          question: "Mode kartu jaringan virtual (Virtual Network Adapter) yang membuat Virtual Machine mendapatkan IP Address langsung dari router jaringan fisik seolah-olah komputer fisik independen adalah?",
+          options: ["Bridged Adapter", "NAT (Network Address Translation)", "Internal Network", "Host-Only Adapter"],
+          correctIndex: 0,
+          explanation: "Bridged Adapter mengikat kartu jaringan VM langsung ke NIC fisik host, memungkinkan VM diakses oleh seluruh client lain di jaringan LAN."
+        },
+        {
+          question: "Fungsi utama dari fitur 'Snapshot' pada sistem virtualisasi server adalah?",
+          options: [
+            "Menyimpan kondisi status memori dan data hard disk VM pada titik waktu tertentu sehingga dapat dipulihkan kembali (rollback) seketika saat terjadi kerusakan konfigurasi",
+            "Mengganti password root secara otomatis",
+            "Mempercepat kipas pendingin server",
+            "Menghapus seluruh file log sistem"
+          ],
+          correctIndex: 0,
+          explanation: "Snapshot sangat krusial sebelum melakukan upgrade kernel atau perubahan konfigurasi besar, memberikan jaring pengaman rollback instan jika sistem error."
+        },
+        {
+          question: "Apa akibat fatal jika dua Virtual Machine hasil kloning dijalankan bersamaan dengan konfigurasi MAC Address kartu jaringan yang identik?",
+          options: [
+            "Terjadi tabrakan paket (ARP/MAC Address Conflict) di jaringan switch sehingga kedua VM mengalami kehilangan koneksi IP secara bergantian",
+            "Hard disk komputer host akan langsung terformat",
+            "Kedua VM otomatis bergabung menjadi satu layar",
+            "Kecepatan internet otomatis bertambah dua kali lipat"
+          ],
+          correctIndex: 0,
+          explanation: "Switch jaringan Layer 2 memetakan port berdasarkan MAC Address unik. Duplikasi MAC menyebabkan switch flapping dan paket data tersesat."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

@@ -3,126 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 8: Pengenalan Cloud Computing Dasar — Kelas XII TKJ</title>
+<title>Genap Pert 8: Cloud Computing Fundamentals & IaaS VPS Deployment — Kelas XII TKJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(56,189,248,0.28);--acc:#38bdf8;--acc2:#bae6fd;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(56,189,248,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(139,92,246,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(56,189,248,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(56,189,248,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(56,189,248,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(139, 92, 246, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --violet-glow: rgba(139, 92, 246, 0.35);
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #c4b5fd; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--violet); color: #c4b5fd; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--violet); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: #c4b5fd; font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(139, 92, 246, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #c4b5fd; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 2 Hari 3 / Pert. 8</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 2 (Hari 3 / Pert. 8)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 2 HARI KE-3 · SEMESTER GENAP</div>
-    <h1>Pengenalan Cloud Computing Dasar (IaaS, PaaS, SaaS & VPS Tier Gratis)</h1>
-    <p>Memahami arsitektur komputasi awan, model layanan (IaaS, PaaS, SaaS), model deployment (Public, Private, Hybrid), pengenalan provider cloud (AWS, GCP, Azure, Oracle Cloud), serta praktik deployment instance Virtual Server (VPS) gratis.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 2 HARI KE-3 · SEMESTER GENAP</div>
+    <h1>Konsep Dasar Cloud Computing & Provisioning Virtual Private Server (IaaS VPS)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan transisi infrastruktur on-premise ke komputasi awan modern: Membedah taksonomi layanan NIST (IaaS, PaaS, SaaS), model penyebaran (Public, Private, Hybrid & Multi-Cloud), model tanggung jawab bersama (<em>Shared Responsibility Model</em>), teknik provisi VPS instan berbasis skrip <code>cloud-init</code>, konfigurasi Virtual Firewall / Security Groups (Ingress & Egress rules), serta optimasi biaya Pay-As-You-Go.</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">IaaS, PaaS & SaaS</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Model Deployment Cloud</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Deploy Instance VPS</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">SSH Cloud & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">IaaS PaaS SaaS Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">Shared Responsibility</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Cloud Security Groups</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Cloud Init</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Security Group</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Taksonomi Model Layanan Cloud: IaaS vs PaaS vs SaaS</h2>
-    <table class="tbl">
-      <tr><th>Model Layanan</th><th>Tanggung Jawab Pengguna (Siswa/Admin)</th><th>Tanggung Jawab Cloud Provider</th><th>Contoh Nyata</th></tr>
-      <tr><td><strong>IaaS</strong> (Infrastructure as a Service)</td><td>OS, Runtime, Middleware, Aplikasi, Data</td><td>Hardware fisik, Jaringan, Virtualisasi, Datacenter</td><td>AWS EC2, Google Compute Engine, Linode/Akamai</td></tr>
-      <tr><td><strong>PaaS</strong> (Platform as a Service)</td><td>Aplikasi dan Data (Source code)</td><td>OS, Runtime, Patching, Scaling, Hardware</td><td>Heroku, Google App Engine, Vercel, Railway</td></tr>
-      <tr><td><strong>SaaS</strong> (Software as a Service)</td><td>Hanya menggunakan aplikasi dan pengaturan user</td><td>Semua lapisan infrastruktur hingga kode program</td><td>Google Workspace, Microsoft 365, Canva</td></tr>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Evolusi Datacenter Fisik ke Cloud</span> <span style="font-size:12px;color:var(--violet);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa startup teknologi modern tidak lagi membeli server fisik bernilai ratusan juta rupiah? Guru memaparkan fleksibilitas <em>Elasticity</em>, <em>On-Demand Self-Service</em>, dan model biaya operasional (OpEx vs CapEx).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Taksonomi Layanan IaaS, PaaS, SaaS & Shared Responsibility</span> <span style="font-size:12px;color:var(--violet);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Membongkar batas tanggung jawab: Pada IaaS (AWS EC2, Google Compute Engine, DigitalOcean), penyedia cloud bertanggung jawab atas fisik hardware dan hypervisor, sedangkan pengguna bertanggung jawab mutlak atas patching OS, firewall, konfigurasi database, dan data aplikasi.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Otomasi Provisi Cloud Instance via cloud-init & Security Groups</span> <span style="font-size:12px;color:var(--violet);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Pembedahan skrip deklaratif <code>#cloud-config</code>: Otomatisasi pembuatan user, inject SSH public key, dan instalasi paket web server pada detik pertama saat VM booting tanpa intervensi manual.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan browser dan konsol cloud lab siswa.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Deploy Instance VPS Cloud</span> <span style="font-size:12px;color:var(--violet);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 8</strong>: (1) Membuat cloud instance Linux Server (1 vCPU, 1GB RAM) via konsol cloud/simulasi Proxmox Cloud-Init, (2) Menetapkan Security Group Ingress (hanya izinkan SSH Port 22 & HTTP Port 80), (3) Injeksi SSH Keypair, (4) Mengakses IP Publik Elastic Cloud via SSH terminal, (5) Memverifikasi website live di browser publik.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Security Group Port Blocked</span> <span style="font-size:12px;color:var(--violet);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa menganalisis mengapa server cloud tidak bisa di-ping atau diakses via SSH (ternyata port belum diizinkan pada Virtual Firewall Ingress Provider Cloud, meskipun firewall internal OS sudah dimatikan).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--violet);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live VPS cloud oleh guru, dan pengantar Proyek Infrastruktur Terintegrasi (Capstone Project).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAGIAN 2: MATERI TEORI CLOUD MODELS -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Taksonomi Model Layanan Cloud Computing (NIST)</h2>
+    <table class="table-custom">
+      <tr><th>Karakteristik</th><th>IaaS (Infrastructure as a Service)</th><th>PaaS (Platform as a Service)</th><th>SaaS (Software as a Service)</th></tr>
+      <tr><td><strong>Definisi</strong></td><td>Penyewaan sumber daya komputasi mentah (Virtual Machine, Storage, Virtual Network)</td><td>Penyewaan lingkungan eksekusi aplikasi siap pakai tanpa perlu pusing kelola OS</td><td>Penyewaan aplikasi perangkat lunak siap pakai langsung via web browser</td></tr>
+      <tr><td><strong>Tanggung Jawab Pengguna</strong></td><td>Aplikasi, Data, Runtime, Middleware, <strong>Sistem Operasi & Firewall</strong></td><td><strong>Hanya Aplikasi & Data</strong></td><td><strong>Hanya Penggunaan & Konfigurasi User</strong></td></tr>
+      <tr><td><strong>Contoh Layanan</strong></td><td>AWS EC2, Google Compute Engine, Linode, Proxmox VE</td><td>Heroku, AWS Elastic Beanstalk, Google App Engine</td><td>Google Workspace (Gmail, Drive), Office 365, Canva</td></tr>
+    </table>
+
+    <div class="code-block" style="margin-top:16px;">
+<span style="color:#64748b;"># Contoh Skrip Otomasi Provisi Cloud (#cloud-config / cloud-init)</span>
+<pre style="color:#67e8f9;">#cloud-config
+users:
+  - name: sysadmin
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... admin@smk.lan
+
+packages:
+  - nginx
+  - ufw
+
+runcmd:
+  - ufw allow 22/tcp
+  - ufw allow 80/tcp
+  - ufw --force enable
+  - systemctl restart nginx</pre>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Tahap</th><th>Tindakan di Cloud Console / CLI</th><th>Target Output & Kriteria Sukses</th></tr>
+      <tr><td><strong>1. Security Group</strong></td><td>Tambah Rule Ingress: <code>Port 22 (SSH)</code> & <code>Port 80 (HTTP)</code> Source: <code>0.0.0.0/0</code></td><td>Virtual firewall cloud mengizinkan traffic masuk.</td></tr>
+      <tr><td><strong>2. Launch Instance</strong></td><td>Pilih Image: Ubuntu 22.04 LTS, Type: 1 vCPU / 1GB RAM</td><td>Instance berstatus <strong>Running</strong> dan memiliki IP Publik.</td></tr>
+      <tr><td><strong>3. Remote SSH</strong></td><td><code>ssh -i id_ed25519 sysadmin@103.x.x.x</code></td><td>Terminal Linux cloud terbuka tanpa input password.</td></tr>
+      <tr><td><strong>4. Uji Web Publik</strong></td><td>Buka <code>http://103.x.x.x</code> di browser HP siswa</td><td>Halaman selamat datang Nginx tampil via jaringan internet seluler.</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Model Deployment Cloud & Provider Populer</h2>
-    <table class="tbl">
-      <tr><th>Deployment Model</th><th>Karakteristik</th><th>Kelebihan</th><th>Kekurangan</th></tr>
-      <tr><td><strong>Public Cloud</strong></td><td>Infrastruktur dibagi bersama (multi-tenant) di server vendor</td><td>Biaya fleksibel (pay-as-you-go), skalabilitas tak terbatas</td><td>Kontrol kepatuhan data terbatas</td></tr>
-      <tr><td><strong>Private Cloud</strong></td><td>Infrastruktur didedikasikan hanya untuk 1 organisasi (on-premise)</td><td>Keamanan maksimal, kontrol hardware penuh</td><td>Investasi modal (CapEx) awal sangat tinggi</td></tr>
-      <tr><td><strong>Hybrid Cloud</strong></td><td>Kombinasi Public Cloud + Private Cloud yang terhubung VPN/DirectConnect</td><td>Fleksibilitas: data rahasia di private, web publik di cloud</td><td>Kompleksitas konfigurasi dan integrasi jaringan</td></tr>
-    </table>
-
-    <div class="code" style="margin-top:14px"><span style="color:#64748b"># Contoh: Menghubungkan SSH ke Cloud VPS Instance (misal: AWS EC2 / Oracle Cloud)</span>
-<span style="color:#64748b"># 1. Atur izin akses Private Key file</span>
-chmod 400 my-cloud-key.pem
-
-<span style="color:#64748b"># 2. Login menggunakan Public IP dan Key</span>
-ssh -i my-cloud-key.pem ubuntu@203.0.113.45
-
-<span style="color:#64748b"># 3. Setup Cloud-Init / Script Otomatisasi Web Server</span>
-sudo apt update && sudo apt install nginx -y
-echo "<h1>Deployed on Cloud VPS Tier</h1>" | sudo tee /var/www/html/index.html</div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Security Group vs OS Firewall</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># DUA LAPIS FIREWALL PADA CLOUD ENVIRONMENT:</span>
+1. Layer Luar (Cloud Security Group / Virtual Firewall Provider): Beroperasi di hypervisor cloud. Jika port 80 tertutup di sini, paket data tidak akan pernah sampai ke VM!
+2. Layer Dalam (OS Firewall - UFW / IPTables): Beroperasi di dalam kernel Linux VM.
+<span style="color:#fde68a;"># KEDUA LAPISAN TERSEBUT WAJIB MEMBUKA PORT YANG SAMA AGAR DAPAT DIAKSES PUBLIK!</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Tugas Praktikum</th><th>Aktivitas Siswa</th><th>Output Verifikasi</th></tr>
-      <tr><td>Analisis Kebutuhan Cloud</td><td>Memilih model layanan terbaik untuk 3 skenario studi kasus (Toko Online, Data Nilai Siswa, Email Kantor)</td><td>Lembar analisis berisi justifikasi pilihan IaaS/PaaS/SaaS</td></tr>
-      <tr><td>Pembuatan Keypair Cloud</td><td>Generate SSH Keypair (RSA 4096) khusus untuk otentikasi instance cloud</td><td>File .pem/.pub tersimpan dengan permission 400</td></tr>
-      <tr><td>Peluncuran VM di Cloud Simulator / Free Tier</td><td>Konfigurasi instance Ubuntu 22.04 LTS (1 vCPU, 1 GB RAM, Security Group Port 22 & 80)</td><td>Instance berstatus "Running" dengan Public IPv4</td></tr>
-      <tr><td>Deploy Web Page di Cloud</td><td>Install Nginx via SSH remote dan buat halaman landing page profil siswa</td><td>Halaman web dapat diakses via browser dari HP/Laptop menggunakan Public IP</td></tr>
-    </table>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
-  </section>
-
-  <div class="foot">
-    <a href="Server_Genap_Pert_7_load-balancing-high-availability.html" class="btn s">← Pert 7: Load Balancing</a>
-    <a href="Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html" class="btn p">Pert 9: Proyek Akhir Terintegrasi →</a>
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_7_load-balancing-high-availability.html" class="btn-nav-bottom secondary">← Pertemuan 7: Load Balancing Cluster</a>
+    <a href="Server_Genap_Pert_9_proyek-infrastruktur-terintegrasi.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 9: Proyek Infrastruktur Terpadu (Capstone) →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Cloud Computing Dasar (IaaS, PaaS, SaaS)',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'Jika sebuah perusahaan menyewa VM dari penyedia cloud dan bertanggung jawab mengelola OS, database, serta aplikasi sendiri, model layanan tersebut adalah?',options:['IaaS (Infrastructure as a Service)','PaaS (Platform as a Service)','SaaS (Software as a Service)','BaaS (Backend as a Service)'],correctIndex:0,explanation:'IaaS memberikan kontrol penuh atas OS, software, dan konfigurasi jaringan di atas infrastruktur komputasi virtual yang disediakan penyedia cloud.'},
-    {question:'Dalam arsitektur Cloud Security Group / Firewall, apa fungsi aturan Inbound Rules port 80 dan 443?',options:['Mengizinkan pengunjung internet publik mengakses layanan website HTTP dan HTTPS yang berjalan di instance','Mengizinkan admin melakukan remote SSH','Menghubungkan database ke disk backup','Mengenkripsi file system internal server'],correctIndex:0,explanation:'Inbound rules mengatur lalu lintas masuk ke instance cloud. Port 80 (HTTP) dan 443 (HTTPS) dibuka untuk umum agar website dapat dikunjungi publik.'},
-    {question:'Model deployment cloud di mana sebuah instansi memadukan server lokal privat untuk data rahasia dengan cloud publik untuk website publik disebut?',options:['Hybrid Cloud','Public Cloud','Private Cloud','Community Cloud'],correctIndex:0,explanation:'Hybrid Cloud menggabungkan on-premise/private cloud dengan public cloud, memungkinkan orkestrasi beban kerja dan pembagian data sensitif dengan efisien.'}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Cloud Computing Fundamentals & IaaS',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Dalam model layanan komputasi awan IaaS (Infrastructure as a Service), bagian infrastruktur yang menjadi tanggung jawab mutlak bagi pengguna (SysAdmin) adalah?",
+          options: [
+            "Instalasi Sistem Operasi, Patching Keamanan, Konfigurasi Aplikasi, Database, dan Pengaturan Firewall internal",
+            "Pemeliharaan fisik kabel trafo listrik gedung datacenter",
+            "Penggantian modul RAM server yang terbakar",
+            "Pembersihan debu kipas pendingin rak server"
+          ],
+          correctIndex: 0,
+          explanation: "Shared Responsibility Model IaaS menetapkan bahwa penyedia cloud mengurus infrastruktur fisik dan hypervisor, sedangkan pengguna mengurus seluruh sistem operasi dan aplikasi di dalamnya."
+        },
+        {
+          question: "Layanan cloud yang menyediakan platform pengembangan aplikasi siap pakai (runtime engine, web framework) di mana pengguna cukup meng-upload kode program tanpa perlu mengelola OS disebut?",
+          options: ["PaaS (Platform as a Service)", "IaaS (Infrastructure as a Service)", "SaaS (Software as a Service)", "DaaS (Desktop as a Service)"],
+          correctIndex: 0,
+          explanation: "Contoh PaaS adalah Google App Engine dan Heroku di mana developer fokus hanya pada source code aplikasi."
+        },
+        {
+          question: "Fungsi utama dari fitur 'Cloud-Init' pada sistem provisi Virtual Private Server (VPS) adalah?",
+          options: [
+            "Menjalankan skrip konfigurasi otomatis (membuat user, memasang SSH key, menginstal paket software) pada saat pertama kali instance virtual server booting",
+            "Menghapus seluruh hard disk secara berkala",
+            "Mengganti IP publik setiap jam",
+            "Mematikan server saat tidak digunakan"
+          ],
+          correctIndex: 0,
+          explanation: "Cloud-Init adalah standar industri multi-distribusi untuk otomatisasi inisialisasi instance cloud instan tanpa konfigurasi manual."
+        },
+        {
+          question: "Model penerapan Cloud di mana perusahaan menggabungkan infrastruktur server lokal on-premise privat dengan server publik (seperti AWS/Google Cloud) disebut?",
+          options: ["Hybrid Cloud", "Public Cloud murni", "Community Cloud", "Single Cloud"],
+          correctIndex: 0,
+          explanation: "Hybrid Cloud menghubungkan datacenter lokal internal dengan cloud publik menggunakan VPN Tunnel/Direct Connect untuk keamanan dan fleksibilitas burst traffic."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

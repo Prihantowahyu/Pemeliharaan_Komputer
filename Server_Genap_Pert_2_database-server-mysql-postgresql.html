@@ -3,137 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 2: Database Server MySQL & PostgreSQL — Kelas XII TKJ</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<title>Genap Pert 2: Database Server Enterprise (MySQL / MariaDB & PostgreSQL) — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(16,185,129,0.28);--acc:#10b981;--acc2:#6ee7b7;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(16,185,129,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(99,102,241,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(16,185,129,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(16,185,129,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(16,185,129,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(0, 240, 255, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(0, 240, 255, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 2 / Pert. 2</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 1 (Hari 2 / Pert. 2)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 1 HARI KE-2 · SEMESTER GENAP</div>
-    <h1>Database Server — Instalasi & Konfigurasi MySQL / PostgreSQL</h1>
-    <p>Menginstal dan mengonfigurasi RDBMS enterprise (MySQL/MariaDB & PostgreSQL), membuat database, tabel, dan user dengan privilege terpisah, koneksi client jarak jauh, serta perintah query SQL dasar.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 1 HARI KE-2 · SEMESTER GENAP</div>
+    <h1>Konfigurasi Database Server Enterprise (MySQL / MariaDB & PostgreSQL)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan deployment sistem manajemen basis data relasional (RDBMS) skala produksi: Membedah kepatuhan transaksi ACID (Atomicity, Consistency, Isolation, Durability), instalasi & hardening keamanan dengan <code>mysql_secure_installation</code>, konfigurasi binding remote networking <code>bind-address = 0.0.0.0</code>, hak akses user terisolasi berbasis host (<code>GRANT</code>), optimasi storage engine InnoDB, serta strategi backup/restore logis via <code>mysqldump</code>.</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Konsep RDBMS & SQL</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Install & Secure MySQL</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Database, Tabel & User</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Koneksi Client & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">ACID & RDBMS Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">MySQL Hardening & Bind</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">User Grants & SQL DDL</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Remote DBeaver</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Error 1045</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Perbandingan MySQL vs PostgreSQL</h2>
-    <table class="tbl">
-      <tr><th>Aspek</th><th>MySQL / MariaDB</th><th>PostgreSQL</th></tr>
-      <tr><td>Tipe Database</td><td>Relasional — cocok untuk web app LAMP</td><td>Object-Relational — mendukung JSON, Array, tipe khusus</td></tr>
-      <tr><td>Performa READ</td><td>⚡ Sangat cepat untuk SELECT query sederhana</td><td>Lebih cepat untuk query JOIN kompleks & OLAP</td></tr>
-      <tr><td>Lisensi</td><td>GPL (Community) / Commercial (Enterprise)</td><td>PostgreSQL License (sepenuhnya open-source)</td></tr>
-      <tr><td>Default Port</td><td>3306</td><td>5432</td></tr>
-      <tr><td>Kasus Terbaik</td><td>WordPress, Prestashop, aplikasi web CRUD</td><td>Analitik data, GIS, aplikasi keuangan kompleks</td></tr>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Prinsip ACID Transaksi Data</span> <span style="font-size:12px;color:var(--cyan);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Mengapa aplikasi perbankan atau sistem nilai siswa tidak boleh menggunakan file Excel biasa? Guru memaparkan 4 pilar ACID: Atomicity (semua query berhasil atau batal sama sekali), Consistency, Isolation (transaksi simultan tidak saling merusak), dan Durability (data tersimpan permanen pasca crash).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Instalasi & Hardening Keamanan MySQL/MariaDB</span> <span style="font-size:12px;color:var(--cyan);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan skrip <code>mysql_secure_installation</code>: Menghapus user anonymous, melarang remote login root, menghapus database 'test', dan memuat ulang tabel hak akses (FLUSH PRIVILEGES). Pembedahan file <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Manajemen User Berbasis Host & Hak Akses Terisolasi</span> <span style="font-size:12px;color:var(--cyan);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Membongkar sintaks keamanan SQL: <code>CREATE USER 'app_user'@'192.168.10.%' IDENTIFIED BY 'PassKuat123!';</code> dan pemberian hak terbatas hanya pada database tertentu (<code>GRANT SELECT, INSERT, UPDATE ON db_sekolah.* ...</code>).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan client GUI database (DBeaver / HeidiSQL) di laptop siswa.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Remote Database & Dump Test</span> <span style="font-size:12px;color:var(--cyan);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 2</strong>: (1) Install MariaDB Server di Linux, (2) Buka port 3306 via <code>bind-address = 0.0.0.0</code> & Firewall UFW, (3) Buat DB <code>db_portal_siswa</code>, (4) Sambungkan aplikasi DBeaver dari laptop client, (5) Buat tabel siswa dan input 10 baris data, (6) Eksekusi backup CLI <code>mysqldump</code> dan simulasikan restore.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Error 1045 & Error 2003 Connection Refused</span> <span style="font-size:12px;color:var(--cyan);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa mendiagnosis 2 kegagalan klasik: Error 2003 (MySQL hanya mendengarkan 127.0.0.1 loopback) dan Error 1045 (User terdaftar untuk host 'localhost' namun mencoba login dari remote IP).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--cyan);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian query remote oleh guru, dan pengantar materi Remote Access Server SSH & RDP.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAGIAN 2: MATERI TEORI SQL & CONFIG -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Remote & Perintah SQL User Grants</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># 1. Edit /etc/mysql/mariadb.conf.d/50-server.cnf untuk mengaktifkan koneksi Remote</span>
+<span style="color:#ef4444;"># Ubah dari: bind-address = 127.0.0.1</span>
+<span style="color:#a7f3d0;">bind-address = 0.0.0.0</span>
+<span style="color:#38bdf8;">sudo systemctl restart mariadb</span>
+
+<span style="color:#64748b;"># 2. Perintah SQL Pembuatan Database & User Terisolasi</span>
+<span style="color:#fde68a;">CREATE DATABASE db_sekolah CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'dbadmin_web'@'192.168.10.%' IDENTIFIED BY 'PasswordSangatRahasia!2026';
+GRANT ALL PRIVILEGES ON db_sekolah.* TO 'dbadmin_web'@'192.168.10.%';
+FLUSH PRIVILEGES;</span>
+
+<span style="color:#64748b;"># 3. Backup & Restore Database via CLI</span>
+<span style="color:#38bdf8;">mysqldump -u root -p db_sekolah > /backup/db_sekolah_backup.sql</span>
+<span style="color:#38bdf8;">mysql -u root -p db_sekolah < /backup/db_sekolah_backup.sql</span>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Tahap</th><th>Perintah Eksekusi / Pengujian</th><th>Target Output & Kriteria Sukses</th></tr>
+      <tr><td><strong>1. Cek Port 3306</strong></td><td><code>sudo ss -tulpn | grep :3306</code></td><td>Menampilkan <code>0.0.0.0:3306</code> berstatus LISTEN.</td></tr>
+      <tr><td><strong>2. Firewall UFW</strong></td><td><code>sudo ufw allow 3306/tcp</code></td><td>Port 3306 terbuka untuk koneksi jaringan lokal.</td></tr>
+      <tr><td><strong>3. Koneksi DBeaver</strong></td><td>Host: <code>192.168.10.10</code>, User: <code>dbadmin_web</code>, Port: <code>3306</code></td><td>Status: <code>Connected successfully (MariaDB 10.x)</code>.</td></tr>
+      <tr><td><strong>4. Verifikasi Data</strong></td><td><code>SELECT count(*) FROM db_sekolah.tbl_siswa;</code></td><td>Menghasilkan output 10 baris data tersimpan sempurna.</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Instalasi & Konfigurasi MySQL Server</h2>
-    <div class="code"><span style="color:#64748b"># 1. Instalasi MySQL Server</span>
-sudo apt update && sudo apt install mysql-server -y
-sudo systemctl enable --now mysql
-
-<span style="color:#64748b"># 2. Amankan instalasi (hapus user anonim, nonaktifkan root remote login)</span>
-sudo mysql_secure_installation
-
-<span style="color:#64748b"># 3. Login ke MySQL shell sebagai root</span>
-sudo mysql -u root -p
-
-<span style="color:#64748b"># ── Di dalam MySQL Shell ──</span>
-<span style="color:#fde68a">-- Buat database untuk aplikasi sekolah</span>
-CREATE DATABASE db_sekolah CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-<span style="color:#fde68a">-- Buat user khusus aplikasi (bukan root!)</span>
-CREATE USER 'app_user'@'192.168.10.%' IDENTIFIED BY 'P@ssw0rd!2026';
-
-<span style="color:#fde68a">-- Berikan hak akses hanya ke database tersebut</span>
-GRANT ALL PRIVILEGES ON db_sekolah.* TO 'app_user'@'192.168.10.%';
-FLUSH PRIVILEGES;
-SHOW GRANTS FOR 'app_user'@'192.168.10.%';</div>
-
-    <div class="code"><span style="color:#64748b"># Izinkan koneksi remote: edit bind-address di /etc/mysql/mysql.conf.d/mysqld.cnf</span>
-sudo sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
-sudo systemctl restart mysql
-
-<span style="color:#64748b"># Uji koneksi dari client (gunakan MySQL Workbench atau CLI)</span>
-mysql -h 192.168.10.1 -u app_user -p db_sekolah</div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Error 1045 Access Denied</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: ERROR 1045 (28000): Access denied for user 'dbadmin_web'@'192.168.10.25'</span>
+<span style="color:#fde68a;"># Penyebab: User di database dibuat dengan host 'localhost' ('dbadmin_web'@'localhost'), sehingga ditolak saat login dari laptop IP 192.168.10.25.</span>
+<span style="color:#a7f3d0;"># Solusi: Buat user dengan wildcard subnet '192.168.10.%' atau '%' (seluruh IP):</span>
+<span style="color:#38bdf8;">GRANT ALL PRIVILEGES ON db_sekolah.* TO 'dbadmin_web'@'192.168.10.%' IDENTIFIED BY 'PassKuat123!';</span>
+<span style="color:#38bdf8;">FLUSH PRIVILEGES;</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Tugas SQL Praktikum</th><th>Perintah SQL</th><th>Hasil Diharapkan</th></tr>
-      <tr><td>Buat tabel siswa</td><td><code>CREATE TABLE siswa (id INT AUTO_INCREMENT PRIMARY KEY, nama VARCHAR(100), kelas VARCHAR(10));</code></td><td>Tabel "siswa" muncul di <code>SHOW TABLES;</code></td></tr>
-      <tr><td>Masukkan data (INSERT)</td><td><code>INSERT INTO siswa (nama, kelas) VALUES ('Budi', 'XII TKJ');</code></td><td>Row terbaca di <code>SELECT * FROM siswa;</code></td></tr>
-      <tr><td>Update & Delete</td><td><code>UPDATE siswa SET kelas='XII RPL' WHERE id=1;</code><br><code>DELETE FROM siswa WHERE id=1;</code></td><td>Data berubah/hilang sesuai query</td></tr>
-      <tr><td>Uji privilege user</td><td>Login sebagai <code>app_user</code>, coba <code>DROP DATABASE;</code></td><td>Error "Access denied" — privilege terbatas aman</td></tr>
-    </table>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
-  </section>
-
-  <div class="foot">
-    <a href="Server_Genap_Pert_1_virtualisasi-server.html" class="btn s">← Pert 1: Virtualisasi</a>
-    <a href="Server_Genap_Pert_3_remote-access-ssh-rdp.html" class="btn p">Pert 3: Remote Access →</a>
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_1_virtualisasi-server.html" class="btn-nav-bottom secondary">← Pertemuan 1: Virtualisasi Server</a>
+    <a href="Server_Genap_Pert_3_remote-access-ssh-rdp.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 3: Remote Access Server (SSH Hardening & RDP) →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Database Server MySQL & PostgreSQL',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'Perintah SQL yang digunakan untuk memberikan hak akses (privilege) semua operasi CRUD pada database tertentu kepada user tertentu adalah?',options:['GRANT ALL PRIVILEGES ON db_sekolah.* TO user@host;','ALLOW ALL ON db_sekolah FOR user;','SET PERMISSIONS db_sekolah TO user;','PERMIT ALL db_sekolah user;'],correctIndex:0,explanation:"'GRANT' adalah perintah DCL (Data Control Language) MySQL/PostgreSQL untuk memberikan izin. Syntax: GRANT [privileges] ON [database].[table] TO [user]@[host]; lalu diakhiri FLUSH PRIVILEGES;"},
-    {question:"Mengapa best practice keamanan mengharuskan pembuatan user database khusus per aplikasi (bukan menggunakan root) dengan privilege minimal?",options:['Jika aplikasi dibobol, attacker hanya mendapat akses terbatas ke database itu saja dan tidak bisa DROP DATABASE atau akses database lain','Karena MySQL tidak mendukung login root dari aplikasi','Karena user root tidak memiliki permission untuk query SELECT','Karena root hanya bisa digunakan di localhost'],correctIndex:0,explanation:"Prinsip Least Privilege: setiap komponen hanya diberi hak minimum yang dibutuhkan. Dengan user khusus, SQL Injection atau kompromi aplikasi tidak langsung memberikan akses penuh ke seluruh server database."},
-    {question:"Direktif yang harus diubah pada file konfigurasi mysqld.cnf agar MySQL Server menerima koneksi dari network (bukan hanya localhost) adalah?",options:['bind-address = 0.0.0.0','allow-remote = true','enable-tcp-listen = all','network-mode = public'],correctIndex:0,explanation:"'bind-address' menentukan interface IP yang di-listen MySQL. Nilai default '127.0.0.1' hanya menerima koneksi lokal. Mengubahnya ke '0.0.0.0' membuka semua interface, memungkinkan koneksi dari client di jaringan (pastikan firewall dikonfigurasi dengan tepat)."}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Database Server MySQL & PostgreSQL',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Mengapa secara default instalasi database MySQL/MariaDB hanya mendengarkan alamat 'bind-address = 127.0.0.1'?",
+          options: [
+            "Demi alasan keamanan agar server database tidak langsung terekspos ke jaringan luar/internet sebelum dikonfigurasi hak aksesnya oleh administrator",
+            "Karena MySQL tidak mendukung kabel LAN",
+            "Agar database hanya bisa diakses oleh komputer Windows",
+            "Karena port 3306 adalah port ilegal"
+          ],
+          correctIndex: 0,
+          explanation: "Default binding loopback 127.0.0.1 adalah standar industri 'Secure by Default' agar database tidak rentan diserang brute-force dari jaringan eksternal."
+        },
+        {
+          question: "Port TCP standar yang digunakan oleh layanan database PostgreSQL adalah?",
+          options: ["Port TCP 5432", "Port TCP 3306", "Port TCP 1433", "Port TCP 1521"],
+          correctIndex: 0,
+          explanation: "Port 5432 adalah port default PostgreSQL. MySQL menggunakan port 3306, Microsoft SQL Server port 1433, dan Oracle DB port 1521."
+        },
+        {
+          question: "Karakteristik 'Atomicity' dalam standar ACID transaksi database menjamin bahwa?",
+          options: [
+            "Seluruh rangkaian operasi query dalam sebuah transaksi harus berhasil seluruhnya, atau dibatalkan seutuhnya (Rollback) jika ada satu operasi yang gagal",
+            "Data akan terhapus otomatis dalam 1 detik",
+            "Database otomatis mengubah huruf kecil menjadi kapital",
+            "Sistem tidak memerlukan backup hard disk"
+          ],
+          correctIndex: 0,
+          explanation: "Atomicity menganalogikan transaksi sebagai 'satu kesatuan atom utuh' (all-or-nothing), mencegah transfer uang terpotong dari saldo pengirim tanpa masuk ke saldo penerima."
+        },
+        {
+          question: "Perintah utilitas CLI standar Linux yang digunakan untuk mengekspor (backup) seluruh struktur dan isi data database MySQL menjadi file teks SQL adalah?",
+          options: ["mysqldump", "mysqlimport", "systemctl dump", "tar -cvf db.tar"],
+          correctIndex: 0,
+          explanation: "'mysqldump' menghasilkan kumpulan perintah SQL (CREATE TABLE, INSERT INTO) yang dapat di-restore dengan mudah ke server MySQL lain."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

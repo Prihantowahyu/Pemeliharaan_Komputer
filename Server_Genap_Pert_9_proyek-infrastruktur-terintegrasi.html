@@ -3,118 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 9: Proyek Akhir Membangun Infrastruktur Server Terintegrasi — Kelas XII TKJ</title>
+<title>Genap Pert 9: Proyek Akhir — Rancang Bangun Infrastruktur Server Enterprise Terintegrasi — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(234,179,8,0.28);--acc:#eab308;--acc2:#fef08a;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(234,179,8,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(0,240,255,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(234,179,8,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(234,179,8,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(234,179,8,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(0, 240, 255, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(0, 240, 255, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); color: var(--cyan); margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--cyan); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--cyan); font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(0, 240, 255, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 2 Hari 4 / Pert. 9</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 2 (Hari 4 / CAPSTONE PROJECT)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 2 HARI KE-4 · SEMESTER GENAP</div>
-    <h1>Proyek Akhir: Membangun Infrastruktur Server Terintegrasi</h1>
-    <p>Mengintegrasikan minimal 3 sampai 4 layanan server enterprise secara mandiri/berkelompok: Domain Name System (DNS BIND9), Web Server HTTPS Apache/Nginx dengan database relasional MySQL, File Sharing (Samba), serta proteksi firewall UFW dalam satu ekosistem jaringan produksi.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ CAPSTONE PROJECT 9 JP (405 MENIT) · BLOK 2 HARI KE-4 · SEMESTER GENAP</div>
+    <h1>Proyek Akhir Terpadu: Rancang Bangun Infrastruktur Server Enterprise 3-Tier</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Integrasi puncak seluruh kompetensi keahlian: Merancang topologi 3-Tier Enterprise terpadu (Presentation Layer: DNS BIND9 & Nginx HTTPS SSL; Application Layer: Apache2 PHP-FPM; Data Layer: MySQL RDBMS & Samba Storage), implementasi segmentasi VLAN & Firewall UFW terisolasi, otomatisasi backup harian rsync, serta penyusunan buku panduan teknis operasional (Standard Operating Procedure).</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Desain Topologi & IP Plan</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Core Network & DNS/DHCP</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">Web + DB + File Share</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Uji End-to-End & Doc</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">3-Tier Blueprint Brief</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">VLAN & Network Design</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Service Interconnect</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Hands-on Capstone Build</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">End-to-End Stress Test</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & SOP Defense</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Blueprint Arsitektur Infrastruktur Terintegrasi</h2>
-    <table class="tbl">
-      <tr><th>Komponen Layanan</th><th>Hostname / FQDN</th><th>IP Address & Subnet</th><th>Software & Port</th></tr>
-      <tr><td>DNS Server Master</td><td><code>ns.smk-enterprise.sch.id</code></td><td>192.168.100.2 /24</td><td>BIND9 (Port 53 UDP/TCP)</td></tr>
-      <tr><td>Web Server (HTTPS)</td><td><code>portal.smk-enterprise.sch.id</code></td><td>192.168.100.10 /24</td><td>Apache2 / Nginx (Port 80, 443)</td></tr>
-      <tr><td>Database Backend</td><td><code>db.smk-enterprise.sch.id</code></td><td>192.168.100.20 /24</td><td>MariaDB/MySQL (Port 3306)</td></tr>
-      <tr><td>Storage & File Share</td><td><code>storage.smk-enterprise.sch.id</code></td><td>192.168.100.30 /24</td><td>Samba SMB/CIFS (Port 445)</td></tr>
-      <tr><td>Firewall & Gateway</td><td><code>router.smk-enterprise.sch.id</code></td><td>192.168.100.1 /24</td><td>iptables / UFW NAT Masquerade</td></tr>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Pembagian Blueprint Proyek Enterprise</span> <span style="font-size:12px;color:var(--cyan);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Guru memberikan berkas studi kasus: <em>"Membangun Infrastruktur Digital Terpadu SMK Negeri 1 Indonesia"</em>. Siswa dibagi dalam tim beranggotakan 2 orang (Lead SysAdmin & Security Engineer) dan mempelajari matriks pengalamatan IP serta diagram alir data.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Perancangan Arsitektur 3-Tier & Firewall Segmentasi</span> <span style="font-size:12px;color:var(--cyan);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Membedah pemisahan lapisan keamanan: Web Server diizinkan diakses publik (Port 80/443), sedangkan Database Server MySQL dan File Sharing Samba HANYA boleh diakses oleh internal Web Server (Dilarang terekspos langsung ke publik!).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Strategi Integrasi Antar-Layanan (Cross-Service Pipeline)</span> <span style="font-size:12px;color:var(--cyan);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Menghubungkan rantai layanan: DNS BIND9 &rarr; Reverse Proxy Nginx SSL &rarr; Apache Web App &rarr; MariaDB DB via User Grants &rarr; Samba Shared Folder &rarr; Cron Backup rsync.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Koordinasi pembagian tugas konfigurasi di dalam tim.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Eksekusi Capstone Project 3-Tier</span> <span style="font-size:12px;color:var(--cyan);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 9</strong>: Membangun ekosistem server lengkap dari nol: (1) DNS Master <code>smk.lan</code>, (2) Web Portal Sekolah HTTPS 443, (3) Database Nilai Siswa terhubung skrip PHP, (4) Shared Folder Samba untuk guru, (5) Hardening UFW, (6) Skrip otomatis backup berkas & database setiap malam.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Pengujian End-to-End & Audit Beban (Load Testing)</span> <span style="font-size:12px;color:var(--cyan);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Guru dan kelompok lain menguji ketahanan sistem tim: Mengakses website dari browser client, menguji form input database, mengecek validitas enkripsi SSL, dan melakukan audit keamanan port terbuka via <code>nmap</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Presentasi Laporan Teknis</span> <span style="font-size:12px;color:var(--cyan);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, penyerahan berkas portofolio topologi tim, dan persiapan menuju Simulasi UKK Final di Pertemuan 10.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAGIAN 2: MATERI TEORI BLUEPRINT 3-TIER -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Blueprint Arsitektur Enterprise 3-Tier Terpadu</h2>
+    <div class="code-block">
+<pre style="color:#67e8f9;">=============================================================================
+                          TOPOLOGI 3-TIER ENTERPRISE
+=============================================================================
+  [ CLIENT LAPTOP / HP ] (IP DHCP: 192.168.10.100 - 200)
+             │
+             ▼ Query DNS: portal.smk.lan
+  [ TIER 1: PRESENTATION & SECURITY LAYER ]
+  ├─ DNS Master BIND9 (Port 53 UDP/TCP)
+  ├─ Reverse Proxy Nginx + SSL TLS 1.3 (Port 443 HTTPS & Port 80 Redirect)
+  └─ Firewall UFW (Default Deny Incoming Policy)
+             │
+             ▼ FastCGI / Proxy Pass (Internal Private Network)
+  [ TIER 2: APPLICATION & COMPUTE LAYER ]
+  ├─ Apache2 Web Server + PHP 8.1-FPM (Port 8080)
+  ├─ SSH Hardening + Fail2ban (Port 2222 / Keypair Ed25519)
+  └─ File Storage Sharing Samba & NFS (Port 445 / 2049)
+             │
+             ▼ SQL TCP Queries (Port 3306 - Terisolasi Hanya untuk Web Server)
+  [ TIER 3: DATA & PERSISTENCE LAYER ]
+  ├─ MariaDB Database Server (InnoDB Engine + ACID Compliance)
+  ├─ RAID 5 Storage Array with Hot-Spare Rebuild (mdadm)
+  └─ Backup Otomatis Harian (rsync + Crontab 3-2-1 Strategy)
+=============================================================================</pre>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Komponen Uji</th><th>Prosedur Verifikasi Integrasi</th><th>Standar Keberhasilan Proyek</th></tr>
+      <tr><td><strong>DNS Resolution</strong></td><td><code>dig @192.168.10.10 portal.smk.lan +short</code></td><td>Menjawab IP <code>192.168.10.10</code> secara konsisten.</td></tr>
+      <tr><td><strong>HTTPS Security</strong></td><td>Buka <code>http://portal.smk.lan</code> di browser client</td><td>Otomatis redirect 301 ke HTTPS dengan enkripsi TLS 1.3.</td></tr>
+      <tr><td><strong>DB Transaction</strong></td><td>Input data siswa baru via form web PHP</td><td>Data berhasil tersimpan ke tabel MariaDB di backend.</td></tr>
+      <tr><td><strong>File Collaboration</strong></td><td>Buka <code>\\portal.smk.lan\Shared_TKJ</code> di Windows</td><td>Guru dapat login dan menyimpan berkas tugas siswa.</td></tr>
+      <tr><td><strong>Port Isolation</strong></td><td>Scan port dari luar: <code>nmap -sS 192.168.10.10</code></td><td>Port 3306 (DB) dan 2049 (NFS) tertutup rapi dari publik.</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Alur Integrasi Antar-Layanan</h2>
-    <div class="code"><span style="color:#64748b"># SKEMA KONEKSI INTEGRASI:</span>
-<span style="color:#fde68a">[Client PC/HP]</span> ──(Query DNS)──> <span style="color:#38bdf8">[DNS Server BIND9: 192.168.100.2]</span>
-    │ (Resolves portal.smk-enterprise.sch.id -> 192.168.100.10)
-    ▼
-<span style="color:#67e8f9">[Web Server Nginx: 192.168.100.10]</span> ──(Query Data)──> <span style="color:#a7f3d0">[MySQL DB: 192.168.100.20]</span>
-    │ (Serve PHP Dashboard)
-    ▼
-<span style="color:#fcd34d">[Shared Storage: 192.168.100.30]</span> <──(Automount via Samba/NFS)── [Web Assets Folder]</div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Deadlock Resolusi DNS Lokal</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: Web server tidak bisa menghubungi database menggunakan hostname (db.smk.lan)</span>
+<span style="color:#fde68a;"># Penyebab: /etc/resolv.conf di server masih mengarah ke 127.0.0.53 (systemd-resolved) bukan ke IP BIND9 DNS lokal (192.168.10.10).</span>
+<span style="color:#a7f3d0;"># Solusi: Edit file Netplan YAML pada baris 'nameservers: addresses: [192.168.10.10, 8.8.8.8]' lalu jalankan 'sudo netplan apply'.</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP Proyek Terpadu)</h2>
-    <table class="tbl">
-      <tr><th>Fase Proyek</th><th>Instruksi Kerja</th><th>Verifikasi Pengujian</th></tr>
-      <tr><td>Fase 1: IP Addressing & DNS</td><td>Atur IP statis di tiap VM server dan buat forward/reverse zone file</td><td>Client dapat melakukan <code>nslookup portal.smk-enterprise.sch.id</code></td></tr>
-      <tr><td>Fase 2: Web & Database</td><td>Deploy aplikasi CMS/Web Portal yang terhubung ke database server terpisah</td><td>Data tersimpan di tabel database saat submit form di website</td></tr>
-      <tr><td>Fase 3: Security & Firewall</td><td>Aktifkan UFW di tiap VM dengan whitelist IP/Port spesifik</td><td>Port scanning <code>nmap</code> hanya menampilkan port layanan yang sah</td></tr>
-      <tr><td>Fase 4: Presentasi & Laporan</td><td>Susun dokumen topologi jaringan, tabel routing, konfigurasi, dan dokumentasi foto/video uji</td><td>Laporan teknis komprehensif diserahkan dan dipresentasikan</td></tr>
-    </table>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
-  </section>
-
-  <div class="foot">
-    <a href="Server_Genap_Pert_8_cloud-computing-dasar.html" class="btn s">← Pert 8: Cloud Dasar</a>
-    <a href="Server_Genap_Pert_10_simulasi-uji-kompetensi.html" class="btn p">Pert 10: Simulasi UKK Final →</a>
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_8_cloud-computing-dasar.html" class="btn-nav-bottom secondary">← Pertemuan 8: Cloud Computing Dasar</a>
+    <a href="Server_Genap_Pert_10_simulasi-uji-kompetensi.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 10: Simulasi UKK & Portofolio Akhir →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Integrasi Sistem Infrastruktur Server',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'Dalam arsitektur 3-Tier (Client - Web Server - Database Server), di manakah sebaiknya database server ditempatkan demi keamanan?',options:['Di subnet/jaringan privat internal yang hanya dapat diakses oleh Web Server (tidak langsung terekspos ke publik)','Di jaringan publik dengan IP publik terbuka','Di VM yang sama dengan DNS server tanpa firewall','Di perangkat client end-user'],correctIndex:0,explanation:'Database server harus diisolasi di private network/subnet. Hanya Web Server yang diizinkan melakukan query SQL via port 3306 melalui firewall whitelist.'},
-    {question:'Jika client berhasil mengakses web server via IP tapi gagal via nama domain "portal.smk-enterprise.sch.id", komponen yang bermasalah adalah?',options:['Konfigurasi DNS Server (Record A / Forward Lookup Zone) atau konfigurasi DNS di client','Kabel LAN web server terputus','Service database MySQL mati','Sertifikat SSL kadaluarsa'],correctIndex:0,explanation:'Jika koneksi via IP berhasil, web server aktif normal. Kegagalan via domain name menunjukkan masalah name resolution (DNS).'},
-    {question:'Dokumen teknis infrastruktur server yang baik harus memuat informasi esensial berupa?',options:['Topologi jaringan, tabel pengalamatan IP, diagram alur data, daftar service/port terbuka, dan prosedur disaster recovery','Daftar belanja perangkat keras saja','Kode program HTML saja','Biodata seluruh siswa di sekolah'],correctIndex:0,explanation:'Dokumentasi teknis menyeluruh mencakup topologi fisik/logis, IP addressing, service mapping, firewall matrix, dan SOP recovery.'}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Proyek Infrastruktur Terintegrasi',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Mengapa pada arsitektur 3-Tier Enterprise, server database (Tier 3) DILARANG KERAS dihubungkan langsung ke alamat IP publik?",
+          options: [
+            "Demi keamanan data sensitif agar database tidak bisa diserang secara langsung dari internet; database hanya boleh diakses melalui jaringan privat oleh server aplikasi (Tier 2)",
+            "Karena database tidak membutuhkan listrik",
+            "Karena kabel data database berbeda dengan kabel internet",
+            "Agar siswa tidak bisa bermain game online"
+          ],
+          correctIndex: 0,
+          explanation: "Pemisahan zona jaringan (Network Segmentation) adalah pilar keamanan arsitektur pertahanan berlapis (Defense-in-Depth)."
+        },
+        {
+          question: "Dalam proyek integrasi, jika browser menampilkan '500 Internal Server Error' saat mengakses halaman web PHP yang terhubung ke database, langkah pertama diagnosa SysAdmin adalah?",
+          options: [
+            "Mengecek berkas log error web server (/var/log/apache2/error.log atau /var/log/nginx/error.log) untuk melihat detail kegagalan koneksi database/kredensial",
+            "Membuang hard disk server ke tempat sampah",
+            "Mengganti seluruh kabel switch jaringan",
+            "Menginstal ulang sistem operasi Linux dari awal"
+          ],
+          correctIndex: 0,
+          explanation: "Analisis log error adalah prosedur diagnosa ilmiah tercepat untuk menemukan baris kode PHP atau parameter kredensial DB yang salah."
+        },
+        {
+          question: "Tujuan utama penyusunan dokumen Standard Operating Procedure (SOP) Teknis setelah proyek infrastruktur selesai dibangun adalah?",
+          options: [
+            "Sebagai panduan baku operasional, pemeliharaan rutin, dan langkah penanganan bencana bagi tim IT berikutnya",
+            "Sebagai pajangan di dinding kantor",
+            "Untuk menaikkan kecepatan download server",
+            "Agar server tidak perlu dihidupkan"
+          ],
+          correctIndex: 0,
+          explanation: "Dokumentasi teknis & SOP menjamin keberlanjutan operasional (Maintainability) saat terjadi pergantian personil administrator."
+        },
+        {
+          question: "Urutan pengujian verifikasi (Testing Sequence) yang paling logis pada integrasi sistem server multi-layanan adalah?",
+          options: [
+            "Cek Layer Fisik/IP &rarr; Cek Resolusi DNS &rarr; Cek Koneksi DB Lokal &rarr; Cek Virtual Host Web &rarr; Cek Enkripsi SSL HTTPS &rarr; Cek Firewall Rule",
+            "Cek Web HTTPS &rarr; Cabut kabel listrik &rarr; Cek DNS",
+            "Cek Database &rarr; Hapus partisi &rarr; Cek IP",
+            "Cek Samba &rarr; Matikan server &rarr; Cek DNS"
+          ],
+          correctIndex: 0,
+          explanation: "Pengujian dilakukan secara berjenjang dari lapisan pondasi (Network & DNS) naik ke lapisan aplikasi dan lapisan keamanan."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

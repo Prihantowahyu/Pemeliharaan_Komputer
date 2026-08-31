@@ -3,138 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 3: Remote Access Server SSH & Remote Desktop — Kelas XII TKJ</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<title>Genap Pert 3: Remote Access Server Hardening (SSH Keypair & Fail2ban) — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(245,158,11,0.28);--acc:#f59e0b;--acc2:#fcd34d;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(245,158,11,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(0,240,255,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(245,158,11,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(245,158,11,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--cyan));width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(245,158,11,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(245, 158, 11, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(245, 158, 11, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--amber); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(245, 158, 11, 0.1); border: 1px solid var(--amber); color: #fde68a; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, var(--amber) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--amber); color: var(--bg-void); font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: var(--amber); font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(245, 158, 11, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #fde68a; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 1 Hari 3 / Pert. 3</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 1 (Hari 3 / Pert. 3)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 1 HARI KE-3 · SEMESTER GENAP</div>
-    <h1>Remote Access Server — Hardening SSH, Key Authentication & Remote Desktop</h1>
-    <p>Mengonfigurasi akses remote aman menggunakan SSH dengan autentikasi public key, hardening konfigurasi sshd_config, pencegahan brute-force dengan fail2ban, dan Remote Desktop GUI menggunakan xRDP/Remmina.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 1 HARI KE-3 · SEMESTER GENAP</div>
+    <h1>Remote Access Server Hardening (SSH Keypair, Fail2ban & Remote Desktop xRDP)</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan pengamanan akses kendali jarak jauh standar perbankan: Membedah kriptografi asimetris RSA 4096-bit & Ed25519, eliminasi autentikasi password rentan dengan <em>Passwordless Public Key Authentication</em>, penguncian direktif <code>sshd_config</code> (Port kustom 2222, <code>PermitRootLogin no</code>), mitigasi serangan kamus/brute-force otomatis dengan <code>fail2ban</code>, serta implementasi Remote Desktop GUI Linux via <code>xRDP</code>.</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">SSH Hardening</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Key-Based Auth</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">fail2ban & xRDP</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Uji Akses & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Asymmetric Crypto Theory</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">sshd_config Hardening</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">Fail2ban Brute Protection</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Key & Jail Test</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot Bad Perms</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Hardening SSH — /etc/ssh/sshd_config</h2>
-    <div class="code"><span style="color:#64748b"># /etc/ssh/sshd_config — Parameter Hardening Enterprise</span>
-
-<span style="color:#fde68a">Port 2222</span>                     <span style="color:#64748b"># Ganti port default 22 untuk menghindari scan otomatis</span>
-<span style="color:#fde68a">PermitRootLogin no</span>           <span style="color:#64748b"># Larang login langsung sebagai root</span>
-<span style="color:#fde68a">PasswordAuthentication no</span>    <span style="color:#64748b"># Nonaktifkan login password — wajib pakai key</span>
-<span style="color:#fde68a">PubkeyAuthentication yes</span>     <span style="color:#64748b"># Izinkan autentikasi Public Key</span>
-<span style="color:#fde68a">MaxAuthTries 3</span>               <span style="color:#64748b"># Maksimal 3 percobaan login gagal per koneksi</span>
-<span style="color:#fde68a">LoginGraceTime 30</span>            <span style="color:#64748b"># Batas waktu login: 30 detik</span>
-<span style="color:#fde68a">AllowUsers sysadmin guru</span>     <span style="color:#64748b"># Hanya izinkan user tertentu login SSH</span>
-<span style="color:#fde68a">X11Forwarding no</span>             <span style="color:#64748b"># Nonaktifkan X11 forwarding jika tidak dipakai</span>
-<span style="color:#fde68a">Banner /etc/ssh/banner.txt</span>   <span style="color:#64748b"># Tampilkan peringatan hukum sebelum login</span>
-
-sudo systemctl restart ssh</div>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Ancaman Botnet Brute-Force Port 22</span> <span style="font-size:12px;color:var(--amber);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Guru menampilkan log serangan live di <code>/var/log/auth.log</code> server publik yang dibombardir 5.000 percobaan login ilegal per menit. Memahami mengapa autentikasi password biasa dilarang keras di industri cloud.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Mekanisme SSH Public/Private Keypair Authentication</span> <span style="font-size:12px;color:var(--amber);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan kriptografi asimetris: Private Key (<code>id_rsa</code> / <code>id_ed25519</code>) disimpan rahasia di laptop admin dengan izin 600, sedangkan Public Key (<code>id_rsa.pub</code>) dipasang di server tujuan di file <code>~/.ssh/authorized_keys</code>.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Bedah Konfigurasi Hardening & Proteksi Fail2ban</span> <span style="font-size:12px;color:var(--amber);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Membahas parameter <code>sshd_config</code>: Mengganti port default ke <code>Port 2222</code>, <code>PasswordAuthentication no</code>, dan konfigurasi jail <code>/etc/fail2ban/jail.local</code> (maxretry = 3, bantime = 1 jam) yang memblokir IP penyerang otomatis via IPTables.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan terminal PowerShell / Git Bash di laptop client.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Key Generation & Jail Test</span> <span style="font-size:12px;color:var(--amber);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 3</strong>: (1) Generate RSA 4096-bit keypair (<code>ssh-keygen -t rsa -b 4096</code>), (2) Transfer public key dengan <code>ssh-copy-id -p 2222 user@192.168.10.10</code>, (3) Matikan login password, (4) Uji login instan tanpa password, (5) Install <code>fail2ban</code> dan simulasikan 3 kali salah password dari PC teman hingga IP-nya di-banned otomatis.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Permission 0644 vs 0600 & Host Key Verification</span> <span style="font-size:12px;color:var(--amber);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa memperbaiki error "Permissions 0644 for 'id_rsa' are too open" (diperbaiki dengan <code>chmod 600</code>) dan menghapus entri lama di <code>~/.ssh/known_hosts</code> akibat instalasi ulang server.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--amber);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist verifikasi SSH keypair oleh guru, dan pengantar materi RAID & Storage Server.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> SSH Key-Based Authentication & fail2ban</h2>
-    <div class="code"><span style="color:#64748b"># Di CLIENT — Generate SSH keypair RSA 4096-bit</span>
-ssh-keygen -t rsa -b 4096 -C "admin@smk.lan" -f ~/.ssh/id_smk
+  <!-- BAGIAN 2: MATERI TEORI SSH & FAIL2BAN -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Konfigurasi Hardening SSH & Fail2ban</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># 1. /etc/ssh/sshd_config — Parameter Hardening Standar CIS Benchmark</span>
+<pre style="color:#67e8f9;">Port 2222                             <span style="color:#64748b;"># Hindari scanning massal di port standar 22</span>
+PermitRootLogin no                    <span style="color:#64748b;"># Dilarang login langsung sebagai root!</span>
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no             <span style="color:#64748b;"># Matikan autentikasi password (Wajib Keypair)</span>
+MaxAuthTries 3
+ClientAliveInterval 300
+ClientAliveCountMax 2</pre>
+    </div>
 
-<span style="color:#64748b"># Salin public key ke server (menggunakan port 2222)</span>
-ssh-copy-id -i ~/.ssh/id_smk.pub -p 2222 sysadmin@192.168.10.1
-
-<span style="color:#64748b"># Login tanpa password setelah key terdistribusi</span>
-ssh -p 2222 -i ~/.ssh/id_smk sysadmin@192.168.10.1</div>
-
-    <div class="code"><span style="color:#64748b"># Di SERVER — Konfigurasi fail2ban untuk SSH brute-force protection</span>
-sudo apt install fail2ban -y
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-
-<span style="color:#64748b"># Edit /etc/fail2ban/jail.local</span>
-[sshd]
-enabled  = true
-port     = 2222
-logpath  = %(sshd_log)s
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 2. /etc/fail2ban/jail.local — Konfigurasi Penjara Otomatis IPTables</span>
+<pre style="color:#a7f3d0;">[sshd]
+enabled = true
+port = 2222
+filter = sshd
+logpath = /var/log/auth.log
 maxretry = 3
-bantime  = 3600    <span style="color:#64748b"># Ban 1 jam</span>
-findtime = 600     <span style="color:#64748b"># Dalam 10 menit terakhir</span>
-
-sudo systemctl enable --now fail2ban
-sudo fail2ban-client status sshd    <span style="color:#64748b"># Cek status & IP yang di-ban</span></div>
+findtime = 600
+bantime = 3600                        <span style="color:#64748b;"># Blokir IP selama 1 Jam jika gagal login 3x</span></pre>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Skenario Praktikum</th><th>Langkah Eksekusi</th><th>Bukti Keberhasilan</th></tr>
-      <tr><td>Hardening sshd_config</td><td>Edit file, ubah port + larang root + nonaktifkan password auth</td><td>Koneksi via password langsung ditolak: "Permission denied (publickey)"</td></tr>
-      <tr><td>Deploy SSH Key Auth</td><td>Generate key di client, copy public key ke server</td><td>Login SSH tanpa password prompt berhasil</td></tr>
-      <tr><td>Simulasi Brute-Force</td><td>Coba login 4× dengan password salah dari IP berbeda</td><td><code>fail2ban-client status sshd</code> menampilkan IP dalam daftar "Banned IP list"</td></tr>
-      <tr><td>Akses GUI via xRDP</td><td><code>sudo apt install xrdp -y</code>, sambungkan dari Windows Remote Desktop (mstsc.exe)</td><td>Desktop Linux tampil di jendela Remote Desktop Client</td></tr>
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Langkah</th><th>Perintah Eksekusi / Tindakan</th><th>Kriteria Validasi & Output</th></tr>
+      <tr><td><strong>1. Generate Keypair</strong></td><td><code>ssh-keygen -t ed25519 -C "admin@smk.lan"</code></td><td>Dihasilkan <code>id_ed25519</code> (Private) dan <code>id_ed25519.pub</code> (Public).</td></tr>
+      <tr><td><strong>2. Salin Public Key</strong></td><td><code>ssh-copy-id -p 2222 user@192.168.10.10</code></td><td>Public key tersalin ke <code>~/.ssh/authorized_keys</code> di server.</td></tr>
+      <tr><td><strong>3. Cek Status Fail2ban</strong></td><td><code>sudo fail2ban-client status sshd</code></td><td>Menampilkan daftar IP yang sedang di-banned (Banned IP list).</td></tr>
+      <tr><td><strong>4. Unban IP Teman</strong></td><td><code>sudo fail2ban-client set sshd unbanip 192.168.10.25</code></td><td>IP rekan berhasil dikeluarkan dari daftar blokir.</td></tr>
     </table>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: WARNING UNPROTECTED PRIVATE KEY FILE!</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># KASUS: Permissions 0644 for 'id_rsa' are too open. It is required that your private key files are NOT accessible by others.</span>
+<span style="color:#ef4444;"># Pesan Error: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span style="color:#a7f3d0;"># Solusi Perbaikan (Kunci izin hanya untuk pemilik):</span>
+<span style="color:#38bdf8;">chmod 700 ~/.ssh</span>
+<span style="color:#38bdf8;">chmod 600 ~/.ssh/id_rsa</span>
+<span style="color:#38bdf8;">chmod 644 ~/.ssh/authorized_keys</span>
+    </div>
   </section>
 
-  <div class="foot">
-    <a href="Server_Genap_Pert_2_database-server-mysql-postgresql.html" class="btn s">← Pert 2: Database Server</a>
-    <a href="Server_Genap_Pert_4_raid-storage-server.html" class="btn p">Pert 4: RAID & Storage →</a>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
+  </section>
+
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_2_database-server-mysql-postgresql.html" class="btn-nav-bottom secondary">← Pertemuan 2: Database Server</a>
+    <a href="Server_Genap_Pert_4_raid-storage-server.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 4: Manajemen RAID & Storage Server →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Remote Access SSH & Hardening',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:"Mengapa 'PermitRootLogin no' merupakan praktik wajib (mandatory hardening) pada konfigurasi SSH server produksi?",options:['Mencegah attacker yang berhasil menebak password root langsung mendapatkan akses penuh (superuser) ke seluruh sistem','Karena user root tidak tersedia di Ubuntu Server','Karena key SSH hanya kompatibel dengan user non-root','Agar SSH bisa berjalan di port non-standar'],correctIndex:0,explanation:"Login root via SSH memberikan akses langsung ke seluruh sistem. Dengan menonaktifkannya, attacker harus mengkompromikan user biasa dulu, lalu eskalasi privilege — menambah lapisan perlindungan."},
-    {question:"fail2ban memproteksi server dari serangan brute-force SSH dengan cara?",options:['Memantau log /var/log/auth.log dan secara otomatis menambahkan aturan iptables DROP untuk IP yang melebihi batas percobaan login gagal','Mengenkripsi semua paket SSH dengan cipher baru','Membatasi bandwidth koneksi SSH per IP','Mengirim notifikasi email ke admin setiap ada percobaan login'],correctIndex:0,explanation:"fail2ban membaca log autentikasi secara real-time. Jika satu IP melebihi 'maxretry' dalam 'findtime' detik, IP tersebut di-ban selama 'bantime' detik menggunakan aturan firewall iptables/nftables."},
-    {question:"SSH Public Key Authentication lebih aman dari password authentication karena?",options:['Private key yang di-generate secara kriptografis tidak bisa di-brute-force dan tidak pernah dikirim melalui jaringan','Kunci SSH berukuran lebih besar dari password','Key tidak bisa dipalsukan oleh manusia','SSH Key authentication menghilangkan kebutuhan username'],correctIndex:0,explanation:"Autentikasi key memanfaatkan kriptografi asimetris. Public key di server, private key di client. Server melakukan challenge yang hanya bisa dijawab dengan private key — tidak ada password yang bisa disadap atau di-brute-force."}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: SSH Keypair Hardening & Fail2ban',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Mengapa autentikasi berbasis SSH Keypair (RSA 4096 / Ed25519) jauh lebih aman dibandingkan autentikasi password biasa?",
+          options: [
+            "Karena kunci private tidak pernah dikirimkan melalui jaringan kabel dan memiliki kombinasi matematis sangat kompleks yang kebal terhadap serangan brute-force kamus kata",
+            "Karena SSH Keypair hanya bisa digunakan pada hari Minggu",
+            "Karena SSH Keypair membuat hard disk server tidak bisa penuh",
+            "Karena file kunci bisa dikirimkan ke sembarang orang"
+          ],
+          correctIndex: 0,
+          explanation: "Otentikasi kunci asimetris menggunakan mekanisme tantangan-respon kriptografi (Challenge-Response) sehingga tidak ada rahasia kredensial yang melintas di jaringan."
+        },
+        {
+          question: "Cara kerja perangkat lunak keamanan 'Fail2ban' dalam melindungi server Linux dari serangan brute-force login adalah?",
+          options: [
+            "Memonitor berkas log sistem (/var/log/auth.log) dan secara otomatis membuat aturan blokir IP sementara di firewall iptables saat mendeteksi kegagalan login berulang kali",
+            "Menghapus seluruh akun user di server",
+            "Mematikan router sekolah secara otomatis",
+            "Mengganti sistem operasi Linux menjadi Android"
+          ],
+          correctIndex: 0,
+          explanation: "Fail2ban membaca pola kegagalan login pada log dan mengeksekusi aksi penolakan (DROP/REJECT) pada tingkat firewall kernel iptables/nftables."
+        },
+        {
+          question: "Nilai izin file (File Permission) yang WAJIB diterapkan pada berkas Private Key (~/.ssh/id_rsa) di komputer admin adalah?",
+          options: ["600 (rw-------)", "777 (rwxrwxrwx)", "644 (rw-r--r--)", "755 (rwxr-xr-x)"],
+          correctIndex: 0,
+          explanation: "Aplikasi SSH Client secara ketat menolak menggunakan private key jika izinnya lebih longgar dari 600 demi memastikan hanya pemilik sah yang memiliki akses baca."
+        },
+        {
+          question: "Direktif pada file /etc/ssh/sshd_config yang digunakan untuk mencegah akun superuser masuk langsung dari jaringan remote adalah?",
+          options: ["PermitRootLogin no", "AllowRoot yes", "RootAccess off", "DisableAdmin yes"],
+          correctIndex: 0,
+          explanation: "'PermitRootLogin no' mewajibkan administrator login menggunakan akun user biasa terlebih dahulu lalu beralih dengan 'sudo', memastikan jejak audit aktivitas (accountability)."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>

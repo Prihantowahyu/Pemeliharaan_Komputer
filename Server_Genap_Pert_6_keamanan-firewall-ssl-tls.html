@@ -3,133 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genap Pert 6: Keamanan Server — Firewall, Hardening & SSL/TLS — Kelas XII TKJ</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<title>Genap Pert 6: Keamanan Server, Firewall Hardening & Enkripsi SSL/TLS — Kelas XII TKJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cbt-anti-cheat.css">
 <style>
-:root{--bg:#030712;--panel:rgba(11,22,44,0.78);--border:rgba(0,240,255,0.28);--acc:#00f0ff;--acc2:#a5f3fc;--cyan:#00f0ff;--cyan-g:rgba(0,240,255,0.3);--text:#f8fafc;--sub:#94a3b8;--muted:#64748b;--fh:'Space Grotesk',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;--r:20px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.65;background-image:radial-gradient(circle at 5% 0%,rgba(0,240,255,0.1),transparent 45%),radial-gradient(circle at 95% 30%,rgba(139,92,246,0.07),transparent 45%);background-attachment:fixed}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(to right,rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,240,255,0.03) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 80px}
-.hud{position:sticky;top:0;z-index:100;background:rgba(3,7,18,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.pbar{height:3px;background:rgba(255,255,255,0.06)}.pfill{height:100%;background:linear-gradient(90deg,var(--acc),#8b5cf6);width:0%;transition:width .3s}
-.hud-in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:11px;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.hero{margin:32px 0 24px;background:linear-gradient(135deg,rgba(13,27,54,.92),rgba(7,14,30,.88));border:1px solid var(--border);border-radius:var(--r);padding:36px 32px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--fm);font-size:11px;font-weight:700;background:rgba(0,240,255,.12);border:1px solid var(--acc);color:var(--acc2);margin-bottom:14px}
-.hero h1{font-family:var(--fh);font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.25;margin-bottom:10px;background:linear-gradient(135deg,#fff 40%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:14.5px;color:var(--sub);max-width:760px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin:20px 0 28px}
-.mbox{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
-.mbox .k{font-family:var(--fm);font-size:10.5px;color:var(--muted);text-transform:uppercase}
-.mbox .v{font-family:var(--fh);font-size:14.5px;font-weight:700;margin-top:4px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:30px;margin-bottom:26px;backdrop-filter:blur(12px)}
-.ctitle{font-family:var(--fh);font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.ctitle .num{display:inline-flex;width:28px;height:28px;border-radius:8px;background:var(--acc);color:#030712;font-family:var(--fm);font-size:13px;font-weight:800;align-items:center;justify-content:center}
-.code{background:#060e1c;border:1px solid #1c3558;border-radius:6px;padding:14px;font-family:var(--fm);font-size:12.5px;color:#e2e8f0;overflow-x:auto;margin:12px 0;white-space:pre-wrap}
-.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-.tbl th,.tbl td{padding:10px 14px;border:1px solid rgba(255,255,255,.08);text-align:left}
-.tbl th{background:#09152b;color:var(--acc2);font-family:var(--fm);font-size:12px}
-.foot{margin-top:40px;padding:20px 24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.btn{font-family:var(--fm);font-size:12.5px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.btn.p{background:var(--cyan);color:#030712;box-shadow:0 0 16px var(--cyan-g)}.btn.s{background:rgba(13,27,54,.8);border:1px solid var(--border);color:var(--sub)}
+  :root {
+    --bg-void: #030712;
+    --panel: rgba(11, 22, 44, 0.75);
+    --panel-border: rgba(239, 68, 68, 0.25);
+    --cyan: #00f0ff;
+    --cyan-glow: rgba(0, 240, 255, 0.35);
+    --emerald: #10b981;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --danger: #ef4444;
+    --danger-glow: rgba(239, 68, 68, 0.35);
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-void); color: var(--text-main); font-family: var(--font-body);
+    line-height: 1.65; background-image: radial-gradient(circle at 10% 0%, rgba(239, 68, 68, 0.08), transparent 40%), radial-gradient(circle at 90% 20%, rgba(0, 240, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px); background-size: 36px 36px; pointer-events: none; z-index: 0; }
+  .content-wrap { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+  
+  .top-hud { position: sticky; top: 0; z-index: 100; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--panel-border); }
+  .progress-line { height: 3px; background: rgba(255,255,255,0.06); width: 100%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--danger), var(--cyan)); width: 0%; transition: width 0.3s ease; }
+  .top-hud-inner { max-width: 1060px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .hud-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #fca5a5; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hud-badge span.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+  .hero-card { margin: 32px 0 28px; background: linear-gradient(135deg, rgba(13, 27, 54, 0.9) 0%, rgba(7, 14, 30, 0.85) 100%); border: 1px solid var(--panel-border); border-radius: var(--radius-lg); padding: 36px 32px; position: relative; overflow: hidden; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: #fca5a5; margin-bottom: 14px; }
+  .hero-card h1 { font-family: var(--font-heading); font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #fca5a5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .meta-box { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); padding: 14px 16px; }
+  .meta-box .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .meta-box .v { font-family: var(--font-heading); font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+  .section-card { background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 28px; backdrop-filter: blur(12px); }
+  .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .section-title span.num { display: inline-flex; width: 28px; height: 28px; border-radius: 8px; background: var(--danger); color: #fff; font-family: var(--font-mono); font-size: 13px; font-weight: 800; align-items: center; justify-content: center; }
+  
+  .code-block { background: #060e1c; border: 1px solid #1c3558; border-radius: 6px; padding: 16px; font-family: var(--font-mono); font-size: 12.5px; color: #e2e8f0; overflow-x: auto; margin: 12px 0; line-height: 1.6; }
+  .table-custom { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .table-custom th, .table-custom td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.08); text-align: left; vertical-align: top; }
+  .table-custom th { background: #09152b; color: #fca5a5; font-family: var(--font-mono); font-size: 12px; }
+
+  .timeline-alur { position: relative; padding-left: 28px; border-left: 2px solid rgba(239, 68, 68, 0.25); margin: 20px 0; }
+  .alur-step { position: relative; margin-bottom: 22px; }
+  .alur-step::before { content: ''; position: absolute; left: -34px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+  .alur-step h4 { font-family: var(--font-heading); font-size: 15px; color: #fca5a5; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .alur-step p { font-size: 13px; color: var(--text-sub); }
+
+  .footer-deck { margin-top: 40px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .btn-nav-bottom { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; padding: 8px 18px; border-radius: var(--radius-sm); text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-nav-bottom.primary { background: var(--cyan); color: var(--bg-void); box-shadow: 0 0 16px var(--cyan-glow); }
+  .btn-nav-bottom.secondary { background: rgba(13, 27, 54, 0.8); border: 1px solid var(--panel-border); color: var(--text-sub); }
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
-<header class="hud">
-  <div class="pbar"><div class="pfill" id="pf"></div></div>
-  <div class="hud-in">
-    <div class="badge"><span class="dot"></span>Server XII Genap — Blok 2 Hari 1 / Pert. 6</div>
-    <a href="index.html#server-genap" class="btn s" style="padding:4px 12px;font-size:11px">🏠 Dashboard Genap XII</a>
+
+<header class="top-hud">
+  <div class="progress-line"><div class="progress-fill" id="pFill"></div></div>
+  <div class="top-hud-inner">
+    <div class="hud-badge"><span class="pulse-dot"></span><span>Server XII Genap — Blok 2 (Hari 1 / Pert. 6)</span></div>
+    <div><a href="index.html#server-genap" class="btn-nav-bottom secondary" style="padding:4px 12px;font-size:11px;">🏠 Dashboard Genap XII</a></div>
   </div>
 </header>
-<main class="wrap">
-  <section class="hero">
-    <div class="pill">⚡ WORKSHOP 9 JP · BLOK 2 HARI KE-1 · SEMESTER GENAP</div>
-    <h1>Keamanan Server — Firewall iptables/ufw, Server Hardening & SSL/TLS</h1>
-    <p>Menerapkan lapisan keamanan multi-tier pada server Linux: firewall iptables/ufw, checklist server hardening, implementasi SSL/TLS (HTTPS) menggunakan Let's Encrypt atau sertifikat self-signed, serta monitoring dashboard anomali keamanan.</p>
+
+<main class="content-wrap">
+  <section class="hero-card">
+    <div class="tag-pill">⚡ WORKSHOP 9 JP (405 MENIT) · BLOK 2 HARI KE-1 · SEMESTER GENAP</div>
+    <h1>Keamanan Server, Firewall Hardening & Implementasi Enkripsi SSL/TLS</h1>
+    <p style="font-size:15px;color:var(--text-sub);max-width:820px;line-height:1.65;">Panduan memperkuat benteng pertahanan server dari ancaman siber: Menerapkan filosofi <em>Default Deny Incoming Policy</em> pada Firewall UFW & aturan anti-SYN flood IPTables, checklist audit keamanan OpenSCAP/Lynis, generasi sertifikat digital TLS X.509 menggunakan <code>openssl</code>, konfigurasi protokol HTTPS TLS 1.3 pada Apache & Nginx, serta pengalihan otomatis HTTP ke HTTPS (Port 80 &rarr; 443).</p>
   </section>
 
-  <div class="mgrid">
-    <div class="mbox"><div class="k">Sesi 1 (2 JP)</div><div class="v">Firewall iptables/ufw</div></div>
-    <div class="mbox"><div class="k">Sesi 2 (2 JP)</div><div class="v">Server Hardening</div></div>
-    <div class="mbox"><div class="k">Sesi 3 (3 JP)</div><div class="v">SSL/TLS & HTTPS</div></div>
-    <div class="mbox"><div class="k">Sesi 4 (2 JP)</div><div class="v">Monitoring & CBT</div></div>
+  <!-- ALOKASI WAKTU 9 JP -->
+  <div class="meta-grid">
+    <div class="meta-box"><div class="k">Pendahuluan (30m)</div><div class="v">Firewall Zero Trust</div></div>
+    <div class="meta-box"><div class="k">Sesi 1 (60m / 1.5 JP)</div><div class="v">UFW & IPTables Rules</div></div>
+    <div class="meta-box"><div class="k">Sesi 2 (60m / 1.5 JP)</div><div class="v">OpenSSL X.509 HTTPS</div></div>
+    <div class="meta-box"><div class="k">Sesi 3 (150m / 3.5 JP)</div><div class="v">Job Sheet Lab SSL TLS</div></div>
+    <div class="meta-box"><div class="k">Sesi 4 (60m / 1.5 JP)</div><div class="v">Troubleshoot SSL Lock</div></div>
+    <div class="meta-box"><div class="k">Penutup (45m / 1 JP)</div><div class="v">CBT & Evaluasi Mandiri</div></div>
   </div>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">1</span> Konfigurasi Firewall ufw & iptables</h2>
-    <div class="code"><span style="color:#64748b"># ── UFW (Uncomplicated Firewall) — Antarmuka mudah untuk iptables ──</span>
-sudo ufw default deny incoming    <span style="color:#64748b"># Blokir semua koneksi masuk secara default</span>
-sudo ufw default allow outgoing   <span style="color:#64748b"># Izinkan semua koneksi keluar</span>
-sudo ufw allow 2222/tcp           <span style="color:#64748b"># Izinkan SSH port kustom</span>
-sudo ufw allow 80/tcp             <span style="color:#64748b"># HTTP</span>
-sudo ufw allow 443/tcp            <span style="color:#64748b"># HTTPS</span>
-sudo ufw allow from 192.168.10.0/24 to any port 3306  <span style="color:#64748b"># MySQL — hanya dari LAN</span>
-sudo ufw enable
-sudo ufw status verbose
-
-<span style="color:#64748b"># ── iptables langsung — Drop port scanning (SYN flood protection) ──</span>
-sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
-sudo iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
-sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP</div>
+  <!-- BAGIAN 1: ALUR PEMBELAJARAN 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">1</span> Skenario & Alur Pembelajaran Tatap Muka (9 JP / 405 Menit)</h2>
+    <div class="timeline-alur">
+      <div class="alur-step">
+        <h4><span>Fase 1: Pendahuluan & Analisis Sniffing Data Cleartext</span> <span style="font-size:12px;color:var(--danger);">08.00 - 08.30 (30 Menit)</span></h4>
+        <p>Apersepsi: Guru mendemonstrasikan Wireshark menangkap password login yang dikirim melalui HTTP Port 80 secara telanjang (cleartext). Memahami mengapa enkripsi SSL/TLS (Port 443) menjadi syarat mutlak standar keamanan perbankan dan web modern.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 2: Arsitektur Firewall Default Deny & Aturan Stateful Inspection</span> <span style="font-size:12px;color:var(--danger);">08.30 - 09.30 (60 Menit)</span></h4>
+        <p>Pembedahan konsep Zero Trust Firewall: <code>ufw default deny incoming</code> (semua port masuk ditutup secara mutlak, kecuali port yang diizinkan eksplisit). Menulis aturan spesifik subnet (misal: hanya IP admin yang boleh mengakses port SSH 2222).</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 3: Kriptografi SSL/TLS X.509 & Handshake Enkripsi</span> <span style="font-size:12px;color:var(--danger);">09.30 - 10.30 (60 Menit)</span></h4>
+        <p>Membedah sertifikat X.509: Private Key (<code>server.key</code>) dan Public Certificate (<code>server.crt</code>). Perbedaan antara Self-Signed Certificate untuk lab internal dan Let's Encrypt CA untuk domain publik.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Istirahat Lab / Coffee Break</span> <span style="font-size:12px;color:var(--text-muted);">10.30 - 10.45 (15 Menit)</span></h4>
+        <p>Persiapan browser dan pembersihan cache SSL di workstation client.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 4: Job Sheet Praktikum Mandiri — Deploy HTTPS & Firewall Policy</span> <span style="font-size:12px;color:var(--danger);">10.45 - 13.15 (150 Menit)</span></h4>
+        <p>Siswa mengerjakan <strong>Job Sheet Genap 6</strong>: (1) Mengaktifkan UFW default deny incoming, (2) Membuka hanya port 2222 (SSH), 53 (DNS), 80 (HTTP), dan 443 (HTTPS), (3) Generate SSL Certificate 2048-bit dengan <code>openssl req -x509 ...</code>, (4) Mengaktifkan modul SSL Apache (<code>a2enmod ssl</code>) dan Virtual Host 443, (5) Mengonfigurasi redirect 301 dari HTTP ke HTTPS, (6) Verifikasi gembok hijau di browser client.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 5: Skenario Troubleshooting: Terkunci dari SSH & SSL Handshake Failed</span> <span style="font-size:12px;color:var(--danger);">13.15 - 14.15 (60 Menit)</span></h4>
+        <p>Siswa menangani insiden: Admin tidak sengaja mengaktifkan UFW sebelum mengizinkan port SSH kustom, serta mendiagnosis cipher suite mismatch pada browser lama.</p>
+      </div>
+      <div class="alur-step">
+        <h4><span>Fase 6: Evaluasi CBT & Refleksi 9 JP</span> <span style="font-size:12px;color:var(--danger);">14.15 - 15.00 (45 Menit)</span></h4>
+        <p>Pengerjaan evaluasi teori CBT 30 menit, checklist pengujian live HTTPS oleh guru, dan pengantar materi Load Balancing Nginx.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">2</span> Server Hardening Checklist & SSL/TLS Self-Signed</h2>
-    <table class="tbl">
-      <tr><th>Kategori Hardening</th><th>Tindakan</th><th>Perintah / Konfigurasi</th></tr>
-      <tr><td>System Update</td><td>Patch semua package ke versi terbaru</td><td><code>sudo apt update && sudo apt upgrade -y</code></td></tr>
-      <tr><td>Disable unused services</td><td>Nonaktifkan layanan yang tidak dipakai</td><td><code>sudo systemctl disable avahi-daemon cups</code></td></tr>
-      <tr><td>File permissions</td><td>Atur SUID/SGID berbahaya</td><td><code>find / -perm /6000 -type f 2>/dev/null</code></td></tr>
-      <tr><td>Kernel hardening</td><td>Terapkan sysctl security params</td><td><code>echo "net.ipv4.ip_forward=0" >> /etc/sysctl.conf</code></td></tr>
+  <!-- BAGIAN 2: MATERI TEORI UFW & SSL CONFIG -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">2</span> Perintah CLI Firewall UFW & Konfigurasi Virtual Host HTTPS</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># 1. Konfigurasi Firewall UFW Standar Zero Trust</span>
+<span style="color:#38bdf8;">sudo ufw default deny incoming</span>
+<span style="color:#38bdf8;">sudo ufw default allow outgoing</span>
+<span style="color:#38bdf8;">sudo ufw allow 2222/tcp comment 'Custom SSH'</span>
+<span style="color:#38bdf8;">sudo ufw allow 80/tcp comment 'HTTP Web'</span>
+<span style="color:#38bdf8;">sudo ufw allow 443/tcp comment 'HTTPS Secure'</span>
+<span style="color:#38bdf8;">sudo ufw enable</span>
+
+<span style="color:#64748b;"># 2. Pembuatan Sertifikat SSL/TLS X.509 Mandiri (Self-Signed 365 Hari)</span>
+<span style="color:#38bdf8;">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/portal.key \
+  -out /etc/ssl/certs/portal.crt \
+  -subj "/C=ID/ST=JawaTengah/L=Semarang/O=SMK TKJ/CN=portal.smk.lan"</span>
+    </div>
+
+    <div class="code-block" style="margin-top:14px;">
+<span style="color:#64748b;"># 3. /etc/apache2/sites-available/portal-ssl.conf — Virtual Host HTTPS</span>
+<pre style="color:#67e8f9;">&lt;VirtualHost *:443&gt;
+    ServerName portal.smk.lan
+    DocumentRoot /var/www/portal
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/portal.crt
+    SSLCertificateKeyFile /etc/ssl/private/portal.key
+
+    # Hardening Protokol Modern (Hanya TLSv1.2 & TLSv1.3)
+    SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+&lt;/VirtualHost&gt;
+
+# Redirect Otomatis HTTP (Port 80) ke HTTPS (Port 443)
+&lt;VirtualHost *:80&gt;
+    ServerName portal.smk.lan
+    Redirect permanent / https://portal.smk.lan/
+&lt;/VirtualHost&gt;</pre>
+    </div>
+  </section>
+
+  <!-- BAGIAN 3: JOB SHEET PRAKTIKUM 9 JP -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet Hands-On 9 JP)</h2>
+    <table class="table-custom">
+      <tr><th>Langkah</th><th>Perintah Eksekusi / Tindakan</th><th>Kriteria Validasi & Output</th></tr>
+      <tr><td><strong>1. Cek Status UFW</strong></td><td><code>sudo ufw status verbose</code></td><td>Status: <code>active</code>, Default: <code>deny (incoming), allow (outgoing)</code>.</td></tr>
+      <tr><td><strong>2. Aktifkan Module SSL</strong></td><td><code>sudo a2enmod ssl &amp;&amp; sudo a2enmod rewrite</code></td><td>Module ssl dan rewrite aktif di Apache.</td></tr>
+      <tr><td><strong>3. Aktifkan VHost SSL</strong></td><td><code>sudo a2ensite portal-ssl.conf</code><br><code>sudo systemctl reload apache2</code></td><td>Port 443 aktif mendengarkan koneksi terenkripsi.</td></tr>
+      <tr><td><strong>4. Uji Redirect HTTP</strong></td><td>Buka <code>http://portal.smk.lan</code> di browser</td><td>Otomatis dialihkan ke <code>https://portal.smk.lan</code> (Gembok enkripsi).</td></tr>
     </table>
-    <div class="code" style="margin-top:14px"><span style="color:#64748b"># Generate sertifikat SSL Self-Signed (untuk lab internal)</span>
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/ssl/private/smk.key \
-  -out /etc/ssl/certs/smk.crt \
-  -subj "/C=ID/ST=Jatim/L=Surabaya/O=SMK/CN=smk.lan"
-
-<span style="color:#64748b"># Aktifkan SSL di Apache</span>
-sudo a2enmod ssl
-sudo a2ensite default-ssl
-sudo systemctl reload apache2
-curl -k https://smk.lan   <span style="color:#64748b"># Uji HTTPS (dengan -k untuk skip verifikasi self-signed)</span></div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">3</span> Lembar Kerja Praktik Siswa (Job Sheet 9 JP)</h2>
-    <table class="tbl">
-      <tr><th>Tugas Keamanan</th><th>Langkah</th><th>Verifikasi</th></tr>
-      <tr><td>Konfigurasi UFW policy</td><td>Default deny, allow SSH+HTTP+HTTPS saja</td><td><code>ufw status</code> tampil Active; port selain 2222/80/443 terscan closed</td></tr>
-      <tr><td>Generate SSL self-signed</td><td>openssl req -x509 → konfigurasi Apache SSL VHost</td><td>Browser tampilkan gembok (dengan peringatan self-signed) di https://smk.lan</td></tr>
-      <tr><td>Hardening checklist</td><td>Nonaktifkan 3 service tidak diperlukan, update kernel</td><td><code>systemctl list-units --state=active</code> lebih ringkas</td></tr>
-      <tr><td>Scan port sebelum & sesudah</td><td>Gunakan <code>nmap -sV 192.168.10.1</code> dari client</td><td>Port terbuka berkurang signifikan setelah hardening</td></tr>
-    </table>
+  <!-- BAGIAN 4: TROUBLESHOOTING -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">4</span> Laboratorium Troubleshooting: Terkunci UFW saat SSH</h2>
+    <div class="code-block">
+<span style="color:#64748b;"># ATURAN KESELAMATAN EMAS FIREWALL:</span>
+Sebelum mengetik 'sudo ufw enable', SELALU pastikan port SSH Anda sudah dibuka dengan 'sudo ufw allow [PORT]/tcp'!
+Jika terlanjur terkunci dari remote SSH, buka antarmuka VirtualBox/Proxmox Console fisik (TTY1) lalu ketik:
+<span style="color:#38bdf8;">sudo ufw allow 2222/tcp</span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="ctitle"><span class="num">4</span> Uji Kompetensi & Asesmen Mandiri</h2>
-    <div id="cbtArea"></div>
+  <!-- BAGIAN 5: CBT QUIZ -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num">5</span> Asesmen Formatif & Uji Teori (CBT Anti-Cheat 9 JP)</h2>
+    <div id="cbtAppArea"></div>
   </section>
 
-  <div class="foot">
-    <a href="Server_Genap_Pert_5_backup-disaster-recovery.html" class="btn s">← Pert 5: Backup & DR</a>
-    <a href="Server_Genap_Pert_7_load-balancing-high-availability.html" class="btn p">Pert 7: Load Balancing →</a>
+  <div class="footer-deck">
+    <a href="Server_Genap_Pert_5_backup-disaster-recovery.html" class="btn-nav-bottom secondary">← Pertemuan 5: Backup & Disaster Recovery</a>
+    <a href="Server_Genap_Pert_7_load-balancing-high-availability.html" class="btn-nav-bottom primary">Lanjut ke Pertemuan 7: Load Balancing & High Availability →</a>
   </div>
 </main>
+
 <script src="cbt-anti-cheat.js"></script>
 <script>
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('pf').style.width=((window.scrollY/h)*100)+'%'});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(window.CBTEngine) window.CBTEngine.init({containerId:'cbtArea',title:'Kuis: Keamanan Server, Firewall & SSL/TLS',subject:'Infrastruktur Server Genap — Kelas XII TKJ',durationMinutes:30,questions:[
-    {question:'Perintah ufw "default deny incoming" menetapkan kebijakan default firewall menjadi?',options:['Menolak (DROP) semua koneksi masuk yang tidak secara eksplisit diizinkan oleh aturan allow yang ditambahkan','Mengizinkan semua koneksi masuk kecuali yang di-block secara eksplisit','Mematikan semua interface jaringan','Memblokir semua traffic termasuk koneksi keluar'],correctIndex:0,explanation:'Default deny (whitelist approach) adalah praktik keamanan terbaik. Hanya port/service yang secara eksplisit di-allow yang bisa diakses. Sebaliknya, default allow (blacklist) jauh lebih berisiko karena banyak port mungkin terbuka tanpa disadari.'},
-    {question:'Perbedaan utama antara sertifikat SSL Self-Signed dan sertifikat dari Certificate Authority (CA) terpercaya adalah?',options:['Sertifikat CA diverifikasi oleh pihak ketiga terpercaya sehingga browser langsung memercayainya tanpa peringatan, sedangkan self-signed dibuat sendiri dan browser menampilkan peringatan keamanan','Sertifikat CA hanya untuk domain .com','Self-signed menggunakan enkripsi lebih lemah','Sertifikat CA tidak bisa digunakan di server lokal'],correctIndex:0,explanation:'CA (Certificate Authority) seperti Let\'s Encrypt, DigiCert, GlobalSign telah terverifikasi dan public key-nya terdapat di trust store browser. Self-signed cocok untuk lab/internal, tetapi tidak untuk production publik karena browser menampilkan peringatan "Not Secure".'},
-    {question:'Opsi "net.ipv4.ip_forward=0" pada sysctl.conf berfungsi untuk keamanan server dengan cara?',options:['Menonaktifkan IP forwarding sehingga server tidak meneruskan paket antar-interface — mencegah server disalahgunakan sebagai router tidak sah','Mengaktifkan firewall kernel level','Membatasi kecepatan jaringan maksimal','Mengaktifkan IPv6 secara default'],correctIndex:0,explanation:'IP forwarding mengizinkan server meneruskan paket dari satu interface ke interface lain (seperti router). Jika tidak dibutuhkan, menonaktifkannya mencegah serangan routing manipulation dan penyalahgunaan server sebagai hop jaringan.'}
-  ]});
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const s = window.scrollY;
+  document.getElementById('pFill').style.width = ((s / h) * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.CBTEngine) {
+    window.CBTEngine.init({
+      containerId: 'cbtAppArea',
+      title: 'Kuis Evaluasi 9 JP: Keamanan Firewall & SSL/TLS',
+      subject: 'Infrastruktur Server Genap — Kelas XII TKJ',
+      durationMinutes: 30,
+      questions: [
+        {
+          question: "Prinsip keamanan 'Default Deny Incoming Policy' pada konfigurasi Firewall server bermakna bahwa?",
+          options: [
+            "Seluruh paket data yang masuk dari luar ditolak secara mutlak, KECUALI port layanan yang secara eksplisit diizinkan oleh administrator (misal: Port 80 dan 443)",
+            "Server dilarang mengakses internet",
+            "Semua user dilarang memiliki akun",
+            "Server otomatis mati jika ada orang yang mengakses website"
+          ],
+          correctIndex: 0,
+          explanation: "Filosofi 'Default Deny' memastikan tidak ada celah pintu belakang (backdoor) atau port layanan gelap yang terbuka tanpa pengawasan."
+        },
+        {
+          question: "Port standar yang digunakan oleh protokol web terenkripsi HTTPS (HTTP over SSL/TLS) adalah?",
+          options: ["Port TCP 443", "Port TCP 80", "Port TCP 21", "Port UDP 53"],
+          correctIndex: 0,
+          explanation: "Port 443 adalah port standar HTTPS, sedangkan HTTP biasa menggunakan port 80."
+        },
+        {
+          question: "Mengapa versi protokol SSLv3, TLS 1.0, dan TLS 1.1 wajib dinonaktifkan pada konfigurasi web server modern?",
+          options: [
+            "Karena versi protokol lawas tersebut memiliki kerentanan keamanan kriptografi yang parah (seperti serangan POODLE dan BEAST) yang dapat dibobol oleh penyerang",
+            "Karena membuat tagihan listrik menjadi mahal",
+            "Karena hanya mendukung komputer 16-bit",
+            "Karena tidak bisa membaca bahasa Indonesia"
+          ],
+          correctIndex: 0,
+          explanation: "Standar industri PCI-DSS dan IETF telah mendeprekasi SSLv3 s.d. TLS 1.1; server produksi hanya diizinkan menjalankan TLS 1.2 dan TLS 1.3."
+        },
+        {
+          question: "Perintah CLI OpenSSL yang digunakan untuk membuat sertifikat digital X.509 mandiri (Self-Signed Certificate) bersamaan dengan private key adalah?",
+          options: [
+            "openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt",
+            "openssl delete cert",
+            "systemctl restart ssl",
+            "chmod 777 server.crt"
+          ],
+          correctIndex: 0,
+          explanation: "'openssl req -x509' men-generate kunci RSA dan menerbitkan sertifikat publik yang valid untuk enkripsi internal lab."
+        }
+      ]
+    });
+  }
 });
 </script>
 </body>
