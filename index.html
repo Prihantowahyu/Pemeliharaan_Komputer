@@ -3982,6 +3982,22 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
         <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px; background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #10b981;" onclick="closeToolsHubModal(); openAdminModal();">
           📊 <b>Panel Guru &amp; Rekap Nilai CBT</b>
         </button>
+        <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px; background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.35); color: #38bdf8;" onclick="closeToolsHubModal(); openInventoryLabelModal();">
+          🏷️ <b>Cetak Stiker QR Code Meja Lab</b>
+        </button>
+      </div>
+
+      <!-- CATEGORY 4: Sertifikat & Portofolio PKL -->
+      <div style="background: rgba(3,7,18,0.5); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--emerald, #10b981); text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>🏆</span> Sertifikat &amp; Portofolio PKL
+        </div>
+        <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px;" onclick="closeToolsHubModal(); openCertificateModal();">
+          🎓 <b>Cetak E-Sertifikat Kompetensi Digital</b>
+        </button>
+        <button type="button" class="btn-companion" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; font-size: 12.5px;" onclick="closeToolsHubModal(); openPortofolioModal();">
+          📁 <b>Portofolio PKL &amp; Dokumentasi Kerja</b>
+        </button>
       </div>
 
     </div>
@@ -4046,53 +4062,133 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
   </div>
 </div>
 
+
 <!-- ==========================================================
-     MODAL 15: GENERATOR STIKER QR CODE MEJA LAB & BYOD
+     MODAL 16: E-SERTIFIKAT KOMPETENSI DIGITAL
      ========================================================== -->
-<div id="inventoryLabelModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeInventoryLabelModal()">
+<div id="certificateModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closeCertificateModal()">
   <div class="large-modal-card" style="max-width: 900px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
       <div style="display: flex; align-items: center; gap: 12px;">
-        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #38bdf8, #818cf8); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #030712; font-weight: 800;">🏷️</div>
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #030712; font-weight: 800;">🎓</div>
         <div>
           <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800; margin: 0;">
-            Generator Stiker QR Code Meja Lab &amp; BYOD
+            E-Sertifikat Kompetensi Digital
           </h3>
           <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">
-            Cetak stiker barcode / QR Code siap tempel di setiap meja lab komputer siswa.
+            Cetak sertifikat pencapaian siswa berdasarkan hasil CBT &amp; progres modul.
           </p>
         </div>
       </div>
-      <button type="button" class="btn-close-modal" onclick="closeInventoryLabelModal()" style="font-size: 20px;">&#10005;</button>
+      <button type="button" class="btn-close-modal" onclick="closeCertificateModal()" style="font-size: 20px;">&#10005;</button>
     </div>
 
-    <!-- Configuration Bar -->
-    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end;">
-      <div>
-        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NAMA RUANG LAB:</label>
-        <input type="text" id="labelLabName" class="custom-input" value="LAB KOMPUTER &amp; JARINGAN (TKJ)" style="width: 100%; font-size: 12px; padding: 8px 10px;">
+    <!-- Form Input Sertifikat -->
+    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NAMA LENGKAP SISWA:</label>
+          <input type="text" id="certStudentName" class="custom-input" placeholder="Nama lengkap siswa..." style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NIS / NISN:</label>
+          <input type="text" id="certStudentNis" class="custom-input" placeholder="Nomor Induk Siswa..." style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">KELAS:</label>
+          <select id="certStudentKelas" class="custom-select" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+            <option value="XI TKJ">XI TKJ</option>
+            <option value="XII TKJ">XII TKJ</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">KOMPETENSI:</label>
+          <select id="certKompetensi" class="custom-select" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+            <option value="Pemeliharaan Perangkat Keras Komputer">Pemeliharaan Perangkat Keras Komputer (Kelas XI)</option>
+            <option value="Administrasi Infrastruktur Server Linux">Administrasi Infrastruktur Server Linux (Kelas XII)</option>
+            <option value="Pemeliharaan & Administrasi Server (Full)">Pemeliharaan & Administrasi Server (XI + XII)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">PREDIKAT:</label>
+          <select id="certPredikat" class="custom-select" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+            <option value="Sangat Kompeten">Sangat Kompeten (90–100)</option>
+            <option value="Kompeten" selected>Kompeten (75–89)</option>
+            <option value="Cukup Kompeten">Cukup Kompeten (60–74)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NAMA GURU PENGAMPU:</label>
+          <input type="text" id="certGuruName" class="custom-input" value="Prihanto Wahyu Nugroho, S.Pd." style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
       </div>
-      <div>
-        <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">JUMLAH MEJA SISWA:</label>
-        <select id="labelTotalStations" class="custom-select" style="width: 100%; font-size: 12px; padding: 8px 10px;" onchange="renderQrStickersPreview()">
-          <option value="36" selected>36 Meja (1 Kelas Penuh)</option>
-          <option value="40">40 Meja</option>
-          <option value="30">30 Meja</option>
-          <option value="24">24 Meja</option>
-          <option value="18">18 Meja</option>
-        </select>
-      </div>
-      <div>
-        <button type="button" class="btn-launch" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #10b981, #00f0ff); padding: 9px 16px;" onclick="printQrStickersDirect()">
-          🖨️ Cetak Lembar Stiker A4
+
+      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn-launch" style="background: linear-gradient(135deg, #f59e0b, #ef4444); padding: 10px 20px;" onclick="printCertificate()">
+          🖨️ Cetak Sertifikat (A4 Landscape)
+        </button>
+        <button type="button" class="btn-launch" style="background: linear-gradient(135deg, #818cf8, #6366f1); padding: 10px 20px;" onclick="previewCertificate()">
+          👁️ Preview Sertifikat
         </button>
       </div>
     </div>
 
-    <!-- Live Preview Grid -->
-    <div style="background: rgba(15,23,42,0.8); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; max-height: 420px; overflow-y: auto;">
-      <div id="qrStickersPreviewContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
-        <!-- Dynamically rendered -->
+    <!-- Preview Box -->
+    <div id="certPreviewBox" style="display: none; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 20px; max-height: 400px; overflow-y: auto;">
+      <!-- Certificate preview rendered here -->
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================
+     MODAL 17: PORTOFOLIO PKL & DOKUMENTASI KERJA
+     ========================================================== -->
+<div id="portofolioModal" class="large-modal-overlay" style="display:none;" onclick="if(event.target===this) closePortofolioModal()">
+  <div class="large-modal-card" style="max-width: 900px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #030712; font-weight: 800;">📁</div>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; color: var(--text-main); font-weight: 800; margin: 0;">
+            Portofolio PKL &amp; Dokumentasi Kerja Siswa
+          </h3>
+          <p style="font-size: 13px; color: var(--text-sub); margin-top: 2px;">
+            Cetak CV portofolio kompetensi siswa untuk bekal melamar PKL / magang industri (DUDI).
+          </p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="closePortofolioModal()" style="font-size: 20px;">&#10005;</button>
+    </div>
+
+    <!-- Form Input Portofolio -->
+    <div style="background: rgba(3,7,18,0.6); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">NAMA LENGKAP:</label>
+          <input type="text" id="portfolioName" class="custom-input" placeholder="Nama lengkap siswa..." style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">KELAS / ROMBEL:</label>
+          <input type="text" id="portfolioKelas" class="custom-input" value="XII TKJ" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">TEMPAT PKL YANG DITUJU:</label>
+          <input type="text" id="portfolioTempatPkl" class="custom-input" placeholder="Contoh: PT. Telkom Indonesia" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div>
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">ALAMAT EMAIL:</label>
+          <input type="email" id="portfolioEmail" class="custom-input" placeholder="email@siswa.com" style="width: 100%; font-size: 13px; padding: 10px 12px;">
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan); display: block; margin-bottom: 4px; font-weight: 700;">DESKRIPSI DIRI (RINGKAS):</label>
+          <textarea id="portfolioDesc" class="custom-input" rows="3" placeholder="Siswa SMK Diponegoro Tumpang jurusan TKJ yang memiliki kompetensi di bidang..." style="width: 100%; font-size: 13px; padding: 10px 12px; resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn-launch" style="background: linear-gradient(135deg, #10b981, #06b6d4); padding: 10px 20px;" onclick="printPortofolioPKL()">
+          🖨️ Cetak Portofolio PKL (A4)
+        </button>
       </div>
     </div>
   </div>
@@ -7219,6 +7315,251 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
       <body>
         <div class="grid-container">
           ${cardsHtml}
+        </div>
+      </body>
+      </html>
+    `);
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 400);
+  }
+
+  /* ==========================================================
+     MODAL 16: E-SERTIFIKAT KOMPETENSI DIGITAL
+     ========================================================== */
+  function openCertificateModal() {
+    const m = document.getElementById('certificateModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closeCertificateModal() {
+    const m = document.getElementById('certificateModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function getCertificateHtml() {
+    const nama = (document.getElementById('certStudentName')?.value || 'Nama Siswa').trim();
+    const nis = (document.getElementById('certStudentNis')?.value || '-').trim();
+    const kelas = document.getElementById('certStudentKelas')?.value || 'XII TKJ';
+    const kompetensi = document.getElementById('certKompetensi')?.value || 'Pemeliharaan Perangkat Keras Komputer';
+    const predikat = document.getElementById('certPredikat')?.value || 'Kompeten';
+    const guru = (document.getElementById('certGuruName')?.value || 'Prihanto Wahyu Nugroho, S.Pd.').trim();
+    const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    const nomorSertifikat = `CERT/${new Date().getFullYear()}/${String(Math.floor(Math.random()*9000+1000))}`;
+
+    let predikatColor = '#2563eb';
+    if (predikat === 'Sangat Kompeten') predikatColor = '#059669';
+    else if (predikat === 'Cukup Kompeten') predikatColor = '#d97706';
+
+    return `
+      <!DOCTYPE html>
+      <html lang="id">
+      <head>
+        <meta charset="UTF-8">
+        <title>E-Sertifikat Kompetensi Digital — ${nama}</title>
+        <style>
+          @page { size: A4 landscape; margin: 0; }
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: 'Georgia', 'Times New Roman', serif; background: #fff; color: #1e293b; width: 297mm; height: 210mm; position: relative; overflow: hidden; }
+          .cert-frame { width: 100%; height: 100%; border: 8px double #1e40af; padding: 30px; position: relative; }
+          .cert-inner { border: 2px solid #93c5fd; padding: 28px 40px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
+          .logo-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+          .logo-badge { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1e40af, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 28px; color: #fff; font-weight: 900; box-shadow: 0 4px 12px rgba(30,64,175,0.3); }
+          .school-name { font-size: 14px; font-weight: bold; color: #1e40af; letter-spacing: 2px; text-transform: uppercase; }
+          .school-sub { font-size: 10px; color: #475569; margin-top: 2px; }
+          .cert-title { font-size: 32px; font-weight: 900; color: #1e40af; margin: 14px 0 6px; letter-spacing: 3px; text-transform: uppercase; }
+          .cert-subtitle { font-size: 13px; color: #64748b; margin-bottom: 14px; }
+          .cert-nomor { font-size: 10px; color: #94a3b8; font-family: monospace; margin-bottom: 14px; }
+          .student-name { font-size: 28px; font-weight: 900; color: #0f172a; border-bottom: 3px solid #1e40af; padding-bottom: 6px; margin-bottom: 8px; }
+          .student-detail { font-size: 12px; color: #475569; margin-bottom: 4px; }
+          .kompetensi-text { font-size: 15px; color: #1e293b; margin: 12px 0; line-height: 1.5; max-width: 580px; }
+          .predikat-badge { display: inline-block; font-size: 16px; font-weight: 900; color: #fff; background: ${predikatColor}; padding: 8px 30px; border-radius: 30px; margin: 10px 0 16px; letter-spacing: 1px; text-transform: uppercase; }
+          .sign-row { display: flex; justify-content: space-between; width: 100%; max-width: 580px; margin-top: auto; padding-top: 14px; }
+          .sign-block { text-align: center; }
+          .sign-label { font-size: 10px; color: #64748b; margin-bottom: 40px; }
+          .sign-name { font-size: 12px; font-weight: bold; color: #0f172a; border-top: 1.5px solid #1e293b; padding-top: 4px; }
+          .sign-title { font-size: 9px; color: #475569; }
+          .corner-tl, .corner-tr, .corner-bl, .corner-br { position: absolute; width: 40px; height: 40px; border-color: #1e40af; border-style: solid; }
+          .corner-tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+          .corner-tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+          .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+          .corner-br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+        </style>
+      </head>
+      <body>
+        <div class="cert-frame">
+          <div class="cert-inner">
+            <div class="corner-tl"></div>
+            <div class="corner-tr"></div>
+            <div class="corner-bl"></div>
+            <div class="corner-br"></div>
+            <div class="logo-row">
+              <div class="logo-badge">🎓</div>
+              <div>
+                <div class="school-name">SMK Diponegoro Tumpang</div>
+                <div class="school-sub">Kompetensi Keahlian: Teknik Komputer & Jaringan (TKJ)</div>
+              </div>
+            </div>
+            <div class="cert-title">Sertifikat Kompetensi</div>
+            <div class="cert-subtitle">Digital Competency Certificate</div>
+            <div class="cert-nomor">Nomor: ${nomorSertifikat}</div>
+            <p style="font-size: 12px; color: #475569; margin-bottom: 8px;">Diberikan kepada:</p>
+            <div class="student-name">${nama}</div>
+            <div class="student-detail">NIS/NISN: ${nis} &nbsp;|&nbsp; Kelas: ${kelas}</div>
+            <p class="kompetensi-text">
+              Telah menyelesaikan seluruh rangkaian pembelajaran dan asesmen kompetensi dalam bidang
+              <strong>"${kompetensi}"</strong>
+              sesuai standar kurikulum merdeka SMK tahun ajaran ${new Date().getFullYear()}/${new Date().getFullYear()+1}.
+            </p>
+            <div class="predikat-badge">${predikat}</div>
+            <div class="sign-row">
+              <div class="sign-block">
+                <div class="sign-label">Tumpang, ${tanggal}<br>Guru Pengampu</div>
+                <div class="sign-name">${guru}</div>
+                <div class="sign-title">Guru Produktif TKJ</div>
+              </div>
+              <div class="sign-block">
+                <div class="sign-label">&nbsp;<br>Kepala Sekolah</div>
+                <div class="sign-name">_________________________</div>
+                <div class="sign-title">Kepala SMK Diponegoro Tumpang</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  function previewCertificate() {
+    const previewBox = document.getElementById('certPreviewBox');
+    if (!previewBox) return;
+    const nama = (document.getElementById('certStudentName')?.value || '').trim();
+    if (!nama) { alert('Silakan isi Nama Lengkap Siswa terlebih dahulu!'); return; }
+    previewBox.style.display = 'block';
+    previewBox.innerHTML = '<iframe style="width:100%;height:380px;border:none;border-radius:8px;" srcdoc="' + getCertificateHtml().replace(/"/g, '&quot;') + '"></iframe>';
+  }
+
+  function printCertificate() {
+    const nama = (document.getElementById('certStudentName')?.value || '').trim();
+    if (!nama) { alert('Silakan isi Nama Lengkap Siswa terlebih dahulu!'); return; }
+    const pWin = window.open('', '_blank');
+    pWin.document.write(getCertificateHtml());
+    pWin.document.close();
+    pWin.focus();
+    setTimeout(() => pWin.print(), 400);
+  }
+
+  /* ==========================================================
+     MODAL 17: PORTOFOLIO PKL & DOKUMENTASI KERJA
+     ========================================================== */
+  function openPortofolioModal() {
+    const m = document.getElementById('portofolioModal');
+    if (m) m.style.display = 'flex';
+  }
+  function closePortofolioModal() {
+    const m = document.getElementById('portofolioModal');
+    if (m) m.style.display = 'none';
+  }
+
+  function printPortofolioPKL() {
+    const nama = (document.getElementById('portfolioName')?.value || '').trim();
+    if (!nama) { alert('Silakan isi Nama Lengkap Siswa terlebih dahulu!'); return; }
+    const kelas = (document.getElementById('portfolioKelas')?.value || 'XII TKJ').trim();
+    const tempatPkl = (document.getElementById('portfolioTempatPkl')?.value || 'DUDI Mitra').trim();
+    const email = (document.getElementById('portfolioEmail')?.value || '-').trim();
+    const desc = (document.getElementById('portfolioDesc')?.value || 'Siswa SMK Diponegoro Tumpang jurusan TKJ yang memiliki kompetensi di bidang pemeliharaan komputer dan administrasi server.').trim();
+    const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Collect CBT scores from localStorage
+    let cbtRecords = [];
+    try { cbtRecords = JSON.parse(localStorage.getItem('bh_cbt_all_submissions')) || []; } catch(e) {}
+    const studentCbt = cbtRecords.filter(r => r.studentName && r.studentName.toLowerCase() === nama.toLowerCase());
+
+    let cbtTable = '';
+    if (studentCbt.length > 0) {
+      cbtTable = '<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:11px;">' +
+        '<tr style="background:#f1f5f9;"><th style="padding:6px 8px;border:1px solid #cbd5e1;text-align:left;">Materi Ujian</th><th style="padding:6px 8px;border:1px solid #cbd5e1;text-align:center;">Skor</th><th style="padding:6px 8px;border:1px solid #cbd5e1;text-align:center;">Predikat</th></tr>';
+      studentCbt.forEach(r => {
+        cbtTable += '<tr><td style="padding:6px 8px;border:1px solid #cbd5e1;">' + r.moduleTitle + '</td><td style="padding:6px 8px;border:1px solid #cbd5e1;text-align:center;font-weight:bold;">' + r.finalScore + '</td><td style="padding:6px 8px;border:1px solid #cbd5e1;text-align:center;">' + r.grade + '</td></tr>';
+      });
+      cbtTable += '</table>';
+    } else {
+      cbtTable = '<p style="font-size:11px;color:#64748b;margin-top:8px;">Belum ada data asesmen CBT yang tersimpan untuk nama ini.</p>';
+    }
+
+    const kompetensiList = [
+      'K3 & Prosedur Kerja Bengkel Komputer',
+      'Identifikasi & Perakitan Hardware PC',
+      'Konfigurasi BIOS/UEFI & Instalasi Sistem Operasi',
+      'Instalasi Driver & Software Pendukung',
+      'Troubleshooting Hardware & Software',
+      'Perawatan Berkala & Backup/Restore',
+      'Upgrade Komponen & Manajemen Storage',
+      'Keamanan Sistem & Diagnostic Tools',
+      'Administrasi Server Linux (DHCP, DNS, Web, FTP, Mail)',
+      'Virtualisasi, Docker & Cloud Deployment'
+    ];
+
+    const pWin = window.open('', '_blank');
+    pWin.document.write(`
+      <!DOCTYPE html>
+      <html lang="id">
+      <head>
+        <meta charset="UTF-8">
+        <title>Portofolio PKL — ${nama}</title>
+        <style>
+          @page { size: A4; margin: 15mm; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; line-height: 1.5; background: #fff; }
+          .header-bar { background: linear-gradient(135deg, #1e40af, #0284c7); color: #fff; padding: 20px 24px; border-radius: 10px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+          .header-bar .avatar { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 30px; border: 3px solid rgba(255,255,255,0.5); flex: 0 0 64px; }
+          .header-bar h1 { font-size: 22px; font-weight: 900; margin-bottom: 2px; }
+          .header-bar .sub { font-size: 12px; opacity: 0.85; }
+          .section-title { font-size: 14px; font-weight: 800; color: #1e40af; text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 8px; border-bottom: 2px solid #bfdbfe; padding-bottom: 4px; }
+          .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; margin-bottom: 10px; }
+          .info-row .label { font-weight: 700; color: #475569; }
+          .info-row .value { color: #0f172a; }
+          .desc-text { font-size: 12px; color: #334155; margin-bottom: 12px; }
+          .kompetensi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+          .kompetensi-item { font-size: 11px; padding: 5px 8px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 5px; display: flex; align-items: center; gap: 6px; }
+          .kompetensi-item::before { content: '✅'; font-size: 10px; }
+          .footer-note { margin-top: 18px; font-size: 10px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+        </style>
+      </head>
+      <body>
+        <div class="header-bar">
+          <div class="avatar">👤</div>
+          <div>
+            <h1>${nama}</h1>
+            <div class="sub">${kelas} — SMK Diponegoro Tumpang &bull; Teknik Komputer & Jaringan</div>
+            <div class="sub">${email !== '-' ? '📧 ' + email : ''}</div>
+          </div>
+        </div>
+
+        <div class="section-title">📋 Profil Singkat</div>
+        <p class="desc-text">${desc}</p>
+
+        <div class="info-row">
+          <div><span class="label">Tempat PKL Dituju:</span> <span class="value">${tempatPkl}</span></div>
+          <div><span class="label">Tanggal Cetak:</span> <span class="value">${tanggal}</span></div>
+          <div><span class="label">Sekolah Asal:</span> <span class="value">SMK Diponegoro Tumpang, Kab. Malang</span></div>
+          <div><span class="label">Kompetensi Keahlian:</span> <span class="value">Teknik Komputer & Jaringan (TKJ)</span></div>
+        </div>
+
+        <div class="section-title">🏆 Daftar Kompetensi yang Dikuasai</div>
+        <div class="kompetensi-grid">
+          ${kompetensiList.map(k => '<div class="kompetensi-item">' + k + '</div>').join('')}
+        </div>
+
+        <div class="section-title">📊 Hasil Asesmen Digital (CBT Anti-Cheat)</div>
+        ${cbtTable}
+
+        <div class="section-title">🔗 Portal Materi & Asesmen Online</div>
+        <p style="font-size:11px;color:#334155;">Seluruh materi modul, simulasi praktik, dan kuis kompetensi tersedia secara online di:</p>
+        <p style="font-family:monospace;font-size:11px;color:#1e40af;margin-top:4px;">https://prihantowahyu.github.io/Pemeliharaan_Komputer/</p>
+
+        <div class="footer-note">
+          Dokumen ini dibuat secara otomatis oleh Portal Pembelajaran TKJ — SMK Diponegoro Tumpang<br>
+          Dicetak pada: ${tanggal} &bull; Guru Pengampu: ${document.getElementById('certGuruName')?.value || 'Prihanto Wahyu Nugroho, S.Pd.'}
         </div>
       </body>
       </html>
