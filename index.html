@@ -5365,6 +5365,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     if (!canvas) return;
     const dataUrl = canvas.toDataURL("image/png");
     const pWin = window.open("", "_blank");
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html>
@@ -5569,6 +5573,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     }
 
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html lang="id">
@@ -5729,6 +5737,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     const nama = (document.getElementById('certStudentName')?.value || '').trim();
     if (!nama) { alert('Silakan isi Nama Lengkap Siswa terlebih dahulu!'); return; }
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(getCertificateHtml());
     pWin.document.close();
     pWin.focus();
@@ -5787,6 +5799,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     ];
 
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html lang="id">
@@ -6296,6 +6312,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
 
   function printSingleSpk(no, tech, pcId, cat, actions, date) {
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html>
@@ -6703,6 +6723,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     if (!preview) return;
     const name = (document.getElementById('portInputName')?.value || 'Peserta_Didik').replace(/[^a-zA-Z0-9]/g, '_');
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html>
@@ -6785,6 +6809,10 @@ PIN BAWAH:  [ Pin 1: +HDD LED   ] [ Pin 3: -HDD LED   ] [ Pin 5: Reset SW - ] [ 
     const grid = document.getElementById('invStickersGrid');
     if (!grid) return;
     const pWin = window.open('', '_blank');
+    if (!pWin) {
+      alert('Popup diblok oleh browser. Silakan izinkan popup untuk halaman ini.');
+      return;
+    }
     pWin.document.write(`
       <!DOCTYPE html>
       <html>
