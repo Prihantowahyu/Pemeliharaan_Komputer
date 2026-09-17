@@ -1351,6 +1351,9 @@ function playBeep(type = "key") {
   if (!soundEnabled) return;
   try {
     if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.connect(gain);
@@ -1567,12 +1570,16 @@ function openItemAction(item) {
 /* POPUP SELECTOR DIALOG FOR BIOS OPTIONS */
 let dialogCurrentItem = null;
 let dialogSelectedOptionIdx = 0;
+let dialogMode = "option"; // "option" or "save_prompt"
+let savePromptSelected = "yes"; // "yes" or "no"
 
 function showOptionDialog(item) {
   dialogCurrentItem = item;
+  dialogMode = "option";
   const overlay = document.getElementById('biosDialogOverlay');
   const titleEl = document.getElementById('dialogTitle');
   const listEl = document.getElementById('dialogOptionsList');
+  const btnsEl = document.getElementById('dialogButtonsRow');
 
   titleEl.textContent = item.label;
   const currentVal = currentState[item.key] || item.options[0];
@@ -1585,6 +1592,8 @@ function showOptionDialog(item) {
     </div>
   `).join('');
 
+  // Reset dialog button row to standard Cancel button (prevents Yes/No leakage)
+  btnsEl.innerHTML = `<button type="button" class="bios-btn" onclick="closeBiosDialog()">[ Batal / ESC ]</button>`;
   overlay.style.display = "flex";
 }
 
@@ -1616,6 +1625,9 @@ function closeBiosDialog() {
 }
 
 function promptSaveAndExit() {
+  dialogCurrentItem = null;
+  dialogMode = "save_prompt";
+  savePromptSelected = "yes";
   const overlay = document.getElementById('biosDialogOverlay');
   const titleEl = document.getElementById('dialogTitle');
   const listEl = document.getElementById('dialogOptionsList');
@@ -1624,14 +1636,20 @@ function promptSaveAndExit() {
   titleEl.textContent = "Save configuration and reset?";
   listEl.innerHTML = `
     <div style="padding:10px; text-align:center; color:#ffff55;">
-      Simpan semua pengaturan baru ke CMOS dan restart komputer sekarang?
+      Simpan semua perubahan konfigurasi ke CMOS dan restart komputer sekarang?
+      <div style="font-size:16px; color:#55ffff; margin-top:8px;">Tekan [Enter] / [Y] untuk Ya, atau [ESC] / [N] untuk Batal</div>
     </div>
   `;
-  btnsEl.innerHTML = `
-    <button type="button" class="bios-btn focus" onclick="rebootSimulation('save')">[ Yes ]</button>
-    <button type="button" class="bios-btn" onclick="closeBiosDialog()">[ No ]</button>
-  `;
+  renderSavePromptButtons();
   overlay.style.display = "flex";
+}
+
+function renderSavePromptButtons() {
+  const btnsEl = document.getElementById('dialogButtonsRow');
+  btnsEl.innerHTML = `
+    <button type="button" id="btnDialogYes" class="bios-btn ${savePromptSelected === 'yes' ? 'focus' : ''}" onclick="rebootSimulation('save')">[ Yes ]</button>
+    <button type="button" id="btnDialogNo" class="bios-btn ${savePromptSelected === 'no' ? 'focus' : ''}" onclick="closeBiosDialog()">[ No ]</button>
+  `;
 }
 
 /* ==========================================================================
@@ -1850,7 +1868,7 @@ function renderUefiAdvancedTab(container, tabKey) {
     rowsHtml = `
       <tr><td>Boot Option #1</td><td><span class="uefi-item-val-badge" onclick="showOptionDialog(LEGACY_MENU_SCHEMA.boot.items[1])">${currentState.bootOption1}</span></td></tr>
       <tr><td>Boot Option #2</td><td><span class="uefi-item-val-badge" onclick="showOptionDialog(LEGACY_MENU_SCHEMA.boot.items[2])">${currentState.bootOption2}</span></td></tr>
-      <tr><td>Boot Option #3</td><td><span class="uefi-item-val-badge">${currentState.bootOption3}</span></td></tr>
+      <tr><td>Boot Option #3</td><td><span class="uefi-item-val-badge" onclick="showOptionDialog(LEGACY_MENU_SCHEMA.boot.items[3])">${currentState.bootOption3}</span></td></tr>
       <tr><td>CSM (Compatibility Support Module)</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('csmSupport')">${currentState.csmSupport}</span></td></tr>
       <tr><td>Secure Boot</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('secureBoot')">${currentState.secureBoot}</span></td></tr>
       <tr><td>Fast Boot</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('fastBoot')">${currentState.fastBoot}</span></td></tr>
@@ -2056,6 +2074,19 @@ function checkMissionSuccessOnBoot(bootedTarget) {
   if (currentMission === "misi1" && bootedTarget === "usb") {
     badge.className = "mission-status success";
     badge.textContent = "🏆 MISI 1 TUNTAS DENGAN NILAI 100!";
+  } else if (currentMission === "misi2") {
+    if (currentState.sataMode === "AHCI" && currentState.virtualization === "Enabled") {
+      badge.className = "mission-status success";
+      badge.textContent = "🏆 MISI 2 TUNTAS DENGAN NILAI 100! (AHCI & VT-x Aktif)";
+    }
+  } else if (currentMission === "misi3") {
+    const tpmOk = (currentState.tpmDevice === "Enabled");
+    const secOk = (currentState.secureBoot === "Enabled");
+    const csmOk = (currentState.csmSupport === "Disabled");
+    if (tpmOk && secOk && csmOk) {
+      badge.className = "mission-status success";
+      badge.textContent = "🏆 MISI 3 TUNTAS DENGAN NILAI 100! (Windows 11 Ready)";
+    }
   }
 }
 
@@ -2075,7 +2106,8 @@ function resetToDefaults() {
 function toggleVirtualDpad() {
   const dpad = document.querySelector('.virtual-dpad-bar');
   const label = document.getElementById('dpadBtnLabel');
-  if (dpad.style.display === 'none') {
+  const isHidden = window.getComputedStyle(dpad).display === 'none';
+  if (isHidden) {
     dpad.style.display = 'flex';
     if (label) label.textContent = 'Keypad ON';
   } else {
@@ -2116,6 +2148,30 @@ window.addEventListener('keydown', (e) => {
 
   const overlay = document.getElementById('biosDialogOverlay');
   if (overlay.style.display === "flex") {
+    if (dialogMode === "save_prompt") {
+      if (e.key === "Escape" || e.key === "n" || e.key === "N") {
+        e.preventDefault();
+        closeBiosDialog();
+      } else if (e.key === "y" || e.key === "Y") {
+        e.preventDefault();
+        rebootSimulation('save');
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        playBeep("key");
+        savePromptSelected = (savePromptSelected === "yes") ? "no" : "yes";
+        renderSavePromptButtons();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (savePromptSelected === "yes") {
+          rebootSimulation('save');
+        } else {
+          closeBiosDialog();
+        }
+      }
+      return;
+    }
+
+    // Option selection mode
     if (e.key === "Escape") {
       e.preventDefault();
       closeBiosDialog();
