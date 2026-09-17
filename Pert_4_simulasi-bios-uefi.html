@@ -837,6 +837,269 @@
     font-size: 12px;
     color: #94a3b8;
   }
+
+  /* =================================================================
+     MOBILE UX/UI ENHANCEMENTS & RESPONSIVE BREAKPOINTS
+     ================================================================= */
+  .mobile-orient-tip {
+    display: none;
+    background: linear-gradient(90deg, #1e3a8a, #0369a1);
+    color: #e0f2fe;
+    padding: 8px 14px;
+    font-size: 12px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #38bdf8;
+    z-index: 45;
+  }
+  .mobile-orient-tip .btn-dismiss {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-orient-tip {
+      display: flex;
+    }
+    .top-toolbar {
+      padding: 8px 10px;
+      gap: 8px;
+    }
+    .brand-title {
+      font-size: 13px;
+    }
+    .brand-subtitle {
+      display: none;
+    }
+    .mode-switch-group {
+      width: 100%;
+    }
+    .mode-btn {
+      flex: 1;
+      justify-content: center;
+      padding: 8px 6px;
+      font-size: 11.5px;
+    }
+    .mission-selector {
+      width: 100%;
+    }
+    .mission-selector select {
+      flex: 1;
+      width: 100%;
+    }
+    .toolbar-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .mission-banner {
+      padding: 8px 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .sim-container {
+      padding: 6px 4px;
+      align-items: stretch;
+    }
+    .monitor-bezel {
+      border-width: 4px;
+      border-radius: 6px;
+      height: 520px;
+      max-height: 70vh;
+    }
+
+    /* LEGACY BIOS MOBILE */
+    .legacy-bios {
+      font-size: clamp(15px, 4.2vw, 19px);
+    }
+    .legacy-topbar {
+      font-size: 12.5px;
+      padding: 2px 6px;
+    }
+    .legacy-navbar {
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 4px;
+      scrollbar-width: none;
+    }
+    .legacy-navbar::-webkit-scrollbar {
+      display: none;
+    }
+    .legacy-nav-item {
+      padding: 4px 10px;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .legacy-body {
+      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      overflow-y: hidden;
+    }
+    .legacy-left-panel {
+      flex: 1;
+      border-right: none;
+      border-bottom: 2px solid var(--bios-border);
+      padding: 6px 8px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .legacy-item-row {
+      padding: 7px 8px;
+      min-height: 34px;
+    }
+    .legacy-right-panel {
+      height: 96px;
+      min-height: 80px;
+      max-height: 105px;
+      padding: 6px 10px;
+      overflow-y: auto;
+    }
+    .legacy-help-header {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    .legacy-help-body {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .legacy-copyright {
+      display: none;
+    }
+    .legacy-footer-keys {
+      font-size: 11px;
+      padding: 4px 6px;
+      gap: 2px 6px;
+      justify-content: center;
+    }
+
+    /* POPUP DIALOG MOBILE */
+    .bios-dialog-box {
+      min-width: 290px;
+      max-width: 94%;
+      font-size: 18px;
+      padding: 10px 12px;
+    }
+
+    /* UEFI MOBILE */
+    .uefi-header {
+      padding: 8px 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .uefi-board-info {
+      display: none;
+    }
+    .uefi-clock-hud {
+      text-align: left;
+      font-size: 11px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .uefi-nav-tabs {
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 4px;
+      scrollbar-width: none;
+    }
+    .uefi-nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .uefi-tab-btn {
+      padding: 8px 12px;
+      font-size: 11.5px;
+      flex-shrink: 0;
+    }
+    .uefi-content {
+      padding: 8px;
+    }
+    .ez-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .toggle-btn {
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+    .boot-order-item {
+      padding: 10px;
+    }
+    .boot-btn-move {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+    }
+    .uefi-footer {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+      font-size: 10px;
+      padding: 6px 10px;
+    }
+
+    /* VIRTUAL DPAD FOR TOUCH SCREENS */
+    .virtual-dpad-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 100;
+      padding: 8px 6px;
+      background: rgba(9, 13, 22, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: space-around;
+      gap: 4px;
+    }
+    .dpad-group {
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .vk-btn {
+      padding: 9px 11px;
+      font-size: 12px;
+      min-height: 38px;
+      touch-action: manipulation;
+    }
+  }
+
+  /* LANDSCAPE ORIENTATION ON MOBILE */
+  @media (orientation: landscape) and (max-height: 520px) {
+    .mobile-orient-tip {
+      display: none;
+    }
+    .top-toolbar {
+      padding: 4px 8px;
+    }
+    .mission-banner {
+      display: none;
+    }
+    .monitor-bezel {
+      height: calc(100vh - 120px);
+      max-height: none;
+    }
+    .virtual-dpad-bar {
+      padding: 4px;
+    }
+    .vk-btn {
+      padding: 5px 8px;
+      min-height: 30px;
+      font-size: 11px;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -871,6 +1134,9 @@
   </div>
 
   <div class="toolbar-actions">
+    <button type="button" class="btn-action" id="btnToggleDpad" onclick="toggleVirtualDpad()" title="Sembunyikan/Tampilkan Keypad Virtual">
+      🎮 <span id="dpadBtnLabel">Keypad</span>
+    </button>
     <div class="sound-indicator" onclick="toggleAudio()" title="Klik untuk Bunyi Beep / Suara">
       <span id="soundIcon">🔊</span> <span id="soundText">Audio ON</span>
     </div>
@@ -1805,6 +2071,19 @@ function resetToDefaults() {
 /* ==========================================================================
    INPUT HANDLERS: HARDWARE KEYBOARD & VIRTUAL D-PAD
    ========================================================================== */
+
+function toggleVirtualDpad() {
+  const dpad = document.querySelector('.virtual-dpad-bar');
+  const label = document.getElementById('dpadBtnLabel');
+  if (dpad.style.display === 'none') {
+    dpad.style.display = 'flex';
+    if (label) label.textContent = 'Keypad ON';
+  } else {
+    dpad.style.display = 'none';
+    if (label) label.textContent = 'Keypad OFF';
+  }
+}
+
 function switchFirmwareMode(mode) {
   playBeep("key");
   currentMode = mode;
