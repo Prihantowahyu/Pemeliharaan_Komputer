@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Misi Challenge: Teknisi Andal — Pemeliharaan Komputer XI TKJ</title>
+<meta name="description" content="Tantangan interaktif 5 level untuk siswa XI TKJ — buktikan kemampuanmu sebagai Teknisi Andal SMK!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1629;
+  --card: #131b2e;
+  --card2: #1a2440;
+  --border: #1e2d4a;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --green: #10b981;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --orange: #f97316;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --gold: #fbbf24;
+  --glow-blue: 0 0 30px rgba(59,130,246,0.4);
+  --glow-purple: 0 0 30px rgba(139,92,246,0.4);
+  --glow-green: 0 0 30px rgba(16,185,129,0.4);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 20%, rgba(59,130,246,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 80%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.4);
+  border-radius: 999px;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+@keyframes pulse-badge {
+  0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(59,130,246,0); }
+}
+.hero-title {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #67e8f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  color: var(--text2);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.stat-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+.stat-chip .num { font-weight: 800; color: var(--accent); font-size: 1.1rem; }
+#player-setup {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  margin: 0 auto 3rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--glow-blue);
+}
+#player-setup h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--accent3);
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.input-group label { font-size: 0.85rem; color: var(--text2); font-weight: 600; }
+.input-group input, .input-group select {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-group input:focus, .input-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+}
+.input-group select option { background: var(--card2); }
+.btn-start {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-start:hover { transform: translateY(-2px); box-shadow: var(--glow-blue); }
+#mission-map {
+  display: none;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.mission-map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+}
+.player-info { display: flex; align-items: center; gap: 1rem; }
+.player-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+.player-name-display { font-weight: 700; font-size: 1rem; }
+.player-class-display { font-size: 0.8rem; color: var(--text2); }
+.score-display { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.score-item { text-align: center; }
+.score-item .val { font-size: 1.4rem; font-weight: 800; color: var(--gold); }
+.score-item .lbl { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; }
+.global-progress { margin-bottom: 2rem; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text2); margin-bottom: 0.4rem; }
+.progress-track { height: 8px; background: var(--card2); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width 0.5s ease; }
+.missions-title { font-size: 1.1rem; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.2rem; }
+.missions-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 640px) { .missions-grid { grid-template-columns: repeat(2, 1fr); } }
+.mission-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.mission-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 18px 18px 0 0;
+}
+.mission-card.m1::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+.mission-card.m2::before { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+.mission-card.m3::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.mission-card.m4::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.mission-card.m5::before { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+.mission-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(59,130,246,0.2);
+  border-color: var(--accent);
+}
+.mission-card.completed { border-color: var(--green); }
+.mission-card.completed::after {
+  content: 'SELESAI';
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: var(--green);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+.mission-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+.mission-number { font-size: 0.7rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+.mission-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; }
+.mission-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 1rem; }
+.mission-meta { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+.mission-tag { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid; }
+.tag-soal { color: var(--accent3); border-color: rgba(6,182,212,0.4); background: rgba(6,182,212,0.1); }
+.tag-pts { color: var(--gold); border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.1); }
+.tag-diff { color: var(--orange); border-color: rgba(249,115,22,0.4); background: rgba(249,115,22,0.1); }
+.mission-score-badge { margin-left: auto; font-size: 1rem; font-weight: 800; color: var(--gold); }
+#quiz-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.quiz-mission-label { font-size: 0.9rem; font-weight: 700; color: var(--accent3); }
+.quiz-timer { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--yellow); }
+.quiz-timer.urgent { color: var(--red); animation: blink-red 0.5s ease-in-out infinite; }
+@keyframes blink-red { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.quiz-progress-bar { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.q-dot { width: 28px; height: 6px; border-radius: 999px; background: var(--card2); transition: background 0.3s; }
+.q-dot.current { background: var(--accent); }
+.q-dot.correct { background: var(--green); }
+.q-dot.wrong { background: var(--red); }
+.question-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 1.2rem;
+}
+.q-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.q-badge.easy { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+.q-badge.medium { background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+.q-badge.hard { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.q-number { font-size: 0.8rem; color: var(--text3); margin-bottom: 0.5rem; font-family: 'JetBrains Mono', monospace; }
+.q-text { font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 600; line-height: 1.6; }
+.options-grid { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.2rem; }
+.option-btn {
+  background: var(--card2);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  line-height: 1.4;
+}
+.option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(59,130,246,0.1); transform: translateX(4px); }
+.option-label { font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; min-width: 22px; color: var(--accent); }
+.option-btn.correct { border-color: var(--green); background: rgba(16,185,129,0.15); }
+.option-btn.correct .option-label { color: var(--green); }
+.option-btn.wrong { border-color: var(--red); background: rgba(239,68,68,0.12); }
+.option-btn.wrong .option-label { color: var(--red); }
+.option-btn:disabled { cursor: not-allowed; }
+.feedback-box { display: none; border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.5; }
+.feedback-box.show { display: block; animation: slide-in 0.3s ease; }
+@keyframes slide-in { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
+.feedback-box.correct-fb { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4); }
+.feedback-box.wrong-fb { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+.feedback-title { font-weight: 800; margin-bottom: 0.3rem; font-size: 1rem; }
+.btn-next {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-next:hover { transform: translateY(-2px); box-shadow: var(--glow-blue); }
+.btn-next.show { display: block; animation: slide-in 0.3s ease; }
+.essay-intro {
+  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(59,130,246,0.1));
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.essay-intro h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+.essay-intro p { color: var(--text2); font-size: 0.9rem; }
+.essay-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.essay-q-num { font-size: 0.75rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; font-family: 'JetBrains Mono', monospace; }
+.essay-q-text { font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 1rem; }
+.essay-hint { font-size: 0.8rem; color: var(--text2); background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 0.6rem 1rem; margin-bottom: 0.8rem; }
+.essay-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.essay-textarea:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
+.char-count { font-size: 0.75rem; color: var(--text3); text-align: right; margin-top: 0.3rem; }
+.char-count.enough { color: var(--green); }
+.btn-submit-essay {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent2), #ec4899);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-submit-essay:hover { transform: translateY(-2px); box-shadow: var(--glow-purple); }
+#result-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  text-align: center;
+}
+.result-trophy { font-size: 6rem; margin: 1.5rem 0; filter: drop-shadow(0 0 30px rgba(251,191,36,0.6)); animation: bounce-trophy 1s ease-in-out infinite alternate; }
+@keyframes bounce-trophy { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.05); } }
+.result-title { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--gold), #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.result-subtitle { color: var(--text2); margin-bottom: 2rem; font-size: 1rem; }
+.result-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
+@media (min-width: 500px) { .result-stats-grid { grid-template-columns: repeat(4, 1fr); } }
+.result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 0.8rem; }
+.result-stat .big { font-size: 2rem; font-weight: 900; }
+.result-stat .small { font-size: 0.75rem; color: var(--text2); margin-top: 0.2rem; }
+.result-stat.gold .big { color: var(--gold); }
+.result-stat.blue .big { color: var(--accent); }
+.result-stat.green .big { color: var(--green); }
+.result-stat.purple .big { color: var(--accent2); }
+.badges-section { margin-bottom: 2rem; }
+.badges-section h3 { font-size: 1rem; font-weight: 700; color: var(--text2); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.badges-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.badge { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.2rem; text-align: center; min-width: 90px; }
+.badge .badge-icon { font-size: 2rem; margin-bottom: 0.3rem; }
+.badge .badge-name { font-size: 0.7rem; font-weight: 700; color: var(--text2); }
+.badge.unlocked { border-color: var(--gold); background: rgba(251,191,36,0.08); }
+.badge.locked { filter: grayscale(1) brightness(0.4); }
+.result-message { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; font-size: 1rem; line-height: 1.7; color: var(--text2); font-style: italic; }
+.result-message strong { color: var(--text); font-style: normal; }
+.btn-restart { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 2rem; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.btn-restart:hover { transform: translateY(-2px); box-shadow: var(--glow-blue); }
+#mission-complete-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#mission-complete-overlay.show { display: flex; }
+.mission-complete-box {
+  background: var(--card);
+  border: 2px solid var(--green);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: var(--glow-green);
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes pop-in { from { transform: scale(0.7); opacity:0; } to { transform: scale(1); opacity:1; } }
+.mc-icon { font-size: 4rem; margin-bottom: 1rem; }
+.mc-title { font-size: 1.8rem; font-weight: 900; color: var(--green); margin-bottom: 0.5rem; }
+.mc-subtitle { color: var(--text2); margin-bottom: 1.5rem; }
+.mc-pts { font-size: 2.5rem; font-weight: 900; color: var(--gold); margin-bottom: 0.3rem; }
+.mc-pts-label { font-size: 0.8rem; color: var(--text3); margin-bottom: 1.5rem; }
+.btn-continue { padding: 0.9rem 2rem; border: none; border-radius: 12px; background: var(--green); color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+.btn-continue:hover { transform: translateY(-2px); }
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  z-index: 9999;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+.btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 1.1rem; color: var(--text2); font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s; margin-bottom: 1.5rem; }
+.btn-back:hover { border-color: var(--accent); color: var(--accent); }
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+.confetti-piece { position: absolute; width: 10px; height: 10px; border-radius: 2px; animation: fall linear forwards; }
+@keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity:1; } 100% { transform: translateY(110vh) rotate(720deg); opacity:0; } }
+.xp-gained { position: fixed; font-size: 1.4rem; font-weight: 900; color: var(--gold); pointer-events: none; z-index: 9998; animation: xp-float 1.5s ease forwards; }
+@keyframes xp-float { 0% { opacity:1; transform: translateY(0) scale(1); } 100% { opacity:0; transform: translateY(-80px) scale(1.5); } }
+.page-footer { position: relative; z-index: 1; text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border); color: var(--text3); font-size: 0.8rem; }
+.page-footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confettiWrap"></div>
+<div id="toast"></div>
+
+<div id="mission-complete-overlay">
+  <div class="mission-complete-box">
+    <div class="mc-icon" id="mcIcon">🏆</div>
+    <div class="mc-title">Misi Selesai!</div>
+    <div class="mc-subtitle" id="mcSubtitle">Luar biasa!</div>
+    <div class="mc-pts" id="mcPts">+250</div>
+    <div class="mc-pts-label">XP DIPEROLEH</div>
+    <button class="btn-continue" onclick="closeMissionComplete()">Lanjutkan ›</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-badge">🎮 SMK Diponegoro Tumpang · XI TKJ · Ganjil</div>
+  <h1 class="hero-title">MISI CHALLENGE<br>Teknisi Andal</h1>
+  <p class="hero-sub">Bukan sekadar ujian — ini adalah <strong>petualangan</strong>. Taklukkan 5 misi berbeda, kumpulkan XP, dan buktikan bahwa kamu layak menjadi Teknisi Andal!</p>
+  <div class="hero-stats">
+    <div class="stat-chip"><span class="num">5</span> Level Misi</div>
+    <div class="stat-chip"><span class="num">25</span> Soal PG</div>
+    <div class="stat-chip"><span class="num">5</span> Soal Esai</div>
+    <div class="stat-chip"><span class="num">1000</span> XP Total</div>
+    <div class="stat-chip"><span class="num">60'</span> Durasi</div>
+  </div>
+</section>
+
+<section id="player-setup">
+  <h2>⚡ Daftarkan Dirimu</h2>
+  <div class="input-group">
+    <label for="playerName">Nama Lengkap</label>
+    <input type="text" id="playerName" placeholder="Masukkan nama kamu..." autocomplete="name">
+  </div>
+  <div class="input-group">
+    <label for="playerClass">Kelas</label>
+    <select id="playerClass">
+      <option value="">-- Pilih Kelas --</option>
+      <option value="XI TKJ 1">XI TKJ 1</option>
+      <option value="XI TKJ 2">XI TKJ 2</option>
+      <option value="XI TKJ 3">XI TKJ 3</option>
+    </select>
+  </div>
+  <button class="btn-start" onclick="startJourney()">🚀 Mulai Petualangan!</button>
+</section>
+
+<section id="mission-map">
+  <div class="mission-map-header">
+    <div class="player-info">
+      <div class="player-avatar" id="playerAvatar">👤</div>
+      <div>
+        <div class="player-name-display" id="playerNameDisplay">—</div>
+        <div class="player-class-display" id="playerClassDisplay">—</div>
+      </div>
+    </div>
+    <div class="score-display">
+      <div class="score-item">
+        <div class="val" id="totalXP">0</div>
+        <div class="lbl">XP Total</div>
+      </div>
+      <div class="score-item">
+        <div class="val" id="completedMissions">0/5</div>
+        <div class="lbl">Misi</div>
+      </div>
+    </div>
+  </div>
+  <div class="global-progress">
+    <div class="progress-label">
+      <span>Progress Petualangan</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="globalProgressBar" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="missions-title">🗺️ Peta Misi</div>
+  <div class="missions-grid">
+    <div class="mission-card m1" id="missionCard_0" onclick="startMission(0)">
+      <div class="mission-icon">🦺</div>
+      <div class="mission-number">Misi 01 · Pertemuan 1</div>
+      <div class="mission-name">K3LH & SOP Teknisi</div>
+      <div class="mission-desc">Terapkan protokol keselamatan kerja. Tanpa safety, misi tidak bisa dimulai!</div>
+      <div class="mission-meta">
+        <span class="mission-tag tag-soal">5 Soal</span>
+        <span class="mission-tag tag-pts">200 XP</span>
+        <span class="mission-tag tag-diff">Pemula</span>
+        <span class="mission-score-badge" id="mScore_0">—</span>
+      </div>
+    </div>
+    <div class="mission-card m2" id="missionCard_1" onclick="startMission(1)">
+      <div class="mission-icon">🔩</div>
+      <div class="mission-number">Misi 02 · Pertemuan 2 & 3</div>
+      <div class="mission-name">Hardware & Bongkar Pasang PC</div>
+      <div class="mission-desc">Kenali setiap komponen — RAM, GPU, Storage, CPU — dan cara merakitnya!</div>
+      <div class="mission-meta">
+        <span class="mission-tag tag-soal">9 Soal</span>
+        <span class="mission-tag tag-pts">250 XP</span>
+        <span class="mission-tag tag-diff">Menengah</span>
+        <span class="mission-score-badge" id="mScore_1">—</span>
+      </div>
+    </div>
+    <div class="mission-card m3" id="missionCard_2" onclick="startMission(2)">
+      <div class="mission-icon">⚙️</div>
+      <div class="mission-number">Misi 03 · Pertemuan 4</div>
+      <div class="mission-name">BIOS / UEFI Master</div>
+      <div class="mission-desc">Kuasai konfigurasi firmware — Secure Boot, XMP Profile, Boot Priority!</div>
+      <div class="mission-meta">
+        <span class="mission-tag tag-soal">4 Soal</span>
+        <span class="mission-tag tag-pts">200 XP</span>
+        <span class="mission-tag tag-diff">Menengah</span>
+        <span class="mission-score-badge" id="mScore_2">—</span>
+      </div>
+    </div>
+    <div class="mission-card m4" id="missionCard_3" onclick="startMission(3)">
+      <div class="mission-icon">💿</div>
+      <div class="mission-number">Misi 04 · Pertemuan 5 & 6</div>
+      <div class="mission-name">Instalasi OS & Bootable USB</div>
+      <div class="mission-desc">Pasang OS, buat bootable USB, pilih skema partisi yang tepat!</div>
+      <div class="mission-meta">
+        <span class="mission-tag tag-soal">7 Soal</span>
+        <span class="mission-tag tag-pts">200 XP</span>
+        <span class="mission-tag tag-diff">Mahir</span>
+        <span class="mission-score-badge" id="mScore_3">—</span>
+      </div>
+    </div>
+    <div class="mission-card m5" id="missionCard_4" onclick="startMission(4)" style="grid-column: 1 / -1;">
+      <div class="mission-icon">✍️</div>
+      <div class="mission-number">Misi 05 · FINAL BOSS — Esai Argumentatif</div>
+      <div class="mission-name">Uraikan Kemampuanmu — Esai Teknis</div>
+      <div class="mission-desc">Buktikan pemahamanmu dengan menjelaskan konsep secara mendalam. 5 soal esai dari semua pertemuan — inilah ujian sesungguhnya!</div>
+      <div class="mission-meta">
+        <span class="mission-tag tag-soal">5 Soal Esai</span>
+        <span class="mission-tag tag-pts">150 XP</span>
+        <span class="mission-tag tag-diff">Expert</span>
+        <span class="mission-score-badge" id="mScore_4">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz-screen">
+  <button class="btn-back" onclick="backToMap()">← Kembali ke Peta</button>
+  <div class="quiz-header">
+    <span class="quiz-mission-label" id="quizMissionLabel">Misi 01</span>
+    <div class="quiz-timer" id="quizTimer">⏱ 05:00</div>
+  </div>
+  <div class="quiz-progress-bar" id="quizProgressBar"></div>
+  <div id="questionArea"></div>
+</section>
+
+<section id="result-screen">
+  <div class="result-trophy" id="resultTrophy">🏆</div>
+  <h2 class="result-title" id="resultTitle">Petualangan Selesai!</h2>
+  <p class="result-subtitle" id="resultSubtitle">Kamu telah menyelesaikan semua misi, Teknisi!</p>
+  <div class="result-stats-grid">
+    <div class="result-stat gold"><div class="big" id="rTotalXP">0</div><div class="small">Total XP</div></div>
+    <div class="result-stat blue"><div class="big" id="rMissions">0/5</div><div class="small">Misi Selesai</div></div>
+    <div class="result-stat green"><div class="big" id="rAccuracy">0%</div><div class="small">Akurasi PG</div></div>
+    <div class="result-stat purple"><div class="big" id="rGrade">—</div><div class="small">Predikat</div></div>
+  </div>
+  <div class="badges-section">
+    <h3>🏅 Badge Diperoleh</h3>
+    <div class="badges-row" id="badgesRow"></div>
+  </div>
+  <div class="result-message" id="resultMessage"></div>
+  <button class="btn-restart" onclick="restartAll()">🔄 Coba Lagi dari Awal</button>
+  <br><br>
+  <a href="Pert_4_simulasi-bios-uefi.html" style="color:var(--accent3); font-weight:700; text-decoration:none; display:inline-block; margin-top:1rem;">⚙️ Coba Simulasi BIOS &amp; UEFI &rarr;</a>
+  <br>
+  <a href="index.html" style="color:var(--text2); text-decoration:none; display:inline-block; margin-top:0.5rem; font-size:0.9rem;">← Portal Belajar</a>
+</section>
+
+<footer class="page-footer">
+  <p>🎮 Misi Challenge — Pemeliharaan Komputer XI TKJ · SMK Diponegoro Tumpang</p>
+  <p style="margin-top:0.4rem;"><a href="index.html">← Kembali ke Portal Belajar</a></p>
+</footer>
+
+<script>
+const MISSIONS = [
+  {
+    id:0, name:"K3LH & SOP Teknisi", icon:"🦺", xp:200, type:"mcq", timeSeconds:300,
+    questions:[
+      { text:"K3LH adalah singkatan dari...", difficulty:"easy", options:["Kesehatan, Keselamatan, dan Lingkungan Hidup","Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup","Kebersihan, Keamanan, dan Lingkungan Hutan","Kerja, Keselamatan, dan Layanan Hardware","Ketertiban, Keselamatan, dan Lingkungan Hidup"], correct:1, explanation:"K3LH = <strong>Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup</strong> — standar keselamatan wajib di lingkungan kerja termasuk bengkel TKJ." },
+      { text:"Alat yang paling tepat untuk mencegah ESD saat memegang komponen sensitif seperti RAM atau motherboard adalah...", difficulty:"medium", options:["Sarung tangan kain","Gelang antistatis (wrist strap)","Masker kain","Kacamata pelindung","Sepatu safety"], correct:1, explanation:"<strong>Gelang antistatis (wrist strap)</strong> menyalurkan listrik statis dari tubuh ke ground, melindungi komponen dari ESD (Electrostatic Discharge)." },
+      { text:"Sebelum membongkar unit CPU, SOP standar K3 mengharuskan teknisi untuk...", difficulty:"medium", options:["Langsung melepas RAM terlebih dahulu","Mematikan komputer dan mencabut kabel daya dari sumber listrik","Menyalakan komputer agar komponen mudah dikenali","Melepas seluruh kabel data tanpa mematikan PSU","Membersihkan casing dengan air terlebih dahulu"], correct:1, explanation:"SOP K3 wajib: <strong>matikan komputer dan cabut kabel daya</strong> sebelum membongkar. Bekerja pada perangkat yang masih terhubung arus listrik sangat berbahaya." },
+      { text:"Seorang siswa memegang modul RAM langsung dengan tangan tanpa gelang antistatis di ruangan ber-AC yang kering. Risiko terbesar adalah...", difficulty:"hard", options:["RAM menjadi lebih cepat panas","Muncul goresan fisik pada permukaan RAM","Komponen elektronik pada RAM rusak akibat lonjakan listrik statis","RAM menjadi lebih kompatibel dengan motherboard","Kapasitas RAM otomatis berkurang"], correct:2, explanation:"Ruangan ber-AC kering meningkatkan risiko ESD. <strong>RAM bisa rusak permanen</strong> — komponen bisa rusak di 10–100V, jauh di bawah ambang rasa manusia." },
+      { text:"Tujuan utama pengujian POST (Power-On Self-Test) setelah perakitan selesai adalah...", difficulty:"medium", options:["Menginstal driver secara otomatis","Memastikan seluruh komponen utama terdeteksi dan berfungsi normal sebelum masuk ke OS","Mengaktifkan koneksi internet","Mem-partisi hard disk secara otomatis","Mengatur ulang BIOS ke default"], correct:1, explanation:"<strong>POST</strong> adalah pengujian mandiri BIOS/UEFI saat komputer pertama dinyalakan untuk memeriksa CPU, RAM, GPU, storage sebelum booting OS." }
+    ]
+  },
+  {
+    id:1, name:"Hardware & Bongkar Pasang PC", icon:"🔩", xp:250, type:"mcq", timeSeconds:540,
+    questions:[
+      { text:"Slot ekspansi yang umum digunakan untuk memasang kartu grafis (GPU) modern adalah...", difficulty:"easy", options:["PCI","PCIe x16","AGP","ISA","SATA"], correct:1, explanation:"<strong>PCIe x16</strong> adalah slot ekspansi dengan bandwidth tertinggi, dirancang khusus untuk GPU modern." },
+      { text:"Fungsi utama heatsink pada CPU/GPU adalah...", difficulty:"easy", options:["Menyimpan data sementara","Menstabilkan tegangan listrik","Membuang panas dari komponen agar suhu tetap aman","Meningkatkan kecepatan clock processor","Menghubungkan motherboard dengan storage"], correct:2, explanation:"<strong>Heatsink</strong> mengalihkan panas dari chip CPU/GPU ke udara sekitar melalui sirip-sirip logam." },
+      { text:"Dibandingkan SATA, storage berjenis NVMe memiliki keunggulan utama berupa...", difficulty:"medium", options:["Harga yang jauh lebih murah","Kapasitas penyimpanan yang selalu lebih besar","Kecepatan baca/tulis data yang jauh lebih tinggi","Tidak memerlukan sumber daya listrik","Ukuran fisik yang lebih besar"], correct:2, explanation:"<strong>NVMe</strong> menggunakan PCIe langsung ke CPU: ~3,500 MB/s vs SATA ~550 MB/s. Hampir 7x lebih cepat!" },
+      { text:"Socket pada motherboard memiliki peran penting karena...", difficulty:"hard", options:["Menentukan kapasitas maksimum RAM saja","Menjadi dudukan CPU sekaligus menentukan kompatibilitas jenis processor","Berfungsi sebagai port untuk kabel LAN","Menyimpan pengaturan BIOS secara permanen","Mengatur kecepatan kipas casing"], correct:1, explanation:"<strong>Socket CPU</strong> menentukan kompatibilitas fisik dan elektrikal. Contoh: LGA1700 hanya untuk Intel Gen 12–14, AM5 hanya untuk AMD Ryzen 7000." },
+      { text:"Sebelum memasang heatsink, komponen yang wajib dioleskan tipis ke permukaan CPU terlebih dahulu adalah...", difficulty:"easy", options:["Cairan pembersih (alcohol)","Thermal paste","Oli mesin","Lem super","Cairan pendingin cair (coolant)"], correct:1, explanation:"<strong>Thermal paste</strong> mengisi celah mikroskopis antara CPU dan heatsink, meningkatkan konduksi panas. Tanpanya, suhu CPU bisa naik 10–20°C." },
+      { text:"Pada header Front Panel (JFP1) 9-pin, pin untuk tombol Power SW umumnya berada pada nomor...", difficulty:"medium", options:["Pin 1 dan 3","Pin 2 dan 4","Pin 6 dan 8","Pin 5 dan 7","Pin 9 dan 10"], correct:0, explanation:"Pada standar Front Panel Header MSI/ASUS, <strong>Power SW berada di pin 1 dan 3</strong>." },
+      { text:"Saat pertama kali dinyalakan, PC mengeluarkan bunyi '1 beep panjang, 2 beep pendek' dan layar tidak menampilkan apa pun. Diagnosis paling tepat adalah...", difficulty:"hard", options:["RAM tidak terpasang sama sekali","Kerusakan pada kartu grafis (VGA/GPU) atau GPU tidak terpasang rapat","Hard disk mengalami bad sector","Kabel LAN tidak terhubung","Baterai CMOS habis"], correct:1, explanation:"Kode beep '1 panjang + 2 pendek' menandakan <strong>error pada GPU/VGA</strong>. Lepas dan pasang ulang GPU atau tes dengan GPU lain." },
+      { text:"Pada motherboard merek ASUS, tombol yang umum digunakan untuk masuk ke BIOS Setup adalah...", difficulty:"easy", options:["F10 atau ESC","DEL atau F2","F11","F9","Fn + F2"], correct:1, explanation:"Pada ASUS motherboard, gunakan <strong>DEL atau F2</strong> saat POST screen muncul untuk masuk BIOS." },
+      { text:"Pada menu monitoring BIOS, suhu CPU terpantau mendekati batas kritis meski PC baru dinyalakan. Langkah troubleshooting awal yang paling tepat adalah...", difficulty:"hard", options:["Mengaktifkan Secure Boot","Memeriksa pemasangan heatsink, thermal paste, dan kondisi kabel fan CPU","Mengganti mode boot ke Legacy","Menambah kapasitas RAM","Mengubah Boot Priority ke USB"], correct:1, explanation:"Suhu kritis segera setelah dinyalakan = masalah termal. Periksa: <strong>thermal paste, heatsink, dan fan CPU</strong>." }
+    ]
+  },
+  {
+    id:2, name:"BIOS / UEFI Master", icon:"⚙️", xp:200, type:"mcq", timeSeconds:240,
+    questions:[
+      { text:"Mengaktifkan XMP Profile pada BIOS bertujuan untuk...", difficulty:"medium", options:["Menonaktifkan RAM yang rusak","Menjalankan RAM sesuai kecepatan tinggi yang telah ditentukan pabrik","Mengunci akses BIOS dengan password","Mengubah mode SATA menjadi AHCI","Menambah kapasitas RAM secara otomatis"], correct:1, explanation:"<strong>XMP (Extreme Memory Profile)</strong> adalah profil overclock resmi RAM. Tanpa XMP, DDR4-3200 hanya berjalan di 2133 MHz default." },
+      { text:"Fitur Secure Boot pada BIOS/UEFI berfungsi untuk...", difficulty:"medium", options:["Mempercepat proses shutdown","Mencegah sistem operasi atau bootloader yang tidak terverifikasi berjalan saat startup","Mengatur kecerahan layar","Menambah kapasitas penyimpanan","Mengunci casing PC secara fisik"], correct:1, explanation:"<strong>Secure Boot</strong> memverifikasi tanda tangan digital bootloader/OS. Wajib aktif untuk Windows 11." },
+      { text:"Skema partisi yang mendukung kapasitas disk besar dan umum digunakan berdampingan dengan mode UEFI adalah...", difficulty:"easy", options:["MBR","GPT","FAT16","exFAT","NTFS Legacy"], correct:1, explanation:"<strong>GPT (GUID Partition Table)</strong> mendukung disk >2TB, hingga 128 partisi, wajib dengan UEFI dan Windows 11." },
+      { text:"Proses instalasi Windows 11 gagal karena disk menggunakan skema partisi yang tidak kompatibel, padahal mode boot UEFI sudah aktif. Penyebab paling mungkin adalah...", difficulty:"hard", options:["RAM tidak mencukupi","Disk masih menggunakan skema partisi MBR, bukan GPT","Kabel SATA rusak","Driver chipset belum terinstal","Processor tidak mendukung 64-bit"], correct:1, explanation:"UEFI + Windows 11 <strong>wajib GPT</strong>. Jika disk masih MBR, gunakan <code>mbr2gpt /convert</code> atau format ulang via diskpart." }
+    ]
+  },
+  {
+    id:3, name:"Instalasi OS & Bootable USB", icon:"💿", xp:200, type:"mcq", timeSeconds:420,
+    questions:[
+      { text:"Selain partisi root (/), partisi tambahan yang umum dibuat saat instalasi Linux untuk manajemen memori virtual adalah...", difficulty:"medium", options:["Partisi boot","Partisi swap","Partisi home","Partisi recovery","Partisi cache"], correct:1, explanation:"<strong>Partisi swap</strong> berfungsi sebagai 'RAM cadangan' di storage. Rekomendasi: 1–2× kapasitas RAM." },
+      { text:"Tahap konfigurasi awal (nama pengguna, akun, preferensi) yang muncul setelah instalasi Windows selesai disebut...", difficulty:"medium", options:["BIOS Setup","OOBE (Out of Box Experience)","Safe Mode","Recovery Environment","Disk Management"], correct:1, explanation:"<strong>OOBE (Out of Box Experience)</strong> adalah wizard pengaturan awal Windows — bahasa, akun, privasi, dll." },
+      { text:"Aplikasi yang populer digunakan untuk membuat flashdisk installer OS dari file ISO adalah...", difficulty:"easy", options:["Rufus","Photoshop","CCleaner","WinRAR","VLC Media Player"], correct:0, explanation:"<strong>Rufus</strong> adalah aplikasi gratis ringan untuk membakar ISO ke flashdisk menjadi bootable USB. Mendukung UEFI/Legacy, FAT32/NTFS, MBR/GPT." },
+      { text:"Aplikasi yang memungkinkan satu flashdisk berisi beberapa installer OS sekaligus (multi-boot) adalah...", difficulty:"easy", options:["Rufus","Ventoy","Notepad++","Disk Cleanup","Task Manager"], correct:1, explanation:"<strong>Ventoy</strong> menginstal bootloader di flashdisk — kamu tinggal salin file ISO seperti menyalin file biasa. Satu USB bisa berisi banyak OS!" },
+      { text:"Format file sistem yang wajib digunakan pada USB installer apabila file instalasi berukuran lebih dari 4 GB adalah...", difficulty:"medium", options:["FAT32","exFAT/NTFS","FAT16","ext2","HFS+"], correct:1, explanation:"FAT32 memiliki batas ukuran file maksimum <strong>4 GB</strong>. Gunakan <strong>exFAT atau NTFS</strong> untuk file ISO Windows 11 yang lebih besar." },
+      { text:"FAT32 tetap sering dipilih untuk media bootable karena...", difficulty:"medium", options:["Mendukung file berukuran tak terbatas","Kompatibilitas luas dengan berbagai firmware BIOS/UEFI meski ada batas ukuran file 4 GB","Kecepatan tulis data paling tinggi","Hanya bisa dibaca oleh sistem Linux","Mendukung enkripsi otomatis"], correct:1, explanation:"<strong>FAT32 memiliki kompatibilitas universal</strong> — dibaca oleh hampir semua firmware BIOS, UEFI, Linux, macOS, dan Windows." },
+      { text:"Flashdisk bootable gagal booting dan instalasi terhenti di tengah jalan. Penyebab yang paling mungkin adalah...", difficulty:"hard", options:["Warna casing flashdisk tidak sesuai","File ISO corrupt atau proses penulisan ke USB tidak sempurna","Motherboard tidak mendukung USB","RAM terlalu besar","Kabel LAN tidak terpasang"], correct:1, explanation:"Booting gagal = <strong>file ISO corrupt atau penulisan tidak sempurna</strong>. Verifikasi SHA256, format ulang USB, tulis ulang dengan Rufus/Ventoy." }
+    ]
+  },
+  {
+    id:4, name:"Esai Teknis — Final Boss", icon:"✍️", xp:150, type:"essay", timeSeconds:1800,
+    questions:[
+      { num:1, context:"Pertemuan 1 — K3 & SOP · Sedang", text:"Jelaskan mengapa penerapan K3LH dan SOP sangat penting sebelum seorang teknisi membongkar unit komputer. Sebutkan minimal <strong>dua risiko</strong> yang dapat terjadi apabila prosedur ini diabaikan.", hint:"Pikirkan: risiko ESD, sengatan listrik, kerusakan komponen, cedera fisik..." },
+      { num:2, context:"Pertemuan 2 — Hardware · Sedang", text:"Jelaskan fungsi dari <strong>RAM, Storage, PSU, dan GPU</strong>, serta bagaimana keempat komponen tersebut saling memengaruhi kinerja keseluruhan sebuah komputer.", hint:"Contoh: RAM kecil membuat GPU tidak bisa memuat tekstur besar; PSU yang lemah bisa throttle GPU..." },
+      { num:3, context:"Pertemuan 3 — Bongkar Pasang PC · Sulit", text:"Jelaskan langkah-langkah pemasangan CPU beserta sistem pendinginnya (heatsink) secara <strong>berurutan</strong>, dan mengapa pengaplikasian <strong>thermal paste</strong> yang tepat sangat menentukan keberhasilan proses ini.", hint:"Langkah: buka soket → pasang CPU → oleskan thermal paste (metode dot/X) → pasang heatsink → hubungkan kabel fan..." },
+      { num:4, context:"Pertemuan 4 — BIOS/UEFI · Sedang", text:"Jelaskan perbedaan mendasar antara mode <strong>UEFI dan Legacy/CSM</strong> pada BIOS, serta jelaskan kapan sebaiknya fitur <strong>Secure Boot perlu dinonaktifkan</strong>.", hint:"UEFI: modern, GPT, Secure Boot, Fast Boot. Legacy: lama, MBR. Secure Boot dinonaktifkan saat install Linux belum tersertifikasi, dual boot..." },
+      { num:5, context:"Pertemuan 5 & 6 — Instalasi OS & USB · Sulit", text:"Bandingkan proses instalasi <strong>Windows 11 dan Linux</strong> dari sisi skema partisi (GPT/MBR dan partisi swap), kemudian jelaskan langkah umum membuat media instalasi bootable menggunakan <strong>Rufus</strong>.", hint:"Windows 11: wajib GPT+UEFI. Linux: bisa GPT/MBR, perlu partisi swap. Rufus: pilih ISO → pilih skema → pilih format → START" }
+    ]
+  }
+];
+
+let state = {
+  playerName:'', playerClass:'', totalXP:0,
+  completedMissions: new Set(), missionScores:{},
+  missionCorrect:{},
+  currentMission:null, currentQ:0, correctCount:0,
+  timerInterval:null, timeLeft:0, answered:false
+};
+
+function startJourney() {
+  const name = document.getElementById('playerName').value.trim();
+  const cls = document.getElementById('playerClass').value;
+  if (!name) { showToast('⚠️ Masukkan nama kamu dulu!'); return; }
+  if (!cls) { showToast('⚠️ Pilih kelas kamu dulu!'); return; }
+  state.playerName = name;
+  state.playerClass = cls;
+  const avatars = ['🧑‍💻','👩‍💻','🧑‍🔧','👩‍🔧','🧑‍🎓','👨‍🎓'];
+  document.getElementById('playerAvatar').textContent = avatars[Math.floor(Math.random()*avatars.length)];
+  document.getElementById('playerNameDisplay').textContent = name;
+  document.getElementById('playerClassDisplay').textContent = cls;
+  document.getElementById('player-setup').style.display = 'none';
+  document.getElementById('mission-map').style.display = 'block';
+  updateMapStats();
+  showToast('🎉 Selamat datang, ' + name + '! Pilih misi pertamamu!');
+}
+
+function updateMapStats() {
+  document.getElementById('totalXP').textContent = state.totalXP;
+  const done = state.completedMissions.size;
+  document.getElementById('completedMissions').textContent = done+'/5';
+  const pct = Math.round((done/5)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('globalProgressBar').style.width = pct+'%';
+  MISSIONS.forEach(function(m,i){
+    const card = document.getElementById('missionCard_'+i);
+    const scoreEl = document.getElementById('mScore_'+i);
+    if(state.completedMissions.has(i)){
+      card.classList.add('completed');
+      if(state.missionScores[i] !== undefined) scoreEl.textContent = '+'+state.missionScores[i]+' XP';
+    }
+  });
+}
+
+function startMission(missionIdx) {
+  const mission = MISSIONS[missionIdx];
+  state.currentMission = missionIdx;
+  state.currentQ = 0;
+  state.correctCount = 0;
+  state.answered = false;
+  document.getElementById('mission-map').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  document.getElementById('quizMissionLabel').textContent = mission.icon + ' ' + mission.name;
+  startTimer(mission.timeSeconds);
+  if(mission.type === 'mcq'){
+    buildProgressDots(mission.questions.length);
+    showQuestion(0);
+  } else {
+    showEssay(mission);
+  }
+}
+
+function backToMap() {
+  clearInterval(state.timerInterval);
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('mission-map').style.display = 'block';
+  updateMapStats();
+}
+
+function startTimer(seconds) {
+  clearInterval(state.timerInterval);
+  state.timeLeft = seconds;
+  updateTimerDisplay();
+  state.timerInterval = setInterval(function(){
+    state.timeLeft--;
+    updateTimerDisplay();
+    if(state.timeLeft <= 0){
+      clearInterval(state.timerInterval);
+      if(MISSIONS[state.currentMission].type === 'mcq') autoTimeOut();
+      else submitEssay();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(state.timeLeft/60);
+  const s = state.timeLeft%60;
+  const el = document.getElementById('quizTimer');
+  el.textContent = '⏱ '+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.className = 'quiz-timer'+(state.timeLeft <= 30 ? ' urgent' : '');
+}
+
+function autoTimeOut() {
+  showToast('⏰ Waktu habis!');
+  finishMission();
+}
+
+function buildProgressDots(count) {
+  const bar = document.getElementById('quizProgressBar');
+  bar.innerHTML = '';
+  for(let i=0;i<count;i++){
+    const d = document.createElement('div');
+    d.className = 'q-dot'+(i===0?' current':'');
+    d.id = 'dot_'+i;
+    bar.appendChild(d);
+  }
+}
+
+function showQuestion(idx) {
+  const mission = MISSIONS[state.currentMission];
+  const q = mission.questions[idx];
+  state.answered = false;
+  const diffMap = {easy:'🟢 Mudah',medium:'🟡 Sedang',hard:'🔴 Sulit'};
+  const diffClass = {easy:'easy',medium:'medium',hard:'hard'};
+  const area = document.getElementById('questionArea');
+  area.innerHTML = '<div class="question-card">' +
+    '<span class="q-badge '+diffClass[q.difficulty]+'">'+diffMap[q.difficulty]+'</span>' +
+    '<div class="q-number">Soal '+(idx+1)+' dari '+mission.questions.length+'</div>' +
+    '<div class="q-text">'+q.text+'</div></div>' +
+    '<div class="options-grid">' +
+    q.options.map(function(opt,oi){ return '<button class="option-btn" id="opt_'+oi+'" onclick="selectOption('+oi+')" data-idx="'+oi+'"><span class="option-label">'+String.fromCharCode(65+oi)+'.</span><span>'+opt+'</span></button>'; }).join('') +
+    '</div>' +
+    '<div class="feedback-box" id="feedbackBox"><div class="feedback-title" id="feedbackTitle"></div><div id="feedbackText"></div></div>' +
+    '<button class="btn-next" id="btnNext" onclick="nextQuestion()">' + (idx+1 < mission.questions.length ? 'Soal Berikutnya →' : '🏁 Selesaikan Misi!') + '</button>';
+}
+
+function selectOption(optIdx) {
+  if(state.answered) return;
+  state.answered = true;
+  const mission = MISSIONS[state.currentMission];
+  const q = mission.questions[state.currentQ];
+  const correct = q.correct;
+  const isCorrect = optIdx === correct;
+  document.querySelectorAll('.option-btn').forEach(function(b){ b.disabled = true; });
+  document.getElementById('opt_'+correct).classList.add('correct');
+  if(!isCorrect) document.getElementById('opt_'+optIdx).classList.add('wrong');
+  const dot = document.getElementById('dot_'+state.currentQ);
+  if(isCorrect){ dot.className = 'q-dot correct'; state.correctCount++; showXPGain('+10 XP'); }
+  else { dot.className = 'q-dot wrong'; }
+  const fb = document.getElementById('feedbackBox');
+  if(isCorrect){ fb.className = 'feedback-box show correct-fb'; document.getElementById('feedbackTitle').textContent = '✅ Benar! Luar biasa!'; }
+  else { fb.className = 'feedback-box show wrong-fb'; document.getElementById('feedbackTitle').textContent = '❌ Salah. Jawaban benar: '+String.fromCharCode(65+correct)+'.'; }
+  document.getElementById('feedbackText').innerHTML = q.explanation;
+  document.getElementById('btnNext').classList.add('show');
+}
+
+function nextQuestion() {
+  const mission = MISSIONS[state.currentMission];
+  state.currentQ++;
+  if(state.currentQ >= mission.questions.length) finishMission();
+  else showQuestion(state.currentQ);
+}
+
+function showEssay(mission) {
+  buildProgressDots(1);
+  document.getElementById('dot_0').className = 'q-dot current';
+  const area = document.getElementById('questionArea');
+  area.innerHTML = '<div class="essay-intro"><h3>✍️ Final Boss: Esai Teknis</h3><p>Tuliskan jawabanmu dengan penjelasan yang lengkap dan logis. Minimal 50 karakter per jawaban.</p></div>' +
+    mission.questions.map(function(q,i){ return '<div class="essay-item"><div class="essay-q-num">📌 Soal Esai '+q.num+' — '+q.context+'</div><div class="essay-q-text">'+q.text+'</div><div class="essay-hint">💡 Petunjuk: '+q.hint+'</div><textarea class="essay-textarea" id="essay_'+i+'" placeholder="Tuliskan jawabanmu di sini..." oninput="updateCharCount('+i+')"></textarea><div class="char-count" id="charCount_'+i+'">0 karakter</div></div>'; }).join('') +
+    '<button class="btn-submit-essay" onclick="submitEssay()">🚀 Kirim Semua Jawaban Esai</button>';
+}
+
+function updateCharCount(idx) {
+  const ta = document.getElementById('essay_'+idx);
+  const cc = document.getElementById('charCount_'+idx);
+  const len = ta.value.length;
+  cc.textContent = len+' karakter';
+  cc.className = 'char-count'+(len >= 50 ? ' enough' : '');
+}
+
+function submitEssay() {
+  let allFilled = true;
+  MISSIONS[4].questions.forEach(function(_,i){ const ta = document.getElementById('essay_'+i); if(!ta || ta.value.trim().length < 20) allFilled = false; });
+  if(!allFilled){ showToast('⚠️ Isi semua jawaban minimal 20 karakter!'); return; }
+  clearInterval(state.timerInterval);
+  finishMission();
+}
+
+function finishMission() {
+  clearInterval(state.timerInterval);
+  const mission = MISSIONS[state.currentMission];
+  let earnedXP = 0;
+  if(mission.type === 'mcq'){
+    const acc = state.correctCount / mission.questions.length;
+    earnedXP = Math.round(mission.xp * acc);
+    if(acc === 1) earnedXP += 20;
+    state.missionCorrect[state.currentMission] = state.correctCount;
+  } else {
+    earnedXP = mission.xp;
+  }
+  state.totalXP += earnedXP;
+  state.completedMissions.add(state.currentMission);
+  state.missionScores[state.currentMission] = earnedXP;
+  const icon = (mission.type==='mcq' && state.correctCount===mission.questions.length) ? '🥇' : mission.type==='essay' ? '📝' : '🏅';
+  document.getElementById('mcIcon').textContent = icon;
+  document.getElementById('mcSubtitle').textContent = mission.type==='mcq' ? state.correctCount+'/'+mission.questions.length+' jawaban benar, '+state.playerName+'!' : 'Esai berhasil dikirim, '+state.playerName+'!';
+  document.getElementById('mcPts').textContent = '+'+earnedXP+' XP';
+  document.getElementById('mission-complete-overlay').classList.add('show');
+  launchConfetti();
+  if(state.completedMissions.size === MISSIONS.length){
+    setTimeout(function(){ closeMissionComplete(); showFinalResult(); }, 2500);
+  }
+}
+
+function closeMissionComplete() {
+  document.getElementById('mission-complete-overlay').classList.remove('show');
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('mission-map').style.display = 'block';
+  updateMapStats();
+}
+
+function showFinalResult() {
+  document.getElementById('mission-map').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+  let mcqTotal = 0, mcqCorrect = 0;
+  for(let i=0;i<4;i++){ mcqTotal += MISSIONS[i].questions.length; if(state.missionCorrect[i]) mcqCorrect += state.missionCorrect[i]; }
+  const acc = mcqTotal > 0 ? Math.round((mcqCorrect/mcqTotal)*100) : 0;
+  const grade = state.totalXP >= 850 ? 'A' : state.totalXP >= 700 ? 'B' : state.totalXP >= 550 ? 'C' : 'D';
+  const trophy = state.totalXP >= 850 ? '🏆' : state.totalXP >= 700 ? '🥈' : '🥉';
+  document.getElementById('resultTrophy').textContent = trophy;
+  document.getElementById('rTotalXP').textContent = state.totalXP;
+  document.getElementById('rMissions').textContent = state.completedMissions.size+'/5';
+  document.getElementById('rAccuracy').textContent = acc+'%';
+  document.getElementById('rGrade').textContent = grade;
+  const gradeMsg = {
+    A: '<strong>LUAR BIASA, '+state.playerName+'!</strong> Kamu adalah Teknisi Andal sejati! Nilai sempurna mencerminkan kerja keras dan pemahamanmu yang mendalam.',
+    B: '<strong>BAGUS, '+state.playerName+'!</strong> Kamu hampir mencapai puncak! Ada beberapa topik yang perlu diperdalam lagi, tapi fondasi kemampuanmu sudah sangat kuat.',
+    C: '<strong>KEEP GOING, '+state.playerName+'!</strong> Ulangi materi yang terasa sulit dan coba lagi — setiap teknisi hebat pernah belajar dari kesalahan.',
+    D: '<strong>JANGAN MENYERAH, '+state.playerName+'!</strong> Menyelesaikan semua misi adalah langkah pertama yang hebat. Pelajari kembali materinya dan coba lagi!'
+  };
+  document.getElementById('resultMessage').innerHTML = gradeMsg[grade];
+  const allBadges = [
+    {icon:'🦺', name:'Safety First', unlocked: state.completedMissions.has(0)},
+    {icon:'🔧', name:'Hardware Pro', unlocked: state.completedMissions.has(1)},
+    {icon:'⚙️', name:'BIOS Master', unlocked: state.completedMissions.has(2)},
+    {icon:'💿', name:'OS Installer', unlocked: state.completedMissions.has(3)},
+    {icon:'✍️', name:'Esai Expert', unlocked: state.completedMissions.has(4)},
+    {icon:'🏆', name:'Teknisi Andal', unlocked: state.totalXP >= 750},
+    {icon:'💯', name:'Perfect Score', unlocked: state.totalXP >= 900}
+  ];
+  document.getElementById('badgesRow').innerHTML = allBadges.map(function(b){ return '<div class="badge '+(b.unlocked?'unlocked':'locked')+'"><div class="badge-icon">'+b.icon+'</div><div class="badge-name">'+b.name+'</div></div>'; }).join('');
+  launchConfetti();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restartAll() {
+  state = { playerName:state.playerName, playerClass:state.playerClass, totalXP:0, completedMissions:new Set(), missionScores:{}, missionCorrect:{}, currentMission:null, currentQ:0, correctCount:0, timerInterval:null, timeLeft:0, answered:false };
+  clearInterval(state.timerInterval);
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('mission-map').style.display = 'block';
+  MISSIONS.forEach(function(_,i){
+    const card = document.getElementById('missionCard_'+i);
+    card.classList.remove('completed');
+    document.getElementById('mScore_'+i).textContent = '—';
+  });
+  updateMapStats();
+  showToast('🔄 Mulai ulang! Semangat!');
+}
+
+function launchConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#3b82f6','#8b5cf6','#fbbf24','#10b981','#f97316','#ef4444','#06b6d4'];
+  for(let i=0;i<60;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random()*100+'vw';
+    el.style.top = '-20px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.width = (6+Math.random()*10)+'px';
+    el.style.height = (6+Math.random()*10)+'px';
+    el.style.animationDuration = (2+Math.random()*3)+'s';
+    el.style.animationDelay = (Math.random()*1.5)+'s';
+    el.style.borderRadius = Math.random()>0.5?'50%':'2px';
+    wrap.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 5000);
+  }
+}
+
+function showXPGain(text) {
+  const el = document.createElement('div');
+  el.className = 'xp-gained';
+  el.textContent = text;
+  el.style.left = (40+Math.random()*20)+'vw';
+  el.style.top = '40vh';
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 1600);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+</script>
+</body>
+</html>
