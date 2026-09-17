@@ -355,58 +355,7 @@ body::before {
 }
 .btn-next:hover { transform: translateY(-2px); box-shadow: var(--glow-blue); }
 .btn-next.show { display: block; animation: slide-in 0.3s ease; }
-.essay-intro {
-  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(59,130,246,0.1));
-  border: 1px solid rgba(139,92,246,0.3);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.essay-intro h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
-.essay-intro p { color: var(--text2); font-size: 0.9rem; }
-.essay-item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-}
-.essay-q-num { font-size: 0.75rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; font-family: 'JetBrains Mono', monospace; }
-.essay-q-text { font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 1rem; }
-.essay-hint { font-size: 0.8rem; color: var(--text2); background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 0.6rem 1rem; margin-bottom: 0.8rem; }
-.essay-textarea {
-  width: 100%;
-  min-height: 120px;
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  padding: 0.9rem;
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  resize: vertical;
-  transition: border-color 0.2s;
-}
-.essay-textarea:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
-.char-count { font-size: 0.75rem; color: var(--text3); text-align: right; margin-top: 0.3rem; }
-.char-count.enough { color: var(--green); }
-.btn-submit-essay {
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent2), #ec4899);
-  color: #fff;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn-submit-essay:hover { transform: translateY(-2px); box-shadow: var(--glow-purple); }
+/* Essay styles removed - pure objective auto-grading */
 #result-screen {
   display: none;
   position: relative;
@@ -517,13 +466,13 @@ body::before {
 <section class="hero">
   <div class="hero-badge">🎮 SMK Diponegoro Tumpang · XI TKJ · Ganjil</div>
   <h1 class="hero-title">MISI CHALLENGE<br>Teknisi Andal</h1>
-  <p class="hero-sub">Bukan sekadar ujian — ini adalah <strong>petualangan</strong>. Taklukkan 5 misi berbeda, kumpulkan XP, dan buktikan bahwa kamu layak menjadi Teknisi Andal!</p>
+  <p class="hero-sub">Evaluasi Sumatif Tengah Semester (STS) berbasis gamifikasi untuk Blok 1 (Pertemuan 1&ndash;6). Taklukkan 5 level misi interaktif, raih 1000 XP, dan ukur kompetensimu secara objektif!</p>
   <div class="hero-stats">
     <div class="stat-chip"><span class="num">5</span> Level Misi</div>
-    <div class="stat-chip"><span class="num">25</span> Soal PG</div>
-    <div class="stat-chip"><span class="num">5</span> Soal Esai</div>
+    <div class="stat-chip"><span class="num">25</span> Soal Objektif</div>
     <div class="stat-chip"><span class="num">1000</span> XP Total</div>
-    <div class="stat-chip"><span class="num">60'</span> Durasi</div>
+    <div class="stat-chip"><span class="num">100%</span> Auto-Graded</div>
+    <div class="stat-chip"><span class="num">45'</span> Durasi</div>
   </div>
 </section>
 
@@ -579,10 +528,10 @@ body::before {
     <div class="mission-card m1" id="missionCard_0" onclick="startMission(0)">
       <div class="mission-icon">🦺</div>
       <div class="mission-number">Misi 01 · Pertemuan 1</div>
-      <div class="mission-name">K3LH & SOP Teknisi</div>
-      <div class="mission-desc">Terapkan protokol keselamatan kerja. Tanpa safety, misi tidak bisa dimulai!</div>
+      <div class="mission-name">K3LH & SOP Lab Komputer</div>
+      <div class="mission-desc">Terapkan protokol keselamatan kerja, penanganan bahaya ESD, dan grounding sebelum membuka unit!</div>
       <div class="mission-meta">
-        <span class="mission-tag tag-soal">5 Soal</span>
+        <span class="mission-tag tag-soal">5 Soal PG</span>
         <span class="mission-tag tag-pts">200 XP</span>
         <span class="mission-tag tag-diff">Pemula</span>
         <span class="mission-score-badge" id="mScore_0">—</span>
@@ -590,48 +539,48 @@ body::before {
     </div>
     <div class="mission-card m2" id="missionCard_1" onclick="startMission(1)">
       <div class="mission-icon">🔩</div>
-      <div class="mission-number">Misi 02 · Pertemuan 2 & 3</div>
-      <div class="mission-name">Hardware & Bongkar Pasang PC</div>
-      <div class="mission-desc">Kenali setiap komponen — RAM, GPU, Storage, CPU — dan cara merakitnya!</div>
+      <div class="mission-number">Misi 02 · Pertemuan 2</div>
+      <div class="mission-name">Arsitektur Hardware & Storage</div>
+      <div class="mission-desc">Identifikasi komponen motherboard, slot PCIe x16, socket CPU, heatsink, dan storage NVMe!</div>
       <div class="mission-meta">
-        <span class="mission-tag tag-soal">9 Soal</span>
-        <span class="mission-tag tag-pts">250 XP</span>
+        <span class="mission-tag tag-soal">5 Soal PG</span>
+        <span class="mission-tag tag-pts">200 XP</span>
         <span class="mission-tag tag-diff">Menengah</span>
         <span class="mission-score-badge" id="mScore_1">—</span>
       </div>
     </div>
     <div class="mission-card m3" id="missionCard_2" onclick="startMission(2)">
-      <div class="mission-icon">⚙️</div>
-      <div class="mission-number">Misi 03 · Pertemuan 4</div>
-      <div class="mission-name">BIOS / UEFI Master</div>
-      <div class="mission-desc">Kuasai konfigurasi firmware — Secure Boot, XMP Profile, Boot Priority!</div>
+      <div class="mission-icon">🛠️</div>
+      <div class="mission-number">Misi 03 · Pertemuan 3</div>
+      <div class="mission-name">Perakitan PC & Beep Code</div>
+      <div class="mission-desc">Kuasai pinout Front Panel (JFP1), thermal paste, tombol BIOS, dan kode beep error GPU!</div>
       <div class="mission-meta">
-        <span class="mission-tag tag-soal">4 Soal</span>
+        <span class="mission-tag tag-soal">4 Soal PG</span>
         <span class="mission-tag tag-pts">200 XP</span>
         <span class="mission-tag tag-diff">Menengah</span>
         <span class="mission-score-badge" id="mScore_2">—</span>
       </div>
     </div>
     <div class="mission-card m4" id="missionCard_3" onclick="startMission(3)">
-      <div class="mission-icon">💿</div>
-      <div class="mission-number">Misi 04 · Pertemuan 5 & 6</div>
-      <div class="mission-name">Instalasi OS & Bootable USB</div>
-      <div class="mission-desc">Pasang OS, buat bootable USB, pilih skema partisi yang tepat!</div>
+      <div class="mission-icon">⚙️</div>
+      <div class="mission-number">Misi 04 · Pertemuan 4</div>
+      <div class="mission-name">Master Firmware BIOS & UEFI</div>
+      <div class="mission-desc">Konfigurasi Secure Boot, profil overclock XMP, skema GPT vs MBR, dan booting UEFI!</div>
       <div class="mission-meta">
-        <span class="mission-tag tag-soal">7 Soal</span>
+        <span class="mission-tag tag-soal">4 Soal PG</span>
         <span class="mission-tag tag-pts">200 XP</span>
         <span class="mission-tag tag-diff">Mahir</span>
         <span class="mission-score-badge" id="mScore_3">—</span>
       </div>
     </div>
-    <div class="mission-card m5" id="missionCard_4" onclick="startMission(4)" style="grid-column: 1 / -1;">
-      <div class="mission-icon">✍️</div>
-      <div class="mission-number">Misi 05 · FINAL BOSS — Esai Argumentatif</div>
-      <div class="mission-name">Uraikan Kemampuanmu — Esai Teknis</div>
-      <div class="mission-desc">Buktikan pemahamanmu dengan menjelaskan konsep secara mendalam. 5 soal esai dari semua pertemuan — inilah ujian sesungguhnya!</div>
+    <div class="mission-card m5" id="missionCard_4" onclick="startMission(4)">
+      <div class="mission-icon">💿</div>
+      <div class="mission-number">Misi 05 · Pertemuan 5 & 6</div>
+      <div class="mission-name">Instalasi OS & Media Bootable</div>
+      <div class="mission-desc">Trik partisi swap Linux, fase OOBE Windows, tools Rufus/Ventoy, serta batasan filesystem FAT32!</div>
       <div class="mission-meta">
-        <span class="mission-tag tag-soal">5 Soal Esai</span>
-        <span class="mission-tag tag-pts">150 XP</span>
+        <span class="mission-tag tag-soal">7 Soal PG</span>
+        <span class="mission-tag tag-pts">200 XP</span>
         <span class="mission-tag tag-diff">Expert</span>
         <span class="mission-score-badge" id="mScore_4">—</span>
       </div>
@@ -679,58 +628,378 @@ body::before {
 <script>
 const MISSIONS = [
   {
-    id:0, name:"K3LH & SOP Teknisi", icon:"🦺", xp:200, type:"mcq", timeSeconds:300,
-    questions:[
-      { text:"K3LH adalah singkatan dari...", difficulty:"easy", options:["Kesehatan, Keselamatan, dan Lingkungan Hidup","Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup","Kebersihan, Keamanan, dan Lingkungan Hutan","Kerja, Keselamatan, dan Layanan Hardware","Ketertiban, Keselamatan, dan Lingkungan Hidup"], correct:1, explanation:"K3LH = <strong>Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup</strong> — standar keselamatan wajib di lingkungan kerja termasuk bengkel TKJ." },
-      { text:"Alat yang paling tepat untuk mencegah ESD saat memegang komponen sensitif seperti RAM atau motherboard adalah...", difficulty:"medium", options:["Sarung tangan kain","Gelang antistatis (wrist strap)","Masker kain","Kacamata pelindung","Sepatu safety"], correct:1, explanation:"<strong>Gelang antistatis (wrist strap)</strong> menyalurkan listrik statis dari tubuh ke ground, melindungi komponen dari ESD (Electrostatic Discharge)." },
-      { text:"Sebelum membongkar unit CPU, SOP standar K3 mengharuskan teknisi untuk...", difficulty:"medium", options:["Langsung melepas RAM terlebih dahulu","Mematikan komputer dan mencabut kabel daya dari sumber listrik","Menyalakan komputer agar komponen mudah dikenali","Melepas seluruh kabel data tanpa mematikan PSU","Membersihkan casing dengan air terlebih dahulu"], correct:1, explanation:"SOP K3 wajib: <strong>matikan komputer dan cabut kabel daya</strong> sebelum membongkar. Bekerja pada perangkat yang masih terhubung arus listrik sangat berbahaya." },
-      { text:"Seorang siswa memegang modul RAM langsung dengan tangan tanpa gelang antistatis di ruangan ber-AC yang kering. Risiko terbesar adalah...", difficulty:"hard", options:["RAM menjadi lebih cepat panas","Muncul goresan fisik pada permukaan RAM","Komponen elektronik pada RAM rusak akibat lonjakan listrik statis","RAM menjadi lebih kompatibel dengan motherboard","Kapasitas RAM otomatis berkurang"], correct:2, explanation:"Ruangan ber-AC kering meningkatkan risiko ESD. <strong>RAM bisa rusak permanen</strong> — komponen bisa rusak di 10–100V, jauh di bawah ambang rasa manusia." },
-      { text:"Tujuan utama pengujian POST (Power-On Self-Test) setelah perakitan selesai adalah...", difficulty:"medium", options:["Menginstal driver secara otomatis","Memastikan seluruh komponen utama terdeteksi dan berfungsi normal sebelum masuk ke OS","Mengaktifkan koneksi internet","Mem-partisi hard disk secara otomatis","Mengatur ulang BIOS ke default"], correct:1, explanation:"<strong>POST</strong> adalah pengujian mandiri BIOS/UEFI saat komputer pertama dinyalakan untuk memeriksa CPU, RAM, GPU, storage sebelum booting OS." }
+    id: 0,
+    name: "K3LH & SOP Lab Komputer",
+    icon: "🦺",
+    xp: 200,
+    type: "mcq",
+    timeSeconds: 300,
+    questions: [
+      {
+        text: "K3LH adalah singkatan dari...",
+        difficulty: "easy",
+        options: [
+          "Kesehatan, Keselamatan, dan Lingkungan Hidup",
+          "Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup",
+          "Kebersihan, Keamanan, dan Lingkungan Hutan",
+          "Kerja, Keselamatan, dan Layanan Hardware",
+          "Ketertiban, Keselamatan, dan Lingkungan Hidup"
+        ],
+        correct: 1,
+        explanation: "K3LH = <strong>Keselamatan dan Kesehatan Kerja serta Lingkungan Hidup</strong> — standar keselamatan wajib di lingkungan kerja bengkel TKJ."
+      },
+      {
+        text: "Alat yang paling tepat untuk mencegah ESD saat memegang komponen sensitif seperti RAM atau motherboard adalah...",
+        difficulty: "medium",
+        options: [
+          "Sarung tangan kain",
+          "Gelang antistatis (wrist strap)",
+          "Masker kain",
+          "Kacamata pelindung",
+          "Sepatu safety"
+        ],
+        correct: 1,
+        explanation: "<strong>Gelang antistatis (wrist strap)</strong> menyalurkan muatan listrik statis dari tubuh langsung ke ground sebelum merusak komponen sensitif."
+      },
+      {
+        text: "Sebelum membongkar unit CPU, SOP standar K3 mengharuskan teknisi untuk...",
+        difficulty: "medium",
+        options: [
+          "Langsung melepas RAM terlebih dahulu",
+          "Mematikan komputer dan mencabut kabel daya dari sumber listrik",
+          "Menyalakan komputer agar komponen mudah dikenali",
+          "Melepas seluruh kabel data tanpa mematikan PSU",
+          "Membersihkan casing dengan air terlebih dahulu"
+        ],
+        correct: 1,
+        explanation: "SOP K3 wajib: <strong>matikan komputer dan cabut kabel power PSU</strong> sebelum membongkar untuk mencegah sengatan listrik dan korsleting."
+      },
+      {
+        text: "Seorang siswa memegang modul RAM langsung dengan tangan tanpa gelang antistatis di ruangan ber-AC yang kering. Risiko terbesar adalah...",
+        difficulty: "hard",
+        options: [
+          "RAM menjadi lebih cepat panas",
+          "Muncul goresan fisik pada permukaan RAM",
+          "Komponen elektronik pada RAM rusak akibat lonjakan listrik statis",
+          "RAM menjadi lebih kompatibel dengan motherboard",
+          "Kapasitas RAM otomatis berkurang"
+        ],
+        correct: 2,
+        explanation: "Udara kering ber-AC mempercepat pembentukan listrik statis tubuh. Komponen IC RAM dapat rusak permanen meski tegangan listrik statis tidak terasa oleh manusia."
+      },
+      {
+        text: "Tujuan utama pengujian POST (Power-On Self-Test) setelah perakitan selesai adalah...",
+        difficulty: "medium",
+        options: [
+          "Menginstal driver secara otomatis",
+          "Memastikan seluruh komponen utama terdeteksi dan berfungsi normal sebelum masuk ke OS",
+          "Mengaktifkan koneksi internet",
+          "Mem-partisi hard disk secara otomatis",
+          "Mengatur ulang BIOS ke default"
+        ],
+        correct: 1,
+        explanation: "<strong>POST</strong> adalah urutan diagnostik otomatis firmware untuk memverifikasi CPU, RAM, GPU, dan keyboard/storage sebelum menyerahkan kontrol ke bootloader OS."
+      }
     ]
   },
   {
-    id:1, name:"Hardware & Bongkar Pasang PC", icon:"🔩", xp:250, type:"mcq", timeSeconds:540,
-    questions:[
-      { text:"Slot ekspansi yang umum digunakan untuk memasang kartu grafis (GPU) modern adalah...", difficulty:"easy", options:["PCI","PCIe x16","AGP","ISA","SATA"], correct:1, explanation:"<strong>PCIe x16</strong> adalah slot ekspansi dengan bandwidth tertinggi, dirancang khusus untuk GPU modern." },
-      { text:"Fungsi utama heatsink pada CPU/GPU adalah...", difficulty:"easy", options:["Menyimpan data sementara","Menstabilkan tegangan listrik","Membuang panas dari komponen agar suhu tetap aman","Meningkatkan kecepatan clock processor","Menghubungkan motherboard dengan storage"], correct:2, explanation:"<strong>Heatsink</strong> mengalihkan panas dari chip CPU/GPU ke udara sekitar melalui sirip-sirip logam." },
-      { text:"Dibandingkan SATA, storage berjenis NVMe memiliki keunggulan utama berupa...", difficulty:"medium", options:["Harga yang jauh lebih murah","Kapasitas penyimpanan yang selalu lebih besar","Kecepatan baca/tulis data yang jauh lebih tinggi","Tidak memerlukan sumber daya listrik","Ukuran fisik yang lebih besar"], correct:2, explanation:"<strong>NVMe</strong> menggunakan PCIe langsung ke CPU: ~3,500 MB/s vs SATA ~550 MB/s. Hampir 7x lebih cepat!" },
-      { text:"Socket pada motherboard memiliki peran penting karena...", difficulty:"hard", options:["Menentukan kapasitas maksimum RAM saja","Menjadi dudukan CPU sekaligus menentukan kompatibilitas jenis processor","Berfungsi sebagai port untuk kabel LAN","Menyimpan pengaturan BIOS secara permanen","Mengatur kecepatan kipas casing"], correct:1, explanation:"<strong>Socket CPU</strong> menentukan kompatibilitas fisik dan elektrikal. Contoh: LGA1700 hanya untuk Intel Gen 12–14, AM5 hanya untuk AMD Ryzen 7000." },
-      { text:"Sebelum memasang heatsink, komponen yang wajib dioleskan tipis ke permukaan CPU terlebih dahulu adalah...", difficulty:"easy", options:["Cairan pembersih (alcohol)","Thermal paste","Oli mesin","Lem super","Cairan pendingin cair (coolant)"], correct:1, explanation:"<strong>Thermal paste</strong> mengisi celah mikroskopis antara CPU dan heatsink, meningkatkan konduksi panas. Tanpanya, suhu CPU bisa naik 10–20°C." },
-      { text:"Pada header Front Panel (JFP1) 9-pin, pin untuk tombol Power SW umumnya berada pada nomor...", difficulty:"medium", options:["Pin 1 dan 3","Pin 2 dan 4","Pin 6 dan 8","Pin 5 dan 7","Pin 9 dan 10"], correct:0, explanation:"Pada standar Front Panel Header MSI/ASUS, <strong>Power SW berada di pin 1 dan 3</strong>." },
-      { text:"Saat pertama kali dinyalakan, PC mengeluarkan bunyi '1 beep panjang, 2 beep pendek' dan layar tidak menampilkan apa pun. Diagnosis paling tepat adalah...", difficulty:"hard", options:["RAM tidak terpasang sama sekali","Kerusakan pada kartu grafis (VGA/GPU) atau GPU tidak terpasang rapat","Hard disk mengalami bad sector","Kabel LAN tidak terhubung","Baterai CMOS habis"], correct:1, explanation:"Kode beep '1 panjang + 2 pendek' menandakan <strong>error pada GPU/VGA</strong>. Lepas dan pasang ulang GPU atau tes dengan GPU lain." },
-      { text:"Pada motherboard merek ASUS, tombol yang umum digunakan untuk masuk ke BIOS Setup adalah...", difficulty:"easy", options:["F10 atau ESC","DEL atau F2","F11","F9","Fn + F2"], correct:1, explanation:"Pada ASUS motherboard, gunakan <strong>DEL atau F2</strong> saat POST screen muncul untuk masuk BIOS." },
-      { text:"Pada menu monitoring BIOS, suhu CPU terpantau mendekati batas kritis meski PC baru dinyalakan. Langkah troubleshooting awal yang paling tepat adalah...", difficulty:"hard", options:["Mengaktifkan Secure Boot","Memeriksa pemasangan heatsink, thermal paste, dan kondisi kabel fan CPU","Mengganti mode boot ke Legacy","Menambah kapasitas RAM","Mengubah Boot Priority ke USB"], correct:1, explanation:"Suhu kritis segera setelah dinyalakan = masalah termal. Periksa: <strong>thermal paste, heatsink, dan fan CPU</strong>." }
+    id: 1,
+    name: "Arsitektur Hardware & Storage",
+    icon: "🔩",
+    xp: 200,
+    type: "mcq",
+    timeSeconds: 300,
+    questions: [
+      {
+        text: "Slot ekspansi yang umum digunakan untuk memasang kartu grafis (GPU) modern adalah...",
+        difficulty: "easy",
+        options: [
+          "PCI",
+          "PCIe x16",
+          "AGP",
+          "ISA",
+          "SATA"
+        ],
+        correct: 1,
+        explanation: "<strong>PCIe x16</strong> adalah slot berkecepatan tinggi dengan 16 jalur transmisi data, standar mutlak kartu grafis modern."
+      },
+      {
+        text: "Fungsi utama heatsink pada CPU/GPU adalah...",
+        difficulty: "easy",
+        options: [
+          "Menyimpan data sementara",
+          "Menstabilkan tegangan listrik",
+          "Membuang panas dari komponen agar suhu tetap aman",
+          "Meningkatkan kecepatan clock processor",
+          "Menghubungkan motherboard dengan storage"
+        ],
+        correct: 2,
+        explanation: "<strong>Heatsink</strong> menyerap panas dari permukaan prosesor melalui sirip logam (fin) yang kemudian ditiup oleh kipas (fan)."
+      },
+      {
+        text: "Dibandingkan SATA, storage berjenis NVMe memiliki keunggulan utama berupa...",
+        difficulty: "medium",
+        options: [
+          "Harga yang jauh lebih murah",
+          "Kapasitas penyimpanan yang selalu lebih besar",
+          "Kecepatan baca/tulis data yang jauh lebih tinggi",
+          "Tidak memerlukan sumber daya listrik",
+          "Ukuran fisik yang lebih besar"
+        ],
+        correct: 2,
+        explanation: "<strong>NVMe (Non-Volatile Memory Express)</strong> berjalan melalui jalur PCIe langsung ke CPU, memberikan kecepatan hingga 3500-7000+ MB/s dibandingkan SATA yang mentok di ~550 MB/s."
+      },
+      {
+        text: "Socket pada motherboard memiliki peran penting karena...",
+        difficulty: "hard",
+        options: [
+          "Menentukan kapasitas maksimum RAM saja",
+          "Menjadi dudukan CPU sekaligus menentukan kompatibilitas jenis processor",
+          "Berfungsi sebagai port untuk kabel LAN",
+          "Menyimpan pengaturan BIOS secara permanen",
+          "Mengatur kecepatan kipas casing"
+        ],
+        correct: 1,
+        explanation: "<strong>Socket CPU</strong> (seperti LGA1700 atau AM5) menentukan jenis dan generasi prosesor yang dapat dipasang secara fisik dan elektrikal."
+      },
+      {
+        text: "Sebelum memasang heatsink, komponen yang wajib dioleskan tipis ke permukaan CPU terlebih dahulu adalah...",
+        difficulty: "easy",
+        options: [
+          "Cairan pembersih (alcohol)",
+          "Thermal paste",
+          "Oli mesin",
+          "Lem super",
+          "Cairan pendingin cair (coolant)"
+        ],
+        correct: 1,
+        explanation: "<strong>Thermal paste</strong> mengisi celah mikro (pori-pori udara) antara permukaan prosesor dan dasar heatsink agar konduksi panas optimal."
+      }
     ]
   },
   {
-    id:2, name:"BIOS / UEFI Master", icon:"⚙️", xp:200, type:"mcq", timeSeconds:240,
-    questions:[
-      { text:"Mengaktifkan XMP Profile pada BIOS bertujuan untuk...", difficulty:"medium", options:["Menonaktifkan RAM yang rusak","Menjalankan RAM sesuai kecepatan tinggi yang telah ditentukan pabrik","Mengunci akses BIOS dengan password","Mengubah mode SATA menjadi AHCI","Menambah kapasitas RAM secara otomatis"], correct:1, explanation:"<strong>XMP (Extreme Memory Profile)</strong> adalah profil overclock resmi RAM. Tanpa XMP, DDR4-3200 hanya berjalan di 2133 MHz default." },
-      { text:"Fitur Secure Boot pada BIOS/UEFI berfungsi untuk...", difficulty:"medium", options:["Mempercepat proses shutdown","Mencegah sistem operasi atau bootloader yang tidak terverifikasi berjalan saat startup","Mengatur kecerahan layar","Menambah kapasitas penyimpanan","Mengunci casing PC secara fisik"], correct:1, explanation:"<strong>Secure Boot</strong> memverifikasi tanda tangan digital bootloader/OS. Wajib aktif untuk Windows 11." },
-      { text:"Skema partisi yang mendukung kapasitas disk besar dan umum digunakan berdampingan dengan mode UEFI adalah...", difficulty:"easy", options:["MBR","GPT","FAT16","exFAT","NTFS Legacy"], correct:1, explanation:"<strong>GPT (GUID Partition Table)</strong> mendukung disk >2TB, hingga 128 partisi, wajib dengan UEFI dan Windows 11." },
-      { text:"Proses instalasi Windows 11 gagal karena disk menggunakan skema partisi yang tidak kompatibel, padahal mode boot UEFI sudah aktif. Penyebab paling mungkin adalah...", difficulty:"hard", options:["RAM tidak mencukupi","Disk masih menggunakan skema partisi MBR, bukan GPT","Kabel SATA rusak","Driver chipset belum terinstal","Processor tidak mendukung 64-bit"], correct:1, explanation:"UEFI + Windows 11 <strong>wajib GPT</strong>. Jika disk masih MBR, gunakan <code>mbr2gpt /convert</code> atau format ulang via diskpart." }
+    id: 2,
+    name: "Perakitan PC & Beep Code",
+    icon: "🛠️",
+    xp: 200,
+    type: "mcq",
+    timeSeconds: 300,
+    questions: [
+      {
+        text: "Pada header Front Panel (JFP1) 9-pin standar, pin untuk tombol saklar daya (Power SW) umumnya berada pada nomor...",
+        difficulty: "medium",
+        options: [
+          "Pin 1 dan 3",
+          "Pin 2 dan 4",
+          "Pin 6 dan 8",
+          "Pin 5 dan 7",
+          "Pin 9 dan 10"
+        ],
+        correct: 0,
+        explanation: "Pada layout motherboard standar (MSI, ASUS, Gigabyte), <strong>Pin 1 & Pin 3</strong> baris atas berfungsi sebagai header Power Switch."
+      },
+      {
+        text: "Saat pertama kali dinyalakan, PC mengeluarkan bunyi '1 beep panjang, 2 beep pendek' dan layar tidak menampilkan apa pun. Diagnosis paling tepat adalah...",
+        difficulty: "hard",
+        options: [
+          "RAM tidak terpasang sama sekali",
+          "Kerusakan pada kartu grafis (VGA/GPU) atau GPU tidak terpasang rapat",
+          "Hard disk mengalami bad sector",
+          "Kabel LAN tidak terhubung",
+          "Baterai CMOS habis"
+        ],
+        correct: 1,
+        explanation: "Pola POST Beep '1 panjang + 2 pendek' (standar AMI/Award BIOS) mengindikasikan masalah pada video card / display adapter (GPU)."
+      },
+      {
+        text: "Pada motherboard merek ASUS, tombol yang umum digunakan untuk masuk ke BIOS Setup adalah...",
+        difficulty: "easy",
+        options: [
+          "F10 atau ESC",
+          "DEL atau F2",
+          "F11",
+          "F9",
+          "Fn + F2"
+        ],
+        correct: 1,
+        explanation: "Motherboard ASUS standar menggunakan tombol <strong>DEL (Delete) atau F2</strong> yang ditekan berulang saat POST menyala."
+      },
+      {
+        text: "Pada menu monitoring BIOS, suhu CPU terpantau mendekati batas kritis meski PC baru dinyalakan beberapa menit. Langkah troubleshooting awal yang paling tepat adalah...",
+        difficulty: "hard",
+        options: [
+          "Mengaktifkan Secure Boot",
+          "Memeriksa pemasangan heatsink, thermal paste, dan kondisi kabel fan CPU",
+          "Mengganti mode boot ke Legacy",
+          "Menambah kapasitas RAM",
+          "Mengubah Boot Priority ke USB"
+        ],
+        correct: 1,
+        explanation: "Suhu ekstrem saat idle di BIOS menandakan kontak termal yang buruk: plastik pelindung heatsink belum dilepas, thermal paste kering/kurang, atau kabel kipas CPU Fan belum tertancap."
+      }
     ]
   },
   {
-    id:3, name:"Instalasi OS & Bootable USB", icon:"💿", xp:200, type:"mcq", timeSeconds:420,
-    questions:[
-      { text:"Selain partisi root (/), partisi tambahan yang umum dibuat saat instalasi Linux untuk manajemen memori virtual adalah...", difficulty:"medium", options:["Partisi boot","Partisi swap","Partisi home","Partisi recovery","Partisi cache"], correct:1, explanation:"<strong>Partisi swap</strong> berfungsi sebagai 'RAM cadangan' di storage. Rekomendasi: 1–2× kapasitas RAM." },
-      { text:"Tahap konfigurasi awal (nama pengguna, akun, preferensi) yang muncul setelah instalasi Windows selesai disebut...", difficulty:"medium", options:["BIOS Setup","OOBE (Out of Box Experience)","Safe Mode","Recovery Environment","Disk Management"], correct:1, explanation:"<strong>OOBE (Out of Box Experience)</strong> adalah wizard pengaturan awal Windows — bahasa, akun, privasi, dll." },
-      { text:"Aplikasi yang populer digunakan untuk membuat flashdisk installer OS dari file ISO adalah...", difficulty:"easy", options:["Rufus","Photoshop","CCleaner","WinRAR","VLC Media Player"], correct:0, explanation:"<strong>Rufus</strong> adalah aplikasi gratis ringan untuk membakar ISO ke flashdisk menjadi bootable USB. Mendukung UEFI/Legacy, FAT32/NTFS, MBR/GPT." },
-      { text:"Aplikasi yang memungkinkan satu flashdisk berisi beberapa installer OS sekaligus (multi-boot) adalah...", difficulty:"easy", options:["Rufus","Ventoy","Notepad++","Disk Cleanup","Task Manager"], correct:1, explanation:"<strong>Ventoy</strong> menginstal bootloader di flashdisk — kamu tinggal salin file ISO seperti menyalin file biasa. Satu USB bisa berisi banyak OS!" },
-      { text:"Format file sistem yang wajib digunakan pada USB installer apabila file instalasi berukuran lebih dari 4 GB adalah...", difficulty:"medium", options:["FAT32","exFAT/NTFS","FAT16","ext2","HFS+"], correct:1, explanation:"FAT32 memiliki batas ukuran file maksimum <strong>4 GB</strong>. Gunakan <strong>exFAT atau NTFS</strong> untuk file ISO Windows 11 yang lebih besar." },
-      { text:"FAT32 tetap sering dipilih untuk media bootable karena...", difficulty:"medium", options:["Mendukung file berukuran tak terbatas","Kompatibilitas luas dengan berbagai firmware BIOS/UEFI meski ada batas ukuran file 4 GB","Kecepatan tulis data paling tinggi","Hanya bisa dibaca oleh sistem Linux","Mendukung enkripsi otomatis"], correct:1, explanation:"<strong>FAT32 memiliki kompatibilitas universal</strong> — dibaca oleh hampir semua firmware BIOS, UEFI, Linux, macOS, dan Windows." },
-      { text:"Flashdisk bootable gagal booting dan instalasi terhenti di tengah jalan. Penyebab yang paling mungkin adalah...", difficulty:"hard", options:["Warna casing flashdisk tidak sesuai","File ISO corrupt atau proses penulisan ke USB tidak sempurna","Motherboard tidak mendukung USB","RAM terlalu besar","Kabel LAN tidak terpasang"], correct:1, explanation:"Booting gagal = <strong>file ISO corrupt atau penulisan tidak sempurna</strong>. Verifikasi SHA256, format ulang USB, tulis ulang dengan Rufus/Ventoy." }
+    id: 3,
+    name: "Master Firmware BIOS & UEFI",
+    icon: "⚙️",
+    xp: 200,
+    type: "mcq",
+    timeSeconds: 300,
+    questions: [
+      {
+        text: "Mengaktifkan XMP (Extreme Memory Profile) pada BIOS bertujuan untuk...",
+        difficulty: "medium",
+        options: [
+          "Menonaktifkan RAM yang rusak",
+          "Menjalankan RAM sesuai kecepatan tinggi yang telah ditentukan pabrik",
+          "Mengunci akses BIOS dengan password",
+          "Mengubah mode SATA menjadi AHCI",
+          "Menambah kapasitas RAM secara otomatis"
+        ],
+        correct: 1,
+        explanation: "<strong>XMP Profile</strong> menerapkan timing, voltase, dan frekuensi RAM optimal pabrikan (misal 3200MHz bukan standar JEDEC 2133MHz)."
+      },
+      {
+        text: "Fitur Secure Boot pada BIOS/UEFI berfungsi untuk...",
+        difficulty: "medium",
+        options: [
+          "Mempercepat proses shutdown",
+          "Mencegah sistem operasi atau bootloader yang tidak terverifikasi berjalan saat startup",
+          "Mengatur kecerahan layar",
+          "Menambah kapasitas penyimpanan",
+          "Mengunci casing PC secara fisik"
+        ],
+        correct: 1,
+        explanation: "<strong>Secure Boot</strong> memvalidasi integritas bootloader menggunakan signature digital tersertifikasi demi menangkal malware rootkit sebelum OS berjalan."
+      },
+      {
+        text: "Skema partisi yang mendukung kapasitas disk di atas 2 TB dan umum digunakan berdampingan dengan mode UEFI adalah...",
+        difficulty: "easy",
+        options: [
+          "MBR",
+          "GPT",
+          "FAT16",
+          "exFAT",
+          "NTFS Legacy"
+        ],
+        correct: 1,
+        explanation: "<strong>GPT (GUID Partition Table)</strong> adalah standar modern untuk UEFI, mendukung storage >2TB dan hingga 128 partisi primer."
+      },
+      {
+        text: "Proses instalasi Windows 11 gagal karena disk menggunakan skema partisi yang tidak kompatibel, padahal mode boot UEFI sudah aktif. Penyebab paling mungkin adalah...",
+        difficulty: "hard",
+        options: [
+          "RAM tidak mencukupi",
+          "Disk masih menggunakan skema partisi MBR, bukan GPT",
+          "Kabel SATA rusak",
+          "Driver chipset belum terinstal",
+          "Processor tidak mendukung 64-bit"
+        ],
+        correct: 1,
+        explanation: "Windows 11 dalam mode UEFI mensyaratkan disk target berformat <strong>GPT</strong>. Jika drive masih MBR, instalasi akan menolak drive tersebut."
+      }
     ]
   },
   {
-    id:4, name:"Esai Teknis — Final Boss", icon:"✍️", xp:150, type:"essay", timeSeconds:1800,
-    questions:[
-      { num:1, context:"Pertemuan 1 — K3 & SOP · Sedang", text:"Jelaskan mengapa penerapan K3LH dan SOP sangat penting sebelum seorang teknisi membongkar unit komputer. Sebutkan minimal <strong>dua risiko</strong> yang dapat terjadi apabila prosedur ini diabaikan.", hint:"Pikirkan: risiko ESD, sengatan listrik, kerusakan komponen, cedera fisik..." },
-      { num:2, context:"Pertemuan 2 — Hardware · Sedang", text:"Jelaskan fungsi dari <strong>RAM, Storage, PSU, dan GPU</strong>, serta bagaimana keempat komponen tersebut saling memengaruhi kinerja keseluruhan sebuah komputer.", hint:"Contoh: RAM kecil membuat GPU tidak bisa memuat tekstur besar; PSU yang lemah bisa throttle GPU..." },
-      { num:3, context:"Pertemuan 3 — Bongkar Pasang PC · Sulit", text:"Jelaskan langkah-langkah pemasangan CPU beserta sistem pendinginnya (heatsink) secara <strong>berurutan</strong>, dan mengapa pengaplikasian <strong>thermal paste</strong> yang tepat sangat menentukan keberhasilan proses ini.", hint:"Langkah: buka soket → pasang CPU → oleskan thermal paste (metode dot/X) → pasang heatsink → hubungkan kabel fan..." },
-      { num:4, context:"Pertemuan 4 — BIOS/UEFI · Sedang", text:"Jelaskan perbedaan mendasar antara mode <strong>UEFI dan Legacy/CSM</strong> pada BIOS, serta jelaskan kapan sebaiknya fitur <strong>Secure Boot perlu dinonaktifkan</strong>.", hint:"UEFI: modern, GPT, Secure Boot, Fast Boot. Legacy: lama, MBR. Secure Boot dinonaktifkan saat install Linux belum tersertifikasi, dual boot..." },
-      { num:5, context:"Pertemuan 5 & 6 — Instalasi OS & USB · Sulit", text:"Bandingkan proses instalasi <strong>Windows 11 dan Linux</strong> dari sisi skema partisi (GPT/MBR dan partisi swap), kemudian jelaskan langkah umum membuat media instalasi bootable menggunakan <strong>Rufus</strong>.", hint:"Windows 11: wajib GPT+UEFI. Linux: bisa GPT/MBR, perlu partisi swap. Rufus: pilih ISO → pilih skema → pilih format → START" }
+    id: 4,
+    name: "Instalasi OS & Media Bootable",
+    icon: "💿",
+    xp: 200,
+    type: "mcq",
+    timeSeconds: 420,
+    questions: [
+      {
+        text: "Selain partisi root (/), partisi tambahan yang umum dibuat saat instalasi Linux untuk manajemen memori virtual cadangan adalah...",
+        difficulty: "medium",
+        options: [
+          "Partisi boot",
+          "Partisi swap",
+          "Partisi home",
+          "Partisi recovery",
+          "Partisi cache"
+        ],
+        correct: 1,
+        explanation: "<strong>Partisi Swap</strong> berfungsi sebagai area virtual memory di hard disk/SSD jika kapasitas RAM fisik telah terisi penuh."
+      },
+      {
+        text: "Tahap konfigurasi awal (nama pengguna, akun, preferensi) yang muncul setelah proses instalasi file Windows selesai disebut...",
+        difficulty: "medium",
+        options: [
+          "BIOS Setup",
+          "OOBE (Out of Box Experience)",
+          "Safe Mode",
+          "Recovery Environment",
+          "Disk Management"
+        ],
+        correct: 1,
+        explanation: "<strong>OOBE (Out of Box Experience)</strong> adalah wizard interaktif pasca instalasi untuk mengatur wilayah, layout keyboard, akun Microsoft/lokal, dan privasi."
+      },
+      {
+        text: "Aplikasi yang populer digunakan untuk membuat flashdisk installer OS dari file ISO adalah...",
+        difficulty: "easy",
+        options: [
+          "Rufus",
+          "Photoshop",
+          "CCleaner",
+          "WinRAR",
+          "VLC Media Player"
+        ],
+        correct: 0,
+        explanation: "<strong>Rufus</strong> adalah utilitas open-source standar industri untuk membuat USB flash drive yang dapat di-boot dari file ISO OS."
+      },
+      {
+        text: "Aplikasi yang memungkinkan satu flashdisk berisi beberapa installer OS sekaligus (multi-boot) tanpa perlu format ulang adalah...",
+        difficulty: "easy",
+        options: [
+          "Rufus",
+          "Ventoy",
+          "Notepad++",
+          "Disk Cleanup",
+          "Task Manager"
+        ],
+        correct: 1,
+        explanation: "<strong>Ventoy</strong> memasang bootloader langsung ke USB, sehingga kita cukup menyalin file ISO berbagai OS secara langsung ke flashdisk."
+      },
+      {
+        text: "Format file sistem yang wajib digunakan pada USB installer apabila file instalasi (misal install.wim) berukuran lebih dari 4 GB adalah...",
+        difficulty: "medium",
+        options: [
+          "FAT32",
+          "exFAT/NTFS",
+          "FAT16",
+          "ext2",
+          "HFS+"
+        ],
+        correct: 1,
+        explanation: "Filesystem <strong>FAT32</strong> memiliki batasan teknis maksimal 4 GB per file. File seperti <code>install.wim</code> Windows 11 memerlukan <strong>NTFS</strong> atau <strong>exFAT</strong>."
+      },
+      {
+        text: "Meskipun memiliki batas ukuran file, FAT32 tetap sering dipilih untuk media bootable karena...",
+        difficulty: "medium",
+        options: [
+          "Mendukung file berukuran tak terbatas",
+          "Kompatibilitas luas dengan berbagai firmware BIOS/UEFI standar",
+          "Kecepatan tulis data paling tinggi",
+          "Hanya bisa dibaca oleh sistem Linux",
+          "Mendukung enkripsi otomatis"
+        ],
+        correct: 1,
+        explanation: "Spesifikasi resmi UEFI mewajibkan motherboard mampu membaca partisi berformat <strong>FAT32</strong> secara native tanpa perlu driver filesystem tambahan."
+      },
+      {
+        text: "Flashdisk bootable gagal booting dan instalasi terhenti di tengah jalan. Penyebab yang paling mungkin adalah...",
+        difficulty: "hard",
+        options: [
+          "Warna casing flashdisk tidak sesuai",
+          "File ISO corrupt atau proses penulisan ke USB tidak sempurna",
+          "Motherboard tidak mendukung USB",
+          "RAM terlalu besar",
+          "Kabel LAN tidak terpasang"
+        ],
+        correct: 1,
+        explanation: "Kegagalan membaca file setup di tengah proses instalasi umumnya akibat file ISO rusak (checksum tidak cocok) atau proses flashing USB mengalami bad block/interupsi."
+      }
     ]
   }
 ];
@@ -787,12 +1056,8 @@ function startMission(missionIdx) {
   document.getElementById('quiz-screen').style.display = 'block';
   document.getElementById('quizMissionLabel').textContent = mission.icon + ' ' + mission.name;
   startTimer(mission.timeSeconds);
-  if(mission.type === 'mcq'){
-    buildProgressDots(mission.questions.length);
-    showQuestion(0);
-  } else {
-    showEssay(mission);
-  }
+  buildProgressDots(mission.questions.length);
+  showQuestion(0);
 }
 
 function backToMap() {
@@ -811,8 +1076,7 @@ function startTimer(seconds) {
     updateTimerDisplay();
     if(state.timeLeft <= 0){
       clearInterval(state.timerInterval);
-      if(MISSIONS[state.currentMission].type === 'mcq') autoTimeOut();
-      else submitEssay();
+      autoTimeOut();
     }
   }, 1000);
 }
@@ -886,54 +1150,27 @@ function nextQuestion() {
   else showQuestion(state.currentQ);
 }
 
-function showEssay(mission) {
-  buildProgressDots(1);
-  document.getElementById('dot_0').className = 'q-dot current';
-  const area = document.getElementById('questionArea');
-  area.innerHTML = '<div class="essay-intro"><h3>✍️ Final Boss: Esai Teknis</h3><p>Tuliskan jawabanmu dengan penjelasan yang lengkap dan logis. Minimal 50 karakter per jawaban.</p></div>' +
-    mission.questions.map(function(q,i){ return '<div class="essay-item"><div class="essay-q-num">📌 Soal Esai '+q.num+' — '+q.context+'</div><div class="essay-q-text">'+q.text+'</div><div class="essay-hint">💡 Petunjuk: '+q.hint+'</div><textarea class="essay-textarea" id="essay_'+i+'" placeholder="Tuliskan jawabanmu di sini..." oninput="updateCharCount('+i+')"></textarea><div class="char-count" id="charCount_'+i+'">0 karakter</div></div>'; }).join('') +
-    '<button class="btn-submit-essay" onclick="submitEssay()">🚀 Kirim Semua Jawaban Esai</button>';
-}
-
-function updateCharCount(idx) {
-  const ta = document.getElementById('essay_'+idx);
-  const cc = document.getElementById('charCount_'+idx);
-  const len = ta.value.length;
-  cc.textContent = len+' karakter';
-  cc.className = 'char-count'+(len >= 50 ? ' enough' : '');
-}
-
-function submitEssay() {
-  let allFilled = true;
-  MISSIONS[4].questions.forEach(function(_,i){ const ta = document.getElementById('essay_'+i); if(!ta || ta.value.trim().length < 20) allFilled = false; });
-  if(!allFilled){ showToast('⚠️ Isi semua jawaban minimal 20 karakter!'); return; }
-  clearInterval(state.timerInterval);
-  finishMission();
-}
+// Essay functions removed for objective scoring
 
 function finishMission() {
   clearInterval(state.timerInterval);
   const mission = MISSIONS[state.currentMission];
-  let earnedXP = 0;
-  if(mission.type === 'mcq'){
-    const acc = state.correctCount / mission.questions.length;
-    earnedXP = Math.round(mission.xp * acc);
-    if(acc === 1) earnedXP += 20;
-    state.missionCorrect[state.currentMission] = state.correctCount;
-  } else {
-    earnedXP = mission.xp;
-  }
+  const acc = state.correctCount / mission.questions.length;
+  let earnedXP = Math.round(mission.xp * acc);
+  if(acc === 1) earnedXP += 10; // Bonus perfect score per mission
+  state.missionCorrect[state.currentMission] = state.correctCount;
   state.totalXP += earnedXP;
   state.completedMissions.add(state.currentMission);
   state.missionScores[state.currentMission] = earnedXP;
-  const icon = (mission.type==='mcq' && state.correctCount===mission.questions.length) ? '🥇' : mission.type==='essay' ? '📝' : '🏅';
+
+  const icon = state.correctCount === mission.questions.length ? '🥇' : state.correctCount >= Math.ceil(mission.questions.length * 0.7) ? '🏅' : '🥈';
   document.getElementById('mcIcon').textContent = icon;
-  document.getElementById('mcSubtitle').textContent = mission.type==='mcq' ? state.correctCount+'/'+mission.questions.length+' jawaban benar, '+state.playerName+'!' : 'Esai berhasil dikirim, '+state.playerName+'!';
-  document.getElementById('mcPts').textContent = '+'+earnedXP+' XP';
+  document.getElementById('mcSubtitle').textContent = state.correctCount + '/' + mission.questions.length + ' jawaban benar, ' + state.playerName + '!';
+  document.getElementById('mcPts').textContent = '+' + earnedXP + ' XP';
   document.getElementById('mission-complete-overlay').classList.add('show');
   launchConfetti();
   if(state.completedMissions.size === MISSIONS.length){
-    setTimeout(function(){ closeMissionComplete(); showFinalResult(); }, 2500);
+    setTimeout(function(){ closeMissionComplete(); showFinalResult(); }, 2200);
   }
 }
 
@@ -947,31 +1184,35 @@ function closeMissionComplete() {
 function showFinalResult() {
   document.getElementById('mission-map').style.display = 'none';
   document.getElementById('result-screen').style.display = 'block';
-  let mcqTotal = 0, mcqCorrect = 0;
-  for(let i=0;i<4;i++){ mcqTotal += MISSIONS[i].questions.length; if(state.missionCorrect[i]) mcqCorrect += state.missionCorrect[i]; }
-  const acc = mcqTotal > 0 ? Math.round((mcqCorrect/mcqTotal)*100) : 0;
-  const grade = state.totalXP >= 850 ? 'A' : state.totalXP >= 700 ? 'B' : state.totalXP >= 550 ? 'C' : 'D';
-  const trophy = state.totalXP >= 850 ? '🏆' : state.totalXP >= 700 ? '🥈' : '🥉';
+  let totalQ = 0, totalCorrect = 0;
+  for(let i=0; i<MISSIONS.length; i++){
+    totalQ += MISSIONS[i].questions.length;
+    if(state.missionCorrect[i]) totalCorrect += state.missionCorrect[i];
+  }
+  const acc = totalQ > 0 ? Math.round((totalCorrect / totalQ) * 100) : 0;
+  const grade = acc >= 90 ? 'A+' : acc >= 80 ? 'A' : acc >= 70 ? 'B' : acc >= 60 ? 'C' : 'D';
+  const trophy = acc >= 85 ? '🏆' : acc >= 70 ? '🥈' : '🥉';
   document.getElementById('resultTrophy').textContent = trophy;
   document.getElementById('rTotalXP').textContent = state.totalXP;
-  document.getElementById('rMissions').textContent = state.completedMissions.size+'/5';
-  document.getElementById('rAccuracy').textContent = acc+'%';
+  document.getElementById('rMissions').textContent = state.completedMissions.size + '/5';
+  document.getElementById('rAccuracy').textContent = acc + '% (' + totalCorrect + '/25)';
   document.getElementById('rGrade').textContent = grade;
   const gradeMsg = {
-    A: '<strong>LUAR BIASA, '+state.playerName+'!</strong> Kamu adalah Teknisi Andal sejati! Nilai sempurna mencerminkan kerja keras dan pemahamanmu yang mendalam.',
-    B: '<strong>BAGUS, '+state.playerName+'!</strong> Kamu hampir mencapai puncak! Ada beberapa topik yang perlu diperdalam lagi, tapi fondasi kemampuanmu sudah sangat kuat.',
-    C: '<strong>KEEP GOING, '+state.playerName+'!</strong> Ulangi materi yang terasa sulit dan coba lagi — setiap teknisi hebat pernah belajar dari kesalahan.',
-    D: '<strong>JANGAN MENYERAH, '+state.playerName+'!</strong> Menyelesaikan semua misi adalah langkah pertama yang hebat. Pelajari kembali materinya dan coba lagi!'
+    'A+': '<strong>MASTERCLASS, ' + state.playerName + '!</strong> Penguasaan materi Blok 1 kamu sempurna! Kamu siap melangkah ke Blok 2!',
+    'A': '<strong>LUAR BIASA, ' + state.playerName + '!</strong> Pemahamanmu tentang K3LH, Hardware, BIOS, dan Instalasi OS sangat mantap!',
+    'B': '<strong>BAGUS, ' + state.playerName + '!</strong> Kompetensi dasarmu sudah baik. Perkuat kembali detail-detail teknis yang sempat luput.',
+    'C': '<strong>CUKUP, ' + state.playerName + '!</strong> Ada beberapa konsep penting yang perlu kamu review lagi di modul pembelajaran.',
+    'D': '<strong>JANGAN MENYERAH, ' + state.playerName + '!</strong> Buka kembali materi Blok 1 dan coba taklukkan misi ini sekali lagi!'
   };
   document.getElementById('resultMessage').innerHTML = gradeMsg[grade];
   const allBadges = [
     {icon:'🦺', name:'Safety First', unlocked: state.completedMissions.has(0)},
-    {icon:'🔧', name:'Hardware Pro', unlocked: state.completedMissions.has(1)},
-    {icon:'⚙️', name:'BIOS Master', unlocked: state.completedMissions.has(2)},
-    {icon:'💿', name:'OS Installer', unlocked: state.completedMissions.has(3)},
-    {icon:'✍️', name:'Esai Expert', unlocked: state.completedMissions.has(4)},
-    {icon:'🏆', name:'Teknisi Andal', unlocked: state.totalXP >= 750},
-    {icon:'💯', name:'Perfect Score', unlocked: state.totalXP >= 900}
+    {icon:'🔩', name:'Hardware Pro', unlocked: state.completedMissions.has(1)},
+    {icon:'🛠️', name:'Assembly Master', unlocked: state.completedMissions.has(2)},
+    {icon:'⚙️', name:'BIOS Master', unlocked: state.completedMissions.has(3)},
+    {icon:'💿', name:'OS Specialist', unlocked: state.completedMissions.has(4)},
+    {icon:'🏆', name:'Teknisi Andal', unlocked: acc >= 75},
+    {icon:'💯', name:'Grandmaster 100%', unlocked: totalCorrect === 25}
   ];
   document.getElementById('badgesRow').innerHTML = allBadges.map(function(b){ return '<div class="badge '+(b.unlocked?'unlocked':'locked')+'"><div class="badge-icon">'+b.icon+'</div><div class="badge-name">'+b.name+'</div></div>'; }).join('');
   launchConfetti();
