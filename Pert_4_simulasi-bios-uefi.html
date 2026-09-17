@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulasi BIOS & UEFI Interaktif — SMK Diponegoro Tumpang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bios-blue-bg: #0000a8;
+    --bios-blue-panel: #000080;
+    --bios-gray-bar: #aaaaaa;
+    --bios-text-white: #ffffff;
+    --bios-text-yellow: #ffff55;
+    --bios-text-cyan: #55ffff;
+    --bios-text-gray: #7f7f7f;
+    --bios-border: #aaaaaa;
+    --bios-highlight: #00aaaa;
+    
+    --uefi-bg: #0a0e17;
+    --uefi-card: #111827;
+    --uefi-card-border: #1f2937;
+    --uefi-accent-red: #ef4444;
+    --uefi-accent-cyan: #06b6d4;
+    --uefi-accent-green: #10b981;
+    --uefi-text-main: #f3f4f6;
+    --uefi-text-dim: #9ca3af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #05070d;
+    color: #e5e7eb;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* TOP CONTROLLER BAR */
+  .top-toolbar {
+    background: #0f172a;
+    border-bottom: 1px solid #1e293b;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    z-index: 50;
+  }
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .badge-live {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #10b981;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .badge-live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+  }
+  .brand-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.2px;
+  }
+  .brand-subtitle {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  .mode-switch-group {
+    display: flex;
+    background: #1e293b;
+    padding: 3px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    gap: 2px;
+  }
+  .mode-btn {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .mode-btn.active {
+    background: #0284c7;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+  }
+  .mode-btn:hover:not(.active) {
+    color: #f1f5f9;
+  }
+
+  .mission-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #cbd5e1;
+  }
+  .mission-selector select {
+    background: #1e293b;
+    border: 1px solid #475569;
+    color: #f8fafc;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-action {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .btn-action:hover {
+    background: #334155;
+    border-color: #64748b;
+  }
+
+  /* MISSION OBJECTIVE BANNER */
+  .mission-banner {
+    background: linear-gradient(90deg, #1e1b4b, #0f172a);
+    border-bottom: 1px solid #3730a3;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .mission-text b {
+    color: #a5b4fc;
+  }
+  .mission-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #312e81;
+    color: #c7d2fe;
+    border: 1px solid #4338ca;
+  }
+  .mission-status.success {
+    background: #064e3b;
+    color: #6ee7b7;
+    border-color: #059669;
+  }
+
+  /* SIMULATION STAGE WRAPPER */
+  .sim-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background: #000;
+    position: relative;
+    user-select: none;
+  }
+
+  /* CRT SCANLINE & BEZEL EFFECT */
+  .monitor-bezel {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 4 / 3;
+    max-height: 740px;
+    background: #0a0a0c;
+    border: 12px solid #181920;
+    border-radius: 12px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.05);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .monitor-bezel {
+      aspect-ratio: auto;
+      height: 560px;
+      border-width: 6px;
+    }
+  }
+
+  .screen-crt {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .screen-crt::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 30;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
+
+  /* =================================================================
+     MODE 1: CLASSIC LEGACY BIOS (BLUE SCREEN APTIO / AWARD / PHOENIX)
+     ================================================================= */
+  .legacy-bios {
+    background: var(--bios-blue-bg);
+    color: var(--bios-text-white);
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .legacy-topbar {
+    background: var(--bios-gray-bar);
+    color: #000;
+    padding: 4px 12px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .legacy-navbar {
+    display: flex;
+    background: var(--bios-blue-bg);
+    border-bottom: 2px solid var(--bios-border);
+    padding: 2px 8px;
+  }
+  .legacy-nav-item {
+    padding: 4px 18px;
+    color: var(--bios-text-cyan);
+    cursor: pointer;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  .legacy-nav-item.active {
+    background: var(--bios-highlight);
+    color: #000;
+    font-weight: bold;
+  }
+
+  .legacy-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 62% 38%;
+    border-bottom: 2px solid var(--bios-border);
+    overflow: hidden;
+  }
+
+  .legacy-left-panel {
+    border-right: 2px solid var(--bios-border);
+    padding: 10px 14px;
+    overflow-y: auto;
+  }
+
+  .legacy-item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 6px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .legacy-item-row.selected {
+    background: var(--bios-text-white);
+    color: #000 !important;
+  }
+  .legacy-item-row.selected .item-val {
+    color: #000 !important;
+  }
+  .legacy-item-row .item-key {
+    color: inherit;
+  }
+  .legacy-item-row .item-val {
+    color: var(--bios-text-cyan);
+    font-weight: bold;
+  }
+  .legacy-item-row.disabled {
+    color: var(--bios-text-gray);
+    cursor: default;
+  }
+  .legacy-item-row.header {
+    color: var(--bios-text-yellow);
+    margin-top: 6px;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    cursor: default;
+  }
+
+  .legacy-right-panel {
+    padding: 12px 16px;
+    background: var(--bios-blue-panel);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .legacy-help-header {
+    color: var(--bios-text-yellow);
+    margin-bottom: 8px;
+    text-decoration: underline;
+    font-size: 22px;
+  }
+  .legacy-help-body {
+    font-size: 20px;
+    color: var(--bios-text-white);
+    line-height: 1.35;
+    flex: 1;
+  }
+  .legacy-copyright {
+    color: var(--bios-text-gray);
+    font-size: 18px;
+    border-top: 1px solid var(--bios-border);
+    padding-top: 6px;
+  }
+
+  .legacy-footer-keys {
+    background: var(--bios-gray-bar);
+    color: #000;
+    padding: 6px 12px;
+    font-size: 19px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+  .legacy-footer-keys span {
+    white-space: nowrap;
+  }
+  .legacy-footer-keys b {
+    color: #000080;
+  }
+
+  /* MODAL POPUP DIALOG (BIOS STYLE) */
+  .bios-dialog-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+  }
+  .bios-dialog-box {
+    background: var(--bios-blue-panel);
+    border: 3px double var(--bios-text-white);
+    box-shadow: 8px 8px 0px #000;
+    min-width: 340px;
+    max-width: 90%;
+    color: var(--bios-text-white);
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    padding: 12px 16px;
+  }
+  .bios-dialog-title {
+    background: var(--bios-gray-bar);
+    color: #000;
+    padding: 2px 8px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .bios-dialog-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .bios-dialog-opt {
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .bios-dialog-opt.selected {
+    background: var(--bios-highlight);
+    color: #000;
+    font-weight: bold;
+  }
+  .bios-dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .bios-btn {
+    background: var(--bios-blue-bg);
+    border: 1px solid var(--bios-border);
+    color: var(--bios-text-yellow);
+    padding: 2px 14px;
+    font-family: inherit;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .bios-btn.focus {
+    background: var(--bios-highlight);
+    color: #000;
+    font-weight: bold;
+  }
+
+  /* =================================================================
+     MODE 2: MODERN UEFI UTILITY (ASUS ROG / MSI CLICK BIOS THEME)
+     ================================================================= */
+  .uefi-bios {
+    background: var(--uefi-bg);
+    color: var(--uefi-text-main);
+    font-family: 'JetBrains Mono', monospace;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    font-size: 13px;
+  }
+
+  /* UEFI HEADER */
+  .uefi-header {
+    background: linear-gradient(180deg, #182234 0%, #0d131f 100%);
+    border-bottom: 2px solid #ef4444;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .uefi-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .uefi-logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ef4444;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  }
+  .uefi-board-info {
+    font-size: 11px;
+    color: var(--uefi-text-dim);
+    line-height: 1.3;
+  }
+  .uefi-clock-hud {
+    text-align: right;
+    font-size: 12px;
+  }
+  .uefi-clock-hud b {
+    color: #38bdf8;
+    font-size: 14px;
+  }
+
+  /* UEFI TABS */
+  .uefi-nav-tabs {
+    display: flex;
+    background: #0f172a;
+    border-bottom: 1px solid #1e293b;
+    padding: 0 10px;
+    gap: 4px;
+  }
+  .uefi-tab-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .uefi-tab-btn:hover {
+    color: #f1f5f9;
+  }
+  .uefi-tab-btn.active {
+    color: #38bdf8;
+    border-bottom-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+  }
+
+  /* UEFI BODY */
+  .uefi-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: radial-gradient(circle at 80% 20%, rgba(239, 68, 68, 0.04), transparent 50%);
+  }
+
+  /* EZ MODE DASHBOARD WIDGETS */
+  .ez-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    height: 100%;
+  }
+  @media (max-width: 800px) {
+    .ez-grid {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+  }
+
+  .ez-card {
+    background: rgba(17, 24, 39, 0.85);
+    border: 1px solid #1f2937;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    backdrop-filter: blur(4px);
+  }
+  .ez-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #38bdf8;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 6px;
+  }
+
+  .gauge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 0;
+  }
+  .gauge-item {
+    text-align: center;
+  }
+  .gauge-val {
+    font-size: 26px;
+    font-weight: 800;
+    color: #f8fafc;
+  }
+  .gauge-val.warm { color: #f59e0b; }
+  .gauge-val.cool { color: #10b981; }
+  .gauge-label {
+    font-size: 10px;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  /* BOOT PRIORITY DRAG LIST */
+  .boot-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .boot-order-item {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .boot-order-item:hover {
+    border-color: #38bdf8;
+    background: #243248;
+  }
+  .boot-order-item.rank-1 {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+  }
+  .boot-device-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .boot-badge-rank {
+    font-size: 11px;
+    font-weight: 700;
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid #334155;
+  }
+  .boot-order-item.rank-1 .boot-badge-rank {
+    background: #10b981;
+    color: #000;
+    border-color: #10b981;
+  }
+  .boot-device-name {
+    font-size: 12px;
+    color: #f1f5f9;
+    font-weight: 600;
+  }
+  .boot-device-type {
+    font-size: 10px;
+    color: #94a3b8;
+  }
+  .boot-move-btns {
+    display: flex;
+    gap: 4px;
+  }
+  .boot-btn-move {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .boot-btn-move:hover {
+    color: #38bdf8;
+    border-color: #38bdf8;
+  }
+
+  /* UEFI TOGGLE SWITCH ROW */
+  .switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .switch-label {
+    font-size: 12px;
+    color: #e2e8f0;
+  }
+  .toggle-btn {
+    background: #334155;
+    color: #cbd5e1;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .toggle-btn.on {
+    background: #10b981;
+    color: #000;
+  }
+
+  /* UEFI ADVANCED TABLE */
+  .uefi-advanced-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .uefi-advanced-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #1e293b;
+    font-size: 12px;
+  }
+  .uefi-advanced-table tr:hover td {
+    background: rgba(56, 189, 248, 0.05);
+  }
+  .uefi-item-name {
+    color: #f1f5f9;
+    font-weight: 500;
+  }
+  .uefi-item-val-badge {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #38bdf8;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .uefi-item-val-badge:hover {
+    border-color: #38bdf8;
+    background: #2a3a52;
+  }
+
+  /* UEFI FOOTER */
+  .uefi-footer {
+    background: #0d131f;
+    border-top: 1px solid #1f2937;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .uefi-fkey-pill {
+    background: #1e293b;
+    color: #38bdf8;
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* =================================================================
+     SIMULATED POST BOOT SCREEN & SUCCESS SCREENS
+     ================================================================= */
+  .boot-screen {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 24px;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 60;
+    overflow: hidden;
+  }
+  .boot-screen.active {
+    display: flex;
+  }
+  .post-log {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+  .post-log .cyan { color: #38bdf8; }
+  .post-log .green { color: #10b981; }
+  .post-log .yellow { color: #fbbf24; }
+  .post-log .red { color: #ef4444; }
+
+  .os-boot-view {
+    margin: auto;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  /* VIRTUAL KEYBOARD / ON-SCREEN TOUCH CONTROLS FOR MOBILE/TABLET */
+  .virtual-dpad-bar {
+    background: #090d16;
+    border-top: 1px solid #1e293b;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .dpad-group {
+    display: inline-flex;
+    gap: 4px;
+  }
+  .vk-btn {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #f1f5f9;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .vk-btn:active {
+    background: #0284c7;
+    transform: scale(0.95);
+  }
+  .vk-btn.f10 {
+    background: #047857;
+    border-color: #059669;
+    color: #fff;
+  }
+  .vk-btn.esc {
+    background: #991b1b;
+    border-color: #b91c1c;
+    color: #fff;
+  }
+
+  /* SOUND FX TOGGLE */
+  .sound-indicator {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP GLOBAL NAVIGATION & CONTROLLER -->
+<header class="top-toolbar">
+  <div class="brand-group">
+    <span class="badge-live">SIMULATOR V2.5</span>
+    <div>
+      <h1 class="brand-title">Simulasi Laboratorium BIOS &amp; UEFI Firmware</h1>
+      <p class="brand-subtitle">SMK Diponegoro Tumpang — Bengkel Perakitan &amp; Pemeliharaan Komputer</p>
+    </div>
+  </div>
+
+  <div class="mode-switch-group">
+    <button type="button" class="mode-btn active" id="btnModeLegacy" onclick="switchFirmwareMode('legacy')">
+      🖥️ Legacy BIOS (Classic Blue)
+    </button>
+    <button type="button" class="mode-btn" id="btnModeUefi" onclick="switchFirmwareMode('uefi')">
+      ⚡ Modern UEFI (EZ/ROG)
+    </button>
+  </div>
+
+  <div class="mission-selector">
+    <label for="missionSelect">🎯 <b>Misi Praktik:</b></label>
+    <select id="missionSelect" onchange="changeMission(this.value)">
+      <option value="misi1">Misi 1: Setup Boot USB Flashdisk (Instalasi OS)</option>
+      <option value="misi2">Misi 2: Optimasi SSD (AHCI) &amp; Virtualisasi (VT-x)</option>
+      <option value="misi3">Misi 3: Standar Keamanan Windows 11 (TPM 2.0 &amp; Secure Boot)</option>
+      <option value="free">Mode Bebas: Eksplorasi Penuh</option>
+    </select>
+  </div>
+
+  <div class="toolbar-actions">
+    <div class="sound-indicator" onclick="toggleAudio()" title="Klik untuk Bunyi Beep / Suara">
+      <span id="soundIcon">🔊</span> <span id="soundText">Audio ON</span>
+    </div>
+    <button type="button" class="btn-action" onclick="resetToDefaults()">
+      ↺ Reset Default
+    </button>
+    <a href="./Pert_4_materi-bios-uefi.html" class="btn-action" style="border-color: #38bdf8; color: #38bdf8;">
+      📖 Buka Teori
+    </a>
+  </div>
+</header>
+
+<!-- MISSION OBJECTIVE TARGET BANNER -->
+<div class="mission-banner" id="missionBanner">
+  <div class="mission-text" id="missionDesc">
+    <b>Misi 1:</b> Komputer akan diinstal ulang menggunakan Flashdisk. Ubah <b>Boot Option #1</b> menjadi <b>[Kingston DataTraveler 3.0 (USB Bootable)]</b> lalu tekan <b>F10 (Save &amp; Exit)</b>!
+  </div>
+  <div class="mission-status" id="missionBadge">STATUS: BELUM SELESAI</div>
+</div>
+
+<!-- SIMULATION STAGE -->
+<main class="sim-container">
+  <div class="monitor-bezel">
+    <div class="screen-crt" id="screenContainer">
+
+      <!-- ========================================================= -->
+      <!-- VIEW 1: CLASSIC LEGACY BIOS (APTIO / AWARD BLUE SCREEN) -->
+      <!-- ========================================================= -->
+      <div class="legacy-bios" id="legacyBiosView">
+        <div class="legacy-topbar">
+          <span>Aptio Setup Utility - Copyright (C) 2012-2024 American Megatrends, Inc.</span>
+          <span id="legacyClock">00:00:00</span>
+        </div>
+
+        <nav class="legacy-navbar" id="legacyNav">
+          <div class="legacy-nav-item active" data-tab="main" onclick="selectLegacyTab('main')">Main</div>
+          <div class="legacy-nav-item" data-tab="advanced" onclick="selectLegacyTab('advanced')">Advanced</div>
+          <div class="legacy-nav-item" data-tab="chipset" onclick="selectLegacyTab('chipset')">Chipset</div>
+          <div class="legacy-nav-item" data-tab="boot" onclick="selectLegacyTab('boot')">Boot</div>
+          <div class="legacy-nav-item" data-tab="security" onclick="selectLegacyTab('security')">Security</div>
+          <div class="legacy-nav-item" data-tab="saveexit" onclick="selectLegacyTab('saveexit')">Save &amp; Exit</div>
+        </nav>
+
+        <div class="legacy-body">
+          <div class="legacy-left-panel" id="legacyLeftPanel">
+            <!-- Dynamic rows generated by JS -->
+          </div>
+
+          <div class="legacy-right-panel">
+            <div>
+              <div class="legacy-help-header">Item Specific Help</div>
+              <div class="legacy-help-body" id="legacyHelpText">
+                Gunakan tombol panah [↑] [↓] untuk memilih item. Tekan [Enter] untuk membuka pilihan konfigurasi.
+              </div>
+            </div>
+            <div class="legacy-copyright">
+              SMK Diponegoro Tumpang — Lab TJKT<br>
+              BIOS Version: 2.20.1275 · Core: 5.14
+            </div>
+          </div>
+        </div>
+
+        <footer class="legacy-footer-keys">
+          <span><b>→←</b>: Select Screen</span>
+          <span><b>↑↓</b>: Select Item</span>
+          <span><b>Enter</b>: Select</span>
+          <span><b>+/-</b>: Change Opt.</span>
+          <span><b>F1</b>: General Help</span>
+          <span><b>F9</b>: Optimized Defaults</span>
+          <span><b>F10</b>: Save &amp; Exit</span>
+          <span><b>ESC</b>: Exit</span>
+        </footer>
+
+        <!-- POPUP SELECTOR MODAL DIALOG -->
+        <div class="bios-dialog-overlay" id="biosDialogOverlay" style="display:none;">
+          <div class="bios-dialog-box" id="biosDialogBox">
+            <div class="bios-dialog-title" id="dialogTitle">Option Title</div>
+            <div class="bios-dialog-options" id="dialogOptionsList"></div>
+            <div class="bios-dialog-buttons" id="dialogButtonsRow">
+              <button type="button" class="bios-btn" onclick="closeBiosDialog()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- VIEW 2: MODERN UEFI UTILITY (ASUS ROG / MSI CLICK BIOS)   -->
+      <!-- ========================================================= -->
+      <div class="uefi-bios" id="uefiBiosView" style="display:none;">
+        <header class="uefi-header">
+          <div class="uefi-brand">
+            <div class="uefi-logo">ROG UEFI BIOS</div>
+            <div class="uefi-board-info">
+              <b>PRO ART B760M-CREATOR WIFI</b> BIOS Ver. 1620 x64<br>
+              Intel(R) Core(TM) i5-13400F CPU @ 2.50GHz · Speed: 4600MHz · Memory: 16384MB (DDR5 5200MHz)
+            </div>
+          </div>
+          <div class="uefi-clock-hud">
+            <div style="color:#ef4444; font-weight:700;">EZ Mode [F7]</div>
+            <span id="uefiClock">Friday, Sep 18, 2026 08:30:15</span>
+          </div>
+        </header>
+
+        <nav class="uefi-nav-tabs">
+          <button class="uefi-tab-btn active" id="tabEzMode" onclick="selectUefiTab('ez')">EZ Mode Dashboard</button>
+          <button class="uefi-tab-btn" id="tabAdvMain" onclick="selectUefiTab('main')">Main</button>
+          <button class="uefi-tab-btn" id="tabAdvAi" onclick="selectUefiTab('ai')">Ai Tweaker (XMP)</button>
+          <button class="uefi-tab-btn" id="tabAdvAdvanced" onclick="selectUefiTab('advanced')">Advanced</button>
+          <button class="uefi-tab-btn" id="tabAdvBoot" onclick="selectUefiTab('boot')">Boot &amp; CSM</button>
+          <button class="uefi-tab-btn" id="tabAdvTool" onclick="selectUefiTab('tool')">Tool &amp; Exit</button>
+        </nav>
+
+        <div class="uefi-content" id="uefiContentArea">
+          <!-- Dynamic UEFI Content (EZ Mode or Advanced) -->
+        </div>
+
+        <footer class="uefi-footer">
+          <div>
+            <span class="uefi-fkey-pill">F7</span> Advanced/EZ Mode &nbsp;|&nbsp;
+            <span class="uefi-fkey-pill">F10</span> Save &amp; Exit &nbsp;|&nbsp;
+            <span class="uefi-fkey-pill">F12</span> Screenshot &nbsp;|&nbsp;
+            <span class="uefi-fkey-pill">ESC</span> Back
+          </div>
+          <div>Q-Fan Control [F6] · AURA ON/OFF [F4] · Search [F9]</div>
+        </footer>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- VIEW 3: POST / BOOT SEQUENCE SIMULATOR SCREEN             -->
+      <!-- ========================================================= -->
+      <div class="boot-screen" id="bootScreenView">
+        <div class="post-log" id="postLogArea">
+          <!-- POST Log lines will stream here -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- VIRTUAL KEYBOARD BAR FOR MOBILE / CHROMES / QUICK CONTROLS -->
+<div class="virtual-dpad-bar">
+  <div class="dpad-group">
+    <button class="vk-btn" onclick="handleVirtualKey('ArrowLeft')">◀ Left</button>
+    <button class="vk-btn" onclick="handleVirtualKey('ArrowUp')">▲ Up</button>
+    <button class="vk-btn" onclick="handleVirtualKey('ArrowDown')">▼ Down</button>
+    <button class="vk-btn" onclick="handleVirtualKey('ArrowRight')">▶ Right</button>
+    <button class="vk-btn" onclick="handleVirtualKey('Enter')" style="background:#0284c7; border-color:#0284c7;">⏎ ENTER</button>
+  </div>
+  <div class="dpad-group">
+    <button class="vk-btn" onclick="handleVirtualKey('+')">+ Value</button>
+    <button class="vk-btn" onclick="handleVirtualKey('-')">- Value</button>
+    <button class="vk-btn esc" onclick="handleVirtualKey('Escape')">ESC</button>
+    <button class="vk-btn f10" onclick="handleVirtualKey('F10')">💾 F10 (Save &amp; Exit)</button>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   STATE MANAGEMENT SYSTEM (BIOS / UEFI CONFIGURATION DB)
+   ========================================================================== */
+const CONFIG_DEFAULT = {
+  // Main
+  systemDate: "09/18/2026",
+  systemTime: "08:30:00",
+  accessLevel: "Administrator",
+  systemLanguage: "English",
+
+  // Advanced & Storage
+  sataMode: "IDE",                  // Options: IDE, AHCI, RAID
+  virtualization: "Disabled",       // Intel VT-x / AMD SVM
+  vmdController: "Disabled",        // Intel VMD
+  tpmDevice: "Disabled",            // Security Device Support (TPM 2.0)
+  above4gDecoding: "Enabled",
+  reSizeBar: "Disabled",
+  wakeOnLan: "Disabled",
+
+  // Boot
+  bootOption1: "Windows Boot Manager (NVMe M.2 SSD 512GB)",
+  bootOption2: "Kingston DataTraveler 3.0 (USB Bootable)",
+  bootOption3: "SATA HDD WDC 1TB Blue",
+  bootOption4: "Realtek PCIe GBE Network Boot",
+  fastBoot: "Enabled",
+  csmSupport: "Enabled",            // CSM: Enabled (Legacy) or Disabled (Pure UEFI)
+  secureBoot: "Disabled",           // Secure Boot: Enabled / Disabled
+  osType: "Other OS",               // Windows UEFI Mode vs Other OS
+
+  // OC / Memory
+  xmpProfile: "Disabled",           // Disabled, Profile 1 (DDR5-5200), Profile 2
+
+  // Hardware Status (Sensors)
+  cpuTemp: 44,
+  mbTemp: 32,
+  vCore: 1.184,
+  fanRpm: 1420
+};
+
+// Deep copy of state
+let currentState = JSON.parse(JSON.stringify(CONFIG_DEFAULT));
+let currentMode = "legacy";         // 'legacy' or 'uefi'
+let currentLegacyTab = "main";
+let currentLegacyIndex = 0;
+let currentUefiTab = "ez";
+let currentMission = "misi1";
+let soundEnabled = true;
+
+// Web Audio API Synth for Retro Beeps
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function playBeep(type = "key") {
+  if (!soundEnabled) return;
+  try {
+    if (!audioCtx) audioCtx = new AudioContext();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === "key") {
+      osc.frequency.value = 880; // A5
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.04);
+    } else if (type === "enter") {
+      osc.frequency.value = 1200;
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    } else if (type === "post") {
+      // 1 short pleasant POST beep
+      osc.frequency.value = 950;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.25);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+    } else if (type === "error") {
+      osc.type = "sawtooth";
+      osc.frequency.value = 220;
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }
+  } catch (e) {
+    // Audio ignored if autoplay policy blocked
+  }
+}
+
+function toggleAudio() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundIcon').textContent = soundEnabled ? "🔊" : "🔇";
+  document.getElementById('soundText').textContent = soundEnabled ? "Audio ON" : "Audio MUTE";
+  if (soundEnabled) playBeep("key");
+}
+
+/* ==========================================================================
+   DATA SCHEMA DEFINITION FOR LEGACY BIOS MENU
+   ========================================================================== */
+const LEGACY_MENU_SCHEMA = {
+  main: {
+    title: "Main",
+    items: [
+      { id: "bios_info", type: "header", label: "BIOS Information" },
+      { id: "bios_vendor", type: "info", label: "BIOS Vendor", val: "American Megatrends (AMI)", help: "Menampilkan vendor pembuat chip firmware BIOS." },
+      { id: "core_version", type: "info", label: "Core Version", val: "5.14 - UEFI 2.8", help: "Spesifikasi kernel firmware." },
+      { id: "proc_type", type: "info", label: "Processor Type", val: "13th Gen Intel(R) Core(TM) i5-13400F", help: "Tipe prosesor terpasang pada soket LGA1700." },
+      { id: "total_mem", type: "info", label: "Total Memory", val: "16384 MB (DDR5 5200MHz)", help: "Kapasitas RAM fisik yang terdeteksi oleh BIOS saat POST." },
+      { id: "sys_header", type: "header", label: "System Date & Time" },
+      { id: "systemDate", type: "interactive", label: "System Date", key: "systemDate", options: ["09/18/2026", "01/01/2026", "12/31/2025"], help: "Format tanggal [MM/DD/YYYY]. Disimpan oleh daya baterai CMOS CR2032." },
+      { id: "systemTime", type: "interactive", label: "System Time", key: "systemTime", options: ["08:30:00", "12:00:00", "00:00:00"], help: "Format waktu RTC 24-jam [HH:MM:SS]." },
+      { id: "accessLevel", type: "info", label: "Access Level", val: "Administrator", help: "Hak akses pengguna saat ini ke pengaturan BIOS." }
+    ]
+  },
+  advanced: {
+    title: "Advanced",
+    items: [
+      { id: "adv_hdr", type: "header", label: "Advanced System Settings" },
+      { id: "sataMode", type: "interactive", label: "SATA Mode Selection", key: "sataMode", options: ["IDE", "AHCI", "RAID"], help: "PILIHAN PENTING: Ubah ke AHCI untuk performa SSD maksimal & dukungan NCQ! Ubah ke IDE hanya untuk OS lawas (Win XP)." },
+      { id: "virtualization", type: "interactive", label: "Intel (VMX) Virtualization Tech", key: "virtualization", options: ["Disabled", "Enabled"], help: "Wajib diaktifkan [Enabled] untuk menjalankan Virtual Machine (VirtualBox, VMware, WSL2)." },
+      { id: "vmdController", type: "interactive", label: "VMD Controller", key: "vmdController", options: ["Disabled", "Enabled"], help: "Intel Volume Management Device untuk manajemen PCIe SSD NVMe." },
+      { id: "wakeOnLan", type: "interactive", label: "Wake on LAN (PME)", key: "wakeOnLan", options: ["Disabled", "Enabled"], help: "Nyalakan PC dari jarak jauh via paket jaringan Ethernet." }
+    ]
+  },
+  chipset: {
+    title: "Chipset",
+    items: [
+      { id: "chip_hdr", type: "header", label: "Chipset & PCI Configuration" },
+      { id: "above4gDecoding", type: "interactive", label: "Above 4G Decoding", key: "above4gDecoding", options: ["Enabled", "Disabled"], help: "Mengizinkan GPU 64-bit memetakan ruang memori di atas 4GB." },
+      { id: "reSizeBar", type: "interactive", label: "Re-Size BAR Support", key: "reSizeBar", options: ["Disabled", "Enabled"], help: "Resizable BAR meningkatkan efisiensi prosesor membaca VRAM kartu grafis." },
+      { id: "audio_ctrl", type: "interactive", label: "HD Audio Controller", key: "hdAudio", options: ["Enabled", "Disabled"], val: "Enabled", help: "Aktifkan atau matikan chip soundcard terintegrasi onboard." }
+    ]
+  },
+  boot: {
+    title: "Boot",
+    items: [
+      { id: "boot_hdr", type: "header", label: "Boot Configuration & Priority" },
+      { id: "bootOption1", type: "interactive", label: "Boot Option #1", key: "bootOption1", options: [
+        "Kingston DataTraveler 3.0 (USB Bootable)",
+        "Windows Boot Manager (NVMe M.2 SSD 512GB)",
+        "SATA HDD WDC 1TB Blue",
+        "Realtek PCIe GBE Network Boot",
+        "Disabled"
+      ], help: "MEDIA BOOT PERTAMA! Pilih Kingston USB Flashdisk jika Anda ingin menginstal ulang sistem operasi." },
+      { id: "bootOption2", type: "interactive", label: "Boot Option #2", key: "bootOption2", options: [
+        "Windows Boot Manager (NVMe M.2 SSD 512GB)",
+        "Kingston DataTraveler 3.0 (USB Bootable)",
+        "SATA HDD WDC 1TB Blue",
+        "Disabled"
+      ], help: "Media cadangan kedua bila media boot pertama tidak memiliki bootloader." },
+      { id: "bootOption3", type: "interactive", label: "Boot Option #3", key: "bootOption3", options: [
+        "SATA HDD WDC 1TB Blue",
+        "Windows Boot Manager (NVMe M.2 SSD 512GB)",
+        "Kingston DataTraveler 3.0 (USB Bootable)",
+        "Disabled"
+      ], help: "Media cadangan ketiga." },
+      { id: "fastBoot", type: "interactive", label: "Fast Boot", key: "fastBoot", options: ["Enabled", "Disabled"], help: "Melewati beberapa deteksi perangkat keras saat POST agar komputer booting lebih kilat." },
+      { id: "csmSupport", type: "interactive", label: "CSM Support (Legacy Boot)", key: "csmSupport", options: ["Enabled", "Disabled"], help: "Compatibility Support Module. [Enabled] untuk MBR/Legacy. [Disabled] untuk UEFI murni (Windows 11)." }
+    ]
+  },
+  security: {
+    title: "Security",
+    items: [
+      { id: "sec_hdr", type: "header", label: "Security & Firmware Protection" },
+      { id: "tpmDevice", type: "interactive", label: "Security Device (TPM 2.0 / PTT)", key: "tpmDevice", options: ["Disabled", "Enabled"], help: "Trusted Platform Module 2.0. Syarat wajib untuk instalasi resmi Windows 11." },
+      { id: "secureBoot", type: "interactive", label: "Secure Boot", key: "secureBoot", options: ["Disabled", "Enabled"], help: "Memverifikasi tanda tangan digital bootloader untuk menangkal malware rootkit saat booting." },
+      { id: "admin_pwd", type: "info", label: "Administrator Password", val: "Not Installed", help: "Memasang kata sandi saat pertama kali mengakses menu setup BIOS." },
+      { id: "user_pwd", type: "info", label: "User Password", val: "Not Installed", help: "Memasang kata sandi setiap kali komputer dinyalakan." }
+    ]
+  },
+  saveexit: {
+    title: "Save & Exit",
+    items: [
+      { id: "se_hdr", type: "header", label: "Exit Options" },
+      { id: "save_and_reset", type: "action", label: "Save Changes and Reset", action: "saveAndReset", help: "Simpan semua perubahan konfigurasi ke CMOS dan restart komputer sekarang (Shortcut: F10)." },
+      { id: "discard_and_exit", type: "action", label: "Discard Changes and Exit", action: "discardAndExit", help: "Keluar dari BIOS tanpa menyimpan perubahan yang baru saja dilakukan." },
+      { id: "load_defaults", type: "action", label: "Restore Defaults", action: "loadDefaults", help: "Kembalikan semua nilai pengaturan ke standar pabrik (Shortcut: F9)." }
+    ]
+  }
+};
+
+/* ==========================================================================
+   RENDER & CONTROLLER: LEGACY BIOS VIEW
+   ========================================================================== */
+function renderLegacyBios() {
+  const tabData = LEGACY_MENU_SCHEMA[currentLegacyTab];
+  const navContainer = document.getElementById('legacyNav');
+  const leftPanel = document.getElementById('legacyLeftPanel');
+
+  // Update tabs visual
+  Array.from(navContainer.children).forEach(tabEl => {
+    tabEl.classList.toggle('active', tabEl.dataset.tab === currentLegacyTab);
+  });
+
+  // Render Left Panel Rows
+  let html = "";
+  tabData.items.forEach((item, index) => {
+    const isSelected = (index === currentLegacyIndex);
+    if (item.type === "header") {
+      html += `<div class="legacy-item-row header" data-idx="${index}">${item.label}</div>`;
+    } else if (item.type === "info") {
+      html += `
+        <div class="legacy-item-row ${isSelected ? 'selected' : ''}" data-idx="${index}" onclick="onLegacyRowClick(${index})">
+          <span class="item-key">${item.label}</span>
+          <span class="item-val">[${item.val}]</span>
+        </div>`;
+    } else if (item.type === "interactive") {
+      const currentVal = currentState[item.key] || item.val || item.options[0];
+      html += `
+        <div class="legacy-item-row ${isSelected ? 'selected' : ''}" data-idx="${index}" onclick="onLegacyRowClick(${index})">
+          <span class="item-key">${item.label}</span>
+          <span class="item-val">[${currentVal}]</span>
+        </div>`;
+    } else if (item.type === "action") {
+      html += `
+        <div class="legacy-item-row ${isSelected ? 'selected' : ''}" data-idx="${index}" onclick="onLegacyRowClick(${index})">
+          <span class="item-key">&gt; ${item.label}</span>
+          <span class="item-val"></span>
+        </div>`;
+    }
+  });
+  leftPanel.innerHTML = html;
+
+  // Update Item Help Text
+  const currentItem = tabData.items[currentLegacyIndex];
+  if (currentItem && currentItem.help) {
+    document.getElementById('legacyHelpText').textContent = currentItem.help;
+  } else {
+    document.getElementById('legacyHelpText').textContent = "Pilih item untuk melihat bantuan teknis dan dampak konfigurasinya.";
+  }
+}
+
+function selectLegacyTab(tabKey) {
+  playBeep("key");
+  currentLegacyTab = tabKey;
+  const items = LEGACY_MENU_SCHEMA[tabKey].items;
+  currentLegacyIndex = items.findIndex(it => it.type !== "header");
+  if (currentLegacyIndex < 0) currentLegacyIndex = 0;
+  renderLegacyBios();
+}
+
+function onLegacyRowClick(index) {
+  const items = LEGACY_MENU_SCHEMA[currentLegacyTab].items;
+  if (items[index].type === "header") return;
+  currentLegacyIndex = index;
+  renderLegacyBios();
+  openItemAction(items[index]);
+}
+
+function openItemAction(item) {
+  if (item.type === "interactive") {
+    playBeep("enter");
+    showOptionDialog(item);
+  } else if (item.type === "action") {
+    playBeep("enter");
+    if (item.action === "saveAndReset") {
+      promptSaveAndExit();
+    } else if (item.action === "loadDefaults") {
+      resetToDefaults();
+    } else if (item.action === "discardAndExit") {
+      rebootSimulation("discard");
+    }
+  }
+}
+
+/* POPUP SELECTOR DIALOG FOR BIOS OPTIONS */
+let dialogCurrentItem = null;
+let dialogSelectedOptionIdx = 0;
+
+function showOptionDialog(item) {
+  dialogCurrentItem = item;
+  const overlay = document.getElementById('biosDialogOverlay');
+  const titleEl = document.getElementById('dialogTitle');
+  const listEl = document.getElementById('dialogOptionsList');
+
+  titleEl.textContent = item.label;
+  const currentVal = currentState[item.key] || item.options[0];
+  dialogSelectedOptionIdx = item.options.indexOf(currentVal);
+  if (dialogSelectedOptionIdx < 0) dialogSelectedOptionIdx = 0;
+
+  listEl.innerHTML = item.options.map((opt, i) => `
+    <div class="bios-dialog-opt ${i === dialogSelectedOptionIdx ? 'selected' : ''}" onclick="selectDialogOpt(${i})">
+      [ ${opt} ]
+    </div>
+  `).join('');
+
+  overlay.style.display = "flex";
+}
+
+function selectDialogOpt(idx) {
+  playBeep("key");
+  dialogSelectedOptionIdx = idx;
+  const listEl = document.getElementById('dialogOptionsList');
+  Array.from(listEl.children).forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  confirmDialogOpt();
+}
+
+function confirmDialogOpt() {
+  if (!dialogCurrentItem) return;
+  const chosenVal = dialogCurrentItem.options[dialogSelectedOptionIdx];
+  currentState[dialogCurrentItem.key] = chosenVal;
+  playBeep("enter");
+  closeBiosDialog();
+  renderLegacyBios();
+  if (currentMode === "uefi") renderUefiBios();
+  checkMissionProgress();
+}
+
+function closeBiosDialog() {
+  playBeep("key");
+  document.getElementById('biosDialogOverlay').style.display = "none";
+  dialogCurrentItem = null;
+}
+
+function promptSaveAndExit() {
+  const overlay = document.getElementById('biosDialogOverlay');
+  const titleEl = document.getElementById('dialogTitle');
+  const listEl = document.getElementById('dialogOptionsList');
+  const btnsEl = document.getElementById('dialogButtonsRow');
+
+  titleEl.textContent = "Save configuration and reset?";
+  listEl.innerHTML = `
+    <div style="padding:10px; text-align:center; color:#ffff55;">
+      Simpan semua pengaturan baru ke CMOS dan restart komputer sekarang?
+    </div>
+  `;
+  btnsEl.innerHTML = `
+    <button type="button" class="bios-btn focus" onclick="rebootSimulation('save')">[ Yes ]</button>
+    <button type="button" class="bios-btn" onclick="closeBiosDialog()">[ No ]</button>
+  `;
+  overlay.style.display = "flex";
+}
+
+/* ==========================================================================
+   RENDER & CONTROLLER: MODERN UEFI VIEW (EZ & ADVANCED MODE)
+   ========================================================================== */
+function selectUefiTab(tabKey) {
+  playBeep("key");
+  currentUefiTab = tabKey;
+  document.querySelectorAll('.uefi-tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (tabKey === 'ez') document.getElementById('tabEzMode').classList.add('active');
+  else if (tabKey === 'main') document.getElementById('tabAdvMain').classList.add('active');
+  else if (tabKey === 'ai') document.getElementById('tabAdvAi').classList.add('active');
+  else if (tabKey === 'advanced') document.getElementById('tabAdvAdvanced').classList.add('active');
+  else if (tabKey === 'boot') document.getElementById('tabAdvBoot').classList.add('active');
+  else if (tabKey === 'tool') document.getElementById('tabAdvTool').classList.add('active');
+
+  renderUefiBios();
+}
+
+function renderUefiBios() {
+  const container = document.getElementById('uefiContentArea');
+
+  if (currentUefiTab === 'ez') {
+    container.innerHTML = `
+      <div class="ez-grid">
+        <!-- CARD 1: HARDWARE MONITOR -->
+        <div class="ez-card">
+          <div class="ez-card-title">
+            <span>🔥 CPU &amp; Hardware Health</span>
+            <span style="color:#10b981;">NORMAL</span>
+          </div>
+          <div class="gauge-row">
+            <div class="gauge-item">
+              <div class="gauge-val warm">${currentState.cpuTemp}°C</div>
+              <div class="gauge-label">CPU Package</div>
+            </div>
+            <div class="gauge-item">
+              <div class="gauge-val cool">${currentState.mbTemp}°C</div>
+              <div class="gauge-label">Motherboard</div>
+            </div>
+            <div class="gauge-item">
+              <div class="gauge-val">${currentState.vCore}V</div>
+              <div class="gauge-label">CPU Core Volts</div>
+            </div>
+          </div>
+          <div style="font-size:11px; color:#94a3b8; border-top:1px solid #1f2937; padding-top:8px;">
+            CPU Fan 1: <b style="color:#f3f4f6;">${currentState.fanRpm} RPM</b> (Standard PWM Silent Profile)
+          </div>
+          
+          <div class="ez-card-title" style="margin-top:6px;">
+            <span>⚡ Extreme Memory Profile (X.M.P)</span>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">DRAM Status (16GB DDR5):</span>
+            <button class="toggle-btn ${currentState.xmpProfile !== 'Disabled' ? 'on' : ''}" onclick="toggleUefiSetting('xmpProfile')">
+              ${currentState.xmpProfile === 'Disabled' ? 'XMP Disabled' : 'XMP Profile 1 (5200MHz)'}
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: QUICK SWITCHES -->
+        <div class="ez-card">
+          <div class="ez-card-title">
+            <span>⚙️ Quick Configuration Switches</span>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">Intel Virtualization (VT-x):</span>
+            <button class="toggle-btn ${currentState.virtualization === 'Enabled' ? 'on' : ''}" onclick="toggleUefiSetting('virtualization')">
+              ${currentState.virtualization}
+            </button>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">Storage SATA Controller:</span>
+            <button class="toggle-btn ${currentState.sataMode === 'AHCI' ? 'on' : ''}" onclick="toggleUefiSetting('sataMode')">
+              ${currentState.sataMode}
+            </button>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">TPM 2.0 (Security Chip):</span>
+            <button class="toggle-btn ${currentState.tpmDevice === 'Enabled' ? 'on' : ''}" onclick="toggleUefiSetting('tpmDevice')">
+              ${currentState.tpmDevice}
+            </button>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">Secure Boot Guard:</span>
+            <button class="toggle-btn ${currentState.secureBoot === 'Enabled' ? 'on' : ''}" onclick="toggleUefiSetting('secureBoot')">
+              ${currentState.secureBoot}
+            </button>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">CSM Support (Legacy):</span>
+            <button class="toggle-btn ${currentState.csmSupport === 'Enabled' ? 'on' : ''}" onclick="toggleUefiSetting('csmSupport')">
+              ${currentState.csmSupport}
+            </button>
+          </div>
+          <div class="switch-row">
+            <span class="switch-label">Fast Boot Engine:</span>
+            <button class="toggle-btn ${currentState.fastBoot === 'Enabled' ? 'on' : ''}" onclick="toggleUefiSetting('fastBoot')">
+              ${currentState.fastBoot}
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 3: DRAG / CLICK BOOT PRIORITY -->
+        <div class="ez-card">
+          <div class="ez-card-title">
+            <span>🚀 Boot Priority (Urutan Booting)</span>
+            <span style="font-size:10px; color:#38bdf8;">Klik ▲ untuk naikkan</span>
+          </div>
+          <div class="boot-order-list">
+            ${renderBootPriorityList()}
+          </div>
+          <div style="margin-top:auto; padding-top:8px;">
+            <button type="button" class="btn-action" style="width:100%; justify-content:center; background:#059669; border-color:#10b981; color:#fff; font-weight:700;" onclick="promptSaveAndExit()">
+              💾 F10 — Simpan &amp; Reboot Sekarang
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    renderUefiAdvancedTab(container, currentUefiTab);
+  }
+}
+
+function renderBootPriorityList() {
+  const devices = [
+    { key: "bootOption1", name: currentState.bootOption1, rank: 1 },
+    { key: "bootOption2", name: currentState.bootOption2, rank: 2 },
+    { key: "bootOption3", name: currentState.bootOption3, rank: 3 },
+    { key: "bootOption4", name: currentState.bootOption4, rank: 4 }
+  ];
+
+  return devices.map((dev, i) => `
+    <div class="boot-order-item ${dev.rank === 1 ? 'rank-1' : ''}">
+      <div class="boot-device-left">
+        <span class="boot-badge-rank">#${dev.rank}</span>
+        <div>
+          <div class="boot-device-name">${dev.name}</div>
+          <div class="boot-device-type">${dev.name.includes("USB") ? "🔌 Removable Storage (Installer)" : (dev.name.includes("NVMe") ? "⚡ M.2 NVMe PCIe SSD" : "💽 SATA Hard Drive / LAN")}</div>
+        </div>
+      </div>
+      <div class="boot-move-btns">
+        ${i > 0 ? `<button class="boot-btn-move" title="Pindah ke Atas" onclick="moveBootPriorityUp(${i})">▲</button>` : ''}
+        ${i < devices.length - 1 ? `<button class="boot-btn-move" title="Pindah ke Bawah" onclick="moveBootPriorityDown(${i})">▼</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function moveBootPriorityUp(index) {
+  playBeep("key");
+  const keys = ["bootOption1", "bootOption2", "bootOption3", "bootOption4"];
+  const temp = currentState[keys[index]];
+  currentState[keys[index]] = currentState[keys[index - 1]];
+  currentState[keys[index - 1]] = temp;
+
+  renderUefiBios();
+  renderLegacyBios();
+  checkMissionProgress();
+}
+
+function moveBootPriorityDown(index) {
+  playBeep("key");
+  const keys = ["bootOption1", "bootOption2", "bootOption3", "bootOption4"];
+  const temp = currentState[keys[index]];
+  currentState[keys[index]] = currentState[keys[index + 1]];
+  currentState[keys[index + 1]] = temp;
+
+  renderUefiBios();
+  renderLegacyBios();
+  checkMissionProgress();
+}
+
+function toggleUefiSetting(key) {
+  playBeep("enter");
+  if (key === 'xmpProfile') {
+    currentState.xmpProfile = (currentState.xmpProfile === 'Disabled') ? 'Profile 1' : 'Disabled';
+  } else if (key === 'sataMode') {
+    currentState.sataMode = (currentState.sataMode === 'AHCI') ? 'IDE' : 'AHCI';
+  } else {
+    currentState[key] = (currentState[key] === 'Enabled') ? 'Disabled' : 'Enabled';
+  }
+  renderUefiBios();
+  renderLegacyBios();
+  checkMissionProgress();
+}
+
+function renderUefiAdvancedTab(container, tabKey) {
+  let rowsHtml = "";
+  if (tabKey === 'main') {
+    rowsHtml = `
+      <tr><td>System Language</td><td><span class="uefi-item-val-badge">English (US)</span></td></tr>
+      <tr><td>System Date</td><td><span class="uefi-item-val-badge">${currentState.systemDate}</span></td></tr>
+      <tr><td>System Time</td><td><span class="uefi-item-val-badge">${currentState.systemTime}</span></td></tr>
+      <tr><td>BIOS Version</td><td><span class="uefi-item-name">ROG UEFI 1620 x64 (UEFI Spec 2.8)</span></td></tr>
+      <tr><td>Access Level</td><td><span class="uefi-item-name" style="color:#10b981;">Administrator</span></td></tr>
+    `;
+  } else if (tabKey === 'ai') {
+    rowsHtml = `
+      <tr><td>Ai Overclock Tuner</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('xmpProfile')">${currentState.xmpProfile === 'Disabled' ? 'Auto' : 'XMP I'}</span></td></tr>
+      <tr><td>Memory Frequency</td><td><span class="uefi-item-val-badge">${currentState.xmpProfile === 'Disabled' ? 'DDR5-4800MHz' : 'DDR5-5200MHz'}</span></td></tr>
+      <tr><td>DRAM Voltage</td><td><span class="uefi-item-name">1.250V (Auto)</span></td></tr>
+    `;
+  } else if (tabKey === 'advanced') {
+    rowsHtml = `
+      <tr><td>SATA Mode Selection</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('sataMode')">${currentState.sataMode}</span></td></tr>
+      <tr><td>Intel (VMX) Virtualization Technology</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('virtualization')">${currentState.virtualization}</span></td></tr>
+      <tr><td>Intel VMD Controller</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('vmdController')">${currentState.vmdController}</span></td></tr>
+      <tr><td>Above 4G Decoding</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('above4gDecoding')">${currentState.above4gDecoding}</span></td></tr>
+      <tr><td>Re-Size BAR Support</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('reSizeBar')">${currentState.reSizeBar}</span></td></tr>
+    `;
+  } else if (tabKey === 'boot') {
+    rowsHtml = `
+      <tr><td>Boot Option #1</td><td><span class="uefi-item-val-badge" onclick="showOptionDialog(LEGACY_MENU_SCHEMA.boot.items[1])">${currentState.bootOption1}</span></td></tr>
+      <tr><td>Boot Option #2</td><td><span class="uefi-item-val-badge" onclick="showOptionDialog(LEGACY_MENU_SCHEMA.boot.items[2])">${currentState.bootOption2}</span></td></tr>
+      <tr><td>Boot Option #3</td><td><span class="uefi-item-val-badge">${currentState.bootOption3}</span></td></tr>
+      <tr><td>CSM (Compatibility Support Module)</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('csmSupport')">${currentState.csmSupport}</span></td></tr>
+      <tr><td>Secure Boot</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('secureBoot')">${currentState.secureBoot}</span></td></tr>
+      <tr><td>Fast Boot</td><td><span class="uefi-item-val-badge" onclick="toggleUefiSetting('fastBoot')">${currentState.fastBoot}</span></td></tr>
+    `;
+  } else if (tabKey === 'tool') {
+    rowsHtml = `
+      <tr><td>ASUS EZ Flash 3 Utility</td><td><span class="uefi-item-val-badge">Update BIOS via USB/Internet</span></td></tr>
+      <tr><td>Save Changes &amp; Reset</td><td><button class="btn-action" style="background:#059669; color:#fff;" onclick="promptSaveAndExit()">💾 Save &amp; Reset (F10)</button></td></tr>
+      <tr><td>Discard Changes &amp; Exit</td><td><button class="btn-action" onclick="rebootSimulation('discard')">Discard Changes</button></td></tr>
+      <tr><td>Load Optimized Defaults</td><td><button class="btn-action" onclick="resetToDefaults()">Restore Defaults (F9)</button></td></tr>
+    `;
+  }
+
+  container.innerHTML = `
+    <div style="background:#111827; border:1px solid #1f2937; border-radius:8px; padding:16px;">
+      <h3 style="color:#38bdf8; font-size:13px; margin-bottom:12px; text-transform:uppercase;">⚙️ Advanced Setup — ${tabKey.toUpperCase()}</h3>
+      <table class="uefi-advanced-table">
+        <tbody>
+          ${rowsHtml}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+/* ==========================================================================
+   SIMULATED POST REBOOT & OS BOOT SEQUENCER
+   ========================================================================== */
+function rebootSimulation(mode = "save") {
+  closeBiosDialog();
+  const screenContainer = document.getElementById('screenContainer');
+  const legacyView = document.getElementById('legacyBiosView');
+  const uefiView = document.getElementById('uefiBiosView');
+  const bootScreen = document.getElementById('bootScreenView');
+  const postLog = document.getElementById('postLogArea');
+
+  legacyView.style.display = "none";
+  uefiView.style.display = "none";
+  bootScreen.classList.add('active');
+  postLog.innerHTML = "";
+
+  playBeep("post");
+
+  const steps = [
+    { delay: 400, html: `<span class="yellow">AMIBIOS(C) 2024 American Megatrends, Inc.</span>` },
+    { delay: 800, html: `B760M GAMING PRO-VDH WIFI BIOS Date: 09/18/2026 Ver: 2.20.1275` },
+    { delay: 1200, html: `CPU: Intel(R) Core(TM) i5-13400F @ 2.50GHz (10 Cores, 16 Threads)` },
+    { delay: 1600, html: `Memory Test: <span class="green">16384MB OK</span> (DDR5 Dual Channel Mode)` },
+    { delay: 2000, html: `Detecting Storage Devices...` },
+    { delay: 2400, html: `[SATA 1]: WDC WD10EZEX-08WN4A0 (1000GB HDD)` },
+    { delay: 2700, html: `[NVMe M.2]: Crucial P3 Plus PCIe Gen4 SSD (500GB)` },
+    { delay: 3000, html: `[USB Port 01]: Kingston DataTraveler 3.0 (32GB)` },
+    { delay: 3400, html: `<span class="cyan">Initializing Boot Priority System...</span>` }
+  ];
+
+  let elapsed = 0;
+  steps.forEach(step => {
+    elapsed += step.delay;
+    setTimeout(() => {
+      postLog.innerHTML += `<div>${step.html}</div>`;
+    }, elapsed);
+  });
+
+  setTimeout(() => {
+    executeTargetBoot(postLog);
+  }, elapsed + 1000);
+}
+
+function executeTargetBoot(postLog) {
+  const firstBoot = currentState.bootOption1;
+
+  if (firstBoot.includes("USB")) {
+    postLog.innerHTML = `
+      <div class="os-boot-view">
+        <div style="font-size:42px; margin-bottom:12px;">📀 🚀</div>
+        <div style="background:#065f46; border:2px solid #10b981; color:#ecfdf5; padding:16px 20px; border-radius:10px; margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:800; margin-bottom:6px;">BERHASIL BOOT DARI USB FLASHDISK!</h2>
+          <p style="font-size:13px; line-height:1.5;">
+            Konfigurasi BIOS Anda 100% BENAR! Komputer berhasil memuat <b>Media Bootable Kingston DataTraveler 3.0</b> untuk instalasi sistem operasi baru (Windows 11 / Ubuntu Linux).
+          </p>
+        </div>
+
+        <div style="background:#1e293b; border:1px solid #334155; padding:16px; border-radius:8px; text-align:left; font-size:13px; margin-bottom:16px;">
+          <div style="color:#38bdf8; font-weight:700; margin-bottom:8px;">💿 Ventoy / Windows Boot Manager 2026:</div>
+          <div style="padding:6px 10px; background:#0f172a; border-radius:4px; margin-bottom:4px; color:#fff;">&gt; [1] Install Windows 11 Pro 64-bit (UEFI Setup)</div>
+          <div style="padding:6px 10px; background:#0f172a; border-radius:4px; margin-bottom:4px; color:#94a3b8;">&gt; [2] Install Ubuntu Desktop 24.04 LTS Live</div>
+          <div style="padding:6px 10px; background:#0f172a; border-radius:4px; color:#94a3b8;">&gt; [3] Hardware MemTest86 Diagnostic Tool</div>
+        </div>
+
+        <button type="button" class="btn-action" style="background:#0284c7; color:#fff; font-weight:700; padding:10px 24px; font-size:14px; border-radius:8px;" onclick="returnToBiosSetup()">
+          🔄 Masuk Kembali ke Menu Setup BIOS
+        </button>
+      </div>
+    `;
+    checkMissionSuccessOnBoot("usb");
+  } else if (firstBoot.includes("NVMe") || firstBoot.includes("Windows Boot Manager")) {
+    postLog.innerHTML = `
+      <div class="os-boot-view">
+        <div style="font-size:42px; margin-bottom:12px;">🪟</div>
+        <div style="background:#1e3a8a; border:2px solid #3b82f6; color:#dbeafe; padding:16px 20px; border-radius:10px; margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:800; margin-bottom:6px;">BOOTING KE WINDOWS DARI NVMe SSD</h2>
+          <p style="font-size:13px; line-height:1.5;">
+            Komputer berhasil memuat sistem operasi eksisting dari SSD internal. Waktu boot: <b>4.8 detik</b> berkat NVMe Gen4 dan Fast Boot.
+          </p>
+        </div>
+
+        <button type="button" class="btn-action" style="background:#0284c7; color:#fff; font-weight:700; padding:10px 24px; font-size:14px; border-radius:8px;" onclick="returnToBiosSetup()">
+          🔄 Restart &amp; Masuk BIOS Lagi
+        </button>
+      </div>
+    `;
+    checkMissionSuccessOnBoot("nvme");
+  } else {
+    playBeep("error");
+    postLog.innerHTML = `
+      <div class="os-boot-view">
+        <div style="font-size:42px; margin-bottom:12px;">⚠️</div>
+        <div style="background:#7f1d1d; border:2px solid #ef4444; color:#fee2e2; padding:16px 20px; border-radius:10px; margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:800; margin-bottom:6px;">REBOOT AND SELECT PROPER BOOT DEVICE</h2>
+          <p style="font-size:13px; line-height:1.5;">
+            Media boot urutan pertama (<b>${firstBoot}</b>) tidak memiliki bootloader OS yang valid atau dinonaktifkan [Disabled].
+          </p>
+        </div>
+
+        <button type="button" class="btn-action" style="background:#dc2626; color:#fff; font-weight:700; padding:10px 24px; font-size:14px; border-radius:8px;" onclick="returnToBiosSetup()">
+          🔧 Tekan DEL / F2 untuk Perbaiki BIOS
+        </button>
+      </div>
+    `;
+  }
+}
+
+function returnToBiosSetup() {
+  playBeep("post");
+  document.getElementById('bootScreenView').classList.remove('active');
+  if (currentMode === "legacy") {
+    document.getElementById('legacyBiosView').style.display = "flex";
+    renderLegacyBios();
+  } else {
+    document.getElementById('uefiBiosView').style.display = "flex";
+    renderUefiBios();
+  }
+}
+
+/* ==========================================================================
+   MISSION EVALUATOR & LEARNING ASSISTANT
+   ========================================================================== */
+function changeMission(missionKey) {
+  currentMission = missionKey;
+  const bannerDesc = document.getElementById('missionDesc');
+  const badge = document.getElementById('missionBadge');
+
+  if (missionKey === "misi1") {
+    bannerDesc.innerHTML = `<b>Misi 1:</b> Komputer akan diinstal ulang menggunakan Flashdisk. Ubah <b>Boot Option #1</b> menjadi <b>[Kingston DataTraveler 3.0 (USB Bootable)]</b> lalu tekan <b>F10 (Save &amp; Exit)</b>!`;
+  } else if (missionKey === "misi2") {
+    bannerDesc.innerHTML = `<b>Misi 2:</b> Optimasi Storage &amp; Virtualisasi. Pastikan <b>SATA Mode</b> diubah ke <b>[AHCI]</b> dan <b>Intel Virtualization (VT-x)</b> menjadi <b>[Enabled]</b>!`;
+  } else if (missionKey === "misi3") {
+    bannerDesc.innerHTML = `<b>Misi 3:</b> Standar Windows 11. Aktifkan <b>Security Device (TPM 2.0 / PTT)</b> menjadi <b>[Enabled]</b>, <b>Secure Boot</b> ke <b>[Enabled]</b>, dan matikan CSM Support!`;
+  } else {
+    bannerDesc.innerHTML = `<b>Mode Bebas:</b> Silakan uji coba seluruh kombinasi konfigurasi BIOS/UEFI tanpa batasan kriteria.`;
+  }
+
+  badge.className = "mission-status";
+  badge.textContent = "STATUS: SEDANG BERLANGSUNG";
+  checkMissionProgress();
+}
+
+function checkMissionProgress() {
+  const badge = document.getElementById('missionBadge');
+
+  if (currentMission === "misi1") {
+    if (currentState.bootOption1.includes("USB")) {
+      badge.className = "mission-status success";
+      badge.textContent = "SIAP! TEKAN F10 UNTUK SIMPAN";
+    } else {
+      badge.className = "mission-status";
+      badge.textContent = "BELUM SELESAI (Boot #1 Belum USB)";
+    }
+  } else if (currentMission === "misi2") {
+    if (currentState.sataMode === "AHCI" && currentState.virtualization === "Enabled") {
+      badge.className = "mission-status success";
+      badge.textContent = "SELESAI! (AHCI & VT-x AKTIF)";
+    } else {
+      badge.className = "mission-status";
+      badge.textContent = `PROGRES: SATA=${currentState.sataMode}, VT-x=${currentState.virtualization}`;
+    }
+  } else if (currentMission === "misi3") {
+    const tpmOk = (currentState.tpmDevice === "Enabled");
+    const secOk = (currentState.secureBoot === "Enabled");
+    const csmOk = (currentState.csmSupport === "Disabled");
+    if (tpmOk && secOk && csmOk) {
+      badge.className = "mission-status success";
+      badge.textContent = "SELESAI! (SIAP WINDOWS 11)";
+    } else {
+      badge.className = "mission-status";
+      badge.textContent = `TPM=${currentState.tpmDevice} · SECURE=${currentState.secureBoot} · CSM=${currentState.csmSupport}`;
+    }
+  }
+}
+
+function checkMissionSuccessOnBoot(bootedTarget) {
+  const badge = document.getElementById('missionBadge');
+  if (currentMission === "misi1" && bootedTarget === "usb") {
+    badge.className = "mission-status success";
+    badge.textContent = "🏆 MISI 1 TUNTAS DENGAN NILAI 100!";
+  }
+}
+
+function resetToDefaults() {
+  playBeep("error");
+  currentState = JSON.parse(JSON.stringify(CONFIG_DEFAULT));
+  closeBiosDialog();
+  if (currentMode === "legacy") renderLegacyBios();
+  else renderUefiBios();
+  checkMissionProgress();
+}
+
+/* ==========================================================================
+   INPUT HANDLERS: HARDWARE KEYBOARD & VIRTUAL D-PAD
+   ========================================================================== */
+function switchFirmwareMode(mode) {
+  playBeep("key");
+  currentMode = mode;
+  document.getElementById('btnModeLegacy').classList.toggle('active', mode === 'legacy');
+  document.getElementById('btnModeUefi').classList.toggle('active', mode === 'uefi');
+
+  if (mode === 'legacy') {
+    document.getElementById('legacyBiosView').style.display = "flex";
+    document.getElementById('uefiBiosView').style.display = "none";
+    renderLegacyBios();
+  } else {
+    document.getElementById('legacyBiosView').style.display = "none";
+    document.getElementById('uefiBiosView').style.display = "flex";
+    renderUefiBios();
+  }
+}
+
+function handleVirtualKey(key) {
+  window.dispatchEvent(new KeyboardEvent('keydown', { key: key }));
+}
+
+window.addEventListener('keydown', (e) => {
+  const bootScreen = document.getElementById('bootScreenView');
+  if (bootScreen.classList.contains('active')) {
+    if (e.key === "Escape" || e.key === "Enter" || e.key === "Delete" || e.key === "F2") {
+      returnToBiosSetup();
+    }
+    return;
+  }
+
+  const overlay = document.getElementById('biosDialogOverlay');
+  if (overlay.style.display === "flex") {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeBiosDialog();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (dialogCurrentItem && dialogCurrentItem.options) {
+        dialogSelectedOptionIdx = (dialogSelectedOptionIdx - 1 + dialogCurrentItem.options.length) % dialogCurrentItem.options.length;
+        selectDialogOpt(dialogSelectedOptionIdx);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (dialogCurrentItem && dialogCurrentItem.options) {
+        dialogSelectedOptionIdx = (dialogSelectedOptionIdx + 1) % dialogCurrentItem.options.length;
+        selectDialogOpt(dialogSelectedOptionIdx);
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      confirmDialogOpt();
+    }
+    return;
+  }
+
+  if (e.key === "F10") {
+    e.preventDefault();
+    promptSaveAndExit();
+    return;
+  }
+  if (e.key === "F9") {
+    e.preventDefault();
+    resetToDefaults();
+    return;
+  }
+  if (e.key === "F7") {
+    e.preventDefault();
+    if (currentMode === "uefi") {
+      selectUefiTab(currentUefiTab === 'ez' ? 'main' : 'ez');
+    }
+    return;
+  }
+
+  if (currentMode === "legacy") {
+    const tabKeys = Object.keys(LEGACY_MENU_SCHEMA);
+    const items = LEGACY_MENU_SCHEMA[currentLegacyTab].items;
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      const nextIdx = (tabKeys.indexOf(currentLegacyTab) + 1) % tabKeys.length;
+      selectLegacyTab(tabKeys[nextIdx]);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const prevIdx = (tabKeys.indexOf(currentLegacyTab) - 1 + tabKeys.length) % tabKeys.length;
+      selectLegacyTab(tabKeys[prevIdx]);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      playBeep("key");
+      let nextRow = currentLegacyIndex + 1;
+      while (nextRow < items.length && items[nextRow].type === "header") {
+        nextRow++;
+      }
+      if (nextRow < items.length) {
+        currentLegacyIndex = nextRow;
+        renderLegacyBios();
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      playBeep("key");
+      let prevRow = currentLegacyIndex - 1;
+      while (prevRow >= 0 && items[prevRow].type === "header") {
+        prevRow--;
+      }
+      if (prevRow >= 0) {
+        currentLegacyIndex = prevRow;
+        renderLegacyBios();
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      openItemAction(items[currentLegacyIndex]);
+    } else if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      cycleOptionValue(items[currentLegacyIndex], 1);
+    } else if (e.key === "-") {
+      e.preventDefault();
+      cycleOptionValue(items[currentLegacyIndex], -1);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      if (currentLegacyTab !== "saveexit") {
+        selectLegacyTab("saveexit");
+      }
+    }
+  }
+});
+
+function cycleOptionValue(item, direction) {
+  if (!item || item.type !== "interactive") return;
+  playBeep("key");
+  const currentVal = currentState[item.key] || item.options[0];
+  let curIdx = item.options.indexOf(currentVal);
+  if (curIdx < 0) curIdx = 0;
+  const newIdx = (curIdx + direction + item.options.length) % item.options.length;
+  currentState[item.key] = item.options[newIdx];
+  renderLegacyBios();
+  checkMissionProgress();
+}
+
+/* REAL-TIME CLOCK UPDATER */
+setInterval(() => {
+  const now = new Date();
+  const timeStr = now.toTimeString().split(' ')[0];
+  const legacyEl = document.getElementById('legacyClock');
+  const uefiEl = document.getElementById('uefiClock');
+  if (legacyEl) legacyEl.textContent = timeStr;
+  if (uefiEl) uefiEl.textContent = now.toDateString() + " " + timeStr;
+}, 1000);
+
+// INITIALIZE ON LOAD
+document.addEventListener('DOMContentLoaded', () => {
+  renderLegacyBios();
+  changeMission('misi1');
+});
+</script>
+</body>
+</html>

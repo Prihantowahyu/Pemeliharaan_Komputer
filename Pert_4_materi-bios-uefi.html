@@ -275,6 +275,23 @@
     </div>
   </div>
 
+  
+  <!-- BANNER SIMULATOR INTERAKTIF BIOS & UEFI -->
+  <div style="background:linear-gradient(90deg, #065f46 0%, #0369a1 100%); padding:12px 22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; border-bottom:2px solid var(--border);">
+    <div style="display:flex; align-items:center; gap:12px; color:#fff;">
+      <span style="font-size:26px;">🎮</span>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#6ee7b7;">Laboratorium Praktik Mandiri Siswa</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif; font-weight:700; font-size:15px; color:#fff;">Simulasi BIOS (Legacy Blue) &amp; UEFI Firmware (100% Mirip Asli)</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="./Pert_4_simulasi-bios-uefi.html" target="_blank" style="background:#090d16; color:#5ee6f2; border:1px solid #5ee6f2; padding:8px 18px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 12px rgba(0,0,0,0.4); transition:0.2s;">
+        🚀 Coba Simulasi Layar Penuh →
+      </a>
+    </div>
+  </div>
+
   <div class="tabs" id="tabs">
     <div class="tab active" data-tab="main"><span class="num">①</span>MAIN</div>
     <div class="tab" data-tab="advanced"><span class="num">②</span>ADVANCED</div>
@@ -518,7 +535,19 @@ boot: {
         <label><input type="checkbox"> Menyimpan pengaturan dengan <b>Save &amp; Exit (F10)</b>.</label>
         <label><input type="checkbox"> Memverifikasi seluruh perubahan berhasil tersimpan saat komputer boot ulang.</label>
       </div>
-      <p><i>Centang bersifat latihan mandiri di kelas — penilaian resmi tetap menggunakan rubrik pada tab SECURITY.</i></p>`}
+      <p><i>Centang bersifat latihan mandiri di kelas — penilaian resmi tetap menggunakan rubrik pada tab SECURITY.</i></p>`},
+    {t:"Simulasi BIOS & UEFI Interaktif", d:`
+      <div class="sub">Simulator Praktik Virtual 100% Realistis</div>
+      <div class="card ok"><span class="card-label">LAB PRAKTIK VIRTUAL</span>
+      <p>Gunakan simulator di bawah ini untuk berlatih mengatur <b>Boot Priority</b>, <b>Mode SATA (IDE/AHCI)</b>, <b>Intel Virtualization (VT-x)</b>, dan <b>Secure Boot</b> secara aman tanpa risiko merusak hardware komputer sekolah.</p></div>
+      <div style="margin:16px 0; border:2px solid var(--border); border-radius:8px; overflow:hidden; background:#000; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+        <iframe src="./Pert_4_simulasi-bios-uefi.html" style="width:100%; height:620px; border:none; display:block;" title="Simulasi BIOS UEFI"></iframe>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <a href="./Pert_4_simulasi-bios-uefi.html" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:var(--navy-panel-alt); border:1px solid var(--cyan); color:var(--cyan); padding:8px 20px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:13px; text-decoration:none; font-weight:600;">
+          ↗ Buka Simulator di Tab Baru (Layar Penuh)
+        </a>
+      </div>`}
   ]
 },
 security: {
